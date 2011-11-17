@@ -6,3 +6,7 @@ article {
     @include box-shadow(none);
   }
 }
+
+blockquote { font-size: 1.0em; }
+
+p { hanging-punctuation: allow-end; }
