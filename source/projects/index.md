@@ -35,6 +35,7 @@ I rarely use this project now.
 
 [EditorConfig]: http://editorconfig.org
 [tmuxstart]: https://github.com/treyhunner/tmuxstart
+[names]: https://github.com/treyhunner/names
 [invoices]: https://github.com/treyhunner/invoices
 [resume]: https://github.com/treyhunner/resume
 [jquery-formrestrict]: https://github.com/treyhunner/jquery-formrestrict
