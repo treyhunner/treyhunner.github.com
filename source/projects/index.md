@@ -14,6 +14,10 @@ I use [EditorConfig][] in all of my own projects.  You should too.
 
 I use [tmuxstart][] for my tmux sessions.  It greatly improves my workflow.
 
+## names
+
+I use [names][] to generate random names for testing.
+
 ## invoices
 
 The [invoices][] project is a LaTeX class for creating print-friendly invoices.
