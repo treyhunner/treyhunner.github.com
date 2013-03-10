@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Random Name Generator Website
+title: Random name generator website
 type: post
 published: true
 ---
