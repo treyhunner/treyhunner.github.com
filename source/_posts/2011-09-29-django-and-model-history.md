@@ -26,8 +26,8 @@ Simple History works by creating a separate "historical" model for each model th
 When testing these three applications myself, I immediately eliminated django-reversion because I needed to allow easy model schema changes for my project.  I found that both django-revisions and django-simple-history worked well with schema migrations through [South][] (which I use on everything).  Django-revisions worked better for data migrations in South (due to only needing to change one model), but the uniqueness constraint problems with django-revisions would have been problematic for some of my models.  So eventually I settled on [django-simple-history][].
 
 [model-audit]: http://djangopackages.com/grids/g/model-audit/
-[django-reversion]: http://stdbrouw.github.com/django-revisions/
-[django-revisions]: https://github.com/etianen/django-reversion
+[django-reversion]: https://github.com/etianen/django-reversion
+[django-revisions]: https://github.com/stdbrouw/django-revisions
 [django-simple-history]: https://bitbucket.org/q/django-simple-history/
 [audittrail]: https://code.djangoproject.com/wiki/AuditTrail
 [south]: http://south.aeracode.org/docs/about.html
