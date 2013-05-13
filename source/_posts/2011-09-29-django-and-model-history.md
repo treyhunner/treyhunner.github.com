@@ -5,6 +5,10 @@ type: post
 published: true
 comments: true
 ---
+**May 2013 Update:** [django-simple-history is back][]
+
+[django-simple-history is back]: http://treyhunner.com/2013/05/django-simple-history/
+
 Recently I had a need to store a snapshot of every state of particular model instance in a Django application.  I basically needed version control for the rows in my database tables.  When searching for applications that provided this feature, which I call **model history**, I found [many different approaches][model-audit] but few good comparisons of them.  In an attempt to fill that void, I'm going to detail some of my findings here.
 
 ### django-reversion
