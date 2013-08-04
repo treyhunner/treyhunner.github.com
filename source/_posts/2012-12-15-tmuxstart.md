@@ -3,6 +3,7 @@ layout: post
 title: tmuxstart
 type: post
 published: true
+comments: true
 ---
 
 I've been using a helper script to manage all of my tmux sessions for the last

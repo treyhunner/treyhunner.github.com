@@ -3,6 +3,7 @@ layout: post
 title: django-simple-history is back
 type: post
 published: true
+comments: true
 ---
 
 I wrote [a post][model history post] over a year ago about recording a history of changes for Django model instances.  I evaluated three different Django packages to record model history.  My favorite of the options, django-simple-history, was abandoned and development continued through multiple forks.

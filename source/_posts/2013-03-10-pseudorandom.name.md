@@ -3,6 +3,7 @@ layout: post
 title: Random name generator website
 type: post
 published: true
+comments: true
 ---
 
 In my [last post][] I discussed the **names** Python library that generates

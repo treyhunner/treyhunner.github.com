@@ -3,6 +3,7 @@ layout: post
 title: Test-Inspired Development
 type: post
 published: true
+comments: true
 ---
 
 You need to write tests for your code to demonstrate that it works as expected.  In this post I will note the method I usually use for writing code and writing tests.

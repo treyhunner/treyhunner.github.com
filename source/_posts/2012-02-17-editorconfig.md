@@ -3,6 +3,7 @@ layout: post
 title: Maintaining consistent coding conventions with EditorConfig
 type: post
 published: true
+comments: true
 ---
 
 I often have indentation issues when coding because I work with many open
