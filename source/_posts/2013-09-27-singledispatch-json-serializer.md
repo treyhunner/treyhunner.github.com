@@ -32,5 +32,12 @@ I created a wrapper around the `json` library to make a JSON encoder using singl
 
 As you can see, it's fairly easy to extend the encoder to understand serialization rules for new data types.  This code is intended as a proof-of-concept to demonstrate the power of single-dispatch generic functions.  The implementation can be found in [a gist on Github][].
 
+## Related Links
+
+- [What single-dispatch generic functios mean for you][1]
+- [Python 3.4 single dispatch, a step into generic functions][2]
+
 [pep 443]: http://www.python.org/dev/peps/pep-0443/
 [a gist on github]: https://gist.github.com/treyhunner/6734816#file-json_singledispatch-py
+[1]: http://lukasz.langa.pl/8/single-dispatch-generic-functions/
+[2]: http://julien.danjou.info/blog/2013/python-3.4-single-dispatch-generic-function
