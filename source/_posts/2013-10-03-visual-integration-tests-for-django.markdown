@@ -8,13 +8,13 @@ comments: true
 I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.
 
 
-## Visual testing suites
+## Visual testing frameworks
 
 Visual testing tools compare screenshots to ensure tested webpages look pixel perfect.  Capturing webpage screenshots requires a full-featured web browser to render CSS and execute JavaScript.  All three of the visual testing tools I found rely on Selenium or PhantomJS for rendering.
 
 ### PhantomCSS
 
-[PhantomCSS][] uses PhantomJS for screenshot differencing.  PhantomCSS won't integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you'd need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I found the lack of integration with the Django live server.
+[PhantomCSS][] uses PhantomJS for screenshot differencing.  PhantomCSS won't integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you'd need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I needed integration with the Django live server.
 
 ### Django-casper
 
@@ -49,9 +49,11 @@ class DjangoNeedleTestCase(NeedleTestCase, LiveServerTestCase):
 Unfortunately the above code only works with the version of needle on Github.  The PyPI version does not yet include the `NeedleWebDriverMixin` (which I contributed recently for Django support).  I have created [an issue][PyPI issue] suggesting a new PyPI release be made to resolve this problem.
 
 
-## Continuous integration
+## Room for improvement
 
-Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may add them to my continuous integration test suite.
+Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may run them during continuous integration.
+
+Do you have another solution for visual integration testing?  Let me know in the comments.
 
 [PhantomCSS]: https://github.com/Huddle/PhantomCSS
 [django-casper]: https://github.com/dobarkod/django-casper
