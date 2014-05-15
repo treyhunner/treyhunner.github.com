@@ -1,5 +1,4 @@
-.highlight, html .gist .gist-file .gist-syntax {
-  table { width: 100%; }
+.highlight, html .gist .gist-file .gist-syntax .gist-highlight {
   table td.code { width: 100%; }
   border: 1px solid $pre-border !important;
 }
@@ -70,7 +69,7 @@ html .gist .gist-file {
       &:hover { color: $base1 !important; }
     }
     a[href*='#file'] {
-      position: absolute; top: 0; left:0; right:0;
+      position: absolute; top: 0; left:0; right:-10px;
       color: #474747 !important;
       @extend .code-title;
       &:hover { color: $link-color !important; }
