@@ -18,6 +18,25 @@ I use [tmuxstart][] for my tmux sessions.  It greatly improves my workflow.
 
 I use [names][] to generate random names for testing.
 
+## Django Projects
+
+I help maintain multiple Django projects.
+
+- [django-authorizenet][]
+- [django-email-log][]
+- [django-localflavor][]
+- [django-model-utils][]
+- [django-relatives][]
+- [django-simple-history][]
+
+## jQuery Django Formset
+
+[jquery-django-formset][] allows easy management of dynamic Django formsets.
+
+## dotfiles
+
+I host my [dotfiles][] on Github.
+
 ## invoices
 
 The [invoices][] project is a LaTeX class for creating print-friendly invoices.
@@ -33,6 +52,14 @@ The [jquery-formrestrict][] project can be used to restrict form input.  I
 originally made this project to replace the broken jQuery Alphanumeric plugin.
 I rarely use this project now.
 
+[jquery-django-formset]: https://github.com/treyhunner/jquery-django-formset
+[dotfiles]: https://github.com/treyhunner/dotfiles
+[django-authorizenet]: https://github.com/zen4ever/django-authorizenet
+[django-email-log]: https://github.com/treyhunner/django-email-log
+[django-relatives]: https://github.com/treyhunner/django-relatives
+[django-model-utils]: https://github.com/carljm/django-model-utils
+[django-localflavor]: https://github.com/django/django-localflavor
+[django-simple-history]: https://github.com/treyhunner/django-simple-history
 [EditorConfig]: http://editorconfig.org
 [tmuxstart]: https://github.com/treyhunner/tmuxstart
 [names]: https://github.com/treyhunner/names
