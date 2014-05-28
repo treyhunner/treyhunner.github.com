@@ -18,7 +18,7 @@ In order to support both Django 1.7 and Django 1.6 with South we can rename the 
 2. Create new Django 1.7 migrations package in `django_migrations` directory and leave existing South migrations package
 3. Move existing `migrations` directory to `south_migrations` and create Django 1.7 migrations in `django_migrations` directory
 
-The first option requires existing users ether switch to Django 1.7 or update their settings module before upgrading to the new version of your app.  The second option requires all Django 1.7 users to customize their settings module to properly install your app.  The third option requires everyone (both Django 1.7 and South users) to update their settings module.
+The first option requires existing users either switch to Django 1.7 or update their settings module before upgrading to the new version of your app.  The second option requires all Django 1.7 users to customize their settings module to properly install your app.  The third option requires everyone (both Django 1.7 and South users) to update their settings module.
 
 Out of those options I prefer the first one.  When you eventually drop support for South, you will probably want your Django 1.7 migrations to live in the `migrations` directory.  If you don't force that switch now, you would eventually need to break backwards-compatibility or maintain two duplicate migrations directories.
 
