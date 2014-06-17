@@ -10,8 +10,9 @@ footer: false
 
 <section>
     <h3>Contact Information</h3>
-    <img src="/images/email-text.png" alt="my full name {at} G mail {dot} com" class="email">
+    <img src="/images/email-text.png" id="email" class="email">
     <p>PGP fingerprint<a href="https://keyserver.spline.inf.fu-berlin.de/pks/lookup?search=0xCDADEA27&fingerprint=on&hash=on&op=vindex">:</a> <code>169A BEE4 05D0 E198 27FA  2F2F EA67 7E9F CDAD EA27</code></p>
+    <script>document.getElementById('email').setAttribute('alt', "trey" + String.fromCharCode(64) + "treyhunner." + "com");</script>
 </section>
 
 <section>
