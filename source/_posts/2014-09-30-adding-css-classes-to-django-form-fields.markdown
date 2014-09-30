@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "CSS classes and Django form fields"
-date: 2014-09-25 16:17:25 -0700
+date: 2014-09-30 11:00:00 -0700
 comments: true
 categories: 
 ---
@@ -33,7 +33,7 @@ We're using [Bootstrap][] and we want to add an `input-lg` CSS class onto our us
 
 ## The Solution(s)
 
-There are many ways to solve this problem.  I will discuss some solutions I found distasteful before I discuss my preferred solution.
+There are many ways to solve this problem.  I will discuss some solutions I dislike before I discuss my preferred solution.
 
 ### Using a form widget attribute
 
@@ -113,11 +113,11 @@ With the `render_field` tag you can add attributes to form fields with a much mo
 
 As a bonus, with `render_field` we can also set a CSS class for erroneous and required form fields.  See [the documentation][docs] for more details.
 
-### Conclusion
+## Conclusion
 
-I have not had a chance to use [django-floppyforms][] yet, but I expect that django-widget-tweaks and django-floppyforms would integrate well together.
+I have not had a chance to use [django-floppyforms][] yet, but I expect that [django-widget-tweaks][] and django-floppyforms would integrate well together.
 
-I am on the lookout for new solutions to this problem, but [django-widget-tweaks][] has served me well so far.  I have used it for three years now it remains one of my go-to libraries for new Django projects.
+I am on the lookout for new solutions to this problem, but django-widget-tweaks has served me well so far.  I have used it for three years now it remains one of my go-to libraries for new Django projects.
 
 How do you add CSS classes do your Django form fields?  If you have another solution please leave a comment below.
 
