@@ -92,6 +92,8 @@ This is probably the most common way I use patch in my tests.  I often group my 
 
 I noted above that I prefer not to use class decorators to solve this problem.  Instead, I prefer to use test class attributes to store references to patched functions instead of accepting patch arguments on every test method with decorators.  I find this more [DRY][].
 
+**Warning:** One of the primary benefits of the decorator/context manager forms of patch is that they handle clean up for you.  Whenever you call `start` to setup your patch object, *always* remember to call `stop` to clean it up.  Otherwise you'll have a monkey patched function/object for the rest of your running program.
+
 [start and stop example][]
 
 
