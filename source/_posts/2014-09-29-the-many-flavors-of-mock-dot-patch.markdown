@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-I write a lot of unit tests.  Unfortunately, my code often requires monkey patching to be properly unit tested.  I frequently use the ``patch`` function from [Michael Foord's][voidspace] [mock][] library to monkey patch my code.
+I write a lot of unit tests.  Unfortunately, my code often requires monkey patching to be properly unit tested.  I frequently use the ``patch`` function from [Michael Foord's][voidspace] [mock][] library (now available in Python 3.4 as [unittest.mock][]) to monkey patch my code.
 
 While chatting with other users of ``patch``, I realized that everyone seems to have their own favorite way to use it.  In this post I will discuss the ways I use patch.
 
@@ -115,4 +115,5 @@ Did I miss a flavor?  Want to let me know which flavor you prefer and why?  Plea
 [dry]: https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
 [start and stop example]: https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L128
 [mock]: https://pypi.python.org/pypi/mock/
+[unittest.mock]: https://docs.python.org/3.4/library/unittest.mock.html#module-unittest.mock
 [voidspace]: http://www.voidspace.org.uk/
