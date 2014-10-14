@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The many flavors of mock.patch"
-date: 2014-09-29 08:42:16 -0700
+date: 2014-10-13 21:00:00 -0700
 comments: true
 categories: 
 ---
