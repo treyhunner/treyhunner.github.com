@@ -67,6 +67,7 @@ Here are some of the projects I have made miscellaneous one-off contributions to
 - [django-filter][]
 - [django-hyperadmin][]
 - [django-loginas][]
+- [django-moderation][]
 - [django-parsley][]
 - [djangoproject.com][]
 - [django-ratelimit-backend][]
@@ -124,6 +125,7 @@ Here are some of the projects I have made miscellaneous one-off contributions to
 [django-filter]: https://github.com/alex/django-filter
 [django-hyperadmin]: https://github.com/zbyte64/django-hyperadmin
 [django-loginas]: https://github.com/stochastic-technologies/django-loginas
+[django-moderation]: https://github.com/dominno/django-moderation
 [django-parsley]: https://github.com/agiliq/django-parsley
 [djangoproject.com]: https://github.com/django/djangoproject.com
 [django-ratelimit-backend]: https://github.com/brutasse/django-ratelimit-backend
