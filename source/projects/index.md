@@ -54,9 +54,9 @@ I rarely use this project now.
 
 ## Drive-By Commits
 
-Every open source contribution is noteworthy, no matter how small.  I have made many *very* minor contributions to a variety of open source projects.  Some were simply fixing documentation typos or adding an EditorConfig file, others were fixing a minor bug, improving tests, or adding a minor feature.
+I think every open source contribution is noteworthy, no matter how small.
 
-Here are some of the projects I have made miscellaneous one-off contributions to:
+I have made many *very* minor contributions to a variety of open source projects.  Some were simply fixing documentation typos or adding an EditorConfig file, others were fixing a minor bug, improving tests, or adding a minor feature.  Here are some of the projects I have made at least one minor contribution to:
 
 - [codecov-python][]
 - [cookiecutter][]
