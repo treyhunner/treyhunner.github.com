@@ -77,7 +77,7 @@ Underscore doesn't come bundled with your rendering engine.
 
 #### Native methods are future-proof
 
-Underscore is cool today, but lodash might be cooler tomorrow.  Or maybe you'd prefer to use JFP.
+Underscore is cool today, but [lodash][] might be cooler tomorrow.  Or maybe you'd prefer to use [JFP][].
 
 #### Native methods can be faster
 
@@ -142,5 +142,7 @@ With these pollyfills in place, you should be able to use the majority of ECMASc
 [`_.some`]: http://underscorejs.org/#some
 
 [es5-shim]: https://github.com/es-shims/es5-shim
+[JFP]: https://github.com/cmstead/JFP
+[lodash]: https://github.com/lodash/lodash
 [polyfilled]: https://remysharp.com/2010/10/08/what-is-a-polyfill
 [Underscore.js]: http://underscorejs.org/
