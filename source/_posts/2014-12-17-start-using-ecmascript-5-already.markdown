@@ -6,23 +6,11 @@ comments: true
 categories: 
 ---
 
-It's 2014.  ECMAScript 5 has been finalized for years now and yet the world still seems to be using ECMAScript 3.
+With ECMAScript 6 nearing standardization, let's take a look back at ECMAScript 5.  Do you know what features were added in ECMAScript 5?  Do your target browsers support it yet?
 
-## Arrays
-
-### indexOf and lastIndexOf
-
-Returns the index (or last index) at which a value can be found in the array
-
-Equivalent to [\_.indexOf][] and [\_.lastIndexOf][]
-
-### every
-
-Returns true if **all** the values in the array pass the test implemented by the provided function
-
-Equivalent to [\_.every][]
-
-### some
+<aside>
+    <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
+</aside>
 
 Returns true if **any** of the values in the array pass the test implemented by the provided function
 
