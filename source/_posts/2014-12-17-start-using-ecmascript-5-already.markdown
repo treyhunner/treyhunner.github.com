@@ -12,49 +12,43 @@ With ECMAScript 6 nearing standardization, let's take a look back at ECMAScript 
     <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
 </aside>
 
-Returns true if **any** of the values in the array pass the test implemented by the provided function
+## Arrays
 
-Equivalent to [\_.some][]
+[Underscore.js][] is a popular JavaScript library containing "a whole mess of useful functional programming helpers".  Most of these helpers work on arrays and other iterable objects (collections, as Underscore calls them).
 
-### forEach
+The ECMAScript 5 spec includes a handful of these functional programming helpers as methods on native JavaScript Array objects.
 
-Executes a provided function once for each array item
+- **[indexOf][]** and **[lastIndexOf][]**, like [`_.indexOf`][] and [`_.lastIndexOf`][], return the index (or last index) at which a value can be found in the array
 
-Equivalent to [\_.each][]
+- **[every][]**, like [`_.every`][], returns true if **all** the values in the array pass the test implemented by the provided function
 
-### map
+- **[some][]**, like [`_.some`][], returns true if **any** of the values in the array pass the test implemented by the provided function
 
-Returns a new array with the results of calling a provided function on each item of the array
+- **[forEach][]**, like [`_.each`][], executes a provided function once for each array item
 
-Equivalent to [\_.map][]
+- **[map][]**, like [`_.map`][], returns a new array with the results of calling a provided function on each item of the array
 
-### filter
+- **[filter][]**, like [`_.filter`][], returns a new array with all array items that pass the given test function included.
 
-Returns a new array with all array items that pass the given test function included.
-
-Equivalent to [\_.filter][]
-
-### reduce and reduceRight
-
-Reduces a list of values into a single value using an accumulator function (either left-to-right or right-to-left)
-
-Equivalent to [\_.reduce][] and [\_.reduceRight][]
+- **[reduce][]** and **[reduceRight][]**, like [`_.reduce`][] and [`_.reduceRight`][], reduces a list of values into a single value using an accumulator function (either left-to-right or right-to-left)
 
 ## Miscellaneous
 
-### JSON.stringify and JSON.parse
+#### JSON.stringify and JSON.parse
+
+The `JSON` object was added in ECMAScript 5, including `stringify` and `parse` methods.  [`JSON.stringify`][] converts JavaScript objects to JSON strings and [`JSON.parse`][] converts JSON strings to JavaScript objects.
 
 TODO link to JSON polyfill
 
-### Function.prototype.bind
+#### Function.prototype.bind
 
 Returns a function that when called has its `this` keyword argument set to the provided value
 
-Equivalent to [\_.bind][]
+Equivalent to [`_.bind`][]
 
-### String.prototype.trim
+#### String.prototype.trim
 
-Returns a copy of the string with whitespace removed from the beginning and end
+Returns a copy of the string with whitespace removed from the beginning and end of the string
 
 ## Underscore.js vs Native
 
@@ -91,26 +85,40 @@ TODO: add jsperf links
 
 There are a few Underscore methods you can stop using entirely.
 
-- Instead of [\_.keys][], use **Object.prototype.keys**
-- Instead of [\_.isArray][] use **Array.isArray**
-- Instead of [\_.now][] use **Date.now**
+- Instead of [`_.keys`][], use **Object.prototype.keys**
+- Instead of [`_.isArray`][] use **Array.isArray**
+- Instead of [`_.now`][] use **Date.now**
 
 ## More stuff
 
 - Object.create
 - Getters/setters
 
+[indexOf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
+[lastIndexOf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf
+[every]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
+[some]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+[forEach]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+[map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+[filter]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+[reduce]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+[reduceRight]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight
 
-[\_.bind]: http://underscorejs.org/#bind
-[\_.each]: http://underscorejs.org/#each
-[\_.every]: http://underscorejs.org/#every
-[\_.filter]: http://underscorejs.org/#filter
-[\_.indexOf]: http://underscorejs.org/#indexOf
-[\_.isArray]: http://underscorejs.org/#isArray
-[\_.keys]: http://underscorejs.org/#keys
-[\_.lastIndexOf]: http://underscorejs.org/#lastIndexOf
-[\_.map]: http://underscorejs.org/#map
-[\_.now]: http://underscorejs.org/#now
-[\_.reduce]: http://underscorejs.org/#reduce
-[\_.reduceRight]: http://underscorejs.org/#reduceRight
-[\_.some]: http://underscorejs.org/#some
+[`_.bind`]: http://underscorejs.org/#bind
+[`_.each`]: http://underscorejs.org/#each
+[`_.every`]: http://underscorejs.org/#every
+[`_.filter`]: http://underscorejs.org/#filter
+[`_.indexOf`]: http://underscorejs.org/#indexOf
+[`_.isArray`]: http://underscorejs.org/#isArray
+[`_.keys`]: http://underscorejs.org/#keys
+[`_.lastIndexOf`]: http://underscorejs.org/#lastIndexOf
+[`_.map`]: http://underscorejs.org/#map
+[`_.now`]: http://underscorejs.org/#now
+[`_.reduce`]: http://underscorejs.org/#reduce
+[`_.reduceRight`]: http://underscorejs.org/#reduceRight
+[`_.some`]: http://underscorejs.org/#some
+
+[`JSON.parse`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+[`JSON.stringify`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+
+[Underscore.js]: http://underscorejs.org/
