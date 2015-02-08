@@ -34,21 +34,14 @@ The ECMAScript 5 spec includes a handful of these functional programming helpers
 
 ## Miscellaneous
 
-#### JSON.stringify and JSON.parse
-
-The `JSON` object was added in ECMAScript 5, including `stringify` and `parse` methods.  [`JSON.stringify`][] converts JavaScript objects to JSON strings and [`JSON.parse`][] converts JSON strings to JavaScript objects.
-
-TODO link to JSON polyfill
-
-#### Function.prototype.bind
-
-Returns a function that when called has its `this` keyword argument set to the provided value
-
-Equivalent to [`_.bind`][]
-
-#### String.prototype.trim
-
-Returns a copy of the string with whitespace removed from the beginning and end of the string
+- **[Object.keys][]**, like [`_.keys`][], returns an array of a given object's enumerable properties
+- **[Array.isArray][]**, like [`_.isArray`][], returns `true` if a given object is an array
+- **[Date.now][]**, like [`_.now`][] returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC
+- [`JSON.stringify`][] converts JavaScript objects to JSON strings and [`JSON.parse`][] converts JSON strings to JavaScript objects.
+- **[Function.prototype.bind][]**, like [`_.bind`][], returns a function that when called has its `this` keyword argument set to the provided value
+- **[String.prototype.trim][]**, returns a copy of the string with whitespace removed from the beginning and end of the string
+- **[parseInt][]** no longer treats strings starting with `0` as octal values
+- Strict mode, Object.create, Object.seal, Object.freeze, getters/setters, and more were also added in ECMAScript 5
 
 ## Underscore.js vs Native
 
@@ -85,14 +78,6 @@ TODO: add jsperf links
 
 There are a few Underscore methods you can stop using entirely.
 
-- Instead of [`_.keys`][], use **Object.prototype.keys**
-- Instead of [`_.isArray`][] use **Array.isArray**
-- Instead of [`_.now`][] use **Date.now**
-
-## More stuff
-
-- Object.create
-- Getters/setters
 
 [indexOf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
 [lastIndexOf]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf
@@ -103,6 +88,14 @@ There are a few Underscore methods you can stop using entirely.
 [filter]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 [reduce]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
 [reduceRight]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight
+[parseInt]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+[Function.prototype.bind]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
+[String.prototype.trim]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+[`JSON.parse`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+[`JSON.stringify`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+[Object.keys]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+[Array.isArray]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+[Date.now]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
 [`_.bind`]: http://underscorejs.org/#bind
 [`_.each`]: http://underscorejs.org/#each
@@ -117,8 +110,5 @@ There are a few Underscore methods you can stop using entirely.
 [`_.reduce`]: http://underscorejs.org/#reduce
 [`_.reduceRight`]: http://underscorejs.org/#reduceRight
 [`_.some`]: http://underscorejs.org/#some
-
-[`JSON.parse`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
-[`JSON.stringify`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 
 [Underscore.js]: http://underscorejs.org/
