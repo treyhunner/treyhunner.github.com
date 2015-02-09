@@ -6,7 +6,11 @@ comments: true
 categories: 
 ---
 
-With ECMAScript 6 nearing standardization, let's take a look back at ECMAScript 5.  Do you know what features were added in ECMAScript 5?  Do your target browsers support it yet?
+ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let's talk about ECMAScript 5.
+
+Do you know what features were added in ECMAScript 5?
+
+Do your target browsers support ECMAScript 5 yet?
 
 <aside>
     <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
