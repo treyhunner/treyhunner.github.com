@@ -112,6 +112,10 @@ Fortunately, all of the array methods discussed above and some of the other ECMA
 
 With these pollyfills in place, you should be able to use the majority of ECMAScript 5 features everywhere.  Go forth and ES5-ify your code!
 
+<aside>
+This blog post was based on my ECMAScript 5 talk.  You can view the slides at http://treyhunner.com/es5-talk/
+</aside>
+
 
 [`indexOf`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
 [`lastIndexOf`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf
