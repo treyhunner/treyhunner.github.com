@@ -89,15 +89,13 @@ As browser engines improve their optimization of native code, your code improves
 
 This claim as a theoretical one.  Here's some jsPerf links to test the real performance difference:
 
-- [indexOf](http://jsperf.com/array-prototype-indexof-vs-indexof)
-- [lastIndexOf](http://jsperf.com/array-prototype-lastindexof-vs-lastindexof)
+- [indexOf](http://jsperf.com/array-prototype-indexof-vs-indexof) and [lastIndexOf](http://jsperf.com/array-prototype-lastindexof-vs-lastindexof)
 - [every](http://jsperf.com/array-prototype-every-vs-every)
 - [some](http://jsperf.com/array-prototype-some-vs-some2)
 - [forEach](http://jsperf.com/array-prototype-foreach-vs-each)
 - [map](http://jsperf.com/array-prototype-map-vs-map)
 - [filter](http://jsperf.com/array-prototype-filter-vs-filter)
-- [reduce](http://jsperf.com/array-prototype-reduce-vs-reduce)
-- [reduceRight](http://jsperf.com/array-prototype-reduceright-vs-reduceright)
+- [reduce](http://jsperf.com/array-prototype-reduce-vs-reduce) and [reduceRight](http://jsperf.com/array-prototype-reduceright-vs-reduceright)
 
 
 ## What browsers support ECMAScript 5?
