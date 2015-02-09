@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ECMAScript 5: The Future is Now"
-date: 2015-02-08 18:00:00 -0800
+date: 2015-02-09 00:00:00 -0800
 comments: true
 categories: 
 ---
