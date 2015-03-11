@@ -8,6 +8,8 @@ categories:
 
 Want to serve up your [Ember CLI][] application via Nginx/Apache or another web server software?  Let's learn how!
 
+**TLDR:** I made an Ember-CLI-Deploy adapter for deploying over SSH: [ember-deploy-ssh-index][]
+
 ## Ember-CLI-Deploy
 
 [Ember-CLI-Deploy][] is "an Ember CLI addon for lightning fast deployments of Ember CLI apps".  Using Ember-CLI-Deploy is preferable using to another static asset deployment solution because *it caters to the needs of an Ember CLI app*.
