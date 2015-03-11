@@ -12,9 +12,9 @@ Want to serve up your [Ember CLI][] application via Nginx/Apache or another web 
 
 [Ember-CLI-Deploy][] is "an Ember CLI addon for lightning fast deployments of Ember CLI apps".  Using Ember-CLI-Deploy is preferable using to another static asset deployment solution because **it caters to the needs of an Ember CLI app**.
 
-Last week at EmberConf 2015, Luke Melia [announced during his talk][luke's talk] that the three big competing Ember-CLI deployment solutions (ember-deploy, front-end-builds, and ember-cli-deploy) will be merging into a single ember-cli-deploy package based largely on ember-deploy.
+Last week at EmberConf 2015, Luke Melia [announced during his talk][luke's talk] that the three big competing Ember-CLI deployment solutions (ember-deploy, front-end-builds, and Ember-CLI-Deploy) will be merging into a single Ember-CLI-Deploy package based largely on ember-deploy.
 
-Note that whenever you see "ember-deploy" post you can treat this as synonymous with "ember-cli-deploy".
+Note that whenever you see "ember-deploy" post you can treat this as synonymous with "Ember-CLI-Deploy".
 
 ## Why SSH instead of S3?
 
@@ -26,13 +26,13 @@ After failing to find a simple and elegant solution using an S3 bucket for my Em
 
 ## Ember-Deploy-SSH-Index
 
-I went looking for an ember-cli-deploy adapter that would allow my to upload my files to a directory on my web server.  I didn't find any such adapters.  Inspired by Kerry Gallagher's blog posts about [the making of ember-deploy-s3-index][] and [making ember-deploy adapters][], I decided to try to make an adapter that suited my needs: [ember-deploy-ssh-index][].
+I went looking for an Ember-CLI-Deploy adapter that would allow my to upload my files to a directory on my web server.  I didn't find any such adapters.  Inspired by Kerry Gallagher's blog posts about [the making of ember-deploy-s3-index][] and [making ember-deploy adapters][], I decided to try to make an adapter that suited my needs: [ember-deploy-ssh-index][].
 
-After looking for Node.js-based SSH/SCP/Rsync libraries, I decided to use the pure JS [ssh2][] library to manage the SSH connections.  I looked at the in-progress [ember-cli-deploy][] documentation, and the [ember-deploy-s3-index][] code to determine how my adapter should work.
+After looking for Node.js-based SSH/SCP/Rsync libraries, I decided to use the pure JS [ssh2][] library to manage the SSH connections.  I looked at the in-progress [Ember-CLI-Deploy][] documentation, and the [ember-deploy-s3-index][] code to determine how my adapter should work.
 
-Following the [ember-cli-deploy][] API, my library includes:
+Following the [Ember-CLI-Deploy][] API, my library includes:
 
-- an `upload` function that uploads the current index page to a file named based on the [ember-cli-deploy][] tag (the git hash)
+- an `upload` function that uploads the current index page to a file named based on the [Ember-CLI-Deploy][] tag (the git hash)
 - a `list` function that lists the files in the remote directory on the server
 - an `activate` function that links the `index.html` file to a given revision file
 
@@ -40,7 +40,7 @@ Following the [ember-cli-deploy][] API, my library includes:
 
 You can use [ember-deploy-ssh-index][] and [ember-deploy-s3][] to host your static assets on S3 and your index page through your own web server.
 
-First, install [ember-cli-deploy][] and our adapters into your [Ember CLI][] app:
+First, install [Ember-CLI-Deploy][] and our adapters into your [Ember CLI][] app:
 
 ```bash
 $ npm install --save-dev ember-cli-deploy ember-deploy-ssh-index ember-deploy-s3
