@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Deploying an Ember CLI application through SSH"
-date: 2015-03-09 15:02:55 -0700
+date: 2015-03-10 12:30:00 -0700
 comments: true
 categories: 
 ---
