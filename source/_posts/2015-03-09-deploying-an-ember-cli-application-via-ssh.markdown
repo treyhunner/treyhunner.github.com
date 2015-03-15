@@ -26,6 +26,8 @@ As an AWS beginner, the easiest solution I found for using S3 for hosting an Emb
 
 After failing to find a simple and elegant solution using an S3 bucket for my Ember CLI app's `index.html` file, I decided to move it onto my server and serve it through Nginx.
 
+**UPDATE:** You *can* use non-hash URLs with S3 without returning 404 status codes.  Michael Klein opened [a pull request][non-hash explanation] for ember-deploy-s3-index noting how
+
 ## Ember-Deploy-SSH-Index
 
 I went looking for an Ember-CLI-Deploy adapter that would allow my to upload my files to a directory on my web server, but I didn't find any such adapters.
@@ -115,6 +117,7 @@ My future plans include:
 
 At this point I am the only person who has worked with this adapter and I would love some feedback!  Have an opinion or want to help improve this adapter?  **Please open an issue, comment below, tweet me, or email me.**
 
+
 [ember cli]: http://ember-cli.com
 [ember-deploy-s3]: https://github.com/LevelbossMike/ember-deploy-s3 
 [ember-deploy-s3-index]: https://github.com/Kerry350/ember-deploy-s3-index 
@@ -134,3 +137,4 @@ At this point I am the only person who has worked with this adapter and I would 
 [fmn code]: https://github.com/FreeMusicNinja/freemusic.ninja
 [tag]: https://github.com/ember-cli/ember-cli-deploy#tagging-adapters
 [ember-cli-deploy documentation]: https://github.com/ember-cli/ember-cli-deploy#index-adapters
+[non-hash explanation]: https://github.com/Kerry350/ember-deploy-s3-index/pull/12/files
