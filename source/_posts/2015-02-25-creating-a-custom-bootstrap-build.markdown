@@ -86,7 +86,7 @@ Now let's use gulp to compile our `app.scss` which includes Bootstrap SASS:
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 
-var conf = {
+var config = {
     bootstrapDir: './bower_components/bootstrap-sass',
     publicDir: './public',
 };
