@@ -108,12 +108,12 @@ gulp.task('default', ['css', 'fonts']);
 
 {% endcodeblock %}
 
-Now when we run `gulp`, our compiled Bootstrap JavaScript should appear in the `public/css` directory:
+Now when we run `gulp`, our compiled Bootstrap CSS should appear in the `public/css` directory:
 
 {% codeblock lang:bash %}
 $ gulp
 $ ls public/css
-app.scss
+app.css
 {% endcodeblock %}
 
 ## Customizing the font size
