@@ -84,7 +84,7 @@ When drawing from either pile you may:
 
    - **Seven or eight, know your fate**: look at one of your own cards and then put it back (only you get to see it)
    - **Nine or ten, know a friend**: look at one card from someone else and then put it back (only you get to see it)
-   - **Jack or Queen, switch between**: trade the places of any two cards on the table (excluding counting draw piles)
+   - **Jack or Queen, switch between**: trade the places of any two cards on the table (excluding draw piles)
 
    When using a power card, put the card in the discard pile and then use the power.  That's your whole turn.  **You may only use a card's power when drawing from the face-down pile.**
 
