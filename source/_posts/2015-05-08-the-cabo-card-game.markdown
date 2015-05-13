@@ -14,7 +14,7 @@ I often use this game as an ice breaker.  The conversation usually goes somethin
 **Them**: I've never heard of it.  
 **Me**: I've never met anyone who has.  I'll teach you the rules.  
 **Them**: What kind of game is it?  
-**Me**: An information management game ("memory game" seems to discourage people)  
+**Me**: An information management game ("memory game" seems to discourage people).  
 **Them**: Hm okay.  
 
 Cabo did not have a Wikipedia article when I first learned about it and I couldn't find anything online about it.  There is now a [Wikipedia entry for Cabo][wikipedia] and I ran across a website selling special Cabo playing cards: [playcabo.com][playcabo.com].
