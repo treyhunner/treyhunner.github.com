@@ -51,7 +51,7 @@ Card values:
 
 7 through Queen are the "power cards".  You will not want to keep them for their points, but if you draw one on your turn you can choose to use its power.  More on this below.
 
-The one-eyed king is great and the other kings have no abilities and they are not particularly desirable.
+The one-eyed king is great but the other kings have no abilities and they are not particularly desirable.
 
 ### Gameplay
 
