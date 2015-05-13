@@ -62,7 +62,7 @@ On your turn you may either:
 - Draw a card from the deck (the face-down pile)
 - Draw a card from the discard pile (which is face-up)
 
-When drawing from either pile you may:
+When drawing you may either:
 
 1. Swap the drawn card with one of your own cards
 
