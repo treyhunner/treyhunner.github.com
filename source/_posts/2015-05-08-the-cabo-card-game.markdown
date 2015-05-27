@@ -74,6 +74,8 @@ When drawing you may either:
 
    The card that initiated the matching goes on top of the discard pile after matching (this only matters when the one-eyed king is matched).
 
+   Sometimes memories fail.  If you mess up while matching, you must take a penalty card for each mistake.  You cannot look at the penalty card.
+
 3. Discard the drawn card (just put it on top of the discard pile)
 
    This is a common move when drawing a king as they are worth 13 points and have no special powers.
