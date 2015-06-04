@@ -107,6 +107,10 @@ The version of the game I know is played with a standard 52-card deck.  To play 
 
 The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at [PlayCabo.com][].
 
+## Play it
+
+Try out Cabo and let me know what you think.  If the rules need clarification, I'm happy to update this post.
+
 If you like this game, spread it everywhere you go.  It's a great ice breaker and a fun way to pass the time.
 
 [wikipedia]: https://en.wikipedia.org/wiki/Cabo_(game)
