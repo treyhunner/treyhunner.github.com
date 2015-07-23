@@ -4,7 +4,15 @@ title: Projects
 footer: false
 ---
 
-Below are some open source projects I am involved with.
+Below are some websites and open source projects I am involved with.
+
+## Unicode Party
+
+Search for unicode emoji at [Unicode Party](http://unicode.party).  The code is available [on GitHub](https://github.com/TruthfulTechnology/unicode.party).
+
+## PseudoRandom Name
+
+Get a random name by visiting [PseudoRandom Name](http://www.pseudorandom.name/).  The code is available [on GitHub](https://github.com/treyhunner/pseudorandom.name).
 
 ## EditorConfig
 
@@ -16,26 +24,15 @@ I use [tmuxstart][] for my tmux sessions.  It greatly improves my workflow.
 
 ## names
 
-I use [names][] to generate random names for testing.
+I use [names][] to generate random names for testing.  This is the command-line version of [pseudorandom.name](http://pseudorandom.name)
 
-## Django Projects
-
-I help maintain multiple Django projects.
-
-- [django-authorizenet][]
-- [django-email-log][]
-- [django-localflavor][]
-- [django-model-utils][]
-- [django-relatives][]
-- [django-simple-history][]
-
-## jQuery Django Formset
-
-[jquery-django-formset][] allows easy management of dynamic Django formsets.
+<!--
 
 ## dotfiles
 
 I host my [dotfiles][] on Github.
+
+-->
 
 ## invoices
 
@@ -45,6 +42,21 @@ The [invoices][] project is a LaTeX class for creating print-friendly invoices.
 
 The [resume][] project is a LaTeX class for creating resumes.  I created this
 after I got sick of creating resumes in word processors.
+
+## Django Projects
+
+I help maintain multiple Django projects.
+
+- [django-simple-history][]
+- [django-model-utils][]
+- [django-email-log][]
+- [django-relatives][]
+- [django-localflavor][]
+- [django-authorizenet][]
+
+## jQuery Django Formset
+
+[jquery-django-formset][] allows easy management of dynamic Django formsets.
 
 ## jQuery Form Restrict
 
