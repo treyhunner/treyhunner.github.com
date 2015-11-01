@@ -4,6 +4,7 @@ title: Django and model history
 type: post
 published: true
 comments: true
+categories: django python
 ---
 **May 2013 Update:** [django-simple-history is back][]
 

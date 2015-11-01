@@ -4,6 +4,7 @@ title: Replacement for jQuery AlphaNumeric plugin
 type: post
 published: true
 comments: true
+categories: javascript
 ---
 I recently inherited a codebase that used the [jQuery AlphaNumeric plugin][jquery-alphanumeric] extensively.  This plugin can be used to restrict users from entering certain characters into a form field.   The functions included for this plugin (**alphanumeric**, **alpha**, and **numeric**) claim to allow only alphabetic and/or numeric characters to be entered in the form field being acted on.
 

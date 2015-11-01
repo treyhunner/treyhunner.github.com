@@ -3,7 +3,7 @@ layout: post
 title: "Supporting both Django 1.7 and South"
 date: 2014-03-27 13:05
 comments: true
-categories: 
+categories: django python
 ---
 
 Have an open source Django app with South migrations?  Adding support for Django 1.7 might be a little painful.  In this post I will discuss the difficulty of supporting Django 1.7 while maintaining South migrations for users of Django 1.6 and below.

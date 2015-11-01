@@ -4,6 +4,7 @@ title: Log all outgoing emails in Django
 type: post
 published: true
 comments: true
+categories: django python
 ---
 
 Ever needed to determine whether an email was sent from a Django project?  I

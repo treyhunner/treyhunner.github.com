@@ -4,6 +4,7 @@ title: Extensible JSON encoder using single-dispatch functions
 type: post
 published: true
 comments: true
+categories: python
 ---
 
 Single-dispatch generic functions will be added to Python 3.4 (as proposed in [PEP 443][]).  When reading about single-dispatch functions I immediately thought of the difficulties I've had with custom JSON encoders.  Below I explain why custom JSON encoders can complicate your application and how single-dispatch functions could be used to create a simpler JSON encoder.

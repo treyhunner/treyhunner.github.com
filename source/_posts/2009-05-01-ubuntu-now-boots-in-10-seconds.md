@@ -4,6 +4,7 @@ title: Ubuntu Now Boots in 10 Seconds
 type: post
 published: true
 comments: true
+categories: linux
 ---
 I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.
 

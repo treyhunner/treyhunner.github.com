@@ -3,6 +3,7 @@ layout: post
 title: "CLI for finding DRM-free Audiobooks"
 date: 2014-05-14 12:31
 comments: true
+categories: audiobooks
 ---
 
 I recently acquired an appreciation for audiobooks.  I listen to multiple

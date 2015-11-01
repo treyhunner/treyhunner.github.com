@@ -3,7 +3,7 @@ layout: post
 title: "Deploying an Ember CLI application through SSH"
 date: 2015-03-10 12:30:00 -0700
 comments: true
-categories: 
+categories: javascript
 ---
 
 Want to serve up your [Ember CLI][] application via Nginx/Apache or another web server software?  Let's learn how!

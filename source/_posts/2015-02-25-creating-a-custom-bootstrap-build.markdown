@@ -3,7 +3,7 @@ layout: post
 title: "Creating a custom Bootstrap build"
 date: 2015-02-25 16:20:00 -0800
 comments: true
-categories: 
+categories: css javascript
 ---
 
 Have you ever tried to customize the font size for your [Bootstrap][]-powered website?

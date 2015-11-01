@@ -3,7 +3,7 @@ layout: post
 title: "ECMAScript 5: The Future is Now"
 date: 2015-02-09 00:00:00 -0800
 comments: true
-categories: 
+categories: javascript
 ---
 
 ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let's talk about ECMAScript 5.
