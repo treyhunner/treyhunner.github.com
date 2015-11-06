@@ -93,12 +93,14 @@ The `setdefault` method is being called on every loop, regardless of whether it'
 
 ## comprehension and set
 
-It's 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets (released in Python 2.3) and list comprehensions (released in Python 2.0).  After further thought, we remember that generator expressions were just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
+It's January 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets ([released in Python 2.3][2.3] and made into [a built-in in 2.4][2.4]) and list comprehensions ([released in Python 2.0][pep 202]).  After further thought, we remember that [generator expressions][pep 289] were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
 
 ```python
 colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
 color_counts = dict((c, colors.count(c)) for c in set(colors))
 ```
+
+**Note**: we're didn't use a dictionary comprehension because those weren't invented until [Python 2.7][pep 274].
 
 This works.  It's one line of code.  But is it Pythonic?
 
@@ -129,7 +131,7 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
 
-Our code is more complex (**O(n<sup>2</sup>)** instead of **O(n)**), less beautiful, and less readable.  We decide to revert this change.  It was a fun experiment, but this one-line solution is less Pythonic than what we already had.
+Our code is more complex (**O(n<sup>2</sup>)** instead of **O(n)**), less beautiful, and less readable.  It was a fun experiment, but this one-line solution is less Pythonic than what we already had.  We decide to revert this change.
 
 ## defaultdict
 
@@ -182,8 +184,13 @@ Per the [Zen of Python][], "there should be one-- and preferably only one-- obvi
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
 [2.0]: https://docs.python.org/release/2.0/lib/typesmapping.html
+[2.3]: https://docs.python.org/release/2.3/lib/module-sets.html
+[2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
 [2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
+[pep 202]: https://www.python.org/dev/peps/pep-0202/
+[pep 274]: https://www.python.org/dev/peps/pep-0274/
+[pep 289]: https://www.python.org/dev/peps/pep-0289/
 [zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
 [import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
