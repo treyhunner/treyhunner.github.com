@@ -177,6 +177,10 @@ Counter({'Brown': 3, 'Yellow': 2, 'White': 1, 'Green': 1, 'Black': 1, 'Red': 1})
 
 Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  That obvious way can vary by time, need, and level of expertise.
 
+Notice that we didn't focus on runtime performance for these solutions.  The time complexity for most of these solutions remained the same `O(n)` so run-time could vary based on the Python implementation.
+
+While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
+
 ### Related Resources
 
 - [import this and the Zen of Python](http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html): the Zen of Python trivia was borrowed from this post
@@ -193,4 +197,5 @@ Per the [Zen of Python][], "there should be one-- and preferably only one-- obvi
 [pep 289]: https://www.python.org/dev/peps/pep-0289/
 [zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
 [import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
+[performance]: https://gist.github.com/treyhunner/0987601f960a5617a1be
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
