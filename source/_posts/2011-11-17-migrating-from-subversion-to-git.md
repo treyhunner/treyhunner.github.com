@@ -4,6 +4,7 @@ title: Migrating from Subversion to Git
 type: post
 published: true
 comments: true
+categories: git
 ---
 
 I recently migrated multiple Subversion repositories to Git.  I found

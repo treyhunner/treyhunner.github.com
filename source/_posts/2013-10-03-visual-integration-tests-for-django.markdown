@@ -3,6 +3,7 @@ layout: post
 title: Visual Integration Tests for Django
 date: 2013-10-03 15:19
 comments: true
+categories: django python testing
 ---
 
 I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.

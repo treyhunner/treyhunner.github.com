@@ -3,6 +3,7 @@ layout: post
 title: Maintaining an open source project
 type: post
 published: true
+categories: open-source
 ---
 
 This post contains some of my opinions on how to maintain an open source project well.  I've built up my opinions on this topic from maintaining and contributing to open source projects.  Keep in mind that I am not an expert on this topic.

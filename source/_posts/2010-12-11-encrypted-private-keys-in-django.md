@@ -4,6 +4,7 @@ title: Encrypted private keys in Django
 type: post
 published: true
 comments: true
+categories: django python
 ---
 Uniquely identifiable URLs are necessary for many web applications.  For example, a website that provides book reviews may identify the URL of a specific book like this: **www.example.com/books/8839/**.  The easiest way to identify entities in Django is to use the unique primary key of each object, which by default is an auto-incremented positive integer.
 

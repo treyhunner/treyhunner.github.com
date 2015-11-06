@@ -4,6 +4,7 @@ title: TDD with Django Tutorial
 type: post
 published: true
 comments: true
+categories: django python testing
 ---
 
 I helped host a free Test-Driven Django Web Development workshop on <time date="2013-11-02">Saturday November 2</time> with [San Diego Python][pythonsd].  We created a series of tutorials demonstrating how to create a Django-powered blog while practicing test-driven development.  The [Python Software Foundation][psf] sponsored the event and the [Ansir Innovation Center][aicenter] provided a venue.

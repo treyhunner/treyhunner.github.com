@@ -4,6 +4,7 @@ title: Sharing Screenshots in Linux
 type: post
 published: true
 comments: true
+categories: linux
 ---
 I have been using Github Issues recently and loving its simplicity.  Unfortunately, I've found that I often need to upload screenshots to demonstrate bugs and Issues does not support file uploads.  There are [Windows][screengrabber] and [Mac][cloudapp] applications that solve this problem by capturing a screenshot, uploading it, and copying a URL to access the screenshot to the clipboard.
 

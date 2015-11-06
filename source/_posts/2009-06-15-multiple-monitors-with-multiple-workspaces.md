@@ -4,6 +4,7 @@ title: Multiple Monitors with Multiple Workspaces
 type: post
 published: true
 comments: true
+categories: linux
 ---
 In most window managers (WMs) that allow for multiple workspaces, additional monitors simply increase the size of each workspace. Since January I have been using a window manager that handles multiple monitors very differently, [xmonad][].  Instead of increasing the workspace size to fit onto two monitors, each monitor displays a separate workspace, so the number of visible workspaces is increased.
 

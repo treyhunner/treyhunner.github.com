@@ -3,7 +3,7 @@ layout: post
 title: "CSS classes and Django form fields"
 date: 2014-09-30 11:00:00 -0700
 comments: true
-categories: 
+categories: django python
 ---
 
 Django forms provide input validation and HTML form field generation.  They also integrate nicely with models.  However, Django itself does not allow one-off customizations of form-generated HTML.

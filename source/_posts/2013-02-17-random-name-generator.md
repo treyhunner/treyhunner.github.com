@@ -3,6 +3,7 @@ layout: post
 title: Random name generator in Python
 type: post
 published: true
+categories: python
 ---
 
 I've used multiple websites to generate random names for my test data when

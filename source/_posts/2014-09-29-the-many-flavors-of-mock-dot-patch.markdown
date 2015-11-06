@@ -3,7 +3,7 @@ layout: post
 title: "The many flavors of mock.patch"
 date: 2014-10-13 21:00:00 -0700
 comments: true
-categories: 
+categories: python testing
 ---
 
 I write a lot of unit tests.  Unfortunately, my code often requires monkey patching to be properly unit tested.  I frequently use the ``patch`` function from [Michael Foord's][voidspace] [mock][] library (now available in Python 3.4 as [unittest.mock][]) to monkey patch my code.
