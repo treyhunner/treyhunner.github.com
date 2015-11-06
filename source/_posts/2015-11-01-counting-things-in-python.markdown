@@ -10,7 +10,7 @@ Let's take a look at different ways to count the number of times things appear i
 
 ## If Statement
 
-It's January 1, 1997 and we're using Python 1.4.  We have a list of colors and we'd love to know how many times each color occurs in this list.  Let's do it!
+It's January 1, 1997 and we're using Python 1.4.  We have a list of colors and we'd love to know how many times each color occurs in this list.  Let's use [a dictionary][1.4]!
 
 ```python
 colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
@@ -22,9 +22,9 @@ for c in colors:
         color_counts[c] = 1
 ```
 
-**Note:** we're not using the ``c in color_counts`` idiom because that won't be invented until Python 2.2!
+**Note:** we're not using the `c in color_counts` idiom because that won't be invented until Python 2.2!
 
-After running this we'll see that our ``color_counts`` dictionary now contains the counts of each color in our list:
+After running this we'll see that our `color_counts` dictionary now contains the counts of each color in our list:
 
 ```pycon
 >>> color_counts
@@ -44,7 +44,7 @@ for c in colors:
     color_counts[c] += 1
 ```
 
-This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it does two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  I would argue this is slightly more Pythonic because (per the Zen of Python) "flat is better than nested".
+This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it does two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  We think this looks more Pythonic so we stick with it.
 
 ## Try Block
 
@@ -60,11 +60,11 @@ for c in colors:
         color_counts[c] = 1
 ```
 
-Now our code attempts to increment the count for each color and if the color isn't in the dictionary, a ``KeyError`` will be raised and we will instead set the color count to 1 for the color.
+Now our code attempts to increment the count for each color and if the color isn't in the dictionary, a `KeyError` will be raised and we will instead set the color count to 1 for the color.
 
 ## get Method
 
-It's January 1, 1998 and we've upgraded to Python 1.5.  We've decided to refactor our code to use the new ``get`` method on dictionaries:
+It's January 1, 1998 and we've upgraded to Python 1.5.  We've decided to refactor our code to use the [new `get` method on dictionaries][1.5]:
 
 ```python
 colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
@@ -73,13 +73,13 @@ for c in colors:
     color_counts[c] = color_counts.get(c, 0) + 1
 ```
 
-It's cool that this is all one line of code, but we're not entirely sure if this is more Pythonic.  This is flatter, but is it simpler or more complex?  More importantly, is it more readable?
+It's cool that this is all one line of code, but we're not entirely sure if this is more Pythonic.  Is this more readable?  Is this more Pythonic?
 
-We decide this might be too clever and we change our code back to use a ``try`` block.
+We decide this might be too clever and we change our code back to use a `try` block.
 
 ## setdefault
 
-It's January 1, 2001 and we're now using Python 2.0!  We've heard that dictionaries have a ``setdefault`` method now and we decide to refactor our code to use this new method:
+It's January 1, 2001 and we're now using Python 2.0!  We've heard that [dictionaries have a `setdefault` method now][2.0] and we decide to refactor our code to use this new method:
 
 ```python
 colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
@@ -89,7 +89,7 @@ for c in colors:
     color_counts[c] += 1
 ```
 
-The ``setdefault`` method is being called on every loop, regardless of whether it's needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.
+The `setdefault` method is being called on every loop, regardless of whether it's needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.
 
 ## comprehension and set
 
@@ -100,11 +100,40 @@ colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown"
 color_counts = dict((c, colors.count(c)) for c in set(colors))
 ```
 
-This works.  It's one line of code.  It's more complex (**O(n<sup>2</sup>)** instead of **O(n)**) and not necessarily more readable.  We decide to revert this change.  It was a fun experiment, but this one-line solution wasn't probably less Pythonic than what we already had.
+This works.  It's one line of code.  But is it Pythonic?
+
+We remember the [Zen of Python][], which [started in a python-list email thread][zen email] and was [snuck into Python 2.2.1][import this].  We type ``import this`` at our REPL:
+
+```pycon
+>>> import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+```
+
+Our code is more complex (**O(n<sup>2</sup>)** instead of **O(n)**), less beautiful, and less readable.  We decide to revert this change.  It was a fun experiment, but this one-line solution is less Pythonic than what we already had.
 
 ## defaultdict
 
-It's January 1, 2007 and we're using Python 2.5.  We've just found out that ``defaultdict`` is included in the standard library now.  This should allow us to set ``0`` as the default value in our dictionary.  Let's refactor our code to count using a ``defaultdict`` instead:
+It's January 1, 2007 and we're using Python 2.5.  We've just found out that [`defaultdict` is in the standard library][2.5] now.  This should allow us to set `0` as the default value in our dictionary.  Let's refactor our code to count using a `defaultdict` instead:
 
 ```python
 from collections import defaultdict
@@ -114,9 +143,9 @@ for c in colors:
     color_counts[c] += 1
 ```
 
-That ``for`` loop is so simple now!  This is almost certainly more Pythonic.
+That `for` loop is so simple now!  This is almost certainly more Pythonic.
 
-We realize that our ``color_counts`` variable does act slightly differently, but it inherits from ``dict`` and has all the same behaviors.  Instead of converting this to a ``dict``, we'll assume the rest of our code practices proper duck typing and just leave this dict-like object as-is.
+We realize that our `color_counts` variable does act slightly differently, but it inherits from `dict` and has all the same behaviors.  Instead of converting this to a `dict`, we'll assume the rest of our code practices proper duck typing and just leave this dict-like object as-is.
 
 ```pycon
 >>> color_counts
@@ -125,7 +154,7 @@ defaultdict(<type 'int'>, {'Brown': 3, 'Yellow': 2, 'Green': 1, 'Black': 1, 'Whi
 
 ## Counter
 
-It's January 1, 2011 and we're using Python 2.7.  We've been told that our ``defaultdict`` code is no longer the most Pythonic way to count colors.  A ``Counter`` class was included in the standard library in Python 2.7 and it does all of the work for us!
+It's January 1, 2011 and we're using Python 2.7.  We've been told that our `defaultdict` code is no longer the most Pythonic way to count colors.  [A `Counter` class was included in the standard library][2.7] in Python 2.7 and it does all of the work for us!
 
 ```python
 from collections import Counter
@@ -135,9 +164,26 @@ color_counts = Counter(colors)
 
 Could this get any simpler?  This must be the most Pythonic way.
 
-Like ``defaultdict``, this returns a dict-like object (a ``dict`` subclass actually), which should be good enough for our purposes, so we'll stick with it.
+Like `defaultdict`, this returns a dict-like object (a `dict` subclass actually), which should be good enough for our purposes, so we'll stick with it.
 
 ```pycon
 >>> color_counts
 Counter({'Brown': 3, 'Yellow': 2, 'White': 1, 'Green': 1, 'Black': 1, 'Red': 1})
 ```
+
+## Pythonic is a relative term
+
+Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  That obvious way can vary by time, need, and level of expertise.
+
+### Related Resources
+
+- [import this and the Zen of Python](http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html): the Zen of Python trivia was borrowed from this post
+
+[1.4]: https://docs.python.org/release/1.4/lib/node13.html
+[1.5]: https://docs.python.org/release/1.5/lib/node13.html
+[2.0]: https://docs.python.org/release/2.0/lib/typesmapping.html
+[2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
+[2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
+[zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
+[import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
+[zen of python]: https://www.python.org/dev/peps/pep-0020/
