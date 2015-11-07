@@ -13,7 +13,7 @@ Let's take a look at different ways to count the number of times things appear i
 It's January 1, 1997 and we're using Python 1.4.  We have a list of colors and we'd love to know how many times each color occurs in this list.  Let's use [a dictionary][1.4]!
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = {}
 for c in colors:
     if color_counts.has_key(c):
@@ -28,7 +28,7 @@ After running this we'll see that our `color_counts` dictionary now contains the
 
 ```pycon
 >>> color_counts
-{'Brown': 3, 'Yellow': 2, 'Green': 1, 'Black': 1, 'White': 1, 'Red': 1}
+{'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1}
 ```
 
 That was pretty simple.  We just looped through each color, checked if it was in the dictionary, added the color if it wasn't, and incremented the count if it was.
@@ -36,11 +36,11 @@ That was pretty simple.  We just looped through each color, checked if it was in
 We could also write this as:
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = {}
 for c in colors:
     if not color_counts.has_key(c):
-        color_counts[c] = 1
+        color_counts[c] = 0
     color_counts[c] += 1
 ```
 
@@ -51,7 +51,7 @@ This might be a little slower on sparse lists (lists with lots of non-repeating 
 It's January 2, 1997 and we're still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing "Look Before You Leap" (LBYL) when we should be practicing "Easier to Ask Forgiveness, Than Permission" ([EAFP][]) because EAFP is more Pythonic.  Let's refactor our code to use a try-except block:
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = {}
 for c in colors:
     try:
@@ -67,7 +67,7 @@ Now our code attempts to increment the count for each color and if the color isn
 It's January 1, 1998 and we've upgraded to Python 1.5.  We've decided to refactor our code to use the [new `get` method on dictionaries][1.5]:
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = {}
 for c in colors:
     color_counts[c] = color_counts.get(c, 0) + 1
@@ -82,7 +82,7 @@ We decide this might be too clever and we change our code back to use a `try` bl
 It's January 1, 2001 and we're now using Python 2.0!  We've heard that [dictionaries have a `setdefault` method now][2.0] and we decide to refactor our code to use this new method:
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = {}
 for c in colors:
     color_counts.setdefault(c, 0)
@@ -96,7 +96,7 @@ The `setdefault` method is being called on every loop, regardless of whether it'
 It's January 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets ([released in Python 2.3][2.3] and made into [a built-in in 2.4][2.4]) and list comprehensions ([released in Python 2.0][pep 202]).  After further thought, we remember that [generator expressions][pep 289] were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
 
 ```python
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = dict((c, colors.count(c)) for c in set(colors))
 ```
 
@@ -139,7 +139,7 @@ It's January 1, 2007 and we're using Python 2.5.  We've just found out that [`de
 
 ```python
 from collections import defaultdict
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = defaultdict(int)
 for c in colors:
     color_counts[c] += 1
@@ -151,7 +151,7 @@ We realize that our `color_counts` variable does act slightly differently, but i
 
 ```pycon
 >>> color_counts
-defaultdict(<type 'int'>, {'Brown': 3, 'Yellow': 2, 'Green': 1, 'Black': 1, 'White': 1, 'Red': 1})
+defaultdict(<type 'int'>, {'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 ```
 
 ## Counter
@@ -160,7 +160,7 @@ It's January 1, 2011 and we're using Python 2.7.  We've been told that our `defa
 
 ```python
 from collections import Counter
-colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
 color_counts = Counter(colors)
 ```
 
@@ -170,7 +170,7 @@ Like `defaultdict`, this returns a dict-like object (a `dict` subclass actually)
 
 ```pycon
 >>> color_counts
-Counter({'Brown': 3, 'Yellow': 2, 'White': 1, 'Green': 1, 'Black': 1, 'Red': 1})
+Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'Red': 1})
 ```
 
 ## Pythonic is a relative term
