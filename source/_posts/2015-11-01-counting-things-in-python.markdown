@@ -93,7 +93,7 @@ for c in colors:
 
 The `setdefault` method is being called on every loop, regardless of whether it's needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.
 
-## comprehension and set
+## Comprehension and set
 
 It's January 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets ([released in Python 2.3][2.3] and made into [a built-in in 2.4][2.4]) and list comprehensions ([released in Python 2.0][pep 202]).  After further thought, we remember that [generator expressions][pep 289] were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
 
@@ -102,7 +102,7 @@ colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"
 color_counts = dict((c, colors.count(c)) for c in set(colors))
 ```
 
-**Note**: we're didn't use a dictionary comprehension because those won't be invented until [Python 2.7][pep 274].
+**Note**: we didn't use a dictionary comprehension because those won't be invented until [Python 2.7][pep 274].
 
 This works.  It's one line of code.  But is it Pythonic?
 
