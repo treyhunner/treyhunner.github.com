@@ -106,7 +106,7 @@ color_counts = dict((c, colors.count(c)) for c in set(colors))
 
 This works.  It's one line of code.  But is it Pythonic?
 
-We remember the [Zen of Python][], which [started in a python-list email thread][zen email] and was [snuck into Python 2.2.1][import this].  We type ``import this`` at our REPL:
+We remember the [Zen of Python][], which [started in a python-list email thread][zen email] and was [snuck into Python 2.2.1][import this].  We type `import this` at our REPL:
 
 ```pycon
 >>> import this
@@ -172,7 +172,7 @@ Like `defaultdict`, this returns a dict-like object (a `dict` subclass actually)
 
 ```pycon
 >>> color_counts
-Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'Red': 1})
+Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 ```
 
 ## Pythonic is a relative term
