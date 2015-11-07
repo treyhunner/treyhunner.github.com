@@ -22,7 +22,7 @@ for c in colors:
         color_counts[c] = 1
 ```
 
-**Note:** we're not using the `c in color_counts` idiom because that won't be invented until Python 2.2!
+**Note:** we're not using the `c in color_counts` idiom because that won't be invented until [Python 2.2][2.2]!
 
 After running this we'll see that our `color_counts` dictionary now contains the counts of each color in our list:
 
@@ -190,6 +190,7 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
 [2.0]: https://docs.python.org/release/2.0/lib/typesmapping.html
+[2.2]: https://docs.python.org/release/2.2/lib/typesmapping.html
 [2.3]: https://docs.python.org/release/2.3/lib/module-sets.html
 [2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
