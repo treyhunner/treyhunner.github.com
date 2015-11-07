@@ -6,7 +6,9 @@ comments: true
 categories: python
 ---
 
-Let's take a look at different ways to count the number of times things appear in a list.  The "Pythonic" way to do this has changed as Python has changed so we also discuss a bit of Python history to put these methods in context.
+Let's take a look at different ways to count the number of times things appear in a list.  The "Pythonic" way to do this has changed over time as Python evolved.
+
+To understand these different techniques, we need some historical context.  Fortunately we live in the `__future__` and we have a time machine.  Let's jump in our DeLorean and head to 1997.
 
 ## If Statement
 
@@ -44,7 +46,7 @@ for c in colors:
     color_counts[c] += 1
 ```
 
-This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it does two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  We think this looks more Pythonic so we stick with it.
+This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  After some thought, we decide this looks more Pythonic so we stick with it.
 
 ## Try Block
 
@@ -73,9 +75,9 @@ for c in colors:
     color_counts[c] = color_counts.get(c, 0) + 1
 ```
 
-It's cool that this is all one line of code, but we're not entirely sure if this is more Pythonic.  Is this more readable?  Is this more Pythonic?
+Now our code gets the current count for our color from the dictionary, defaulting this count to `0`, adds `1` to the count, and sets the dictionary key to this new value.
 
-We decide this might be too clever and we change our code back to use a `try` block.
+It's cool that this is all one line of code, but we're not entirely sure if this is more Pythonic.  We decide this might be too clever so we revert this change.
 
 ## setdefault
 
@@ -100,7 +102,7 @@ colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"
 color_counts = dict((c, colors.count(c)) for c in set(colors))
 ```
 
-**Note**: we're didn't use a dictionary comprehension because those weren't invented until [Python 2.7][pep 274].
+**Note**: we're didn't use a dictionary comprehension because those won't be invented until [Python 2.7][pep 274].
 
 This works.  It's one line of code.  But is it Pythonic?
 
@@ -131,7 +133,7 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
 
-Our code is more complex (**O(n<sup>2</sup>)** instead of **O(n)**), less beautiful, and less readable.  It was a fun experiment, but this one-line solution is less Pythonic than what we already had.  We decide to revert this change.
+Our code is *more complex* (**O(n<sup>2</sup>)** instead of **O(n)**), *less beautiful*, and *less readable*.  That change was a fun experiment, but this one-line solution is less Pythonic than what we already had.  We decide to revert this change.
 
 ## defaultdict
 
@@ -147,7 +149,7 @@ for c in colors:
 
 That `for` loop is so simple now!  This is almost certainly more Pythonic.
 
-We realize that our `color_counts` variable does act slightly differently, but it inherits from `dict` and has all the same behaviors.  Instead of converting this to a `dict`, we'll assume the rest of our code practices proper duck typing and just leave this dict-like object as-is.
+We realize that our `color_counts` variable does act slightly differently, but it *does* inherit from `dict` and supports all the same mapping functionality.  Instead of converting this to a `dict`, we'll assume the rest of our code practices [duck typing][] and leave this dict-like object as-is.
 
 ```pycon
 >>> color_counts
@@ -177,6 +179,8 @@ Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'Red': 1})
 
 Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  That obvious way can vary by time, need, and level of expertise.
 
+### Performance
+
 Notice that we didn't focus on runtime performance for these solutions.  The time complexity for most of these solutions remained the same `O(n)` so run-time could vary based on the Python implementation.
 
 While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
@@ -187,6 +191,10 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 - [Permission or Forgiveness](https://www.youtube.com/watch?v=AZDWveIdqjY): Alex Martelli discusses Grace Hopper's EAFP
 - [Python How To: Group and Count with Dictionaries](https://codefisher.org/catch/blog/2015/04/22/python-how-group-and-count-dictionaries/): while writing this post, I discovered this related article
 
+### Credits
+
+Thanks to [Brian Schrader][] and [Micah Denbraver][] for proof-reading this post.
+
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
 [2.0]: https://docs.python.org/release/2.0/lib/typesmapping.html
@@ -195,6 +203,7 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 [2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
 [2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
+[duck typing]: https://docs.python.org/2/glossary.html#term-duck-typing
 [eafp]: https://docs.python.org/2/glossary.html#term-eafp
 [pep 202]: https://www.python.org/dev/peps/pep-0202/
 [pep 274]: https://www.python.org/dev/peps/pep-0274/
@@ -203,3 +212,6 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 [import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
 [performance]: https://gist.github.com/treyhunner/0987601f960a5617a1be
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
+
+[brian schrader]: http://brianschrader.com/
+[micah denbraver]: http://micah.bigprob.net/
