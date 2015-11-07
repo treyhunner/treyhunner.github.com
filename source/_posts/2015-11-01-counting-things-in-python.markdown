@@ -193,7 +193,7 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 
 ### Credits
 
-Thanks to [Brian Schrader][] and [Micah Denbraver][] for proof-reading this post.
+Thanks to [Brian Schrader][] for proof-reading this post and [Micah Denbraver][] for actually [testing out these solutions][tests] on the correct versions of Python.
 
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
@@ -211,6 +211,7 @@ Thanks to [Brian Schrader][] and [Micah Denbraver][] for proof-reading this post
 [zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
 [import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
 [performance]: https://gist.github.com/treyhunner/0987601f960a5617a1be
+[tests]: https://gist.github.com/macro1/9b364612ee3907df4179
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
 
 [brian schrader]: http://brianschrader.com/
