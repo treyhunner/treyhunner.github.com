@@ -6,11 +6,13 @@ comments: true
 categories: python
 ---
 
-Let's take a look at different ways to count the number of times things appear in a list.  The "Pythonic" way to do this has changed over time as Python evolved.
+Sometimes the [Pythonic][] way to do things changes over time.  As Python has evolved, so has the Pythonic way to count list items.
 
-To understand these different techniques, we need some historical context.  Fortunately we live in the `__future__` and we have a time machine.  Let's jump in our DeLorean and head to 1997.
+Let's look at different techniques for counting the number of times things appear in a list.  We will need some historical context to understand these different techniques.
 
-## If Statement
+Fortunately we live in the `__future__` and we have a time machine.  Let's jump in our DeLorean and head to 1997.
+
+## if Statement
 
 It's January 1, 1997 and we're using Python 1.4.  We have a list of colors and we'd love to know how many times each color occurs in this list.  Let's use [a dictionary][1.4]!
 
@@ -48,9 +50,9 @@ for c in colors:
 
 This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  After some thought, we decide this looks more Pythonic so we stick with it.
 
-## Try Block
+## try Block
 
-It's January 2, 1997 and we're still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing "Look Before You Leap" (LBYL) when we should be practicing "Easier to Ask Forgiveness, Than Permission" ([EAFP][]) because EAFP is more Pythonic.  Let's refactor our code to use a try-except block:
+It's January 2, 1997 and we're still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing "Look Before You Leap" ([LBYL][]) when we should be practicing "Easier to Ask Forgiveness, Than Permission" ([EAFP][]) because EAFP is more Pythonic.  Let's refactor our code to use a try-except block:
 
 ```python
 colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
@@ -75,7 +77,7 @@ for c in colors:
     color_counts[c] = color_counts.get(c, 0) + 1
 ```
 
-Now our code gets the current count for our color from the dictionary, defaulting this count to `0`, adds `1` to the count, and sets the dictionary key to this new value.
+Now our code loops through each color, gets the current count for the color from the dictionary, defaulting this count to `0`, adds `1` to the count, and sets the dictionary key to this new value.
 
 It's cool that this is all one line of code, but we're not entirely sure if this is more Pythonic.  We decide this might be too clever so we revert this change.
 
@@ -149,12 +151,14 @@ for c in colors:
 
 That `for` loop is so simple now!  This is almost certainly more Pythonic.
 
-We realize that our `color_counts` variable does act slightly differently, but it *does* inherit from `dict` and supports all the same mapping functionality.  Instead of converting this to a `dict`, we'll assume the rest of our code practices [duck typing][] and leave this dict-like object as-is.
+We realize that our `color_counts` variable does act differently, however it *does* inherit from `dict` and supports all the same mapping functionality.
 
 ```pycon
 >>> color_counts
 defaultdict(<type 'int'>, {'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 ```
+
+Instead of converting `color_counts` to a `dict`, we'll assume the rest of our code practices [duck typing][] and leave this dict-like object as-is.
 
 ## Counter
 
@@ -177,11 +181,11 @@ Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 
 ## Pythonic is a relative term
 
-Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  That obvious way can vary by time, need, and level of expertise.
+Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  The "obvious" way can vary by time, need, and level of expertise.
 
 ### Performance
 
-Notice that we didn't focus on runtime performance for these solutions.  The time complexity for most of these solutions remained the same `O(n)` so run-time could vary based on the Python implementation.
+Notice that we didn't focus on efficiency for these solutions.  The time complexity for most of these solutions remained the same (`O(n)` in big O notation) but the runtime could vary based on the Python implementation.
 
 While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
 
@@ -203,15 +207,18 @@ Thanks to [Brian Schrader][] for proof-reading this post and [Micah Denbraver][]
 [2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
 [2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
+
 [duck typing]: https://docs.python.org/2/glossary.html#term-duck-typing
 [eafp]: https://docs.python.org/2/glossary.html#term-eafp
+[import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
+[lbyl]: https://docs.python.org/2/glossary.html#term-lbyl
 [pep 202]: https://www.python.org/dev/peps/pep-0202/
 [pep 274]: https://www.python.org/dev/peps/pep-0274/
 [pep 289]: https://www.python.org/dev/peps/pep-0289/
-[zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
-[import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
 [performance]: https://gist.github.com/treyhunner/0987601f960a5617a1be
+[pythonic]: http://nedbatchelder.com/blog/201011/pythonic.html
 [tests]: https://gist.github.com/macro1/9b364612ee3907df4179
+[zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
 
 [brian schrader]: http://brianschrader.com/
