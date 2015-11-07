@@ -48,7 +48,7 @@ This might be a little slower on sparse lists (lists with lots of non-repeating 
 
 ## Try Block
 
-It's January 2, 1997 and we're still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing "Look Before You Leap" (LBYL) when we should be practicing "Easier to Ask Forgiveness, Than Permission" (EAFP) because EAFP is more Pythonic.  Let's refactor our code to use a try-except block:
+It's January 2, 1997 and we're still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing "Look Before You Leap" (LBYL) when we should be practicing "Easier to Ask Forgiveness, Than Permission" ([EAFP][]) because EAFP is more Pythonic.  Let's refactor our code to use a try-except block:
 
 ```python
 colors = ["Brown", "Red", "Green", "White", "Yellow", "Yellow", "Brown", "Brown", "Black"]
@@ -183,7 +183,9 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 
 ### Related Resources
 
-- [import this and the Zen of Python](http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html): the Zen of Python trivia was borrowed from this post
+- [import this and the Zen of Python](http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html): Zen of Python trivia borrowed from this post
+- [Permission or Forgiveness](https://www.youtube.com/watch?v=AZDWveIdqjY): Alex Martelli discusses Grace Hopper's EAFP
+- [Python How To: Group and Count with Dictionaries](https://codefisher.org/catch/blog/2015/04/22/python-how-group-and-count-dictionaries/): while writing this post, I discovered this related article
 
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
@@ -192,6 +194,7 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 [2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
 [2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
+[eafp]: https://docs.python.org/2/glossary.html#term-eafp
 [pep 202]: https://www.python.org/dev/peps/pep-0202/
 [pep 274]: https://www.python.org/dev/peps/pep-0274/
 [pep 289]: https://www.python.org/dev/peps/pep-0289/
