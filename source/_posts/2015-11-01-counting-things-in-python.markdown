@@ -6,11 +6,11 @@ comments: true
 categories: python
 ---
 
-Sometimes the [Pythonic][] way to do things changes over time.  As Python has evolved, so has the Pythonic way to count list items.
+Sometimes the [Pythonic][] way to solve a problem changes over time.  As Python has evolved, so has the Pythonic way to count list items.
 
-Let's look at different techniques for counting the number of times things appear in a list.  We will need some historical context to understand these different techniques.
+Let's look at different techniques for counting the number of times things appear in a list.  While analyzing these techniques, we will *only* be looking at code style.  We'll worry about performance later.
 
-Fortunately we live in the `__future__` and we have a time machine.  Let's jump in our DeLorean and head to 1997.
+We will need some historical context to understand these different techniques.  Fortunately we live in the `__future__` and we have a time machine.  Let's jump in our DeLorean and head to 1997.
 
 ## if Statement
 
@@ -106,7 +106,7 @@ for c in colors:
     color_counts[c] += 1
 ```
 
-This creates a new dictionary using our colors as keys, with all values set to `0` initially.  This allows us to increment each key without worrying whether it has been set.  This seems more Pythonic, so let's keep it.
+This creates a new dictionary using our colors as keys, with all values set to `0` initially.  This allows us to increment each key without worrying whether it has been set.  We've removed the need for any checking or exception handling which seems like an improvement.  We decide to keep this change.
 
 ## Comprehension and set
 
@@ -148,7 +148,7 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let's do more of those!
 ```
 
-Our code is *more complex* (**O(n<sup>2</sup>)** instead of **O(n)**), *less beautiful*, and *less readable*.  That change was a fun experiment, but this one-line solution is less Pythonic than what we already had.  We decide to revert this change.
+Our code is *more complex* (**O(n<sup>2</sup>)** instead of **O(n)**), *less beautiful*, and *less readable*.  That change was a fun experiment, but this one-line solution is **less Pythonic** than what we already had.  We decide to revert this change.
 
 ## defaultdict
 
@@ -192,15 +192,17 @@ Like `defaultdict`, this returns a dict-like object (a `dict` subclass actually)
 Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 ```
 
-## Pythonic is a relative term
+## After thought: Performance
+
+Notice that we didn't focus on efficiency for these solutions.  Most of these solutions have the same time complexity (`O(n)` in big O notation) but runtimes could vary based on the Python implementation.
+
+While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
+
+## Conclusion
 
 Per the [Zen of Python][], "there should be one-- and preferably only one-- obvious way to do it".  This is an aspirational message.  There isn't always one obvious way to do it.  The "obvious" way can vary by time, need, and level of expertise.
 
-### Performance
-
-Notice that we didn't focus on efficiency for these solutions.  The time complexity for most of these solutions remained the same (`O(n)` in big O notation) but the runtime could vary based on the Python implementation.
-
-While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
+**"Pythonic" is a relative term.**
 
 ### Related Resources
 
@@ -210,7 +212,7 @@ While performance isn't our main concern, [I did measure the run-times on CPytho
 
 ### Credits
 
-Thanks to [Brian Schrader][] for proof-reading this post and [Micah Denbraver][] for actually [testing out these solutions][tests] on the correct versions of Python.
+Thanks to [Brian Schrader][] and [David Lord][] for proof-reading this post and [Micah Denbraver][] for actually [testing out these solutions][tests] on the correct versions of Python.
 
 [1.4]: https://docs.python.org/release/1.4/lib/node13.html
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
@@ -236,4 +238,5 @@ Thanks to [Brian Schrader][] for proof-reading this post and [Micah Denbraver][]
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
 
 [brian schrader]: http://brianschrader.com/
+[david lord]: http://stackoverflow.com/users/400617/davidism
 [micah denbraver]: http://micah.bigprob.net/
