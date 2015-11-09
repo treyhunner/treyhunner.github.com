@@ -21,12 +21,12 @@ colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"
 color_counts = {}
 for c in colors:
     if color_counts.has_key(c):
-        color_counts[c] += 1
+        color_counts[c] = color_counts[c] + 1
     else:
         color_counts[c] = 1
 ```
 
-**Note:** we're not using the `c in color_counts` idiom because that won't be invented until [Python 2.2][2.2]!
+**Note:** we're not using `+=` because augmented assignment won't be added until [Python 2.0][pep 203] and we're not using the `c in color_counts` idiom because that won't be invented until [Python 2.2][2.2]!
 
 After running this we'll see that our `color_counts` dictionary now contains the counts of each color in our list:
 
@@ -45,7 +45,7 @@ color_counts = {}
 for c in colors:
     if not color_counts.has_key(c):
         color_counts[c] = 0
-    color_counts[c] += 1
+    color_counts[c] = color_counts[c] + 1
 ```
 
 This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  After some thought, we decide this looks more Pythonic so we stick with it.
@@ -59,7 +59,7 @@ colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"
 color_counts = {}
 for c in colors:
     try:
-        color_counts[c] += 1
+        color_counts[c] = color_counts[c] + 1
     except KeyError:
         color_counts[c] = 1
 ```
@@ -83,7 +83,7 @@ It's cool that this is all one line of code, but we're not entirely sure if this
 
 ## setdefault
 
-It's January 1, 2001 and we're now using Python 2.0!  We've heard that [dictionaries have a `setdefault` method now][2.0] and we decide to refactor our code to use this new method:
+It's January 1, 2001 and we're now using Python 2.0!  We've heard that [dictionaries have a `setdefault` method now][2.0] and we decide to refactor our code to use this new method.  We also decide to use the new `+=` augmented assignment operator:
 
 ```python
 colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
@@ -229,6 +229,7 @@ Thanks to [Brian Schrader][] and [David Lord][] for proof-reading this post and 
 [import this]: http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&view=markup
 [lbyl]: https://docs.python.org/2/glossary.html#term-lbyl
 [pep 202]: https://www.python.org/dev/peps/pep-0202/
+[pep 203]: https://www.python.org/dev/peps/pep-0203/
 [pep 274]: https://www.python.org/dev/peps/pep-0274/
 [pep 289]: https://www.python.org/dev/peps/pep-0289/
 [performance]: https://gist.github.com/treyhunner/0987601f960a5617a1be
