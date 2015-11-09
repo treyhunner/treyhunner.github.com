@@ -48,7 +48,7 @@ for c in colors:
     color_counts[c] = color_counts[c] + 1
 ```
 
-This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we're not worried about performance, we're worried about what is Pythonic.  After some thought, we decide this looks more Pythonic so we stick with it.
+This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we're not worried about performance, we're worried about code style.  After some thought, we decide to stick with this new version.
 
 ## try Block
 
