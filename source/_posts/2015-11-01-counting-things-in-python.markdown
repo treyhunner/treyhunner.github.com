@@ -95,9 +95,22 @@ for c in colors:
 
 The `setdefault` method is being called on every loop, regardless of whether it's needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.
 
+## fromkeys
+
+It's January 1, 2004 and we're using Python 2.3.  We've heard about a [new `fromkeys` class method][2.3] on dictionaries for constructing dictionaries from a list of keys.  We refactor our code to use this new method:
+
+```python
+colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
+color_counts = dict.fromkeys(colors, 0)
+for c in colors:
+    color_counts[c] += 1
+```
+
+This creates a new dictionary using our colors as keys, with all values set to `0` initially.  This allows us to increment each key without worrying whether it has been set.  This seems more Pythonic, so let's keep it.
+
 ## Comprehension and set
 
-It's January 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets ([released in Python 2.3][2.3] and made into [a built-in in 2.4][2.4]) and list comprehensions ([released in Python 2.0][pep 202]).  After further thought, we remember that [generator expressions][pep 289] were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
+It's January 1, 2005 and we're using Python 2.4.  We realize that we could solve our counting problem using sets ([released in Python 2.3][2.3-sets] and made into [a built-in in 2.4][2.4]) and list comprehensions ([released in Python 2.0][pep 202]).  After further thought, we remember that [generator expressions][pep 289] were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:
 
 ```python
 colors = ["brown", "red", "green", "yellow", "yellow", "brown", "brown", "black"]
@@ -203,7 +216,8 @@ Thanks to [Brian Schrader][] for proof-reading this post and [Micah Denbraver][]
 [1.5]: https://docs.python.org/release/1.5/lib/node13.html
 [2.0]: https://docs.python.org/release/2.0/lib/typesmapping.html
 [2.2]: https://docs.python.org/release/2.2/lib/typesmapping.html
-[2.3]: https://docs.python.org/release/2.3/lib/module-sets.html
+[2.3]: https://docs.python.org/release/2.3/lib/typesmapping.html
+[2.3-sets]: https://docs.python.org/release/2.3/lib/module-sets.html
 [2.4]: https://docs.python.org/release/2.4/lib/types-set.html
 [2.5]: https://docs.python.org/release/2.5/lib/defaultdict-objects.html
 [2.7]: https://docs.python.org/2.7/library/collections.html#collections.Counter
