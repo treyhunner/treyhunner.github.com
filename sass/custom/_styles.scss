@@ -12,3 +12,12 @@ blockquote { font-size: 1.0em; }
 p { hanging-punctuation: allow-end; }
 
 .aboutme-name { display: none; }
+
+body #mc_embed_signup {
+    padding-top: 1em;
+    background: transparent;
+    font: inherit;
+    form {
+        padding: 0;
+    }
+}
