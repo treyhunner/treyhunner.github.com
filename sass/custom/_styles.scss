@@ -21,3 +21,33 @@ body #mc_embed_signup {
         padding: 0;
     }
 }
+
+
+.colored-comprehension {
+    .new-collection {
+        color: green;
+        font-weight: bold;
+    }
+    .collection-type {
+        color: brown;
+    }
+    .for-loop {
+        color: purple;
+    }
+    .item-mutation {
+        color: blue;
+        font-weight: bold;
+    }
+    .item {
+        font-weight: bold;
+    }
+    .old-collection {
+        font-weight: bold;
+    }
+    .conditional-clause {
+        color: red;
+    }
+    .condition {
+        font-weight: bold;
+    }
+}
