@@ -23,31 +23,27 @@ body #mc_embed_signup {
 }
 
 
+.new-collection {
+    color: green;
+}
+.collection-type {
+    color: brown;
+}
+.for-loop {
+    color: purple;
+}
+.nested-for-loop {
+    color: magenta;
+}
+.item-mutation {
+    color: blue;
+}
+.conditional-clause {
+    color: red;
+}
+
 .colored-comprehension {
-    .new-collection {
-        color: green;
-        font-weight: bold;
-    }
-    .collection-type {
-        color: brown;
-    }
-    .for-loop {
-        color: purple;
-    }
-    .item-mutation {
-        color: blue;
-        font-weight: bold;
-    }
-    .item {
-        font-weight: bold;
-    }
-    .old-collection {
-        font-weight: bold;
-    }
-    .conditional-clause {
-        color: red;
-    }
-    .condition {
+    .new-collection, .item-mutation, .item, .old-collection, .condition {
         font-weight: bold;
     }
 }
