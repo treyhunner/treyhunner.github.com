@@ -220,11 +220,7 @@ If you'd like to watch me walk through an explanation of any of the above topics
 
 If you can nudge your `for` loop until it looks like one of the ones above, you can rewrite that section of code using a list comprehension.  When struggling to write a comprehension, don't panic.  Start with a `for` loop first and copy-paste your way into a comprehension.
 
-This blog post was based on my Intro to Python class.  If you're interested in chatting about Python training, drop me a line.
-
-I have more Python blog posts in development and I'm planning to publish at least one Python mailing list soon.  If you're interested in learning more from me, subscribe to my newsletter below.
-
-TODO: just remove this??
+Any `for` loop that looks like this:
 
 <pre class="colored-comprehension">
 <span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
@@ -233,9 +229,13 @@ TODO: just remove this??
         <span class="new-collection">new_things</span>.append(<span class="item-mutation">"something with " + ITEM</span>)
 </pre>
 
+Can be rewritten into a list comprehension like this:
+
 <pre class="colored-comprehension">
 <span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
 </pre>
+
+This blog post was based on my Intro to Python class.  If you're interested in chatting about my [Python training services][], [drop me a line][].
 
 
 [iterable]: https://docs.python.org/3/glossary.html#term-iterable
@@ -245,3 +245,5 @@ TODO: just remove this??
 [class-set]: https://youtu.be/u-mhKtC1Xh4?t=44m44s
 [class-dict]: https://youtu.be/u-mhKtC1Xh4?t=47m44s
 [pyladies remote]: http://remote.pyladies.com/
+[python training services]: http://truthful.technology/
+[drop me a line]: mailto:hello@truthful.technology
