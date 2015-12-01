@@ -206,22 +206,25 @@ As for generator expressions, those are just list comprehensions optimized for i
 
 ## Learn with me
 
-I did a class on list comprehensions with PyLadies remote recently.
+I did a [class on list comprehensions][class] with [PyLadies Remote][] recently.
 
 If you'd like to watch me walk through an explanation of any of the above topics, check out the video:
 
-1. list comprehensions
-2. generator expressions
-3. set comprehensions
-4. dictionary comprehensions
+1. [list comprehensions][class-list]
+2. [generator expressions][class-generator]
+3. [set comprehensions][class-set]
+4. [dictionary comprehensions][class-dict]
 
 
-## Summary
+## In Summary
 
-- In summary
-  - If "for loop" can be transformed into one of these forms, a comprehension can be made from it
-  - When struggling to write a list comprehension, write a for loop in one of those formats and copy-paste your way into a list comprehension
-- Want to know more about list comprehensions? I taught a PyLadies Remote class on list comprehensions recently. Here's the link
+If you can nudge your `for` loop until it looks like one of the ones above, you can rewrite that section of code using a list comprehension.  When struggling to write a comprehension, don't panic.  Start with a `for` loop first and copy-paste your way into a comprehension.
+
+This blog post was based on my Intro to Python class.  If you're interested in chatting about Python training, drop me a line.
+
+I have more Python blog posts in development and I'm planning to publish at least one Python mailing list soon.  If you're interested in learning more from me, subscribe to my newsletter below.
+
+TODO: just remove this??
 
 <pre class="colored-comprehension">
 <span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
@@ -234,9 +237,11 @@ If you'd like to watch me walk through an explanation of any of the above topics
 <span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
 </pre>
 
-This blog post was based on my Intro to Python class.  If you're interested in chatting about Python training, drop me a line.
-
-I have more Python blog posts in development and I'm planning to publish at least one Python mailing list soon.  If you're interested in learning more from me, subscribe to my newsletter below.
-
 
 [iterable]: https://docs.python.org/3/glossary.html#term-iterable
+[class]: https://www.youtube.com/watch?v=u-mhKtC1Xh4
+[class-list]: https://youtu.be/u-mhKtC1Xh4?t=3m30s
+[class-generator]: https://youtu.be/u-mhKtC1Xh4?t=35m05s
+[class-set]: https://youtu.be/u-mhKtC1Xh4?t=44m44s
+[class-dict]: https://youtu.be/u-mhKtC1Xh4?t=47m44s
+[pyladies remote]: http://remote.pyladies.com/
