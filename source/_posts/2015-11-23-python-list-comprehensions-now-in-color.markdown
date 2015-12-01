@@ -199,6 +199,68 @@ That same code written as a dictionary comprehension:
 </pre>
 
 
+## Readability Counts
+
+Did you find the above list comprehensions hard to read?  I often find longer list comprehensions very difficult to read when they're written on one line.
+
+Remember that [Python allows line breaks][line continuation] between brackets and braces.
+
+### List comprehension
+
+Before
+
+```python
+doubled_odds = [n * 2 for n in numbers if n % 2 == 1]
+```
+
+After
+
+```python
+doubled_odds = [
+    n * 2
+    for n in numbers
+    if n % 2 == 1
+]
+```
+
+### Nested loops in list comprehension
+
+Before
+
+```python
+flattened = [n for n in row for row in matrix]
+```
+
+After
+
+```python
+flattened = [
+    n
+    for n in row
+    for row in matrix
+]
+```
+
+### Dictionary comprehension
+
+Before
+
+```python
+flipped = {value: key for key, value in original.items()}
+```
+
+After
+
+```python
+flipped = {
+    value: key
+    for key, value in original.items()
+}
+```
+
+Note that we are not adding line breaks arbitrarily: we're breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.
+
+
 ## Learn with me
 
 I did a [class on list comprehensions][class] with [PyLadies Remote][] recently.
@@ -244,6 +306,7 @@ This blog post was based on my Intro to Python class.  If you're interested in c
 [pyladies remote]: http://remote.pyladies.com/
 [python training services]: http://truthful.technology/
 [drop me a line]: mailto:hello@truthful.technology
+[line continuation]: https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining
 [list comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps
 [dictionary comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#dictionaries
 [set comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#sets
