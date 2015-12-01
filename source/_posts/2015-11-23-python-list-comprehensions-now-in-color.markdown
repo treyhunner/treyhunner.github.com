@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python List Comprehensions: Explained Visually"
-date: 2015-11-23 13:11:36 -0800
+date: 2015-12-01 10:30:00 -0800
 comments: true
 categories: python
 ---
