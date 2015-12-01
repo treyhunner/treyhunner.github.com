@@ -108,7 +108,7 @@ We copy-paste from a `for` loop into a list comprehension by:
 
 But what about comprehensions that don't have a conditional clause (that `if SOMETHING` part at the end)?  These loop-and-append `for` loops are even simpler than the loop-and-conditionally-append ones we've already covered.
 
-A `for` loops that doesn't have an `if` statement:
+A `for` loop that doesn't have an `if` statement:
 
 <pre class="colored-comprehension">
 <span class="new-collection">doubled_numbers</span> = <span class="collection-type">[]</span>
@@ -134,7 +134,7 @@ Here's the same thing, animated:
 
 ## Nested Loops
 
-What list comprehensions with nested looping?... Someone's playing on hard mode. 😦
+What about list comprehensions with nested looping?... Someone's playing on hard mode. 😦
 
 Nested loops in comprehensions do not read like English prose.  They're the reverse of the way my brain reads it.
 
