@@ -236,8 +236,8 @@ After
 ```python
 flattened = [
     n
-    for n in row
     for row in matrix
+    for n in row
 ]
 ```
 
