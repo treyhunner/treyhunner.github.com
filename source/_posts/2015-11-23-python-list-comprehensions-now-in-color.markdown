@@ -6,7 +6,7 @@ comments: true
 categories: python
 ---
 
-Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python's list comprehensions are a prime example of such a syntactic sugar.
+Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python's [list comprehensions][] are a prime example of such a syntactic sugar.
 
 List comprehensions in Python are great, but mastering them can be tricky because they don't solve a new problem: they just provide a new syntax to solve an existing problem.
 
@@ -168,7 +168,7 @@ When working with nested loops in list comprehensions remember that **the `for` 
 
 ## Other Comprehensions
 
-This same principle applies to set comprehensions and dictionary comprehensions.
+This same principle applies to [set comprehensions][] and [dictionary comprehensions][].
 
 Code that creates a set of all the first letters in a sequence of words:
 
@@ -211,7 +211,7 @@ If you'd like to watch me walk through an explanation of any of the above topics
 4. [dictionary comprehensions][class-dict]
 
 
-## In Summary
+## Summary
 
 When struggling to write a comprehension, don't panic.  Start with a `for` loop first and copy-paste your way into a comprehension.
 
@@ -244,3 +244,6 @@ This blog post was based on my Intro to Python class.  If you're interested in c
 [pyladies remote]: http://remote.pyladies.com/
 [python training services]: http://truthful.technology/
 [drop me a line]: mailto:hello@truthful.technology
+[list comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps
+[dictionary comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#dictionaries
+[set comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#sets
