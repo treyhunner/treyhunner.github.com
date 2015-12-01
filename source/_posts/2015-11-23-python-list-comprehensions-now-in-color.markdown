@@ -12,6 +12,7 @@ List comprehensions in Python are great, but mastering them can be tricky becaus
 
 Let's learn what list comprehensions are and how to identify when to use them.
 
+
 ## What are list comprehensions?
 
 List comprehensions are a tool for transforming one list (any [iterable][] actually) into another list.  During this transformation, elements can be conditionally included in the new list and each element can be transformed as needed.
@@ -24,6 +25,7 @@ If you're familiar with functional programming, you can think of list comprehens
 ```
 
 If you're not familiar with functional programming, don't worry: I'll explain using `for` loops.
+
 
 ## From loops to comprehensions
 
@@ -102,6 +104,7 @@ We copy-paste from a `for` loop into a list comprehension by:
 3. Copying <span class="for-loop">the `for` loop line</span>, excluding the final `:`
 4. Copying <span class="conditional-clause">the `if` statement line</span>, also without the `:`
 
+
 ## Unconditional Comprehensions
 
 But what about comprehensions that don't have a conditional clause (that `if SOMETHING` part at the end)?  These loop-and-append `for` loops are even simpler than the loop-and-conditionally-append ones we've already covered.
@@ -130,6 +133,7 @@ We can copy-paste our way from a simple loop-and-append `for` loop by:
 2. Copying <span class="item-mutation">the expression that we've been `append`-ing</span> into this new list (line 5)
 3. Copying <span class="for-loop">the `for` loop line</span>, excluding the final `:` (line 4)
 
+
 ## Nested Loops
 
 What about list comprehensions with nested looping?... 😦
@@ -151,17 +155,15 @@ Here's a list comprehension that does the same thing:
 
 Nested loops in list comprehensions do not read like English prose.
 
-My brain wants to write this list comprehension as:
+**Note:** My brain wants to write this list comprehension as:
 
 <pre class="colored-comprehension">
 <span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type"> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type">]</span>
 </pre>
 
-**But that's not right!**  I've mistakenly flipped the `for` loops here.
+**But that's not right!**  I've mistakenly flipped the `for` loops here.  The correct version is the one above.
 
 When working with nested loops in list comprehensions remember that **the `for` clauses remain in the same order** as in our original `for` loops.
-
-
 
 
 ## Other Comprehensions
@@ -195,6 +197,7 @@ That same code written as a dictionary comprehension:
 <pre class="colored-comprehension">
 <span class="new-collection">flipped</span> = <span class="collection-type">{</span><span class="item-mutation">value</span>: <span class="item-mutation">key</span> <span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span><span class="collection-type">}</span>
 </pre>
+
 
 ## Learn with me
 
