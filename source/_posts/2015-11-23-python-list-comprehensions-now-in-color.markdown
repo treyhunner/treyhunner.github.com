@@ -228,7 +228,7 @@ doubled_odds = [
 Before
 
 ```python
-flattened = [n for n in row for row in matrix]
+flattened = [n for row in matrix for n in row]
 ```
 
 After
