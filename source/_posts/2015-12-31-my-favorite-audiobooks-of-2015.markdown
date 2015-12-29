@@ -6,67 +6,93 @@ comments: true
 categories: 
 ---
 
-## Whistling Vivaldi: And Other Clues to How Stereotypes Affect Us
+I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks, averaging about 1 hour of listening per day.
 
-If you help lead an organization of people, you should read this book or at least read a good summary of it.
+### 1. Twelve Years a Slave
 
-One takeaway: a "colorblind" environment is a racist environment.
+This autobiography was very clear, very event-filled, and overall I found it very well-written.  I had less trouble keeping track of the characters than in much of the fiction I read.  I haven't seen the movie yet, but I'm hoping it's as good as the book.
 
-## Twelve Years a Slave
+- [Twelve Years a Slave](https://www.goodreads.com/book/show/18478222-twelve-years-a-slave) by Solomon Northup
+- [DRM-free audiobook](http://www.downpour.com/twelve-years-a-slave-1) read by Louis Gossett, Jr.
 
-Very well written autobiography.  Very clear and very event-filled.  I had less trouble keeping track of the characters than in much of the fiction I read.
+### 2. Americanah
 
-I haven't seen the movie yet, but I'm hoping it's as good as the book.
+The main character, Ifemelu, is a complex individual who struggles with romance, family, and identity.  I really enjoyed this story and I especially enjoyed Adjoa Andoh's audiobook narration.
 
-## The Righteous Mind: Why Good People are Divided by Politics and Religion
+- [Americanah](https://www.goodreads.com/book/show/15796700-americanah) by Chimamanda Ngozi Adichie
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/135855) read by Adjoa Andoh
 
-I have heard a lot of criticism of this book, partially due to its use of the terms "liberal" and "conservative".
+### 3. Whistling Vivaldi
 
-My takeaway: morals are not absolute and we tend to categorize ourselves based on moral pillars we hold sacred or ignore.  It is difficult but important to empathizing with those who recognize different moral pillars than you.
+Even in the seeming absence of individual and institutional discrimination, we can be affected by stereotype threats.  Identity threat is a real problem.  If you help lead an organization of people, you should read this book or at least read a good summary of it.
 
-## Americanah
+- [Whistling Vivaldi](https://www.goodreads.com/book/show/6649312-whistling-vivaldi) by Claude M. Steele
+- [Audible audiobook](http://www.audible.com/pd/Nonfiction/Whistling-Vivaldi-Audiobook/B00CJ0I41Q/ref=a_search_c4_1_1_srTtl) read by DeMario Clarke
 
-The main character, Ifemelu, is a complex individual and I really enjoyed hearing her story.  She she struggles with romance, family, and identity.  I especially enjoyed Adjoa Andoh's audiobook narration of this book.
+### 4. The Righteous Mind
 
-## The New Jim Crow
+We tend to categorize ourselves based on which moral pillars we hold sacred or and which we ignore.  It is difficult but important to empathize with those who recognize different moral pillars than you.
 
-Do you watch Law and Order? Take a break for a few episodes and read this book instead.
+- [The Righteous Mind](https://www.goodreads.com/book/show/11324722-the-righteous-mind) by Jonathan Haidt
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/100887) read by Jonathan Haidt
 
-This book discusses the effects of the war on drugs, rising incarceration rates, affirmative action, color-blindness, and a number of other issues.
+### 5. Reading Lolita in Tehran
 
-Drugs, jail, judges, justice, and much more.
+This was a meandering walk through Iranian culture and politics.  Discussions of authors, novels, and characters from twentieth century literature evoked reflections upon the state of Iranian life.
 
-I learned quite a few eye-opening facts while reading. Here's a couple: police officers can discriminate based on race so long as it is not the only determining factor of their actions (e.g. "I arrested him because he was black and wearing a hooded sweatshirt") and judges have retired due to their unwillingness to continue obeying mandatory minimum sentence laws.
+- [Reading Lolita in Tehran](https://www.goodreads.com/book/show/7603.Reading_Lolita_in_Tehran) by Azar Nafisi
+- [Audible audiobook](http://www.audible.com/pd/Bios-Memoirs/Reading-Lolita-in-Tehran-Audiobook/B002V0ABTC/ref=a_search_c4_1_1_srTtl) read by Lisette Lecat
 
-I do wish the data behind this discussion was a little more prevalent in this book. Statistics were definitely discussed multiple times, but they were mostly mentioned in passing and infrequently reiterated.
+### 6. How to Slowly Kill Yourself and Others in America
 
-## How to Slowly Kill Yourself and Others in America
+I loved this book.
 
-## Reading Lolita in Tehran
+- [How to Slowly Kill Yourself and Others in America](https://www.goodreads.com/book/show/17290919-how-to-slowly-kill-yourself-and-others-in-america) by Kiese Laymon
+- [Audible audiobook](http://www.audible.com/pd/Nonfiction/How-to-Slowly-Kill-Yourself-and-Others-in-America-Audiobook/B00S5AAG1K/ref=a_search_c4_1_1_srTtl) read by Kevin Free
 
-This was a meandering walk through Iranian culture, politics, and life next to a stream of twentieth century literary discussions. Authors, novels, and characters from twentieth century literature frequently evoked reflections upon the state of Iranian life.
+### 7. The Handmaid's Tale
 
-There were at least a few times I realized I may be missing some context due to my unfamiliarity with many of the authors and works discussed.
+Some people call this book "science fiction".  I'd call it fiction set in the future, a relatable and frightening future.  This dystopian patriarchy is fueled by religious extremism and a fertility problem.
 
-## The Handmaid's Tale
+- [The Handmaid's Tale](https://www.goodreads.com/book/show/38447.The_Handmaid_s_Tale) by Margaret Atwood
+- [Audible audiobook](http://www.audible.com/pd/Fiction/The-Handmaids-Tale-Audiobook/B008NB9GIU/ref=a_search_c4_1_1_srTtl) read by Claire Danes
 
-Some people call this book "science fiction".  I'd call it fiction set in the future.  This was a relatable future.
+### 8. For the Win
 
-## For the Win
+This book focuses on abuse of workers around the world.  It doesn't focus on technology or corruption, unlike other Doctorow books I've read.  The protagonists (there were many) seemed less stereotypical than the protagonist in Little Brother.
 
-This book has less technology focus than Little Brother and Down and Out in the Magic Kingdom and less government/corporate corruption than Little Brother and Pirate Cinema. The primary focus is abuse of workers around the world and unionization.
+- [For the Win](https://www.goodreads.com/book/show/7241373-for-the-win) by Cory Doctorow
+- [DRM-free audiobook](http://craphound.com/ftw/for-the-win-audiobook/) read by George Newbern
 
-My favorite books list from last year included Little Brother.  After further reflection on that series, I would warn readers that the main character of Little Brother is somewhat stereotypical and obnoxious.
+### 9. The New Jim Crow
 
-## The Wordy Shipmates
+This book discusses the effects of the war on drugs, rising incarceration rates, affirmative action, color-blindness, and a number of other issues.  I learned quite a few eye-opening facts while reading.  Take a break from Law and Order and listen to this book instead.
 
-This book was packed with information.  I honestly didn't understand much of this book, but I really enjoyed it regardless.
+- [The New Jim Crow](https://www.goodreads.com/book/show/6792458-the-new-jim-crow) by Michelle Alexander
+- [DRM-free audiobook](http://www.downpour.com/the-new-jim-crow-1) read by Karen Chilton
 
+### 10. The Wordy Shipmates
 
-## Between the World and Me
+This meandering walk through history included religion, politics, and drama with tie-ins to modern culture and a smattering of humor.  I didn't understand much of this book, but I did really enjoy it.
 
-## The Truth is a Cave in the Black Mountains
+- [The Wordy Shipmates](https://www.goodreads.com/book/show/2845287-the-wordy-shipmates) by Sarah Vowell
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/93953) read by Sarah Vowell
 
-Very short read.  Great audiobook.
+### Bonus
 
-## Information Doesn't Want to Be Free: Laws for the Internet Age
+Need more than 10 audiobook recommendations?  Here's three more.
+
+#### 1. The Truth is a Cave in the Black Mountains
+
+- [The Truth is a Cave in the Black Mountains](https://www.goodreads.com/book/show/18635092-the-truth-is-a-cave-in-the-black-mountains) by Neil Gaiman
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/157874) read by Neil Gaiman
+
+#### 2. Between the World and Me
+
+- [Between the World and Me](https://www.goodreads.com/book/show/25489625-between-the-world-and-me) by Ta-Nehisi Coates
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/198859) read by Ta-Nehisi Coates
+
+#### 3. Information Doesn't Want to Be Free
+
+- [Information Doesn't Want to Be Free](https://www.goodreads.com/book/show/20763766-information-doesn-t-want-to-be-free) by Cory Doctorow
+- [DRM-free audiobook](http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/) read by Wil Wheaton
