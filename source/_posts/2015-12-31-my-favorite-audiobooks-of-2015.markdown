@@ -49,7 +49,7 @@ This book discusses the effects of the war on drugs, rising incarceration rates,
 
 ### 6. Reading Lolita in Tehran
 
-This was a meandering walk through Iranian culture and politics.  Discussions of authors, novels, and characters from twentieth century literature evoked reflections upon the state of Iranian life.
+In this book we reflect upon Iranian life through nineteenth and twentieth century literature.  Culture and politics are discussed in the context of the books studied in a secret book club.
 
 - [Reading Lolita in Tehran](https://www.goodreads.com/book/show/7603.Reading_Lolita_in_Tehran) by Azar Nafisi
 - [Audible audiobook](http://www.audible.com/pd/Bios-Memoirs/Reading-Lolita-in-Tehran-Audiobook/B002V0ABTC/ref=a_search_c4_1_1_srTtl) read by Lisette Lecat
