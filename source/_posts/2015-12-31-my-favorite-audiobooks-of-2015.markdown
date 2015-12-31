@@ -1,12 +1,16 @@
 ---
 layout: post
-title: "My Favorite Audiobooks of 2015"
+title: "Trey's favorite audiobooks of 2015"
 date: 2015-12-31 10:30:00 -0800
 comments: true
 categories: 
 ---
 
-I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks, averaging about 1 hour of listening per day.
+I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks -- that's over 1 hour of listening per day.
+
+I make an effort to listen to audiobooks that challenge me.  I try to read books by people from different backgrounds, books from genres I'm unaccustomed to, and books on subjects that challenge my world views.
+
+I read far more than 10 great books this year.  This list just represents 10 of my favorites.  You can find a [full list of the books I read in 2015 on my Goodreads page](https://www.goodreads.com/user/year_in_books/2015/29459515).
 
 ### 1. How to Slowly Kill Yourself and Others in America
 
@@ -80,7 +84,7 @@ This book focuses on abuse of workers around the world.  It doesn't focus on tec
 
 ### Bonus
 
-Need more than 10 audiobook recommendations?  Here's three more.
+Need more than 10 audiobook recommendations?  Here's five more.
 
 #### 1. The Truth is a Cave in the Black Mountains
 
@@ -92,7 +96,17 @@ Need more than 10 audiobook recommendations?  Here's three more.
 - [Between the World and Me](https://www.goodreads.com/book/show/25489625-between-the-world-and-me) by Ta-Nehisi Coates
 - [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/198859) read by Ta-Nehisi Coates
 
-#### 3. Information Doesn't Want to Be Free
+#### 3. The Woman Warrior
+
+- [The Woman Warrior](https://www.goodreads.com/book/show/30852.The_Woman_Warrior) by Maxine Hong Kingston
+- [DRM-free audiobook](http://www.audible.com/pd/Bios-Memoirs/The-Woman-Warrior-Audiobook/B004HMEXGE/ref=a_search_c4_1_2_srTtl) read by Ming-Na
+
+#### 4. Information Doesn't Want to Be Free
 
 - [Information Doesn't Want to Be Free](https://www.goodreads.com/book/show/20763766-information-doesn-t-want-to-be-free) by Cory Doctorow
+- [DRM-free audiobook](http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/) read by Wil Wheaton
+
+#### 5. For All the Tea in China
+
+- [For All the Tea in China](https://www.goodreads.com/book/show/3081255-for-all-the-tea-in-china) by Sarah Rose
 - [DRM-free audiobook](http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/) read by Wil Wheaton
