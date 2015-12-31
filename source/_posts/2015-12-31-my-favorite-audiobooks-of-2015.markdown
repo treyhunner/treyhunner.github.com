@@ -99,7 +99,7 @@ Need more than 10 audiobook recommendations?  Here's five more.
 #### 3. The Woman Warrior
 
 - [The Woman Warrior](https://www.goodreads.com/book/show/30852.The_Woman_Warrior) by Maxine Hong Kingston
-- [DRM-free audiobook](http://www.audible.com/pd/Bios-Memoirs/The-Woman-Warrior-Audiobook/B004HMEXGE/ref=a_search_c4_1_2_srTtl) read by Ming-Na
+- [Audible audiobook](http://www.audible.com/pd/Bios-Memoirs/The-Woman-Warrior-Audiobook/B004HMEXGE/ref=a_search_c4_1_2_srTtl) read by Ming-Na
 
 #### 4. Information Doesn't Want to Be Free
 
@@ -109,4 +109,4 @@ Need more than 10 audiobook recommendations?  Here's five more.
 #### 5. For All the Tea in China
 
 - [For All the Tea in China](https://www.goodreads.com/book/show/3081255-for-all-the-tea-in-china) by Sarah Rose
-- [DRM-free audiobook](http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/) read by Wil Wheaton
+- [DRM-free audiobook](http://www.downpour.com/for-all-the-tea-in-china-1) read by Sarah Rose
