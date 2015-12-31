@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Trey's favorite audiobooks of 2015"
-date: 2015-12-31 10:30:00 -0800
+title: "My favorite audiobooks of 2015"
+date: 2015-12-31 7:30:00 -0800
 comments: true
-categories: 
+categories: audiobooks
 ---
 
 I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks -- that's over 1 hour of listening per day.
 
 I make an effort to listen to audiobooks that challenge me.  I try to read books by people from different backgrounds, books from genres I'm unaccustomed to, and books on subjects that challenge my world views.
 
-I read far more than 10 great books this year.  This list just represents 10 of my favorites.  You can find a [full list of the books I read in 2015 on my Goodreads page](https://www.goodreads.com/user/year_in_books/2015/29459515).
+This list only represents 10 of my favorite listens from this year.  You can find a [full list of the books I read in 2015 on my Goodreads page](https://www.goodreads.com/user/year_in_books/2015/29459515).
 
 ### 1. How to Slowly Kill Yourself and Others in America
 
@@ -63,7 +63,7 @@ This autobiography was very clear, very event-filled, and overall I found it ver
 
 ### 8. The Wordy Shipmates
 
-This meandering walk through history included religion, politics, and drama with tie-ins to modern culture and a smattering of humor.  I didn't understand much of this book, but I did really enjoy it.
+This journey through history included religion, politics, and drama with tie-ins to modern culture and a smattering of humor.  I didn't understand much of this book, but I did really enjoy it.
 
 - [The Wordy Shipmates](https://www.goodreads.com/book/show/2845287-the-wordy-shipmates) by Sarah Vowell
 - [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/93953) read by Sarah Vowell
@@ -86,15 +86,15 @@ This book focuses on abuse of workers around the world.  It doesn't focus on tec
 
 Need more than 10 audiobook recommendations?  Here's five more.
 
-#### 1. The Truth is a Cave in the Black Mountains
-
-- [The Truth is a Cave in the Black Mountains](https://www.goodreads.com/book/show/18635092-the-truth-is-a-cave-in-the-black-mountains) by Neil Gaiman
-- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/157874) read by Neil Gaiman
-
-#### 2. Between the World and Me
+#### 1. Between the World and Me
 
 - [Between the World and Me](https://www.goodreads.com/book/show/25489625-between-the-world-and-me) by Ta-Nehisi Coates
 - [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/198859) read by Ta-Nehisi Coates
+
+#### 2. The Truth is a Cave in the Black Mountains
+
+- [The Truth is a Cave in the Black Mountains](https://www.goodreads.com/book/show/18635092-the-truth-is-a-cave-in-the-black-mountains) by Neil Gaiman
+- [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/157874) read by Neil Gaiman
 
 #### 3. The Woman Warrior
 
