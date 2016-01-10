@@ -35,7 +35,7 @@ The main character, Ifemelu, is a complex individual who struggles with romance,
 
 ### 4. The Righteous Mind
 
-We tend to categorize ourselves based on which moral pillars we hold sacred or and which we ignore.  It is difficult but important to empathize with those who recognize different moral pillars than you.
+We tend to categorize ourselves based on which moral pillars we hold sacred and which we ignore.  It is difficult but important to empathize with those who recognize different moral pillars than you.
 
 - [The Righteous Mind](https://www.goodreads.com/book/show/11324722-the-righteous-mind) by Jonathan Haidt
 - [DRM-free audiobook](http://www.downpour.com/catalog/product/view/id/100887) read by Jonathan Haidt
