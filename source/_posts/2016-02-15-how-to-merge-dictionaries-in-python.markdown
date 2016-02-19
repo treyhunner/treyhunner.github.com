@@ -18,9 +18,9 @@ We have some requirements:
 
 1. in cases of key collisions, `user_context` should "win" over `global_context` (the values in `user_context` are more important)
 2. the keys in `global_context` and `user_context` can be anything that's a valid key
-3. the values in a and b can be anything
-4. a and b should not change. c should be a completely new dictionary.
-5. updating c should not change a or b.
+3. the values in `global_context` and `user_context` can be anything
+4. `global_context` and `user_context` should not change: `context` should be a completely new dictionary
+5. updating `context` should not change `global_context` or `user_context`
 
 So we want something like this:
 
