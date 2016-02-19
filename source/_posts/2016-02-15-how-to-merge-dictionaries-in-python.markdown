@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to Merge Dictionaries in Python"
-date: 2016-02-15 22:09:58 -0800
+date: 2016-02-22 10:00:00 -0800
 comments: true
 categories: 
 ---
