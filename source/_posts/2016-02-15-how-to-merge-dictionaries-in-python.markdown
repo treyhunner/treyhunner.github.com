@@ -8,35 +8,37 @@ categories:
 
 Have you ever wanted to combine two or more dictionaries in Python? I'm going to show you the most Pythonic way to do this.
 
-We're going to walk through a number of methods for merging dictionaries and discuss which of these methods is the most idiomatic and which is the most accurate.
+## Our Problem
 
-## Problem
-
-We have a bit of code that has two dictionaries: `user_context` and `global_context` and we want to merge these two dictionaries into a new dictionary called `context`.
+Our code has two dictionaries: `user_context` and `global_context`.  We want to merge these two dictionaries into a new dictionary called `context`.
 
 We have some requirements:
 
-1. in cases of key collisions, `user_context` should "win" over `global_context` (the values in `user_context` are more important)
-2. the keys in `global_context` and `user_context` can be anything that's a valid key
+1. `user_context` values should override `global_context` values in cases of duplicate keys
+2. keys in `global_context` and `user_context` may be any valid keys
 3. the values in `global_context` and `user_context` can be anything
-4. `global_context` and `user_context` should not change: `context` should be a completely new dictionary
-5. updating `context` should not change `global_context` or `user_context`
+4. `global_context` and `user_context` should not change during the creation of `context`
+5. updates made to `context` should never alter `global_context` or `user_context`
 
 So we want something like this:
 
 ```pycon
 >>> user_context = {'name': "Trey", 'website': "http://treyhunner.com"}
 >>> global_context = {'name': "Anonymous User", 'page_name': "Profile Page"}
->>> context = merge_dicts(global_context, user_context)
+>>> context = merge_dicts(global_context, user_context)  # magical merge function
 >>> context
 {'website': 'http://treyhunner.com', 'name': 'Trey', 'page_name': 'Profile Page'}
 ```
 
-## Solutions
 
-Let's look at different ways we could solve this problem.
+## Possible Solutions
 
-### multiple update
+Now that we've defined our problem, let's discuss some possible solutions.
+
+We're going to walk through a number of methods for merging dictionaries and discuss which of these methods is the most accurate and which is the most idiomatic.
+
+
+### Multiple update
 
 Here's one of the simplest ways to merge our dictionaries:
 
@@ -48,15 +50,15 @@ context.update(user_context)
 
 Here we're making an empty dictionary and using the [update][] method to add items from each of the other dictionaries.  Notice that we're adding `global_context` first so that any common keys in `user_context` will override those in `global_context`.
 
-How does this score?  All five of our requirements were met so this is **accurate**.  This solution is also pretty clear and fairly idiomatic. (why?)
+All five of our requirements were met so this is **accurate**.  This solution takes three lines of code and cannot be performed inline, but it's pretty clear.
 
 - Accurate: yes
 - Idiomatic: fairly
 
 
-### copy and update
+### Copy and update
 
-Alternatively, we could copy the `global_context` dictionary and update it with the items in `user_context`.
+Alternatively, we could copy `global_context` and update the copy with `user_context`.
 
 ```python
 context = global_context.copy()
@@ -65,13 +67,13 @@ context.update(user_context)
 
 This solution is only slightly different from the previous one.
 
+Personally, I prefer to copy the `global_context` dictionary to make it clear that it represents default values but I might prefer the first solution in another scenario.
+
 - Accurate: yes
 - Idiomatic: yes
 
-Personally, I prefer to copy the global dictionary to make it clear that it's represents the defaults but if the dictionaries being merged were of equal weight, I might prefer the first solution instead.
 
-
-### dictionary constructor
+### Dictionary constructor
 
 We could also pass our dictionary to the `dict` constructor which will also copy the dictionary for us:
 
@@ -86,7 +88,7 @@ This solution is very similar to the previous one, but it's a little bit less ex
 - Idiomatic: somewhat, though I'd prefer the first two solutions over this
 
 
-### keyword arguments hack
+### Keyword arguments hack
 
 You may have seen this clever answer before, [possibly on StackOverflow](http://stackoverflow.com/a/39858/98187):
 
@@ -96,20 +98,22 @@ context = dict(global_context, **user_context)
 
 This is just one line of code.  That's kind of cool.  However, this solution is is a little hard to understand.
 
-Beyond readability, there's an even bigger problem.  This solution is wrong.  The keys must be strings that represent valid variable names.  In CPython (the official Python interpreter), we can get away with invalid variable names as long as the keys are strings and in CPython 2.0 we could even use non-strings as keys.  But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
+Beyond readability, there's an even bigger problem.  **This solution is wrong.**
+
+The keys must be strings that represent valid variable names.  In CPython (the official Python interpreter), we can get away with invalid variable names as long as the keys are strings and in CPython 2.0 we could even use non-strings as keys.
+
+But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
 
 - Accurate: no.  Rule 2 breaks (keys may be any valid key)
 - Idiomatic: no.  This is a hack.
 
-Clever solutions are rarely idiomatic.
 
-
-### dictionary comprehension
+### Dictionary comprehension
 
 Just because we can, let's try doing this with a dictionary comprehension:
 
 ```python
-context = {k: v for x in [global_context, user_context] for k, v in x.items()}
+context = {k: v for d in [global_context, user_context] for k, v in d.items()}
 ```
 
 This works, but this is not easy to read at all.  Don't do this.
@@ -118,7 +122,7 @@ This works, but this is not easy to read at all.  Don't do this.
 - Idiomatic: not at all
 
 
-### items concatenation
+### Concatenate items
 
 What if we get a `list` of items from each dictionary, concatenate them, and then create a new dictionary from that?
 
@@ -128,37 +132,37 @@ context = dict(list(global_context.items()) + list(user_context.items()))
 
 This actually works.  We know that the `user_context` keys will win out over `global_context` because those keys come at the end of our concatenated list.
 
+In Python 2 we actually don't need the `list` conversions, but we're working in Python 3 here (you are on Python 3, right?).
+
 - Accurate: yes
-- Idiomatic: not really
-
-Note: in Python 2 we actually don't need the `list` conversions, but we're working in Python 3.
+- Idiomatic: not particularly
 
 
-### items union
+### Union items
 
-In Python 3, `items` is a `dict_items` object, which is a quirky object that allows us to use a union operation on it.
+In Python 3, `items` is a `dict_items` object, which is a quirky object that supports union operations.
 
 ```python
 context = dict(global_context.items() | user_context.items())
 ```
 
-That's kind of interesting.  But it's not accurate.
+That's kind of interesting.  But this is **not accurate**.
 
-This fails both requirement 1 (`user_context` should "win" over `global_context`) and requirement 3 (the values can be anything).
+Requirement 1 (`user_context` should "win" over `global_context`) fails because the union of two `dict_items` objects is a `set` of key-value pairs and sets are unordered so duplicate keys may resolve in an *unpredictable* way.
 
-The union of these two `dict_items` objects gives us a `set` of key-value tuples.  Sets are unordered so as `dict` iterates over the set, the `user_context` key-value pairs will not necessarily be provided after the ones in `global_context`.  Therefore requirement 1 fails because key collisions may resolve in an unpredictable way.
+Requirement 3 (the values can be anything) fails because sets require their items to be hashable so both the keys *and values* in our key-value tuples must be hashable.
 
-Requirement 3 fails because sets require their items to be hashable.  Since the items of this set are key-value pairs, the values must be hashable, so lists, dictionaries, and other non-hashable objects can not be values in our dictionary.
-
-I'm not sure why the union operation is even allowed on `dict_items` objects.  What is this good for?
+Side note: I'm not sure why the union operation is even allowed on `dict_items` objects.  What is this good for?
 
 - Accurate: no, requirements 1 and 3 fail
 - Idiomatic: no
 
 
-### items chain
+### Chain items
 
-So far the only accurate way we've seen to perform this merge in a single line of code involves creating two lists of items, concatenating them, and forming a dictionary.  We can actually join our items together more succinctly with `itertools.chain`:
+So far the most idiomatic way we've seen to perform this merge in a single line of code involves creating two lists of items, concatenating them, and forming a dictionary.
+
+We can join our items together more succinctly with `itertools.chain`:
 
 ```python
 from itertools import chain
@@ -168,35 +172,37 @@ context = dict(chain(global_context.items(), user_context.items()))
 This works well and should be more efficient than creating two unnecessary lists.
 
 - Accurate: yes
-- Idiomatic: fairly, though it requires a standard library import
+- Idiomatic: fairly, though it does require a standard library import
 
 
 ### ChainMap
 
 All of our answers so far have required looping over every key-value pair in our two initial dictionaries in order to make a new one.
 
-What if we could create a new dictionary without looping over our initial dictionaries at all?  We actually *can* do this with `ChainMap`:
+What if we could create a new dictionary without looping over our initial dictionaries at all?  We can *sort of* do this with `ChainMap`:
 
 ```python
 from collections import ChainMap
 context = ChainMap({}, user_context, global_context)
 ```
 
-This code raises a couple questions:
+A `ChainMap` groups multiple dictionaries together to create a view.  Lookups in a `ChainMap` query each dictionary in order until a matching key is found.
 
-- Why does `user_context` come before `global_context`?
-- Why is there an empty dictionary before `user_context`?
-- Is this actually a dictionary?
+This code raises a few questions.
 
-According to the documentation, a `ChainMap` "groups multiple dictionaries or other mappings together to create a single, updateable view."
+#### Why did we put `user_context` before `global_context`?
 
-Whenever we lookup something in our `ChainMap`, each dictionary is queried until a matching key is found.  Because the dictionaries are searched in the order we provided them, `user_context` will return matches before `global_context`.  So we ordered our dictionaries this way to ensure requirement 1 is met.
+We ordered our arguments this way to ensure requirement 1 was met.  The dictionaries are searched in order, so `user_context` returns matches before `global_context`.
 
-But why is there an empty dictionary before `user_context`?  Changing a `ChainMap` object will change the first dictionary provided.  We don't want our `user_context` dictionary to change if the `ChainMap` is altered (requirement 5) so we provide an empty dictionary as the first mapping.
+#### Why is there an empty dictionary before `user_context`?
 
-This is neat, but is `ChainMap` really even a dictionary?  Well, it depends on what we mean.  This new object is a mapping (a dictionary-like object) and it does meet all of our stated requirements, but it may not be exactly what we're looking for.
+This is to ensure requirement 5 is met.  Changing a `ChainMap` object will change the first dictionary provided.  We don't want `user_context` to change if the `ChainMap` is altered so we provided an empty dictionary as the first mapping.
 
-A `ChainMap` object is not identical to a dictionary.  For instance, we cannot remove items if they reside in the underlying mappings.
+#### Does this actually give us a dictionary?
+
+A `ChainMap` object is a mapping (a dictionary-like object) but it is not a dictionary.  If our code is practicing duck typing properly we may be okay with this, but we need to take a look at how `ChainMap` objects behave to find out.
+
+We cannot remove items if they reside in mappings beyond the first (empty) one.
 
 ```pycon
 >>> context = ChainMap({}, user_context, global_context)
@@ -208,7 +214,7 @@ A `ChainMap` object is not identical to a dictionary.  For instance, we cannot r
 'Profile Page'
 ```
 
-Our `ChainMap` will also change behavior when the underlying dictionaries change:
+Our `ChainMap` will also change behavior when the underlying dictionaries change.
 
 ```pycon
 >>> context['name']
@@ -221,16 +227,14 @@ Our `ChainMap` will also change behavior when the underlying dictionaries change
 These are not bugs in `ChainMap`, these are features.  If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 
 ```python
-context = dict(ChainMap({}, user_context, global_context))
+context = dict(ChainMap(user_context, global_context))
 ```
-
-However, at this point we may as well use `itertools.chain`.
 
 - Accurate: possibly, we'll need to consider our use cases
 - Idiomatic: yes if we decide this suits our use case
 
 
-### dictionary concatenation
+### Dictionary concatenation
 
 What if we simply concatenate our dictionaries?
 
@@ -257,7 +261,7 @@ This syntax will probably never exist.
 - Idiomatic: no. This doesn't work.
 
 
-### dictionary unpacking
+### Dictionary unpacking
 
 If you're using Python 3.5, thanks to [PEP 448][], there's a new way to merge dictionaries:
 
@@ -280,6 +284,8 @@ If you're using Python 3.5, this is the one obvious way to solve this problem:
 ```python
 context = {**global_context, **user_context}
 ```
+
+Clever solutions are rarely idiomatic.
 
 [update]: https://docs.python.org/3.5/library/stdtypes.html#dict.update
 [pep 448]: https://www.python.org/dev/peps/pep-0448/
