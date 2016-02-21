@@ -6,9 +6,15 @@ comments: true
 categories: 
 ---
 
-Have you ever wanted to combine two or more dictionaries in Python? I'm going to show you the most Pythonic way to do this.
+Have you ever wanted to combine two or more dictionaries in Python?
+
+There are multiple ways to solve this problem: some are awkward, some are inaccurate, and most require multiple lines of code.
+
+Let's walk through the different ways of solving this problem and discuss which is the most [Pythonic][].
 
 ## Our Problem
+
+Before we can discuss solutions, we need to clearly define our problem.
 
 Our code has two dictionaries: `user_context` and `global_context`.  We want to merge these two dictionaries into a new dictionary called `context`.
 
@@ -90,7 +96,7 @@ This solution is very similar to the previous one, but it's a little bit less ex
 
 ### Keyword arguments hack
 
-You may have seen this clever answer before, [possibly on StackOverflow](http://stackoverflow.com/a/39858/98187):
+You may have seen this clever answer before, [possibly on StackOverflow][kwargs hack]:
 
 ```python
 context = dict(global_context, **user_context)
@@ -148,9 +154,9 @@ context = dict(global_context.items() | user_context.items())
 
 That's kind of interesting.  But this is **not accurate**.
 
-Requirement 1 (`user_context` should "win" over `global_context`) fails because the union of two `dict_items` objects is a `set` of key-value pairs and sets are unordered so duplicate keys may resolve in an *unpredictable* way.
+Requirement 1 (`user_context` should "win" over `global_context`) fails because the union of two `dict_items` objects is a [set][] of key-value pairs and sets are unordered so duplicate keys may resolve in an *unpredictable* way.
 
-Requirement 3 (the values can be anything) fails because sets require their items to be hashable so both the keys *and values* in our key-value tuples must be hashable.
+Requirement 3 (the values can be anything) fails because sets require their items to be [hashable][] so both the keys *and values* in our key-value tuples must be hashable.
 
 Side note: I'm not sure why the union operation is even allowed on `dict_items` objects.  What is this good for?
 
@@ -162,7 +168,7 @@ Side note: I'm not sure why the union operation is even allowed on `dict_items` 
 
 So far the most idiomatic way we've seen to perform this merge in a single line of code involves creating two lists of items, concatenating them, and forming a dictionary.
 
-We can join our items together more succinctly with `itertools.chain`:
+We can join our items together more succinctly with [itertools.chain][]:
 
 ```python
 from itertools import chain
@@ -172,21 +178,21 @@ context = dict(chain(global_context.items(), user_context.items()))
 This works well and should be more efficient than creating two unnecessary lists.
 
 - Accurate: yes
-- Idiomatic: fairly, though it does require a standard library import
+- Idiomatic: fairly
 
 
 ### ChainMap
 
-All of our answers so far have required looping over every key-value pair in our two initial dictionaries in order to make a new one.
+What if we could create a new dictionary without looping over our initial dictionaries?
 
-What if we could create a new dictionary without looping over our initial dictionaries at all?  We can *sort of* do this with `ChainMap`:
+We can *sort of* do this with [ChainMap][]:
 
 ```python
 from collections import ChainMap
 context = ChainMap({}, user_context, global_context)
 ```
 
-A `ChainMap` groups multiple dictionaries together to create a view.  Lookups in a `ChainMap` query each dictionary in order until a matching key is found.
+A `ChainMap` groups dictionaries together; lookups query each one until a match is found.
 
 This code raises a few questions.
 
@@ -202,29 +208,9 @@ This is to ensure requirement 5 is met.  Changing a `ChainMap` object will chang
 
 A `ChainMap` object is a mapping (a dictionary-like object) but it is not a dictionary.  If our code is practicing duck typing properly we may be okay with this, but we need to take a look at how `ChainMap` objects behave to find out.
 
-We cannot remove items if they reside in mappings beyond the first (empty) one.
+We [cannot remove items][ChainMap remove] if they reside in mappings beyond the first (empty) one.  Our `ChainMap` will also change behavior when the [underlying dictionaries change][ChainMap alter].  These are not bugs in `ChainMap`, these are features.
 
-```pycon
->>> context = ChainMap({}, user_context, global_context)
->>> context['page_name'] = "About Page"
->>> context['page_name']
-'About Page'
->>> del context['page_name']
->>> context['page_name']
-'Profile Page'
-```
-
-Our `ChainMap` will also change behavior when the underlying dictionaries change.
-
-```pycon
->>> context['name']
-'Trey'
->>> user_context['name'] = "Guido"
->>> context['name']
-'Guido'
-```
-
-These are not bugs in `ChainMap`, these are features.  If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
+If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 
 ```python
 context = dict(ChainMap(user_context, global_context))
@@ -242,20 +228,17 @@ What if we simply concatenate our dictionaries?
 context = global_context + user_context
 ```
 
-This is cool, but it isn't valid.
+This is cool, but it **isn't valid** and this syntax will probably never work.
 
 This feature was discussed in a [python-ideas thread][python-ideas] last year though.
 
 Some of the concerns brought up in this thread include:
 
 - Maybe `|` makes more sense than `+` because dictionaries are more like sets
-- Should duplicate keys raise exceptions or should one side override the other?
 - For duplicate keys, should the left-hand side or right-hand side win?
-- Should a view (like a `ChainMap`) be returned instead of a new dictionary?
-- Looping over dictionaries iterates over just keys, so does this even make sense?
 - Should there be an `updated` built-in instead (kind of like `sorted`)?
 
-This syntax will probably never exist.
+So:
 
 - Accurate: no. This doesn't work.
 - Idiomatic: no. This doesn't work.
@@ -287,6 +270,14 @@ context = {**global_context, **user_context}
 
 Clever solutions are rarely idiomatic.
 
+[kwargs hack]: http://stackoverflow.com/a/39858/98187
+[chainmap]: https://docs.python.org/3/library/collections.html#collections.ChainMap
 [update]: https://docs.python.org/3.5/library/stdtypes.html#dict.update
 [pep 448]: https://www.python.org/dev/peps/pep-0448/
 [python-ideas]: https://mail.python.org/pipermail/python-ideas/2015-February/031748.html
+[set]: https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset
+[hashable]: https://docs.python.org/3/glossary.html#term-hashable
+[itertools.chain]: https://docs.python.org/3/library/itertools.html#itertools.chain
+[ChainMap remove]: https://gist.github.com/treyhunner/5260810b4cced03359d9
+[ChainMap alter]: https://gist.github.com/treyhunner/2abe2617ea029504ef8e
+[pythonic]: https://docs.python.org/3/glossary.html#term-pythonic
