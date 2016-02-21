@@ -58,6 +58,8 @@ Here we're making an empty dictionary and using the [update][] method to add ite
 
 All five of our requirements were met so this is **accurate**.  This solution takes three lines of code and cannot be performed inline, but it's pretty clear.
 
+Score:
+
 - Accurate: yes
 - Idiomatic: fairly
 
@@ -75,6 +77,8 @@ This solution is only slightly different from the previous one.
 
 Personally, I prefer to copy the `defaults` dictionary to make it clear that it represents default values but I might prefer the first solution in another scenario.
 
+Score:
+
 - Accurate: yes
 - Idiomatic: yes
 
@@ -89,6 +93,8 @@ context.update(user)
 ```
 
 This solution is very similar to the previous one, but it's a little bit less explicit.
+
+Score:
 
 - Accurate: yes
 - Idiomatic: somewhat, though I'd prefer the first two solutions over this
@@ -110,6 +116,8 @@ The keys must be strings that represent valid variable names.  In CPython (the o
 
 But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
 
+Score:
+
 - Accurate: no.  Rule 2 breaks (keys may be any valid key)
 - Idiomatic: no.  This is a hack.
 
@@ -123,6 +131,8 @@ context = {k: v for d in [defaults, user] for k, v in d.items()}
 ```
 
 This works, but this is not easy to read at all.  Don't do this.
+
+Score:
 
 - Accurate: yes
 - Idiomatic: not at all
@@ -139,6 +149,8 @@ context = dict(list(defaults.items()) + list(user.items()))
 This actually works.  We know that the `user` keys will win out over `defaults` because those keys come at the end of our concatenated list.
 
 In Python 2 we actually don't need the `list` conversions, but we're working in Python 3 here (you are on Python 3, right?).
+
+Score:
 
 - Accurate: yes
 - Idiomatic: not particularly
@@ -160,6 +172,8 @@ Requirement 3 (the values can be anything) fails because sets require their item
 
 Side note: I'm not sure why the union operation is even allowed on `dict_items` objects.  What is this good for?
 
+Score:
+
 - Accurate: no, requirements 1 and 3 fail
 - Idiomatic: no
 
@@ -176,6 +190,8 @@ context = dict(chain(defaults.items(), user.items()))
 ```
 
 This works well and should be more efficient than creating two unnecessary lists.
+
+Score:
 
 - Accurate: yes
 - Idiomatic: fairly
@@ -216,6 +232,8 @@ If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 context = dict(ChainMap(user, defaults))
 ```
 
+Score:
+
 - Accurate: possibly, we'll need to consider our use cases
 - Idiomatic: yes if we decide this suits our use case
 
@@ -238,7 +256,7 @@ Some of the concerns brought up in this thread include:
 - For duplicate keys, should the left-hand side or right-hand side win?
 - Should there be an `updated` built-in instead (kind of like `sorted`)?
 
-So:
+Score:
 
 - Accurate: no. This doesn't work.
 - Idiomatic: no. This doesn't work.
@@ -253,6 +271,8 @@ context = {**defaults, **user}
 ```
 
 This is simple and Pythonic.  This is a little verbose, but it's fairly clear that the output is a dictionary.
+
+Score:
 
 - Accurate: yes
 - Idiomatic: yes
