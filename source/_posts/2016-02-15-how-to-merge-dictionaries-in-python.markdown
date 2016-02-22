@@ -75,7 +75,7 @@ context.update(user)
 
 This solution is only slightly different from the previous one.
 
-Personally, I prefer to copy the `defaults` dictionary to make it clear that it represents default values but I might prefer the first solution in another scenario.
+For this particular problem, I prefer this solution of copying the `defaults` dictionary to make it clear that `defaults` represents default values.
 
 Score:
 
@@ -108,13 +108,11 @@ You may have seen this clever answer before, [possibly on StackOverflow][kwargs 
 context = dict(defaults, **user)
 ```
 
-This is just one line of code.  That's kind of cool.  However, this solution is is a little hard to understand.
+This is just one line of code.  That's kind of cool.  However, this solution is a little hard to understand.
 
-Beyond readability, there's an even bigger problem.  **This solution is wrong.**
+Beyond readability, there's an even bigger problem: **this solution is wrong.**
 
-The keys must be strings that represent valid variable names.  In CPython (the official Python interpreter), we can get away with invalid variable names as long as the keys are strings and in CPython 2.0 we could even use non-strings as keys.
-
-But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
+The keys must be strings.  In Python 2.0 (with the CPython interpreter) we get away with non-strings as keys.  But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
 
 Score:
 
@@ -130,12 +128,12 @@ Just because we can, let's try doing this with a dictionary comprehension:
 context = {k: v for d in [defaults, user] for k, v in d.items()}
 ```
 
-This works, but this is not easy to read at all.  Don't do this.
+This works, but this is a little hard to read.
 
 Score:
 
 - Accurate: yes
-- Idiomatic: not at all
+- Idiomatic: arguably not
 
 
 ### Concatenate items
@@ -164,7 +162,7 @@ In Python 3, `items` is a `dict_items` object, which is a quirky object that sup
 context = dict(defaults.items() | user.items())
 ```
 
-That's kind of interesting.  But this is **not accurate**.
+That's kind of interesting.  But **this is not accurate**.
 
 Requirement 1 (`user` should "win" over `defaults`) fails because the union of two `dict_items` objects is a [set][] of key-value pairs and sets are unordered so duplicate keys may resolve in an *unpredictable* way.
 
