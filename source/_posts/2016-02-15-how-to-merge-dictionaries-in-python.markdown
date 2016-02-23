@@ -303,7 +303,9 @@ context = {**defaults, **user}
 
 If you are not yet using Python 3.5, you'll need to review the solutions above to determine which is the most appropriate for your needs.
 
-**Note**: For those of you particularly concerned about performance, I also measured the [performance of these different dictionary merging methods][performance].
+**Note**: For those of you particularly concerned with performance, I also measured the [performance of these different dictionary merging methods][performance].
+
+<br>I teach Python for a living.  If you like my teaching style and your team is interested in **[Python training][]**, please [contact me][]!
 
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
 [chainmap]: https://docs.python.org/3/library/collections.html#collections.ChainMap
@@ -319,3 +321,5 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 [duck typing]: https://docs.python.org/3/glossary.html#term-duck-typing
 [sorted]: https://docs.python.org/3/library/functions.html#sorted
 [performance]: https://gist.github.com/treyhunner/f35292e676efa0be1728
+[python training]: http://truthful.technology/
+[contact me]: mailto:hello@truthful.technology
