@@ -119,11 +119,11 @@ This is just one line of code.  That's kind of cool.  However, this solution is 
 
 Beyond readability, there's an even bigger problem: **this solution is wrong.**
 
-The keys must be strings.  In Python 2.0 (with the CPython interpreter) we get away with non-strings as keys.  But don't be fooled, this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
+The keys must be strings.  In Python 2.0 (with the CPython interpreter) we can get away with non-strings as keys, but don't be fooled: this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
 
 Score:
 
-- Accurate: no.  Rule 2 breaks (keys may be any valid key)
+- Accurate: no.  Requirement 2 is not met (keys may be any valid key)
 - Idiomatic: no.  This is a hack.
 
 
@@ -160,7 +160,7 @@ In Python 2 we actually don't need the `list` conversions, but we're working in 
 Score:
 
 - Accurate: yes
-- Idiomatic: not particularly
+- Idiomatic: not particularly, there's a bit of repetition
 
 
 ### Union items
@@ -196,7 +196,7 @@ from itertools import chain
 context = dict(chain(defaults.items(), user.items()))
 ```
 
-This works well and should be more efficient than creating two unnecessary lists.
+This works well and may be more efficient than creating two unnecessary lists.
 
 Score:
 
@@ -263,7 +263,7 @@ This is cool, but it **isn't valid**.  This was discussed in a [python-ideas thr
 
 Some of the concerns brought up in this thread include:
 
-- Maybe `|` makes more sense than `+` because dictionaries are more like sets
+- Maybe `|` makes more sense than `+` because dictionaries are like sets
 - For duplicate keys, should the left-hand side or right-hand side win?
 - Should there be an `updated` built-in instead (kind of like [sorted][])?
 
