@@ -243,7 +243,7 @@ If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 context = dict(ChainMap(user, defaults))
 ```
 
-It's a little odd that `user` must come after `defaults` in this code whereas this order was flipped in most of our other solutions.  Outside of that oddity, this code is fairly simple and should be clear enough for our purposes.
+It's a little odd that `user` must come before `defaults` in this code whereas this order was flipped in most of our other solutions.  Outside of that oddity, this code is fairly simple and should be clear enough for our purposes.
 
 Score:
 
