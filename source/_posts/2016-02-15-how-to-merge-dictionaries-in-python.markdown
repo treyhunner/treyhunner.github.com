@@ -36,6 +36,14 @@ So we want something like this:
 {'website': 'http://treyhunner.com', 'name': 'Trey', 'page_name': 'Profile Page'}
 ```
 
+We'll also consider whether a solution is Pythonic.  This is a very subjective and often illusory measure.  Here are a few of the particular criterion we will use:
+
+- The solution should be concise but not terse
+- The solution should be readable but not overly verbose
+- The solution should be one line if possible so it can be written inline if needed
+- The solution should not be needlessly inefficient
+
+
 ## Possible Solutions
 
 Now that we've defined our problem, let's discuss some possible solutions.
@@ -60,7 +68,7 @@ All five of our requirements were met so this is **accurate**.  This solution ta
 Score:
 
 - Accurate: yes
-- Idiomatic: fairly
+- Idiomatic: fairly, but it would be nicer if it could be inlined
 
 
 ### Copy and update
@@ -193,7 +201,7 @@ This works well and should be more efficient than creating two unnecessary lists
 Score:
 
 - Accurate: yes
-- Idiomatic: fairly
+- Idiomatic: fairly, but those `items` calls seem slightly redundant
 
 
 ### ChainMap
@@ -273,7 +281,9 @@ If you're using Python 3.5, thanks to [PEP 448][], there's a new way to merge di
 context = {**defaults, **user}
 ```
 
-This is simple and Pythonic.  This is a little verbose, but it's fairly clear that the output is a dictionary.
+This is simple and Pythonic.  There are quite a few symbols, but it's fairly clear that the output is a dictionary at least.
+
+This is functionally equivalent to our very first solution where we made an empty dictionary and populated it with all items from `defaults` and `user` in turn.  All of our requirements are met and this is likely the simplest solution we'll ever get.
 
 Score:
 
@@ -293,6 +303,8 @@ context = {**defaults, **user}
 
 If you are not yet using Python 3.5, you'll need to review the solutions above to determine which is the most appropriate for your needs.
 
+**Note**: For those of you particularly concerned about performance, I also measured the [performance of these different dictionary merging methods][performance].
+
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
 [chainmap]: https://docs.python.org/3/library/collections.html#collections.ChainMap
 [update]: https://docs.python.org/3.5/library/stdtypes.html#dict.update
@@ -306,3 +318,4 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 [pythonic]: https://docs.python.org/3/glossary.html#term-pythonic
 [duck typing]: https://docs.python.org/3/glossary.html#term-duck-typing
 [sorted]: https://docs.python.org/3/library/functions.html#sorted
+[performance]: https://gist.github.com/treyhunner/f35292e676efa0be1728
