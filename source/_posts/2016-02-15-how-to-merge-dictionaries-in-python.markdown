@@ -36,7 +36,6 @@ So we want something like this:
 {'website': 'http://treyhunner.com', 'name': 'Trey', 'page_name': 'Profile Page'}
 ```
 
-
 ## Possible Solutions
 
 Now that we've defined our problem, let's discuss some possible solutions.
@@ -130,6 +129,8 @@ context = {k: v for d in [defaults, user] for k, v in d.items()}
 
 This works, but this is a little hard to read.
 
+If we have an unknown number of dictionaries this might be a good idea, but we'd probably want to break our comprehension over multiple lines to make it more readable.  In our case of two dictionaries, this doubly-nested comprehension is a little much.
+
 Score:
 
 - Accurate: yes
@@ -197,16 +198,14 @@ Score:
 
 ### ChainMap
 
-What if we could create a new dictionary without looping over our initial dictionaries?
-
-We can *sort of* do this with [ChainMap][]:
+A [ChainMap][] allows us to create a new dictionary without even looping over our initial dictionaries (well *sort of*, we'll discuss this):
 
 ```python
 from collections import ChainMap
 context = ChainMap({}, user, defaults)
 ```
 
-A `ChainMap` groups dictionaries together; lookups query each one until a match is found.
+A `ChainMap` groups dictionaries together into a proxy object (a "view"); lookups query each provided dictionary until a match is found.
 
 This code raises a few questions.
 
@@ -216,13 +215,19 @@ We ordered our arguments this way to ensure requirement 1 was met.  The dictiona
 
 #### Why is there an empty dictionary before `user`?
 
-This is to ensure requirement 5 is met.  Changing a `ChainMap` object will change the first dictionary provided.  We don't want `user` to change if the `ChainMap` is altered so we provided an empty dictionary as the first mapping.
+This is for requirement 5.  Changes to `ChainMap` objects affect the first dictionary provided and we don't want `user` to change so we provided an empty dictionary first.
 
 #### Does this actually give us a dictionary?
 
-A `ChainMap` object is a mapping (a dictionary-like object) but it is not a dictionary.  If our code is practicing duck typing properly we may be okay with this, but we need to take a look at how `ChainMap` objects behave to find out.
+A `ChainMap` object is **not a dictionary** but it is a **dictionary-like** mapping.  We may be okay with this if our code practices [duck typing][], but we'll need to inspect the features of `ChainMap` to be sure.  Among other features, `ChainMap` objects are coupled to their [underlying dictionaries][ChainMap alter] and they handle [removing items][ChainMap remove] in an interesting way.
 
-We [cannot remove items][ChainMap remove] if they reside in mappings beyond the first (empty) one.  Our `ChainMap` will also change behavior when the [underlying dictionaries change][ChainMap alter].  These are not bugs in `ChainMap`, these are features.
+Score:
+
+- Accurate: possibly, we'll need to consider our use cases
+- Idiomatic: yes if we decide this suits our use case
+
+
+### Dictionary from ChainMap
 
 If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 
@@ -230,10 +235,12 @@ If we really want a dictionary, we could convert our `ChainMap` to a dictionary:
 context = dict(ChainMap(user, defaults))
 ```
 
+It's a little odd that `user` must come after `defaults` in this code whereas this order was flipped in most of our other solutions.  Outside of that oddity, this code is fairly simple and should be clear enough for our purposes.
+
 Score:
 
-- Accurate: possibly, we'll need to consider our use cases
-- Idiomatic: yes if we decide this suits our use case
+- Accurate: yes
+- Idiomatic: yes
 
 
 ### Dictionary concatenation
@@ -244,15 +251,13 @@ What if we simply concatenate our dictionaries?
 context = defaults + user
 ```
 
-This is cool, but it **isn't valid** and this syntax will probably never work.
-
-This feature was discussed in a [python-ideas thread][python-ideas] last year though.
+This is cool, but it **isn't valid**.  This was discussed in a [python-ideas thread][python-ideas] last year.
 
 Some of the concerns brought up in this thread include:
 
 - Maybe `|` makes more sense than `+` because dictionaries are more like sets
 - For duplicate keys, should the left-hand side or right-hand side win?
-- Should there be an `updated` built-in instead (kind of like `sorted`)?
+- Should there be an `updated` built-in instead (kind of like [sorted][])?
 
 Score:
 
@@ -278,7 +283,7 @@ Score:
 
 ## Summary
 
-There are a number of ways to combine multiple dictionaries, but there are few elegant ways to do this one one line of code.
+There are a number of ways to combine multiple dictionaries, but there are few elegant ways to do this with just one line of code.
 
 If you're using Python 3.5, this is the one obvious way to solve this problem:
 
@@ -286,7 +291,7 @@ If you're using Python 3.5, this is the one obvious way to solve this problem:
 context = {**defaults, **user}
 ```
 
-Clever solutions are rarely idiomatic.
+If you are not yet using Python 3.5, you'll need to review the solutions above to determine which is the most appropriate for your needs.
 
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
 [chainmap]: https://docs.python.org/3/library/collections.html#collections.ChainMap
@@ -299,3 +304,5 @@ Clever solutions are rarely idiomatic.
 [ChainMap remove]: https://gist.github.com/treyhunner/5260810b4cced03359d9
 [ChainMap alter]: https://gist.github.com/treyhunner/2abe2617ea029504ef8e
 [pythonic]: https://docs.python.org/3/glossary.html#term-pythonic
+[duck typing]: https://docs.python.org/3/glossary.html#term-duck-typing
+[sorted]: https://docs.python.org/3/library/functions.html#sorted
