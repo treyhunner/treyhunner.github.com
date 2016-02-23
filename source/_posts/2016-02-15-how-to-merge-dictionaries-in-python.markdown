@@ -119,7 +119,7 @@ This is just one line of code.  That's kind of cool.  However, this solution is 
 
 Beyond readability, there's an even bigger problem: **this solution is wrong.**
 
-The keys must be strings.  In Python 2.0 (with the CPython interpreter) we can get away with non-strings as keys, but don't be fooled: this is a hack that only works by accident in Python 2.0 using the standard CPython runtime.
+The keys must be strings.  In Python 2 (with the CPython interpreter) we can get away with non-strings as keys, but don't be fooled: this is a hack that only works by accident in Python 2 using the standard CPython runtime.
 
 Score:
 
