@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "How to Merge Dictionaries in Python"
-date: 2016-02-22 10:00:00 -0800
+date: 2016-02-23 11:00:00 -0800
 comments: true
-categories: 
+categories: python
 ---
 
 Have you ever wanted to combine two or more dictionaries in Python?
