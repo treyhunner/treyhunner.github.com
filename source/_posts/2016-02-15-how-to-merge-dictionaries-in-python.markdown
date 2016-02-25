@@ -26,6 +26,8 @@ We have some requirements:
 4. `defaults` and `user` should not change during the creation of `context`
 5. updates made to `context` should never alter `defaults` or `user`
 
+**Note**: In 5, we're focused on updates to the dictionary, not contained objects.  For concerns about mutability of nested objects, we should look into [copy.deepcopy][deepcopy].
+
 So we want something like this:
 
 ```pycon
@@ -323,3 +325,4 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 [performance]: https://gist.github.com/treyhunner/f35292e676efa0be1728
 [python training]: http://truthful.technology/
 [contact me]: mailto:hello@truthful.technology
+[deepcopy]: https://docs.python.org/3/library/copy.html#copy.deepcopy
