@@ -36,7 +36,7 @@ So we want something like this:
 {'website': 'http://treyhunner.com', 'name': 'Trey', 'page_name': 'Profile Page'}
 ```
 
-We'll also consider whether a solution is Pythonic.  This is a very subjective and often illusory measure.  Here are a few of the particular criterion we will use:
+We'll also consider whether a solution is Pythonic.  This is a very subjective and often illusory measure.  Here are a few of the particular criteria we will use:
 
 - The solution should be concise but not terse
 - The solution should be readable but not overly verbose
