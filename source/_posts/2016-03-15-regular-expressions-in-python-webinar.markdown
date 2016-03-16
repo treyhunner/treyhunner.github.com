@@ -10,7 +10,7 @@ Don't understand how regular expressions **work**?
 
 Having trouble making your regular expressions **readable**?
 
-I'm doing a 90 minute webinar to show you how to write **readable regular expression**.
+I'm doing a 90 minute webinar to show you how to write **readable regular expressions**.
 
 You can [sign up here](http://regex.eventbrite.com/?aff=blog).
 
@@ -19,7 +19,7 @@ You can [sign up here](http://regex.eventbrite.com/?aff=blog).
 
 Is this like a seminar?  Aren't seminars boring?  Seminars can be boring but I'm hoping this webinar will be fun.
 
-"Webinar" sounds lame, but I prefer it over "Wwworkshop".
+"Webinar" doesn't sound cool, but I prefer it over "Wwworkshop".
 
 This will basically be like **an online workshop**.  I'll demonstrate some concepts through live coding and explanations and we'll take a couple breaks to work through exercises together.  There will be a chat room so we can discuss the concepts and share our answers for each of the exercises.
 
