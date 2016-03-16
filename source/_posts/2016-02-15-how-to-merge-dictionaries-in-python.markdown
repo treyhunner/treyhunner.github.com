@@ -307,6 +307,8 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 
 **Note**: For those of you particularly concerned with performance, I also measured the [performance of these different dictionary merging methods][performance].
 
+If you're interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out [this deep merging technique][deep merge] from Mahmoud Hashemi.
+
 <br>I teach Python for a living.  If you like my teaching style and your team is interested in **[Python training][]**, please [contact me][]!
 
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
@@ -326,3 +328,4 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 [python training]: http://truthful.technology/
 [contact me]: mailto:hello@truthful.technology
 [deepcopy]: https://docs.python.org/3/library/copy.html#copy.deepcopy
+[deep merge]: https://gist.github.com/mahmoud/db02d16ac89fa401b968
