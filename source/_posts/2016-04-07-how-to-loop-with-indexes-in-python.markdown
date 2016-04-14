@@ -107,9 +107,9 @@ for num, name in enumerate(presidents, start=1):
     print("President {}: {}".format(num, name))
 ```
 
-Python's `enumerate` function gives us an iterable where each element is a tuple that contains the index of the item and the original item value.
+The `enumerate` function gives us an iterable where each element is a tuple that contains the index of the item and the original item value.
 
-The `enumerate` function is meant for solving the task of:
+This function is meant for solving the task of:
 
 1. Accessing each item in a list (or another iterable)
 2. Also getting the index of each item accessed
@@ -132,15 +132,13 @@ for i, color in enumerate(colors):
     print("{}% {}".format(ratio * 100, color))
 ```
 
-We only need the index in this scenario because we're using it to lookup a corresponding element from our second list.
+Note that we only need the index in this scenario because we're using it to lookup elements at the same index in our second list.  What we really want is to loop over two lists simultaneously: the indexes just provide a means to do that.
 
 ### zip
 
-We don't actually care about the index when looping here.  Our goal is actually to loop over two lists at once.
+We don't actually care about the index when looping here.  Our real goal is to loop over two lists at once.  This need is common enough that there's a special built-in function just for this.
 
-This use case of looping over multiple lists at once is common enough that there's a special function for this too.
-
-The `zip` function allows us to **loop over multiple lists at the same time**:
+Python's `zip` function allows us to **loop over multiple lists at the same time**:
 
 ```python
 colors = ["red", "green", "blue", "purple"]
@@ -149,9 +147,11 @@ for color, ratio in zip(colors, ratios):
     print("{}% {}".format(ratio * 100, color))
 ```
 
-The `zip` function takes multiple lists and returns an iterable that provides the corresponding elements of each list as we loop.
+The `zip` function takes multiple lists and returns an iterable that provides a tuple of the corresponding elements of each list as we loop over it.
 
 ## Looping cheat sheet
+
+Here's a very short looping cheat sheet that might help you remember the preferred construct for each of these three looping scenarios.
 
 Loop over a single list with a regular for-in:
 
@@ -176,15 +176,18 @@ for num, line in enumerate(lines):
 
 ## In Summary
 
-If you find yourself tempted to use `range(len(my_list))` or a loop counter, think about whether you can restructure your problem to use `zip`, `enumerate`, or a combination of the two.
+If you find yourself tempted to use `range(len(my_list))` or a loop counter, think about whether you can reframe your problem to allow usage of `zip` or `enumerate` (or a combination of the two).
 
 1. If you need to loop over multiple lists at the same time, use `zip`
 2. If you only need to loop over a single list just use a for-in loop
 3. If you need to loop over a list and you need item indexes, use `enumerate`
 
-Try using the cheat sheet above.
+If you find yourself struggling to figure out the best way to loop, try using the cheat sheet above.
+
+For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder's [Loop Like a Native][] presentation.
 
 Happy looping!
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
 [foreach]: https://en.wikipedia.org/wiki/Foreach_loop
+[loop like a native]: http://nedbatchelder.com/text/iter.html
