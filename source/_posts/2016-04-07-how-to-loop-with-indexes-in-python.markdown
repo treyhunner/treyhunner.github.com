@@ -81,13 +81,13 @@ So instead of retrieving the item indexes and looking up each element, we can ju
 
 The other two methods we discussed are sometimes referred to as [anti-patterns][] because they are programming patterns which are widely considered unidiomatic.
 
-## We need indexes
+## What if we need indexes?
 
 What if we actually need the indexes?  For example, let's say we're printing out president names along with their numbers (based on list indexes).
 
 ### range of length
 
-We could use `range(len(colors))` and then lookup `colors[i]` like before:
+We could use `range(len(our_list))` and then lookup the index like before:
 
 ```python
 presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
@@ -116,7 +116,7 @@ This function is meant for solving the task of:
 
 So whenever we need item indexes while looping, we should think of `enumerate`.
 
-## We need to loop over multiple things
+## What if we need to loop over multiple things?
 
 Often when we use list indexes, it's to look something up in another list.
 
