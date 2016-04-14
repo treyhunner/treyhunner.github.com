@@ -83,16 +83,16 @@ The other two methods we discussed are sometimes referred to as [anti-patterns][
 
 ## We need indexes
 
-What if we actually need the indexes?  For example, let's say we're printing out the index that each color is at while we loop.
+What if we actually need the indexes?  For example, let's say we're printing out president names along with their numbers (based on list indexes).
 
 ### range of length
 
 We could use `range(len(colors))` and then lookup `colors[i]` like before:
 
 ```python
-colors = ["red", "green", "blue", "purple"]
-for i in range(len(colors)):
-    print("color {} is {}".format(i, colors[i]))
+presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
+for i in range(len(presidents)):
+    print("President {}: {}".format(i + 1, presidents[i]))
 ```
 
 But there's a more idiomatic way to accomplish this task: use the `enumerate` function.
@@ -102,9 +102,9 @@ But there's a more idiomatic way to accomplish this task: use the `enumerate` fu
 Python's built-in `enumerate` function allows us to loop over a list and retrieve both the index and the value of each item in the list:
 
 ```python
-colors = ["red", "green", "blue", "purple"]
-for i, color in enumerate(colors):
-    print("color {} is {}".format(i, color))
+presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
+for num, name in enumerate(presidents, start=1):
+    print("President {}: {}".format(num, name))
 ```
 
 Python's `enumerate` function gives us an iterable where each element is a tuple that contains the index of the item and the original item value.
