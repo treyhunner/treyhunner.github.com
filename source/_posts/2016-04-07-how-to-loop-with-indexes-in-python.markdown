@@ -6,9 +6,9 @@ comments: true
 categories: python
 ---
 
-If you're moving to Python from C or Java, you might be confused by Python's `for` loops.  **Python doesn't actually have for loops**... at least not the same kind of `for` loop that C-based languages have.
+If you're moving to Python from C or Java, you might be confused by Python's `for` loops.  **Python doesn't actually have for loops**... at least not the same kind of `for` loop that C-based languages have.  Python's `for` loops are actually [foreach loops][foreach].
 
-Python's `for` loops are actually [foreach loops][foreach].  Instead of incrementing a list index repeatedly, Python's `for` loops iterate over the actual indexes in a list.
+In this article I'll compare Python's `for` loops to those of other languages and discuss the usual ways we solve common problems with `for` loops in Python.
 
 ## For loops in other languages
 
@@ -21,13 +21,13 @@ for (var i = 0; i < colors.length; i++) {
 }
 ```
 
-This loop looks nearly identical in C/C++ and Java.
+This JavaScript loop looks nearly identical in C/C++ and Java.
 
 In this loop we:
 
-1. Set a counter variable (`i`) to 0
+1. Set a counter variable `i` to 0
 2. Check if the counter is less than the array length
-3. Execute the code in the loop or break if counter is too high
+3. Execute the code in the loop *or* exit the loop if the counter is too high
 4. Increment the counter variable by 1
 
 
@@ -67,9 +67,9 @@ This provides us with the index of each item in our `colors` list, which is the 
 
 ### for-in: the usual way
 
-Both the while loop and range-of-len methods rely on looping over indexes.  But we only care about these indexes for the purpose of retrieving each element in our list.
+Both the while loop and range-of-len methods rely on looping over indexes.  Note that we don't actually care about these indexes: we're only using the indexes for the purpose of retrieving elements from our list.
 
-Since we don't actually need the indexes in our loop, there's a much simpler method of looping we can use:
+Because we don't actually care about the indexes in our loop, there is **a much simpler method of looping** we can use:
 
 ```python
 colors = ["red", "green", "blue", "purple"]
@@ -77,9 +77,9 @@ for color in colors:
     print(color)
 ```
 
-Instead of retrieving the item indexes and looking up each element, we just loop over our list using a for-in loop.
+So instead of retrieving the item indexes and looking up each element, we can just loop over our list using a plain for-in loop.
 
-The other two methods we discussed are [anti-patterns][] because they may appear to be programming patterns, but they're not concerned idiomatic.
+The other two methods we discussed are sometimes referred to as [anti-patterns][] because they are programming patterns which are widely considered unidiomatic.
 
 ## We need indexes
 
@@ -129,7 +129,7 @@ colors = ["red", "green", "blue", "purple"]
 ratios = [0.2, 0.3, 0.1, 0.4]
 for i, color in enumerate(colors):
     ratio = ratios[i]
-    print("{}% {}".fromat(ratio * 100, color))
+    print("{}% {}".format(ratio * 100, color))
 ```
 
 We only need the index in this scenario because we're using it to lookup a corresponding element from our second list.
@@ -146,7 +146,7 @@ The `zip` function allows us to **loop over multiple lists at the same time**:
 colors = ["red", "green", "blue", "purple"]
 ratios = [0.2, 0.3, 0.1, 0.4]
 for color, ratio in zip(colors, ratios):
-    print("{}% {}".fromat(ratio * 100, color))
+    print("{}% {}".format(ratio * 100, color))
 ```
 
 The `zip` function takes multiple lists and returns an iterable that provides the corresponding elements of each list as we loop.
