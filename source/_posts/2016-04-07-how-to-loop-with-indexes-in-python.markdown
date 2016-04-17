@@ -116,6 +116,8 @@ This function is meant for solving the task of:
 
 So whenever we need item indexes while looping, we should think of `enumerate`.
 
+**Note**: the `start=1` option to `enumerate` here is optional.  If we didn't specify this, we'd start counting at `0` by default.
+
 ## What if we need to loop over multiple things?
 
 Often when we use list indexes, it's to look something up in another list.
@@ -149,6 +151,8 @@ for color, ratio in zip(colors, ratios):
 
 The `zip` function takes multiple lists and returns an iterable that provides a tuple of the corresponding elements of each list as we loop over it.
 
+Note that `zip` with different size lists will stop after the shortest list runs out of items.  You may want to look into [itertools.zip_longest][] if you need different behavior.  Also note that `zip` in Python 2 returns a list but `zip` in Python 3 returns a lazy iterable.  In Python 2, `itertools.izip` is equivalent to the newer Python 3 `zip` function.
+
 ## Looping cheat sheet
 
 Here's a very short looping cheat sheet that might help you remember the preferred construct for each of these three looping scenarios.
@@ -178,6 +182,8 @@ for num, line in enumerate(lines):
 
 If you find yourself tempted to use `range(len(my_list))` or a loop counter, think about whether you can reframe your problem to allow usage of `zip` or `enumerate` (or a combination of the two).
 
+In fact, if you find yourself reaching for `enumerate`, think about whether you actually need indexes at all.  It's quite rare to need indexes in Python.
+
 1. If you need to loop over multiple lists at the same time, use `zip`
 2. If you only need to loop over a single list just use a for-in loop
 3. If you need to loop over a list and you need item indexes, use `enumerate`
@@ -191,3 +197,4 @@ Happy looping!
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
 [foreach]: https://en.wikipedia.org/wiki/Foreach_loop
 [loop like a native]: http://nedbatchelder.com/text/iter.html
+[itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
