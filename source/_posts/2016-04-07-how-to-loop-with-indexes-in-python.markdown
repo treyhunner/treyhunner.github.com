@@ -192,9 +192,13 @@ If you find yourself struggling to figure out the best way to loop, try using th
 
 For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder's [Loop Like a Native][] presentation.
 
+Thanks [Steven Kryskalla][] and [Diane Chen][] for proof-reading this post.
+
 Happy looping!
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
 [foreach]: https://en.wikipedia.org/wiki/Foreach_loop
 [loop like a native]: http://nedbatchelder.com/text/iter.html
 [itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
+[Steven Kryskalla]: http://lost-theory.org/
+[Diane Chen]: http://purplediane.github.io/
