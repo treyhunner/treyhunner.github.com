@@ -164,14 +164,14 @@ Loop over multiple lists at the same time with `zip`:
 
 ```python
 for header, rows in zip(headers, columns):
-    print("{}: {}".fromat(header, ", ".join(rows)))
+    print("{}: {}".format(header, ", ".join(rows)))
 ```
 
 Loop over a list while keeping track of indexes with `enumerate`:
 
 ```python
 for num, line in enumerate(lines):
-    print("{0:03d}: {}".fromat(num, line))
+    print("{0:03d}: {}".format(num, line))
 ```
 
 ## In Summary
