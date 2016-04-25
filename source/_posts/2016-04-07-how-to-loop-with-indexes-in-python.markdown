@@ -67,7 +67,7 @@ This provides us with the index of each item in our `colors` list, which is the 
 
 ### for-in: the usual way
 
-Both the while loop and range-of-len methods rely on looping over indexes.  Note that we don't actually care about these indexes: we're only using the indexes for the purpose of retrieving elements from our list.
+Both the while loop and range-of-len methods rely on looping over indexes.  But we don't actually care about the indexes: we're only using these indexes for the purpose of retrieving elements from our list.
 
 Because we don't actually care about the indexes in our loop, there is **a much simpler method of looping** we can use:
 
