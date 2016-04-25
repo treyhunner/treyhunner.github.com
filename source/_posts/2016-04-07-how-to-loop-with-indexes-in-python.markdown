@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to loop with indexes in Python"
-date: 2016-04-07 09:59:03 -0700
+date: 2016-04-25 09:00:00 -0700
 comments: true
 categories: python
 ---
