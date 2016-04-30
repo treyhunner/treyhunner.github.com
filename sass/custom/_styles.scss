@@ -48,3 +48,34 @@ body #mc_embed_signup {
     }
 }
 pre.line-numbers { display: none; }
+
+.subscribe-email {
+    display: inline-block;
+    line-height: 1.25;
+
+    padding: 0.25rem 0.5rem;
+
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.2rem;
+}
+
+.subscribe-btn {
+    display: inline-block;
+    line-height: 1.25;
+
+    cursor: pointer;
+    user-select: none;
+
+    padding: 0.25rem 0.5rem;
+
+    color: #fff;
+    background-color: #5cb85c;
+
+    border: 1px solid #5cb85c;
+    border-radius: 0.2rem;
+}
