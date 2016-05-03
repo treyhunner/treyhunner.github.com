@@ -14,6 +14,8 @@ I'm doing a 90 minute webinar to show you how to write **readable regular expres
 
 You can [sign up here](http://regex.eventbrite.com/?aff=blog).
 
+**May 2015 Update**: the webinar was recorded and you can watch it by signing up at the same link.  The second half of this webinar event will be held this Saturday May 7 at 9am Pacific Time and is also accessible from the same link.
+
 
 ## What's a webinar?
 
