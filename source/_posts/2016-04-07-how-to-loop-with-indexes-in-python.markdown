@@ -194,6 +194,8 @@ For more a more detailed explanation of the fundamentals of looping in Python, s
 
 Thanks [Steven Kryskalla][] and [Diane Chen][] for proof-reading this post.
 
+**Update**: If you're interested in learning how to make your own Python objects that can be looped over, you may want to watch the [operator overloading chat][chat] I held on April 30, 2016.
+
 Happy looping!
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
@@ -202,3 +204,4 @@ Happy looping!
 [itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
 [Steven Kryskalla]: http://lost-theory.org/
 [Diane Chen]: http://purplediane.github.io/
+[chat]: https://www.crowdcast.io/e/operator-overloading
