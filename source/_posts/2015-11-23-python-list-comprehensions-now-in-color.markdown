@@ -12,6 +12,8 @@ List comprehensions in Python are great, but mastering them can be tricky becaus
 
 Let's learn what list comprehensions are and how to identify when to use them.
 
+**Update**: I held a 1 hour [video chat about list comprehensions][crowdcast] which extends the material in this article.  If you want more after reading this post, check out the recording.
+
 
 ## What are list comprehensions?
 
@@ -294,9 +296,10 @@ Can be rewritten into a list comprehension like this:
 
 If you can nudge a `for` loop until it looks like the ones above, you can rewrite it as a list comprehension.
 
-This blog post was based on my Intro to Python class.  If you're interested in chatting about my [Python training services][], [drop me a line][].
+This article was based on my Intro to Python class.  If you're interested in chatting about my [Python training services][], [drop me a line][].
 
 
+[crowdcast]: http://ccst.io/e/list-comprehensions
 [iterable]: https://docs.python.org/3/glossary.html#term-iterable
 [class]: https://www.youtube.com/watch?v=u-mhKtC1Xh4
 [class-list]: https://youtu.be/u-mhKtC1Xh4?t=3m30s
