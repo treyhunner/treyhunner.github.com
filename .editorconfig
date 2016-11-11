@@ -5,6 +5,10 @@ root = true
 
 ; Use 2 spaces for indentation in all Ruby files
 
+[*.markdown]
+indent_style = space
+indent_size = 4
+
 [*.rb]
 indent_style = space
 indent_size = 2
