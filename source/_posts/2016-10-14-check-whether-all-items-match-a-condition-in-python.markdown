@@ -136,7 +136,9 @@ Using a list comprehension means we build up a list of `True` and `False` values
 
 Does that mean we should we give up on using a list comprehension?  No!  We that means we should turn our list comprehension into a generator expression.
 
-A [generator expression][]
+A generator expression is like a list comprehension, but instead of making a list it makes a generator.
+
+Okay but what's a generator?  A [generator][] is a **lazy iterable**: generators don't compute the items they contain until you loop over them.
 
 ## Finding Primes: The Rewrite
 
@@ -173,5 +175,5 @@ TODO: note any(a == x for a in i) is the same as "x" in it
 [proposal]: https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010
 [discussion]: https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010
 [list comprehensions]: http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
-[generator expression]: https://www.crowdcast.io/e/generators
+[generator]: https://www.crowdcast.io/e/generators
 [truthiness]: https://www.crowdcast.io/e/truthiness
