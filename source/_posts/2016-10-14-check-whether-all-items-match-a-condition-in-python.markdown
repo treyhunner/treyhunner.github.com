@@ -198,6 +198,17 @@ I prefer this second approach (a generator expression with `all`) because I find
 
 We're checking to see whether "all numbers in a range are not divisors of our candidate number".  That sounds quite a bit more like English to me than "loop over all numbers in a range and return False if a divisor is found otherwise return True".
 
+If you don't find the behavior of `all` intuitive, you might find it easier to understand (and more English-like) when used with `if`:
+
+```python
+if all(condition(item) for item in iterable):
+    message = "All good"
+else:
+    message = "Bad value found"
+```
+
+You can always reformat your code to use an `if` statement if you find it more readable.
+
 
 ## `any` or `all`
 
