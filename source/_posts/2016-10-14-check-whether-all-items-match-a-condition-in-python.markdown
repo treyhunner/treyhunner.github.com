@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Check whether all items match a condition in Python"
-date: 2016-10-14 21:11:33 -0700
+date: 2016-12-29 10:00:00 -0800
 comments: true
 categories: python
 ---
