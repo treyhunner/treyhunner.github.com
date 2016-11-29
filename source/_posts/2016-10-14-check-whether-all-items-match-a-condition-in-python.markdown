@@ -68,7 +68,7 @@ The `all` built-in function is equivalent to this:
 ```python
 def all(iterable):
     for element in iterable:
-        if element:
+        if not element:
             return False
     return True
 ```
@@ -263,7 +263,7 @@ Anytime you see code like this:
 ```python
 all_good = True
 for item in iterable:
-    if condition(item)
+    if not condition(item)
         all_good = False
         break
 ```
