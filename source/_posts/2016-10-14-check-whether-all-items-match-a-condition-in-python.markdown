@@ -6,14 +6,14 @@ comments: true
 categories: python
 ---
 
-In this article, we're going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern.
+In this article, we're going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗
 
 We'll be discussing how to make code with this shape a little more descriptive:
 
 ```python
 all_good = True
 for item in iterable:
-    if condition(item)
+    if condition(item):
         all_good = False
         break
 ```
@@ -274,7 +274,7 @@ Anytime you see code like this:
 ```python
 all_good = True
 for item in iterable:
-    if not condition(item)
+    if not condition(item):
         all_good = False
         break
 ```
@@ -293,7 +293,7 @@ Anytime you see code like this:
 ```python
 any_good = False
 for item in iterable:
-    if condition(item)
+    if condition(item):
         any_good = True
         break
 ```
@@ -311,7 +311,7 @@ Note that `break` is used in the code above because we're not returning from a f
 
 Python's `any` and `all` functions were *made* for use with generator expressions (discussion [here][proposal] and [here][discussion]).  You can use `any` and `all` without generator expressions, but I don't find a need for that as often.
 
-**Quick note**: `any(item == 'something' for item in iterable)` is the same as `'something' in iterable`.  Don't use `all`/`any` for checking containment, use `in`. 😄
+**Quick note**: `any(item == 'something' for item in iterable)` is the same as `'something' in iterable`.  Don't use `all`/`any` for checking containment, use `in`.
 
 
 ## Conclusion: code style in a process
@@ -320,7 +320,7 @@ As you discover new Python idioms and new language features are invented, your c
 
 I hope I've inspired you to embrace the use of `any`/`all` with generator expressions for improved readability and code clarity.
 
-Have a question about code style?  Have a thought about `any`, `all`, and generator expressions?  Please [tweet me][], [email me][], or comment below.
+Have a question about code style?  Have a thought about `any`, `all`, and generator expressions?  Please [tweet me][], [email me][], or comment below. 😄
 
 
 [square root check]: http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176
