@@ -13,7 +13,7 @@ We'll be discussing how to make code with this shape a little more descriptive:
 ```python
 all_good = True
 for item in iterable:
-    if condition(item):
+    if not condition(item):
         all_good = False
         break
 ```
