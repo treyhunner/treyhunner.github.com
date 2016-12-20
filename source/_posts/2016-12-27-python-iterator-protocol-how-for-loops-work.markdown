@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Python without for loops: how iteration works"
-date: 2016-10-18 15:02:12 -0700
+title: "The iterator protocol: how for loops work in Python"
+date: 2016-12-27 09:00:00 -0800
 comments: true
 categories: python
 ---
