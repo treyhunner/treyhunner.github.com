@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "The iterator protocol: how for loops work in Python"
-date: 2016-12-27 09:00:00 -0800
+date: 2016-12-28 11:00:00 -0800
 comments: true
 categories: python
 ---
 
 We're interviewing for a job and our interviewer has asked us to remove all `for` loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We're nervous and frustrated about being assigned this ridiculous task, but we'll try our best.
 
-To understand how to loop without a `for` loop, we'll need to discover makes `for` loops tick.
+To understand how to loop without a `for` loop, we'll need to discover what makes `for` loops tick.
 
 We're about to learn how `for` loops work in Python.  Along the way we'll need to learn about iterables, iterators, and the iterator protocol.  Let's loop. ➿
 
@@ -130,7 +130,7 @@ That fact leads to some interesting consequences that we don't have time to go i
 
 ## The Iterator Protocol
 
-The **iterator protocol** is a fancy term meaning "how do iterables actually work in Python".
+The **iterator protocol** is a fancy term meaning "how iterables actually work in Python".
 
 Let's redefine iterables from Python's perspective.
 
@@ -193,7 +193,7 @@ The iterator protocol is used by `for` loops, tuple unpacking, and all built-in 
 
 ## For loops: more complex than they seem
 
-So we could complete the very silly task assigned to us (removing all `for` loops from some code) by manually using `iter` and `next` to loop over iterables.  What did we learn in exploring this task?
+We're not ready to complete the very silly task our interviewer assigned to us.  We'll remove all `for` loops from our code by manually using `iter` and `next` to loop over iterables.  What did we learn in exploring this task?
 
 Everything you can loop over is an **iterable**.  Looping over iterables works via getting an **iterator** from an iterable and then repeatedly asking the iterator for the next item.
 
