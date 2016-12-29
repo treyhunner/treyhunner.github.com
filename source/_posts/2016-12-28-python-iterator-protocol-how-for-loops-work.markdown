@@ -193,7 +193,7 @@ The iterator protocol is used by `for` loops, tuple unpacking, and all built-in 
 
 ## For loops: more complex than they seem
 
-We're not ready to complete the very silly task our interviewer assigned to us.  We'll remove all `for` loops from our code by manually using `iter` and `next` to loop over iterables.  What did we learn in exploring this task?
+We're now ready to complete the very silly task our interviewer assigned to us.  We'll remove all `for` loops from our code by manually using `iter` and `next` to loop over iterables.  What did we learn in exploring this task?
 
 Everything you can loop over is an **iterable**.  Looping over iterables works via getting an **iterator** from an iterable and then repeatedly asking the iterator for the next item.
 
