@@ -6,6 +6,96 @@ comments: true
 categories: 
 ---
 
+I've written about [the iterator protocol][]: we talked about iterators, iterables, and how `for` loops work.
+
+Even if you're familiar with the iterator protocol, you may not really understand how iterators behave at an intuitive level.  As children, we form our intuitions about the world through play.  We can do the same thing as adults.
+
+Let's play with iterators!
+
+
+## Iterators are single-use
+
+You can think of iterators as single-use iterables.
+
+```python
+from itertools import count
+multiples_of_five = count(step=5)
+```
+
+
+## Iterators & zip
+
+What happens when we zip iterators together?
+
+```pycon
+>>> numbers = [1, 2, 3, 4, 5]
+>>> a = iter(numbers)
+>>> b = iter(numbers)
+>>> c = zip(a, b)
+>>> list(c)
+[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+```
+
+When we zip iterators together, we get a list of tuples of the elements in each iterator.  That's pretty much the same thing that happens when we zip any two iterables together (if you're unfamiliar with zip, see the article I wrote on [looping with indexes][]).
+
+What would happen if we zipped an iterator to itself?
+
+```pycon
+>>> numbers = [1, 2, 3, 4, 5]
+>>> i = iter(numbers)
+>>> z = zip(i, i)
+>>> list(z)
+[(1, 2), (3, 4)]
+```
+
+That's weird... it grouped items in two-tuples.  What's going on here?
+
+Remember that as we loop over iterators, we consume items from them.
+
+You can think of the `zip` function like this:
+
+```python
+def zip(*iterables):
+    iterators = [iter(it) for it in iterables]
+    while iterators:
+        try:
+            yield tuple([next(it) for it in iterators])
+        except StopIteration:
+            return
+```
+
+So `zip`:
+
+1. Gets iterators for each given iterable
+2. Calls `next` on each iterator repeatedly until one is exhausted
+
+Remember that iterators are their own iterator.  So calling `iter` on an iterator will always return itself.
+
+```pycon
+>>> numbers = [1, 2, 3, 4, 5]
+>>> a = iter(numbers)
+>>> b = iter(numbers)
+>>> a is b
+False
+>>> iter(a) is a
+True
+```
+
+Because calling `iter` on an iterator will always return itself, calling `next` on each of the iterators in `zip` will consume each item from the same iterator.  This is an implementation detail of the way `zip` works.
+
+This isn't a bug in `zip` though.  The `zip` function is simply relying on the iterator protocol.  There's not really any other way `zip` could work!
+
+
+## Iterators and containment
+
+reverse iterator and ask about containment
+
+
+## Iterators and equality
+
+ask two iterators whether they're equal to each other
+
+
 ## TODO Random stuff to delete
 
 The key to looping over our `multiples_of_five` iterable is `next`:
@@ -68,13 +158,10 @@ True
 ```
 
 
+## Iterators are lazy
 
-## Iterators are single-use lazy iterables
+TODO
 
-You can think of iterators as single-use iterables.
 
-```python
-from itertools import count
-multiples_of_five = count(step=5)
-```
-
+[the iterator protocol]: http://localhost:9000/2016/12/python-iterator-protocol-how-for-loops-work/
+[looping with indexes]: http://localhost:9000/2016/04/how-to-loop-with-indexes-in-python/
