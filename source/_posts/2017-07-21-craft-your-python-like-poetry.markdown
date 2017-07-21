@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-Line length is a big deal in programming... we argue about it quite a bit.  PEP 8, the Python style guide, recommends a [79 character maximum line length][PEP8 line length] but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.
+Line length is a big deal... programmers argue about it quite a bit.  PEP 8, the Python style guide, recommends a [79 character maximum line length][PEP8 line length] but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.
 
 So 79 characters is recommended... but isn't line length completely obsolete?  After all, programmers are no longer restricted by [punch cards][], [teletypes][], and 80 column [terminals][].  The laptop screen I'm typing this on can fit about 200 characters per line.
 
@@ -237,7 +237,7 @@ MONTHS = {'January': 1,
           'December': 12}
 ```
 
-And the same dictionary again, with each key-value pair indented instead of aligned (with a training comma on the last line as well):
+And the same dictionary again, with each key-value pair indented instead of aligned (with a trailing comma on the last line as well):
 
 ```python
 MONTHS = {
@@ -265,7 +265,7 @@ The moment of peak readability is the moment just after you write a line of code
 
 When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don't write a statement on a single line unless it's already *very* clear.  If you break each line over multiple lines for clarity, lines length shouldn't be a major concern because your lines of code will mostly be far shorter than 79 characters already.
 
-Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up then you will right now.  So take that line of code you just wrote and add carefully add line breaks to it.
+Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up then you will right now.  So take that line of code you just wrote and carefully add line breaks to it.
 
 
 [punch cards]: https://en.wikipedia.org/wiki/Punched_card
