@@ -26,7 +26,7 @@ Python code isn't structured like prose.  English prose is structured in flowing
 
 Python code is more like poetry than prose.  Poets and Python programmers don't wrap lines once they hit an arbitrary length; they wrap lines when they make sense for readability and beauty.
 
-Don't wrap lines arbitrarily: always wrap with readability in mind.
+Don't wrap lines arbitrarily: **always wrap with readability in mind**.
 
 ## Examples
 
@@ -205,7 +205,7 @@ A fully indentation-based style works too (we've also moved `objects` to its own
 
 There are yet more ways to resolve this problem.  For example we could try to use intermediary variables to avoid line wrapping entirely.
 
-Chained methods pose a different problem for line wrapping than single method calls and require a different solution.  Focus on readability when picking a preferred solution and be consistent with the solution you pick.
+Chained methods pose a different problem for line wrapping than single method calls and require a different solution.  Focus on readability when picking a preferred solution and be consistent with the solution you pick.  **Consistency lies at the heart of readability**.
 
 
 ### Example: Dictionary Literals
@@ -261,11 +261,11 @@ This is the strategy I prefer for wrapping long dictionaries and lists.  I very 
 
 ## Python is Poetry
 
-The moment of peak readability is the moment just after you write a line of code.  Your code will be far less readable to you one day, one week, and one month after you've written it.
+The moment of **peak readability** is **the moment just after you write a line of code**.  Your code will be far less readable to you one day, one week, and one month after you've written it.
 
 When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don't write a statement on a single line unless it's already *very* clear.  If you break each line over multiple lines for clarity, lines length shouldn't be a major concern because your lines of code will mostly be far shorter than 79 characters already.
 
-Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up then you will right now.  So take that line of code you just wrote and carefully add line breaks to it.
+Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will right now.  So take that line of code you just wrote and carefully add line breaks to it.
 
 
 [punch cards]: https://en.wikipedia.org/wiki/Punched_card
