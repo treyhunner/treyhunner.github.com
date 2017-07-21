@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Craft Your Python Like Poetry"
-date: 2017-07-21 08:00:00 -0700
+date: 2017-07-21 11:00:00 -0700
 comments: true
 categories: 
 ---
@@ -26,7 +26,28 @@ Python code isn't structured like prose.  English prose is structured in flowing
 
 Python code is more like poetry than prose.  Poets and Python programmers don't wrap lines once they hit an arbitrary length; they wrap lines when they make sense for readability and beauty.
 
-Don't wrap lines arbitrarily: **always wrap with readability in mind**.
+    I stand amid the roar Of a surf-tormented shore, And I hold within my hand
+    Grains of the golden sand— How few! yet how they creep Through my fingers to
+    the deep, While I weep—while I weep! O God! can I not grasp Them with a
+    tighter clasp? O God! can I not save One from the pitiless wave? Is all that we
+    see or seem But a dream within a dream?
+
+Don't wrap lines arbitrarily. Craft each line with care to help readers **experience your code exactly the way you intended**.
+
+    I stand amid the roar
+    Of a surf-tormented shore,
+    And I hold within my hand
+    Grains of the golden sand—
+    How few! yet how they creep
+    Through my fingers to the deep,
+    While I weep—while I weep!
+    O God! can I not grasp
+    Them with a tighter clasp?
+    O God! can I not save
+    One from the pitiless wave?
+    Is all that we see or seem
+    But a dream within a dream?
+
 
 ## Examples
 
@@ -265,7 +286,7 @@ The moment of **peak readability** is **the moment just after you write a line o
 
 When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don't write a statement on a single line unless it's already *very* clear.  If you break each line over multiple lines for clarity, lines length shouldn't be a major concern because your lines of code will mostly be far shorter than 79 characters already.
 
-Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will right now.  So take that line of code you just wrote and carefully add line breaks to it.
+Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will **right now**.  So take that line of code you just wrote and carefully add line breaks to it.
 
 
 [punch cards]: https://en.wikipedia.org/wiki/Punched_card
