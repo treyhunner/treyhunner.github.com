@@ -3,7 +3,7 @@ layout: post
 title: "Craft Your Python Like Poetry"
 date: 2017-07-21 11:00:00 -0700
 comments: true
-categories: 
+categories: python, readability
 ---
 
 Line length is a big deal... programmers argue about it quite a bit.  PEP 8, the Python style guide, recommends a [79 character maximum line length][PEP8 line length] but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.
