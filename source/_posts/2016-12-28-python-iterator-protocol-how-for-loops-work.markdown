@@ -3,7 +3,7 @@ layout: post
 title: "The iterator protocol: how for loops work in Python"
 date: 2016-12-28 11:00:00 -0800
 comments: true
-categories: python
+categories: python favorite
 ---
 
 We're interviewing for a job and our interviewer has asked us to remove all `for` loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We're nervous and frustrated about being assigned this ridiculous task, but we'll try our best.

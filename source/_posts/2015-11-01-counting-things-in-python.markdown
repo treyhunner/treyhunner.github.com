@@ -3,7 +3,7 @@ layout: post
 title: "Counting things in Python: a history"
 date: 2015-11-09 12:30:00 -0700
 comments: true
-categories: python
+categories: python favorite
 ---
 
 Sometimes the [Pythonic][] way to solve a problem changes over time.  As Python has evolved, so has the Pythonic way to count list items.

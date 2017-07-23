@@ -3,7 +3,7 @@ layout: post
 title: "Python List Comprehensions: Explained Visually"
 date: 2015-12-01 10:30:00 -0800
 comments: true
-categories: python
+categories: python favorite
 ---
 
 Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python's [list comprehensions][] are a prime example of such a syntactic sugar.
