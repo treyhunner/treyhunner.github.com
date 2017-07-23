@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Craft Your Python Like Poetry"
-date: 2017-07-21 11:00:00 -0700
+date: 2017-07-23 09:00:00 -0700
 comments: true
 categories: python, readability
 ---
