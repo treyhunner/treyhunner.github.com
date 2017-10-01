@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="I recently added a new type of test to my testing arsenal: visual tests. Visual tests ensure the CSS, markup, and JavaScript produce a webpage that &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/page22">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/10/visual-integration-tests-for-django/">Visual Integration Tests for Django</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-10-03T15:19:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>3:19 pm</span></time>
+        
+           | <a href="/2013/10/visual-integration-tests-for-django/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/10/visual-integration-tests-for-django/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.</p>
+
+<h2>Visual testing frameworks</h2>
+
+<p>Visual testing tools compare screenshots to ensure tested webpages look pixel perfect.  Capturing webpage screenshots requires a full-featured web browser to render CSS and execute JavaScript.  All three of the visual testing tools I found rely on Selenium or PhantomJS for rendering.</p>
+
+<h3>PhantomCSS</h3>
+
+<p><a href="https://github.com/Huddle/PhantomCSS">PhantomCSS</a> uses PhantomJS for screenshot differencing.  PhantomCSS won&rsquo;t integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you&rsquo;d need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I needed integration with the Django live server.</p>
+
+<h3>Django-casper</h3>
+
+<p><a href="https://github.com/dobarkod/django-casper">Django-casper</a> uses Django live server tests to execute CasperJS test files (which use PhantomJS) to compare screenshots.  Each test requires an additional Python test which references a JavaScript file that executes the navigation and screenshotting code.  I found this approach messy and difficult to setup.</p>
+
+<h3>Needle</h3>
+
+<p>The <a href="https://github.com/bfirsh/needle">needle</a> Python library uses Selenium to navigate your website and screenshot rendered pages.  Unfortunately needle has poor test coverage, a seemingly failing test suite, and no change log.  Despite these shortcomings, I went with needle for my visual integration tests because it got the job done.</p>
+
+<h2>Django and Needle</h2>
+
+<p>I used the following mixin to integrate the Django live server with needle.  I used PhantomJS, but Firefox or another Selenium web driver should work as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">LiveServerTestCase</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">needle.cases</span> <span class="kn">import</span> <span class="n">NeedleTestCase</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="kn">import</span> <span class="n">PhantomJS</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">DjangoNeedleTestCase</span><span class="p">(</span><span class="n">NeedleTestCase</span><span class="p">,</span> <span class="n">LiveServerTestCase</span><span class="p">):</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Needle test case for use with Django live server&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">driver</span> <span class="o">=</span> <span class="n">PhantomJS</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@classmethod</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">get_web_driver</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="s">&#39;NeedleWebDriver&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">NeedleWebDriverMixin</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">driver</span><span class="p">),</span> <span class="p">{})()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unfortunately the above code only works with the version of needle on Github.  The PyPI version does not yet include the <code>NeedleWebDriverMixin</code> (which I contributed recently for Django support).  I have created <a href="https://github.com/bfirsh/needle/issues/13">an issue</a> suggesting a new PyPI release be made to resolve this problem.</p>
+
+<h2>Room for improvement</h2>
+
+<p>Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may run them during continuous integration.</p>
+
+<p>Do you have another solution for visual integration testing?  Let me know in the comments.</p>
+</div>
+  
+  <footer>
+  
+    <br>
+    <p>
+    👉  Want to find out what else there is to learn <strong><a href="http://eepurl.com/bFGUGT">subscribe to my email list</a></strong>! 👈
+    </p>
+  
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page23">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page21">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+==================================================================
+https://keybase.io/treyhunner
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://treyhunner.com
+  * I am treyhunner (https://keybase.io/treyhunner) on keybase.
+  * I have a public key with fingerprint 169A BEE4 05D0 E198 27FA  2F2F EA67 7E9F CDAD EA27
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "169abee405d0e19827fa2f2fea677e9fcdadea27",
+            "host": "keybase.io",
+            "key_id": "ea677e9fcdadea27",
+            "kid": "0101a6ce8ff19c9ae694e2d0413c528d1c87718506832b91adfc30c427cca1645b640a",
+            "uid": "eaa4001361ada7fccb609b73b7d8e100",
+            "username": "treyhunner"
+        },
+        "service": {
+            "hostname": "treyhunner.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1421215105,
+    "expire_in": 157680000,
+    "prev": "8c00170eb093abf4d557a19e773308e2629644c48c9574ff0c838457971611f1",
+    "seqno": 6,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v1
+
+owFtkl1IFFEUx3ettYxy66EwVgwHS8JF752vO7OlZIiGrUhRQUVsd+7cWSdrZpud
+3dy+KAgiCvJFKQqKiHoII5M+oBD7oi8qN4iSyOzFaH2woKwwsztRT3VfLvec3/9/
+7jmc9llTfHn+XHzvqSdduXL/4w+ab83VwIFdnGbrGS6yi2ulvy/DtOLUSTim5XIR
+Dsoq1igVgaQDClWFRwbmDd6gWEaIqgbRsU4xj7gw12InPQWz0XCSVpo2i7FHzNRZ
+9D986+8EgABimVDFMKBKVExlVaS8DkQoEIlXdEgUhKAiAVkReE2FWDeIAIjII0Iw
+lEVJk0WAmV3qTx0sAgAFmYEYGYRoMlA1JGhIVygEwAOT1LHwNspo16GZlpRlUYfb
+E+ZYPG0S6g3B6+UfppLY25g+4diuTeytLNfiuomIJ3UzCY/dQbXYH5eYZlo6GyUT
+pKmTNG2Li0BGEtf0bKHIQx5KEEhhjrYlTIfGTI+QkKwAdrwyNM0sFcLaQYBqQBWw
+Zoi6JCEMVYqQIACF8jKvyqJIRIWoEhINAxBFUEQJqQjKEBqQ8/rabtlcRGbfxHFm
+mTTjFnZTAYdye2Yc8hdP9fnzfPmBPG8dfDMKZv/dkcjIdF9H9517k7dfWMnVE/d/
+hi4dLkkF997N9C6qL8bZ+s/NQ0+3hIzqZ31u/0jNiWs1WV9TXf7Q/Ojwpg0/FmZf
+Xj8frNy0bG3Jvgsz44VVfBn52H6TLn2zXwzJdXNrpnWFvt5urvg0Vh3MRhsny45v
+nCzcXlQl7a5P9g9F/dfbLo8/EEYvnlufP97aeTg4N/1+ufajr7Q4HOoYeOGv6n54
+WhBLGwa+9JQdWbyus/nM57GZwak7G6Lfc98uSpsTC57fauwuh8feDY6tbHu6omDV
+6wWBA7nh+v6CUTivtjV/4OTEwQcVdV09tXPePuqtvVbqFo3faO84O7x7sPJKk7M6
+dfTVxBLwCw==
+=3U0+
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/treyhunner
+
+==================================================================

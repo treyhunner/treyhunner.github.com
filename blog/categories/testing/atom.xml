@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: testing | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/testing/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2017-09-30T23:17:38-07:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The many flavors of mock.patch]]></title>
+    <link href="http://treyhunner.com/2014/10/the-many-flavors-of-mock-dot-patch/"/>
+    <updated>2014-10-13T21:00:00-07:00</updated>
+    <id>http://treyhunner.com/2014/10/the-many-flavors-of-mock-dot-patch</id>
+    <content type="html"><![CDATA[<p>I write a lot of unit tests.  Unfortunately, my code often requires monkey patching to be properly unit tested.  I frequently use the <code>patch</code> function from <a href="http://www.voidspace.org.uk/">Michael Foord&rsquo;s</a> <a href="https://pypi.python.org/pypi/mock/">mock</a> library (now available in Python 3.4 as <a href="https://docs.python.org/3.4/library/unittest.mock.html#module-unittest.mock">unittest.mock</a>) to monkey patch my code.</p>
+
+<p>While chatting with other users of <code>patch</code>, I realized that everyone seems to have their own favorite way to use it.  In this post I will discuss the ways I use patch.</p>
+
+<h3>Decorator</h3>
+
+<p>patch can be used as a method decorator:</p>
+
+<pre><code class="python">from mock import patch
+
+class MyModelTest:
+    @patch('mylib.utils.other_func')
+    def test_some_func(self, other_func):
+        other_func.return_value = "MY STRING"
+        assert some_func("my string") == "MY STRING"
+        other_func.assert_called_once_with("my string")
+</code></pre>
+
+<p>or as a class decorator:</p>
+
+<pre><code class="python">from mock import patch
+
+@patch('mylib.utils.other_func')
+class MyModelTest:
+    def test_some_func(self, other_func):
+        other_func.return_value = "MY STRING"
+        assert some_func("my string") == "MY STRING"
+        other_func.assert_called_once_with("my string")
+</code></pre>
+
+<p>I use patch as a decorator when I have a function I want patched during my whole test.  I tend not to use patch as a class decorator and I&rsquo;ll explain why below.</p>
+
+<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L79">Decorator example</a></p>
+
+<h3>Context Manager</h3>
+
+<p>patch can be used as a context manager:</p>
+
+<pre><code class="python">from mock import patch
+
+class MyModelTest:
+    def test_some_func(self):
+        other_func.return_value = "MY STRING"
+        with patch('mylib.utils.other_func') as other_func:
+            assert some_func("my string") == "MY STRING"
+        other_func.assert_called_once_with("my string")
+</code></pre>
+
+<p>I prefer to use patch as a context manager when I want to patch a function for only part of a test.  I do not use patch as a context manager when I want a function patched for an entire test.</p>
+
+<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L46">Context manager example</a></p>
+
+<h3>Manually using start and stop</h3>
+
+<p>patch can also be used to manually patch/unpatch using <code>start</code> and <code>stop</code> methods:</p>
+
+<pre><code class="python">from mock import patch
+
+class MyModelTest:
+
+    def setUp(self):
+        self.other_func_patch = patch('mylib.utils.other_func')
+        self.other_func = self.other_func_patch.start()
+        self.other_func.return_value = "MY STRING"
+
+    def tearDown(self):
+        self.other_func_patch.stop()
+
+    def test_some_func(self):
+        assert some_func("my string") == "MY STRING"
+        self.other_func.assert_called_once_with("my string")
+</code></pre>
+
+<p>I prefer to use patch using start/stop when I need a function to be patched for every function in a test class.</p>
+
+<p>This is probably the most common way I use patch in my tests.  I often group my tests into test classes where each method is focused around testing the same function.  Therefore I will usually want the same functions/objects patched for every test method.</p>
+
+<p>I noted above that I prefer not to use class decorators to solve this problem.  Instead, I prefer to use test class attributes to store references to patched functions instead of accepting patch arguments on every test method with decorators.  I find this more <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</p>
+
+<p><strong>Warning:</strong> One of the primary benefits of the decorator/context manager forms of patch is that they handle clean up for you.  Whenever you call <code>start</code> to setup your patch object, <em>always</em> remember to call <code>stop</code> to clean it up.  Otherwise you&rsquo;ll have a monkey patched function/object for the rest of your running program.</p>
+
+<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L128">start and stop example</a></p>
+
+<h3>Summary</h3>
+
+<p>Patch can be used:</p>
+
+<ol>
+<li>as a method or class decorator</li>
+<li>as a context manager</li>
+<li>using start and stop methods</li>
+</ol>
+
+
+<p>I prefer my tests to be readable, <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>, and easy to modify.  I tend to use start/stop methods for that reason, but I also frequently use patch method decorators and sometimes use patch context managers.  It&rsquo;s useful to know the different flavors of <code>patch</code> because your favorite flavor may not always be the most suitable one for the problem at hand.</p>
+
+<p>Did I miss a flavor?  Want to let me know which flavor you prefer and why?  Please comment below.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TDD with Django Tutorial]]></title>
+    <link href="http://treyhunner.com/2013/11/tdd-with-django-workshop/"/>
+    <updated>2013-11-04T00:00:00-08:00</updated>
+    <id>http://treyhunner.com/2013/11/tdd-with-django-workshop</id>
+    <content type="html"><![CDATA[<p>I helped host a free Test-Driven Django Web Development workshop on <time date="2013-11-02">Saturday November 2</time> with <a href="http://pythonsd.org/">San Diego Python</a>.  We created a series of tutorials demonstrating how to create a Django-powered blog while practicing test-driven development.  The <a href="http://python.org/psf/">Python Software Foundation</a> sponsored the event and the <a href="http://aicenterca.com/">Ansir Innovation Center</a> provided a venue.</p>
+
+<p>You can find the tutorials at <a href="http://bit.ly/pysd-tdd">http://bit.ly/pysd-tdd</a> .  The tutorials are provided under a <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA license</a> so you can reuse and modify them for your own purposes.</p>
+
+<p>Tutorial markdown files and working source code may be found on <a href="https://github.com/pythonsd/test-driven-django-development">Github</a>.  We plan to improve and extend these tutorials for a future workshop.  If you have ideas for improvements/additions or if you notice a bug, please submit an issue or open a pull request.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Visual Integration Tests for Django]]></title>
+    <link href="http://treyhunner.com/2013/10/visual-integration-tests-for-django/"/>
+    <updated>2013-10-03T15:19:00-07:00</updated>
+    <id>http://treyhunner.com/2013/10/visual-integration-tests-for-django</id>
+    <content type="html"><![CDATA[<p>I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.</p>
+
+<h2>Visual testing frameworks</h2>
+
+<p>Visual testing tools compare screenshots to ensure tested webpages look pixel perfect.  Capturing webpage screenshots requires a full-featured web browser to render CSS and execute JavaScript.  All three of the visual testing tools I found rely on Selenium or PhantomJS for rendering.</p>
+
+<h3>PhantomCSS</h3>
+
+<p><a href="https://github.com/Huddle/PhantomCSS">PhantomCSS</a> uses PhantomJS for screenshot differencing.  PhantomCSS won&rsquo;t integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you&rsquo;d need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I needed integration with the Django live server.</p>
+
+<h3>Django-casper</h3>
+
+<p><a href="https://github.com/dobarkod/django-casper">Django-casper</a> uses Django live server tests to execute CasperJS test files (which use PhantomJS) to compare screenshots.  Each test requires an additional Python test which references a JavaScript file that executes the navigation and screenshotting code.  I found this approach messy and difficult to setup.</p>
+
+<h3>Needle</h3>
+
+<p>The <a href="https://github.com/bfirsh/needle">needle</a> Python library uses Selenium to navigate your website and screenshot rendered pages.  Unfortunately needle has poor test coverage, a seemingly failing test suite, and no change log.  Despite these shortcomings, I went with needle for my visual integration tests because it got the job done.</p>
+
+<h2>Django and Needle</h2>
+
+<p>I used the following mixin to integrate the Django live server with needle.  I used PhantomJS, but Firefox or another Selenium web driver should work as well.</p>
+
+<pre><code class="python">from django.test import LiveServerTestCase
+from needle.cases import NeedleTestCase
+from selenium.webdriver import PhantomJS
+
+
+class DjangoNeedleTestCase(NeedleTestCase, LiveServerTestCase):
+
+    """Needle test case for use with Django live server"""
+
+    driver = PhantomJS
+
+    @classmethod
+    def get_web_driver(cls):
+        return type('NeedleWebDriver', (NeedleWebDriverMixin, cls.driver), {})()
+</code></pre>
+
+<p>Unfortunately the above code only works with the version of needle on Github.  The PyPI version does not yet include the <code>NeedleWebDriverMixin</code> (which I contributed recently for Django support).  I have created <a href="https://github.com/bfirsh/needle/issues/13">an issue</a> suggesting a new PyPI release be made to resolve this problem.</p>
+
+<h2>Room for improvement</h2>
+
+<p>Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may run them during continuous integration.</p>
+
+<p>Do you have another solution for visual integration testing?  Let me know in the comments.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Test-Inspired Development]]></title>
+    <link href="http://treyhunner.com/2013/07/test-inspired-development/"/>
+    <updated>2013-07-28T00:00:00-07:00</updated>
+    <id>http://treyhunner.com/2013/07/test-inspired-development</id>
+    <content type="html"><![CDATA[<p>You need to write tests for your code to demonstrate that it works as expected.  In this post I will note the method I usually use for writing code and writing tests.</p>
+
+<p>I follow a method of development similar to test-driven development, which I call &ldquo;test-inspired development&rdquo;.  Here&rsquo;s roughly what I do:</p>
+
+<ol>
+<li>Write a bit of code</li>
+<li>Write a bit of a unit test for your code</li>
+<li>Ensure the test succeeds, but fails when the code is commented out or git stash-ed</li>
+<li>Repeat steps 1, 2, and 3 as needed</li>
+<li>Start writing an integration test, fleshing out as far as you can</li>
+<li>Make sure the integration test fails at the correct point</li>
+<li>Repeat steps 5 and 6 as needed</li>
+<li>Make sure no commit you make along the way contains both tests and code</li>
+<li>Use git rebase if necessary to ensure the test commits come before the code commits</li>
+</ol>
+
+
+<p>Ideally I would write all of my test code first and then write my application code and ensure my tests pass.  That isn&rsquo;t what usually happens though.  I often find it tricky to write full tests before writing any code.  Even when writing code in small parts, sometimes my code gets written before the corresponding test code.</p>
+
+<p>I write all of my code in feature branches (short-lived branches forked from master) and I often create a pull request (even against my own repository) when creating a new feature.  Because I commit the tests first, a code reviewer can easily confirm that all the new tests actually fail correctly without the code present by simply rolling back to the last test commit and running the tests.</p>
+
+<p>I usually write my unit tests first and at or near the same time as my code because they help often help shape my code heavily.  The functional/integration tests are important for ensuring that the application actually works all the way through (working parts are useless on their own).</p>
+
+<p>Have questions about my testing methodology?  Do you use a different technique?  Feel free to share your thoughts in the comments below.</p>
+]]></content>
+  </entry>
+  
+</feed>

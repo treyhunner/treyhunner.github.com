@@ -1,0 +1,692 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Idiomatic Way to Merge Dictionaries in Python - Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="The Idiomatic Way to Merge Dictionaries in Python Feb 23rd, 2016 10:00 am | Comments Have you ever wanted to combine two or more dictionaries in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Idiomatic Way to Merge Dictionaries in Python</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-23T10:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>10:00 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Have you ever wanted to combine two or more dictionaries in Python?</p>
+
+<p>There are multiple ways to solve this problem: some are awkward, some are inaccurate, and most require multiple lines of code.</p>
+
+<p>Let&rsquo;s walk through the different ways of solving this problem and discuss which is the most <a href="https://docs.python.org/3/glossary.html#term-pythonic">Pythonic</a>.</p>
+
+<h2>Our Problem</h2>
+
+<p>Before we can discuss solutions, we need to clearly define our problem.</p>
+
+<p>Our code has two dictionaries: <code>user</code> and <code>defaults</code>.  We want to merge these two dictionaries into a new dictionary called <code>context</code>.</p>
+
+<p>We have some requirements:</p>
+
+<ol>
+<li><code>user</code> values should override <code>defaults</code> values in cases of duplicate keys</li>
+<li>keys in <code>defaults</code> and <code>user</code> may be any valid keys</li>
+<li>the values in <code>defaults</code> and <code>user</code> can be anything</li>
+<li><code>defaults</code> and <code>user</code> should not change during the creation of <code>context</code></li>
+<li>updates made to <code>context</code> should never alter <code>defaults</code> or <code>user</code></li>
+</ol>
+
+
+<p><strong>Note</strong>: In 5, we&rsquo;re focused on updates to the dictionary, not contained objects.  For concerns about mutability of nested objects, we should look into <a href="https://docs.python.org/3/library/copy.html#copy.deepcopy">copy.deepcopy</a>.</p>
+
+<p>So we want something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Anonymous User&quot;</span><span class="p">,</span> <span class="s">&#39;page_name&#39;</span><span class="p">:</span> <span class="s">&quot;Profile Page&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">context</span> <span class="o">=</span> <span class="n">merge_dicts</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>  <span class="c"># magical merge function</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">context</span>
+</span><span class='line'><span class="go">{&#39;website&#39;: &#39;http://treyhunner.com&#39;, &#39;name&#39;: &#39;Trey&#39;, &#39;page_name&#39;: &#39;Profile Page&#39;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;ll also consider whether a solution is Pythonic.  This is a very subjective and often illusory measure.  Here are a few of the particular criteria we will use:</p>
+
+<ul>
+<li>The solution should be concise but not terse</li>
+<li>The solution should be readable but not overly verbose</li>
+<li>The solution should be one line if possible so it can be written inline if needed</li>
+<li>The solution should not be needlessly inefficient</li>
+</ul>
+
+
+<h2>Possible Solutions</h2>
+
+<p>Now that we&rsquo;ve defined our problem, let&rsquo;s discuss some possible solutions.</p>
+
+<p>We&rsquo;re going to walk through a number of methods for merging dictionaries and discuss which of these methods is the most accurate and which is the most idiomatic.</p>
+
+<h3>Multiple update</h3>
+
+<p>Here&rsquo;s one of the simplest ways to merge our dictionaries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">defaults</span><span class="p">)</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we&rsquo;re making an empty dictionary and using the <a href="https://docs.python.org/3.5/library/stdtypes.html#dict.update">update</a> method to add items from each of the other dictionaries.  Notice that we&rsquo;re adding <code>defaults</code> first so that any common keys in <code>user</code> will override those in <code>defaults</code>.</p>
+
+<p>All five of our requirements were met so this is <strong>accurate</strong>.  This solution takes three lines of code and cannot be performed inline, but it&rsquo;s pretty clear.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: fairly, but it would be nicer if it could be inlined</li>
+</ul>
+
+
+<h3>Copy and update</h3>
+
+<p>Alternatively, we could copy <code>defaults</code> and update the copy with <code>user</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This solution is only slightly different from the previous one.</p>
+
+<p>For this particular problem, I prefer this solution of copying the <code>defaults</code> dictionary to make it clear that <code>defaults</code> represents default values.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: yes</li>
+</ul>
+
+
+<h3>Dictionary constructor</h3>
+
+<p>We could also pass our dictionary to the <code>dict</code> constructor which will also copy the dictionary for us:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">defaults</span><span class="p">)</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This solution is very similar to the previous one, but it&rsquo;s a little bit less explicit.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: somewhat, though I&rsquo;d prefer the first two solutions over this</li>
+</ul>
+
+
+<h3>Keyword arguments hack</h3>
+
+<p>You may have seen this clever answer before, <a href="http://stackoverflow.com/a/39858/98187">possibly on StackOverflow</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is just one line of code.  That&rsquo;s kind of cool.  However, this solution is a little hard to understand.</p>
+
+<p>Beyond readability, there&rsquo;s an even bigger problem: <strong>this solution is wrong.</strong></p>
+
+<p>The keys must be strings.  In Python 2 (with the CPython interpreter) we can get away with non-strings as keys, but don&rsquo;t be fooled: this is a hack that only works by accident in Python 2 using the standard CPython runtime.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: no.  Requirement 2 is not met (keys may be any valid key)</li>
+<li>Idiomatic: no.  This is a hack.</li>
+</ul>
+
+
+<h3>Dictionary comprehension</h3>
+
+<p>Just because we can, let&rsquo;s try doing this with a dictionary comprehension:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="n">defaults</span><span class="p">,</span> <span class="n">user</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works, but this is a little hard to read.</p>
+
+<p>If we have an unknown number of dictionaries this might be a good idea, but we&rsquo;d probably want to break our comprehension over multiple lines to make it more readable.  In our case of two dictionaries, this doubly-nested comprehension is a little much.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: arguably not</li>
+</ul>
+
+
+<h3>Concatenate items</h3>
+
+<p>What if we get a <code>list</code> of items from each dictionary, concatenate them, and then create a new dictionary from that?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This actually works.  We know that the <code>user</code> keys will win out over <code>defaults</code> because those keys come at the end of our concatenated list.</p>
+
+<p>In Python 2 we actually don&rsquo;t need the <code>list</code> conversions, but we&rsquo;re working in Python 3 here (you are on Python 3, right?).</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: not particularly, there&rsquo;s a bit of repetition</li>
+</ul>
+
+
+<h3>Union items</h3>
+
+<p>In Python 3, <code>items</code> is a <code>dict_items</code> object, which is a quirky object that supports union operations.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="o">|</span> <span class="n">user</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s kind of interesting.  But <strong>this is not accurate</strong>.</p>
+
+<p>Requirement 1 (<code>user</code> should &ldquo;win&rdquo; over <code>defaults</code>) fails because the union of two <code>dict_items</code> objects is a <a href="https://docs.python.org/3/library/stdtypes.html#set-types-set-frozenset">set</a> of key-value pairs and sets are unordered so duplicate keys may resolve in an <em>unpredictable</em> way.</p>
+
+<p>Requirement 3 (the values can be anything) fails because sets require their items to be <a href="https://docs.python.org/3/glossary.html#term-hashable">hashable</a> so both the keys <em>and values</em> in our key-value tuples must be hashable.</p>
+
+<p>Side note: I&rsquo;m not sure why the union operation is even allowed on <code>dict_items</code> objects.  What is this good for?</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: no, requirements 1 and 3 fail</li>
+<li>Idiomatic: no</li>
+</ul>
+
+
+<h3>Chain items</h3>
+
+<p>So far the most idiomatic way we&rsquo;ve seen to perform this merge in a single line of code involves creating two lists of items, concatenating them, and forming a dictionary.</p>
+
+<p>We can join our items together more succinctly with <a href="https://docs.python.org/3/library/itertools.html#itertools.chain">itertools.chain</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">user</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works well and may be more efficient than creating two unnecessary lists.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: fairly, but those <code>items</code> calls seem slightly redundant</li>
+</ul>
+
+
+<h3>ChainMap</h3>
+
+<p>A <a href="https://docs.python.org/3/library/collections.html#collections.ChainMap">ChainMap</a> allows us to create a new dictionary without even looping over our initial dictionaries (well <em>sort of</em>, we&rsquo;ll discuss this):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
+</span><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">ChainMap</span><span class="p">({},</span> <span class="n">user</span><span class="p">,</span> <span class="n">defaults</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A <code>ChainMap</code> groups dictionaries together into a proxy object (a &ldquo;view&rdquo;); lookups query each provided dictionary until a match is found.</p>
+
+<p>This code raises a few questions.</p>
+
+<h4>Why did we put <code>user</code> before <code>defaults</code>?</h4>
+
+<p>We ordered our arguments this way to ensure requirement 1 was met.  The dictionaries are searched in order, so <code>user</code> returns matches before <code>defaults</code>.</p>
+
+<h4>Why is there an empty dictionary before <code>user</code>?</h4>
+
+<p>This is for requirement 5.  Changes to <code>ChainMap</code> objects affect the first dictionary provided and we don&rsquo;t want <code>user</code> to change so we provided an empty dictionary first.</p>
+
+<h4>Does this actually give us a dictionary?</h4>
+
+<p>A <code>ChainMap</code> object is <strong>not a dictionary</strong> but it is a <strong>dictionary-like</strong> mapping.  We may be okay with this if our code practices <a href="https://docs.python.org/3/glossary.html#term-duck-typing">duck typing</a>, but we&rsquo;ll need to inspect the features of <code>ChainMap</code> to be sure.  Among other features, <code>ChainMap</code> objects are coupled to their <a href="https://gist.github.com/treyhunner/2abe2617ea029504ef8e">underlying dictionaries</a> and they handle <a href="https://gist.github.com/treyhunner/5260810b4cced03359d9">removing items</a> in an interesting way.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: possibly, we&rsquo;ll need to consider our use cases</li>
+<li>Idiomatic: yes if we decide this suits our use case</li>
+</ul>
+
+
+<h3>Dictionary from ChainMap</h3>
+
+<p>If we really want a dictionary, we could convert our <code>ChainMap</code> to a dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ChainMap</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">defaults</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s a little odd that <code>user</code> must come before <code>defaults</code> in this code whereas this order was flipped in most of our other solutions.  Outside of that oddity, this code is fairly simple and should be clear enough for our purposes.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: yes</li>
+</ul>
+
+
+<h3>Dictionary concatenation</h3>
+
+<p>What if we simply concatenate our dictionaries?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">defaults</span> <span class="o">+</span> <span class="n">user</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is cool, but it <strong>isn&rsquo;t valid</strong>.  This was discussed in a <a href="https://mail.python.org/pipermail/python-ideas/2015-February/031748.html">python-ideas thread</a> last year.</p>
+
+<p>Some of the concerns brought up in this thread include:</p>
+
+<ul>
+<li>Maybe <code>|</code> makes more sense than <code>+</code> because dictionaries are like sets</li>
+<li>For duplicate keys, should the left-hand side or right-hand side win?</li>
+<li>Should there be an <code>updated</code> built-in instead (kind of like <a href="https://docs.python.org/3/library/functions.html#sorted">sorted</a>)?</li>
+</ul>
+
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: no. This doesn&rsquo;t work.</li>
+<li>Idiomatic: no. This doesn&rsquo;t work.</li>
+</ul>
+
+
+<h3>Dictionary unpacking</h3>
+
+<p>If you&rsquo;re using Python 3.5, thanks to <a href="https://www.python.org/dev/peps/pep-0448/">PEP 448</a>, there&rsquo;s a new way to merge dictionaries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">user</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is simple and Pythonic.  There are quite a few symbols, but it&rsquo;s fairly clear that the output is a dictionary at least.</p>
+
+<p>This is functionally equivalent to our very first solution where we made an empty dictionary and populated it with all items from <code>defaults</code> and <code>user</code> in turn.  All of our requirements are met and this is likely the simplest solution we&rsquo;ll ever get.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
+<li>Idiomatic: yes</li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<p>There are a number of ways to combine multiple dictionaries, but there are few elegant ways to do this with just one line of code.</p>
+
+<p>If you&rsquo;re using Python 3.5, this is the one obvious way to solve this problem:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">user</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are not yet using Python 3.5, you&rsquo;ll need to review the solutions above to determine which is the most appropriate for your needs.</p>
+
+<p><strong>Note</strong>: For those of you particularly concerned with performance, I also measured the <a href="https://gist.github.com/treyhunner/f35292e676efa0be1728">performance of these different dictionary merging methods</a>.</p>
+
+<p>If you&rsquo;re interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out <a href="https://gist.github.com/mahmoud/db02d16ac89fa401b968">this deep merging technique</a> from Mahmoud Hashemi.</p>
+
+<p><strong>Update</strong>: If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to watch the <a href="https://www.crowdcast.io/e/unpacking">Packing &amp; Unpacking Operators chat</a> I held on April 23, 2016.</p>
+
+<p><br>I teach Python for a living.  If you like my teaching style and your team is interested in <strong><a href="http://truthful.technology/">Python training</a></strong>, please <a href="mailto:hello@truthful.technology">contact me</a>!</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+            <h2>Learn more through weekly Python chats 🎁</h2>
+            <p>Like my teaching style?  Want to learn more?  Sign up for attend my <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> events so I can answer <strong>your questions</strong> about Python, programming, and life in general.</p>
+            <div class="mc-field-group">
+                <label for="mce-EMAIL">Email Address </label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-FNAME">First Name </label>
+                <input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-LNAME">Last Name </label>
+                <input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+            </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+                <input type="hidden" name="SIGNUP" value="Form Below Blog Post">
+            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+</div>
+<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-23T10:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>10:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/favorite/'>favorite</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/" data-via="treyhunner" data-counturl="http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/12/my-favorite-audiobooks-of-2015/" title="Previous Post: My favorite audiobooks of 2015">&laquo; My favorite audiobooks of 2015</a>
+      
+      
+        <a class="basic-alignment right" href="/2016/03/regular-expressions-in-python-webinar/" title="Next Post: Webinar: Regular Expressions in Python">Webinar: Regular Expressions in Python &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/';
+        var disqus_url = 'http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

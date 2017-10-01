@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2017-09-30T23:17:38-07:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Craft Your Python Like Poetry]]></title>
+    <link href="http://treyhunner.com/2017/07/craft-your-python-like-poetry/"/>
+    <updated>2017-07-23T10:00:00-07:00</updated>
+    <id>http://treyhunner.com/2017/07/craft-your-python-like-poetry</id>
+    <content type="html"><![CDATA[<p>Line length is a big deal&hellip; programmers argue about it quite a bit.  PEP 8, the Python style guide, recommends a <a href="http://pep8.org/#maximum-line-length">79 character maximum line length</a> but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.</p>
+
+<p>So 79 characters is recommended&hellip; but isn&rsquo;t line length completely obsolete?  After all, programmers are no longer restricted by <a href="https://en.wikipedia.org/wiki/Punched_card">punch cards</a>, <a href="https://en.wikipedia.org/wiki/Teletype_Corporation">teletypes</a>, and 80 column <a href="https://en.wikipedia.org/wiki/Computer_terminal">terminals</a>.  The laptop screen I&rsquo;m typing this on can fit about 200 characters per line.</p>
+
+<h2>Line length is not obsolete</h2>
+
+<p>Line length is not a technical limitation: it&rsquo;s a human-imposed limitation.  Many programmers prefer short lines because <strong>long lines are hard to read</strong>.  This is true in typography and it&rsquo;s true in programming as well.</p>
+
+<p>Short lines are easier to read.</p>
+
+<p>In the typography world, a line length of 55 characters per line is recommended for electronic text (see <a href="https://en.wikipedia.org/wiki/Line_length">line length on Wikipedia</a>).  That doesn&rsquo;t mean we should use a 55 character limit though; typography and programming are different.</p>
+
+<h2>Python isn&rsquo;t prose</h2>
+
+<p>Python code isn&rsquo;t structured like prose.  English prose is structured in flowing sentences: each line wraps into the next line.  In Python, <strong>statements</strong> are somewhat like <strong>sentences</strong>, meaning each sentence begins at the <em>start</em> of each line.</p>
+
+<p>Python code is more like poetry than prose.  Poets and Python programmers don&rsquo;t wrap lines once they hit an arbitrary length; they wrap lines when they make sense for readability and beauty.</p>
+
+<pre><code>I stand amid the roar Of a surf-tormented shore, And I hold within my hand
+Grains of the golden sand— How few! yet how they creep Through my fingers to
+the deep, While I weep—while I weep! O God! can I not grasp Them with a
+tighter clasp? O God! can I not save One from the pitiless wave? Is all that we
+see or seem But a dream within a dream?
+</code></pre>
+
+<p>Don&rsquo;t wrap lines arbitrarily. Craft each line with care to help readers <strong>experience your code exactly the way you intended</strong>.</p>
+
+<pre><code>I stand amid the roar
+Of a surf-tormented shore,
+And I hold within my hand
+Grains of the golden sand—
+How few! yet how they creep
+Through my fingers to the deep,
+While I weep—while I weep!
+O God! can I not grasp
+Them with a tighter clasp?
+O God! can I not save
+One from the pitiless wave?
+Is all that we see or seem
+But a dream within a dream?
+</code></pre>
+
+<h2>Examples</h2>
+
+<p>It&rsquo;s not possible to make a single rule for when and how to wrap lines of code.  <a href="http://pep8.org/#indentation">PEP8 discusses line wrapping briefly</a>, but it only discusses one case of line wrapping and three different acceptable styles are provided, leaving the reader to choose which is best.</p>
+
+<p>Line wrapping is best discussed through examples.  Let&rsquo;s look at a few examples of long lines and few variations for line wrapping for each.</p>
+
+<h3>Example: Wrapping a Comprehension</h3>
+
+<p>This line of code is over 79 characters long:</p>
+
+<pre><code class="python">employee_hours = [schedule.earliest_hour for employee in self.public_employees for schedule in employee.schedules]
+</code></pre>
+
+<p>Here we&rsquo;ve wrapped that line of code so that it&rsquo;s two shorter lines of code:</p>
+
+<pre><code class="python">employee_hours = [schedule.earliest_hour for employee in
+                  self.public_employees for schedule in employee.schedules]
+</code></pre>
+
+<p>We&rsquo;re able to insert that line break in this line because we have an <strong>unclosed square bracket</strong>.  This is called an <strong>implicit line continuation</strong>.  Python knows we&rsquo;re continuing a line of code whenever there&rsquo;s a line break inside unclosed square brackets, curly braces, or parentheses.</p>
+
+<p>This code still isn&rsquo;t very easy to read because the line break was inserted arbitrarily.  We simply wrapped this line just before a specific line length.  We were thinking about line length here, but we completely neglected to think about readability.</p>
+
+<p>This code is the same as above, but we&rsquo;ve inserted line breaks in very particular places:</p>
+
+<pre><code class="python">employee_hours = [schedule.earliest_hour
+                  for employee in self.public_employees
+                  for schedule in employee.schedules]
+</code></pre>
+
+<p>We have two lines breaks here and we&rsquo;ve purposely inserted them before our <code>for</code> clauses in this list comprehension.</p>
+
+<p>Statements have logical components that make up a whole, the same way sentences have clauses that make up the whole.  We&rsquo;ve chosen to break up this list comprehension by inserting line breaks <strong>between these logical components</strong>.</p>
+
+<p>Here&rsquo;s another way to break up this statement:</p>
+
+<pre><code class="python">employee_hours = [
+    schedule.earliest_hour
+    for employee in self.public_employees
+    for schedule in employee.schedules
+]
+</code></pre>
+
+<p>Which of these methods you prefer is up to you.  It&rsquo;s important to make sure you break up the logical components though.  And whichever method you choose, <strong>be consistent</strong>!</p>
+
+<h3>Example: Function Calls</h3>
+
+<p>This is a Django model field with a whole bunch of arguments being passed to it:</p>
+
+<pre><code class="python">default_appointment = models.ForeignKey(othermodel='AppointmentType',
+                                        null=True, on_delete=models.SET_NULL,
+                                        related_name='+')
+</code></pre>
+
+<p>We&rsquo;re already using an implicit line continuation to wrap these lines of code, but again we&rsquo;re wrapping this code at an arbitrary line length.</p>
+
+<p>Here&rsquo;s the same Django model field with one argument specific per line:</p>
+
+<pre><code class="python">default_appointment = models.ForeignKey(othermodel='AppointmentType',
+                                        null=True,
+                                        on_delete=models.SET_NULL,
+                                        related_name='+')
+</code></pre>
+
+<p>We&rsquo;re breaking up the component parts (the arguments) of this statement onto separate lines.</p>
+
+<p>We could also wrap this line by indenting each argument instead of aligning them:</p>
+
+<pre><code class="python">default_appointment = models.ForeignKey(
+    othermodel='AppointmentType',
+    null=True,
+    on_delete=models.SET_NULL,
+    related_name='+'
+)
+</code></pre>
+
+<p>Notice we&rsquo;re also leaving that closing parenthesis on its own line.  We could additionally add a trailing comma if we wanted:</p>
+
+<pre><code class="python">default_appointment = models.ForeignKey(
+    othermodel='AppointmentType',
+    null=True,
+    on_delete=models.SET_NULL,
+    related_name='+',
+)
+</code></pre>
+
+<p><strong>Which of these is the best way to wrap this line?</strong></p>
+
+<p>Personally for this line I prefer that last approach: each argument on its own line, the closing parenthesis on its own line, and a comma after each argument.</p>
+
+<p>It&rsquo;s important to decide what you prefer, reflect on why you prefer it, and always maintain consistency within each project/file you create.  And keep in mind that consistence of your personal style is less important than <strong>consistency within a single project</strong>.</p>
+
+<h3>Example: Chained Function Calls</h3>
+
+<p>Here&rsquo;s a long line of chained Django queryset methods:</p>
+
+<pre><code class="python">    books = Book.objects.filter(author__in=favorite_authors).select_related('author', 'publisher').order_by('title')
+</code></pre>
+
+<p>Notice that there aren&rsquo;t parenthesis around this whole statement, so the only place we can currently wrap our lines is inside those parenthesis.  We could do something like this:</p>
+
+<pre><code class="python">    books = Book.objects.filter(
+        author__in=favorite_authors
+    ).select_related(
+        'author', 'publisher'
+    ).order_by('title')
+</code></pre>
+
+<p>But that looks kind of weird and it doesn&rsquo;t really improve readability.</p>
+
+<p>We could add backslashes at the end of each line to allow us to wrap at arbitrary places:</p>
+
+<pre><code class="python">    books = Book.objects\
+        .filter(author__in=favorite_authors)\
+        .select_related('author', 'publisher')\
+        .order_by('title')
+</code></pre>
+
+<p>This works, but <a href="http://pep8.org/#maximum-line-length">PEP8 recommends against this</a>.</p>
+
+<p>We could wrap the whole statement in parenthesis, allowing us to use implicit line continuation wherever we&rsquo;d like:</p>
+
+<pre><code class="python">    books = (Book.objects
+        .filter(author__in=favorite_authors)
+        .select_related('author', 'publisher')
+        .order_by('title'))
+</code></pre>
+
+<p>It&rsquo;s not uncommon to see extra parenthesis added in Python code to allow implicit line continuations.</p>
+
+<p>That indentation style is a little odd though.  We could align our code with the parenthesis instead:</p>
+
+<pre><code class="python">    books = (Book.objects
+             .filter(author__in=favorite_authors)
+             .select_related('author', 'publisher')
+             .order_by('title'))
+</code></pre>
+
+<p>Although I&rsquo;d probably prefer to align the dots in this case:</p>
+
+<pre><code class="python">    books = (Book.objects
+                 .filter(author__in=favorite_authors)
+                 .select_related('author', 'publisher')
+                 .order_by('title'))
+</code></pre>
+
+<p>A fully indentation-based style works too (we&rsquo;ve also moved <code>objects</code> to its own line here):</p>
+
+<pre><code class="python">    books = (
+        Book
+        .objects
+        .filter(author__in=favorite_authors)
+        .select_related('author', 'publisher')
+        .order_by('title')
+    )
+</code></pre>
+
+<p>There are yet more ways to resolve this problem.  For example we could try to use intermediary variables to avoid line wrapping entirely.</p>
+
+<p>Chained methods pose a different problem for line wrapping than single method calls and require a different solution.  Focus on readability when picking a preferred solution and be consistent with the solution you pick.  <strong>Consistency lies at the heart of readability</strong>.</p>
+
+<h3>Example: Dictionary Literals</h3>
+
+<p>I often define long dictionaries and lists defined in Python code.</p>
+
+<p>Here&rsquo;s a dictionary definition that has been over multiple lines, with line breaks inserted as a maximum line length is approached:</p>
+
+<pre><code class="python">MONTHS = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5,
+          'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10,
+          'November': 11, 'December': 12}
+</code></pre>
+
+<p>Here&rsquo;s the same dictionary with each key-value pair on its own line, aligned with the first key-value pair:</p>
+
+<pre><code class="python">MONTHS = {'January': 1,
+          'February': 2,
+          'March': 3,
+          'April': 4,
+          'May': 5,
+          'June': 6,
+          'July': 7,
+          'August': 8,
+          'September': 9,
+          'October': 10,
+          'November': 11,
+          'December': 12}
+</code></pre>
+
+<p>And the same dictionary again, with each key-value pair indented instead of aligned (with a trailing comma on the last line as well):</p>
+
+<pre><code class="python">MONTHS = {
+    'January': 1,
+    'February': 2,
+    'March': 3,
+    'April': 4,
+    'May': 5,
+    'June': 6,
+    'July': 7,
+    'August': 8,
+    'September': 9,
+    'October': 10,
+    'November': 11,
+    'December': 12,
+}
+</code></pre>
+
+<p>This is the strategy I prefer for wrapping long dictionaries and lists.  I very often wrap short dictionaries and lists this way as well, for the sake of readability.</p>
+
+<h2>Python is Poetry</h2>
+
+<p>The moment of <strong>peak readability</strong> is <strong>the moment just after you write a line of code</strong>.  Your code will be far less readable to you one day, one week, and one month after you&rsquo;ve written it.</p>
+
+<p>When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don&rsquo;t write a statement on a single line unless it&rsquo;s already <em>very</em> clear.  If you break each line over multiple lines for clarity, lines length shouldn&rsquo;t be a major concern because your lines of code will mostly be far shorter than 79 characters already.</p>
+
+<p>Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will <strong>right now</strong>.  So take that line of code you just wrote and carefully add line breaks to it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The iterator protocol: how for loops work in Python]]></title>
+    <link href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/"/>
+    <updated>2016-12-28T11:00:00-08:00</updated>
+    <id>http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work</id>
+    <content type="html"><![CDATA[<p>We&rsquo;re interviewing for a job and our interviewer has asked us to remove all <code>for</code> loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We&rsquo;re nervous and frustrated about being assigned this ridiculous task, but we&rsquo;ll try our best.</p>
+
+<p>To understand how to loop without a <code>for</code> loop, we&rsquo;ll need to discover what makes <code>for</code> loops tick.</p>
+
+<p>We&rsquo;re about to learn how <code>for</code> loops work in Python.  Along the way we&rsquo;ll need to learn about iterables, iterators, and the iterator protocol.  Let&rsquo;s loop. ➿</p>
+
+<h2>Looping with indexes: a failed attempt</h2>
+
+<p>We might initially try to remove our <code>for</code> loops by using a traditional looping idiom from the world of C: <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes</a>.</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+i = 0
+while i &lt; len(colors):
+    print(colors[i])
+    i += 1
+</code></pre>
+
+<p>This works on lists, but it fails on sets:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; colors = {"red", "green", "blue", "purple"}
+&gt;&gt;&gt; i = 0
+&gt;&gt;&gt; while i &lt; len(colors):
+...     print(colors[i])
+...     i += 1
+...
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 2, in &lt;module&gt;
+TypeError: 'set' object does not support indexing
+</code></pre>
+
+<p>This approach only works on <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a>, which are data types that have indexes from <code>0</code> to one less than their length.  Lists, strings, and tuples are sequences.  Dictionaries, sets, and many other <em>iterables</em> are not <em>sequences</em>.</p>
+
+<p>We&rsquo;ve been instructed to implement a looping construct that works on <em>all iterables</em>, not just sequences.</p>
+
+<h2>Iterables: what are they?</h2>
+
+<p>In the Python world, an <strong>iterable</strong> is any object that <strong>you can loop over with a for loop</strong>.</p>
+
+<p><a href="https://docs.python.org/3/glossary.html#term-iterable">Iterables</a> are not always indexable, they don&rsquo;t always have lengths, and they&rsquo;re not always finite.</p>
+
+<p>Here&rsquo;s an <em>infinite</em> iterable which provides every multiple of 5 as you loop over it:</p>
+
+<pre><code class="python">from itertools import count
+multiples_of_five = count(step=5)
+</code></pre>
+
+<p>When we were using <code>for</code> loops, we could have looped over the beginning of this iterable like this:</p>
+
+<pre><code class="python">for n in multiples_of_five:
+    if n &gt; 100:
+        break
+    print(n)
+</code></pre>
+
+<p>If we removed the <code>break</code> condition from that <code>for</code> loop, it would go on printing forever.</p>
+
+<p>So iterables can be infinitely long: which means that we can&rsquo;t always convert an iterable to a <code>list</code> (or any other sequence) before we loop over it.  We need to somehow ask our iterable for each item of our iterable individually, the same way our <code>for</code> loop works.</p>
+
+<h2>Iterables &amp; Iterators</h2>
+
+<p>Okay we&rsquo;ve defined <em>iterable</em>, but how do iterables actually work in Python?</p>
+
+<p>All <a href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a> can be passed to the built-in <code>iter</code> function to get an <strong>iterator</strong> from them.</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; iter(['some', 'list'])
+&lt;list_iterator object at 0x7f227ad51128&gt;
+&gt;&gt;&gt; iter({'some', 'set'})
+&lt;set_iterator object at 0x7f227ad32b40&gt;
+&gt;&gt;&gt; iter('some string')
+&lt;str_iterator object at 0x7f227ad51240&gt;
+</code></pre>
+
+<p>That&rsquo;s an interesting fact but&hellip; what&rsquo;s an <em>iterator</em>?</p>
+
+<p>Iterators have exactly one job: return the &ldquo;next&rdquo; item in our iterable.  They&rsquo;re sort of like <a href="https://en.wikipedia.org/wiki/Tally_counter">tally counters</a>, but they don&rsquo;t have a reset button and instead of giving the next number they give the next item in our iterable.</p>
+
+<p>You can get an iterator from <em>any</em> iterable:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; iterator = iter('hi')
+</code></pre>
+
+<p>And iterators can be passed to <code>next</code> to get their next item:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; next(iterator)
+'h'
+&gt;&gt;&gt; next(iterator)
+'i'
+&gt;&gt;&gt; next(iterator)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre>
+
+<p>So <a href="https://docs.python.org/3/glossary.html#term-iterator">iterators</a> can be passed to the built-in <code>next</code> function to get the next item from them and if there is no next item (because we reached the end), a <code>StopIteration</code> exception will be raised.</p>
+
+<h2>Iterators are also iterables</h2>
+
+<p>So calling <code>iter</code> on an <em>iterable</em> gives us an iterator.  And calling <code>next</code> on an <em>iterator</em> gives us the next item or raises a <code>StopIteration</code> exception if there aren&rsquo;t any more items.</p>
+
+<p>There&rsquo;s actually a bit more to it than that though.  You can pass iterators to the built-in <code>iter</code> function to get themselves back.  That means that iterators are also iterables.</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; iterator = iter('hi')
+&gt;&gt;&gt; iterator2 = iter(iterator)
+&gt;&gt;&gt; iterator is iterator2
+True
+</code></pre>
+
+<p>That fact leads to some interesting consequences that we don&rsquo;t have time to go into right now.  We&rsquo;ll save that discussion for a future learning adventure&hellip;</p>
+
+<h2>The Iterator Protocol</h2>
+
+<p>The <strong>iterator protocol</strong> is a fancy term meaning &ldquo;how iterables actually work in Python&rdquo;.</p>
+
+<p>Let&rsquo;s redefine iterables from Python&rsquo;s perspective.</p>
+
+<p>Iterables:</p>
+
+<ol>
+<li>Can be passed to the <code>iter</code> function to get an iterator for them.</li>
+<li>There is no 2.  That&rsquo;s <em>really</em> all that&rsquo;s needed to be an iterable.</li>
+</ol>
+
+
+<p>Iterators:</p>
+
+<ol>
+<li>Can be passed to the <code>next</code> function which gives their next item or raises <code>StopIteration</code></li>
+<li>Return themselves when passed to the <code>iter</code> function.</li>
+</ol>
+
+
+<p>The inverse of these statements should also hold true.  Which means:</p>
+
+<ol>
+<li>Anything that can be passed to <code>iter</code> without an error is an iterable.</li>
+<li>Anything that can be passed to <code>next</code> without an error (except for <code>StopIteration</code>) is an iterator.</li>
+<li>Anything that returns itself when passed to <code>iter</code> is an iterator.</li>
+</ol>
+
+
+<h2>Looping with iterators</h2>
+
+<p>With what we&rsquo;ve learned about iterables and iterators, we should now be able to recreate a <code>for</code> loop without actually using a <code>for</code> loop.</p>
+
+<p>This <code>while</code> loop manually loops over some <code>iterable</code>, printing out each item as it goes:</p>
+
+<pre><code class="python">def print_each(iterable):
+    iterator = iter(iterable)
+    while True:
+        try:
+            item = next(iterator)
+        except StopIteration:
+            break  # Iterator exhausted: stop the loop
+        else:
+            print(item)
+</code></pre>
+
+<p>We can call this function with any iterable and it will loop over it:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; print_each({1, 2, 3})
+1
+2
+3
+</code></pre>
+
+<p>The above function is essentially the same as this one which uses a <code>for</code> loop:</p>
+
+<pre><code class="python">def print_each(iterable):
+    for item in iterable:
+        print(item)
+</code></pre>
+
+<p>This <code>for</code> loop is automatically doing what we were doing manually: calling <code>iter</code> to get an iterator and then calling <code>next</code> over and over until a <code>StopIteration</code> exception is raised.</p>
+
+<p>The iterator protocol is used by <code>for</code> loops, tuple unpacking, and all built-in functions that work on generic iterables.  Using the iterator protocol (either manually or automatically) is the only universal way to loop over any iterable in Python.</p>
+
+<h2>For loops: more complex than they seem</h2>
+
+<p>We&rsquo;re now ready to complete the very silly task our interviewer assigned to us.  We&rsquo;ll remove all <code>for</code> loops from our code by manually using <code>iter</code> and <code>next</code> to loop over iterables.  What did we learn in exploring this task?</p>
+
+<p>Everything you can loop over is an <strong>iterable</strong>.  Looping over iterables works via getting an <strong>iterator</strong> from an iterable and then repeatedly asking the iterator for the next item.</p>
+
+<p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
+
+<p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Check whether all items match a condition in Python]]></title>
+    <link href="http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/"/>
+    <updated>2016-11-29T09:45:00-08:00</updated>
+    <id>http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python</id>
+    <content type="html"><![CDATA[<p>In this article, we&rsquo;re going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗</p>
+
+<p>We&rsquo;ll be discussing how to make code with this shape a little more descriptive:</p>
+
+<pre><code class="python">all_good = True
+for item in iterable:
+    if not condition(item):
+        all_good = False
+        break
+</code></pre>
+
+<h2>An Example: Primality</h2>
+
+<p>Here&rsquo;s a function that checks whether a given number is prime by trying to divide it by all numbers below it:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p><strong>Note</strong>: a <a href="http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176">square root</a> makes this faster and our code breaks below <code>2</code> but we&rsquo;ll ignore those issues here</p>
+
+<p>This function:</p>
+
+<ol>
+<li>loops from 2 to the given number</li>
+<li>returns <code>False</code> as soon as a divisor is found</li>
+<li>returns <code>True</code> if no divisor was found</li>
+</ol>
+
+
+<p>This primality check is asking &ldquo;do any numbers evenly divide the candidate number&rdquo;.</p>
+
+<p>Note that this function <strong>returns as soon as it finds a divisor</strong>, so it <em>only</em> iterates all the way through the number range when the candidate number is prime.</p>
+
+<p>Let&rsquo;s take a look at how we can rewrite this function using <code>all</code>.</p>
+
+<h2>What&rsquo;s <code>all</code>?</h2>
+
+<p>Python has a built-in function <code>all</code> that returns <code>True</code> if all items are <strong>truthy</strong></p>
+
+<pre><code class="pycon">&gt;&gt;&gt; all(['hello, 'there'])
+True
+&gt;&gt;&gt; all(['hello, 'there', ''])
+False
+&gt;&gt;&gt; all([1, 2, 3])
+True
+&gt;&gt;&gt; all([0, 1, 2, 3])
+False
+</code></pre>
+
+<p>You can think of truthy as meaning non-empty or non-zero (Python chat on <a href="https://www.crowdcast.io/e/truthiness">truthiness</a>).  For our purposes, we&rsquo;ll treat it as pretty much the same as <code>True</code>.</p>
+
+<p>The <code>all</code> built-in function is equivalent to this:</p>
+
+<pre><code class="python">def all(iterable):
+    for element in iterable:
+        if not element:
+            return False
+    return True
+</code></pre>
+
+<p>Notice the similarity between <code>all</code> and our <code>is_prime</code> function?  Our <code>is_prime</code> function is similar, but they&rsquo;re not quite the same structure.</p>
+
+<p>The <code>all</code> function checks for the truthiness of <code>element</code>, but we need something a little more than that: we need to check a condition on each element (whether it&rsquo;s a divsior).</p>
+
+<h2>Using <code>all</code></h2>
+
+<p>Our original <code>is_prime</code> function looks like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p>If we want to use <code>all</code> in this function, we need an iterable (like a list) to pass to <code>all</code>.</p>
+
+<p>If we wanted to be really silly, we could make such a list of boolean values like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = []
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            divisibility.append(False)
+        else:
+            divisibility.append(True)
+    return all(divisibility)
+</code></pre>
+
+<p>We could simplify this function like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = []
+    for n in range(2, candidate):
+        divisibility.append(candidate % n != 0)
+    return all(divisibility)
+</code></pre>
+
+<p>I know this is probably doesn&rsquo;t seem like progress, but bear with me for a few more steps&hellip;</p>
+
+<h2>List comprehensions</h2>
+
+<p>If you&rsquo;re familiar with list comprehensions, this code structure might look a little familiar.  We&rsquo;re creating one iterable from another which is exactly what list comprehensions are good for.</p>
+
+<p>Let&rsquo;s copy-paste our way into a list comprehension (see my article on <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">how to write list comprehensions</a>):</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = [
+        candidate % n != 0
+        for n in range(2, candidate)
+    ]
+    return all(divisibility)
+</code></pre>
+
+<p>That&rsquo;s quite a bit shorter, but there&rsquo;s a problem: we&rsquo;re <strong>building up an entire list just to loop over it once</strong>!</p>
+
+<p>This is less efficient than our original approach, which only looped all the way when <code>candidate</code> was prime.</p>
+
+<p>Let&rsquo;s fix this inefficiency by turning our list comprehension into a generator expression.</p>
+
+<h2>Generator expressions</h2>
+
+<p>A generator expression is like a list comprehension, but instead of making a list it makes a <strong>generator</strong> (Python chat on <a href="https://www.crowdcast.io/e/generators">generators</a>).</p>
+
+<p>A generator is a <strong>lazy iterable</strong>: generators don&rsquo;t compute the items they contain until you loop over them.  We&rsquo;ll see what that means in a moment.</p>
+
+<p>We can turn our list comprehension into a generator expression by changing the brackets to parentheses:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = (
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+    return all(divisibility)
+</code></pre>
+
+<p>Now our code doesn&rsquo;t create a list to loop over.  Instead it provides us with a generator that allows us to compute the divisibility of each number one-by-one.</p>
+
+<p>We can make this code even more readable by putting that generator expression inside the function call (notice that we can drop the second set of parentheses):</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Note that because our generator is lazy, we stop computing divisibilities as soon as our <code>all</code> function finds a divisible number.  So we end up calculating <code>candidate % n != 0</code> only as many times as we did in our original function.</p>
+
+<h2>Recap</h2>
+
+<p>So we started with a <code>for</code> loop, an <code>if</code> statement, a <code>return</code> statement for stopping once we find a divisor, and a <code>return</code> statement for the case where our number had no divisors (when it&rsquo;s prime).</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p>We turned all that into a generator expression passed to the <code>all</code> function.</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>I prefer this second approach (a generator expression with <code>all</code>) because I find it <strong>more descriptive</strong>.</p>
+
+<p>We&rsquo;re checking to see whether &ldquo;all numbers in a range are not divisors of our candidate number&rdquo;.  That sounds quite a bit more like English to me than &ldquo;loop over all numbers in a range and return False if a divisor is found otherwise return True&rdquo;.</p>
+
+<p>If you don&rsquo;t find the behavior of <code>all</code> intuitive, you might find it easier to understand (and more English-like) when used with <code>if</code>:</p>
+
+<pre><code class="python">if all(condition(item) for item in iterable):
+    message = "All good"
+else:
+    message = "Bad value found"
+</code></pre>
+
+<p>You can always reformat your code to use an <code>if</code> statement if you find it more readable.</p>
+
+<h2><code>any</code> or <code>all</code></h2>
+
+<p>We&rsquo;ve been working with the <code>all</code> function, but I haven&rsquo;t mentioned it&rsquo;s counterpart: the <code>any</code> function.  Let&rsquo;s take a look at how <code>all</code> and <code>any</code> compare.</p>
+
+<p>These two expressions:</p>
+
+<pre><code class="python">all_good = all(
+    condition(x)
+    for x in things
+)
+some_bad = not all(
+    condition(x)
+    for x in things
+)
+</code></pre>
+
+<p>Are equivalent to these two expressions (because of <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">DeMorgan&rsquo;s Laws</a>):</p>
+
+<pre><code class="python">all_good = not any(
+    not condition(x)
+    for x in things
+)
+some_bad = any(
+    not condition(x)
+    for x in things
+)
+</code></pre>
+
+<p>So this code:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Is feature-identical to this code:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return not any(
+        candidate % n == 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Both of them stop as soon as they find a divisor.</p>
+
+<p>I find the use of <code>all</code> more readable here, but I wanted to mention that <code>any</code> would work just as well.</p>
+
+<h2>Cheat sheet for refactoring with <code>any</code> and <code>all</code></h2>
+
+<p>All that explanation above was valuable, but how can we use this new knowledge to refactor our own code?  Here&rsquo;s a cheat sheet for you.</p>
+
+<p>Anytime you see code like this:</p>
+
+<pre><code class="python">all_good = True
+for item in iterable:
+    if not condition(item):
+        all_good = False
+        break
+</code></pre>
+
+<p>You can replace that code with this:</p>
+
+<pre><code class="python">all_good = all(
+    condition(item)
+    for item in iterable
+)
+</code></pre>
+
+<p>Anytime you see code like this:</p>
+
+<pre><code class="python">any_good = False
+for item in iterable:
+    if condition(item):
+        any_good = True
+        break
+</code></pre>
+
+<p>You can replace it with this:</p>
+
+<pre><code class="python">any_good = any(
+    condition(item)
+    for item in iterable
+)
+</code></pre>
+
+<p>Note that <code>break</code> is used in the code above because we&rsquo;re not returning from a function.  Using <code>return</code> (like we did in <code>is_prime</code>) is another way to stop our loop early.</p>
+
+<p>Python&rsquo;s <code>any</code> and <code>all</code> functions were <em>made</em> for use with generator expressions (discussion <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a> and <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a>).  You can use <code>any</code> and <code>all</code> without generator expressions, but I don&rsquo;t find a need for that as often.</p>
+
+<p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
+
+<h2>Conclusion: code style in a process</h2>
+
+<p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
+
+<p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
+
+<p>Have a question about code style?  Have a thought about <code>any</code>, <code>all</code>, and generator expressions?  Please <a href="http://twitter.com/treyhunner">tweet me</a>, <a href="mailto:hello@truthful.technology">email me</a>, or comment below. 😄</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Weekly Python Chat: Live from PyCon]]></title>
+    <link href="http://treyhunner.com/2016/05/weekly-python-chat-live-from-pycon/"/>
+    <updated>2016-05-23T09:00:00-07:00</updated>
+    <id>http://treyhunner.com/2016/05/weekly-python-chat-live-from-pycon</id>
+    <content type="html"><![CDATA[<p><strong>TL;DR</strong>: If you&rsquo;ve never been to PyCon and are curious what the big deal is about, sign up for the <a href="http://ccst.io/e/pycon">PyCon Day 1 live chat</a> and <a href="http://ccst.io/e/sprints">PyCon Sprints live chat</a>.</p>
+
+<p>I have been holding live webcasts every week for almost 2 months now.  I started this trend after my <a href="http://treyhunner.com/2016/03/regular-expressions-in-python-webinar/">regular expressions webinar</a> in March.  I soon came up with a name and made a website for these <a href="https://twitter.com/treyhunner/status/720758046117343236">weekly python chat</a> events.  Now there&rsquo;s also a <a href="https://twitter.com/PythonChat">Twitter account</a> and a <a href="https://www.facebook.com/PythonChat">Facebook page</a>.</p>
+
+<h2>Guest speakers and other experimentation</h2>
+
+<p>I&rsquo;ve really enjoyed holding these events.  The audience participation has been great: ample questions and plenty of helpful chat adding on to the discussion and occasionally correcting my mistakes.</p>
+
+<p>I&rsquo;ve been experimenting with the chat format by bringing in guest speakers the last couple weeks and I plan to introduce more general topics occasionally in the future.</p>
+
+<h2>Web chats about PyCon, live from PyCon</h2>
+
+<p>Next week I&rsquo;ll be continuing my experimentation by hosting two Weekly Python Chat events <strong>live from PyCon</strong>.</p>
+
+<p>The first chat next week will be during the first day of PyCon.  I will likely be in the hallway accompanied by a couple other Python friends.  We&rsquo;ll answer your questions about what there is to do at PyCon, how it&rsquo;s different from other cons, and why we go.</p>
+
+<p>The second chat will be during the first day of the sprints.  We&rsquo;ll chat about who the sprints are for, how new contributors can get involved with the sprints, and what makes the sprints rewarding.</p>
+
+<h2>I want to convince you to join me at PyCon 2017</h2>
+
+<p><img src="/images/pycon-badge.jpg"></p>
+
+<p>If you&rsquo;ve never attended the sprints, sign up for the second chat to ask your questions and state your concerns.  Hopefully I can convince you to stay for the sprints next time.</p>
+
+<p>If you&rsquo;ve never been to PyCon, sign up for both chats and voice your questions and concerns in each.  I will address your questions and concerns, even if you can&rsquo;t make the live event.  <strong>Both chats will be recorded</strong> and you can re-watch them afterward.</p>
+
+<h3>Chat 1: Live from Day 1 of PyCon</h3>
+
+<p><strong>Monday</strong> May 30, 2016 at <strong>3:30pm</strong> PDT</p>
+
+<p>We&rsquo;ll discuss <strong>what PyCon is all about</strong>.</p>
+
+<p><strong><a href="http://ccst.io/e/pycon">Sign up here to attend the PyCon Day 1 live chat</a></strong></p>
+
+<h3>Chat 2: Live from the PyCon sprints</h3>
+
+<p><strong>Thursday</strong> June 2, 2016 at <strong>11:00am</strong> PDT</p>
+
+<p>We&rsquo;ll chat about <strong>how the sprints work</strong>.</p>
+
+<p><strong><a href="http://ccst.io/e/sprints">Sign up here to attend the PyCon Sprints live chat</a></strong></p>
+
+<h2>Get in touch</h2>
+
+<p>Have questions?  Want to share your PyCon experiences during the live chat?  Going to PyCon next week and want to meet up?  <a href="mailto:tr%65y%40&#116;%72%75&#116;%68%66u&#108;&#46;&#116;&#101;c%68&#110;%6flo%67%79">Contact me</a>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to loop with indexes in Python]]></title>
+    <link href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/"/>
+    <updated>2016-04-25T09:00:00-07:00</updated>
+    <id>http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python</id>
+    <content type="html"><![CDATA[<p>If you&rsquo;re moving to Python from C or Java, you might be confused by Python&rsquo;s <code>for</code> loops.  <strong>Python doesn&rsquo;t actually have for loops</strong>&hellip; at least not the same kind of <code>for</code> loop that C-based languages have.  Python&rsquo;s <code>for</code> loops are actually <a href="https://en.wikipedia.org/wiki/Foreach_loop">foreach loops</a>.</p>
+
+<p>In this article I&rsquo;ll compare Python&rsquo;s <code>for</code> loops to those of other languages and discuss the usual ways we solve common problems with <code>for</code> loops in Python.</p>
+
+<h2>For loops in other languages</h2>
+
+<p>Before we look at Python&rsquo;s loops, let&rsquo;s take a look at a for loop in JavaScript:</p>
+
+<pre><code class="javascript">var colors = ["red", "green", "blue", "purple"];
+for (var i = 0; i &lt; colors.length; i++) {
+    console.log(colors[i]);
+}
+</code></pre>
+
+<p>This JavaScript loop looks nearly identical in C/C++ and Java.</p>
+
+<p>In this loop we:</p>
+
+<ol>
+<li>Set a counter variable <code>i</code> to 0</li>
+<li>Check if the counter is less than the array length</li>
+<li>Execute the code in the loop <em>or</em> exit the loop if the counter is too high</li>
+<li>Increment the counter variable by 1</li>
+</ol>
+
+
+<h2>Looping in Python</h2>
+
+<p>Now let&rsquo;s talk about loops in Python.  First we&rsquo;ll look at two slightly more familiar looping methods and then we&rsquo;ll look at the idiomatic way to loop in Python.</p>
+
+<h3>while</h3>
+
+<p>If we wanted to mimic the behavior of our traditional C-style <code>for</code> loop in Python, we could use a <code>while</code> loop:</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+i = 0
+while i &lt; len(colors):
+    print(colors[i])
+    i += 1
+</code></pre>
+
+<p>This involves the same 4 steps as the <code>for</code> loops in other languages (note that we&rsquo;re setting, checking, and incrementing <code>i</code>) but it&rsquo;s not quite as compact.</p>
+
+<p>This method of looping in Python is very uncommon.</p>
+
+<h3>range of length</h3>
+
+<p>I often see new Python programmers attempt to recreate traditional <code>for</code> loops in a slightly more creative fashion in Python:</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+for i in range(len(colors)):
+    print(colors[i])
+</code></pre>
+
+<p>This first creates a range corresponding to the indexes in our list (<code>0</code> to <code>len(colors) - 1</code>).  We can loop over this range using Python&rsquo;s for-in loop (really a <a href="https://en.wikipedia.org/wiki/Foreach_loop">foreach</a>).</p>
+
+<p>This provides us with the index of each item in our <code>colors</code> list, which is the same way that C-style <code>for</code> loops work.  To get the actual color, we use <code>colors[i]</code>.</p>
+
+<h3>for-in: the usual way</h3>
+
+<p>Both the while loop and range-of-len methods rely on looping over indexes.  But we don&rsquo;t actually care about the indexes: we&rsquo;re only using these indexes for the purpose of retrieving elements from our list.</p>
+
+<p>Because we don&rsquo;t actually care about the indexes in our loop, there is <strong>a much simpler method of looping</strong> we can use:</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+for color in colors:
+    print(color)
+</code></pre>
+
+<p>So instead of retrieving the item indexes and looking up each element, we can just loop over our list using a plain for-in loop.</p>
+
+<p>The other two methods we discussed are sometimes referred to as <a href="https://en.wikipedia.org/wiki/Anti-pattern">anti-patterns</a> because they are programming patterns which are widely considered unidiomatic.</p>
+
+<h2>What if we need indexes?</h2>
+
+<p>What if we actually need the indexes?  For example, let&rsquo;s say we&rsquo;re printing out president names along with their numbers (based on list indexes).</p>
+
+<h3>range of length</h3>
+
+<p>We could use <code>range(len(our_list))</code> and then lookup the index like before:</p>
+
+<pre><code class="python">presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
+for i in range(len(presidents)):
+    print("President {}: {}".format(i + 1, presidents[i]))
+</code></pre>
+
+<p>But there&rsquo;s a more idiomatic way to accomplish this task: use the <code>enumerate</code> function.</p>
+
+<h3>enumerate</h3>
+
+<p>Python&rsquo;s built-in <code>enumerate</code> function allows us to loop over a list and retrieve both the index and the value of each item in the list:</p>
+
+<pre><code class="python">presidents = ["Washington", "Adams", "Jefferson", "Madison", "Monroe", "Adams", "Jackson"]
+for num, name in enumerate(presidents, start=1):
+    print("President {}: {}".format(num, name))
+</code></pre>
+
+<p>The <code>enumerate</code> function gives us an iterable where each element is a tuple that contains the index of the item and the original item value.</p>
+
+<p>This function is meant for solving the task of:</p>
+
+<ol>
+<li>Accessing each item in a list (or another iterable)</li>
+<li>Also getting the index of each item accessed</li>
+</ol>
+
+
+<p>So whenever we need item indexes while looping, we should think of <code>enumerate</code>.</p>
+
+<p><strong>Note</strong>: the <code>start=1</code> option to <code>enumerate</code> here is optional.  If we didn&rsquo;t specify this, we&rsquo;d start counting at <code>0</code> by default.</p>
+
+<h2>What if we need to loop over multiple things?</h2>
+
+<p>Often when we use list indexes, it&rsquo;s to look something up in another list.</p>
+
+<h3>enumerate</h3>
+
+<p>For example, here we&rsquo;re looping over two lists at the same time using indexes to look up corresponding elements:</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+ratios = [0.2, 0.3, 0.1, 0.4]
+for i, color in enumerate(colors):
+    ratio = ratios[i]
+    print("{}% {}".format(ratio * 100, color))
+</code></pre>
+
+<p>Note that we only need the index in this scenario because we&rsquo;re using it to lookup elements at the same index in our second list.  What we really want is to loop over two lists simultaneously: the indexes just provide a means to do that.</p>
+
+<h3>zip</h3>
+
+<p>We don&rsquo;t actually care about the index when looping here.  Our real goal is to loop over two lists at once.  This need is common enough that there&rsquo;s a special built-in function just for this.</p>
+
+<p>Python&rsquo;s <code>zip</code> function allows us to <strong>loop over multiple lists at the same time</strong>:</p>
+
+<pre><code class="python">colors = ["red", "green", "blue", "purple"]
+ratios = [0.2, 0.3, 0.1, 0.4]
+for color, ratio in zip(colors, ratios):
+    print("{}% {}".format(ratio * 100, color))
+</code></pre>
+
+<p>The <code>zip</code> function takes multiple lists and returns an iterable that provides a tuple of the corresponding elements of each list as we loop over it.</p>
+
+<p>Note that <code>zip</code> with different size lists will stop after the shortest list runs out of items.  You may want to look into <a href="https://docs.python.org/3/library/itertools.html#itertools.zip_longest">itertools.zip_longest</a> if you need different behavior.  Also note that <code>zip</code> in Python 2 returns a list but <code>zip</code> in Python 3 returns a lazy iterable.  In Python 2, <code>itertools.izip</code> is equivalent to the newer Python 3 <code>zip</code> function.</p>
+
+<h2>Looping cheat sheet</h2>
+
+<p>Here&rsquo;s a very short looping cheat sheet that might help you remember the preferred construct for each of these three looping scenarios.</p>
+
+<p>Loop over a single list with a regular for-in:</p>
+
+<pre><code class="python">for n in numbers:
+    print(n)
+</code></pre>
+
+<p>Loop over multiple lists at the same time with <code>zip</code>:</p>
+
+<pre><code class="python">for header, rows in zip(headers, columns):
+    print("{}: {}".format(header, ", ".join(rows)))
+</code></pre>
+
+<p>Loop over a list while keeping track of indexes with <code>enumerate</code>:</p>
+
+<pre><code class="python">for num, line in enumerate(lines):
+    print("{0:03d}: {}".format(num, line))
+</code></pre>
+
+<h2>In Summary</h2>
+
+<p>If you find yourself tempted to use <code>range(len(my_list))</code> or a loop counter, think about whether you can reframe your problem to allow usage of <code>zip</code> or <code>enumerate</code> (or a combination of the two).</p>
+
+<p>In fact, if you find yourself reaching for <code>enumerate</code>, think about whether you actually need indexes at all.  It&rsquo;s quite rare to need indexes in Python.</p>
+
+<ol>
+<li>If you need to loop over multiple lists at the same time, use <code>zip</code></li>
+<li>If you only need to loop over a single list just use a for-in loop</li>
+<li>If you need to loop over a list and you need item indexes, use <code>enumerate</code></li>
+</ol>
+
+
+<p>If you find yourself struggling to figure out the best way to loop, try using the cheat sheet above.</p>
+
+<p>For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder&rsquo;s <a href="http://nedbatchelder.com/text/iter.html">Loop Like a Native</a> presentation.</p>
+
+<p>Thanks <a href="http://lost-theory.org/">Steven Kryskalla</a> and <a href="http://purplediane.github.io/">Diane Chen</a> for proof-reading this post.</p>
+
+<p><strong>Update</strong>: If you&rsquo;re interested in learning how to make your own Python objects that can be looped over, you may want to watch the <a href="https://www.crowdcast.io/e/operator-overloading">operator overloading chat</a> I held on April 30, 2016.</p>
+
+<p>Happy looping!</p>
+]]></content>
+  </entry>
+  
+</feed>

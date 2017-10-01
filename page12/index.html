@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="About five years ago a friend taught me a card game called Cabo. It was a memory game of sorts. It plays quickly and is perfect while idling between &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/page12">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/06/cabo-card-game/">The Cabo Card Game</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-04T11:30:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 am</span></time>
+        
+           | <a href="/2015/06/cabo-card-game/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/06/cabo-card-game/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>About five years ago a friend taught me a card game called Cabo.  It was a memory game of sorts.  It plays quickly and is perfect while idling between activities.  I have spread this game to dozens of people at tech conferences, most recently during PyCon 2015.</p>
+
+<p>I often use this game as an ice breaker.  The conversation usually goes something like this:</p>
+
+<p><strong>Me</strong>: Hi. Would you like to play a fairly quick card game?  It&rsquo;s called Cabo.<br/>
+<strong>Them</strong>: I&rsquo;ve never heard of it.<br/>
+<strong>Me</strong>: I&rsquo;ve never met anyone who has.  I&rsquo;ll teach you the rules.<br/>
+<strong>Them</strong>: What kind of game is it?<br/>
+<strong>Me</strong>: An information management game (&ldquo;memory game&rdquo; seems to discourage people).<br/>
+<strong>Them</strong>: Hm okay.</p>
+
+<p>Cabo did not have a Wikipedia article when I first learned about it and I couldn&rsquo;t find anything online about it.  There is now a <a href="https://en.wikipedia.org/wiki/Cabo_(game)">Wikipedia entry for Cabo</a> and I ran across a website selling special Cabo playing cards: <a href="http://www.playcabo.com/">playcabo.com</a>.</p>
+
+<p>I have thought about making an online version of this game, printing playing cards with custom Cabo-themed artwork, and making an open source program that knows the rules of Cabo so I could use it as a teaching tool.  After chatting with friends I met at PyCon, I looked into what it would take to print a custom card deck to sell or gift to friends.</p>
+
+<p>I contacted the owner of <a href="http://www.playcabo.com/">playcabo.com</a> and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like <a href="https://en.wikipedia.org/wiki/Big_Two">Big Two</a>, <a href="https://en.wikipedia.org/wiki/Durak">Durak</a>, and <a href="https://en.wikipedia.org/wiki/Egyptian_Ratscrew">Egyptian Ratscrew</a>.  I was wrong.  This game has a known creator.</p>
+
+<p>Hard work was put into the creation of this game.  This game was designed by Melissa Limes and Mandy Henning.  Melissa founded Eventide Games LLC, registered Cabo as a trademark, and registered a copyright for the rules.  I was a little disappointed to discover that Cabo is owned property, but I was very excited to discover the origins of this game.</p>
+
+<p>The game I know as Cabo is a little different from the one that Melissa Limes sells.  Her game seems more kid-friendly and more beginner-friendly.  With Melissa&rsquo;s permission, I will now share with you the rules for a game I know as Cabo.</p>
+
+<h2>Cabo: the rules I know</h2>
+
+<h3>Setup</h3>
+
+<p>Each player starts with four cards, placed face-down and arranged into a two-by-two grid.  No one may look at any cards.</p>
+
+<p>In the beginning of the game all players will look at their bottom two cards (the ones closest to them) one time only.  Try to remember your cards.</p>
+
+<h3>Objective</h3>
+
+<p>The objective is to end the game with the lowest score.  Score is determined by summing up the value of each of your cards.</p>
+
+<p>Card values:</p>
+
+<ul>
+<li>Ace is worth 1</li>
+<li>Jack is worth 11</li>
+<li>Queen is worth 12</li>
+<li>King of diamonds (the one-eyed king) is worth 0 points</li>
+<li>The other three kings are worth 13 points</li>
+</ul>
+
+
+<p>1 through 6 are the &ldquo;low cards&rdquo;.  They have a low point value and are fairly desirable.</p>
+
+<p>7 through Queen are the &ldquo;power cards&rdquo;.  You will not want to keep them for their points, but if you draw one on your turn you can choose to use its power.  More on this below.</p>
+
+<p>The one-eyed king is great but the other kings have no abilities and they are not particularly desirable.</p>
+
+<h3>Gameplay</h3>
+
+<p>We never had a rule for who goes first, so the game starts by someone declaring that they are going first or pointing at someone else to indicate that they go first.</p>
+
+<p>On your turn you may either:</p>
+
+<ul>
+<li>Draw a card from the deck (the face-down pile)</li>
+<li>Draw a card from the discard pile (which is face-up)</li>
+</ul>
+
+
+<p>When drawing you may either:</p>
+
+<ol>
+<li><p>Swap the drawn card with one of your own cards</p>
+
+<p>You pick one of your cards, discard it and put the card you just drew in its place.</p></li>
+<li><p>Match the drawn card with any other cards you know with the same face</p>
+
+<p>You can match the drawn card with any cards on the table (not counting draw piles) with the same face (e.g. queens match queens, and fives match fives).  All matched cards are discarded.  All cards matched from other player&rsquo;s hands should be replaced with a card from your hand.  No one may look at the replaced cards when they are moved.  All matched cards are discarded.  Every card you match results in one less card in your hand.</p>
+
+<p>The card that initiated the matching goes on top of the discard pile after matching (this only matters when the one-eyed king is matched).</p>
+
+<p>Sometimes memories fail.  If you mess up while matching, you must take a penalty card for each mistake.  You cannot look at the penalty card.</p></li>
+<li><p>Discard the drawn card (just put it on top of the discard pile)</p>
+
+<p>This is a common move when drawing a king as they are worth 13 points and have no special powers.</p></li>
+<li><p>Use the card you drew as a power card (for 7, 8, 9, 10, Jack, Queen)</p>
+
+<p>There are three types of power cards which you can remember with this rhyme:</p>
+
+<ul>
+<li><strong>Seven or eight, know your fate</strong>: look at one of your own cards and then put it back (only you get to see it)</li>
+<li><strong>Nine or ten, know a friend</strong>: look at one card from someone else and then put it back (only you get to see it)</li>
+<li><strong>Jack or Queen, switch between</strong>: trade the places of any two cards on the table (excluding draw piles)</li>
+</ul>
+
+
+<p>When using a power card, put the card in the discard pile and then use the power.  That&rsquo;s your whole turn.  <strong>You may only use a card&rsquo;s power when drawing from the face-down pile.</strong></p></li>
+</ol>
+
+
+<h3>End Game</h3>
+
+<p>If at any point during a person&rsquo;s turn they call &ldquo;Cabo&rdquo;, everyone except for that person gets one more turn and then the game ends.</p>
+
+<p>There are two other ways the game may end:</p>
+
+<ol>
+<li>Someone runs out of cards (they match their last card)</li>
+<li>The deck runs out (alternatively you could re-shuffle and keep playing)</li>
+</ol>
+
+
+<p>The lowest total score wins (see objective).</p>
+
+<h2>Buy a custom deck</h2>
+
+<p>The version of the game I know is played with a standard 52-card deck.  To play this version you need to remember the rules and the rhyme.</p>
+
+<p>The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at <a href="http://www.playcabo.com/">PlayCabo.com</a>.</p>
+
+<h2>Play it</h2>
+
+<p>Try out Cabo and let me know what you think.  If the rules need clarification, I&rsquo;m happy to update this post.</p>
+
+<p>If you like this game, spread it everywhere you go.  It&rsquo;s a great ice breaker and a fun way to pass the time.</p>
+</div>
+  
+  <footer>
+  
+    <br>
+    <p>
+    👉  Want to find out what else there is to learn <strong><a href="http://eepurl.com/bFGUGT">subscribe to my email list</a></strong>! 👈
+    </p>
+  
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page13">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page11">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

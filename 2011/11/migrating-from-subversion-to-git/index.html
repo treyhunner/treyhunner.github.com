@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Migrating From Subversion to Git - Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Migrating From Subversion to Git Nov 17th, 2011 12:00 am | Comments I recently migrated multiple Subversion repositories to Git. I found
+this blog &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/2011/11/migrating-from-subversion-to-git">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Migrating From Subversion to Git</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2011-11-17T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I recently migrated multiple Subversion repositories to Git.  I found
+<a href="http://blog.woobling.org/2009/06/git-svn-abandon.html" title="Migrating from Subversion to Git">this blog post</a> very helpful during the process.  Here are
+some tips I found helpful that were not mentioned in that post.</p>
+
+<h3>Generating an authors file</h3>
+
+<p>Subversion denotes authors by usernames while Git uses name and email.  An
+authors file can be used to map subversion usernames to Git authors when
+creating the Git repository, like so:</p>
+
+<pre><code>git-svn clone --stdlayout --authors-file=authors.txt http://your/svn/repo/url
+</code></pre>
+
+<p>The trickest part about <a href="http://triptico.com/notes/8d4510bb.html">making an authors file</a> was finding
+all the authors.  I found this command useful for finding usernames of all
+Subversion committers:</p>
+
+<pre><code>svn log | awk '($0 ~ /^r/) {print $3}' | sort -u
+</code></pre>
+
+<p>A similar method of creating an authors file is
+<a href="http://technicalpickles.com/posts/creating-a-svn-authorsfile-when-migrating-from-subversion-to-git/">presented here</a>.</p>
+
+<h3>Removing git-svn-id messages</h3>
+
+<p>When migrating from Subversion, every commit messages has a <code>git-svn-id</code> line
+appended to it like this one:</p>
+
+<blockquote><p>git-svn-id: <a href="http://svn/repo/url/trunk@9837">http://svn/repo/url/trunk@9837</a> 1eab27b1-3bc6-4acd-4026-59d9a2a3569e</p></blockquote>
+
+<p>If you are planning on migrating away from your old Subversion repository
+entirely, there&rsquo;s no need to keep these.  The following command (taken from the
+<a href="http://linux.die.net/man/1/git-filter-branch">git filter-branch man page</a>) removes these <code>git-svn-id</code>
+lines from all commit messages in the current branch:</p>
+
+<pre><code>git filter-branch -f --msg-filter 'sed -e "/git-svn-id:/d"'
+</code></pre>
+
+<h3>Removing empty commit messages</h3>
+
+<p>Subversion allows empty commit messages, but Git does not.  Any empty commit
+messages in your newly migrated git repository should be replaced so commands
+like <code>git rebase</code> will work on these commits.</p>
+
+<p>This command will replace all empty commit messages with <nobr>
+&ldquo;&lt;empty commit message&gt;&rdquo;</nobr>:</p>
+
+<pre><code>git filter-branch -f --msg-filter '
+read msg
+if [ -n "$msg" ] ; then
+    echo "$msg"
+else
+    echo "&lt;empty commit message&gt;"
+fi'
+</code></pre>
+
+<h3>Poking around</h3>
+
+<p>After you&rsquo;ve cleaned up your new <em>master</em> branch, you should cleanup other
+branches you plan to keep.  Just <code>git checkout</code> each branch and repeat the same
+steps.  To find the remote subversion branches available for checkout use
+<code>git branch -a</code>.</p>
+
+<p>Migrating between version control systems may be a good time to permanently
+cleanup commit history with a <code>git rebase</code> or eliminate large files
+that were never used with a <code>git filter-branch</code>.  Just remember to make backups of
+previous working versions of branches before changing them, just in case.</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+            <h2>Learn more through weekly Python chats 🎁</h2>
+            <p>Like my teaching style?  Want to learn more?  Sign up for attend my <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> events so I can answer <strong>your questions</strong> about Python, programming, and life in general.</p>
+            <div class="mc-field-group">
+                <label for="mce-EMAIL">Email Address </label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-FNAME">First Name </label>
+                <input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-LNAME">Last Name </label>
+                <input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+            </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+                <input type="hidden" name="SIGNUP" value="Form Below Blog Post">
+            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+</div>
+<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2011-11-17T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/" data-via="treyhunner" data-counturl="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/09/django-and-model-history/" title="Previous Post: Django and model history">&laquo; Django and model history</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/02/editorconfig/" title="Next Post: Maintaining consistent coding conventions with EditorConfig">Maintaining consistent coding conventions with EditorConfig &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://treyhunner.com/2011/11/migrating-from-subversion-to-git/';
+        var disqus_url = 'http://treyhunner.com/2011/11/migrating-from-subversion-to-git/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Supporting Both Django 1.7 and South - Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Supporting Both Django 1.7 and South Mar 27th, 2014 1:05 pm | Comments Have an open source Django app with South migrations? Adding support for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/2014/03/migrating-to-django-1-dot-7">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Supporting Both Django 1.7 and South</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-03-27T13:05:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:05 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Have an open source Django app with South migrations?  Adding support for Django 1.7 might be a little painful.  In this post I will discuss the difficulty of supporting Django 1.7 while maintaining South migrations for users of Django 1.6 and below.</p>
+
+<p>Django 1.7 uses the <code>migrations</code> sub-package in your app for database migrations and South relies on the same package.  Unfortunately, you can&rsquo;t store both packages in the same place.  At first glance, it seems we cannot support both Django 1.7 and previous versions of Django using South.  However, as I explain below, we can support both at once.</p>
+
+<h2>Assessing your options</h2>
+
+<p>In order to support both Django 1.7 and Django 1.6 with South we can rename the <code>migrations</code> package and instruct users to reference the new package in their settings module.  We can do this with the <a href="https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-MIGRATION_MODULES">MIGRATION_MODULES</a> or <a href="http://south.readthedocs.org/en/latest/settings.html#south-migration-modules">SOUTH_MIGRATION_MODULES</a> settings.  There are three options:</p>
+
+<ol>
+<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>migrations</code> package</li>
+<li>Create new Django 1.7 migrations package in <code>django_migrations</code> directory and leave existing South migrations package</li>
+<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>django_migrations</code> directory</li>
+</ol>
+
+
+<p>The first option requires existing users either switch to Django 1.7 or update their settings module before upgrading to the new version of your app.  The second option requires all Django 1.7 users to customize their settings module to properly install your app.  The third option requires everyone (both Django 1.7 and South users) to update their settings module.</p>
+
+<p>Out of those options I prefer the first one.  When you eventually drop support for South, you will probably want your Django 1.7 migrations to live in the <code>migrations</code> directory.  If you don&rsquo;t force that switch now, you would eventually need to break backwards-compatibility or maintain two duplicate migrations directories.</p>
+
+<p>So our plan is to move the South migrations to <code>south_migrations</code> and create Django 1.7 migrations.  An example with the <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git mv email_log/migrations email_log/south_migrations
+</span><span class='line'><span class="nv">$ </span>python manage.py makemigrations email_log
+</span><span class='line'><span class="nv">$ </span>git add email_log/migrations
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Breaking South support</h2>
+
+<p>If you move <code>migrations</code> to <code>south_migrations</code> and make a Django 1.7 <code>migrations</code> package, what happens to existing users with South?</p>
+
+<p>Your new app upgrade will break backwards compatibility for South users and you want to make sure they <em>know</em> they need to make a change immediately after upgrading.  Users should see a loud and clear error message instructing them what they need to do.  This can be done by hijacking their use of the <strong>migrate</strong> command with South.</p>
+
+<p>Existing users will run <strong>migrate</strong> when upgrading your app.  If they don&rsquo;t migrate immediately, they will when they notice a problem and realize they need to run <strong>migrate</strong>.  Upon migrating, we want to show a clear error message telling the user what to do.</p>
+
+<h2>Failing loudly and with a clear error message</h2>
+
+<p>When South looks for app migrations it will import our <code>migrations</code> package.  Our <code>migrations</code> package contains Django 1.7 migrations, which South won&rsquo;t understand.  So we want to make sure that if our <code>migrations</code> package is imported either Django 1.7 is installed or a proper error message is displayed.  Upon importing this package, we can check for the presence of the new <code>django.db.migrations</code> module and if not found we will raise an exception with a descriptive error message.</p>
+
+<p>For example, this is the code I plan to add to the <code>email_log/migrations/__init__.py</code> file for <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> to add Django 1.7 support:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">Django migrations for email_log app</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">This package does not contain South migrations.  South migrations can be found</span>
+</span><span class='line'><span class="sd">in the ``south_migrations`` package.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SOUTH_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s"></span>
+</span><span class='line'><span class="s">For South support, customize the SOUTH_MIGRATION_MODULES setting like so:</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">    SOUTH_MIGRATION_MODULES = {</span>
+</span><span class='line'><span class="s">        &#39;email_log&#39;: &#39;email_log.south_migrations&#39;,</span>
+</span><span class='line'><span class="s">    }</span>
+</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Ensure the user is not using Django 1.6 or below with South</span>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">migrations</span>  <span class="c"># noqa</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ImproperlyConfigured</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span><span class="n">SOUTH_ERROR_MESSAGE</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when we run <strong>migrate</strong> with Django 1.6 and South, we&rsquo;ll see the following exception raised:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ImproperlyConfigured</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">For</span> <span class="n">South</span> <span class="n">support</span><span class="p">,</span> <span class="n">customize</span> <span class="n">the</span> <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="n">setting</span> <span class="n">like</span> <span class="n">so</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s">&#39;email_log&#39;</span><span class="p">:</span> <span class="s">&#39;email_log.south_migrations&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>This breaks backwards compatibility, but our users should immediately understand what has broken and how to fix it.  Remember to upgrade the major number of your package version to note this backwards-incompatible change.</p>
+
+<p>I would love to hear your thoughts about this approach in the comments below.  Let me know if you have other ideas about how to handle supporting Django 1.7 migrations and South at the same time.</p>
+</div>
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div id="mc_embed_signup_scroll">
+            <h2>Learn more through weekly Python chats 🎁</h2>
+            <p>Like my teaching style?  Want to learn more?  Sign up for attend my <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> events so I can answer <strong>your questions</strong> about Python, programming, and life in general.</p>
+            <div class="mc-field-group">
+                <label for="mce-EMAIL">Email Address </label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-FNAME">First Name </label>
+                <input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+            </div>
+            <div class="mc-field-group">
+                <label for="mce-LNAME">Last Name </label>
+                <input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+            </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+                <input type="hidden" name="SIGNUP" value="Form Below Blog Post">
+            </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+</div>
+<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+<!--End mc_embed_signup-->
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-03-27T13:05:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:05 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/" data-via="treyhunner" data-counturl="http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/11/tdd-with-django-workshop/" title="Previous Post: TDD with Django Tutorial">&laquo; TDD with Django Tutorial</a>
+      
+      
+        <a class="basic-alignment right" href="/2014/05/cli-for-finding-drm-free-audiobooks/" title="Next Post: CLI for finding DRM-free Audiobooks">CLI for finding DRM-free Audiobooks &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/';
+        var disqus_url = 'http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

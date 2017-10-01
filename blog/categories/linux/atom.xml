@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2017-09-30T23:17:38-07:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[tmuxstart]]></title>
+    <link href="http://treyhunner.com/2012/12/tmuxstart/"/>
+    <updated>2012-12-15T00:00:00-08:00</updated>
+    <id>http://treyhunner.com/2012/12/tmuxstart</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
+few months (nearly since the time I switched from screen to tmux).</p>
+
+<h3>A tmuxinator alternative</h3>
+
+<p>I use a separate session for each project I work on and I wanted a way to
+easily connect to project sessions with the same default windows and
+environment variables each time.  I tried using <a href="https://github.com/aziz/tmuxinator">tmuxinator</a>, but I found it
+to be too complicated for my needs.  I had trouble working within the
+limitations of the yaml files and I found the installation to be overly
+complicated (especially when working on a new server that didn&rsquo;t have ruby
+installed).  After I realized how simple it would be to solve my own problem I
+made the tmuxstart script.</p>
+
+<h3>Now available on Github</h3>
+
+<p>While updating my <a href="https://github.com/treyhunner/dotfiles">dotfiles</a> repository I realized I hadn&rsquo;t yet incorporated
+my tmuxstart workflow into my <code>.tmux.conf</code> file.  Yesterday I decided to make
+README and LICENSE files for my script and put it under version control.  I
+also added some helper functions to make the script even easier to use.  It&rsquo;s
+now available in my <a href="https://github.com/treyhunner/tmuxstart">tmuxstart</a> repository on Github.</p>
+
+<h3>Example usage</h3>
+
+<p>Below is an example of how to use tmuxstart.</p>
+
+<ol>
+<li><p>Add the following line to your <code>~/.tmux.conf</code> file:
+<code>
+ bind S command-prompt -p "Make/attach session:" "new-window 'tmuxstart \'%%\''"
+</code></p></li>
+<li><p>Create a <code>~/.tmuxstart</code> directory:
+<code>
+ mkdir ~/.tmuxstart
+</code></p></li>
+<li><p>Create a file <code>~/.tmuxstart/main</code> with the following contents:
+<code>
+ new_session htop
+ new_window
+</code></p></li>
+</ol>
+
+
+<p>Now you can create a tmux session called &ldquo;main&rdquo; with <a href="http://htop.sourceforge.net/">htop</a> in the first
+window and a shell in the second window by executing:</p>
+
+<pre><code>tmuxstart main
+</code></pre>
+
+<p>Or from an existing tmux server type <code>&lt;PREFIX&gt; S</code> (<code>&lt;PREFIX&gt;</code> is Ctrl-B by
+default), type <code>main</code> and hit Enter.</p>
+
+<p>When using either of these methods if a session called &ldquo;main&rdquo; already exists
+the existing session will be used instead.</p>
+
+<h3>How I use this</h3>
+
+<p>I have a separate tmuxstart session file for each of my Django projects and
+some of my open source projects also.  I use a &ldquo;main&rdquo; session file similar to
+the one above and I have Gnome Terminal set to start with the custom command
+&ldquo;tmuxstart main&rdquo; instead of a shell.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sharing Screenshots in Linux]]></title>
+    <link href="http://treyhunner.com/2011/04/sharing-screenshots-in-linux/"/>
+    <updated>2011-04-03T00:00:00-07:00</updated>
+    <id>http://treyhunner.com/2011/04/sharing-screenshots-in-linux</id>
+    <content type="html"><![CDATA[<p>I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to demonstrate bugs and Issues does not support file uploads.  There are <a href="http://wiki.dropbox.com/DropboxAddons/DropboxScreenGrabber">Windows</a> and <a href="http://www.getcloudapp.com/">Mac</a> applications that solve this problem by capturing a screenshot, uploading it, and copying a URL to access the screenshot to the clipboard.</p>
+
+<p>I did not find any Linux applications that will capture/upload a screenshot and copy the URL but I discovered <a href="http://forums.dropbox.com/topic.php?id=21735">a thread in the Dropbox forums</a> with a script that does just that.  I added comments to the script, changed the variable names, removed the need for a temporary file, and added a <code>notify-send</code> call as a visual cue (should work on Ubuntu).  I have the script mapped to <kbd>Ctrl-PrtScrn</kbd> in Ubuntu.</p>
+
+<p><div><script src='https://gist.github.com/892492.js'></script>
+<noscript><pre><code>#!/bin/sh
+# Ubuntu-specific modification of http://wiki.dropbox.com/TipsAndTricks/ShareScreenshots
+
+# Change these
+DB_USER_ID=YOURDBUSERID
+BITLY_USERNAME=YOURBITLYUSERNAME
+BITLY_API_KEY=YOURBITLYKEYHERE
+DROPBOX_PUBLIC_DIR=~/Dropbox/Public
+SCREENSHOT_DIR=screenshots
+
+CAPTURE_DELAY=0
+PICTURE_QUALITY=50
+FILE_EXTENSION=png
+TIME=$(date +%Y%m%d%H%M%S)
+FILENAME=$TIME.$FILE_EXTENSION
+
+# Move to the directory where screenshots will be stored
+mkdir -p $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+cd $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+
+# Take screenshot and save in screenshot directory
+scrot -d $CAPTURE_DELAY -q $PICTURE_QUALITY $FILENAME
+
+# Get Dropbox public URL for screenshot
+DB_URL=&quot;http://dl.dropbox.com/u/$DB_USER_ID/$SCREENSHOT_DIR/$FILENAME&quot;
+
+# Get bit.ly shortened URL for Dropbox URL
+ESCAPED_DB_URL=&quot;$(echo $DB_URL | sed &#39;s,:,%3A,g;s,/,%2F,g&#39;)&quot;
+BITLY_API_CALL=&quot;http://api.bit.ly/v3/shorten?login=$BITLY_USERNAME&amp;apiKey=$BITLY_API_KEY&amp;longUrl=$ESCAPED_DB_URL&amp;format=txt&quot;
+SHORT_URL=$(curl -s -S $BITLY_API_CALL)
+
+# Copy shortened URL to clipboard
+echo $SHORT_URL | xclip -sel clip
+
+# Display message to user (requires libnotify)
+notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboard: $SHORT_URL&quot;
+</code></pre></noscript></div>
+</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Multiple Monitors with Multiple Workspaces]]></title>
+    <link href="http://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces/"/>
+    <updated>2009-06-15T00:00:00-07:00</updated>
+    <id>http://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces</id>
+    <content type="html"><![CDATA[<p>In most window managers (WMs) that allow for multiple workspaces, additional monitors simply increase the size of each workspace. Since January I have been using a window manager that handles multiple monitors very differently, <a href="http://www.xmonad.org/">xmonad</a>.  Instead of increasing the workspace size to fit onto two monitors, each monitor displays a separate workspace, so the number of visible workspaces is increased.</p>
+
+<p><em>Paradigm difference between these two WM styles:</em></p>
+
+<ol>
+<li>Each additional monitor extends the workspace size
+
+<ul>
+<li>One large workspace is visible at a time (ex: workspace 1 spans across all monitors)</li>
+<li>When the workspace changes, both monitors change</li>
+<li>When removing a monitor, workspaces must shrink in size, bunching windows together</li>
+</ul>
+</li>
+<li>Each additional monitor allows another workspace to be visible
+
+<ul>
+<li>Each monitor displays one workspace at a time (ex: monitor 1 currently showing workspace 3 and monitor 2 currently showing workspace 1)</li>
+<li>When the workspace on one monitor changes the workspace on the other monitor does not need to change</li>
+<li>When removing a monitor, one less workspace will be displayed</li>
+</ul>
+</li>
+</ol>
+
+
+<p>There are many times when I want to be able to keep one monitor static while changing the other monitor.  For example I may want a video to stay on one monitor while I work on the other monitor.  In most window managers this restricts me to one workspace because changing workspaces would change both monitors.  In xmonad, the workspace that contains the video can be placed on one monitor and the visible workspace on the other monitor can changed freely without interfering with the first monitor.</p>
+
+<p>Since using xmonad, I have found &ldquo;1 workspace per monitor&rdquo; window management much more productive and comfortable.  I wish more window managers would at least make this kind of workspace/monitor handling an option.  I have had problems with xmonad recently and I have been trying to switch back to a more popular window manager with free-floating windows like Gnome, KDE, Xfce, or Openbox.</p>
+
+<p>So far my biggest problem with switching to other window managers has been the lack of &ldquo;1 workspace per monitor&rdquo; support.  Xmonad has greatly increased my productivity with two monitors and it&rsquo;s hard for me to switch away from it for this reason.  Hopefully I will find out how to effectively emulate this behavior in other window managers.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Now Boots in 10 Seconds]]></title>
+    <link href="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/"/>
+    <updated>2009-05-01T00:00:00-07:00</updated>
+    <id>http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds</id>
+    <content type="html"><![CDATA[<p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
+
+<p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
+
+<p>The main reason the boot time is so fast is due to my solid state drive.  That is how I got my boot down to 15 seconds before.  However, 7 seconds is a ridiculously fast boot time in my opinion.  Especially since it seems like it takes only about 3 seconds until my login manager is loaded and waiting for me.</p>
+]]></content>
+  </entry>
+  
+</feed>

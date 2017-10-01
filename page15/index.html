@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers. So, with ECMAScript 6 nearing standardization, let& &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://treyhunner.com/page15">
+  <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="http://truthful.technology/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>Python/Django programming, team training</h2>
+  
+</hgroup>
+<a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="http://www.weeklypython.chat/">Webcast</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://truthful.technology/">Hire Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/02/ecmascript-5-the-future-is-now/">ECMAScript 5: The Future Is Now</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-09T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+        
+           | <a href="/2015/02/ecmascript-5-the-future-is-now/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/02/ecmascript-5-the-future-is-now/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let&rsquo;s talk about ECMAScript 5.</p>
+
+<p>Do you know what features were added in ECMAScript 5?</p>
+
+<p>Do your target browsers support ECMAScript 5 yet?</p>
+
+<p><aside>
+    <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
+</aside></p>
+
+<h2>Arrays</h2>
+
+<p><a href="http://underscorejs.org/">Underscore.js</a> is a popular JavaScript library containing &ldquo;a whole mess of useful functional programming helpers&rdquo;.  Most of these helpers work on arrays and other enumerable objects (collections, as Underscore calls them).</p>
+
+<p>The ECMAScript 5 spec includes a handful of these functional programming helpers as methods on native JavaScript Array objects.</p>
+
+<ul>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"><code>indexOf</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"><code>lastIndexOf</code></a></strong>, like <a href="http://underscorejs.org/#indexOf"><code>_.indexOf</code></a> and <a href="http://underscorejs.org/#lastIndexOf"><code>_.lastIndexOf</code></a>, return the index (or last index) at which a value can be found in the array</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"><code>every</code></a></strong>, like <a href="http://underscorejs.org/#every"><code>_.every</code></a>, returns true if <strong>all</strong> the values in the array pass the test implemented by the provided function</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"><code>some</code></a></strong>, like <a href="http://underscorejs.org/#some"><code>_.some</code></a>, returns true if <strong>any</strong> of the values in the array pass the test implemented by the provided function</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><code>forEach</code></a></strong>, like <a href="http://underscorejs.org/#each"><code>_.each</code></a>, executes a provided function once for each array item</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code>map</code></a></strong>, like <a href="http://underscorejs.org/#map"><code>_.map</code></a>, returns a new array with the results of calling a provided function on each item of the array</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"><code>filter</code></a></strong>, like <a href="http://underscorejs.org/#filter"><code>_.filter</code></a>, returns a new array with all array items that pass the given test function included.</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"><code>reduce</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight"><code>reduceRight</code></a></strong>, like <a href="http://underscorejs.org/#reduce"><code>_.reduce</code></a> and <a href="http://underscorejs.org/#reduceRight"><code>_.reduceRight</code></a>, reduce a list of values into a single value using an accumulator function (either left-to-right or right-to-left)</p></li>
+</ul>
+
+
+<h2>Miscellaneous</h2>
+
+<p>Here are a variety of other features that were added to ECMAScript 5, in addition to array helper functions:</p>
+
+<ul>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys"><code>Object.keys</code></a>, like <a href="http://underscorejs.org/#keys"><code>_.keys</code></a>, returns an array of a given object&rsquo;s enumerable properties</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"><code>Array.isArray</code></a>, like <a href="http://underscorejs.org/#isArray"><code>_.isArray</code></a>, returns <code>true</code> if a given object is an array</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now"><code>Date.now</code></a>, like <a href="http://underscorejs.org/#now"><code>_.now</code></a> returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify</code></a> converts JavaScript objects to JSON strings and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse</code></a> converts JSON strings to JavaScript objects.</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>Function.prototype.bind</code></a>, like <a href="http://underscorejs.org/#bind"><code>_.bind</code></a>, returns a function that when called has its <code>this</code> keyword argument set to the provided value</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim"><code>String.prototype.trim</code></a>, returns a copy of the string with whitespace removed from the beginning and end of the string</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"><code>parseInt</code></a> no longer treats strings starting with <code>0</code> as octal values</p></li>
+<li><p>Strict mode, Object.create, Object.seal, Object.freeze, getters/setters, and more were also added in ECMAScript 5</p></li>
+</ul>
+
+
+<h2>Underscore.js vs Native</h2>
+
+<p>I try to use native array methods instead of their Underscore.js equivalents whenever possible.  However, these native array methods don&rsquo;t work in all cases.</p>
+
+<h3>Not all enumerables are arrays</h3>
+
+<p>Here&rsquo;s two enumerable objects which are not arrays:</p>
+
+<ol>
+<li>NodeList objects in the browser</li>
+<li>File buffers in Node.js</li>
+</ol>
+
+
+<p>You cannot use array methods like <code>forEach</code> on these enumerables, but you can the Underscore.js equivalents like <code>_.each</code>.</p>
+
+<h3>So why not use Underscore for everything?</h3>
+
+<h4>Native methods are more understandable</h4>
+
+<p>Web developers know JavaScript.  Web developers may not Underscore or your Underscore-like library of choice.  Don&rsquo;t stray far from vanilla JavaScript when you don&rsquo;t need to.</p>
+
+<h4>Underscore is less portable</h4>
+
+<p>Underscore doesn&rsquo;t come bundled with your rendering engine.</p>
+
+<h4>Native methods are future-proof</h4>
+
+<p>Underscore is cool today, but <a href="https://github.com/lodash/lodash">lodash</a> might be cooler tomorrow.  Or maybe you&rsquo;d prefer to use <a href="https://github.com/cmstead/JFP">JFP</a>.</p>
+
+<h4>Native methods can be faster</h4>
+
+<p>As browser engines improve their optimization of native code, your code improves in speed.  Underscore&rsquo;s equivalents of these methods cannot be further optimized at the low-level as their native equivalents.</p>
+
+<p>This claim as a theoretical one.  Here&rsquo;s some jsPerf links to test the real performance difference:</p>
+
+<ul>
+<li><a href="http://jsperf.com/array-prototype-indexof-vs-indexof">indexOf</a> and <a href="http://jsperf.com/array-prototype-lastindexof-vs-lastindexof">lastIndexOf</a></li>
+<li><a href="http://jsperf.com/array-prototype-every-vs-every">every</a></li>
+<li><a href="http://jsperf.com/array-prototype-some-vs-some2">some</a></li>
+<li><a href="http://jsperf.com/array-prototype-foreach-vs-each">forEach</a></li>
+<li><a href="http://jsperf.com/array-prototype-map-vs-map">map</a></li>
+<li><a href="http://jsperf.com/array-prototype-filter-vs-filter">filter</a></li>
+<li><a href="http://jsperf.com/array-prototype-reduce-vs-reduce">reduce</a> and <a href="http://jsperf.com/array-prototype-reduceright-vs-reduceright">reduceRight</a></li>
+</ul>
+
+
+<h2>What browsers support ECMAScript 5?</h2>
+
+<p>ECMAScript 5 is fully supported in Internet Explorer 10 and nearly fully supported in IE9.  Modern versions of Chrome and Firefox also fully support ECMAScript 5.</p>
+
+<h4>What if you need to support IE7 or IE8?</h4>
+
+<p>Fortunately, all of the array methods discussed above and some of the other ECMAScript 5 features can be <a href="https://remysharp.com/2010/10/08/what-is-a-polyfill">polyfilled</a> using <a href="https://github.com/es-shims/es5-shim">es5-shim</a>.</p>
+
+<h4>ECMAScript 5 all the things!</h4>
+
+<p>With these pollyfills in place, you should be able to use the majority of ECMAScript 5 features everywhere.  Go forth and ES5-ify your code!</p>
+
+<p><aside>
+This blog post was based on my ECMAScript 5 talk.  You can view the slides at <a href="http://treyhunner.com/es5-talk/">http://treyhunner.com/es5-talk/</a>
+</aside></p>
+</div>
+  
+  <footer>
+  
+    <br>
+    <p>
+    👉  Want to find out what else there is to learn <strong><a href="http://eepurl.com/bFGUGT">subscribe to my email list</a></strong>! 👈
+    </p>
+  
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/page16">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page14">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="headshot" src="http://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
+	<p>Hi, I’m Trey Hunner and I do <a href="http://truthful.technology/">remote &amp; on-site training</a> for Python/Django teams to help them reduce development time and motivate employees.</p>
+	<p>I also speak at <a href="/talks">Python conferences</a>, co-organize <a href="http://www.pythonsd.org/">Python meetups</a>, and host weekly <a href="http://www.weeklypython.chat/">Python webcasts</a>.</p>
+    <a class="btn" href="http://truthful.technology/">Learn More</a>
+
+</section>
+
+<!-- Begin MailChimp Signup Form -->
+<section>
+    <form action="//treyhunner.us12.list-manage.com/subscribe/post?u=cdbc9ae7bf54c3dff2773ea2d&amp;id=d717efe425" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <div>
+
+            <h1>Weekly Python Chat</h1>
+            <p>If you&#8217;re a curious Python programmer looking to discover what else there is to learn, sign up for my email list! 📧😄</p>
+            <p>I host a live <a href="http://www.weeklypython.chat"><nobr>Weekly Python Chat</nobr></a> during which I answer <strong>your questions</strong> about Python, freelancing, leadership, teaching, and other stuff. 💻💝</p>
+
+            <input type="email" value="" name="EMAIL" class="required subscribe-email" placeholder="Your email">
+            <div style="position: absolute; left: -5000px;"><input type="text" name="b_cdbc9ae7bf54c3dff2773ea2d_d717efe425" tabindex="-1" value=""></div>
+            <input type="hidden" name="SIGNUP" value="Blog Side Bar">
+            <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn">
+        </div>
+    </form>
+</section>
+
+<!--End mc_embed_signup-->
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/05/weekly-python-chat-live-from-pycon/">Weekly Python Chat: Live From PyCon</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a>
+      </li>
+    
+  </ul>
+</section>
+<section class="aboutme">
+  <h1>Find Me Online</h1>
+  <script src="//about.me/embed/treyhunner?image=0&amp;headline=0&amp;bio=0&amp;style=site"></script>
+</section>
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

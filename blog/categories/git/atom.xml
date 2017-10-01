@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2017-09-30T23:17:38-07:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Migrating from Subversion to Git]]></title>
+    <link href="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/"/>
+    <updated>2011-11-17T00:00:00-08:00</updated>
+    <id>http://treyhunner.com/2011/11/migrating-from-subversion-to-git</id>
+    <content type="html"><![CDATA[<p>I recently migrated multiple Subversion repositories to Git.  I found
+<a href="http://blog.woobling.org/2009/06/git-svn-abandon.html" title="Migrating from Subversion to Git">this blog post</a> very helpful during the process.  Here are
+some tips I found helpful that were not mentioned in that post.</p>
+
+<h3>Generating an authors file</h3>
+
+<p>Subversion denotes authors by usernames while Git uses name and email.  An
+authors file can be used to map subversion usernames to Git authors when
+creating the Git repository, like so:</p>
+
+<pre><code>git-svn clone --stdlayout --authors-file=authors.txt http://your/svn/repo/url
+</code></pre>
+
+<p>The trickest part about <a href="http://triptico.com/notes/8d4510bb.html">making an authors file</a> was finding
+all the authors.  I found this command useful for finding usernames of all
+Subversion committers:</p>
+
+<pre><code>svn log | awk '($0 ~ /^r/) {print $3}' | sort -u
+</code></pre>
+
+<p>A similar method of creating an authors file is
+<a href="http://technicalpickles.com/posts/creating-a-svn-authorsfile-when-migrating-from-subversion-to-git/">presented here</a>.</p>
+
+<h3>Removing git-svn-id messages</h3>
+
+<p>When migrating from Subversion, every commit messages has a <code>git-svn-id</code> line
+appended to it like this one:</p>
+
+<blockquote><p>git-svn-id: <a href="http://svn/repo/url/trunk@9837">http://svn/repo/url/trunk@9837</a> 1eab27b1-3bc6-4acd-4026-59d9a2a3569e</p></blockquote>
+
+<p>If you are planning on migrating away from your old Subversion repository
+entirely, there&rsquo;s no need to keep these.  The following command (taken from the
+<a href="http://linux.die.net/man/1/git-filter-branch">git filter-branch man page</a>) removes these <code>git-svn-id</code>
+lines from all commit messages in the current branch:</p>
+
+<pre><code>git filter-branch -f --msg-filter 'sed -e "/git-svn-id:/d"'
+</code></pre>
+
+<h3>Removing empty commit messages</h3>
+
+<p>Subversion allows empty commit messages, but Git does not.  Any empty commit
+messages in your newly migrated git repository should be replaced so commands
+like <code>git rebase</code> will work on these commits.</p>
+
+<p>This command will replace all empty commit messages with <nobr>
+&ldquo;&lt;empty commit message&gt;&rdquo;</nobr>:</p>
+
+<pre><code>git filter-branch -f --msg-filter '
+read msg
+if [ -n "$msg" ] ; then
+    echo "$msg"
+else
+    echo "&lt;empty commit message&gt;"
+fi'
+</code></pre>
+
+<h3>Poking around</h3>
+
+<p>After you&rsquo;ve cleaned up your new <em>master</em> branch, you should cleanup other
+branches you plan to keep.  Just <code>git checkout</code> each branch and repeat the same
+steps.  To find the remote subversion branches available for checkout use
+<code>git branch -a</code>.</p>
+
+<p>Migrating between version control systems may be a good time to permanently
+cleanup commit history with a <code>git rebase</code> or eliminate large files
+that were never used with a <code>git filter-branch</code>.  Just remember to make backups of
+previous working versions of branches before changing them, just in case.</p>
+]]></content>
+  </entry>
+  
+</feed>

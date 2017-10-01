@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: open-source | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/open-source/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2017-09-30T23:17:38-07:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Maintaining an open source project]]></title>
+    <link href="http://treyhunner.com/2013/07/maintaining-an-open-source-project/"/>
+    <updated>2013-07-21T00:00:00-07:00</updated>
+    <id>http://treyhunner.com/2013/07/maintaining-an-open-source-project</id>
+    <content type="html"><![CDATA[<p>This post contains some of my opinions on how to maintain an open source project well.  I&rsquo;ve built up my opinions on this topic from maintaining and contributing to open source projects.  Keep in mind that I am not an expert on this topic.</p>
+
+<h2>Structure your project logically</h2>
+
+<p>You shouldn&rsquo;t need to worry about structuring your project because others have done that work for you.  <strong>Base your project&rsquo;s design on other well-organized projects.</strong></p>
+
+<p>I compiled some tips I try to follow for open source Django projects I maintain in my <a href="https://github.com/treyhunner/django-skeleton-app">django-skeleton-app</a> repository.  Check it out if you&rsquo;re starting a new Python project.</p>
+
+<h2>Make it very easy to contribute</h2>
+
+<p>Document your process for contributing code, filing bugs, and maintaining other feedback.  Reference this process in your README file, your documentation, and your <a href="https://github.com/blog/1184-contributing-guidelines">CONTRIBUTING</a> file.  If you need a place to discuss project development outside of the issue tracker, consider creating a mailing list.</p>
+
+<h2>Be kind</h2>
+
+<p>Thank your contributors, appologize if you make a big mistake or say something rude, and be very courteous.  Add all your contributors to the AUTHORS file and grant push access to active contributors.</p>
+
+<h2>Be Responsive</h2>
+
+<p>Don&rsquo;t have time to look over a new pull request this week?  Make a comment noting when you&rsquo;ll give your feedback.  This way your contributor can add a friendly reminder later without feeling rude.</p>
+
+<p>Realized you forgot to respond to a 12 month old pull request?  Respond right now and ask whether the code or problem is still relevant.  A late response is better than none at all.</p>
+
+<p>Don&rsquo;t know if you&rsquo;ll ever have time to look at an issue?  Say so!  <strong>Do not leave your contributors in the dark!</strong></p>
+
+<h2>Automate all the things</h2>
+
+<p>Use:</p>
+
+<ul>
+<li><a href="https://travis-ci.org/">Travis CI</a>: run continuous integration tests for all pushes and pull requests</li>
+<li><a href="https://coveralls.io/">Coveralls</a>: measure code coverage while running your CI tests</li>
+<li>A documentation site like <a href="https://readthedocs.org/">Read The Docs</a> which auto-updates on pushes</li>
+</ul>
+
+
+<h2>Learn from others</h2>
+
+<p>I&rsquo;m not the only one with opinions about open source.</p>
+
+<p>Read more opinions on maintaining an open source project:</p>
+
+<ul>
+<li><a href="https://segment.io/blog/tips-for-maintaining-an-open-source-library/">Tips for maintaining an Open-Source library</a></li>
+<li><a href="http://www.codesimplicity.com/post/open-source-community-simplified/">Open Source Community, Simplified</a></li>
+<li><a href="https://hacks.mozilla.org/2013/05/how-to-spread-the-word-about-your-code/">How to Spead The Word About Your Code</a></li>
+</ul>
+
+
+<p>Watch some videos about maintaining an open source project:</p>
+
+<ul>
+<li><a href="http://www.youtube.com/watch?v=xgWFTrXn0_U">Maintaining Your Sanity While Maintaining Your Open Source App</a></li>
+<li><a href="http://pyvideo.org/video/1795/write-the-docs">Write the Docs</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
