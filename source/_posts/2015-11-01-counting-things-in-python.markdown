@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Counting things in Python: a history"
+title: "Counting Things in Python: A History"
 date: 2015-11-09 12:30:00 -0700
 comments: true
 categories: python favorite

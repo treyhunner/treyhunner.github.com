@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The idiomatic way to merge dictionaries in Python"
+title: "The Idiomatic Way to Merge Dictionaries in Python"
 date: 2016-02-23 10:00:00 -0800
 comments: true
 categories: python favorite
