@@ -17,7 +17,21 @@ Python 2's `xrange` is somewhat more limited than Python 3's `range`.  In this a
 
 Before we take a look at differences between `xrange` and `range` objects, let's take a look at some of the similarities.
 
-The `xrange` object is an iterable (anything you can loop over is an iterable):
+Python 2's `xrange` has a fairly descriptive string representation:
+
+```pycon
+>>> xrange(10)
+xrange(10)
+```
+
+And so does Python 3's `range` object:
+
+```pycon
+>>> range(10)
+range(0, 10)
+```
+
+The `xrange` object in Python 2 is an iterable (anything you can loop over is an iterable):
 
 ```pycon
 >>> for n in xrange(0, 10, 4):
@@ -28,7 +42,7 @@ The `xrange` object is an iterable (anything you can loop over is an iterable):
 8
 ```
 
-And the `range` object is also an iterable:
+And the `range` object in Python 3 is also an iterable:
 
 ```pycon
 >>> for n in range(0, 10, 3):
@@ -51,7 +65,7 @@ xrange(5)
 xrange(5)
 ```
 
-So does the range object:
+So does the `range` object:
 
 ```pycon
 >>> range(0, 5, 1)
@@ -249,6 +263,8 @@ But in Python 3 this returns an answer immediately:
 >>> -1 in range(1000000000)
 False
 ```
+
+Python 3 is able to return an answer immediately for `range` objects because it can compute an answer based off the start, stop, and step we provided.
 
 ## Start, stop, and step
 
