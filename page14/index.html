@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Have you ever tried to customize the font size for your Bootstrap-powered website? It&rsquo;s not something you can easily do without recompiling &hellip;">
+  <meta name="description" content="Want to serve up your Ember CLI application via Nginx/Apache or another web server software? Let&rsquo;s learn how! TLDR: I made an Ember-CLI-Deploy &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,7 +105,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/02/creating-a-custom-bootstrap-build/">Creating a Custom Bootstrap Build</a></h1>
+      <h1 class="entry-title"><a href="/2015/03/deploying-an-ember-cli-application-via-ssh/">Deploying an Ember CLI application through SSH</a></h1>
     
     
       <p class="meta">
@@ -114,124 +114,69 @@
 
 
 
-<time class='entry-date' datetime='2015-02-25T16:20:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:20 pm</span></time>
+<time class='entry-date' datetime='2015-03-10T12:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:30 pm</span></time>
         
-           | <a href="/2015/02/creating-a-custom-bootstrap-build/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/02/creating-a-custom-bootstrap-build/">Comments</a>
+           | <a href="/2015/03/deploying-an-ember-cli-application-via-ssh/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/03/deploying-an-ember-cli-application-via-ssh/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Have you ever tried to customize the font size for your <a href="http://getbootstrap.com/">Bootstrap</a>-powered website?</p>
+  <div class="entry-content"><p>Want to serve up your <a href="http://ember-cli.com">Ember CLI</a> application via Nginx/Apache or another web server software?  Let&rsquo;s learn how!</p>
 
-<p>It&rsquo;s not something you can easily do without recompiling Bootstrap&rsquo;s CSS. If you change the font size on your page, you&rsquo;ll want that change to cascade through.  A change in the base font size should recalculate header font sizes and margins/padding for text elements like paragraph tags.</p>
+<p><strong>TLDR:</strong> I made an Ember-CLI-Deploy adapter for deploying over SSH: <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a></p>
 
-<p>Let&rsquo;s look at how to create a custom <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a> build without maintaining our own fork of Bootstrap.</p>
+<h2>Ember-CLI-Deploy</h2>
 
-<h2>Using Bootstrap with Bower</h2>
+<p><a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> is &ldquo;an Ember CLI addon for lightning fast deployments of Ember CLI apps&rdquo;.  Using Ember-CLI-Deploy is preferable using to another static asset deployment solution because <em>it caters to the needs of an Ember CLI app</em>.</p>
 
-<p>We&rsquo;re going to use <code>bower</code> and <code>gulp</code> to compile Bootstrap, so we&rsquo;ll need <a href="http://nodejs.org/">Node.js</a>.</p>
+<p>Last week at EmberConf 2015, Luke Melia <a href="https://www.youtube.com/watch?v=4EDetv_Rw5U">announced during his talk</a> that the three big competing Ember-CLI deployment solutions (Ember-Deploy, Front-End-Builds, and Ember-CLI-Deploy) will be merging into a single Ember-CLI-Deploy package based largely on Ember-Deploy.  Luke&rsquo;s talk inspired me to finally look into using <a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> for deployment.</p>
 
-<p>First let&rsquo;s make a <code>package.json</code> file for Node to see.  Either use <code>npm init -y</code> or create a <code>package.json</code> file containing just an empty JSON object (<code>{}</code>).</p>
+<p>Note that whenever you see &ldquo;Ember-Deploy&rdquo; post you can now treat this as synonymous with &ldquo;Ember-CLI-Deploy&rdquo;.</p>
 
-<p>Now let&rsquo;s install <code>gulp</code>, <code>gulp-bower</code>, and <code>gulp-sass</code>:</p>
+<h2>Why SSH instead of S3?</h2>
 
-<pre><code>$ npm install --save-dev gulp gulp-bower gulp-sass
-</code></pre>
+<p>You can host your entire front-end website on Amazon S3 with <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a>.  If you use Ember CLI&rsquo;s default location behavior, your routes will use non-hash URLs on modern browsers (e.g. <a href="https://freemusic.ninja/resources">/resources</a> instead of <a href="https://freemusic.ninja/#/resources">/#/resources</a>).  This means that you need S3 to properly serve up all of your routes (not just the <code>/</code> path).</p>
 
-<p>Our <code>package.json</code> file should now look something like this:</p>
+<p>As an AWS beginner, the easiest solution I found for using S3 for hosting an Ember app with non-hash URLs is to set the 404 page to <code>index.html</code>.  This serves up the correct pages but returns a 404 status code for all routes besides the base <code>/</code> URL, which is obviously not ideal.</p>
 
-<figure class='code'><figcaption><span>package.json </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;gulp&quot;</span><span class="p">:</span> <span class="s2">&quot;^3.8.11&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;gulp-bower&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.10&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;gulp-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;^1.3.3&quot;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
+<p>After failing to find a simple and elegant solution using an S3 bucket for my Ember CLI app&rsquo;s <code>index.html</code> file, I decided to move it onto my server and serve it through Nginx.</p>
+
+<p><strong>UPDATE:</strong> You <em>can</em> use non-hash URLs with S3 without returning 404 status codes.  Michael Klein opened <a href="https://github.com/Kerry350/ember-deploy-s3-index/pull/12/files">a pull request</a> for ember-deploy-s3-index noting how</p>
+
+<h2>Ember-Deploy-SSH-Index</h2>
+
+<p>I went looking for an Ember-CLI-Deploy adapter that would allow my to upload my files to a directory on my web server, but I didn&rsquo;t find any such adapters.</p>
+
+<p>Inspired by Kerry Gallagher&rsquo;s blog posts about <a href="http://kerrygallagher.co.uk/the-making-of-ember-deploy-s3-index/">the making of ember-deploy-s3-index</a> and <a href="http://kerrygallagher.co.uk/making-ember-deploy-adapters/">making Ember-Deploy adapters</a>, I decided to try making my own adapter.  My adapter, called <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>, allows deploying your Ember CLI index page to a web server via SSH.</p>
+
+<p>After looking for Node.js-based SSH/SCP/Rsync libraries, I decided to use the <a href="https://github.com/mscdex/ssh2">ssh2</a> library (a pure JS SSH implementation) to manage the SSH connections.  I looked at the in-progress Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#index-adapters">documentation</a>, and the <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> code to determine how my adapter should work.</p>
+
+<p>Following the Ember-CLI-Deploy API, my library includes:</p>
+
+<ul>
+<li>an <code>upload</code> function that uploads the current index page to a file named based on the Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#tagging-adapters">tag</a> (the git hash)</li>
+<li>a <code>list</code> function that lists the files in the remote directory on the server</li>
+<li>an <code>activate</code> function that links the <code>index.html</code> file to a given revision file</li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>You can use <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a> to host your static assets on S3 and your index page through your own web server.</p>
+
+<p>First, install Ember-CLI-Deploy and the adapters into your Ember CLI app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>npm install --save-dev ember-cli-deploy ember-deploy-ssh-index ember-deploy-s3
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now let&rsquo;s use Bower to install bootstrap.  This will allow us to import Bootstrap into our SCSS code and compile it down to CSS manually.</p>
+<p>Now make a <code>config/deploy.js</code> file with your SSH and S3 configuration.  I prefer to store my AWS credentials and SSH private key filename in environment variables, but a gitignore&rsquo;d configuration file or Node.js module would work as well.</p>
 
-<p>Create a <code>bower.json</code> file using <code>bower init</code> or by manually creating one:</p>
-
-<figure class='code'><figcaption><span>bower.json </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom-bootstrap-example&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nt">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>    <span class="s2">&quot;Lillian Langston &lt;lillian@example.com&gt;&quot;</span>
-</span><span class='line'>  <span class="p">],</span>
-</span><span class='line'>  <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>  <span class="nt">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>    <span class="s2">&quot;**/.*&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;bower_components&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;test&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s2">&quot;tests&quot;</span>
-</span><span class='line'>  <span class="p">],</span>
-</span><span class='line'>  <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now let&rsquo;s install <code>bootstrap-sass</code> with Bower.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bower install --save bootstrap-sass
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Our <code>bower.json</code> file should now have <code>bootstrap-sass</code> listed as a dependency:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"dependencies": {
-</span><span class='line'>  "bootstrap-sass": "~3.3.3"
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we can make an SCSS file that includes bootstrap into our project.  Let&rsquo;s call our SCSS file <code>css/app.scss</code>:</p>
-
-<figure class='code'><figcaption><span>css/app.scss </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now let&rsquo;s use gulp to compile our <code>app.scss</code> which includes Bootstrap SASS:</p>
-
-<figure class='code'><figcaption><span>gulpfile.js </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -253,123 +198,85 @@
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-sass&#39;</span><span class="p">);</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/* jshint node: true */</span>
 </span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">bootstrapDir</span><span class="o">:</span> <span class="s1">&#39;./bower_components/bootstrap-sass&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">publicDir</span><span class="o">:</span> <span class="s1">&#39;./public&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">production</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">store</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;ssh&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">remoteDir</span><span class="o">:</span> <span class="s1">&#39;/var/www/&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;root&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">privateKeyFile</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SSH_KEY_FILE</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">assets</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;s3&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">accessKeyId</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_KEY</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">secretAccessKey</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_SECRET</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">bucket</span><span class="o">:</span> <span class="s1">&#39;assets.example.com&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">development</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Add a development configuration here, similar to the production one above</span>
+</span><span class='line'>  <span class="p">},</span>
 </span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./css/app.scss&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">({</span>
-</span><span class='line'>        <span class="nx">includePaths</span><span class="o">:</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/stylesheets&#39;</span><span class="p">],</span>
-</span><span class='line'>    <span class="p">}))</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/css&#39;</span><span class="p">));</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;fonts&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/fonts/**/*&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/fonts&#39;</span><span class="p">));</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;fonts&#39;</span><span class="p">]);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now when we run <code>gulp</code>, our compiled Bootstrap CSS should appear in the <code>public/css</code> directory:</p>
+<p>Because we&rsquo;re storing our static assets at a different base URL from our index page, we&rsquo;ll need to prepend a base URL to our asset paths.  Let&rsquo;s update our <code>EmberApp</code> definition in our <code>Brocfile.js</code> to reflect that change:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
-</span><span class='line'><span class="nv">$ </span>ls public/css
-</span><span class='line'>app.css
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Customizing the font size</h2>
-
-<p>Now let&rsquo;s look at how we can go about customizing the font size in Bootstrap.</p>
-
-<p>Notice that the value of the <code>$font-size-base</code> variable in the <a href="https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss#L52"><code>_variables.scss</code> file</a> is used for calculating a variety of other important variables.  For example 8 of the lines below rely on <code>$font-size-base</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">14</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$font-size-large</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
-</span><span class='line'><span class="nv">$font-size-small</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$font-size-h1</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.6</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~36px</span>
-</span><span class='line'><span class="nv">$font-size-h2</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.15</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~30px</span>
-</span><span class='line'><span class="nv">$font-size-h3</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.7</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~24px</span>
-</span><span class='line'><span class="nv">$font-size-h4</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
-</span><span class='line'><span class="nv">$font-size-h5</span><span class="o">:</span>            <span class="nv">$font-size-base</span> <span class="nv">!default</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$font-size-h6</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EmberApp</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">fingerprint</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">prepend</span><span class="o">:</span> <span class="s1">&#39;https://s3.amazonaws.com/assets.example.com/&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Notice those <code>!default</code> flags?  That <code>!default</code> flag means the variables will be set <em>only</em> if they don&rsquo;t have a value already.</p>
+<p>Now we should be able to upload our application:</p>
 
-<p>All of the variables assigned in <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS&rsquo;s</a> <code>_variables.scss</code> file have a <code>!default</code> flag.  That means we can override those variables by assigning our own values before we import Bootstrap.</p>
-
-<p>Let&rsquo;s copy Bootstrap&rsquo;s <code>_variables.scss</code> file and make our own custom version:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss css/_variables.scss
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ember deploy -e production
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now we need to reference our custom variables module from our <code>app.scss</code> file.</p>
+<p>And activate our current revision (change <code>example</code> to your app name):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;variables&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">tag</span><span class="o">=</span><span class="s2">&quot;example:$(git rev-parse --short HEAD)&quot;</span>
+</span><span class='line'><span class="nv">$ </span>ember deploy:activate --revision <span class="nv">$tag</span> --environment production
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Remember to import our <code>variables</code> module <em>before</em> we import Bootstrap!  If we import it afterward, our changes customizations won&rsquo;t be applied.</p>
+<p>Take a look at the <a href="https://github.com/treyhunner/ember-deploy-ssh-index#readme">README file</a> for more documentation on the usage of <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>.</p>
 
-<p>Now let&rsquo;s change <code>$font-size-base</code> to <code>16px</code> in <code>css/_variables.scss</code>:</p>
+<h2>Next Steps</h2>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> is the first <a href="http://ember-cli.com">Ember CLI</a>-related NPM module I have made.  I have only used it to deploy a single website, <a href="https://freemusic.ninja/">Free Music Ninja</a> (<a href="https://github.com/FreeMusicNinja/freemusic.ninja">code here</a>).  I have also not yet written any tests for this adapter so it&rsquo;s probably buggy.</p>
+
+<p>My future plans include:</p>
+
+<ol>
+<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/3">Write tests.</a>  <q>Code without tests is broken by design</q> - <cite>Jacob Kaplan Moss</cite></li>
+<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/10">Possibly rename app</a>: <code>ember-deploy-ssh-index</code> to <code>ember-cli-deploy-ssh-index</code></li>
+<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/7">Support SSH config file</a> (<code>~/.ssh/config</code>)</li>
+</ol>
 
 
-<p>Now if we recompile our CSS we should see our larger font size reflected throughout our application:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Try it out!</h2>
-
-<p>I made a sample project to demonstrate how easy it is to customize Bootstrap variables before building <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a>.</p>
-
-<p><a href="https://github.com/treyhunner/custom-bootstrap-example">Check out the sample project on Github</a></p>
-
-<p>Know about a different way to customize Bootstrap?  Did I make a mistake in my explanation?  Leave a comment and let me know.</p>
+<p>At this point I am the only person who has worked with this adapter and I would love some feedback!  Have an opinion or want to help improve this adapter?  <strong>Please open an issue, comment below, tweet me, or email me.</strong></p>
 </div>
   
   <footer>
   
     <br>
     <p>
-    👉  Want to find out what else there is to learn <strong><a href="http://eepurl.com/bFGUGT">subscribe to my email list</a></strong>! 👈
+    👉  Want to find out what else there is to learn <strong><a href="https://www.getdrip.com/forms/121131143/submissions/new" data-drip-show-form="121131143">subscribe to my email list</a></strong>! 👈
     </p>
   
   </footer>

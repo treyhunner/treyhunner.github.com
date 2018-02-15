@@ -9,8 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="In my last post I discussed the names Python library that generates
-random names. I&rsquo;ve now used this Python library to make a basic Flask &hellip;">
+  <meta name="description" content="I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently. My laptop has a solid-state drive and I had tweaked the boot process previously so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://treyhunner.com/page29">
+  <link rel="canonical" href="http://treyhunner.com/page39">
   <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
@@ -106,7 +105,7 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/03/pseudorandom.name/">Random name generator website</a></h1>
+      <h1 class="entry-title"><a href="/2009/05/ubuntu-now-boots-in-10-seconds/">Ubuntu Now Boots in 10 Seconds</a></h1>
     
     
       <p class="meta">
@@ -115,56 +114,21 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
 
 
 
-<time class='entry-date' datetime='2013-03-10T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2009-05-01T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/03/pseudorandom.name/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/03/pseudorandom.name/">Comments</a>
+           | <a href="/2009/05/ubuntu-now-boots-in-10-seconds/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In my <a href="/2013/02/random-name-generator/">last post</a> I discussed the <strong>names</strong> Python library that generates
-random names.  I&rsquo;ve now used this Python library to make a basic Flask website
-that generates random names.  You can visit it at:
-<a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a></p>
+  <div class="entry-content"><p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
 
-<h2>It&rsquo;s responsive</h2>
+<p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
 
-<p>The font size and margin on pseudorandom.name change based on the web browser
-width and height.  I determined the font sizes I wanted to use for each screen
-width by using the longest first and last name in the name files I&rsquo;m using (11
-and 13 characters respectively).  The website looks reasonable on various
-desktop resolutions and on phone screens.</p>
-
-<h2>It&rsquo;s an HTTP API</h2>
-
-<p>If curl is used to access the site, plain text is returned instead of an HTML
-webpage.  For example:</p>
-
-<pre><code>curl www.pseudorandom.name
-</code></pre>
-
-<p>The site is hosted on Heroku which <a href="https://devcenter.heroku.com/articles/custom-domains#apex-domains-examplecom">doesn&rsquo;t support bare domains</a>.
-Currently <a href="http://pseudorandom.name">http://pseudorandom.name</a> redirects to <a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a> so
-using the bare domain requires telling curl to follow redirects with <code>-L</code>:</p>
-
-<pre><code>curl -L pseudorandom.name
-</code></pre>
-
-<h2>More to come?</h2>
-
-<p>It might be nice to allow generating multiple names at once, generating
-gender-specific names, and maybe providing other content types (JSON).  The
-HTML version could also use a cleaner, more feature-full design.</p>
-
-<p>Also it would probably be more efficient to use a SQL database for querying
-random names so I may eventually abandon the names library and use a database
-for querying.</p>
-
-<p>The website&rsquo;s source code is <a href="https://github.com/treyhunner/pseudorandom.name">hosted on Github</a> and provided under an
-<a href="http://th.mit-license.org/2013">MIT license</a>.  Feel free to fork it or submit an issue.</p>
+<p>The main reason the boot time is so fast is due to my solid state drive.  That is how I got my boot down to 15 seconds before.  However, 7 seconds is a ridiculously fast boot time in my opinion.  Especially since it seems like it takes only about 3 seconds until my login manager is loaded and waiting for me.</p>
 </div>
   
   <footer>
@@ -181,11 +145,9 @@ for querying.</p>
   
   <div class="pagination">
     
-      <a class="prev" href="/page30">&larr; Older</a>
-    
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/page28">Newer &rarr;</a>
+    <a class="next" href="/page38">Newer &rarr;</a>
     
   </div>
 </div>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-02-13T17:00:24-08:00</updated>
+  <updated>2018-02-15T07:55:40-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -279,7 +279,7 @@ But a dream within a dream?
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[The iterator protocol: how for loops work in Python]]></title>
+    <title type="html"><![CDATA[The Iterator Protocol: How "For Loops" Work in Python]]></title>
     <link href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/"/>
     <updated>2016-12-28T11:00:00-08:00</updated>
     <id>http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work</id>
@@ -472,7 +472,7 @@ True
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Check whether all items match a condition in Python]]></title>
+    <title type="html"><![CDATA[Check Whether All Items Match a Condition in Python]]></title>
     <link href="http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/"/>
     <updated>2016-11-29T09:45:00-08:00</updated>
     <id>http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python</id>
@@ -964,7 +964,7 @@ for color, ratio in zip(colors, ratios):
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[The idiomatic way to merge dictionaries in Python]]></title>
+    <title type="html"><![CDATA[The Idiomatic Way to Merge Dictionaries in Python]]></title>
     <link href="http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/"/>
     <updated>2016-02-23T10:00:00-08:00</updated>
     <id>http://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python</id>
