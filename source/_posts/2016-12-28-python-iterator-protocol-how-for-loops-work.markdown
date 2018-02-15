@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The iterator protocol: how for loops work in Python"
+title: "The Iterator Protocol: How \"For Loops\" Work in Python"
 date: 2016-12-28 11:00:00 -0800
 comments: true
 categories: python favorite
