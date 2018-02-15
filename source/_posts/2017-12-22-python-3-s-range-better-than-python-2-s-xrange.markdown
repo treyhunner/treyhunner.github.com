@@ -8,9 +8,44 @@ categories: python
 
 If you're switching between Python 2 and Python 3, you might think that Python 2's `xrange` objects are pretty much the identical to Python 3's `range` object.  It seems like they probably just renamed `xrange` to `range`, right?
 
-Wrong.
+Not quite.
 
 Python 2's `xrange` is somewhat more limited than Python 3's `range`.  In this article we're going to take a look at how `xrange` in Python 2 differs from `range` in Python 3.
+
+
+## Python 2 vs Python 3: range
+
+The first thing I need to address is how `range` works in Python 2 and Python 3.
+
+In Python 2, the `range` function returned a list of numbers:
+
+```pycon
+>>> range(5)
+[0, 1, 2, 3, 4]
+```
+
+And the `xrange` class represented an iterable that provided the same thing when looped over, but it was lazy:
+
+```pycon
+>>> xrange(5)
+xrange(5)
+```
+
+This laziness was really embraced in Python 3.  In Python 3, they removed the original `range` function and renamed `xrange` to `range`:
+
+```pycon
+>>> range(5)
+range(0, 5)
+```
+
+So if you wanted the Python 2 behavior for `range` in Python 3, you could always convert the `range` object to a list:
+
+```pycon
+>>> list(range(5))
+[0, 1, 2, 3, 4]
+```
+
+Okay now let's compare Python 2's `xrange` class to Python 3's `range` class.
 
 
 ## Similarities
@@ -34,24 +69,23 @@ range(0, 10)
 The `xrange` object in Python 2 is an iterable (anything you can loop over is an iterable):
 
 ```pycon
->>> for n in xrange(0, 10, 4):
+>>> for n in xrange(3):
 ...     print n
 ...
 0
-4
-8
+1
+2
 ```
 
 And the `range` object in Python 3 is also an iterable:
 
 ```pycon
->>> for n in range(0, 10, 3):
+>>> for n in range(3):
 ...     print(n)
 ...
 0
-3
-6
-9
+1
+2
 ```
 
 The `xrange` object has a start, stop, and step.  Step is optional and so is start:
@@ -63,6 +97,8 @@ xrange(5)
 xrange(5)
 >>> xrange(5)
 xrange(5)
+>>> list(xrange(0, 10, 3))
+[0, 3, 6, 9]
 ```
 
 So does the `range` object:
@@ -74,6 +110,8 @@ range(0, 5)
 range(0, 5)
 >>> range(5)
 range(0, 5)
+>>> list(range(0, 10, 3))
+[0, 3, 6, 9]
 ```
 
 Both have a length and both can be indexed in forward or reverse order:
@@ -300,7 +338,7 @@ While `range` objects don't support this feature, we could implement something s
 range(-5, -20, -1)
 ```
 
-Python 2's `xrange` objects don't have these start, stop, and step attributes at all:
+While you can provide start, stop, and step as arguments to Python 2's `xrange` objects, they don't have these start, stop, and step **attributes** at all:
 
 ```pycon
 >>> numbers = xrange(10)
