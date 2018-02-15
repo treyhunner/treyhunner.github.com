@@ -362,6 +362,29 @@ If you wanted to get start, stop, and step from an `xrange` object, you would ne
 ```
 
 
+## Support for big numbers
+
+The last difference I'd like to mention is sort of a silly one, but it could be important for some interesting use cases of `range` and `xrange`.
+
+In Python 3, the `range` object will accept integers of any size:
+
+```pycon
+>>> range(10**19)
+range(0, 10000000000000000000)
+```
+
+But Python 2's `xrange` objects are limited in the size of integers they can accept:
+
+```pycon
+>>> xrange(10**19)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+OverflowError: Python int too large to convert to C long
+```
+
+I run into this difference most often during my on-site team training sessions because I sometimes use silly examples with big numbers when I teach.
+
+
 ## Is any of this important to know?
 
 Most of the time you use either Python 2's `xrange` objects or Python 3's `range` objects, you'll probably just be creating them and looping over them immediately:
