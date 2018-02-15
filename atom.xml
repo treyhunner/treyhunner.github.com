@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-02-15T07:55:40-08:00</updated>
+  <updated>2018-02-15T10:02:38-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -23,6 +23,8 @@
 <p>Not quite.</p>
 
 <p>Python 2&rsquo;s <code>xrange</code> is somewhat more limited than Python 3&rsquo;s <code>range</code>.  In this article we&rsquo;re going to take a look at how <code>xrange</code> in Python 2 differs from <code>range</code> in Python 3.</p>
+
+<p>The inspiration for this article came from <a href="https://www.crowdcast.io/e/range/1/q/-KpfDuicwa4YGF9tAoMW">a question I addressed</a> during a <a href="http://www.weeklypython.chat">Weekly Python Chat</a> session I did last year on range objects.</p>
 
 <h2>Python 2 vs Python 3: range</h2>
 
@@ -483,6 +485,34 @@
 </span><span class='line'><span class="go">1</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<h2>Support for big numbers</h2>
+
+<p>The last difference I&rsquo;d like to mention is sort of a silly one, but it could be important for some interesting use cases of <code>range</code> and <code>xrange</code>.</p>
+
+<p>In Python 3, the <code>range</code> object will accept integers of any size:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 10000000000000000000)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But Python 2&rsquo;s <code>xrange</code> objects are limited in the size of integers they can accept:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">OverflowError</span>: <span class="n">Python int too large to convert to C long</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I run into this difference most often during my on-site team training sessions because I sometimes use silly examples with big numbers when I teach.</p>
 
 <h2>Is any of this important to know?</h2>
 
