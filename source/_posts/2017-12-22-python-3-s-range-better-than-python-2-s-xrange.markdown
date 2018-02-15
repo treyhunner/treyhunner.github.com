@@ -12,6 +12,8 @@ Not quite.
 
 Python 2's `xrange` is somewhat more limited than Python 3's `range`.  In this article we're going to take a look at how `xrange` in Python 2 differs from `range` in Python 3.
 
+The inspiration for this article came from [a question I addressed][chat question] during a [Weekly Python Chat][] session I did last year on range objects.
+
 
 ## Python 2 vs Python 3: range
 
@@ -408,3 +410,6 @@ Python 3 put a lot of work into making sure its built-ins are memory efficient a
 At the same time, Python 3 made common functions and classes, like `range`, more featureful.
 
 There are many big improvements that Python 3 made over Python 2, but there are **many many more tiny benefits to upgrading to Python 3**.  If you haven't already, I'd strongly consider whether it makes sense for you to upgrade your code to Python 3.
+
+[chat question]: https://www.crowdcast.io/e/range/1/q/-KpfDuicwa4YGF9tAoMW
+[weekly python chat]: http://www.weeklypython.chat
