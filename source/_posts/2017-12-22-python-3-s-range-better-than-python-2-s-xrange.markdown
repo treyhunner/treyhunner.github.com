@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python 3's range is more powerful than Python 2's xrange"
-date: 2017-12-22 08:23:24 -0800
+date: 2018-02-15 08:00:00 -0800
 comments: true
 categories: python
 ---
