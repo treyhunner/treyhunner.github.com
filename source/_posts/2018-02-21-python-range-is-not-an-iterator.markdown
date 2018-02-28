@@ -69,6 +69,9 @@ Both conveniently and somewhat confusingly, all iterators are also iterables.  M
 Importantly, it should be noted that iterators are stateful.  Meaning once you've consumed an item from an iterator, it's gone.  So after you've looped over an iterator once, it'll be empty if you try to loop over it again:
 
 ```python
+>>> iterator = iter([1, 2])
+>>> [x**2 for x in iterator]
+[1, 4]
 >>> [x**2 for x in iterator]
 []
 ```
