@@ -6,22 +6,22 @@ comments: true
 categories: python
 ---
 
-Someone asked a great question recently: iterators are lazy iterables and range is a lazy iterable, so is range an iterator?
+After my [Loop Better talk at PyGotham 2017][loop better] someone asked me a great question: iterators are lazy iterables and `range` is a lazy iterable in Python 3, so is `range` an iterator?
 
-I was asked this by someone in the hallway after I gave my [Loop Better talk at PyGotham 2017][loop better].  Unfortunately, I don't remember the name of the person who asked me this question.  I do remember saying something along the lines of "oh I love that question!"
+Unfortunately, I don't remember the name of the person who asked me this question.  I do remember saying something along the lines of "oh I love that question!"
 
-I love this question because `range` objects in Python 3 ([xrange in Python 2][xrange]) are lazy, but **`range` objects are not iterators**.
+I love this question because `range` objects in Python 3 ([xrange in Python 2][xrange]) are lazy, but **range objects are not iterators** and this is something I see folks mix up frequently.
+
+In the last year I've heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3's `range` objects as iterators.  This distinction is something a lot of people get confused about.
 
 
 ## Yes this *is* confusing
 
-I've seen a lot of people get confused about this.  In the last year I've heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3's `range` objects as iterators.
-
-When people talk about iterators and iterables in Python, you're likely to hear the someone repeat the misconception that `range` is an iterator.  This mistake might seem unimportant at first, but I think it's actually a pretty critical one.  If you believe that `range` objects are iterators, your mental model of how iterators work in Python isn't clear enough yet.  Both `range` and iterators are "lazy" in a sense, but they're lazy in fairly different ways.
+When people talk about iterators and iterables in Python, you're likely to hear the someone repeat the misconception that `range` is an iterator.  This mistake might seem unimportant at first, but I think it's actually a pretty critical one.  If you believe that `range` objects are iterators, your mental model of how iterators work in Python *isn't clear enough yet*.  Both `range` and iterators are "lazy" in a sense, but they're lazy in fairly different ways.
 
 With this article I'm going to explain how iterators work, how `range` works, and how the laziness of these two types of "lazy iterables" differs.
 
-But first, I'd like to ask that you **do not use the information below as an excuse to be unkind to anyone**, whether new learners or experienced Python programmers.  This stuff isn't easy and many people have used Python very happily for years without fully understanding the distinction I'm about to explain.
+But first, I'd like to ask that you **do not use the information below as an excuse to be unkind to anyone**, whether new learners or experienced Python programmers.  Many people have used Python very happily for years without fully understanding the distinction I'm about to explain.  You can write many thousands of lines of Python code without having a strong mental model of how iterators work.
 
 
 ## What's an iterator?
@@ -66,31 +66,31 @@ Both conveniently and somewhat confusingly, all iterators are also iterables.  M
 [1, 4]
 ```
 
-Importantly, it should be noted that iterators are stateful.  Meaning once you've consumed an item from an iterator, it's gone.  So after you've looped over an iterator, it'll be empty if you try to loop over it again:
+Importantly, it should be noted that iterators are stateful.  Meaning once you've consumed an item from an iterator, it's gone.  So after you've looped over an iterator once, it'll be empty if you try to loop over it again:
 
 ```python
 >>> [x**2 for x in iterator]
 []
 ```
 
-Generators are a very common type of iterator:
+In Python 3, `enumerate`, `zip`, `reversed`, and a number of other built-in functions return iterators:
+
+```python
+>>> enumerate(numbers)
+<enumerate object at 0x7f04384ff678>
+>>> zip(numbers, numbers)
+<zip object at 0x7f043a085cc8>
+>>> reversed(numbers)
+<list_reverseiterator object at 0x7f043a081f28>
+```
+
+Generators (whether from generator functions or generator expressions) are one of the simpler ways to create your own iterators:
 
 ```python
 >>> numbers = [1, 2, 3, 4, 5]
 >>> squares = (n**2 for n in numbers)
 >>> squares
 <generator object <genexpr> at 0x7f043a0832b0>
-```
-
-But `enumeurate`, `zip`, `reversed`, and a number of other functions in Python 3 (and even quite a few in Python 2) return iterators:
-
-```python
->>> enumerate(numbers)
-<enumerate object at 0x7f04384ff678>
->>> zip(numbers, squares)
-<zip object at 0x7f043a085cc8>
->>> reversed(numbers)
-<list_reverseiterator object at 0x7f043a081f28>
 ```
 
 I often say that iterators are lazy single-use iterables.  They're "lazy" because they have the ability to only compute items as you loop over them.  And they're "single-use" because once you've "consumed" an item from an iterator, it's gone forever.  The term "exhausted" is often used for an iterator that has been fully consumed.
@@ -102,7 +102,7 @@ That was the quick summary of what iterators are.  If you haven't encountered it
 
 Okay we've reviewed iterators.  Let's talk about `range` now.
 
-The `range` object in Python 3 (`xrange` in Python 2) can be looped over just like any iterable:
+The `range` object in Python 3 (`xrange` in Python 2) can be looped over like any other iterable:
 
 ```python
 >>> for n in range(3):
@@ -233,14 +233,15 @@ Traceback (most recent call last):
 StopIteration
 ```
 
-And you'll know that the item will be consumed as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:
+And you'll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:
 
 ```python
+>>> iterator = iter([1, 2, 3, 4])
 >>> list(zip(iterator, iterator))
 [(1, 2), (3, 4)]
 ```
 
-So while it may seem like a subtle distinction between the terms "lazy iterable" and "iterator", they really do mean different things.  The word "iterator" implies an object with a very specific set of behaviors.
+So while it may seem like the difference between "lazy iterable" and "iterator" is subtle, these terms really do mean different things.  While "lazy iterable" is a very general term without concrete meaning, the word "iterator" implies an object with a very specific set of behaviors.
 
 ## When in doubt say "iterable" or "lazy iterable"
 
@@ -250,9 +251,9 @@ If you know the thing you're looping over happens to compute things as you loop 
 
 If you know you can pass something to the `next` function, it's an <strong>iterator</strong> (which are the most common form of lazy iterables).
 
-If you can loop over something multiple times without "exhausting" it, it's not an iterator.  If you can't pass something to the `next` function, it's not an iterator.  Python 3's `range` object is not an iterator.  If you're teaching people about it, please don't use the word "iterator".  It's confusing and might cause others to start misusing the word "iterator" by accident.
+If you can loop over something multiple times without "exhausting" it, it's not an iterator.  If you can't pass something to the `next` function, it's not an iterator.  Python 3's `range` object is not an iterator.  If you're teaching people about `range` objects, please don't use the word "iterator".  It's confusing and might cause others to start misusing the word "iterator" as well.
 
-On the other hand, if you see someone else misusing the word iterator don't be mean.  You may want to point out the misuse if it seems important, but keep in mind that I've seen long-time Python programmers and corporate Python trainers misuse this word by calling `range` objects iterators.
+On the other hand, if you see someone else misusing the word iterator don't be mean.  You may want to point out the misuse if it seems important, but keep in mind that I've heard long-time Python programmers and experienced Python trainers misuse this word by calling `range` objects iterators.  Words are important, but language is tricky.
 
 
 [loop better]: https://www.youtube.com/watch?v=Wd7vcuiMhxU
