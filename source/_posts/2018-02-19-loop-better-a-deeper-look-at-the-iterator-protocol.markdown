@@ -9,10 +9,10 @@ categories: python
 **TODO intro**
 
 
-## Looping Problems
+## Looping Gotchas
 
 
-### Problem 1: Looping Twice
+### Gotcha 1: Looping Twice
 
 Let's say we have a list of numbers and a generator that will give us the squares of those numbers:
 
@@ -37,7 +37,7 @@ Instead we'll get `0`:
 0
 ```
 
-### Problem 2: Containment Checking
+### Gotcha 2: Containment Checking
 
 ```pycon
 >>> numbers = [1, 2, 3, 5, 7]
@@ -54,7 +54,7 @@ False
 - We asked the same question twice and Python gave us two different answers.
 - That's a little weird
 
-### Problem 3: Unpacking
+### Gotcha 3: Unpacking
 
 ```pycon
 >>> counts = {'apples': 2, 'oranges': 1}
@@ -75,7 +75,85 @@ False
 
 ## Review: Python's for loop
 
-**TODO**
+```javascript
+let numbers = [1, 2, 3, 5, 7];
+for (let i = 0; i < numbers.length; i += 1) {
+    print(numbers[i])
+}
+```
+
+- This is not Python code.
+- This is a traditional C-style `for` loop, written in JavaScript
+- In this loop, we start with `i` set to `0`, we check whether `i` is less than the length of the `numbers` array, we loop, and we increment `i` by 1 each time we loop
+- Once the condition is no longer true, we'll stop looping **(click)**
+- So this `for` loop will print out each item in the array
+- *(pause)* Python **does not** have this kind of `for` loop
+- What we *do* have in Python is a for-*in* loop, which many programming languages call a **foreach loop**
+
+```python
+numbers = [1, 2, 3, 5, 7]
+for n in numbers:
+    print(n)
+```
+
+- This is a `for` loop in Python
+- In this `for` we're looping over each item in our list and printing those items out **(click)**
+- Python `for` loops don't have any index variables, index lookups, or index incrementing
+- Python's `for` loops magically do *all the work* of looping over our `numbers` list for us
+- So Python doesn't have traditional C-style `for` loops
+- We do have something that we call a `for` loop but it works differently
+
+## Definitions: Iterables and Sequences
+
+```python
+for item in some_iterable:
+    print(item)
+```
+- *If* you can loop over something with a `for` loop in Python, *it is* an iterable
+- And... if something *is* an iterable, you can loop over it with a `for` loop
+- So if you're not sure what that word iterable means, it means anything that you iterate over
+- Iterables can be looped over and anything that can be looped over is an iterable
+
+```pycon
+>>> numbers = [1, 2, 3, 5, 7]
+>>> coordinates = (4, 5, 7)
+>>> words = "hello there"
+>>> numbers[0]
+1
+>>> coordinates[2]
+7
+>>> words[4]
+'o'
+```
+
+- Sequences are a very common type of iterable
+- **(click)** Lists are sequences, **(click)** tuples are sequences, **(click)** and strings are sequences
+- **(click)** Sequences are iterables which can be indexed starting from ``0`` and ending at one less than the length of the sequence **(click)**
+- **(click)** Lists, tuples, strings and *all other* sequences can be indexed this way
+
+```pycon
+>>> my_set = {1, 2, 3}
+>>> my_dict = {'k1': 'v1', 'k2': 'v2'}
+>>> my_file = open('some_file.txt')
+>>> squares = (n**2 for n in my_set)
+>>> from itertools import count
+>>> c = count()
+```
+
+- *Lots* of things in Python are iterables
+- But *many* iterables in Python are **not** sequences
+- **(click)** Sets are iterables
+- **(click)** Dictionaries are iterables
+- **(click)** Files are iterables
+- **(click)** And generators are iterables
+- **(click)** There are even infinitely long iterables, like `count` objects from the `itertools` module in the standard library
+- *None* of these iterables are sequences
+
+- So Python doesn't have traditional `for` loops
+- But we do have something that we call a `for` loop
+- Anything that can be looped over with a `for` loop is an iterable
+- Sequences are just one type of iterable, but there are many other types of iterables
+- So we're done with review at this point...
 
 
 ## Python's for loops don't use indexes
@@ -469,12 +547,161 @@ def square_all(numbers):
 
 ## How iterators can improve your code
 
-**TODO**
+
+```python
+hours_worked = 0
+for event in events:
+    if event.is_billable():
+        hours_worked += event.duration
+```
+
+```python
+billable_times = (
+    event.duration
+    for event in events
+    if event.is_billable()
+)
+
+hours_worked = sum(billable_times)
+```
+
+- once you've embraced the idea of lazy iterables, you'll find that there are lots of possibilities for discovering or creating helper functions that assist you in looping over iterables and processing data
+- **(click)** This is a for loop that sums up all billable hours in a Django queryset
+- **(click)** This is the same thing using a generator expression for lazy evaluation
+- These two blocks of code do the same thing
+- Notice that the structure of this code is fundamentally different
+- We're able to use the `sum` function in the bottom example because we have a lazy iterable to work with
+- Iterators allow you to fundamentally change the way you structure your code
+
+```python
+for i, line in enumerate(log_file):
+    if i >= 10:
+        break
+    print(line)
+```
+
+```python
+from itertools import islice
+
+first_ten_lines = islice(log_file, 10)
+for line in first_ten_lines:
+    print(line)
+```
+
+- **[20 MINUTES]**
+- **(click)** This code prints out the first ten lines of a log file
+- **(click)** This code does the same thing
+- That `first_ten_lines` thing is an iterator
+- This iterator allowed us to *name* something that **didn't previously have a name**
+- We've given a variable name to `first_ten_lines`, which makes our code more descriptive
+- We've also gotten rid of the need for that ugly `break` statement we had in our first loop
+
+You can find helper functions in the standard library and third-party libraries (like boltons and more-itertools), but you can also write your own.
+
+```python
+def with_previous(iterable):
+    """Yield (previous, current) tuples, starting with second."""
+    iterator = iter(iterable)
+    previous = next(iterator)
+    for item in iterator:
+        yield previous, item
+        previous = item
+```
+
+- In case you're curious what that mysterious generator function looks like, here's a plausible version of it
+- Notice that we're manually getting an iterator from our iterable and calling `next` on it to grab the first item.
+- This function works not just with sequences, but with any type of iterable
+- I'm not going to step through this.  You can take a closer look on my slides later.
+
+```python
+previous = readings[0]
+for current in readings[1:]:
+    differences.append(current - previous)
+    previous = current
+```
+
+```python
+differences = []
+for previous, current in with_previous(readings):
+    differences.append(current - previous)
+```
+
+- **(click)** This code makes a list of the differences between consecutive values in a sequence
+- Notice that this code has an extra variable that we need to assign each time we loop
+- **(click)** This is the same code but we're using a generator function that we made up
+- Notice that this code doesn't have awkward variable assignments hanging around our loop... the `with_previous` generator function handles that for us
 
 
-## Looping Problems: Revisited
 
-**TODO**
+## Looping Gotchas: Revisited
+
+- At this point we're ready to jump back **(click)** to those odd examples we saw earlier and try to figure out what was going on
+
+### Gotcha 1: Exhausting an Iterator
+
+```pycon
+>>> numbers = [1, 2, 3, 5, 7]
+>>> squares = (n**2 for n in numbers)
+>>> tuple(squares)
+(1, 4, 9, 25, 49)
+>>> sum(squares)
+0
+>>> tuple(squares)
+()
+```
+
+- Here we have a generator object, `squares`
+- If we pass this generator to the `tuple` constructor **(click)**, we'll get a tuple of its items back **(click)**
+- If we then try to compute the `sum` of the numbers in this generator **(click)**, we'll get `0` **(click)**
+- This generator is now empty: we've exhausted it **(click)**
+- If we try to make a tuple out of it again **(click)**, we'll get an empty tuple **(click)**
+- Generators are iterators
+- And recall that iterators are like Hello Kitty PEZ dispensers that cannot be reloaded
+- Once we run out of PEZ, the dispenser is forever empty
+
+### Gotcha 2: Partially-Consuming an Iterator
+
+```pycon
+>>> numbers = [1, 2, 3, 5, 7]
+>>> squares = (n**2 for n in numbers)
+>>> 9 in squares
+True
+>>> 9 in squares
+False
+>>> squares = (n**2 for n in numbers)
+>>> 9 in squares
+True
+>>> list(squares)
+[25, 49]
+```
+
+- If we ask whether `9` is in this `squares` generator **(click)**, we'll get `True` **(click)**
+- If we ask the same question again **(click)**, we'll get `False` **(click)**
+- When we ask whether `9` is in this generator, Python has to loop over this generator to find `9` **(click)**
+- If we kept looping over it after checking for `9`, we'll only get the last two numbers because we've already consumed the numbers before this point **(click)**
+- Asking whether something is *contained* in an iterator will partially consume the iterator **(click)**
+- *Remember* that iterators are like one-directional tally-counters without a reset button
+- There is no way to know whether something is in an iterator without starting to loop over it
+
+### Gotcha 3: Unpacking is iteration
+
+```pycon
+>>> counts = {'apples': 2, 'oranges': 1}
+>>> for key in counts:
+...     print(key)
+...
+apples
+oranges
+>>> x, y = counts
+>>> x, y
+('apples', 'oranges')
+```
+
+- When you *loop* over dictionaries **(click)** you get keys **(click)**
+- Looping relies on the iterator protocol
+- Iterable unpacking also relies on the iterator protocol **(click)**
+- Unpacking a dictionary is really the same as looping over the dictionary **(click)**
+- Both use the iterator protocol, so you get the same result in both cases
 
 
 ## Recap and related resources
