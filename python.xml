@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-02-15T10:02:38-08:00</updated>
+  <updated>2018-02-28T15:54:10-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,355 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python: range is not an iterator!]]></title>
+    <link href="http://treyhunner.com/2018/02/python-range-is-not-an-iterator/"/>
+    <updated>2018-02-28T16:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/02/python-range-is-not-an-iterator</id>
+    <content type="html"><![CDATA[<p>After my <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better talk at PyGotham 2017</a> someone asked me a great question: iterators are lazy iterables and <code>range</code> is a lazy iterable in Python 3, so is <code>range</code> an iterator?</p>
+
+<p>Unfortunately, I don&rsquo;t remember the name of the person who asked me this question.  I do remember saying something along the lines of &ldquo;oh I love that question!&rdquo;</p>
+
+<p>I love this question because <code>range</code> objects in Python 3 (<a href="treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">xrange in Python 2</a>) are lazy, but <strong>range objects are not iterators</strong> and this is something I see folks mix up frequently.</p>
+
+<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
+
+<h2>Yes this <em>is</em> confusing</h2>
+
+<p>When people talk about iterators and iterables in Python, you&rsquo;re likely to hear the someone repeat the misconception that <code>range</code> is an iterator.  This mistake might seem unimportant at first, but I think it&rsquo;s actually a pretty critical one.  If you believe that <code>range</code> objects are iterators, your mental model of how iterators work in Python <em>isn&rsquo;t clear enough yet</em>.  Both <code>range</code> and iterators are &ldquo;lazy&rdquo; in a sense, but they&rsquo;re lazy in fairly different ways.</p>
+
+<p>With this article I&rsquo;m going to explain how iterators work, how <code>range</code> works, and how the laziness of these two types of &ldquo;lazy iterables&rdquo; differs.</p>
+
+<p>But first, I&rsquo;d like to ask that you <strong>do not use the information below as an excuse to be unkind to anyone</strong>, whether new learners or experienced Python programmers.  Many people have used Python very happily for years without fully understanding the distinction I&rsquo;m about to explain.  You can write many thousands of lines of Python code without having a strong mental model of how iterators work.</p>
+
+<h2>What&rsquo;s an iterator?</h2>
+
+<p>In Python an iterable is anything that you can iterate over and an iterator is the thing that does the actual iterating.</p>
+
+<p>Iter-<strong>ables</strong> are able to be iterated over.  Iter-<strong>ators</strong> are the agents that perform the iteration.</p>
+
+<p>You can get an iterator from any iterable in Python by using the <code>iter</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">list_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081da0</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">str_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081dd8</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you have an iterator, the only thing you can do with it is get its next item:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you&rsquo;ll get a stop iteration exception if you ask for the next item but there aren&rsquo;t anymore items:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">StopIteration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it&rsquo;ll give you itself back).  Therefore you can iterate over an iterator as well:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Importantly, it should be noted that iterators are stateful.  Meaning once you&rsquo;ve consumed an item from an iterator, it&rsquo;s gone.  So after you&rsquo;ve looped over an iterator once, it&rsquo;ll be empty if you try to loop over it again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Python 3, <code>enumerate</code>, <code>zip</code>, <code>reversed</code>, and a number of other built-in functions return iterators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">enumerate</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f04384ff678</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">zip</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a085cc8</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">list_reverseiterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081f28</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Generators (whether from generator functions or generator expressions) are one of the simpler ways to create your own iterators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x7f043a0832b0</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I often say that iterators are lazy single-use iterables.  They&rsquo;re &ldquo;lazy&rdquo; because they have the ability to only compute items as you loop over them.  And they&rsquo;re &ldquo;single-use&rdquo; because once you&rsquo;ve &ldquo;consumed&rdquo; an item from an iterator, it&rsquo;s gone forever.  The term &ldquo;exhausted&rdquo; is often used for an iterator that has been fully consumed.</p>
+
+<p>That was the quick summary of what iterators are.  If you haven&rsquo;t encountered iterators before, I&rsquo;d recommend reviewing them a bit further before continuing on.  I&rsquo;ve written <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">an article which explains iterators</a> and I&rsquo;ve given a talk, <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better</a> which I mentioned earlier, during which I dive a bit deeper into iterators.</p>
+
+<h2>How is range different?</h2>
+
+<p>Okay we&rsquo;ve reviewed iterators.  Let&rsquo;s talk about <code>range</code> now.</p>
+
+<p>The <code>range</code> object in Python 3 (<code>xrange</code> in Python 2) can be looped over like any other iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And because <code>range</code> is an iterable, we can get an iterator from it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">range_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a0a7f90</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>range</code> objects themselves are not iterators.  We <strong>cannot</strong> call <code>next</code> on a <code>range</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;range&#39;</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">an</span> <span class="n">iterator</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And unlike an iterator, we can loop over a <code>range</code> object without consuming it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we did this with an iterator, we&rsquo;d get no elements the second time we looped:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike <code>zip</code>, <code>enumerate</code>, or <code>generator</code> objects, <code>range</code> objects <strong>are not iterators</strong>.</p>
+
+<h2>So what is range?</h2>
+
+<p>The <code>range</code> object is &ldquo;lazy&rdquo; in a sense because it doesn&rsquo;t generate every number that it &ldquo;contains&rdquo; when we create it.  Instead it gives those numbers to us as we need them when looping over it.</p>
+
+<p>Here is a <code>range</code> object and a generator (which is a type of iterator):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike iterators, <code>range</code> objects have a length:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1000000</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="nb">object</span> <span class="n">of</span> <span class="nb">type</span> <span class="s">&#39;generator&#39;</span> <span class="n">has</span> <span class="n">no</span> <span class="nb">len</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And they can be indexed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="mi">999998</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;generator&#39;</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">subscriptable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And unlike iterators, you can ask them whether they contain things without changing their state:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">numbers</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">numbers</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&rsquo;re looking for a description for <code>range</code> objects, you could call them &ldquo;lazy sequences&rdquo;.  They&rsquo;re sequences (like lists, tuples, and strings) but they don&rsquo;t really contain any memory under the hood and instead answer questions computationally.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Why does this distinction matter?</h2>
+
+<p>It might seem like I&rsquo;m nitpicking in saying that range isn&rsquo;t an iterator, but I really don&rsquo;t think I am.</p>
+
+<p>If I tell you something is an iterator, you&rsquo;ll know that when you call <code>iter</code> on it you&rsquo;ll always get the same object back (by definition):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span> <span class="ow">is</span> <span class="n">iterator</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you&rsquo;ll be certain that you can call <code>next</code> on it because you can call <code>next</code> on all iterators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">StopIteration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you&rsquo;ll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">iterator</span><span class="p">))</span>
+</span><span class='line'><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So while it may seem like the difference between &ldquo;lazy iterable&rdquo; and &ldquo;iterator&rdquo; is subtle, these terms really do mean different things.  While &ldquo;lazy iterable&rdquo; is a very general term without concrete meaning, the word &ldquo;iterator&rdquo; implies an object with a very specific set of behaviors.</p>
+
+<h2>When in doubt say &ldquo;iterable&rdquo; or &ldquo;lazy iterable&rdquo;</h2>
+
+<p>If you know you can loop over something, it&rsquo;s an <strong>iterable</strong>.</p>
+
+<p>If you know the thing you&rsquo;re looping over happens to compute things as you loop over it, it&rsquo;s a <strong>lazy iterable</strong>.</p>
+
+<p>If you know you can pass something to the <code>next</code> function, it&rsquo;s an <strong>iterator</strong> (which are the most common form of lazy iterables).</p>
+
+<p>If you can loop over something multiple times without &ldquo;exhausting&rdquo; it, it&rsquo;s not an iterator.  If you can&rsquo;t pass something to the <code>next</code> function, it&rsquo;s not an iterator.  Python 3&rsquo;s <code>range</code> object is not an iterator.  If you&rsquo;re teaching people about <code>range</code> objects, please don&rsquo;t use the word &ldquo;iterator&rdquo;.  It&rsquo;s confusing and might cause others to start misusing the word &ldquo;iterator&rdquo; as well.</p>
+
+<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
+
+<p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python 3's range is more powerful than Python 2's xrange]]></title>
@@ -3661,35 +4010,6 @@ u'Patrick Keating'
 &gt;&gt;&gt; names.get_last_name()
 'Szczepanek'
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Django and model history]]></title>
-    <link href="http://treyhunner.com/2011/09/django-and-model-history/"/>
-    <updated>2011-09-29T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2011/09/django-and-model-history</id>
-    <content type="html"><![CDATA[<p><strong>May 2013 Update:</strong> <a href="http://treyhunner.com/2013/05/django-simple-history/">django-simple-history is back</a></p>
-
-<p>Recently I had a need to store a snapshot of every state of particular model instance in a Django application.  I basically needed version control for the rows in my database tables.  When searching for applications that provided this feature, which I call <strong>model history</strong>, I found <a href="http://djangopackages.com/grids/g/model-audit/">many different approaches</a> but few good comparisons of them.  In an attempt to fill that void, I&rsquo;m going to detail some of my findings here.</p>
-
-<h3>django-reversion</h3>
-
-<p>The <a href="https://github.com/etianen/django-reversion">django-reversion</a> application was started in 2008 by Dave Hall.  Reversion uses only one table to store data for all version-tracked models.  Each version of a model adds a new row to this table, using a JSON object representing the model state.  Models can be reverted to previous versions from the admin interface.  This single-table version structure makes django-reversion very easy to install and to uninstall, but it also creates <a href="http://groups.google.com/group/django-reversion/browse_thread/thread/922b4e42d9577e0b">problems when model fields are changed</a>.</p>
-
-<h3>django-revisions</h3>
-
-<p>The <a href="https://github.com/stdbrouw/django-revisions">django-revisions</a> application was created by Stijn Debrouwere in 2010 because the existing Django model history applications at the time were abandoned or suffered from fundamental design problems.  Revisions uses a model history method called same-table versioning (<a href="http://stdbrouw.github.com/django-revisions/design.html">design details outlined here</a>).  Same-table versioning adds a few fields to each version-tracked model which allows it to record the most recent version of each model as well as old versions in the original model table.  Model changes are simplified because they change all versions at once and no new tables need to be added to use revisions (just new fields on existing tables).  The only problem I found with revisions was that it does not currently support database-level uniqueness constraints.  Adding <code>unique=True</code> to a model field or a <code>unique_together</code> Meta attribute will result in an error.  Currently uniqueness constraints must be specified in a separate way for Revisions to honor them when saving models.</p>
-
-<h3>django-simple-history</h3>
-
-<p>The <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a> application was based on code originally written by Marty Alchin, author of Pro Django.  Marty Alchin posted <a href="https://code.djangoproject.com/wiki/AuditTrail">AuditTrail</a> on the Django trac wiki in 2007 and later revised and republished the code in his book Pro Django in 2008, renaming it to HistoricalRecords.  Corey Bertram created django-simple-history from this code and put it online in 2010.</p>
-
-<p>Simple History works by creating a separate &ldquo;historical&rdquo; model for each model that requires an audit trail and storing a snapshot of each changed model instance in that historical model.  For example, a Book model would have a HistoricalBook created from it that would store a new HistoricalBook instance every time a Book instance was changed.  Collisions are avoided by disabling uniqueness constraints and model schema changes are accepted by automatically changing historical models as well.  This method comes at the cost of creating an extra table in the database for each model that needs history.</p>
-
-<h3>My conclusions</h3>
-
-<p>When testing these three applications myself, I immediately eliminated django-reversion because I needed to allow easy model schema changes for my project.  I found that both django-revisions and django-simple-history worked well with schema migrations through <a href="http://south.aeracode.org/docs/about.html">South</a> (which I use on everything).  Django-revisions worked better for data migrations in South (due to only needing to change one model), but the uniqueness constraint problems with django-revisions would have been problematic for some of my models.  So eventually I settled on <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a>.</p>
 ]]></content>
   </entry>
   

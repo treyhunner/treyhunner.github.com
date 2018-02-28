@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-02-15T10:02:38-08:00</updated>
+  <updated>2018-02-28T15:54:10-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,242 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python: range is not an iterator!]]></title>
+    <link href="http://treyhunner.com/2018/02/python-range-is-not-an-iterator/"/>
+    <updated>2018-02-28T16:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/02/python-range-is-not-an-iterator</id>
+    <content type="html"><![CDATA[<p>After my <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better talk at PyGotham 2017</a> someone asked me a great question: iterators are lazy iterables and <code>range</code> is a lazy iterable in Python 3, so is <code>range</code> an iterator?</p>
+
+<p>Unfortunately, I don&rsquo;t remember the name of the person who asked me this question.  I do remember saying something along the lines of &ldquo;oh I love that question!&rdquo;</p>
+
+<p>I love this question because <code>range</code> objects in Python 3 (<a href="treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">xrange in Python 2</a>) are lazy, but <strong>range objects are not iterators</strong> and this is something I see folks mix up frequently.</p>
+
+<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
+
+<h2>Yes this <em>is</em> confusing</h2>
+
+<p>When people talk about iterators and iterables in Python, you&rsquo;re likely to hear the someone repeat the misconception that <code>range</code> is an iterator.  This mistake might seem unimportant at first, but I think it&rsquo;s actually a pretty critical one.  If you believe that <code>range</code> objects are iterators, your mental model of how iterators work in Python <em>isn&rsquo;t clear enough yet</em>.  Both <code>range</code> and iterators are &ldquo;lazy&rdquo; in a sense, but they&rsquo;re lazy in fairly different ways.</p>
+
+<p>With this article I&rsquo;m going to explain how iterators work, how <code>range</code> works, and how the laziness of these two types of &ldquo;lazy iterables&rdquo; differs.</p>
+
+<p>But first, I&rsquo;d like to ask that you <strong>do not use the information below as an excuse to be unkind to anyone</strong>, whether new learners or experienced Python programmers.  Many people have used Python very happily for years without fully understanding the distinction I&rsquo;m about to explain.  You can write many thousands of lines of Python code without having a strong mental model of how iterators work.</p>
+
+<h2>What&rsquo;s an iterator?</h2>
+
+<p>In Python an iterable is anything that you can iterate over and an iterator is the thing that does the actual iterating.</p>
+
+<p>Iter-<strong>ables</strong> are able to be iterated over.  Iter-<strong>ators</strong> are the agents that perform the iteration.</p>
+
+<p>You can get an iterator from any iterable in Python by using the <code>iter</code> function:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iter([1, 2])
+&lt;list_iterator object at 0x7f043a081da0&gt;
+&gt;&gt;&gt; iter('hello')
+&lt;str_iterator object at 0x7f043a081dd8&gt;
+</code></pre>
+
+<p>Once you have an iterator, the only thing you can do with it is get its next item:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
+&gt;&gt;&gt; next(iterator)
+1
+&gt;&gt;&gt; next(iterator)
+2
+</code></pre>
+
+<p>And you&rsquo;ll get a stop iteration exception if you ask for the next item but there aren&rsquo;t anymore items:</p>
+
+<pre><code class="python">&gt;&gt;&gt; next(iterator)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre>
+
+<p>Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it&rsquo;ll give you itself back).  Therefore you can iterate over an iterator as well:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
+&gt;&gt;&gt; [x**2 for x in iterator]
+[1, 4]
+</code></pre>
+
+<p>Importantly, it should be noted that iterators are stateful.  Meaning once you&rsquo;ve consumed an item from an iterator, it&rsquo;s gone.  So after you&rsquo;ve looped over an iterator once, it&rsquo;ll be empty if you try to loop over it again:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
+&gt;&gt;&gt; [x**2 for x in iterator]
+[1, 4]
+&gt;&gt;&gt; [x**2 for x in iterator]
+[]
+</code></pre>
+
+<p>In Python 3, <code>enumerate</code>, <code>zip</code>, <code>reversed</code>, and a number of other built-in functions return iterators:</p>
+
+<pre><code class="python">&gt;&gt;&gt; enumerate(numbers)
+&lt;enumerate object at 0x7f04384ff678&gt;
+&gt;&gt;&gt; zip(numbers, numbers)
+&lt;zip object at 0x7f043a085cc8&gt;
+&gt;&gt;&gt; reversed(numbers)
+&lt;list_reverseiterator object at 0x7f043a081f28&gt;
+</code></pre>
+
+<p>Generators (whether from generator functions or generator expressions) are one of the simpler ways to create your own iterators:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = [1, 2, 3, 4, 5]
+&gt;&gt;&gt; squares = (n**2 for n in numbers)
+&gt;&gt;&gt; squares
+&lt;generator object &lt;genexpr&gt; at 0x7f043a0832b0&gt;
+</code></pre>
+
+<p>I often say that iterators are lazy single-use iterables.  They&rsquo;re &ldquo;lazy&rdquo; because they have the ability to only compute items as you loop over them.  And they&rsquo;re &ldquo;single-use&rdquo; because once you&rsquo;ve &ldquo;consumed&rdquo; an item from an iterator, it&rsquo;s gone forever.  The term &ldquo;exhausted&rdquo; is often used for an iterator that has been fully consumed.</p>
+
+<p>That was the quick summary of what iterators are.  If you haven&rsquo;t encountered iterators before, I&rsquo;d recommend reviewing them a bit further before continuing on.  I&rsquo;ve written <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">an article which explains iterators</a> and I&rsquo;ve given a talk, <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better</a> which I mentioned earlier, during which I dive a bit deeper into iterators.</p>
+
+<h2>How is range different?</h2>
+
+<p>Okay we&rsquo;ve reviewed iterators.  Let&rsquo;s talk about <code>range</code> now.</p>
+
+<p>The <code>range</code> object in Python 3 (<code>xrange</code> in Python 2) can be looped over like any other iterable:</p>
+
+<pre><code class="python">&gt;&gt;&gt; for n in range(3):
+...     print(n)
+...
+0
+1
+2
+</code></pre>
+
+<p>And because <code>range</code> is an iterable, we can get an iterator from it:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iter(range(3))
+&lt;range_iterator object at 0x7f043a0a7f90&gt;
+</code></pre>
+
+<p>But <code>range</code> objects themselves are not iterators.  We <strong>cannot</strong> call <code>next</code> on a <code>range</code> object:</p>
+
+<pre><code class="python">&gt;&gt;&gt; next(range(3))
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'range' object is not an iterator
+</code></pre>
+
+<p>And unlike an iterator, we can loop over a <code>range</code> object without consuming it:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = range(3)
+&gt;&gt;&gt; tuple(numbers)
+(0, 1, 2)
+&gt;&gt;&gt; tuple(numbers)
+(0, 1, 2)
+</code></pre>
+
+<p>If we did this with an iterator, we&rsquo;d get no elements the second time we looped:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = iter(range(3))
+&gt;&gt;&gt; tuple(numbers)
+(0, 1, 2)
+&gt;&gt;&gt; tuple(numbers)
+()
+</code></pre>
+
+<p>Unlike <code>zip</code>, <code>enumerate</code>, or <code>generator</code> objects, <code>range</code> objects <strong>are not iterators</strong>.</p>
+
+<h2>So what is range?</h2>
+
+<p>The <code>range</code> object is &ldquo;lazy&rdquo; in a sense because it doesn&rsquo;t generate every number that it &ldquo;contains&rdquo; when we create it.  Instead it gives those numbers to us as we need them when looping over it.</p>
+
+<p>Here is a <code>range</code> object and a generator (which is a type of iterator):</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = range(1_000_000)
+&gt;&gt;&gt; squares = (n**2 for n in numbers)
+</code></pre>
+
+<p>Unlike iterators, <code>range</code> objects have a length:</p>
+
+<pre><code class="python">&gt;&gt;&gt; len(numbers)
+1000000
+&gt;&gt;&gt; len(squares)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: object of type 'generator' has no len()
+</code></pre>
+
+<p>And they can be indexed:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers[-2]
+999998
+&gt;&gt;&gt; squares[-2]
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: 'generator' object is not subscriptable
+</code></pre>
+
+<p>And unlike iterators, you can ask them whether they contain things without changing their state:</p>
+
+<pre><code class="python">&gt;&gt;&gt; 0 in numbers
+True
+&gt;&gt;&gt; 0 in numbers
+True
+&gt;&gt;&gt; 0 in squares
+True
+&gt;&gt;&gt; 0 in squares
+False
+</code></pre>
+
+<p>If you&rsquo;re looking for a description for <code>range</code> objects, you could call them &ldquo;lazy sequences&rdquo;.  They&rsquo;re sequences (like lists, tuples, and strings) but they don&rsquo;t really contain any memory under the hood and instead answer questions computationally.</p>
+
+<pre><code class="python">&gt;&gt;&gt; from collections.abc import Sequence
+&gt;&gt;&gt; isinstance([1, 2], Sequence)
+True
+&gt;&gt;&gt; isinstance('hello', Sequence)
+True
+&gt;&gt;&gt; isinstance(range(3), Sequence)
+True
+</code></pre>
+
+<h2>Why does this distinction matter?</h2>
+
+<p>It might seem like I&rsquo;m nitpicking in saying that range isn&rsquo;t an iterator, but I really don&rsquo;t think I am.</p>
+
+<p>If I tell you something is an iterator, you&rsquo;ll know that when you call <code>iter</code> on it you&rsquo;ll always get the same object back (by definition):</p>
+
+<pre><code>&gt;&gt;&gt; iter(iterator) is iterator
+True
+</code></pre>
+
+<p>And you&rsquo;ll be certain that you can call <code>next</code> on it because you can call <code>next</code> on all iterators:</p>
+
+<pre><code>&gt;&gt;&gt; next(iterator)
+4
+&gt;&gt;&gt; next(iterator)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre>
+
+<p>And you&rsquo;ll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:</p>
+
+<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2, 3, 4])
+&gt;&gt;&gt; list(zip(iterator, iterator))
+[(1, 2), (3, 4)]
+</code></pre>
+
+<p>So while it may seem like the difference between &ldquo;lazy iterable&rdquo; and &ldquo;iterator&rdquo; is subtle, these terms really do mean different things.  While &ldquo;lazy iterable&rdquo; is a very general term without concrete meaning, the word &ldquo;iterator&rdquo; implies an object with a very specific set of behaviors.</p>
+
+<h2>When in doubt say &ldquo;iterable&rdquo; or &ldquo;lazy iterable&rdquo;</h2>
+
+<p>If you know you can loop over something, it&rsquo;s an <strong>iterable</strong>.</p>
+
+<p>If you know the thing you&rsquo;re looping over happens to compute things as you loop over it, it&rsquo;s a <strong>lazy iterable</strong>.</p>
+
+<p>If you know you can pass something to the <code>next</code> function, it&rsquo;s an <strong>iterator</strong> (which are the most common form of lazy iterables).</p>
+
+<p>If you can loop over something multiple times without &ldquo;exhausting&rdquo; it, it&rsquo;s not an iterator.  If you can&rsquo;t pass something to the <code>next</code> function, it&rsquo;s not an iterator.  Python 3&rsquo;s <code>range</code> object is not an iterator.  If you&rsquo;re teaching people about <code>range</code> objects, please don&rsquo;t use the word &ldquo;iterator&rdquo;.  It&rsquo;s confusing and might cause others to start misusing the word &ldquo;iterator&rdquo; as well.</p>
+
+<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
+
+<p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python 3's range is more powerful than Python 2's xrange]]></title>
@@ -1139,59 +1375,6 @@ for item in iterable:
 <p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
 
 <p>Have a question about code style?  Have a thought about <code>any</code>, <code>all</code>, and generator expressions?  Please <a href="http://twitter.com/treyhunner">tweet me</a>, <a href="mailto:hello@truthful.technology">email me</a>, or comment below. 😄</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Weekly Python Chat: Live from PyCon]]></title>
-    <link href="http://treyhunner.com/2016/05/weekly-python-chat-live-from-pycon/"/>
-    <updated>2016-05-23T09:00:00-07:00</updated>
-    <id>http://treyhunner.com/2016/05/weekly-python-chat-live-from-pycon</id>
-    <content type="html"><![CDATA[<p><strong>TL;DR</strong>: If you&rsquo;ve never been to PyCon and are curious what the big deal is about, sign up for the <a href="http://ccst.io/e/pycon">PyCon Day 1 live chat</a> and <a href="http://ccst.io/e/sprints">PyCon Sprints live chat</a>.</p>
-
-<p>I have been holding live webcasts every week for almost 2 months now.  I started this trend after my <a href="http://treyhunner.com/2016/03/regular-expressions-in-python-webinar/">regular expressions webinar</a> in March.  I soon came up with a name and made a website for these <a href="https://twitter.com/treyhunner/status/720758046117343236">weekly python chat</a> events.  Now there&rsquo;s also a <a href="https://twitter.com/PythonChat">Twitter account</a> and a <a href="https://www.facebook.com/PythonChat">Facebook page</a>.</p>
-
-<h2>Guest speakers and other experimentation</h2>
-
-<p>I&rsquo;ve really enjoyed holding these events.  The audience participation has been great: ample questions and plenty of helpful chat adding on to the discussion and occasionally correcting my mistakes.</p>
-
-<p>I&rsquo;ve been experimenting with the chat format by bringing in guest speakers the last couple weeks and I plan to introduce more general topics occasionally in the future.</p>
-
-<h2>Web chats about PyCon, live from PyCon</h2>
-
-<p>Next week I&rsquo;ll be continuing my experimentation by hosting two Weekly Python Chat events <strong>live from PyCon</strong>.</p>
-
-<p>The first chat next week will be during the first day of PyCon.  I will likely be in the hallway accompanied by a couple other Python friends.  We&rsquo;ll answer your questions about what there is to do at PyCon, how it&rsquo;s different from other cons, and why we go.</p>
-
-<p>The second chat will be during the first day of the sprints.  We&rsquo;ll chat about who the sprints are for, how new contributors can get involved with the sprints, and what makes the sprints rewarding.</p>
-
-<h2>I want to convince you to join me at PyCon 2017</h2>
-
-<p><img src="/images/pycon-badge.jpg"></p>
-
-<p>If you&rsquo;ve never attended the sprints, sign up for the second chat to ask your questions and state your concerns.  Hopefully I can convince you to stay for the sprints next time.</p>
-
-<p>If you&rsquo;ve never been to PyCon, sign up for both chats and voice your questions and concerns in each.  I will address your questions and concerns, even if you can&rsquo;t make the live event.  <strong>Both chats will be recorded</strong> and you can re-watch them afterward.</p>
-
-<h3>Chat 1: Live from Day 1 of PyCon</h3>
-
-<p><strong>Monday</strong> May 30, 2016 at <strong>3:30pm</strong> PDT</p>
-
-<p>We&rsquo;ll discuss <strong>what PyCon is all about</strong>.</p>
-
-<p><strong><a href="http://ccst.io/e/pycon">Sign up here to attend the PyCon Day 1 live chat</a></strong></p>
-
-<h3>Chat 2: Live from the PyCon sprints</h3>
-
-<p><strong>Thursday</strong> June 2, 2016 at <strong>11:00am</strong> PDT</p>
-
-<p>We&rsquo;ll chat about <strong>how the sprints work</strong>.</p>
-
-<p><strong><a href="http://ccst.io/e/sprints">Sign up here to attend the PyCon Sprints live chat</a></strong></p>
-
-<h2>Get in touch</h2>
-
-<p>Have questions?  Want to share your PyCon experiences during the live chat?  Going to PyCon next week and want to meet up?  <a href="mailto:tr%65y%40&#116;%72%75&#116;%68%66u&#108;&#46;&#116;&#101;c%68&#110;%6flo%67%79">Contact me</a>!</p>
 ]]></content>
   </entry>
   
