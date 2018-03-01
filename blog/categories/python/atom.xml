@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-02-28T15:54:10-08:00</updated>
+  <updated>2018-02-28T18:44:57-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -50,16 +50,16 @@
 
 <p>Once you have an iterator, the only thing you can do with it is get its next item:</p>
 
-<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
-&gt;&gt;&gt; next(iterator)
+<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
+&gt;&gt;&gt; next(my_iterator)
 1
-&gt;&gt;&gt; next(iterator)
+&gt;&gt;&gt; next(my_iterator)
 2
 </code></pre>
 
 <p>And you&rsquo;ll get a stop iteration exception if you ask for the next item but there aren&rsquo;t anymore items:</p>
 
-<pre><code class="python">&gt;&gt;&gt; next(iterator)
+<pre><code class="python">&gt;&gt;&gt; next(my_iterator)
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 StopIteration
@@ -67,17 +67,17 @@ StopIteration
 
 <p>Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it&rsquo;ll give you itself back).  Therefore you can iterate over an iterator as well:</p>
 
-<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
-&gt;&gt;&gt; [x**2 for x in iterator]
+<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
+&gt;&gt;&gt; [x**2 for x in my_iterator]
 [1, 4]
 </code></pre>
 
 <p>Importantly, it should be noted that iterators are stateful.  Meaning once you&rsquo;ve consumed an item from an iterator, it&rsquo;s gone.  So after you&rsquo;ve looped over an iterator once, it&rsquo;ll be empty if you try to loop over it again:</p>
 
-<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2])
-&gt;&gt;&gt; [x**2 for x in iterator]
+<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
+&gt;&gt;&gt; [x**2 for x in my_iterator]
 [1, 4]
-&gt;&gt;&gt; [x**2 for x in iterator]
+&gt;&gt;&gt; [x**2 for x in my_iterator]
 []
 </code></pre>
 
@@ -210,15 +210,15 @@ True
 
 <p>If I tell you something is an iterator, you&rsquo;ll know that when you call <code>iter</code> on it you&rsquo;ll always get the same object back (by definition):</p>
 
-<pre><code>&gt;&gt;&gt; iter(iterator) is iterator
+<pre><code>&gt;&gt;&gt; iter(my_iterator) is my_iterator
 True
 </code></pre>
 
 <p>And you&rsquo;ll be certain that you can call <code>next</code> on it because you can call <code>next</code> on all iterators:</p>
 
-<pre><code>&gt;&gt;&gt; next(iterator)
+<pre><code>&gt;&gt;&gt; next(my_iterator)
 4
-&gt;&gt;&gt; next(iterator)
+&gt;&gt;&gt; next(my_iterator)
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 StopIteration
@@ -226,8 +226,8 @@ StopIteration
 
 <p>And you&rsquo;ll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:</p>
 
-<pre><code class="python">&gt;&gt;&gt; iterator = iter([1, 2, 3, 4])
-&gt;&gt;&gt; list(zip(iterator, iterator))
+<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2, 3, 4])
+&gt;&gt;&gt; list(zip(my_iterator, my_iterator))
 [(1, 2), (3, 4)]
 </code></pre>
 
