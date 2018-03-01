@@ -1,16 +1,21 @@
 ---
 layout: post
-title: "Loop better: a deeper look at the iterator protocol"
+title: "Loop Better: a deeper look at the iterator protocol in Python"
 date: 2018-02-19 10:00:45 -0800
 comments: true
 categories: python
 ---
 
-**TODO intro**
+Python's `for` loops don't work the way `for` loops do in other languages.  Unlike many languages, it's also not uncommon to find "lazy iterables" and even infinitely-long iterables in Python code.
+
+In this article we're going to dive into Python's `for` loops to take a look at how they work under the hood and why they work the way they do.
+
+This article is a text-based version of the Loop Better talk I gave last year at DjangoCon AU, PyGotham, and North Bay Python.
 
 
 ## Looping Gotchas
 
+We're going to start off our journey by taking a look at some "gotchas".  After we've learned how looping works in Python, we'll take another look at these gotchas and explain what's going on.
 
 ### Gotcha 1: Looping Twice
 
@@ -39,41 +44,54 @@ Instead we'll get `0`:
 
 ### Gotcha 2: Containment Checking
 
+Let's take the same list of numbers and the same generator object:
+
 ```pycon
 >>> numbers = [1, 2, 3, 5, 7]
 >>> squares = (n**2 for n in numbers)
+```
+
+If we ask whether `9` is in our `squares` generator, Python will tell us that 9 *is* in `squares`.  But if we ask the *same question* again, Python will tell us that 9 *is not* in `squares`.
+
+```pycon
 >>> 9 in squares
 True
 >>> 9 in squares
 False
 ```
 
-- If we ask whether `9` is in this generator **(click)**, Python will tell us this is `True` **(click)**
-- 9 *is* in this generator
-- If we ask the *same question* again **(click)**, Python will tell us this time, that it's `False` **(click)**
-- We asked the same question twice and Python gave us two different answers.
-- That's a little weird
+We asked the same question twice and Python gave us two different answers.
+
 
 ### Gotcha 3: Unpacking
 
+This dictionary has two key-value pairs:
+
 ```pycon
 >>> counts = {'apples': 2, 'oranges': 1}
+```
+
+Let's unpack this dictionary using multiple assignment:
+
+```pycon
 >>> x, y = counts
+```
+
+You might expect that when unpacking this dictionary, we'll get key-value pairs or maybe that we'll get an error.
+
+But unpacking dictionaries doesn't raise errors and it doesn't return key-value pairs.  When you unpack dictionaries you get keys:
+
+```pycon
 >>> x
 'apples'
 ```
 
-- This dictionary has two key-value pairs
-- If we try to unpack this dictionary into two variables **(click)**, you might think we'll get an error
-- But we don't **(click)**... we can unpack dictionaries
-- Okay that's a little odd, but let's just go with it
-- You might expect at this point that `x` and `y` at this point are tuples of key-value pairs
--  **(click)** But you'd be wrong.
-- `x` and `y` are not tuples of key-value pairs... they're keys.
-- That's a little weird also.  We'll come back to that at the end of this talk.
+We'll come back to these gotchas after we learn about the logic that Python is using in these cases behind the scenes.
 
 
 ## Review: Python's for loop
+
+This is a `for` loop:
 
 ```javascript
 let numbers = [1, 2, 3, 5, 7];
@@ -82,13 +100,11 @@ for (let i = 0; i < numbers.length; i += 1) {
 }
 ```
 
-- This is not Python code.
-- This is a traditional C-style `for` loop, written in JavaScript
-- In this loop, we start with `i` set to `0`, we check whether `i` is less than the length of the `numbers` array, we loop, and we increment `i` by 1 each time we loop
-- Once the condition is no longer true, we'll stop looping **(click)**
-- So this `for` loop will print out each item in the array
-- *(pause)* Python **does not** have this kind of `for` loop
-- What we *do* have in Python is a for-*in* loop, which many programming languages call a **foreach loop**
+This `for` loop is written in JavaScript.  It's a traditional C-style `for` loop.  Java, C, C++, JavaScript, PHP, and a whole bunch of other programming languages have this kind of loop.
+
+Python **does not** have this kind of `for` loop.  We do have something that we *call* a `for` loop in Python, but it works like a traditional [foreach loop][].
+
+This is Python's flavor of `for` loop:
 
 ```python
 numbers = [1, 2, 3, 5, 7]
@@ -96,12 +112,10 @@ for n in numbers:
     print(n)
 ```
 
-- This is a `for` loop in Python
-- In this `for` we're looping over each item in our list and printing those items out **(click)**
-- Python `for` loops don't have any index variables, index lookups, or index incrementing
-- Python's `for` loops magically do *all the work* of looping over our `numbers` list for us
-- So Python doesn't have traditional C-style `for` loops
-- We do have something that we call a `for` loop but it works differently
+Unlike traditional C-style `for` loops,s Python's `for` loops don't have index variables.  There's no index initializing, bounds checking, or index incrementing.  Python's `for` loops do *all the work* of looping over our `numbers` list for us.
+
+So while we do have `for` loops in Python, we do not have have traditional C-style `for` loops.  The thing that *we* call a for loop works very differently.
+
 
 ## Definitions: Iterables and Sequences
 
@@ -707,3 +721,5 @@ oranges
 ## Recap and related resources
 
 **TODO**
+
+[foreach loop]: https://en.wikipedia.org/wiki/Foreach
