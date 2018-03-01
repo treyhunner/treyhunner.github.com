@@ -42,17 +42,17 @@ You can get an iterator from any iterable in Python by using the `iter` function
 Once you have an iterator, the only thing you can do with it is get its next item:
 
 ```python
->>> iterator = iter([1, 2])
->>> next(iterator)
+>>> my_iterator = iter([1, 2])
+>>> next(my_iterator)
 1
->>> next(iterator)
+>>> next(my_iterator)
 2
 ```
 
 And you'll get a stop iteration exception if you ask for the next item but there aren't anymore items:
 
 ```python
->>> next(iterator)
+>>> next(my_iterator)
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
@@ -61,18 +61,18 @@ StopIteration
 Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it'll give you itself back).  Therefore you can iterate over an iterator as well:
 
 ```python
->>> iterator = iter([1, 2])
->>> [x**2 for x in iterator]
+>>> my_iterator = iter([1, 2])
+>>> [x**2 for x in my_iterator]
 [1, 4]
 ```
 
 Importantly, it should be noted that iterators are stateful.  Meaning once you've consumed an item from an iterator, it's gone.  So after you've looped over an iterator once, it'll be empty if you try to loop over it again:
 
 ```python
->>> iterator = iter([1, 2])
->>> [x**2 for x in iterator]
+>>> my_iterator = iter([1, 2])
+>>> [x**2 for x in my_iterator]
 [1, 4]
->>> [x**2 for x in iterator]
+>>> [x**2 for x in my_iterator]
 []
 ```
 
@@ -221,16 +221,16 @@ It might seem like I'm nitpicking in saying that range isn't an iterator, but I 
 If I tell you something is an iterator, you'll know that when you call `iter` on it you'll always get the same object back (by definition):
 
 ```
->>> iter(iterator) is iterator
+>>> iter(my_iterator) is my_iterator
 True
 ```
 
 And you'll be certain that you can call `next` on it because you can call `next` on all iterators:
 
 ```
->>> next(iterator)
+>>> next(my_iterator)
 4
->>> next(iterator)
+>>> next(my_iterator)
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 StopIteration
@@ -239,8 +239,8 @@ StopIteration
 And you'll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:
 
 ```python
->>> iterator = iter([1, 2, 3, 4])
->>> list(zip(iterator, iterator))
+>>> my_iterator = iter([1, 2, 3, 4])
+>>> list(zip(my_iterator, my_iterator))
 [(1, 2), (3, 4)]
 ```
 
