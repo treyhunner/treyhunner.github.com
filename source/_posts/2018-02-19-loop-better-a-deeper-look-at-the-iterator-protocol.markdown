@@ -257,20 +257,12 @@ So you can get an iterator from every iterable.
 And the only thing that you can do with iterators is ask them for their next item using the `next` function.
 And if you pass them to `next` but they don't have a next item, a `StopIteration` exception will be raised.
 
-**TODO**: tally-counter image (with proper attribution)
+{% img /images/hello-kitty-pez.jpg "" "Hello Kitty PEZ dispenser" %}
 
-- So you can think of iterators as kind of like one-directional tally counters, with a broken reset button
-- They keep track of where they are as you ask them for their next item
-- But they only go in one direction
-- And they cannot be reset
-- Iterators are one-directional tally-counts without a reset button
+[Photo][pez image] by Deborah Austin / [CC BY][]
 
-**TODO**: hello kitty PEZ image (with proper attribution)
-
-- Iterators are *also* kind of like a Hello Kitty PEZ dispenser that cannot be reloaded
-- When you take a PEZ out, it's gone
-- And once the dispenser is empty, it's useless
-- Iterators are Hello Kitty PEZ dispensers that cannot be reloaded
+You can think of iterators as like Hello Kitty PEZ dispensers that cannot be reloaded.
+You can take PEZ out, but once a PEZ is removed it can't be put back and once the dispenser is empty, it's useless.
 
 
 ## Looping without a for loop
@@ -820,10 +812,19 @@ Both use the iterator protocol, so you get the same result in both cases.
 
 ## Recap and related resources
 
-**TODO**
+Sequences are iterables, but not all iterables are sequences.
+When someone says the word "iterable" you can only assume they mean "something that you can iterate over".  Don't assume iterables can be looped over twice or asked for their length or indexed.
+
+Iterators are the most rudimentary form of iterables in Python.
+If you'd like to make a lazy iterable in your code think of iterators and consider making a generator function or a generator expression.
+
+And finally, remember that type of iteration in Python relies on the iterator protocol so understanding the iterator protocol is the key to understanding quite a bit about looping in Python in general.
+
 
 [foreach loop]: https://en.wikipedia.org/wiki/Foreach
 [list comprehension]: http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
 [boltons]: https://boltons.readthedocs.io
 [more-itertools]: https://more-itertools.readthedocs.io
 [itertools]: https://docs.python.org/3/library/itertools.html
+[pez image]: https://www.flickr.com/photos/30223382@N06/4151828376
+[cc by]: https://creativecommons.org/licenses/by/2.0/
