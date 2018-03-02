@@ -1,16 +1,14 @@
 ---
 layout: post
-title: "Loop Better: a deeper look at the iterator protocol in Python"
+title: "Loop Better: a deeper look at iteration in Python"
 date: 2018-02-19 10:00:45 -0800
 comments: true
 categories: python
 ---
 
-Python's `for` loops don't work the way `for` loops do in other languages.  Unlike many languages, it's also not uncommon to find "lazy iterables" and even infinitely-long iterables in Python code.
+Python's `for` loops don't work the way `for` loops do in other languages.  In this article we're going to dive into Python's `for` loops to take a look at how they work under the hood and why they work the way they do.
 
-In this article we're going to dive into Python's `for` loops to take a look at how they work under the hood and why they work the way they do.
-
-This article is a text-based version of the Loop Better talk I gave last year at [DjangoCon AU][], [PyGotham][], and [North Bay Python][].
+This article is based on the Loop Better talk I gave last year at [DjangoCon AU][], [PyGotham][], and [North Bay Python][].
 
 
 ## Looping Gotchas
@@ -35,12 +33,13 @@ We can pass our generator object to the `tuple` constructor to make a tuple out 
 
 If we then take the same generator object and pass it to the `sum` function we might expect that we'd get the sum of these numbers, which would be 88.
 
-Instead we'll get `0`:
-
 ```pycon
 >>> sum(squares)
 0
 ```
+
+Instead we get `0`.
+
 
 ### Gotcha 2: Containment Checking
 
@@ -51,7 +50,7 @@ Let's take the same list of numbers and the same generator object:
 >>> squares = (n**2 for n in numbers)
 ```
 
-If we ask whether `9` is in our `squares` generator, Python will tell us that 9 *is* in `squares`.  But if we ask the *same question* again, Python will tell us that 9 *is not* in `squares`.
+If we ask whether `9` is in our `squares` generator, Python will tell us that 9 *is* in `squares`.  But if we ask the *same question again*, Python will tell us that 9 *is not* in `squares`.
 
 ```pycon
 >>> 9 in squares
@@ -86,7 +85,7 @@ But unpacking dictionaries doesn't raise errors and it doesn't return key-value 
 'apples'
 ```
 
-We'll come back to these gotchas after we learn about the logic that Python is using in these cases behind the scenes.
+We'll come back to these gotchas after we've learned a bit about the logic that powers these Python snippets.
 
 
 ## Review: Python's for loop
@@ -100,9 +99,11 @@ for (let i = 0; i < numbers.length; i += 1) {
 }
 ```
 
-This `for` loop is written in JavaScript.  It's a traditional C-style `for` loop.  Java, C, C++, JavaScript, PHP, and a whole bunch of other programming languages have this kind of loop.
+This is not Python code.
 
-Python **does not** have this kind of `for` loop.  We do have something that we *call* a `for` loop in Python, but it works like a traditional [foreach loop][].
+The above loop is a traditional C-style `for` loop written in JavaScript.  JavaScript, C, C++, Java, PHP, and a whole bunch of other programming languages all have this kind of `for` loop.
+
+Python **does not** have this kind of `for` loop.  We do have something that we *call* a `for` loop in Python, but it works like a [foreach loop][].
 
 This is Python's flavor of `for` loop:
 
@@ -112,7 +113,7 @@ for n in numbers:
     print(n)
 ```
 
-Unlike traditional C-style `for` loops,s Python's `for` loops don't have index variables.  There's no index initializing, bounds checking, or index incrementing.  Python's `for` loops do *all the work* of looping over our `numbers` list for us.
+Unlike traditional C-style `for` loops, Python's `for` loops don't have index variables.  There's no index initializing, bounds checking, or index incrementing.  Python's `for` loops do *all the work* of looping over our `numbers` list for us.
 
 So while we do have `for` loops in Python, we do not have have traditional C-style `for` loops.  The thing that *we* call a for loop works very differently.
 
@@ -122,9 +123,7 @@ So while we do have `for` loops in Python, we do not have have traditional C-sty
 Now that we've addressed the index-free `for` loop in our Python room, let's get some definitions out of the way now.
 
 An **iterable** is anything you can loop over with a `for` loop in Python.
-If you can loop over something with a `for` loop in Python, it is an iterable.  And if something is an iterable, it can be looped over with a `for` loop.
-
-An *iterable* is anything that you *iterate* over.
+Iterables can be looped over and anything that can be looped over is an iterable.
 
 ```python
 for item in some_iterable:
@@ -153,7 +152,7 @@ Lists, tuples, strings and *all other* sequences work this way.
 'o'
 ```
 
-Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but not of them are sequences.
+Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but not of these things are sequences.
 
 ```pycon
 >>> my_set = {1, 2, 3}
@@ -162,7 +161,7 @@ Lots of things in Python are iterables, but not all iterables are sequences.  Se
 >>> squares = (n**2 for n in my_set)
 ```
 
-So anything that can be looped over with a `for` loop is an iterable and sequences are one type of iterable, but there are many other types of iterables.
+So anything that can be looped over with a `for` loop is an iterable and sequences are one type of iterable but Python has many other kinds of iterables as well.
 
 
 ## Python's for loops don't use indexes
@@ -180,7 +179,7 @@ while i < len(numbers):
 
 This works for lists, but it won't work everything.  This way of looping **only works for sequences**.
 
-If we try to manually loop a set using indexes, we'll get an error:
+If we try to manually loop over a set using indexes, we'll get an error:
 
 ```pycon
 >>> fruits = {'lemon', 'apple', 'orange', 'watermelon'}
@@ -194,26 +193,28 @@ File "<stdin>", line 2, in <module>
 TypeError: 'set' object does not support indexing
 ```
 Sets are not sequences so they don't support indexing.
+
 We *cannot* manually loop over every iterable in Python by using indexes.
-Sequences are the only kind of iterable that can be looped over this way.
+This simply won't work for iterables that aren't sequences.
 
 
 ## Iterators power for loops
 
 
-So we Python's `for` loops don't use indexes under the hood.
-Instead Python's `for` loops use iterators.
+So we've seen that Python's `for` loops must not be using indexes under the hood.
+Instead, Python's `for` loops use **iterators**.
 
-In Python, you can get an iterator from *any* iterable.
+Iterators are the things that power iterables.
+You can get an iterator from *any* iterable.
 And you can use an iterator to manually loop over the iterable it came from.
 
 Let's take a look at how that works.
 
-Here are three iterables: a list, a set, and a string.
+Here are three iterables: a set, a tuple, and a string.
 
 ```pycon
->>> numbers = [1, 2, 3, 5, 7]
->>> coordinates = {4, 5, 7}
+>>> numbers = {1, 2, 3, 5, 7}
+>>> coordinates = (4, 5, 7)
 >>> words = "hello there"
 ```
 
@@ -222,9 +223,9 @@ Passing an iterable to the `iter` function will always give us back an iterator,
 
 ```pycon
 >>> iter(numbers)
-<list_iterator object at 0x7f2b9271c860>
+<set_iterator object at 0x7f2b9271c860>
 >>> iter(coordinates)
-<set_iterator object at 0x7f2b9271ce80>
+<tuple_iterator object at 0x7f2b9271ce80>
 >>> iter(words)
 <str_iterator object at 0x7f2b9271c860>
 ```
@@ -233,10 +234,10 @@ Once we have an iterator, the one thing we can do with it is get its next item b
 
 ```pycon
 >>> numbers = [1, 2, 3]
->>> iterator = iter(numbers)
->>> next(iterator)
+>>> my_iterator = iter(numbers)
+>>> next(my_iterator)
 1
->>> next(iterator)
+>>> next(my_iterator)
 2
 ```
 
@@ -301,9 +302,10 @@ We've just re-invented a `for` loop by using a `while` loop and iterators.
 
 The above code pretty much defines the way looping works under the hood in Python.  If you understand the way the built-in `iter` and `next` functions work for looping over things, you understand how Python's `for` loops work.
 
-In fact this is a little bit more than just how `for` loops work.  All forms of looping over iterables in Python work this way.
+In fact you'll understand a little bit more than just how `for` loops work in Python.  All forms of looping over iterables work this way.
+
 **The iterator protocol** is a fancy way of saying "how looping over iterables works in Python".
-The iterator protocol is essentially the definition of the way the `iter` and `next` functions work in Python.
+It's essentially the definition of the way the `iter` and `next` functions work in Python.
 All forms of iteration in Python are powered by the iterator protocol.
 
 The iterator protocol is used by `for` loops (as we've already seen):
@@ -339,7 +341,8 @@ Any time you're looping over an iterable in Python, you're relying on the iterat
 ## Generators are iterators
 
 So you might be thinking: iterators seem cool, but they also just seem like an implementation detail and we might not need to *care* about them as users of Python.
-I have news for you: it's pretty common to see iterators in Python.
+
+I have news for you: it's very common to work directly with iterators in Python.
 
 The `squares` object here is a generator:
 
@@ -348,7 +351,7 @@ The `squares` object here is a generator:
 >>> squares = (n**2 for n in numbers)
 ```
 
-And all **generators are iterators**, meaning you can call `next` on a generator to get its next item:
+And generators are iterators, meaning you can call `next` on a generator to get its next item:
 
 ```pycon
 >>> next(squares)
@@ -371,15 +374,14 @@ But if you've ever used a generator before, you probably know that you can also 
 
 If you can loop over something in Python, it's an **iterable**.
 
-So generators are iterators, but generators are also iterables.  What's going on here?
+So **generators are iterators**, but generators are also iterables.  What's going on here?
 
 
-## I've been lying to you
-
+## I lied to you
 
 So when I explained how iterators worked earlier, I skipped over an important detail about them.
 
-All iterators are also iterables.
+**Iterators are iterables**.
 
 I'll say that again: every iterator in Python is also an iterable, which means you can loop over iterators.
 
@@ -387,8 +389,8 @@ Because iterators are also iterables, you can get an iterator from an iterator u
 
 ```pycon
 >>> numbers = [1, 2, 3]
->>> iterator = iter(numbers)
->>> iterator2 = iter(iterator)
+>>> iterator1 = iter(numbers)
+>>> iterator2 = iter(iterator1)
 ```
 
 Remember that iterables give us iterators when we call `iter` on them.
@@ -396,9 +398,7 @@ Remember that iterables give us iterators when we call `iter` on them.
 When we call `iter` on an iterator it will always give us itself back:
 
 ```pycon
->>> iterator2
-<listiterator object at 0x7f92db9bf350>
->>> iterator is iterator2
+>>> iterator1 is iterator2
 True
 ```
 
@@ -476,16 +476,16 @@ Iterables can be passed to the `iter` function to get an iterator for them.
 
 Iterators:
 
-1. Can be passed to the `next` function which gives their next item or raises `StopIteration` if there are no more items
+1. Can be passed to the `next` function which will give their next item or raise a `StopIteration` exception if there are no more items
 2. Can be passed to the `iter` function and will return themselves back
 
 The inverse of these statements also hold true:
 
-1. Anything that can be passed to `iter` without an error is an iterable
+1. Anything that can be passed to `iter` without a `TypeError` is an iterable
 2. Anything that can be passed to `next` without a `TypeError` is an iterator
 3. Anything that returns itself when passed to `iter` is an iterator
 
-That's the **iterator protocol** in Python.
+That's the iterator protocol in Python.
 
 
 ## Iterators enable laziness
@@ -500,7 +500,7 @@ And we can create iterables that are conservative with system resources, that ca
 You've already seen lots of iterators in Python.
 I've already mentioned that generators are iterators.
 Many of Python's built-in classes are iterators also.
-Python's `enumerate` and `reversed` objects are iterators.
+For example Python's `enumerate` and `reversed` objects are iterators.
 
 ```pycon
 >>> letters = ['a', 'b', 'c']
@@ -511,7 +511,7 @@ Python's `enumerate` and `reversed` objects are iterators.
 (0, 'a')
 ```
 
-In Python 3, `zip`, `map`, and `filter` objects are all iterators too.
+In Python 3, `zip`, `map`, and `filter` objects are iterators too.
 
 ```pycon
 >>> numbers = [1, 2, 3, 5, 7]
@@ -523,22 +523,22 @@ In Python 3, `zip`, `map`, and `filter` objects are all iterators too.
 (1, 'a')
 ```
 
-All file objects in Python are iterators also.
+And file objects in Python are iterators also.
 
 ```pycon
 >>> next(open('hello.txt'))
 'hello world\n'
 ```
 
-There are also lots of iterators in Python's standard library and in third-party Python libraries.
+There are lots of iterators bult-in to Python, in the standard library, and in third-party Python libraries.
 These iterators all act like lazy iterables by delaying work until the moment you ask them for their next item.
 
 
 ## Creating your own iterator
 
-It's useful to know that you're already using iterators, but I'd like you to also know that you can also create your own iterators and your own lazy iterables.
+It's useful to know that you're already using iterators, but I'd like you to also know that you can create your own iterators and your own lazy iterables.
 
-This class makes an iterator that accepts an iterable of numbers it will give us squares of each of the given numbers as we loop over it.
+This class makes an iterator that accepts an iterable of numbers and provides squares of each of the numbers as it's looped over.
 
 ```python
 class square_all:
@@ -550,16 +550,18 @@ class square_all:
         return self
 ```
 
-No work will be done until we start looping over an instance of this class though.  Here we have an infinitely long iterable `count` and you can see that `square_all` accepts `count` without doing any work on this infinitely long iterable:
+No work will be done until we start looping over an instance of this class though.
+
+Here we have an infinitely long iterable `count` and you can see that `square_all` accepts `count` without fully looping over this infinitely long iterable:
 
 ```pycon
 >>> from itertools import count
->>> numbers = count()
+>>> numbers = count(5)
 >>> squares = square_all(numbers)
 >>> next(squares)
-0
+25
 >>> next(squares)
-1
+36
 ```
 
 This iterator class works, but we don't usually make iterators this way.
@@ -571,9 +573,9 @@ def square_all(numbers):
         yield n**2
 ```
 
-This generator function is equivalent to the class we made above.
-It works essentially the same way.
-That `yield` statement probably seem magical, but it is very powerful: `yield` allows us to put our generator on pause between calls from the `next` function.
+This generator function is equivalent to the class we made above and it works essentially the same way.
+
+That `yield` statement probably seem magical, but it is very powerful: `yield` allows us to put our generator function on pause between calls from the `next` function.
 The `yield` statement is the thing that separates generator functions from regular functions.
 
 Another way we could implement this same iterator is with a generator expression.
@@ -591,9 +593,10 @@ If you need to make a lazy iterable in your code, think of iterators and conside
 
 
 Once you've embraced the idea of using lazy iterables in your code, you'll find that there are lots of possibilities for discovering or creating helper functions that assist you in looping over iterables and processing data.
-This is a for loop that sums up all billable hours in a Django queryset:
 
 ### Laziness and summing
+
+This is a for loop that sums up all billable hours in a Django queryset:
 
 ```python
 hours_worked = 0
@@ -614,9 +617,10 @@ billable_times = (
 hours_worked = sum(billable_times)
 ```
 
-Notice that the shape of our code is dramatically different.
-Turning our billable times into a lazy iterable allows us to name something (billable times) that was previously unnamed.
-This also allows us to use the `sum` function because we actually have an iterable to pass to `sum` in the second code block.
+Notice that the shape of our code has changed dramatically.
+
+Turning our billable times into a lazy iterable has allowed us to name something (`billable_times`) that was previously unnamed.
+This has also allowed us to use the `sum` function.  We couldn't have used `sum` before because we didn't even have an iterable to pass to it.
 Iterators allow you to fundamentally change the way you structure your code.
 
 ### Laziness and breaking out of loops
@@ -644,7 +648,7 @@ The `first_ten_lines` variable we've made is an iterator.
 Again using an iterator allowed us to give a name to something (first ten lines) that was previously unnamed.
 Naming things can make our code more descriptive and more readable.
 
-As a bonus we also removed the need for a `break` statement in our loop.  The `islice` utility handles the breaking for us.
+As a bonus we also removed the need for a `break` statement in our loop because the `islice` utility handles the breaking for us.
 
 You can find many more iteration helper functions in [itertools][] in the standard library as well as in third-party libraries such as [boltons][] and [more-itertools][].
 
@@ -662,7 +666,7 @@ for next_item in readings[1:]:
 ```
 
 Notice that this code has an extra variable that we need to assign each time we loop.
-Also note that this code only works with things we can slice (sequences).  If `readings` were a generator, a zip object, or any other type of iterator this code would fail.
+Also note that this code only works with things we can slice, like sequences.  If `readings` were a generator, a zip object, or any other type of iterator this code would fail.
 
 Let's write a helper function to fix our code.
 
@@ -772,6 +776,7 @@ When we ask whether `9` is in this generator, Python has to loop over this gener
 If we kept looping over it after checking for `9`, we'll only get the last two numbers because we've already consumed the numbers before this point:
 
 ```pycon
+>>> numbers = [1, 2, 3, 5, 7]
 >>> squares = (n**2 for n in numbers)
 >>> 9 in squares
 True
@@ -813,12 +818,21 @@ Both use the iterator protocol, so you get the same result in both cases.
 ## Recap and related resources
 
 Sequences are iterables, but not all iterables are sequences.
-When someone says the word "iterable" you can only assume they mean "something that you can iterate over".  Don't assume iterables can be looped over twice or asked for their length or indexed.
+When someone says the word "iterable" you can only assume they mean "something that you can iterate over".  Don't assume iterables can be looped over twice, asked for their length, or indexed.
 
 Iterators are the most rudimentary form of iterables in Python.
 If you'd like to make a lazy iterable in your code think of iterators and consider making a generator function or a generator expression.
 
-And finally, remember that type of iteration in Python relies on the iterator protocol so understanding the iterator protocol is the key to understanding quite a bit about looping in Python in general.
+And finally, remember that every type of iteration in Python relies on the iterator protocol so understanding the iterator protocol is the key to understanding quite a bit about looping in Python in general.
+
+Here are some related articles and videos I recommend:
+
+- [Loop Like a Native](https://nedbatchelder.com/text/iter.html), Ned Batchelder's PyCon 2013 talk
+- [Loop Better](https://www.youtube.com/watch?v=V2PkkMS2Ack), the talk this article is based on
+- [The Iterator Protocol: How For Loops Work](http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/), a short article I wrote on the iterator protocol
+- [Comprehensible Comprehensions](https://www.youtube.com/watch?v=5_cJIcgM7rw), my talk on comprehensions and generator expressions
+- [Python: range is not an iterator](http://treyhunner.com/2018/02/python-range-is-not-an-iterator/), my article on range and iterators
+- [Looping Like a Pro in Python](https://www.youtube.com/watch?v=u8g9scXeAcI), DB's PyCon 2017 talk
 
 
 [foreach loop]: https://en.wikipedia.org/wiki/Foreach
