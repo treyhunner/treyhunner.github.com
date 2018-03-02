@@ -10,7 +10,7 @@ Python's `for` loops don't work the way `for` loops do in other languages.  Unli
 
 In this article we're going to dive into Python's `for` loops to take a look at how they work under the hood and why they work the way they do.
 
-This article is a text-based version of the Loop Better talk I gave last year at DjangoCon AU, PyGotham, and North Bay Python.
+This article is a text-based version of the Loop Better talk I gave last year at [DjangoCon AU][], [PyGotham][], and [North Bay Python][].
 
 
 ## Looping Gotchas
@@ -828,3 +828,6 @@ And finally, remember that type of iteration in Python relies on the iterator pr
 [itertools]: https://docs.python.org/3/library/itertools.html
 [pez image]: https://www.flickr.com/photos/30223382@N06/4151828376
 [cc by]: https://creativecommons.org/licenses/by/2.0/
+[djangocon au]: https://www.youtube.com/watch?v=JYuE8ZiDPl4
+[pygotham]: https://www.youtube.com/watch?v=Wd7vcuiMhxU
+[north bay python]: https://www.youtube.com/watch?v=V2PkkMS2Ack
