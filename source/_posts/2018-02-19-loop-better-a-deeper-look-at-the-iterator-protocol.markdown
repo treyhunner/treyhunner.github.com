@@ -260,7 +260,7 @@ And if you pass them to `next` but they don't have a next item, a `StopIteration
 
 {% img /images/hello-kitty-pez.jpg "" "Hello Kitty PEZ dispenser" %}
 
-[Photo][pez image] by Deborah Austin / [CC BY][]
+[Hello Kitty PEZ dispenser photo][pez image] by Deborah Austin / [CC BY][]
 
 You can think of iterators as like Hello Kitty PEZ dispensers that cannot be reloaded.
 You can take PEZ out, but once a PEZ is removed it can't be put back and once the dispenser is empty, it's useless.
@@ -594,6 +594,7 @@ If you need to make a lazy iterable in your code, think of iterators and conside
 
 Once you've embraced the idea of using lazy iterables in your code, you'll find that there are lots of possibilities for discovering or creating helper functions that assist you in looping over iterables and processing data.
 
+
 ### Laziness and summing
 
 This is a for loop that sums up all billable hours in a Django queryset:
@@ -623,6 +624,7 @@ Turning our billable times into a lazy iterable has allowed us to name something
 This has also allowed us to use the `sum` function.  We couldn't have used `sum` before because we didn't even have an iterable to pass to it.
 Iterators allow you to fundamentally change the way you structure your code.
 
+
 ### Laziness and breaking out of loops
 
 This code prints out the first ten lines of a log file:
@@ -651,6 +653,7 @@ Naming things can make our code more descriptive and more readable.
 As a bonus we also removed the need for a `break` statement in our loop because the `islice` utility handles the breaking for us.
 
 You can find many more iteration helper functions in [itertools][] in the standard library as well as in third-party libraries such as [boltons][] and [more-itertools][].
+
 
 ### Creating your own iteration helpers
 
