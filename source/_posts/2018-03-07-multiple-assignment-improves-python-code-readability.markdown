@@ -517,7 +517,7 @@ The use for multiple assignment that I often see forgotten is its ability to **r
 It's also common to overlook the fact that multiple assignment works *deeply* and can be used with both a *tuple-like* syntax and a *list-like* syntax.
 
 It's tricky to recognize and remember all the cases that multiple assignment can come in handy.
-Please feel free to use this article as a guide to multiple assignment.
+Please feel free to use this article as your personal reference guide to multiple assignment.
 
 
 [f-strings]: https://cito.github.io/blog/f-strings/
