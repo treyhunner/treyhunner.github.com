@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-03-07T16:26:16-08:00</updated>
+  <updated>2018-03-07T16:36:58-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
-    <link href="http://treyhunner.com/2018/03/multiple-assignment-improves-python-code-readability/"/>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
     <updated>2018-03-07T16:30:00-08:00</updated>
-    <id>http://treyhunner.com/2018/03/multiple-assignment-improves-python-code-readability</id>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
     <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
 
 <p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
