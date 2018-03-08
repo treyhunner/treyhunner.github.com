@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Multiple assignment and tuple unpacking improve Python code readability"
-date: 2018-03-07 10:09:38 -0800
+date: 2018-03-07 16:30:00 -0800
 comments: true
 categories: python
 ---
@@ -80,7 +80,9 @@ Here's another example to demonstrate that multiple assignment works with any nu
 >>> (x, y, z) = (z, y, x)
 ```
 
-Okay let's talk about how multiple assignment can be used.
+Note that on that last line we're actually swapping variable names, which is something multiple assignment allows us to do easily.
+
+Alright, let's talk about how multiple assignment can be used.
 
 
 ## Unpacking in a for loop
@@ -148,14 +150,14 @@ for (product, price, color) in zip(products, prices, colors):
     print(f"{product} is {color} and costs ${price:.2f}")
 ```
 
-Multiple assignment pairs so nicely with loops that newer Pythonistas might assume it's a feature of `for` loops and not of assignment in general.
-This isn't the case though.
-**The `for` loop tuple unpacking syntax is the same as assignment tuple unpacking syntax**.
+If you're unfamiliar with `enumerate` or `zip`, see my article on [looping with indexes in Python][].
+
+Newer Pythonistas often see multiple assignment in the context of `for` loops and sometimes assume it's tied to loops.  Multiple assignment works for any assignment though, not just loop assignments.
 
 
 ## An alternative to hard coded indexes
 
-It's not uncommon to see hard coded indexes (e.g. `point[0]`, `items[1]`, `values[-1]`) in Python:
+It's not uncommon to see hard coded indexes (e.g. `point[0]`, `items[1]`, `vals[-1]`) in code:
 
 ```python
 print(f"The first item is {items[0]} and the last item is {items[-1]}")
@@ -210,7 +212,7 @@ This strictness is pretty great.
 If we're working with an item that has a different size than we expected, the multiple assignment will fail loudly and we'll hopefully now know about a bug in our program that we weren't yet aware of.
 
 Let's look at an example.
-Imagine that we have a short command line program that parses command arguments in a rudimentary way like this:
+Imagine that we have a short command line program that parses command-line arguments in a rudimentary way, like this:
 
 ```python
 import sys
@@ -227,7 +229,7 @@ $ my_program.py file1.txt file2.txt
 Copying file1.txt to file2.txt
 ```
 
-But if someone called our program with three arguments, they won't see an error:
+But if someone called our program with three arguments, they will not see an error:
 
 ```bash
 $ my_program.py file1.txt file2.txt file3.txt
@@ -319,7 +321,7 @@ It doesn't come up quite as often as the other uses for multiple assignment that
 We've seen multiple assignment for unpacking tuples and other iterables.
 We haven't yet seen that this is can be done *deeply*.
 
-I'd say that this multiple assignment is *shallow* because it unpacks one level deep:
+I'd say that the following multiple assignment is *shallow* because it unpacks one level deep:
 
 ```pycon
 >>> color, point = ("red", (1, 2, 3))
@@ -522,3 +524,4 @@ Please feel free to use this article as your personal reference guide to multipl
 
 [f-strings]: https://cito.github.io/blog/f-strings/
 [Counter]: https://docs.python.org/3/library/collections.html#collections.Counter
+[looping with indexes in Python]: http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
