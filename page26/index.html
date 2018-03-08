@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="You need to write tests for your code to demonstrate that it works as expected. In this post I will note the method I usually use for writing code &hellip;">
+  <meta name="description" content="Single-dispatch generic functions will be added to Python 3.4 (as proposed in PEP 443). When reading about single-dispatch functions I immediately &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,7 +105,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/07/test-inspired-development/">Test-Inspired Development</a></h1>
+      <h1 class="entry-title"><a href="/2013/09/singledispatch-json-serializer/">Extensible JSON encoder using single-dispatch functions</a></h1>
     
     
       <p class="meta">
@@ -114,40 +114,96 @@
 
 
 
-<time class='entry-date' datetime='2013-07-28T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-09-27T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/07/test-inspired-development/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/07/test-inspired-development/">Comments</a>
+           | <a href="/2013/09/singledispatch-json-serializer/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/09/singledispatch-json-serializer/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>You need to write tests for your code to demonstrate that it works as expected.  In this post I will note the method I usually use for writing code and writing tests.</p>
+  <div class="entry-content"><p>Single-dispatch generic functions will be added to Python 3.4 (as proposed in <a href="http://www.python.org/dev/peps/pep-0443/">PEP 443</a>).  When reading about single-dispatch functions I immediately thought of the difficulties I&rsquo;ve had with custom JSON encoders.  Below I explain why custom JSON encoders can complicate your application and how single-dispatch functions could be used to create a simpler JSON encoder.</p>
 
-<p>I follow a method of development similar to test-driven development, which I call &ldquo;test-inspired development&rdquo;.  Here&rsquo;s roughly what I do:</p>
+<h2>JSON Encoding using the json library</h2>
 
-<ol>
-<li>Write a bit of code</li>
-<li>Write a bit of a unit test for your code</li>
-<li>Ensure the test succeeds, but fails when the code is commented out or git stash-ed</li>
-<li>Repeat steps 1, 2, and 3 as needed</li>
-<li>Start writing an integration test, fleshing out as far as you can</li>
-<li>Make sure the integration test fails at the correct point</li>
-<li>Repeat steps 5 and 6 as needed</li>
-<li>Make sure no commit you make along the way contains both tests and code</li>
-<li>Use git rebase if necessary to ensure the test commits come before the code commits</li>
-</ol>
+<p>With the current Python <code>json</code> library, using an extensible JSON encoder in your generic application may require some/all of the following:</p>
+
+<ul>
+<li>Allowing specification of custom encoder class by client applications</li>
+<li>Overriding the default JSON encoder class (or a client-specified one) for any further extensions</li>
+<li>Passing JSON encoder classes into other serialization libraries used by your application</li>
+</ul>
 
 
-<p>Ideally I would write all of my test code first and then write my application code and ensure my tests pass.  That isn&rsquo;t what usually happens though.  I often find it tricky to write full tests before writing any code.  Even when writing code in small parts, sometimes my code gets written before the corresponding test code.</p>
+<h3>Combining JSON encoders</h3>
 
-<p>I write all of my code in feature branches (short-lived branches forked from master) and I often create a pull request (even against my own repository) when creating a new feature.  Because I commit the tests first, a code reviewer can easily confirm that all the new tests actually fail correctly without the code present by simply rolling back to the last test commit and running the tests.</p>
+<p>If you need to compose two custom JSON encoders specified in two different packages, you may need to:</p>
 
-<p>I usually write my unit tests first and at or near the same time as my code because they help often help shape my code heavily.  The functional/integration tests are important for ensuring that the application actually works all the way through (working parts are useless on their own).</p>
+<ul>
+<li>Use multiple inheritance and hope the encoders play nicely together</li>
+<li>Duplicate code from one of the packages and create a new serializer with single inheritance</li>
+<li>Monkey patch one or both of the libraries</li>
+</ul>
 
-<p>Have questions about my testing methodology?  Do you use a different technique?  Feel free to share your thoughts in the comments below.</p>
+
+<h2>JSON encoder using single-dispatch generic functions</h2>
+
+<p>I created a wrapper around the <code>json</code> library to make a JSON encoder using single-dispatch generic functions.  Here&rsquo;s how to use it:</p>
+
+<div><script src='https://gist.github.com/6734816.js?file=example.py'></script>
+<noscript><pre><code>from decimal import Decimal
+
+from json_singledispatch import encode
+
+
+@encode.register(set)
+def encode_set(obj):
+    return encode(list(obj))
+
+
+@encode.register(Decimal)
+def encode_decimal(obj):
+    return encode(str(obj))
+
+
+print encode({&#39;key&#39;: &quot;value&quot;})
+print encode({5, 6})
+print encode(Decimal(&quot;5.6&quot;))</code></pre></noscript></div>
+
+
+<p>As you can see, it&rsquo;s fairly easy to extend the encoder to understand serialization rules for new data types.</p>
+
+<p>The impementation is fairly simple, albeit a hack:</p>
+
+<div><script src='https://gist.github.com/6734816.js?file=json_singledispatch.py'></script>
+<noscript><pre><code>import json
+from singledispatch import singledispatch
+
+
+class _CustomEncoder(json.JSONEncoder):
+    def default(self, obj):
+        for type_, handler in encode.registry.items():
+            if isinstance(obj, type_) and type_ is not object:
+                return handler(obj)
+        return super(_CustomEncoder, self).default(obj)
+
+
+@singledispatch
+def encode(obj, **kwargs):
+    return json.dumps(obj, cls=_CustomEncoder, **kwargs)</code></pre></noscript></div>
+
+
+<p>This code is intended as a proof-of-concept to demonstrate the power of single-dispatch generic functions.  Feel free to use it however you like.</p>
+
+<h2>Related Links</h2>
+
+<ul>
+<li><a href="http://lukasz.langa.pl/8/single-dispatch-generic-functions/">What single-dispatch generic functios mean for you</a></li>
+<li><a href="http://julien.danjou.info/blog/2013/python-3.4-single-dispatch-generic-function">Python 3.4 single dispatch, a step into generic functions</a></li>
+</ul>
+
 </div>
   
   <footer>
