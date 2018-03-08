@@ -28,7 +28,7 @@ Python's multiple assignment looks like this:
 >>> x, y = 10, 20
 ```
 
-We're assigning `x` to `10` and `y` to `20` here.
+Here we're setting `x` to `10` and `y` to `20`.
 
 What's happening at a lower level is that we're creating a tuple of `10, 20` and then looping over that tuple and taking each of the two items we get from looping and assigning them to `x` and `y` in order.
 
@@ -75,9 +75,13 @@ Anything that can be looped over can be "unpacked" with tuple unpacking / multip
 Here's another example to demonstrate that multiple assignment works with any number of items and that it works with variables as well as objects we've just created:
 
 ```pycon
->>> coordinate = 10, 20, 30
->>> x, y, z = coordinate
+>>> point = 10, 20, 30
+>>> x, y, z = point
+>>> print(x, y, z)
+10 20 30
 >>> (x, y, z) = (z, y, x)
+>>> print(x, y, z)
+30 20 10
 ```
 
 Note that on that last line we're actually swapping variable names, which is something multiple assignment allows us to do easily.
@@ -127,7 +131,7 @@ for item in person_dictionary.items():
     print(f"Key {key} has value {value}")
 ```
 
-We're just not doing an unnecessary extra assignment in the first case.
+We're just not doing an unnecessary extra assignment in the first example.
 
 So multiple assignment is great for unpacking dictionary items into key-value pairs, but it's helpful in many other places too.
 
