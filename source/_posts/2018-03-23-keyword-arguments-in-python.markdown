@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Keyword/Named Arguments in Python: How to Use Them"
+title: "Keyword (Named) Arguments in Python: How to Use Them"
 date: 2018-03-23 11:23:08 -0700
 comments: true
 categories: python
@@ -23,8 +23,8 @@ First let's take this Python function:
 from math import sqrt
 
 def quadratic(a, b, c):
-    x1 = -1 * b / (2 * a)
-    x2 = sqrt(b ** 2 - 4 * a * c) / (2 * a)
+    x1 = -b / 2*a
+    x2 = sqrt(b**2 - 4*a*c) / 2*a
     return (x1 + x2), (x1 - x2)
 ```
 
@@ -89,15 +89,19 @@ Note that functions can be called with a mix of positional and named arguments:
 (-1.0, -2.0)
 ```
 
+That can come in hand, but with the particular function we've written here it's most clear to use all positional arguments or all keyword arguments.
+
+
 ## Why use keyword arguments?
 
-When calling functions in Python, you'll often have the opportunity to use either keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.
+When calling functions in Python, you'll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.
 
 Take this code:
 
 ```python
-with GzipFile(None, 'wt', 9, output_file) as gzip_out:
-    gzip_out.write(contents)
+def write_gzip_file(output_file, contents):
+    with GzipFile(None, 'wt', 9, output_file) as gzip_out:
+        gzip_out.write(contents)
 ```
 
 This takes a file object `output_file` and `contents` string and writes a gzipped version of the string to the output file.
@@ -105,8 +109,9 @@ This takes a file object `output_file` and `contents` string and writes a gzippe
 This code does the same thing but it uses keyword arguments instead of positional arguments:
 
 ```python
-with GzipFile(fileobj=output_file, mode='wt', compresslevel=9) as gzip_out:
-    gzip_out.write(contents)
+def write_gzip_file(output_file, contents):
+    with GzipFile(fileobj=output_file, mode='wt', compresslevel=9) as gzip_out:
+        gzip_out.write(contents)
 ```
 
 Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.
@@ -118,11 +123,12 @@ We're actually able to leave another argument off though.
 Here's the same code again, but the compress level has been left at its default value of `9` this time:
 
 ```python
-with GzipFile(fileobj=output_file, mode='wt') as gzip_out:
-    gzip_out.write(contents)
+def write_gzip_file(output_file, contents):
+    with GzipFile(fileobj=output_file, mode='wt') as gzip_out:
+        gzip_out.write(contents)
 ```
 
-We left out two arguments and we were able to rearrange the remaining 2 arguments in an order that made sense based on their significance (the file object is most important and the write text access mode is less important).
+Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the "wt" access mode).
 
 When we use keyword arguments:
 
@@ -135,16 +141,16 @@ When we use keyword arguments:
 
 You'll likely see keyword arguments quite a bit in Python.
 
-Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the positional arguments.
+Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.
 
-The built-in `print` function accepts the optional `sep`, `end`, `file`, and `flush` attributes this way:
+The built-in `print` function accepts the optional `sep`, `end`, `file`, and `flush` attributes as keyword-only arguments:
 
 ```pycon
 >>> print('comma', 'separated', 'words', sep=', ')
 comma, separated, words
 ```
 
-The `itertools.zip_longest` function accepts the optional `fillvalue` attribute this way also:
+The `itertools.zip_longest` function also accepts an optional `fillvalue` attribute (which defaults to `None`) exclusively as a keyword argument:
 
 ```pycon
 >>> from itertools import zip_longest
@@ -152,9 +158,9 @@ The `itertools.zip_longest` function accepts the optional `fillvalue` attribute 
 [(1, 7, 4), (2, 8, 5), (0, 9, 0)]
 ```
 
-Some functions in Python even force arguments to be named even when they could be specified positionally.
+In fact, some functions in Python force arguments to be named even when they *could* have been unambiguously specified positionally.
 
-In Python 2, the `sorted` function accepted arguments positionally or as keyword arguments:
+In Python 2, the `sorted` function accepted all its arguments as either positional or keyword arguments:
 
 ```pycon
 >>> sorted([4, 1, 8, 2, 7], None, None, True)
@@ -163,7 +169,7 @@ In Python 2, the `sorted` function accepted arguments positionally or as keyword
 [8, 7, 4, 2, 1]
 ```
 
-But Python 3's `sorted` function requires all arguments after the iterable to be specified as keyword arguments:
+But Python 3's `sorted` function requires all arguments after the provided iterable to be specified as keyword arguments:
 
 ```pycon
 >>> sorted([4, 1, 8, 2, 7], None, True)
@@ -174,20 +180,14 @@ TypeError: must use keyword argument for key function
 [8, 7, 4, 2, 1]
 ```
 
-Python also uses supports keyword arguments in another of other places, for example the `format` method on strings:
-
-```pycon
-message = '{a}**2 + {b}**2 == {sum_of_squares}'.format(
-    a=a,
-    b=b,
-    sum_of_squares=a**2 + b**2,
-)
-```
+Keyword arguments come up quite a bit in Python's built-in functions as well as in the standard library and third party libraries.
 
 
 ## Requiring your arguments be named
 
-If you want to make a function that accepts any number of arguments and also accepts some keyword-only arguments, you can use a `*` operator to capture all the positional arguments and then specify optional keyword-only arguments after the `*` capture:
+You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the `*` operator to capture all the positional arguments and then specify optional keyword-only arguments after the `*` capture.
+
+Here's an example:
 
 ```python
 def product(*numbers, initial=1):
@@ -197,7 +197,9 @@ def product(*numbers, initial=1):
     return total
 ```
 
-The initial argument in the above function must be specified as a keyword argument:
+**Note**: If you haven't seen that `*` syntax before, `*numbers` captures all positional arguments given to the `product` function into a tuple which the `numbers` variable points to.
+
+The `initial` argument in the above function must be specified as a keyword argument:
 
 ```pycon
 >>> product(4, 4)
@@ -208,7 +210,7 @@ The initial argument in the above function must be specified as a keyword argume
 120
 ```
 
-Note that while `initial` has a default value, you can also specify required keyword-only arguments using this syntax:
+Note that while `initial` has a default value, you can also specify *required* keyword-only arguments using this syntax:
 
 ```python
 def join(*iterables, joiner):
@@ -220,7 +222,7 @@ def join(*iterables, joiner):
         yield from iterable
 ```
 
-The `joiner` variable here doesn't have a default value, so it must be specified when we call this function:
+That `joiner` variable doesn't have a default value, so it must be specified:
 
 ```pycon
 >>> list(join([1, 2, 3], [4, 5], [6, 7], joiner=0))
@@ -238,7 +240,7 @@ Note that this syntax of putting arguments after the `*` only works in Python 3.
 
 ## Keyword-only arguments without positional arguments
 
-What if you want to accept only keyword arguments without also accepting unlimited positional arguments?
+What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?
 
 If you want to accept keyword-only arguments and you're not using a `*` to accept any number of positional arguments, you can use a `*` without anything after it.
 
@@ -250,7 +252,16 @@ def render(request, template_name, context=None, *, content_type=None, status=No
     return HttpResponse(content, content_type, status)
 ```
 
-Unlike Django's current implementation of `render`, this version disallows calling `render` with all positional arguments.  We're only able to pass `context_type`, `status`, and `using` as keyword arguments.
+Unlike Django's current implementation of `render`, this version disallows calling `render` by specifying every argument positionally.  The `context_type`, `status`, and `using` arguments must be specified by their `name`.
+
+```pycon
+>>> render(request, '500.html', {'error': error}, status=500)
+<HttpResponse status_code=500, "text/html; charset=utf-8">
+>>> render(request, '500.html', {'error': error}, 500)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: render() takes from 2 to 3 positional arguments but 4 were given
+```
 
 Just like with unlimited positional arguments, these keyword arguments can be required.  Here's a function with four required keyword-only arguments:
 
@@ -285,18 +296,18 @@ Traceback (most recent call last):
 TypeError: random_password() takes 0 positional arguments but 4 were given
 ```
 
-Requiring arguments to be named can make calls to our function much more clear.
+Requiring arguments to be named can make calls to our function much clearer.
 
 The purpose of this function call:
 
-```python
-random_password(upper=1, lower=1, digits=1, length=8)
+```pycon
+>>> password = random_password(upper=1, lower=1, digits=1, length=8)
 ```
 
 Is much more obvious than this one:
 
-```python
-random_password(1, 1, 1, 8)
+```pycon
+>>> password = random_password(1, 1, 1, 8)
 ```
 
 Again note that this syntax also only works in Python 3.
@@ -304,7 +315,7 @@ Again note that this syntax also only works in Python 3.
 
 ## Capturing arbitrary keyword arguments
 
-What if you want to write a function that captures arbitrary of keyword arguments?
+What if you want to write a function that captures an arbitrary number of keyword arguments?
 
 For example the string format method accepts any keyword argument you give it:
 
@@ -315,7 +326,7 @@ For example the string format method accepts any keyword argument you give it:
 
 How can you write such a function?
 
-Python allows functions to capture any keyword arguments provided to them using the `**` operator when defining a function:
+Python allows functions to capture any keyword arguments provided to them using the `**` operator when defining the function:
 
 ```python
 def format_attributes(**attributes):
@@ -349,9 +360,9 @@ Here we're manually taking every key/value pair from a dictionary and passing th
 'name: Trey, website: http://treyhunner.com, color: purple'
 ```
 
-But this approach of hard-coding these keyword arguments requires that we have to know every key in our dictionary when we write our code.
+This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we're using at the time our code is written.  This won't work if we have a dictionary with unknown keys.
 
-We can do this for arbitrary keys in the dictionary by using the `**` operator to unpack our dictionary items into keyword arguments in our function call:
+We can pass arbitrary keyword arguments to our function using the `**` operator to unpack our dictionary items into keyword arguments in our function call:
 
 ```pycon
 >>> items = {'name': "Trey", 'website': "http://treyhunner.com", 'color': "purple"}
@@ -367,35 +378,35 @@ def my_method(self, *args, **kwargs):
     super().my_method(*args, **kwargs)  # Call parent method with all given arguments
 ```
 
-Note we're also using the `*` operator here for doing the same kind of capturing and unpacking for positional arguments.
+**Note**: We're also using the `*` operator here for the same kind of capturing and unpacking of positional arguments.
 
 
 ## Order matters
 
-Since Python 3.6, the order of keyword arguments passed into a function is guaranteed to be preserved (see [PEP 468][]).
+Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see [PEP 468][]).  This means that when `**` is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.
 
-This means that using `**` to capture arguments passed to a function will result in a dictionary with keys in the same order the arguments were passed.  So since Python 3.6, you'll never see something like this happen:
+So since Python 3.6, you'll *never* see something like this happen:
 
 ```pycon
 >>> format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
 'website: http://treyhunner.com, color: purple, name: Trey'
 ```
 
-Instead arguments will always maintain the order they were passed in:
+Instead, with Python 3.6+, arguments will always maintain the order they were passed in:
 
 ```pycon
 >>> format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
 'name: Trey, website: http://treyhunner.com, color: purple'
 ```
 
-## When to name your arguments
+## Embrace keyword arguments in Python
 
-Using named arguments when calling functions be your code more readable.
+An arguments *position* often doesn't convey as much meaning as its *name*.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.
 
-An arguments position often doesn't convey as much meaning as its name.  So when calling functions, consider naming arguments that you pass in if it might make their meaning more clear.
+When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the `*` operator to require those arguments be specified as keyword arguments.
 
-When defining a function, also think about which arguments could be considerably more clear if specified as keyword arguments.  Consider requiring that those arguments by specified as keyword arguments by using `*`.
+And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the `**` operator.
 
-And remember that you can accept arbitrary keyword arguments to your function and pass arbitrary keyword arguments to functions you call.
+Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!
 
 [pep 468]: https://www.python.org/dev/peps/pep-0468/
