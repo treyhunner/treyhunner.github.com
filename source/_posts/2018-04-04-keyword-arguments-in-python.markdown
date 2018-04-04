@@ -89,7 +89,7 @@ Note that functions can be called with a mix of positional and named arguments:
 (-1.0, -2.0)
 ```
 
-That can come in hand, but with the particular function we've written here it's most clear to use all positional arguments or all keyword arguments.
+That can come in handy, but with the particular function we've written here it's most clear to use all positional arguments or all keyword arguments.
 
 
 ## Why use keyword arguments?
