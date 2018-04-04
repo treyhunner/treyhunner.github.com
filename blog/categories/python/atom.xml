@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-03-07T16:36:58-08:00</updated>
+  <updated>2018-04-03T16:59:30-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,379 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
+    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
+    <updated>2018-04-04T08:00:00-07:00</updated>
+    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
+    <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
+
+<p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
+
+<p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
+
+<h2>What are keyword arguments?</h2>
+
+<p>Let&rsquo;s take a look at what keyword arguments (also called &ldquo;named arguments&rdquo;) are.</p>
+
+<p>First let&rsquo;s take this Python function:</p>
+
+<pre><code class="python">from math import sqrt
+
+def quadratic(a, b, c):
+    x1 = -b / 2*a
+    x2 = sqrt(b**2 - 4*a*c) / 2*a
+    return (x1 + x2), (x1 - x2)
+</code></pre>
+
+<p>When we call this function, we can pass each of our three arguments in two different ways.</p>
+
+<p>We can pass our arguments as positional arguments like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, 62)
+(-1.0, -2.0)
+</code></pre>
+
+<p>Or we can pass our arguments as keyword arguments like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
+(-1.0, -2.0)
+</code></pre>
+
+<p>The order of these arguments matters when they&rsquo;re passed positionally:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, 62)
+(-1.0, -2.0)
+&gt;&gt;&gt; quadratic(62, 93, 31)
+(-0.5, -1.0)
+</code></pre>
+
+<p>But it doesn&rsquo;t matter when they&rsquo;re passed by their name:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
+(-1.0, -2.0)
+&gt;&gt;&gt; quadratic(c=62, b=93, a=31)
+(-1.0, -2.0)
+</code></pre>
+
+<p>When we use keyword/named arguments, it&rsquo;s the name that matters, not the position:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
+(-1.0, -2.0)
+&gt;&gt;&gt; quadratic(c=31, b=93, a=62)
+(-0.5, -1.0)
+</code></pre>
+
+<p>So unlike many other programming languages, Python knows the names of the arguments our function accepts.</p>
+
+<p>If we ask for help on our function Python will tell us our three arguments by name:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; help(quadratic)
+Help on function quadratic in module __main__:
+
+quadratic(a, b, c)
+</code></pre>
+
+<p>Note that functions can be called with a mix of positional and named arguments:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, c=62)
+(-1.0, -2.0)
+</code></pre>
+
+<p>That can come in hand, but with the particular function we&rsquo;ve written here it&rsquo;s most clear to use all positional arguments or all keyword arguments.</p>
+
+<h2>Why use keyword arguments?</h2>
+
+<p>When calling functions in Python, you&rsquo;ll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.</p>
+
+<p>Take this code:</p>
+
+<pre><code class="python">def write_gzip_file(output_file, contents):
+    with GzipFile(None, 'wt', 9, output_file) as gzip_out:
+        gzip_out.write(contents)
+</code></pre>
+
+<p>This takes a file object <code>output_file</code> and <code>contents</code> string and writes a gzipped version of the string to the output file.</p>
+
+<p>This code does the same thing but it uses keyword arguments instead of positional arguments:</p>
+
+<pre><code class="python">def write_gzip_file(output_file, contents):
+    with GzipFile(fileobj=output_file, mode='wt', compresslevel=9) as gzip_out:
+        gzip_out.write(contents)
+</code></pre>
+
+<p>Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.</p>
+
+<p>We were also able to leave off an argument here.  The first argument that we left off represents a <code>filename</code> and already has a default value of <code>None</code>.  We don&rsquo;t need a <code>filename</code> here because we&rsquo;re supposed to pass either a file object or a filename to <code>GzipFile</code>, not both.</p>
+
+<p>We&rsquo;re actually able to leave another argument off though.</p>
+
+<p>Here&rsquo;s the same code again, but the compress level has been left at its default value of <code>9</code> this time:</p>
+
+<pre><code class="python">def write_gzip_file(output_file, contents):
+    with GzipFile(fileobj=output_file, mode='wt') as gzip_out:
+        gzip_out.write(contents)
+</code></pre>
+
+<p>Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the &ldquo;wt&rdquo; access mode).</p>
+
+<p>When we use keyword arguments:</p>
+
+<ol>
+<li>We can often leave out arguments that have default values</li>
+<li>We can rearrange arguments in a way that makes them most readable</li>
+<li>We call arguments by their names to make it more clear what they represent</li>
+</ol>
+
+
+<h2>Where you see keyword arguments</h2>
+
+<p>You&rsquo;ll likely see keyword arguments quite a bit in Python.</p>
+
+<p>Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.</p>
+
+<p>The built-in <code>print</code> function accepts the optional <code>sep</code>, <code>end</code>, <code>file</code>, and <code>flush</code> attributes as keyword-only arguments:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; print('comma', 'separated', 'words', sep=', ')
+comma, separated, words
+</code></pre>
+
+<p>The <code>itertools.zip_longest</code> function also accepts an optional <code>fillvalue</code> attribute (which defaults to <code>None</code>) exclusively as a keyword argument:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from itertools import zip_longest
+&gt;&gt;&gt; list(zip_longest([1, 2], [7, 8, 9], [4, 5], fillvalue=0))
+[(1, 7, 4), (2, 8, 5), (0, 9, 0)]
+</code></pre>
+
+<p>In fact, some functions in Python force arguments to be named even when they <em>could</em> have been unambiguously specified positionally.</p>
+
+<p>In Python 2, the <code>sorted</code> function accepted all its arguments as either positional or keyword arguments:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], None, None, True)
+[8, 7, 4, 2, 1]
+&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], reverse=True)
+[8, 7, 4, 2, 1]
+</code></pre>
+
+<p>But Python 3&rsquo;s <code>sorted</code> function requires all arguments after the provided iterable to be specified as keyword arguments:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], None, True)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: must use keyword argument for key function
+&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], reverse=True)
+[8, 7, 4, 2, 1]
+</code></pre>
+
+<p>Keyword arguments come up quite a bit in Python&rsquo;s built-in functions as well as in the standard library and third party libraries.</p>
+
+<h2>Requiring your arguments be named</h2>
+
+<p>You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the <code>*</code> operator to capture all the positional arguments and then specify optional keyword-only arguments after the <code>*</code> capture.</p>
+
+<p>Here&rsquo;s an example:</p>
+
+<pre><code class="python">def product(*numbers, initial=1):
+    total = initial
+    for n in numbers:
+        total *= n
+    return total
+</code></pre>
+
+<p><strong>Note</strong>: If you haven&rsquo;t seen that <code>*</code> syntax before, <code>*numbers</code> captures all positional arguments given to the <code>product</code> function into a tuple which the <code>numbers</code> variable points to.</p>
+
+<p>The <code>initial</code> argument in the above function must be specified as a keyword argument:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; product(4, 4)
+16
+&gt;&gt;&gt; product(4, 4, initial=1)
+16
+&gt;&gt;&gt; product(4, 5, 2, initial=3)
+120
+</code></pre>
+
+<p>Note that while <code>initial</code> has a default value, you can also specify <em>required</em> keyword-only arguments using this syntax:</p>
+
+<pre><code class="python">def join(*iterables, joiner):
+    if not iterables:
+        return
+    yield from iterables[0]
+    for iterable in iterables[1:]:
+        yield joiner
+        yield from iterable
+</code></pre>
+
+<p>That <code>joiner</code> variable doesn&rsquo;t have a default value, so it must be specified:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7], joiner=0))
+[1, 2, 3, 0, 4, 5, 0, 6, 7]
+&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7], joiner='-'))
+[1, 2, 3, '-', 4, 5, '-', 6, 7]
+&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7]))
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: join() missing 1 required keyword-only argument: 'joiner'
+</code></pre>
+
+<p>Note that this syntax of putting arguments after the <code>*</code> only works in Python 3.  There&rsquo;s no syntactic way in Python 2 to require an argument to be named.</p>
+
+<h2>Keyword-only arguments without positional arguments</h2>
+
+<p>What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?</p>
+
+<p>If you want to accept keyword-only arguments and you&rsquo;re not using a <code>*</code> to accept any number of positional arguments, you can use a <code>*</code> without anything after it.</p>
+
+<p>For example here&rsquo;s a modified version of Django&rsquo;s <code>django.shortcuts.render</code> function:</p>
+
+<pre><code class="python">def render(request, template_name, context=None, *, content_type=None, status=None, using=None):
+    content = loader.render_to_string(template_name, context, request, using=using)
+    return HttpResponse(content, content_type, status)
+</code></pre>
+
+<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>context_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; render(request, '500.html', {'error': error}, status=500)
+&lt;HttpResponse status_code=500, "text/html; charset=utf-8"&gt;
+&gt;&gt;&gt; render(request, '500.html', {'error': error}, 500)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: render() takes from 2 to 3 positional arguments but 4 were given
+</code></pre>
+
+<p>Just like with unlimited positional arguments, these keyword arguments can be required.  Here&rsquo;s a function with four required keyword-only arguments:</p>
+
+<pre><code class="python">from random import choice, shuffle
+UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+LOWERCASE = UPPERCASE.lower()
+DIGITS = "0123456789"
+ALL = UPPERCASE + LOWERCASE + DIGITS
+
+def random_password(*, upper, lower, digits, length):
+    chars = [
+        *(choice(UPPERCASE) for _ in range(upper)),
+        *(choice(LOWERCASE) for _ in range(lower)),
+        *(choice(DIGITS) for _ in range(digits)),
+        *(choice(ALL) for _ in range(length-upper-lower-digits)),
+    ]
+    shuffle(chars)
+    return "".join(chars)
+</code></pre>
+
+<p>This function requires all of its arguments to be specified using their name:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; random_password(upper=1, lower=1, digits=1, length=8)
+'oNA7rYWI'
+&gt;&gt;&gt; random_password(upper=1, lower=1, digits=1, length=8)
+'bjonpuM6'
+&gt;&gt;&gt; random_password(1, 1, 1, 8)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: random_password() takes 0 positional arguments but 4 were given
+</code></pre>
+
+<p>Requiring arguments to be named can make calls to our function much clearer.</p>
+
+<p>The purpose of this function call:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; password = random_password(upper=1, lower=1, digits=1, length=8)
+</code></pre>
+
+<p>Is much more obvious than this one:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; password = random_password(1, 1, 1, 8)
+</code></pre>
+
+<p>Again note that this syntax also only works in Python 3.</p>
+
+<h2>Capturing arbitrary keyword arguments</h2>
+
+<p>What if you want to write a function that captures an arbitrary number of keyword arguments?</p>
+
+<p>For example the string format method accepts any keyword argument you give it:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; "My name is {name} and I like {color}".format(name="Trey", color="purple")
+'My name is Trey and I like purple'
+</code></pre>
+
+<p>How can you write such a function?</p>
+
+<p>Python allows functions to capture any keyword arguments provided to them using the <code>**</code> operator when defining the function:</p>
+
+<pre><code class="python">def format_attributes(**attributes):
+    """Return a string of comma-separated key-value pairs."""
+    return ", ".join(
+        f"{param}: {value}"
+        for param, value in attributes.items()
+    )
+</code></pre>
+
+<p>That <code>**</code> operator will allow our <code>format_attributes</code> function to accept any number of keyword arguments.  The given arguments will be stored in a dictionary called <code>attributes</code>.</p>
+
+<p>Here&rsquo;s an example use of our function:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
+'name: Trey, website: http://treyhunner.com, color: purple'
+</code></pre>
+
+<h2>Calling functions with arbitrary arguments</h2>
+
+<p>Just as you can define functions that take arbitrary keyword arguments, you can also call functions with arbitrary keyword arguments.</p>
+
+<p>By this I mean that you can pass keyword arguments into a function based on items in a dictionary.</p>
+
+<p>Here we&rsquo;re manually taking every key/value pair from a dictionary and passing them in as keyword arguments:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; items = {'name': "Trey", 'website': "http://treyhunner.com", 'color': "purple"}
+&gt;&gt;&gt; format_attributes(name=items['name'], website=items['website'], color=items['color'])
+'name: Trey, website: http://treyhunner.com, color: purple'
+</code></pre>
+
+<p>This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we&rsquo;re using at the time our code is written.  This won&rsquo;t work if we have a dictionary with unknown keys.</p>
+
+<p>We can pass arbitrary keyword arguments to our function using the <code>**</code> operator to unpack our dictionary items into keyword arguments in our function call:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; items = {'name': "Trey", 'website': "http://treyhunner.com", 'color': "purple"}
+&gt;&gt;&gt; format_attributes(**items)
+'name: Trey, website: http://treyhunner.com, color: purple'
+</code></pre>
+
+<p>This ability to pass arbitrary keyword arguments into functions and to accept arbitrary keyword arguments inside functions (as we did before) is seen frequently when using inheritance:</p>
+
+<pre><code class="python">def my_method(self, *args, **kwargs):
+    print('Do something interesting here')
+    super().my_method(*args, **kwargs)  # Call parent method with all given arguments
+</code></pre>
+
+<p><strong>Note</strong>: We&rsquo;re also using the <code>*</code> operator here for the same kind of capturing and unpacking of positional arguments.</p>
+
+<h2>Order matters</h2>
+
+<p>Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see <a href="https://www.python.org/dev/peps/pep-0468/">PEP 468</a>).  This means that when <code>**</code> is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.</p>
+
+<p>So since Python 3.6, you&rsquo;ll <em>never</em> see something like this happen:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
+'website: http://treyhunner.com, color: purple, name: Trey'
+</code></pre>
+
+<p>Instead, with Python 3.6+, arguments will always maintain the order they were passed in:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
+'name: Trey, website: http://treyhunner.com, color: purple'
+</code></pre>
+
+<h2>Embrace keyword arguments in Python</h2>
+
+<p>An arguments <em>position</em> often doesn&rsquo;t convey as much meaning as its <em>name</em>.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.</p>
+
+<p>When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the <code>*</code> operator to require those arguments be specified as keyword arguments.</p>
+
+<p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
+
+<p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
@@ -1358,199 +1731,6 @@ But a dream within a dream?
 <p>When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don&rsquo;t write a statement on a single line unless it&rsquo;s already <em>very</em> clear.  If you break each line over multiple lines for clarity, lines length shouldn&rsquo;t be a major concern because your lines of code will mostly be far shorter than 79 characters already.</p>
 
 <p>Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will <strong>right now</strong>.  So take that line of code you just wrote and carefully add line breaks to it.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Iterator Protocol: How "For Loops" Work in Python]]></title>
-    <link href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/"/>
-    <updated>2016-12-28T11:00:00-08:00</updated>
-    <id>http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work</id>
-    <content type="html"><![CDATA[<p>We&rsquo;re interviewing for a job and our interviewer has asked us to remove all <code>for</code> loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We&rsquo;re nervous and frustrated about being assigned this ridiculous task, but we&rsquo;ll try our best.</p>
-
-<p>To understand how to loop without a <code>for</code> loop, we&rsquo;ll need to discover what makes <code>for</code> loops tick.</p>
-
-<p>We&rsquo;re about to learn how <code>for</code> loops work in Python.  Along the way we&rsquo;ll need to learn about iterables, iterators, and the iterator protocol.  Let&rsquo;s loop. ➿</p>
-
-<h2>Looping with indexes: a failed attempt</h2>
-
-<p>We might initially try to remove our <code>for</code> loops by using a traditional looping idiom from the world of C: <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes</a>.</p>
-
-<pre><code class="python">colors = ["red", "green", "blue", "purple"]
-i = 0
-while i &lt; len(colors):
-    print(colors[i])
-    i += 1
-</code></pre>
-
-<p>This works on lists, but it fails on sets:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; colors = {"red", "green", "blue", "purple"}
-&gt;&gt;&gt; i = 0
-&gt;&gt;&gt; while i &lt; len(colors):
-...     print(colors[i])
-...     i += 1
-...
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 2, in &lt;module&gt;
-TypeError: 'set' object does not support indexing
-</code></pre>
-
-<p>This approach only works on <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a>, which are data types that have indexes from <code>0</code> to one less than their length.  Lists, strings, and tuples are sequences.  Dictionaries, sets, and many other <em>iterables</em> are not <em>sequences</em>.</p>
-
-<p>We&rsquo;ve been instructed to implement a looping construct that works on <em>all iterables</em>, not just sequences.</p>
-
-<h2>Iterables: what are they?</h2>
-
-<p>In the Python world, an <strong>iterable</strong> is any object that <strong>you can loop over with a for loop</strong>.</p>
-
-<p><a href="https://docs.python.org/3/glossary.html#term-iterable">Iterables</a> are not always indexable, they don&rsquo;t always have lengths, and they&rsquo;re not always finite.</p>
-
-<p>Here&rsquo;s an <em>infinite</em> iterable which provides every multiple of 5 as you loop over it:</p>
-
-<pre><code class="python">from itertools import count
-multiples_of_five = count(step=5)
-</code></pre>
-
-<p>When we were using <code>for</code> loops, we could have looped over the beginning of this iterable like this:</p>
-
-<pre><code class="python">for n in multiples_of_five:
-    if n &gt; 100:
-        break
-    print(n)
-</code></pre>
-
-<p>If we removed the <code>break</code> condition from that <code>for</code> loop, it would go on printing forever.</p>
-
-<p>So iterables can be infinitely long: which means that we can&rsquo;t always convert an iterable to a <code>list</code> (or any other sequence) before we loop over it.  We need to somehow ask our iterable for each item of our iterable individually, the same way our <code>for</code> loop works.</p>
-
-<h2>Iterables &amp; Iterators</h2>
-
-<p>Okay we&rsquo;ve defined <em>iterable</em>, but how do iterables actually work in Python?</p>
-
-<p>All <a href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a> can be passed to the built-in <code>iter</code> function to get an <strong>iterator</strong> from them.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; iter(['some', 'list'])
-&lt;list_iterator object at 0x7f227ad51128&gt;
-&gt;&gt;&gt; iter({'some', 'set'})
-&lt;set_iterator object at 0x7f227ad32b40&gt;
-&gt;&gt;&gt; iter('some string')
-&lt;str_iterator object at 0x7f227ad51240&gt;
-</code></pre>
-
-<p>That&rsquo;s an interesting fact but&hellip; what&rsquo;s an <em>iterator</em>?</p>
-
-<p>Iterators have exactly one job: return the &ldquo;next&rdquo; item in our iterable.  They&rsquo;re sort of like <a href="https://en.wikipedia.org/wiki/Tally_counter">tally counters</a>, but they don&rsquo;t have a reset button and instead of giving the next number they give the next item in our iterable.</p>
-
-<p>You can get an iterator from <em>any</em> iterable:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; iterator = iter('hi')
-</code></pre>
-
-<p>And iterators can be passed to <code>next</code> to get their next item:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; next(iterator)
-'h'
-&gt;&gt;&gt; next(iterator)
-'i'
-&gt;&gt;&gt; next(iterator)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-StopIteration
-</code></pre>
-
-<p>So <a href="https://docs.python.org/3/glossary.html#term-iterator">iterators</a> can be passed to the built-in <code>next</code> function to get the next item from them and if there is no next item (because we reached the end), a <code>StopIteration</code> exception will be raised.</p>
-
-<h2>Iterators are also iterables</h2>
-
-<p>So calling <code>iter</code> on an <em>iterable</em> gives us an iterator.  And calling <code>next</code> on an <em>iterator</em> gives us the next item or raises a <code>StopIteration</code> exception if there aren&rsquo;t any more items.</p>
-
-<p>There&rsquo;s actually a bit more to it than that though.  You can pass iterators to the built-in <code>iter</code> function to get themselves back.  That means that iterators are also iterables.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; iterator = iter('hi')
-&gt;&gt;&gt; iterator2 = iter(iterator)
-&gt;&gt;&gt; iterator is iterator2
-True
-</code></pre>
-
-<p>That fact leads to some interesting consequences that we don&rsquo;t have time to go into right now.  We&rsquo;ll save that discussion for a future learning adventure&hellip;</p>
-
-<h2>The Iterator Protocol</h2>
-
-<p>The <strong>iterator protocol</strong> is a fancy term meaning &ldquo;how iterables actually work in Python&rdquo;.</p>
-
-<p>Let&rsquo;s redefine iterables from Python&rsquo;s perspective.</p>
-
-<p>Iterables:</p>
-
-<ol>
-<li>Can be passed to the <code>iter</code> function to get an iterator for them.</li>
-<li>There is no 2.  That&rsquo;s <em>really</em> all that&rsquo;s needed to be an iterable.</li>
-</ol>
-
-
-<p>Iterators:</p>
-
-<ol>
-<li>Can be passed to the <code>next</code> function which gives their next item or raises <code>StopIteration</code></li>
-<li>Return themselves when passed to the <code>iter</code> function.</li>
-</ol>
-
-
-<p>The inverse of these statements should also hold true.  Which means:</p>
-
-<ol>
-<li>Anything that can be passed to <code>iter</code> without an error is an iterable.</li>
-<li>Anything that can be passed to <code>next</code> without an error (except for <code>StopIteration</code>) is an iterator.</li>
-<li>Anything that returns itself when passed to <code>iter</code> is an iterator.</li>
-</ol>
-
-
-<h2>Looping with iterators</h2>
-
-<p>With what we&rsquo;ve learned about iterables and iterators, we should now be able to recreate a <code>for</code> loop without actually using a <code>for</code> loop.</p>
-
-<p>This <code>while</code> loop manually loops over some <code>iterable</code>, printing out each item as it goes:</p>
-
-<pre><code class="python">def print_each(iterable):
-    iterator = iter(iterable)
-    while True:
-        try:
-            item = next(iterator)
-        except StopIteration:
-            break  # Iterator exhausted: stop the loop
-        else:
-            print(item)
-</code></pre>
-
-<p>We can call this function with any iterable and it will loop over it:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; print_each({1, 2, 3})
-1
-2
-3
-</code></pre>
-
-<p>The above function is essentially the same as this one which uses a <code>for</code> loop:</p>
-
-<pre><code class="python">def print_each(iterable):
-    for item in iterable:
-        print(item)
-</code></pre>
-
-<p>This <code>for</code> loop is automatically doing what we were doing manually: calling <code>iter</code> to get an iterator and then calling <code>next</code> over and over until a <code>StopIteration</code> exception is raised.</p>
-
-<p>The iterator protocol is used by <code>for</code> loops, tuple unpacking, and all built-in functions that work on generic iterables.  Using the iterator protocol (either manually or automatically) is the only universal way to loop over any iterable in Python.</p>
-
-<h2>For loops: more complex than they seem</h2>
-
-<p>We&rsquo;re now ready to complete the very silly task our interviewer assigned to us.  We&rsquo;ll remove all <code>for</code> loops from our code by manually using <code>iter</code> and <code>next</code> to loop over iterables.  What did we learn in exploring this task?</p>
-
-<p>Everything you can loop over is an <strong>iterable</strong>.  Looping over iterables works via getting an <strong>iterator</strong> from an iterable and then repeatedly asking the iterator for the next item.</p>
-
-<p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
-
-<p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
 ]]></content>
   </entry>
   

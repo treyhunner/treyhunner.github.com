@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://treyhunner.com/2018/04/keyword-arguments-in-python/</loc>
+<lastmod>2018-04-04T08:00:00-07:00</lastmod>
+</url>
+<url>
 <loc>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/</loc>
 <lastmod>2018-03-07T16:30:00-08:00</lastmod>
 </url>
@@ -340,5 +344,8 @@
 </url>
 <url>
 <loc>http://treyhunner.com/page41/</loc>
+</url>
+<url>
+<loc>http://treyhunner.com/page42/</loc>
 </url>
 </urlset>

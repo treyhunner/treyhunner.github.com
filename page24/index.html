@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I helped host a free Test-Driven Django Web Development workshop on Saturday November 2 with San Diego Python. We created a series of tutorials &hellip;">
+  <meta name="description" content="Have an open source Django app with South migrations? Adding support for Django 1.7 might be a little painful. In this post I will discuss the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,7 +105,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/11/tdd-with-django-workshop/">TDD with Django Tutorial</a></h1>
+      <h1 class="entry-title"><a href="/2014/03/migrating-to-django-1-dot-7/">Supporting both Django 1.7 and South</a></h1>
     
     
       <p class="meta">
@@ -114,21 +114,129 @@
 
 
 
-<time class='entry-date' datetime='2013-11-04T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2014-03-27T13:05:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>1:05 pm</span></time>
         
-           | <a href="/2013/11/tdd-with-django-workshop/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/11/tdd-with-django-workshop/">Comments</a>
+           | <a href="/2014/03/migrating-to-django-1-dot-7/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I helped host a free Test-Driven Django Web Development workshop on <time date="2013-11-02">Saturday November 2</time> with <a href="http://pythonsd.org/">San Diego Python</a>.  We created a series of tutorials demonstrating how to create a Django-powered blog while practicing test-driven development.  The <a href="http://python.org/psf/">Python Software Foundation</a> sponsored the event and the <a href="http://aicenterca.com/">Ansir Innovation Center</a> provided a venue.</p>
+  <div class="entry-content"><p>Have an open source Django app with South migrations?  Adding support for Django 1.7 might be a little painful.  In this post I will discuss the difficulty of supporting Django 1.7 while maintaining South migrations for users of Django 1.6 and below.</p>
 
-<p>You can find the tutorials at <a href="http://bit.ly/pysd-tdd">http://bit.ly/pysd-tdd</a> .  The tutorials are provided under a <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA license</a> so you can reuse and modify them for your own purposes.</p>
+<p>Django 1.7 uses the <code>migrations</code> sub-package in your app for database migrations and South relies on the same package.  Unfortunately, you can&rsquo;t store both packages in the same place.  At first glance, it seems we cannot support both Django 1.7 and previous versions of Django using South.  However, as I explain below, we can support both at once.</p>
 
-<p>Tutorial markdown files and working source code may be found on <a href="https://github.com/pythonsd/test-driven-django-development">Github</a>.  We plan to improve and extend these tutorials for a future workshop.  If you have ideas for improvements/additions or if you notice a bug, please submit an issue or open a pull request.</p>
+<h2>Assessing your options</h2>
+
+<p>In order to support both Django 1.7 and Django 1.6 with South we can rename the <code>migrations</code> package and instruct users to reference the new package in their settings module.  We can do this with the <a href="https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-MIGRATION_MODULES">MIGRATION_MODULES</a> or <a href="http://south.readthedocs.org/en/latest/settings.html#south-migration-modules">SOUTH_MIGRATION_MODULES</a> settings.  There are three options:</p>
+
+<ol>
+<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>migrations</code> package</li>
+<li>Create new Django 1.7 migrations package in <code>django_migrations</code> directory and leave existing South migrations package</li>
+<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>django_migrations</code> directory</li>
+</ol>
+
+
+<p>The first option requires existing users either switch to Django 1.7 or update their settings module before upgrading to the new version of your app.  The second option requires all Django 1.7 users to customize their settings module to properly install your app.  The third option requires everyone (both Django 1.7 and South users) to update their settings module.</p>
+
+<p>Out of those options I prefer the first one.  When you eventually drop support for South, you will probably want your Django 1.7 migrations to live in the <code>migrations</code> directory.  If you don&rsquo;t force that switch now, you would eventually need to break backwards-compatibility or maintain two duplicate migrations directories.</p>
+
+<p>So our plan is to move the South migrations to <code>south_migrations</code> and create Django 1.7 migrations.  An example with the <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git mv email_log/migrations email_log/south_migrations
+</span><span class='line'><span class="nv">$ </span>python manage.py makemigrations email_log
+</span><span class='line'><span class="nv">$ </span>git add email_log/migrations
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Breaking South support</h2>
+
+<p>If you move <code>migrations</code> to <code>south_migrations</code> and make a Django 1.7 <code>migrations</code> package, what happens to existing users with South?</p>
+
+<p>Your new app upgrade will break backwards compatibility for South users and you want to make sure they <em>know</em> they need to make a change immediately after upgrading.  Users should see a loud and clear error message instructing them what they need to do.  This can be done by hijacking their use of the <strong>migrate</strong> command with South.</p>
+
+<p>Existing users will run <strong>migrate</strong> when upgrading your app.  If they don&rsquo;t migrate immediately, they will when they notice a problem and realize they need to run <strong>migrate</strong>.  Upon migrating, we want to show a clear error message telling the user what to do.</p>
+
+<h2>Failing loudly and with a clear error message</h2>
+
+<p>When South looks for app migrations it will import our <code>migrations</code> package.  Our <code>migrations</code> package contains Django 1.7 migrations, which South won&rsquo;t understand.  So we want to make sure that if our <code>migrations</code> package is imported either Django 1.7 is installed or a proper error message is displayed.  Upon importing this package, we can check for the presence of the new <code>django.db.migrations</code> module and if not found we will raise an exception with a descriptive error message.</p>
+
+<p>For example, this is the code I plan to add to the <code>email_log/migrations/__init__.py</code> file for <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> to add Django 1.7 support:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">Django migrations for email_log app</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">This package does not contain South migrations.  South migrations can be found</span>
+</span><span class='line'><span class="sd">in the ``south_migrations`` package.</span>
+</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SOUTH_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s"></span>
+</span><span class='line'><span class="s">For South support, customize the SOUTH_MIGRATION_MODULES setting like so:</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">    SOUTH_MIGRATION_MODULES = {</span>
+</span><span class='line'><span class="s">        &#39;email_log&#39;: &#39;email_log.south_migrations&#39;,</span>
+</span><span class='line'><span class="s">    }</span>
+</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Ensure the user is not using Django 1.6 or below with South</span>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">migrations</span>  <span class="c"># noqa</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ImproperlyConfigured</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span><span class="n">SOUTH_ERROR_MESSAGE</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when we run <strong>migrate</strong> with Django 1.6 and South, we&rsquo;ll see the following exception raised:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ImproperlyConfigured</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">For</span> <span class="n">South</span> <span class="n">support</span><span class="p">,</span> <span class="n">customize</span> <span class="n">the</span> <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="n">setting</span> <span class="n">like</span> <span class="n">so</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s">&#39;email_log&#39;</span><span class="p">:</span> <span class="s">&#39;email_log.south_migrations&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>This breaks backwards compatibility, but our users should immediately understand what has broken and how to fix it.  Remember to upgrade the major number of your package version to note this backwards-incompatible change.</p>
+
+<p>I would love to hear your thoughts about this approach in the comments below.  Let me know if you have other ideas about how to handle supporting Django 1.7 migrations and South at the same time.</p>
 </div>
   
   <footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-03-07T16:36:45-08:00</updated>
+  <updated>2018-04-03T16:59:30-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,547 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
+    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
+    <updated>2018-04-04T08:00:00-07:00</updated>
+    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
+    <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
+
+<p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
+
+<p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
+
+<h2>What are keyword arguments?</h2>
+
+<p>Let&rsquo;s take a look at what keyword arguments (also called &ldquo;named arguments&rdquo;) are.</p>
+
+<p>First let&rsquo;s take this Python function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">quadratic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span> <span class="o">/</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span>
+</span><span class='line'>    <span class="n">x2</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we call this function, we can pass each of our three arguments in two different ways.</p>
+
+<p>We can pass our arguments as positional arguments like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or we can pass our arguments as keyword arguments like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The order of these arguments matters when they&rsquo;re passed positionally:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-0.5, -1.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But it doesn&rsquo;t matter when they&rsquo;re passed by their name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we use keyword/named arguments, it&rsquo;s the name that matters, not the position:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-0.5, -1.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So unlike many other programming languages, Python knows the names of the arguments our function accepts.</p>
+
+<p>If we ask for help on our function Python will tell us our three arguments by name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">quadratic</span><span class="p">)</span>
+</span><span class='line'><span class="go">Help on function quadratic in module __main__:</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">quadratic(a, b, c)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that functions can be called with a mix of positional and named arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That can come in hand, but with the particular function we&rsquo;ve written here it&rsquo;s most clear to use all positional arguments or all keyword arguments.</p>
+
+<h2>Why use keyword arguments?</h2>
+
+<p>When calling functions in Python, you&rsquo;ll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.</p>
+
+<p>Take this code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This takes a file object <code>output_file</code> and <code>contents</code> string and writes a gzipped version of the string to the output file.</p>
+
+<p>This code does the same thing but it uses keyword arguments instead of positional arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.</p>
+
+<p>We were also able to leave off an argument here.  The first argument that we left off represents a <code>filename</code> and already has a default value of <code>None</code>.  We don&rsquo;t need a <code>filename</code> here because we&rsquo;re supposed to pass either a file object or a filename to <code>GzipFile</code>, not both.</p>
+
+<p>We&rsquo;re actually able to leave another argument off though.</p>
+
+<p>Here&rsquo;s the same code again, but the compress level has been left at its default value of <code>9</code> this time:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the &ldquo;wt&rdquo; access mode).</p>
+
+<p>When we use keyword arguments:</p>
+
+<ol>
+<li>We can often leave out arguments that have default values</li>
+<li>We can rearrange arguments in a way that makes them most readable</li>
+<li>We call arguments by their names to make it more clear what they represent</li>
+</ol>
+
+
+<h2>Where you see keyword arguments</h2>
+
+<p>You&rsquo;ll likely see keyword arguments quite a bit in Python.</p>
+
+<p>Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.</p>
+
+<p>The built-in <code>print</code> function accepts the optional <code>sep</code>, <code>end</code>, <code>file</code>, and <code>flush</code> attributes as keyword-only arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&#39;comma&#39;</span><span class="p">,</span> <span class="s">&#39;separated&#39;</span><span class="p">,</span> <span class="s">&#39;words&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">comma, separated, words</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>itertools.zip_longest</code> function also accepts an optional <code>fillvalue</code> attribute (which defaults to <code>None</code>) exclusively as a keyword argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">zip_longest</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="go">[(1, 7, 4), (2, 8, 5), (0, 9, 0)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In fact, some functions in Python force arguments to be named even when they <em>could</em> have been unambiguously specified positionally.</p>
+
+<p>In Python 2, the <code>sorted</code> function accepted all its arguments as either positional or keyword arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But Python 3&rsquo;s <code>sorted</code> function requires all arguments after the provided iterable to be specified as keyword arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">must use keyword argument for key function</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Keyword arguments come up quite a bit in Python&rsquo;s built-in functions as well as in the standard library and third party libraries.</p>
+
+<h2>Requiring your arguments be named</h2>
+
+<p>You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the <code>*</code> operator to capture all the positional arguments and then specify optional keyword-only arguments after the <code>*</code> capture.</p>
+
+<p>Here&rsquo;s an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">initial</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">total</span> <span class="o">*=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">total</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: If you haven&rsquo;t seen that <code>*</code> syntax before, <code>*numbers</code> captures all positional arguments given to the <code>product</code> function into a tuple which the <code>numbers</code> variable points to.</p>
+
+<p>The <code>initial</code> argument in the above function must be specified as a keyword argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="go">16</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="go">16</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">120</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that while <code>initial</code> has a default value, you can also specify <em>required</em> keyword-only arguments using this syntax:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">,</span> <span class="n">joiner</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">iterables</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="k">yield from</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">joiner</span>
+</span><span class='line'>        <span class="k">yield from</span> <span class="n">iterable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>joiner</code> variable doesn&rsquo;t have a default value, so it must be specified:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 2, 3, 0, 4, 5, 0, 6, 7]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 2, 3, &#39;-&#39;, 4, 5, &#39;-&#39;, 6, 7]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]))</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">join() missing 1 required keyword-only argument: &#39;joiner&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that this syntax of putting arguments after the <code>*</code> only works in Python 3.  There&rsquo;s no syntactic way in Python 2 to require an argument to be named.</p>
+
+<h2>Keyword-only arguments without positional arguments</h2>
+
+<p>What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?</p>
+
+<p>If you want to accept keyword-only arguments and you&rsquo;re not using a <code>*</code> to accept any number of positional arguments, you can use a <code>*</code> without anything after it.</p>
+
+<p>For example here&rsquo;s a modified version of Django&rsquo;s <code>django.shortcuts.render</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">content</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">render_to_string</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="n">using</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">content_type</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>context_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;HttpResponse status_code=500, &quot;text/html; charset=utf-8&quot;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="mi">500</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">render() takes from 2 to 3 positional arguments but 4 were given</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just like with unlimited positional arguments, these keyword arguments can be required.  Here&rsquo;s a function with four required keyword-only arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">shuffle</span>
+</span><span class='line'><span class="n">UPPERCASE</span> <span class="o">=</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+</span><span class='line'><span class="n">LOWERCASE</span> <span class="o">=</span> <span class="n">UPPERCASE</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</span><span class='line'><span class="n">DIGITS</span> <span class="o">=</span> <span class="s">&quot;0123456789&quot;</span>
+</span><span class='line'><span class="n">ALL</span> <span class="o">=</span> <span class="n">UPPERCASE</span> <span class="o">+</span> <span class="n">LOWERCASE</span> <span class="o">+</span> <span class="n">DIGITS</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">random_password</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">UPPERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upper</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">LOWERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lower</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">digits</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="o">-</span><span class="n">upper</span><span class="o">-</span><span class="n">lower</span><span class="o">-</span><span class="n">digits</span><span class="p">)),</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'>    <span class="n">shuffle</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This function requires all of its arguments to be specified using their name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;oNA7rYWI&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;bjonpuM6&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">random_password() takes 0 positional arguments but 4 were given</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Requiring arguments to be named can make calls to our function much clearer.</p>
+
+<p>The purpose of this function call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Is much more obvious than this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again note that this syntax also only works in Python 3.</p>
+
+<h2>Capturing arbitrary keyword arguments</h2>
+
+<p>What if you want to write a function that captures an arbitrary number of keyword arguments?</p>
+
+<p>For example the string format method accepts any keyword argument you give it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;My name is {name} and I like {color}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;My name is Trey and I like purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>How can you write such a function?</p>
+
+<p>Python allows functions to capture any keyword arguments provided to them using the <code>**</code> operator when defining the function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return a string of comma-separated key-value pairs.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span><span class='line'>        <span class="n">f</span><span class="s">&quot;{param}: {value}&quot;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>**</code> operator will allow our <code>format_attributes</code> function to accept any number of keyword arguments.  The given arguments will be stored in a dictionary called <code>attributes</code>.</p>
+
+<p>Here&rsquo;s an example use of our function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Calling functions with arbitrary arguments</h2>
+
+<p>Just as you can define functions that take arbitrary keyword arguments, you can also call functions with arbitrary keyword arguments.</p>
+
+<p>By this I mean that you can pass keyword arguments into a function based on items in a dictionary.</p>
+
+<p>Here we&rsquo;re manually taking every key/value pair from a dictionary and passing them in as keyword arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">website</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;website&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;color&#39;</span><span class="p">])</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we&rsquo;re using at the time our code is written.  This won&rsquo;t work if we have a dictionary with unknown keys.</p>
+
+<p>We can pass arbitrary keyword arguments to our function using the <code>**</code> operator to unpack our dictionary items into keyword arguments in our function call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">items</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This ability to pass arbitrary keyword arguments into functions and to accept arbitrary keyword arguments inside functions (as we did before) is seen frequently when using inheritance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">my_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Do something interesting here&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">my_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c"># Call parent method with all given arguments</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: We&rsquo;re also using the <code>*</code> operator here for the same kind of capturing and unpacking of positional arguments.</p>
+
+<h2>Order matters</h2>
+
+<p>Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see <a href="https://www.python.org/dev/peps/pep-0468/">PEP 468</a>).  This means that when <code>**</code> is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.</p>
+
+<p>So since Python 3.6, you&rsquo;ll <em>never</em> see something like this happen:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;website: http://treyhunner.com, color: purple, name: Trey&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, with Python 3.6+, arguments will always maintain the order they were passed in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Embrace keyword arguments in Python</h2>
+
+<p>An arguments <em>position</em> often doesn&rsquo;t convey as much meaning as its <em>name</em>.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.</p>
+
+<p>When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the <code>*</code> operator to require those arguments be specified as keyword arguments.</p>
+
+<p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
+
+<p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
@@ -4599,19 +5140,6 @@ easily be viewed, searched, sorted, and filtered from the admin site.</p>
 <p>I used test-driven development when making the app and I baked in Python 3
 support from the beginning.  I found the process of TDD for a standalone
 Python package fairly easy and enjoyable.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[django-simple-history is back]]></title>
-    <link href="http://treyhunner.com/2013/05/django-simple-history/"/>
-    <updated>2013-05-01T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2013/05/django-simple-history</id>
-    <content type="html"><![CDATA[<p>I wrote <a href="http://treyhunner.com/2011/09/django-and-model-history/">a post</a> over a year ago about recording a history of changes for Django model instances.  I evaluated three different Django packages to record model history.  My favorite of the options, django-simple-history, was abandoned and development continued through multiple forks.</p>
-
-<p>I recently attempted to revive <a href="https://github.com/treyhunner/django-simple-history">django-simple-history</a>.  I added tests, put it <a href="https://pypi.python.org/pypi/django-simple-history/">on PyPI</a>, and made it easier to use with newer versions of Django.  I moved my fork of the project to git and Github, added Travis and Coveralls support for continuous integration and code coverage tracking, and noted future features on the issue tracker.</p>
-
-<p>Soon after I started writing tests for the project I received feature requests, issues, pull requests, and emails with words of encouragement.  I appreciate all of the help I&rsquo;ve had while reviving the project.  I plan to remain responsive to the suggestions for my fork of the code.  If you&rsquo;d like to help out with the project please feel free to submit an issue, make a pull request, or comment on the code commits on the <a href="https://github.com/treyhunner/django-simple-history">Github page</a>.</p>
 ]]></content>
   </entry>
   
