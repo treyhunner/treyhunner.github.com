@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Keyword Argument Anti-Patterns in Python"
+title: "Keyword Argument Anti-Patterns in Python 3"
 date: 2018-04-11 09:00:00 -0700
 comments: true
 categories: python
@@ -148,23 +148,83 @@ What if we want to pass specific default values to our parent method?
 You'll sometimes see code like this:
 
 ```python
-def __init__(self, *args, name, **kwargs):
-    kwargs.setdefault('name', None)
-    super().__init__(*args, **kwargs)
+def get_context_data(self, **kwargs):
+    kwargs.setdefault('page', "Unknown")
+    return super().get_context_data(**kwargs)
 ```
 
+This is a method which accepts keyword arguments, makes sure the `page` keyword argument has a default value of "Unknown", and passes those keyword arguments to its parent method (this is inspired by Django's [get_context_data][] class-based view method).
+
+We could do the same thing this way:
+
 ```python
-kwargs.setdefault('my_value', 'default') and super().my_method(**kwargs)
+def get_context_data(self, *, page="Unknown", **kwargs):
+    return super().get_context_data(page=page, **kwargs)
 ```
+
+Here we're again accepting a `page` keyword-only argument and setting its default value to "Unknown" it it's not specified.  Then we're passing the `page` keyword argument up to our parent class's `get_context_data` method.
+
+This code does exactly the same thing as the code above it.  I'd argue that it's also more clear.
 
 
 ## Overriding the value of a passed on keyword argument
 
+```python
+def get_context_data(self, **kwargs):
+    kwargs['form'] = self.form
+    return super().get_context_data(**kwargs)
+```
+
+```python
+def get_context_data(self, **kwargs):
+    return super().get_context_data(**kwargs, form=self.form)
+```
+
 
 ## Combining dictionaries of keyword arguments
 
+```python
+def get_context_data(self, **kwargs):
+    kwargs.update(self.team_data())
+    kwargs.update(self.user_data())
+    return super().get_context_data(**kwargs)
+```
+
+```python
+def get_context_data(self, **kwargs):
+    kwargs = {**kwargs, **self.team_data(), **self.user_data()}
+    return super().get_context_data(**kwargs)
+```
+
+```python
+def get_context_data(self, **kwargs):
+    return super().get_context_data(
+        **kwargs,
+        **self.team_data(),
+        **self.team_data(),
+    )
+```
+
 
 ## Use keyword arguments more often!
+
+What does the `1` represent in the `enumerate` call below?
+
+```python
+for n, line in enumerate(lines, 1):
+    print(f"{n}: {line}")
+```
+
+What about `start=1` in this `enumerate` call?
+
+```python
+for n, line in enumerate(lines, start=1):
+    print(f"{n}: {line}")
+```
+
+If you didn't know that `enumerate` took a second argument, you might feel the need to look up what it means.  But the name `start` makes it much more apparent what that `1` represents.
+
+Regardless of what version of Python you're in, make sure you're embracing keyword arguments to improve the readability of your code.
 
 
 ## Your keyword argument check list
@@ -177,3 +237,4 @@ If you spot these anti-patterns in someone else's Python 3 code, consider kindly
 
 [keyword arguments in Python]: http://treyhunner.com/2018/04/keyword-arguments-in-python/
 [pep 3102]: https://www.python.org/dev/peps/pep-3102/
+[get_context_data]: https://docs.djangoproject.com/en/2.0/ref/class-based-views/mixins-simple/#django.views.generic.base.ContextMixin.get_context_data
