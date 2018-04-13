@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-04-04T12:27:55-07:00</updated>
+  <updated>2018-04-13T14:46:59-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -33,8 +33,8 @@
 <pre><code class="python">from math import sqrt
 
 def quadratic(a, b, c):
-    x1 = -b / 2*a
-    x2 = sqrt(b**2 - 4*a*c) / 2*a
+    x1 = -b / (2*a)
+    x2 = sqrt(b**2 - 4*a*c) / (2*a)
     return (x1 + x2), (x1 - x2)
 </code></pre>
 
