@@ -1,22 +1,22 @@
 ---
 layout: post
-title: "How to make the most of your first PyCon"
-date: 2018-02-22 22:44:48 -0800
+title: "How to have a great first PyCon"
+date: 2018-04-27 08:00:00 -0700
 comments: true
 categories: python
 ---
 
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
-Now you want to make ensure you spend your time wisely by attending events relevant to you and possibly by forming relations with other PyCon attendees.
+Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming relations with other PyCon attendees.
 But you're (naturally) not an expert conference-goer.
 How do you do this?
-How do you make of your first PyCon?
+How do you make the most of your first PyCon?
 
 I'm an introvert by nature, but I have increased my ability to socialize with others over the years through practice, gamification of social situations, and learning my limits.
 
 Over the last few years, I've interviewed many PyCon attendees on [Weekly Python Chat][] and I've spoken with many first-time PyCon-goers about making the most of PyCon.
 It's difficult to describe what PyCon is like to first-time attendees and it's even more difficult to identify how any one person should spend their time at PyCon.
-So I'm writing this article to compile some of the thought and advice I've heard from others and to address some of the common fears I hear among first-time PyCon attendees.
+So I'm writing this article to compile some of the advice I've heard from others and to address some of the common fears I hear among first-time PyCon attendees.
 Not all of the suggestions below will be right for you, so try to take the advice that works well for you.
 
 Before you read any further, I have to link you to the [Newcomer Orientation][].  This is a new event hosted by Adrienne Lowe this year.  If this is your first PyCon, I'd definitely recommend showing up early to the newcomer orientation and get your footing before the big event starts.
@@ -24,37 +24,25 @@ Before you read any further, I have to link you to the [Newcomer Orientation][].
 
 ### Spending your time: which talks should I go to?
 
-There's 5 talks at any one time, but I want to make sure I go to the best ones.
-How should I decide which talks are the best ones for me to go to?
-Do I have to choose my talks in advance and show up early to get a seat?
-Also what happens if I'm halfway through a talk and I realize it's not for me.
-When and how is it okay to leave a talk?
-
-These are all tough questions that even long-time PyCon attendees struggle with.
-Instead of directly answering these questions, I'm going to try to reframe the problem.
-
 The talks at PyCon are typically **uploaded to YouTube within 24 hours after the talk ends**.
-That means that you can spend your evening watching the talks you missed the day before.
-It also means that you can watch the talks when you go home after the conference is over.
+That means that you can spend your evening watching the talks you missed the day before or you can watch the talks when you go home.
 
 I'm not suggesting you shouldn't watch talks at PyCon.
 I am suggesting that **you don't need to worry about attending every talk**.
 
-So how should you choose which ones to go to?
-I've chatted with folks who purposely go only to talks on topics they're not normally interested in.
-I also know people who attend no talks at all during PyCon and instead spend their conference in the open spaces (I'll explain those later).
-And I know people who love going to the keynotes and the lightning talks but hang out in the hallway the rest of the time (this is often called the hallway track and I talk about it below).
+So how should I decide which talks to go to?
+I've chatted with folks who purposely go exclusively to talks on topics they're not normally interested in.
+I also know people who **love going to the keynotes and the lightning talks** but hang out in the hallway (I'll talk about the hallway track later) or attend open spaces the rest of the time.
 
-Personally I try to go to talks with speakers who seem passionate about their subject matter because I find those to be much more entertaining and engaging in a live setting.
+Personally I try to go to **talks with speakers who seem passionate about their subject matter** because I find those to be much more entertaining and engaging in a live setting.
 I'm also one of those people who attends very few talks and spends a lot of time in open spaces and the in hallway.
 
 **You cannot and will not do everything there is to do at PyCon**.
 
-I suggest embracing this idea by chatting with others about the things you've missed out on.
-If you meet someone who just came out of a talk you missed, I suggest asking them what it was like and what they learned from it.
-They might say "eh, it wasn't for me" or they might ramble on about how exciting it was.
-Don't be afraid to ask this question.
-Many audience members with a talk fresh in their mind enjoy reflecting on it the same way you might want to reflect on a movie.
+I suggest embracing this idea by chatting with others about things you've missed out on.
+**People often enjoy reflecting on a talk they just watched** the same way you might want to reflect on a movie.
+If you meet someone who just came out of a talk you missed, ask them what it was like and what they learned from it.
+They might say "eh, it wasn't for me" or they might ramble about how exciting it was.
 
 Consider these things before walking into a talk:
 
@@ -65,8 +53,8 @@ Consider these things before walking into a talk:
 - What is my goal in attending this talk?
 - Should I take a personal break during this time instead?
 
-Remember that PyCon is less about the talks than the discussions that happen.
-Talks are a wonderful tool for starting discussions, but they're not the only way to spark an insightful conversation.
+Remember that PyCon is less about the talks than the discussions that happen around them.
+Talks are a wonderful tool to start discussions, but they're not the only way to spark conversation.
 
 
 ### Open spaces: attend them and consider hosting your own!
@@ -81,10 +69,10 @@ If choosing between a talk and an open space you'd like to go to, I'd usually ch
 
 [Open spaces][] are community-run and they aren't decided before PyCon starts.  The way it works is that someone puts an index card on the open spaces board to indicate that they're holding an event at a particular time in one of the open spaces rooms that day.  Then others check the open spaces board throughout the day and attend ones they're interested in.
 
-There's a few reasons I often pick open spaces over talks:
+There are a few reasons I often pick open spaces over talks:
 
-2. The open spaces are often more niche and topical than the talks: there are some subjects that exist in open spaces every year but which I've never seen a talk on
-1. The open spaces are all about interaction and discussion whereas talks are a monologue that often evolves into subsequent dialogues
+1. The open spaces are often more niche and topical than the talks: there are some subjects that exist in open spaces every year but which I've never seen a talk on
+2. The open spaces are all about interaction and discussion whereas talks are a monologue that often evolves into subsequent dialogues
 3. The open spaces aren't recorded, meaning unless you meet someone who was there you can't get a recap of it later
 
 If you're looking for kinship and conversation, the open spaces a great place to look.
@@ -335,7 +323,7 @@ If you give a talk to a giant room of people, you've given everyone in that room
 If you do give a lightning talk, **make sure it's less than 5 minutes**.  You do not want to run over time in a lightning talk.  The shorter and more compact, the better.
 
 
-### Taking care of yourself
+### Take care of yourself
 
 There's so many people.
 What do I do if I get overwhelmed?
