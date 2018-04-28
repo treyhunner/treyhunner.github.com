@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to have a great first PyCon"
-date: 2018-04-27 08:00:00 -0700
+date: 2018-04-30 08:00:00 -0700
 comments: true
 categories: python
 ---
@@ -398,3 +398,4 @@ I hope you have a lovely PyCon!
 [asking a question]: https://kev.inburke.com/kevin/how-not-to-ask-questions-at-conference/
 [asking a question 2]: https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/
 [pacman]: http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/
+[lightning talk board]: https://us.pycon.org/2018/events/lightning/talks/
