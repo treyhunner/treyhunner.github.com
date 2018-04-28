@@ -19,7 +19,9 @@ It's difficult to describe what PyCon is like to first-time attendees and it's e
 So I'm writing this article to compile some of the advice I've heard from others and to address some of the common fears I hear among first-time PyCon attendees.
 Not all of the suggestions below will be right for you, so try to take the advice that works well for you.
 
-Before you read any further, I have to link you to the [Newcomer Orientation][].  This is a new event hosted by Adrienne Lowe this year.  If this is your first PyCon, I'd definitely recommend showing up early to the newcomer orientation and get your footing before the big event starts.
+Before you read any further, I have to link you to the [Newcomer Orientation][].
+This is a new event hosted by Adrienne Lowe this year.
+If this is your first PyCon, I'd definitely recommend showing up early to the newcomer orientation and get your footing before the big event starts.
 
 
 ### Spending your time: which talks should I go to?
@@ -54,21 +56,26 @@ Talks are a wonderful tool to start discussions, but they're not the only way to
 
 ### Open spaces: attend them and consider hosting your own!
 
-[Open spaces][] are community-run and they aren't decided before PyCon starts.  The way it works is that someone puts an index card on the open spaces board to indicate that they're holding an event at a particular time in one of the open spaces rooms that day.  Then others check the open spaces board throughout the day and attend ones they're interested in.
+[Open spaces][] are **community-run mini meetup events and they aren't decided before PyCon starts**.
+The way it works is that someone puts an index card on the open spaces board to indicate that they're holding an event at a particular time in one of the open spaces rooms that day.
+Then others check the open spaces board throughout the day and attend ones they're interested in.
 
-During every talk at PyCon there are at least 4 other talks happening.  There are also 9 open spaces rooms though.  So you're missing out on over 90% of PyCon at any time!
+During every talk at PyCon there are at least 4 other talks happening.
+There are also 9 open spaces rooms though.
+So you're missing out on over 90% of PyCon at any time!
 
-If choosing between a talk and an open space, I usually choose the open space.
+When choosing between an open space and a talk, I usually choose the open space.
 
 There are a few reasons I often pick open spaces over talks:
 
-1. The open spaces are often more niche and topical than the talks: there are some subjects that exist in open spaces every year but which I've never seen a talk on
-2. The open spaces are all about interaction and discussion whereas talks are a monologue that often evolves into subsequent dialogues
-3. The open spaces aren't recorded, meaning unless you meet someone who was there you can't get a recap of it later
+1. Often the **open spaces are more niche and topical than the talks**: there are some subjects that exist in open spaces every year but which I've never seen a talk on
+2. **Open spaces are all about interaction and discussion** whereas talks are a monologue that often evolves into subsequent dialogues
+3. **Open spaces aren't recorded whereas the talks are**, meaning you can't really catch up on them later
 
 If you're looking for kinship and conversation, the open spaces a great place to look.
 
-If you're hoping to *start* a discussion, I'd also recommend creating your own open space during PyCon.  The PyCon blog will be publishing a post on open spaces soon which I co-authored.
+If you're hoping to *start* a discussion, I'd also recommend creating your own open space during PyCon.
+The PyCon blog will be publishing a post on open spaces soon which I co-authored.
 
 Disclaimed after the fact: I'm one of the volunteer open spaces co-chairs, so I'm biased in my love for them.
 
@@ -125,14 +132,17 @@ Can I just sit with anyone or should I choose an empty table?
 Are people going to be nice to me?
 Do I need to introduce myself when I sit down?
 
-Meal dynamics are interesting because there's not really a rule book for these social dynamics.  Below is what I've observed over the years.
+Meal dynamics are interesting because there's not really a rule book for these social dynamics.
+Below is what I've observed over the years.
 
 **At lunch and breakfast, you can sit anywhere**.
 Often people will ask "is this seat taken" when sitting down just in case a group of acquaintances are waiting on another person to join them.
 Sometimes when a new person joins your table, a particularly friendly person at the table (if one exists) will introduce themselves to make that newcomer feel welcome.
-Often this entails a name, a smile, and a wave or a nod.  Beyond these typical social norms, everything else can differ based on the folks sitting at your table (that includes you!).
+Often this entails a name, a smile, and a wave or a nod.
+Beyond these typical social norms, everything else can differ based on the folks sitting at your table (that includes you!).
 
-Sometimes a couple people at a table will be very interested to know what brings everyone to the conference and what each person "does".  **Meals are a good time to test out your elevator pitch** when introducing yourself to see how the conversation goes and to verify that it makes you feel comfortable.
+Sometimes a couple people at a table will be very interested to know what brings everyone to the conference and what each person "does".
+**Meals are a good time to test out your elevator pitch** when introducing yourself to see how the conversation goes and to verify that it makes you feel comfortable.
 
 Sometimes people will be more interested in either sitting quietly or talking to a particular person or two with whom they've found something interesting to discuss.
 Personally I often find myself asking others where they're traveling from, whether it's their first year attending, what they've thought of the conference so far, and **what inspired them to come to PyCon**.
@@ -160,11 +170,21 @@ You should absolutely try to fun and derive as much value as you can from PyCon,
 Importantly, you should also be mindful to make sure those around you feel the same way.
 Please **be cognizant of the preferences of those around you and be respectful of their needs**.
 
-PyCon has a [code of conduct][].  Read it.  I expect you to go beyond embracing the law of the code of conduct.  I'd like you to embrace the spirit of the code of conduct as well.
+PyCon has a [code of conduct][].
+Read it.
+I expect you to go beyond embracing the law of the code of conduct.
+I'd like you to embrace the spirit of the code of conduct as well.
 
-When meeting people in general, **make sure to be nice**.  Don't talk down to people, don't insult people, and don't treat anyone like they don't belong or aren't worthy.  **The Python community prides itself on being nice** and we expect you to be nice as well.  Be kind, be compassionate, be considerate.
+When meeting people in general, **make sure to be nice**.
+Don't talk down to people, don't insult people, and don't treat anyone like they don't belong or aren't worthy.
+**The Python community prides itself on being nice** and we expect you to be nice as well.
+Be kind, be compassionate, be considerate.
 
-On that note, you may run into folks who act unkind or make you feel unwelcome at some point.  It's okay to cut and run at any point during any conversation or event.  If you don't feel welcome, I recommend **removing yourself from the space you're in and contacting one of the staff members** listed on [the code of conduct page][code of conduct].  Even if you just want to say "hey something happened that could maybe be avoided in the future," it would be wonderful if you could muster the courage to contact a staff member.  **PyCon tries to improve every year and feedback is the way that happens**.
+On that note, you may run into folks who act unkind or make you feel unwelcome at some point.
+It's okay to cut and run at any point during any conversation or event.
+If you don't feel welcome, I recommend **removing yourself from the space you're in and contacting one of the staff members** listed on [the code of conduct page][code of conduct].
+Even if you just want to say "hey something happened that could maybe be avoided in the future," it would be wonderful if you could muster the courage to contact a staff member.
+**PyCon tries to improve every year and feedback is the way that happens**.
 
 
 ### Interacting online and staying in touch
@@ -246,7 +266,8 @@ This blog post on [how to attend a conference][] has recommendations for staying
 
 What do people do for dinner?  How do they organize?  How late do they stay?  Is there dinner at the conference center, if you don't want to go out?
 How do I find people to go to dinner with if I don't know anyone?
-Also I know that there are some informal get-togethers at the conference.  How do I propose them?  How do I know what's there?
+Also I know that there are some informal get-togethers at the conference.
+How do I propose them?  How do I know what's there?
 
 One trick that I've used and I've seen others use: **make a game of inviting people you don't really know well to dinner**.
 If you're nervous about being with lots of new people, **find a couple familiar people and ask each to invite just 1 person**.
@@ -284,7 +305,7 @@ I've met people the day after playing a long game and **felt like I already knew
 If you're the type of person who derives comfort from understanding and being part of the inner workings of a community event, I recommend [volunteering to help out while at PyCon][volunteering].
 
 You might think it's premature to volunteer during your first PyCon and for some roles, it likely is.
-You probably shouldn't volunteer to be a session chair during your first PyCon because that's a big role.
+You probably shouldn't volunteer to be a session chair during your first PyCon for example because that's a big role.
 But you could absolutely be part of the [swag bag stuffing][], which is a way to see lots friendly of faces while being a smiling cog in a bag-stuff assembly line.
 
 You could also volunteer to help [hand out swag bags][], act as a friendly [greeter for folks coming into tutorials][tutorial support], or [help out at the registration desk][reg desk].
@@ -295,7 +316,8 @@ After volunteering, people may occasionally meet you in the hall and wonder why 
 It's because you handed them their badge or checked their name off a list!
 Also volunteering can give you glimpse behind the scenes of PyCon and **make things feel a little less scary and official**.
 
-If you are planning to volunteer though, make sure you block that time off on your calendar and that you show up.  **Don't miss your volunteering time slots and leave the staff scrambling to find someone to fill in at the last minute**.
+If you are planning to volunteer though, make sure you block that time off on your calendar and that you show up.
+**Don't miss your volunteering time slots and leave the staff scrambling to find someone to fill in at the last minute**.
 
 If volunteering to be a small part of the event inner-workings isn't your thing, don't worry.
 **There are lots of great ways to spend your time while at PyCon**!
@@ -303,7 +325,7 @@ If volunteering to be a small part of the event inner-workings isn't your thing,
 
 ### Give a lightning talk
 
-If you're feeling particularly bold one day, you could sign up on the lightning talk board to give a 5 minute lightning talk on a topic of your choosing.
+If you're feeling particularly bold one day, you could sign up on the [lightning talk board][] to give a 5 minute lightning talk on a topic of your choosing.
 This is another excuse for people to talk to you.
 
 I gave my first conference lightning talk [at DjangoCon 2015][], during which I compared modern JavaScript to Python.
@@ -311,7 +333,9 @@ A few people I'd never met started a conversation with me at a bar afterward by 
 Lightning talks can act as an ice breaker.
 If you give a talk to a giant room of people, you've given everyone in that room at least a reason to talk to you.
 
-If you do give a lightning talk, **make sure it's less than 5 minutes**.  You do not want to run over time in a lightning talk.  The shorter and more compact, the better.
+If you do give a lightning talk, **make sure it's less than 5 minutes**.
+You do not want to run over time in a lightning talk.
+The shorter and more compact, the better.
 
 
 ### Take care of yourself
@@ -320,7 +344,7 @@ There's so many people.
 What do I do if I get overwhelmed?
 
 While at PyCon, you'll want to **make sure you pace yourself** and that you **find a way to slow down and recharge** when needed.
-If you're an introvert, your laptop's batteries will likely last longer yours before needing a recharge at PyCon.
+If you're an introvert, your laptop's batteries will likely last longer than yours before needing a recharge at PyCon.
 At least once a day, I'd recommend finding a quiet place to sit, breath deeply, think about your day, and meditate.
 
 Don't expect yourself to be able to wake up, head to the conference venue, do things at every moment during the day, and then go out with folks for dinner and more conversation in the evening.
@@ -334,13 +358,13 @@ Make sure to check in with yourself and take breaks to assess whether you need m
 
 I can't write a guide on attending PyCon without referencing a couple other wonderful guides that have been written on this topic.
 
-Danny Greenfeld's [Beginner's Guide to PyCon 2015][] is another great guide to Pycon, with lots of tips on how to make the most of PyCon.
+Danny Greenfeld's [Beginner's Guide to PyCon 2015][] is another great guide to PyCon, with lots of tips on how to make the most of PyCon.
 It's much more compact than my post here, so it's a quick and dense read.
 
-Al Sweigart also talks quite a bit about his strategies for meeting new people at PyCon in his [How to Do Pycon][] post.
+Al Sweigart also talks quite a bit about his strategies for meeting new people at PyCon in his [How to Do PyCon][] post.
 Al is also an introvert, but he's very good at gamifying socializing with others.
 
-I also highly recommend asking questions to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they're approachable).
+I also **highly recommend asking questions to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they're approachable).
 Different PyCon attendees will have different recommendations for how to make the most of PyCon without getting overwhelmed.
 
 I hope you have a lovely PyCon!
