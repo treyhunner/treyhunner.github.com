@@ -251,7 +251,7 @@ How should I follow up with people after the conference?
 If you have a good conversation with someone, I'd recommend exchanging information with them.
 I've seen people **write email addresses on napkins**.
 I've also frequently seen people exchange business cards or name cards.
-Sometimes people simply **write down Twitter handles** or show the name/URL on their badge.
+Sometimes people simply **write down Twitter handles** or even ask to take a picture of a face and a badge.
 As I noted above, I like to get people's Twitter handles and add them to a [PyCon list][] I maintain for myself.
 I also exchange business cards and other forms of contact information.
 
@@ -292,7 +292,7 @@ You could even put your own board game open space event on the board!
 
 I can't mention board games without mentioning my absolute favorite conference ice breaker: **the cabo card game**.
 I've played Cabo at [most][cabo 1] [tech][cabo 2] [conferences][cabo 3] [I've][cabo 4] [been][cabo 5] [to][cabo 6].
-I love Cabo because it only requires a 52 deck of cards and using the phrase "want to learn a 20 minute card game that I guarantee you've never heard of" seems to allow people to let their guard down and meet new people (not everyone says yes, but many people do).
+I love Cabo because it only requires a 52 card deck and using the phrase "want to learn a 20 minute card game that I guarantee you've never heard of" seems to allow people to let their guard down and meet new people (not everyone says yes, but many people do).
 If you'd like to try playing Cabo yourself, you can read my blog post on [the rules to the Cabo card game][cabo].
 
 The thing I love about nearly all forms of games is that your technical interests or expertise don't usually matter when you're playing a game.
@@ -345,7 +345,7 @@ What do I do if I get overwhelmed?
 
 While at PyCon, you'll want to **make sure you pace yourself** and that you **find a way to slow down and recharge** when needed.
 If you're an introvert, your laptop's batteries will likely last longer than yours before needing a recharge at PyCon.
-At least once a day, I'd recommend finding a quiet place to sit, breath deeply, think about your day, and meditate.
+At least once a day, I'd recommend finding a quiet place to sit, breathe deeply, think about your day, and meditate.
 
 Don't expect yourself to be able to wake up, head to the conference venue, do things at every moment during the day, and then go out with folks for dinner and more conversation in the evening.
 If you know your limits, respect them.
@@ -364,7 +364,7 @@ It's much more compact than my post here, so it's a quick and dense read.
 Al Sweigart also talks quite a bit about his strategies for meeting new people at PyCon in his [How to Do PyCon][] post.
 Al is also an introvert, but he's very good at gamifying socializing with others.
 
-I also **highly recommend asking questions to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they're approachable).
+I also **highly recommend asking questions** to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they're approachable).
 Different PyCon attendees will have different recommendations for how to make the most of PyCon without getting overwhelmed.
 
 I hope you have a lovely PyCon!
