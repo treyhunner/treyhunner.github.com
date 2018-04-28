@@ -166,7 +166,7 @@ It's not unusual to say "nice talking to you" and leave one conversation to walk
 ### Don't just follow the rules: be compassionate
 
 You're at a professional event.
-You should absolutely try to fun and derive as much value as you can from PyCon, but you always want to make sure you feel welcome, comfortable, and safe.
+You should absolutely try to have fun and derive as much value as you can from PyCon, but you always want to make sure you feel welcome, comfortable, and safe.
 Importantly, you should also be mindful to make sure those around you feel the same way.
 Please **be cognizant of the preferences of those around you and be respectful of their needs**.
 
@@ -194,7 +194,7 @@ Sometimes people will add each other on LinkedIn or Facebook also.
 But the means of interaction I've noticed most is Twitter.
 I'm unlikely to send most of the people I meet at PyCon an email, but I try to add most of the people I meet to my [PyCon list][] on Twitter.
 
-If you're not completely opposed to it, **I recommend getting a Twitter account to it easier to passively keeping up with folks from PyCon after the conference ends**.
+If you're not completely opposed to it, **I recommend getting a Twitter account to make it easier to passively keep up with folks from PyCon after the conference ends**.
 You don't have to use Twitter all the time to get value from it, you could just use it as a modern day [rolodex][] of sorts.
 Twitter isn't the only way people stay in touch, but it's an extremely easy passive way to stay in touch.
 
@@ -230,7 +230,7 @@ Many of the sponsors in the Expo hall are looking to hire new developers and eve
 But **if you are not at PyCon to get a job or to hire someone else, that's absolutely okay also**!
 
 The focus of PyCon is on **meeting people and sharing experiences** and that can come in a *lot* of different forms.
-Sometimes the people you meet will end up being coworkers with one day, sometimes they're folks you'd like to keep in touch with, and sometimes they're just a friendly unnamed Pythonistas you once had a good conversation with.
+Sometimes the people you meet will end up being your coworkers one day, sometimes they're folks you'd like to keep in touch with, and sometimes they're just a friendly unnamed Pythonistas you once had a good conversation with.
 
 PyCon is a networking event and networking isn't a dirty word.
 **Networking means meeting new people**.
