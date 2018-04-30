@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Want to serve up your Ember CLI application via Nginx/Apache or another web server software? Let&rsquo;s learn how! TLDR: I made an Ember-CLI-Deploy &hellip;">
+  <meta name="description" content="About five years ago a friend taught me a card game called Cabo. It was a memory game of sorts. It plays quickly and is perfect while idling between &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,7 +105,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/03/deploying-an-ember-cli-application-via-ssh/">Deploying an Ember CLI application through SSH</a></h1>
+      <h1 class="entry-title"><a href="/2015/06/cabo-card-game/">The Cabo card game</a></h1>
     
     
       <p class="meta">
@@ -114,162 +114,134 @@
 
 
 
-<time class='entry-date' datetime='2015-03-10T12:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:30 pm</span></time>
+<time class='entry-date' datetime='2015-06-04T11:30:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 am</span></time>
         
-           | <a href="/2015/03/deploying-an-ember-cli-application-via-ssh/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/03/deploying-an-ember-cli-application-via-ssh/">Comments</a>
+           | <a href="/2015/06/cabo-card-game/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/06/cabo-card-game/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Want to serve up your <a href="http://ember-cli.com">Ember CLI</a> application via Nginx/Apache or another web server software?  Let&rsquo;s learn how!</p>
+  <div class="entry-content"><p>About five years ago a friend taught me a card game called Cabo.  It was a memory game of sorts.  It plays quickly and is perfect while idling between activities.  I have spread this game to dozens of people at tech conferences, most recently during PyCon 2015.</p>
 
-<p><strong>TLDR:</strong> I made an Ember-CLI-Deploy adapter for deploying over SSH: <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a></p>
+<p>I often use this game as an ice breaker.  The conversation usually goes something like this:</p>
 
-<h2>Ember-CLI-Deploy</h2>
+<p><strong>Me</strong>: Hi. Would you like to play a fairly quick card game?  It&rsquo;s called Cabo.<br/>
+<strong>Them</strong>: I&rsquo;ve never heard of it.<br/>
+<strong>Me</strong>: I&rsquo;ve never met anyone who has.  I&rsquo;ll teach you the rules.<br/>
+<strong>Them</strong>: What kind of game is it?<br/>
+<strong>Me</strong>: An information management game (&ldquo;memory game&rdquo; seems to discourage people).<br/>
+<strong>Them</strong>: Hm okay.</p>
 
-<p><a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> is &ldquo;an Ember CLI addon for lightning fast deployments of Ember CLI apps&rdquo;.  Using Ember-CLI-Deploy is preferable using to another static asset deployment solution because <em>it caters to the needs of an Ember CLI app</em>.</p>
+<p>Cabo did not have a Wikipedia article when I first learned about it and I couldn&rsquo;t find anything online about it.  There is now a <a href="https://en.wikipedia.org/wiki/Cabo_(game)">Wikipedia entry for Cabo</a> and I ran across a website selling special Cabo playing cards: <a href="http://www.playcabo.com/">playcabo.com</a>.</p>
 
-<p>Last week at EmberConf 2015, Luke Melia <a href="https://www.youtube.com/watch?v=4EDetv_Rw5U">announced during his talk</a> that the three big competing Ember-CLI deployment solutions (Ember-Deploy, Front-End-Builds, and Ember-CLI-Deploy) will be merging into a single Ember-CLI-Deploy package based largely on Ember-Deploy.  Luke&rsquo;s talk inspired me to finally look into using <a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> for deployment.</p>
+<p>I have thought about making an online version of this game, printing playing cards with custom Cabo-themed artwork, and making an open source program that knows the rules of Cabo so I could use it as a teaching tool.  After chatting with friends I met at PyCon, I looked into what it would take to print a custom card deck to sell or gift to friends.</p>
 
-<p>Note that whenever you see &ldquo;Ember-Deploy&rdquo; post you can now treat this as synonymous with &ldquo;Ember-CLI-Deploy&rdquo;.</p>
+<p>I contacted the owner of <a href="http://www.playcabo.com/">playcabo.com</a> and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like <a href="https://en.wikipedia.org/wiki/Big_Two">Big Two</a>, <a href="https://en.wikipedia.org/wiki/Durak">Durak</a>, and <a href="https://en.wikipedia.org/wiki/Egyptian_Ratscrew">Egyptian Ratscrew</a>.  I was wrong.  This game has a known creator.</p>
 
-<h2>Why SSH instead of S3?</h2>
+<p>Hard work was put into the creation of this game.  This game was designed by Melissa Limes and Mandy Henning.  Melissa founded Eventide Games LLC, registered Cabo as a trademark, and registered a copyright for the rules.  I was a little disappointed to discover that Cabo is owned property, but I was very excited to discover the origins of this game.</p>
 
-<p>You can host your entire front-end website on Amazon S3 with <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a>.  If you use Ember CLI&rsquo;s default location behavior, your routes will use non-hash URLs on modern browsers (e.g. <a href="https://freemusic.ninja/resources">/resources</a> instead of <a href="https://freemusic.ninja/#/resources">/#/resources</a>).  This means that you need S3 to properly serve up all of your routes (not just the <code>/</code> path).</p>
+<p>The game I know as Cabo is a little different from the one that Melissa Limes sells.  Her game seems more kid-friendly and more beginner-friendly.  With Melissa&rsquo;s permission, I will now share with you the rules for a game I know as Cabo.</p>
 
-<p>As an AWS beginner, the easiest solution I found for using S3 for hosting an Ember app with non-hash URLs is to set the 404 page to <code>index.html</code>.  This serves up the correct pages but returns a 404 status code for all routes besides the base <code>/</code> URL, which is obviously not ideal.</p>
+<h2>Cabo: the rules I know</h2>
 
-<p>After failing to find a simple and elegant solution using an S3 bucket for my Ember CLI app&rsquo;s <code>index.html</code> file, I decided to move it onto my server and serve it through Nginx.</p>
+<h3>Setup</h3>
 
-<p><strong>UPDATE:</strong> You <em>can</em> use non-hash URLs with S3 without returning 404 status codes.  Michael Klein opened <a href="https://github.com/Kerry350/ember-deploy-s3-index/pull/12/files">a pull request</a> for ember-deploy-s3-index noting how</p>
+<p>Each player starts with four cards, placed face-down and arranged into a two-by-two grid.  No one may look at any cards.</p>
 
-<h2>Ember-Deploy-SSH-Index</h2>
+<p>In the beginning of the game all players will look at their bottom two cards (the ones closest to them) one time only.  Try to remember your cards.</p>
 
-<p>I went looking for an Ember-CLI-Deploy adapter that would allow my to upload my files to a directory on my web server, but I didn&rsquo;t find any such adapters.</p>
+<h3>Objective</h3>
 
-<p>Inspired by Kerry Gallagher&rsquo;s blog posts about <a href="http://kerrygallagher.co.uk/the-making-of-ember-deploy-s3-index/">the making of ember-deploy-s3-index</a> and <a href="http://kerrygallagher.co.uk/making-ember-deploy-adapters/">making Ember-Deploy adapters</a>, I decided to try making my own adapter.  My adapter, called <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>, allows deploying your Ember CLI index page to a web server via SSH.</p>
+<p>The objective is to end the game with the lowest score.  Score is determined by summing up the value of each of your cards.</p>
 
-<p>After looking for Node.js-based SSH/SCP/Rsync libraries, I decided to use the <a href="https://github.com/mscdex/ssh2">ssh2</a> library (a pure JS SSH implementation) to manage the SSH connections.  I looked at the in-progress Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#index-adapters">documentation</a>, and the <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> code to determine how my adapter should work.</p>
-
-<p>Following the Ember-CLI-Deploy API, my library includes:</p>
+<p>Card values:</p>
 
 <ul>
-<li>an <code>upload</code> function that uploads the current index page to a file named based on the Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#tagging-adapters">tag</a> (the git hash)</li>
-<li>a <code>list</code> function that lists the files in the remote directory on the server</li>
-<li>an <code>activate</code> function that links the <code>index.html</code> file to a given revision file</li>
+<li>Ace is worth 1</li>
+<li>Jack is worth 11</li>
+<li>Queen is worth 12</li>
+<li>King of diamonds (the one-eyed king) is worth 0 points</li>
+<li>The other three kings are worth 13 points</li>
 </ul>
 
 
-<h2>Usage</h2>
+<p>1 through 6 are the &ldquo;low cards&rdquo;.  They have a low point value and are fairly desirable.</p>
 
-<p>You can use <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a> to host your static assets on S3 and your index page through your own web server.</p>
+<p>7 through Queen are the &ldquo;power cards&rdquo;.  You will not want to keep them for their points, but if you draw one on your turn you can choose to use its power.  More on this below.</p>
 
-<p>First, install Ember-CLI-Deploy and the adapters into your Ember CLI app:</p>
+<p>The one-eyed king is great but the other kings have no abilities and they are not particularly desirable.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>npm install --save-dev ember-cli-deploy ember-deploy-ssh-index ember-deploy-s3
-</span></code></pre></td></tr></table></div></figure>
+<h3>Gameplay</h3>
 
+<p>We never had a rule for who goes first, so the game starts by someone declaring that they are going first or pointing at someone else to indicate that they go first.</p>
 
-<p>Now make a <code>config/deploy.js</code> file with your SSH and S3 configuration.  I prefer to store my AWS credentials and SSH private key filename in environment variables, but a gitignore&rsquo;d configuration file or Node.js module would work as well.</p>
+<p>On your turn you may either:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/* jshint node: true */</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">production</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">store</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;ssh&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">remoteDir</span><span class="o">:</span> <span class="s1">&#39;/var/www/&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;root&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">privateKeyFile</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SSH_KEY_FILE</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="nx">assets</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;s3&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">accessKeyId</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_KEY</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">secretAccessKey</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_SECRET</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">bucket</span><span class="o">:</span> <span class="s1">&#39;assets.example.com&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="nx">development</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// Add a development configuration here, similar to the production one above</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>Draw a card from the deck (the face-down pile)</li>
+<li>Draw a card from the discard pile (which is face-up)</li>
+</ul>
 
 
-<p>Because we&rsquo;re storing our static assets at a different base URL from our index page, we&rsquo;ll need to prepend a base URL to our asset paths.  Let&rsquo;s update our <code>EmberApp</code> definition in our <code>Brocfile.js</code> to reflect that change:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EmberApp</span><span class="p">({</span>
-</span><span class='line'>  <span class="nx">fingerprint</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">prepend</span><span class="o">:</span> <span class="s1">&#39;https://s3.amazonaws.com/assets.example.com/&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we should be able to upload our application:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ember deploy -e production
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And activate our current revision (change <code>example</code> to your app name):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">tag</span><span class="o">=</span><span class="s2">&quot;example:$(git rev-parse --short HEAD)&quot;</span>
-</span><span class='line'><span class="nv">$ </span>ember deploy:activate --revision <span class="nv">$tag</span> --environment production
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Take a look at the <a href="https://github.com/treyhunner/ember-deploy-ssh-index#readme">README file</a> for more documentation on the usage of <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>.</p>
-
-<h2>Next Steps</h2>
-
-<p><a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> is the first <a href="http://ember-cli.com">Ember CLI</a>-related NPM module I have made.  I have only used it to deploy a single website, <a href="https://freemusic.ninja/">Free Music Ninja</a> (<a href="https://github.com/FreeMusicNinja/freemusic.ninja">code here</a>).  I have also not yet written any tests for this adapter so it&rsquo;s probably buggy.</p>
-
-<p>My future plans include:</p>
+<p>When drawing you may either:</p>
 
 <ol>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/3">Write tests.</a>  <q>Code without tests is broken by design</q> - <cite>Jacob Kaplan Moss</cite></li>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/10">Possibly rename app</a>: <code>ember-deploy-ssh-index</code> to <code>ember-cli-deploy-ssh-index</code></li>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/7">Support SSH config file</a> (<code>~/.ssh/config</code>)</li>
+<li><p>Swap the drawn card with one of your own cards</p>
+
+<p>You pick one of your cards, discard it and put the card you just drew in its place.</p></li>
+<li><p>Match the drawn card with any other cards you know with the same face</p>
+
+<p>You can match the drawn card with any cards on the table (not counting draw piles) with the same face (e.g. queens match queens, and fives match fives).  All matched cards are discarded.  All cards matched from other player&rsquo;s hands should be replaced with a card from your hand.  No one may look at the replaced cards when they are moved.  All matched cards are discarded.  Every card you match results in one less card in your hand.</p>
+
+<p>The card that initiated the matching goes on top of the discard pile after matching (this only matters when the one-eyed king is matched).</p>
+
+<p>Sometimes memories fail.  If you mess up while matching, you must take a penalty card for each mistake.  You cannot look at the penalty card.</p></li>
+<li><p>Discard the drawn card (just put it on top of the discard pile)</p>
+
+<p>This is a common move when drawing a king as they are worth 13 points and have no special powers.</p></li>
+<li><p>Use the card you drew as a power card (for 7, 8, 9, 10, Jack, Queen)</p>
+
+<p>There are three types of power cards which you can remember with this rhyme:</p>
+
+<ul>
+<li><strong>Seven or eight, know your fate</strong>: look at one of your own cards and then put it back (only you get to see it)</li>
+<li><strong>Nine or ten, know a friend</strong>: look at one card from someone else and then put it back (only you get to see it)</li>
+<li><strong>Jack or Queen, switch between</strong>: trade the places of any two cards on the table (excluding draw piles)</li>
+</ul>
+
+
+<p>When using a power card, put the card in the discard pile and then use the power.  That&rsquo;s your whole turn.  <strong>You may only use a card&rsquo;s power when drawing from the face-down pile.</strong></p></li>
 </ol>
 
 
-<p>At this point I am the only person who has worked with this adapter and I would love some feedback!  Have an opinion or want to help improve this adapter?  <strong>Please open an issue, comment below, tweet me, or email me.</strong></p>
+<h3>End Game</h3>
+
+<p>If at any point during a person&rsquo;s turn they call &ldquo;Cabo&rdquo;, everyone except for that person gets one more turn and then the game ends.</p>
+
+<p>There are two other ways the game may end:</p>
+
+<ol>
+<li>Someone runs out of cards (they match their last card)</li>
+<li>The deck runs out (alternatively you could re-shuffle and keep playing)</li>
+</ol>
+
+
+<p>The lowest total score wins (see objective).</p>
+
+<h2>Buy a custom deck</h2>
+
+<p>The version of the game I know is played with a standard 52-card deck.  To play this version you need to remember the rules and the rhyme.</p>
+
+<p>The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at <a href="http://www.playcabo.com/">PlayCabo.com</a>.</p>
+
+<h2>Play it</h2>
+
+<p>Try out Cabo and let me know what you think.  If the rules need clarification, I&rsquo;m happy to update this post.</p>
+
+<p>If you like this game, spread it everywhere you go.  It&rsquo;s a great ice breaker and a fun way to pass the time.</p>
 </div>
   
   <footer>
