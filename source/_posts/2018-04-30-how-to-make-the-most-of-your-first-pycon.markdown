@@ -275,7 +275,7 @@ How do I know what's there?
 
 One trick that I've used and I've seen others use: **make a game of inviting people you don't really know well to dinner**.
 If you're nervous about being with lots of new people, **find a couple familiar people and ask each to invite just 1 person**.
-If you'd like to do dinner in a very small group, post on Twitter and say: "I'm looking for a small dinner group and I'm looking for exactly 1/2/3 (your choice) other people to do dinner with.  Any takers?".
+If you'd like to do dinner in a very small group, post on Twitter and say: "I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?".
 
 Sometimes people make a reservation at a restaurant and hope they can find people to join them.
 I'm not that gutsy and I usually prefer to gather people until I have a headcount and then call a nearby restaurant to ask if a reservation is needed.
@@ -383,7 +383,7 @@ I hope you have a lovely PyCon!
 [hallway track]: http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/
 [pycon list]: https://twitter.com/treyhunner/lists/pycon-2017/members
 [rolodex]: https://en.wikipedia.org/wiki/Rolodex
-[tweetdeck]: tweetdeck.twitter.com
+[tweetdeck]: https://tweetdeck.twitter.com
 [code of conduct]: https://us.pycon.org/2018/about/code-of-conduct/
 [cabo 1]: https://twitter.com/treyhunner/status/573027732902133760
 [cabo 2]: https://twitter.com/treyhunner/status/587086868396822528
