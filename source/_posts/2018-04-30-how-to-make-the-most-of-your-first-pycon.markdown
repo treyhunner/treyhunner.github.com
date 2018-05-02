@@ -74,7 +74,7 @@ There are a few reasons I often pick open spaces over talks:
 
 If you're looking for kinship and conversation, the open spaces a great place to look.
 
-If you're hoping to *start* a discussion, I'd also recommend creating your own open space during PyCon.
+If you're hoping to *start* a discussion, I'd also recommend [creating your own open space][] during PyCon.
 The PyCon blog will be publishing a post on open spaces soon which I co-authored.
 
 Disclaimed after the fact: I'm one of the volunteer open spaces co-chairs, so I'm biased in my love for them.
@@ -405,3 +405,4 @@ I hope you have a lovely PyCon!
 [asking a question 2]: https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/
 [pacman]: http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/
 [lightning talk board]: https://us.pycon.org/2018/events/lightning/talks/
+[creating your own open space]: https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html
