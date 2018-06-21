@@ -340,6 +340,32 @@ Just as our list comprehension gave us a list back, our **generator expression**
 'To be not vainly made--'
 ```
 
+Generator expressions use a shorter inline syntax compared to generator functions.
+They're not as powerful though.
+
+If you can write your generator function in this form:
+
+```python
+def get_a_generator(some_iterable):
+    for item in some_iterable:
+        if some_condition(item):
+            yield item
+```
+
+Then you can replace it with a generator expression:
+
+```python
+def get_a_generator(some_iterable):
+    return (
+        item
+        for item in some_iterable
+        if some_condition(item)
+    )
+```
+
+If you can't write your generator function in that form, then you can't create a generator expression to replace it.
+
+
 ## Generator expressions vs generator functions
 
 You can think of generator expressions as the list comprehensions of the generator world.
@@ -354,8 +380,8 @@ You can also copy-paste your way from a generator function to a function that re
 Generator expressions are to generator functions as list comprehensions are to a simple `for` loop with an append and a condition.
 
 Generator expressions are so similar to comprehensions, that you might even be tempted to say **generator comprehension** instead of generator expression.
-That's not technically the correct name, but if you say it everyone will know what you're talking about and I certainly won't fault you.
-Ned Batchelder proposes that we should all [start calling generator expressions generator comprehensions][generator comprehensions] and I tend to agree that this would be a clearer name.
+That's not technically the correct name, but if you say it everyone will know what you're talking about.
+Ned Batchelder actually proposed that we should all [start calling generator expressions generator comprehensions][generator comprehensions] and I tend to agree that this would be a clearer name.
 
 
 ## So what's the best way to make an iterator?
@@ -377,19 +403,15 @@ And I'd say that you should **almost never create an iterator class**.
 If you find you need an iterator class, try to write a generator function that does what you need and see how it compares to your iterator class.
 
 
-## Generators are the easy way to make iterators
+## Generators can help when making iterables too
 
 You'll see iterator classes in the wild, but there's rarely a good opportunity to write your own.
-Files are an example of an iterator class.
-Files in Python are iterators which can be looped over line-by-line.
-But they also have a number of methods like `read` and `seek`.
 
-Creating your own iterator class is a fairly rare thing to do.
+While it's rare to create your own iterator class, it's not unusual to make your own iterable class.
+And iterable classes require a `__iter__` method which returns an iterator.
+Since generators are the easy way to make an iterator, we can use a generator function or a generator expression to create our `__iter__` methods.
 
-It's not unusual to make your own iterable (whether it's list-like, tuple-like, dict-like, or something else altogether).
-And iterables require an iterator to be returned from their `__iter__` method.
-
-For example here's an iterable that provides coordinates:
+For example here's an iterable that provides x-y coordinates:
 
 ```python
 class Point:
@@ -400,10 +422,11 @@ class Point:
         yield self.y
 ```
 
-Note that our `Point` class here creates an **iterable** (not an iterator).
+Note that our `Point` class here creates an **iterable** when called (not an iterator).
 That means our `__iter__` method must return an iterator.
 The easiest way to create an iterator is by making a generator function, so that's just what we did.
-We stuck `yield` in there and now our `Point` class con be looped over, just like any other iterable.
+
+We stuck `yield` in our `__iter__` to make it into a generator function and now our `Point` class con be looped over, just like any other iterable.
 
 ```python
 >>> p = Point(1, 2)
@@ -414,10 +437,17 @@ We stuck `yield` in there and now our `Point` class con be looped over, just lik
 [1, 2]
 ```
 
+Generator functions are a natural fit for creating `__iter__` methods on your iterable classes.
 
-## When you want an iterator, create a generator
+
+## Generators are *the* way to make iterators
+
+Dictionaries are the typical way to make a mapping in Python.
+Functions are the typical way to make a callable object in Python.
+Likewise, **generators are the typical way to make an iterator in Python**.
 
 So when you're thinking "it sure would be nice to implement an iterable that lazily computes things as it's looped over," think of iterators.
+
 And when you're considering **how to create your own iterator**, think of **generator functions** and **generator expressions**.
 
 
