@@ -230,12 +230,14 @@ They both have a type of `generator` and they're both iterators that provide squ
 
 We're going to talk about both of these approaches to making a generator, but first let's talk about terminology.
 
-The word "generator" is used in quite a few ways in Python.
-A **generator**, also called a **generator object**, is an iterator whose type is `generator`.
-A **generator function** is a special syntax that allows us to make a function which returns a **generator object** when we call it.
-A **generator expression** is a special syntax for creating a **generator object**.
+The word "generator" is used in quite a few ways in Python:
 
-We're going to look at generator functions first.
+- A **generator**, also called a **generator object**, is an iterator whose type is `generator`
+- A **generator function** is a special syntax that allows us to make a function which returns a **generator object** when we call it
+- A **generator expression** is a comprehension-like syntax that allows you to create a **generator object** inline
+
+With that terminology out of the way, let's take a look at each one of these things individually.
+We'll look at generator functions first.
 
 
 ## Generator functions
@@ -256,9 +258,13 @@ Let me go get that number for you.
 
 But if the function has a `yield` statement in it, it isn't a typical function anymore.
 It's now a **generator function**, meaning it will return a **generator object** when called.
-That generator object can be looped over to loop until a `yield` statement is hit:
+That generator object can be looped over to execute it until a `yield` statement is hit:
 
 ```python
+>>> def gimme4_later_please():
+...     print("Let me go get that number for you.")
+...     yield 4
+...
 >>> get4 = gimme4_later_please()
 >>> next(get4)
 Let me go get that number for you.
