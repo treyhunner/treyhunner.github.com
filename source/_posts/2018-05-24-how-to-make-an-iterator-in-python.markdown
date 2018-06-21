@@ -251,8 +251,9 @@ Normally when you call a function, its code is executed:
 ...     print("Let me go get that number for you.")
 ...     return 4
 ...
->>> gimme4_please()
+>>> num = gimme4_please()
 Let me go get that number for you.
+>>> num
 4
 ```
 
@@ -266,8 +267,11 @@ That generator object can be looped over to execute it until a `yield` statement
 ...     yield 4
 ...
 >>> get4 = gimme4_later_please()
->>> next(get4)
+>>> get4
+<generator object gimme4_later_please at 0x7f78b2e7e2b0>
+>>> num = next(get4)
 Let me go get that number for you.
+>>> num
 4
 ```
 
