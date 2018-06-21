@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="This post contains some of my opinions on how to maintain an open source project well. I&rsquo;ve built up my opinions on this topic from maintaining &hellip;">
+  <meta name="description" content="You need to write tests for your code to demonstrate that it works as expected. In this post I will note the method I usually use for writing code &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,7 +103,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/07/maintaining-an-open-source-project/">Maintaining an open source project</a></h1>
+      <h1 class="entry-title"><a href="/2013/07/test-inspired-development/">Test-Inspired Development</a></h1>
     
     
       <p class="meta">
@@ -112,71 +112,40 @@
 
 
 
-<time class='entry-date' datetime='2013-07-21T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-07-28T00:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/07/maintaining-an-open-source-project/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/07/maintaining-an-open-source-project/">Comments</a>
+           | <a href="/2013/07/test-inspired-development/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/07/test-inspired-development/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>This post contains some of my opinions on how to maintain an open source project well.  I&rsquo;ve built up my opinions on this topic from maintaining and contributing to open source projects.  Keep in mind that I am not an expert on this topic.</p>
+  <div class="entry-content"><p>You need to write tests for your code to demonstrate that it works as expected.  In this post I will note the method I usually use for writing code and writing tests.</p>
 
-<h2>Structure your project logically</h2>
+<p>I follow a method of development similar to test-driven development, which I call &ldquo;test-inspired development&rdquo;.  Here&rsquo;s roughly what I do:</p>
 
-<p>You shouldn&rsquo;t need to worry about structuring your project because others have done that work for you.  <strong>Base your project&rsquo;s design on other well-organized projects.</strong></p>
-
-<p>I compiled some tips I try to follow for open source Django projects I maintain in my <a href="https://github.com/treyhunner/django-skeleton-app">django-skeleton-app</a> repository.  Check it out if you&rsquo;re starting a new Python project.</p>
-
-<h2>Make it very easy to contribute</h2>
-
-<p>Document your process for contributing code, filing bugs, and maintaining other feedback.  Reference this process in your README file, your documentation, and your <a href="https://github.com/blog/1184-contributing-guidelines">CONTRIBUTING</a> file.  If you need a place to discuss project development outside of the issue tracker, consider creating a mailing list.</p>
-
-<h2>Be kind</h2>
-
-<p>Thank your contributors, appologize if you make a big mistake or say something rude, and be very courteous.  Add all your contributors to the AUTHORS file and grant push access to active contributors.</p>
-
-<h2>Be Responsive</h2>
-
-<p>Don&rsquo;t have time to look over a new pull request this week?  Make a comment noting when you&rsquo;ll give your feedback.  This way your contributor can add a friendly reminder later without feeling rude.</p>
-
-<p>Realized you forgot to respond to a 12 month old pull request?  Respond right now and ask whether the code or problem is still relevant.  A late response is better than none at all.</p>
-
-<p>Don&rsquo;t know if you&rsquo;ll ever have time to look at an issue?  Say so!  <strong>Do not leave your contributors in the dark!</strong></p>
-
-<h2>Automate all the things</h2>
-
-<p>Use:</p>
-
-<ul>
-<li><a href="https://travis-ci.org/">Travis CI</a>: run continuous integration tests for all pushes and pull requests</li>
-<li><a href="https://coveralls.io/">Coveralls</a>: measure code coverage while running your CI tests</li>
-<li>A documentation site like <a href="https://readthedocs.org/">Read The Docs</a> which auto-updates on pushes</li>
-</ul>
+<ol>
+<li>Write a bit of code</li>
+<li>Write a bit of a unit test for your code</li>
+<li>Ensure the test succeeds, but fails when the code is commented out or git stash-ed</li>
+<li>Repeat steps 1, 2, and 3 as needed</li>
+<li>Start writing an integration test, fleshing out as far as you can</li>
+<li>Make sure the integration test fails at the correct point</li>
+<li>Repeat steps 5 and 6 as needed</li>
+<li>Make sure no commit you make along the way contains both tests and code</li>
+<li>Use git rebase if necessary to ensure the test commits come before the code commits</li>
+</ol>
 
 
-<h2>Learn from others</h2>
+<p>Ideally I would write all of my test code first and then write my application code and ensure my tests pass.  That isn&rsquo;t what usually happens though.  I often find it tricky to write full tests before writing any code.  Even when writing code in small parts, sometimes my code gets written before the corresponding test code.</p>
 
-<p>I&rsquo;m not the only one with opinions about open source.</p>
+<p>I write all of my code in feature branches (short-lived branches forked from master) and I often create a pull request (even against my own repository) when creating a new feature.  Because I commit the tests first, a code reviewer can easily confirm that all the new tests actually fail correctly without the code present by simply rolling back to the last test commit and running the tests.</p>
 
-<p>Read more opinions on maintaining an open source project:</p>
+<p>I usually write my unit tests first and at or near the same time as my code because they help often help shape my code heavily.  The functional/integration tests are important for ensuring that the application actually works all the way through (working parts are useless on their own).</p>
 
-<ul>
-<li><a href="https://segment.io/blog/tips-for-maintaining-an-open-source-library/">Tips for maintaining an Open-Source library</a></li>
-<li><a href="http://www.codesimplicity.com/post/open-source-community-simplified/">Open Source Community, Simplified</a></li>
-<li><a href="https://hacks.mozilla.org/2013/05/how-to-spread-the-word-about-your-code/">How to Spead The Word About Your Code</a></li>
-</ul>
-
-
-<p>Watch some videos about maintaining an open source project:</p>
-
-<ul>
-<li><a href="http://www.youtube.com/watch?v=xgWFTrXn0_U">Maintaining Your Sanity While Maintaining Your Open Source App</a></li>
-<li><a href="http://pyvideo.org/video/1795/write-the-docs">Write the Docs</a></li>
-</ul>
-
+<p>Have questions about my testing methodology?  Do you use a different technique?  Feel free to share your thoughts in the comments below.</p>
 </div>
   
   <footer>

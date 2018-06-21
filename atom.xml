@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-05-19T16:46:27-07:00</updated>
+  <updated>2018-06-21T15:02:10-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,606 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to make an iterator in Python]]></title>
+    <link href="http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
+    <updated>2018-06-21T16:00:00-07:00</updated>
+    <id>http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
+    <content type="html"><![CDATA[<p>I wrote an article sometime ago on <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">the iterator protocol that powers Python&rsquo;s <code>for</code> loops</a>.
+One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
+
+<p>In this article I&rsquo;m going to discuss why you&rsquo;d want to make your own iterators and then show you how to do so.</p>
+
+<h2>What is an iterator?</h2>
+
+<p>First let&rsquo;s quickly address what an iterator is.
+For a much more detailed explanation, consider watching my <a href="https://www.youtube.com/watch?v=V2PkkMS2Ack">Loop Better talk</a> or reading <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">the article based on the talk</a>.</p>
+
+<p>An <strong>iter<em>able</em></strong> is anything you&rsquo;re able to loop over.</p>
+
+<p>An <strong>iter<em>ator</em></strong> is the object that does the actual iterating.</p>
+
+<p>You can get an iterator from any iterable by calling the built-in <code>iter</code> function on the iterable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">favorite_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="n">favorite_numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">list_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fe8e5623160</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use the built-in <code>next</code> function on an iterator to get the next item from it (you&rsquo;ll get a <code>StopIteration</code> exception if there are no more items).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">favorite_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">favorite_numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">6</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">57</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s one more rule about iterators that makes everything interesting: <strong>iterators are also iterables</strong> and their iterator is themselves.
+I explain the consequences of that more fully in that <a href="https://www.youtube.com/watch?v=V2PkkMS2Ack">Loop Better talk</a> I mentioned above.</p>
+
+<h2>Why make an iterator?</h2>
+
+<p>Iterators allow you to make an iterable that computes its items as it goes.
+Which means that you can make iterables that are <strong>lazy</strong>, in that they don&rsquo;t determine what their next item is until you ask them for it.</p>
+
+<p>Using an iterator instead of a list, set, or another iterable data structure can sometimes allow us to save memory.
+For example, we can use <code>itertools.repeat</code> to create an iterable that provides 100 million <code>4</code>&rsquo;s to us:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">lots_of_fours</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="mi">100</span><span class="n">_000_000</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This iterator takes up 56 bytes of memory on my machine:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">lots_of_fours</span><span class="p">)</span>
+</span><span class='line'><span class="mi">56</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An equivalent list of 100 million <code>4</code>&rsquo;s takes up many megabytes of memory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">lots_of_fours</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="n">_000_000</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">lots_of_fours</span><span class="p">)</span>
+</span><span class='line'><span class="mi">800000064</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While iterators can save memory, they can also save time.
+For example if you wanted to print out just the first line of a 10 gigabyte log file, you could do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;giant_log_file.txt&#39;</span><span class="p">)))</span>
+</span><span class='line'><span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">first</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">giant</span> <span class="nb">file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>File objects in Python are implemented iterators.
+As you loop over a file, data is read into memory one line at a time.
+If we instead used the <code>readlines</code> method to store all lines in memory, we might run out of system memory.</p>
+
+<p>So <strong>iterators can save us memory</strong>, but <strong>iterators can sometimes save us time</strong> also.</p>
+
+<p>Additionally, <strong>iterators have abilities that other iterables don&rsquo;t</strong>.
+For example, the laziness of iterables can be used to make iterables that have an unknown length.
+In fact, you can even make infinitely long iterators.</p>
+
+<p>For example, the <code>itertools.count</code> utility will give us an iterator that will provide every number from <code>0</code> upward as we loop over it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">count</span><span class="p">():</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="p">(</span><span class="n">this</span> <span class="n">goes</span> <span class="n">on</span> <span class="n">forever</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>itertools.count</code> object is essentially an infinitely long iterable.
+And it&rsquo;s implemented as an iterator.</p>
+
+<h2>Making an iterator: the object-oriented way</h2>
+
+<p>So we&rsquo;ve seen that iterators can save us memory, save us CPU time, and unlock new abilities to us.</p>
+
+<p>Let&rsquo;s make our own iterators.
+We&rsquo;ll start be re-inventing the <code>itertools.count</code> iterator object.</p>
+
+<p>Here&rsquo;s an iterator implemented using a class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">Count</span><span class="p">:</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Iterator that counts upward forever.&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">=</span> <span class="n">start</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">num</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">num</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This class has an initializer that initializes our current number to <code>0</code> (or whatever is passed in as the <code>start</code>).
+The things that make this class usable as an iterator are the <code>__iter__</code> and <code>__next__</code> methods.</p>
+
+<p>When an object is passed to the <code>str</code> built-in function, its <code>__str__</code> method is called.
+When an object is passed to the <code>len</code> built-in function, its <code>__len__</code> method is called.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">numbers</span><span class="p">),</span> <span class="n">numbers</span><span class="o">.</span><span class="n">__str__</span><span class="p">()</span>
+</span><span class='line'><span class="p">(</span><span class="s">&#39;[1, 2, 3]&#39;</span><span class="p">,</span> <span class="s">&#39;[1, 2, 3]&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">),</span> <span class="n">numbers</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Calling the built-in <code>iter</code> function on an object will attempt to call its <code>__iter__</code> method.
+Calling the built-in <code>next</code> function on an object will attempt to call its <code>__next__</code> method.</p>
+
+<p>The <code>iter</code> function is supposed to return an iterator.
+So our <code>__iter__</code> function must return an iterator.
+But <strong>our object is an iterator</strong>, so should return ourself.
+Therefore our <code>Count</code> object returns <code>self</code> from its <code>__iter__</code> method because it is <em>its own iterator</em>.</p>
+
+<p>The <code>next</code> function is supposed to return the next item in our iterator or raise a <code>StopIteration</code> exception when there are no more items.
+We&rsquo;re returning the current number and incrementing the number so it&rsquo;ll be larger during the next <code>__next__</code> call.</p>
+
+<p>We can manually loop over our <code>Count</code> iterator class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Count</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We could also loop over our <code>Count</code> object like using a <code>for</code> loop, as with any other iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Count</span><span class="p">():</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="p">(</span><span class="n">this</span> <span class="n">goes</span> <span class="n">on</span> <span class="n">forever</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This object-oriented approach to making an iterator is cool, but it&rsquo;s not the usual way that Python programmers make iterators.
+Usually when we want an iterator, we make a generator.</p>
+
+<h2>Generators: the easy way to make an iterator</h2>
+
+<p>The easiest ways to make our own iterators in Python is to create a generator.</p>
+
+<p>There are two ways to make generators in Python.</p>
+
+<p>Given this list of numbers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">favorite_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">95</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can make a generator that will lazily provide us with all the squares of these numbers like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">square_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'><span class="o">...</span>         <span class="k">yield</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="n">square_all</span><span class="p">(</span><span class="n">favorite_numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or we can make the same generator like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">favorite_numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first one is called a <strong>generator function</strong> and the second one is called a <strong>generator expression</strong>.</p>
+
+<p>Both of these generator objects work the same way.
+They both have a type of <code>generator</code> and they&rsquo;re both iterators that provide squares of the numbers in our numbers list.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">generator</span><span class="s">&#39;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="mi">36</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="mi">3249</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re going to talk about both of these approaches to making a generator, but first let&rsquo;s talk about terminology.</p>
+
+<p>The word &ldquo;generator&rdquo; is used in quite a few ways in Python:</p>
+
+<ul>
+<li>A <strong>generator</strong>, also called a <strong>generator object</strong>, is an iterator whose type is <code>generator</code></li>
+<li>A <strong>generator function</strong> is a special syntax that allows us to make a function which returns a <strong>generator object</strong> when we call it</li>
+<li>A <strong>generator expression</strong> is a comprehension-like syntax that allows you to create a <strong>generator object</strong> inline</li>
+</ul>
+
+
+<p>With that terminology out of the way, let&rsquo;s take a look at each one of these things individually.
+We&rsquo;ll look at generator functions first.</p>
+
+<h2>Generator functions</h2>
+
+<p>Generator functions are distinguished from plain old functions by the fact that they have one or more <code>yield</code> statements.</p>
+
+<p>Normally when you call a function, its code is executed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gimme4_please</span><span class="p">():</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="s">&quot;Let me go get that number for you.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">return</span> <span class="mi">4</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">num</span> <span class="o">=</span> <span class="n">gimme4_please</span><span class="p">()</span>
+</span><span class='line'><span class="n">Let</span> <span class="n">me</span> <span class="n">go</span> <span class="n">get</span> <span class="n">that</span> <span class="n">number</span> <span class="k">for</span> <span class="n">you</span><span class="o">.</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">num</span>
+</span><span class='line'><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if the function has a <code>yield</code> statement in it, it isn&rsquo;t a typical function anymore.
+It&rsquo;s now a <strong>generator function</strong>, meaning it will return a <strong>generator object</strong> when called.
+That generator object can be looped over to execute it until a <code>yield</code> statement is hit:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gimme4_later_please</span><span class="p">():</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="s">&quot;Let me go get that number for you.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">yield</span> <span class="mi">4</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">get4</span> <span class="o">=</span> <span class="n">gimme4_later_please</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">get4</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="n">gimme4_later_please</span> <span class="n">at</span> <span class="mh">0x7f78b2e7e2b0</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">num</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">get4</span><span class="p">)</span>
+</span><span class='line'><span class="n">Let</span> <span class="n">me</span> <span class="n">go</span> <span class="n">get</span> <span class="n">that</span> <span class="n">number</span> <span class="k">for</span> <span class="n">you</span><span class="o">.</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">num</span>
+</span><span class='line'><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The mere presence of a <code>yield</code> statement turns a function into a generator function.
+If you see a function and there&rsquo;s a <code>yield</code>, you&rsquo;re working with a different animal.
+It&rsquo;s a bit odd, but that&rsquo;s the way generator functions work.</p>
+
+<p>Okay let&rsquo;s look at a real example of a generator function.
+We&rsquo;ll make a generator function that does the same thing as our <code>Count</code> iterator class we made earlier.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">num</span> <span class="o">=</span> <span class="n">start</span>
+</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">num</span>
+</span><span class='line'>        <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just like our <code>Counter</code> iterator class, we can manually loop over the generator we get back from calling <code>count</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And we can loop over this generator object using a <code>for</code> loop, just like before:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">count</span><span class="p">():</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
+</span><span class='line'><span class="p">(</span><span class="n">this</span> <span class="n">goes</span> <span class="n">on</span> <span class="n">forever</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But this function is considerably shorter than our <code>Count</code> class we created before.</p>
+
+<h2>Generator expressions</h2>
+
+<p>Generator expressions are a list comprehension-like syntax that allow us to make a generator object.</p>
+
+<p>Let&rsquo;s say we have a list comprehension that filters empty lines from a file and strips newlines from the end:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">poem_file</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We could create a generator instead of a list, by turning the square brackets of that comprehension into parenthesis:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">poem_file</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just as our list comprehension gave us a list back, our <strong>generator expression</strong> gives us a <strong>generator object</strong> back:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">generator</span><span class="s">&#39;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39; This little bag I hope will prove&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;To be not vainly made--&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Generator expressions use a shorter inline syntax compared to generator functions.
+They&rsquo;re not as powerful though.</p>
+
+<p>If you can write your generator function in this form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">get_a_generator</span><span class="p">(</span><span class="n">some_iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">some_iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">some_condition</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+</span><span class='line'>            <span class="k">yield</span> <span class="n">item</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you can replace it with a generator expression:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">get_a_generator</span><span class="p">(</span><span class="n">some_iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span>
+</span><span class='line'>        <span class="n">item</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">some_iterable</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">some_condition</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you can&rsquo;t write your generator function in that form, then you can&rsquo;t create a generator expression to replace it.</p>
+
+<h2>Generator expressions vs generator functions</h2>
+
+<p>You can think of generator expressions as the list comprehensions of the generator world.</p>
+
+<p>If you&rsquo;re not familiar with list comprehensions, I recommend reading my article on <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">list comprehensions in Python</a>.
+I note in that article that you can copy-paste your way from a <code>for</code> loop to a list comprehension.</p>
+
+<p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
+
+<p><img src="http://treyhunner.com/images/generator-expression-copy-paste.gif"></p>
+
+<p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
+
+<p>Generator expressions are so similar to comprehensions, that you might even be tempted to say <strong>generator comprehension</strong> instead of generator expression.
+That&rsquo;s not technically the correct name, but if you say it everyone will know what you&rsquo;re talking about.
+Ned Batchelder actually proposed that we should all <a href="https://nedbatchelder.com/blog/201605/generator_comprehensions.html">start calling generator expressions generator comprehensions</a> and I tend to agree that this would be a clearer name.</p>
+
+<h2>So what&rsquo;s the best way to make an iterator?</h2>
+
+<p>To make an iterator you could create an iterator class, a generator function, or a generator expression.
+Which way is the best way though?</p>
+
+<p>Generator expressions are <strong>very succinct</strong>, but they&rsquo;re <strong>not nearly as flexible</strong> as generator functions.
+Generator functions are flexible, but if you need to <strong>attach extra methods or attributes</strong> to your iterator object, you&rsquo;ll probably need to switch to using an iterator class.</p>
+
+<p>I&rsquo;d recommend reaching for generator expressions the same way you reach for list comprehensions.
+If you&rsquo;re doing a simple <strong>mapping or filtering operation</strong>, a <strong>generator expression</strong> is a great solution.
+If you&rsquo;re doing something <strong>a bit more sophisticated</strong>, you&rsquo;ll likely need a <strong>generator function</strong>.</p>
+
+<p>I&rsquo;d recommend using generator functions the same way you&rsquo;d use <code>for</code> loops that append to a list.
+Everywhere you&rsquo;d see an <code>append</code> method, you&rsquo;d often see a <code>yield</code> statement instead.</p>
+
+<p>And I&rsquo;d say that you should <strong>almost never create an iterator class</strong>.
+If you find you need an iterator class, try to write a generator function that does what you need and see how it compares to your iterator class.</p>
+
+<h2>Generators can help when making iterables too</h2>
+
+<p>You&rsquo;ll see iterator classes in the wild, but there&rsquo;s rarely a good opportunity to write your own.</p>
+
+<p>While it&rsquo;s rare to create your own iterator class, it&rsquo;s not unusual to make your own iterable class.
+And iterable classes require a <code>__iter__</code> method which returns an iterator.
+Since generators are the easy way to make an iterator, we can use a generator function or a generator expression to create our <code>__iter__</code> methods.</p>
+
+<p>For example here&rsquo;s an iterable that provides x-y coordinates:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that our <code>Point</code> class here creates an <strong>iterable</strong> when called (not an iterator).
+That means our <code>__iter__</code> method must return an iterator.
+The easiest way to create an iterator is by making a generator function, so that&rsquo;s just what we did.</p>
+
+<p>We stuck <code>yield</code> in our <code>__iter__</code> to make it into a generator function and now our <code>Point</code> class con be looped over, just like any other iterable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1</span> <span class="mi">2</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Generator functions are a natural fit for creating <code>__iter__</code> methods on your iterable classes.</p>
+
+<h2>Generators are <em>the</em> way to make iterators</h2>
+
+<p>Dictionaries are the typical way to make a mapping in Python.
+Functions are the typical way to make a callable object in Python.
+Likewise, <strong>generators are the typical way to make an iterator in Python</strong>.</p>
+
+<p>So when you&rsquo;re thinking &ldquo;it sure would be nice to implement an iterable that lazily computes things as it&rsquo;s looped over,&rdquo; think of iterators.</p>
+
+<p>And when you&rsquo;re considering <strong>how to create your own iterator</strong>, think of <strong>generator functions</strong> and <strong>generator expressions</strong>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to have a great first PyCon]]></title>
@@ -5710,119 +6310,6 @@ But a dream within a dream?
 <p><a href="https://github.com/treyhunner/custom-bootstrap-example">Check out the sample project on Github</a></p>
 
 <p>Know about a different way to customize Bootstrap?  Did I make a mistake in my explanation?  Leave a comment and let me know.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ECMAScript 5: The Future is Now]]></title>
-    <link href="http://treyhunner.com/2015/02/ecmascript-5-the-future-is-now/"/>
-    <updated>2015-02-09T00:00:00-08:00</updated>
-    <id>http://treyhunner.com/2015/02/ecmascript-5-the-future-is-now</id>
-    <content type="html"><![CDATA[<p>ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let&rsquo;s talk about ECMAScript 5.</p>
-
-<p>Do you know what features were added in ECMAScript 5?</p>
-
-<p>Do your target browsers support ECMAScript 5 yet?</p>
-
-<p><aside>
-    <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
-</aside></p>
-
-<h2>Arrays</h2>
-
-<p><a href="http://underscorejs.org/">Underscore.js</a> is a popular JavaScript library containing &ldquo;a whole mess of useful functional programming helpers&rdquo;.  Most of these helpers work on arrays and other enumerable objects (collections, as Underscore calls them).</p>
-
-<p>The ECMAScript 5 spec includes a handful of these functional programming helpers as methods on native JavaScript Array objects.</p>
-
-<ul>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"><code>indexOf</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"><code>lastIndexOf</code></a></strong>, like <a href="http://underscorejs.org/#indexOf"><code>_.indexOf</code></a> and <a href="http://underscorejs.org/#lastIndexOf"><code>_.lastIndexOf</code></a>, return the index (or last index) at which a value can be found in the array</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"><code>every</code></a></strong>, like <a href="http://underscorejs.org/#every"><code>_.every</code></a>, returns true if <strong>all</strong> the values in the array pass the test implemented by the provided function</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"><code>some</code></a></strong>, like <a href="http://underscorejs.org/#some"><code>_.some</code></a>, returns true if <strong>any</strong> of the values in the array pass the test implemented by the provided function</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><code>forEach</code></a></strong>, like <a href="http://underscorejs.org/#each"><code>_.each</code></a>, executes a provided function once for each array item</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code>map</code></a></strong>, like <a href="http://underscorejs.org/#map"><code>_.map</code></a>, returns a new array with the results of calling a provided function on each item of the array</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"><code>filter</code></a></strong>, like <a href="http://underscorejs.org/#filter"><code>_.filter</code></a>, returns a new array with all array items that pass the given test function included.</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"><code>reduce</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight"><code>reduceRight</code></a></strong>, like <a href="http://underscorejs.org/#reduce"><code>_.reduce</code></a> and <a href="http://underscorejs.org/#reduceRight"><code>_.reduceRight</code></a>, reduce a list of values into a single value using an accumulator function (either left-to-right or right-to-left)</p></li>
-</ul>
-
-
-<h2>Miscellaneous</h2>
-
-<p>Here are a variety of other features that were added to ECMAScript 5, in addition to array helper functions:</p>
-
-<ul>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys"><code>Object.keys</code></a>, like <a href="http://underscorejs.org/#keys"><code>_.keys</code></a>, returns an array of a given object&rsquo;s enumerable properties</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"><code>Array.isArray</code></a>, like <a href="http://underscorejs.org/#isArray"><code>_.isArray</code></a>, returns <code>true</code> if a given object is an array</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now"><code>Date.now</code></a>, like <a href="http://underscorejs.org/#now"><code>_.now</code></a> returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify</code></a> converts JavaScript objects to JSON strings and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse</code></a> converts JSON strings to JavaScript objects.</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>Function.prototype.bind</code></a>, like <a href="http://underscorejs.org/#bind"><code>_.bind</code></a>, returns a function that when called has its <code>this</code> keyword argument set to the provided value</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim"><code>String.prototype.trim</code></a>, returns a copy of the string with whitespace removed from the beginning and end of the string</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"><code>parseInt</code></a> no longer treats strings starting with <code>0</code> as octal values</p></li>
-<li><p>Strict mode, Object.create, Object.seal, Object.freeze, getters/setters, and more were also added in ECMAScript 5</p></li>
-</ul>
-
-
-<h2>Underscore.js vs Native</h2>
-
-<p>I try to use native array methods instead of their Underscore.js equivalents whenever possible.  However, these native array methods don&rsquo;t work in all cases.</p>
-
-<h3>Not all enumerables are arrays</h3>
-
-<p>Here&rsquo;s two enumerable objects which are not arrays:</p>
-
-<ol>
-<li>NodeList objects in the browser</li>
-<li>File buffers in Node.js</li>
-</ol>
-
-
-<p>You cannot use array methods like <code>forEach</code> on these enumerables, but you can the Underscore.js equivalents like <code>_.each</code>.</p>
-
-<h3>So why not use Underscore for everything?</h3>
-
-<h4>Native methods are more understandable</h4>
-
-<p>Web developers know JavaScript.  Web developers may not Underscore or your Underscore-like library of choice.  Don&rsquo;t stray far from vanilla JavaScript when you don&rsquo;t need to.</p>
-
-<h4>Underscore is less portable</h4>
-
-<p>Underscore doesn&rsquo;t come bundled with your rendering engine.</p>
-
-<h4>Native methods are future-proof</h4>
-
-<p>Underscore is cool today, but <a href="https://github.com/lodash/lodash">lodash</a> might be cooler tomorrow.  Or maybe you&rsquo;d prefer to use <a href="https://github.com/cmstead/JFP">JFP</a>.</p>
-
-<h4>Native methods can be faster</h4>
-
-<p>As browser engines improve their optimization of native code, your code improves in speed.  Underscore&rsquo;s equivalents of these methods cannot be further optimized at the low-level as their native equivalents.</p>
-
-<p>This claim as a theoretical one.  Here&rsquo;s some jsPerf links to test the real performance difference:</p>
-
-<ul>
-<li><a href="http://jsperf.com/array-prototype-indexof-vs-indexof">indexOf</a> and <a href="http://jsperf.com/array-prototype-lastindexof-vs-lastindexof">lastIndexOf</a></li>
-<li><a href="http://jsperf.com/array-prototype-every-vs-every">every</a></li>
-<li><a href="http://jsperf.com/array-prototype-some-vs-some2">some</a></li>
-<li><a href="http://jsperf.com/array-prototype-foreach-vs-each">forEach</a></li>
-<li><a href="http://jsperf.com/array-prototype-map-vs-map">map</a></li>
-<li><a href="http://jsperf.com/array-prototype-filter-vs-filter">filter</a></li>
-<li><a href="http://jsperf.com/array-prototype-reduce-vs-reduce">reduce</a> and <a href="http://jsperf.com/array-prototype-reduceright-vs-reduceright">reduceRight</a></li>
-</ul>
-
-
-<h2>What browsers support ECMAScript 5?</h2>
-
-<p>ECMAScript 5 is fully supported in Internet Explorer 10 and nearly fully supported in IE9.  Modern versions of Chrome and Firefox also fully support ECMAScript 5.</p>
-
-<h4>What if you need to support IE7 or IE8?</h4>
-
-<p>Fortunately, all of the array methods discussed above and some of the other ECMAScript 5 features can be <a href="https://remysharp.com/2010/10/08/what-is-a-polyfill">polyfilled</a> using <a href="https://github.com/es-shims/es5-shim">es5-shim</a>.</p>
-
-<h4>ECMAScript 5 all the things!</h4>
-
-<p>With these pollyfills in place, you should be able to use the majority of ECMAScript 5 features everywhere.  Go forth and ES5-ify your code!</p>
-
-<p><aside>
-This blog post was based on my ECMAScript 5 talk.  You can view the slides at <a href="http://treyhunner.com/es5-talk/">http://treyhunner.com/es5-talk/</a>
-</aside></p>
 ]]></content>
   </entry>
   

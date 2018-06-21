@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="If you&rsquo;re switching between Python 2 and Python 3, you might think that Python 2&rsquo;s xrange objects are pretty much the identical to Python &hellip;">
+  <meta name="description" content="After my Loop Better talk at PyGotham 2017 someone asked me a great question: iterators are lazy iterables and range is a lazy iterable in Python 3, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,7 +103,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2018/02/python-3-s-range-better-than-python-2-s-xrange/">Python 3&#8217;s range is more powerful than Python 2&#8217;s xrange</a></h1>
+      <h1 class="entry-title"><a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a></h1>
     
     
       <p class="meta">
@@ -112,89 +112,106 @@
 
 
 
-<time class='entry-date' datetime='2018-02-15T08:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:00 am</span></time>
+<time class='entry-date' datetime='2018-02-28T16:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:00 pm</span></time>
         
-           | <a href="/2018/02/python-3-s-range-better-than-python-2-s-xrange/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">Comments</a>
+           | <a href="/2018/02/python-range-is-not-an-iterator/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/02/python-range-is-not-an-iterator/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>If you&rsquo;re switching between Python 2 and Python 3, you might think that Python 2&rsquo;s <code>xrange</code> objects are pretty much the identical to Python 3&rsquo;s <code>range</code> object.  It seems like they probably just renamed <code>xrange</code> to <code>range</code>, right?</p>
+  <div class="entry-content"><p>After my <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better talk at PyGotham 2017</a> someone asked me a great question: iterators are lazy iterables and <code>range</code> is a lazy iterable in Python 3, so is <code>range</code> an iterator?</p>
 
-<p>Not quite.</p>
+<p>Unfortunately, I don&rsquo;t remember the name of the person who asked me this question.  I do remember saying something along the lines of &ldquo;oh I love that question!&rdquo;</p>
 
-<p>Python 2&rsquo;s <code>xrange</code> is somewhat more limited than Python 3&rsquo;s <code>range</code>.  In this article we&rsquo;re going to take a look at how <code>xrange</code> in Python 2 differs from <code>range</code> in Python 3.</p>
+<p>I love this question because <code>range</code> objects in Python 3 (<a href="treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">xrange in Python 2</a>) are lazy, but <strong>range objects are not iterators</strong> and this is something I see folks mix up frequently.</p>
 
-<p>The inspiration for this article came from <a href="https://www.crowdcast.io/e/range/1/q/-KpfDuicwa4YGF9tAoMW">a question I addressed</a> during a <a href="http://www.weeklypython.chat">Weekly Python Chat</a> session I did last year on range objects.</p>
+<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
 
-<h2>Python 2 vs Python 3: range</h2>
+<h2>Yes this <em>is</em> confusing</h2>
 
-<p>The first thing I need to address is how <code>range</code> works in Python 2 and Python 3.</p>
+<p>When people talk about iterators and iterables in Python, you&rsquo;re likely to hear the someone repeat the misconception that <code>range</code> is an iterator.  This mistake might seem unimportant at first, but I think it&rsquo;s actually a pretty critical one.  If you believe that <code>range</code> objects are iterators, your mental model of how iterators work in Python <em>isn&rsquo;t clear enough yet</em>.  Both <code>range</code> and iterators are &ldquo;lazy&rdquo; in a sense, but they&rsquo;re lazy in fairly different ways.</p>
 
-<p>In Python 2, the <code>range</code> function returned a list of numbers:</p>
+<p>With this article I&rsquo;m going to explain how iterators work, how <code>range</code> works, and how the laziness of these two types of &ldquo;lazy iterables&rdquo; differs.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>But first, I&rsquo;d like to ask that you <strong>do not use the information below as an excuse to be unkind to anyone</strong>, whether new learners or experienced Python programmers.  Many people have used Python very happily for years without fully understanding the distinction I&rsquo;m about to explain.  You can write many thousands of lines of Python code without having a strong mental model of how iterators work.</p>
 
+<h2>What&rsquo;s an iterator?</h2>
 
-<p>And the <code>xrange</code> class represented an iterable that provided the same thing when looped over, but it was lazy:</p>
+<p>In Python an iterable is anything that you can iterate over and an iterator is the thing that does the actual iterating.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Iter-<strong>ables</strong> are able to be iterated over.  Iter-<strong>ators</strong> are the agents that perform the iteration.</p>
 
-
-<p>This laziness was really embraced in Python 3.  In Python 3, they removed the original <code>range</code> function and renamed <code>xrange</code> to <code>range</code>:</p>
+<p>You can get an iterator from any iterable in Python by using the <code>iter</code> function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">list_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081da0</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">str_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081dd8</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So if you wanted the Python 2 behavior for <code>range</code> in Python 3, you could always convert the <code>range</code> object to a list:</p>
+<p>Once you have an iterator, the only thing you can do with it is get its next item:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Okay now let&rsquo;s compare Python 2&rsquo;s <code>xrange</code> class to Python 3&rsquo;s <code>range</code> class.</p>
-
-<h2>Similarities</h2>
-
-<p>Before we take a look at differences between <code>xrange</code> and <code>range</code> objects, let&rsquo;s take a look at some of the similarities.</p>
-
-<p>Python 2&rsquo;s <code>xrange</code> has a fairly descriptive string representation:</p>
+<p>And you&rsquo;ll get a stop iteration exception if you ask for the next item but there aren&rsquo;t anymore items:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(10)</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">StopIteration</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And so does Python 3&rsquo;s <code>range</code> object:</p>
+<p>Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it&rsquo;ll give you itself back).  Therefore you can iterate over an iterator as well:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 10)</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>xrange</code> object in Python 2 is an iterable (anything you can loop over is an iterable):</p>
+<p>Importantly, it should be noted that iterators are stateful.  Meaning once you&rsquo;ve consumed an item from an iterator, it&rsquo;s gone.  So after you&rsquo;ve looped over an iterator once, it&rsquo;ll be empty if you try to loop over it again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_iterator</span><span class="p">]</span>
+</span><span class='line'><span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Python 3, <code>enumerate</code>, <code>zip</code>, <code>reversed</code>, and a number of other built-in functions return iterators:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -202,16 +219,37 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span> <span class="n">n</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">enumerate</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f04384ff678</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">zip</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a085cc8</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">list_reverseiterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a081f28</span><span class="o">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And the <code>range</code> object in Python 3 is also an iterable:</p>
+<p>Generators (whether from generator functions or generator expressions) are one of the simpler ways to create your own iterators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x7f043a0832b0</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I often say that iterators are lazy single-use iterables.  They&rsquo;re &ldquo;lazy&rdquo; because they have the ability to only compute items as you loop over them.  And they&rsquo;re &ldquo;single-use&rdquo; because once you&rsquo;ve &ldquo;consumed&rdquo; an item from an iterator, it&rsquo;s gone forever.  The term &ldquo;exhausted&rdquo; is often used for an iterator that has been fully consumed.</p>
+
+<p>That was the quick summary of what iterators are.  If you haven&rsquo;t encountered iterators before, I&rsquo;d recommend reviewing them a bit further before continuing on.  I&rsquo;ve written <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">an article which explains iterators</a> and I&rsquo;ve given a talk, <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better</a> which I mentioned earlier, during which I dive a bit deeper into iterators.</p>
+
+<h2>How is range different?</h2>
+
+<p>Okay we&rsquo;ve reviewed iterators.  Let&rsquo;s talk about <code>range</code> now.</p>
+
+<p>The <code>range</code> object in Python 3 (<code>xrange</code> in Python 2) can be looped over like any other iterable:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -219,16 +257,83 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="mi">1</span>
+</span><span class='line'><span class="mi">2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>xrange</code> object has a start, stop, and step.  Step is optional and so is start:</p>
+<p>And because <code>range</code> is an iterable, we can get an iterator from it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">range_iterator</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f043a0a7f90</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>range</code> objects themselves are not iterators.  We <strong>cannot</strong> call <code>next</code> on a <code>range</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;range&#39;</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">an</span> <span class="n">iterator</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And unlike an iterator, we can loop over a <code>range</code> object without consuming it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we did this with an iterator, we&rsquo;d get no elements the second time we looped:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike <code>zip</code>, <code>enumerate</code>, or <code>generator</code> objects, <code>range</code> objects <strong>are not iterators</strong>.</p>
+
+<h2>So what is range?</h2>
+
+<p>The <code>range</code> object is &ldquo;lazy&rdquo; in a sense because it doesn&rsquo;t generate every number that it &ldquo;contains&rdquo; when we create it.  Instead it gives those numbers to us as we need them when looping over it.</p>
+
+<p>Here is a <code>range</code> object and a generator (which is a type of iterator):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike iterators, <code>range</code> objects have a length:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -236,20 +341,16 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="mi">1000000</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="nb">object</span> <span class="n">of</span> <span class="nb">type</span> <span class="s">&#39;generator&#39;</span> <span class="n">has</span> <span class="n">no</span> <span class="nb">len</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So does the <code>range</code> object:</p>
+<p>And they can be indexed:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -257,319 +358,16 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="mi">999998</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squares</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;generator&#39;</span> <span class="nb">object</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">subscriptable</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Both have a length and both can be indexed in forward or reverse order:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="go">5</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python considers both <code>range</code> and <code>xrange</code> to be sequences:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Sequence</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Sequence</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So much of the basic functionality is the same between <code>xrange</code> and <code>range</code>.  Let&rsquo;s talk about the differences.</p>
-
-<h2>Dunder Methods</h2>
-
-<p>The first difference we&rsquo;ll look at is the built-in documentation that exists for Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code>.</p>
-
-<p>If we use the <code>help</code> function to ask <code>xrange</code> for documentation, we&rsquo;ll see a number of dunder methods.  Dunder methods are what Python uses when you use many operators on objects (like <code>+</code> or <code>*</code>) as well as other features shared between different objects (like the <code>len</code> and <code>str</code> functions).</p>
-
-<p>Here are the core dunder methods which Python 2&rsquo;s <code>xrange</code> objects fully implement:</p>
-
-<pre><code> |  __getitem__(...)
- |      x.__getitem__(y) &lt;==&gt; x[y]
- |
- |  __iter__(...)
- |      x.__iter__() &lt;==&gt; iter(x)
- |
- |  __len__(...)
- |      x.__len__() &lt;==&gt; len(x)
- |
- |  __reduce__(...)
- |
- |  __repr__(...)
- |      x.__repr__() &lt;==&gt; repr(x)
- |
- |  __reversed__(...)
- |      Returns a reverse iterator.
-</code></pre>
-
-<p>And here are the core dunder methods which Python 3&rsquo;s <code>range</code> objects fully implement:</p>
-
-<pre><code> |  __contains__(self, key, /)
- |      Return key in self.
- |
- |  __eq__(self, value, /)
- |      Return self==value.
- |
- |  __getitem__(self, key, /)
- |      Return self[key].
- |
- |  __iter__(self, /)
- |      Implement iter(self).
- |
- |  __len__(self, /)
- |      Return len(self).
- |
- |  __ne__(self, value, /)
- |      Return self!=value.
- |
- |  __repr__(self, /)
- |      Return repr(self).
- |
- |  __reversed__(...)
- |      Return a reverse iterator.
- |
- |  count(...)
- |      rangeobject.count(value) -&gt; integer -- return number of occurrences of value
- |
- |  index(...)
- |      rangeobject.index(value, [start, [stop]]) -&gt; integer -- return index of value.
- |      Raise ValueError if the value is not present.
-</code></pre>
-
-<p>Notice that <code>range</code> objects support many more operations than <code>xrange</code> does.  Let&rsquo;s take a look at some of them.</p>
-
-<h2>Comparability</h2>
-
-<p>Python 3&rsquo;s <code>range</code> support equality checks:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 2&rsquo;s <code>xrange</code> objects may seem like they support equality:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But they&rsquo;re actually falling back to Python&rsquo;s default identity check:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Two <code>xrange</code> objects will not be seen as equal unless they are actually the same exact object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whereas a comparison between two <code>range</code> objects in Python 3 actually checks whether the start, stop, and step of each object is equal:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Sliceabiltiy</h2>
-
-<p>We already saw that both Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code> support indexing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">9</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 3&rsquo;s <code>range</code> object also supports slicing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-</span><span class='line'><span class="go">range(2, 10)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">range(3, 8, -1)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <code>xrange</code> doesn&rsquo;t:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">sequence index must be integer, not &#39;slice&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Containment</h2>
-
-<p>Both <code>range</code> and <code>xrange</code> support containment checks:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">5</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this support is a little deceptive with <code>xrange</code>.  Python 2&rsquo;s <code>xrange</code> objects don&rsquo;t actually implement the <code>__contains__</code> method that is used to implement Python&rsquo;s <code>in</code> operator.</p>
-
-<p>So while we can ask whether an <code>xrange</code> object contains a number, in order to answer our question Python will have to manually loop over the <code>xrange</code> object until it finds a match.</p>
-
-<p>This takes about 20 seconds to run on my computer in Python 2.7.12:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But in Python 3 this returns an answer immediately:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 3 is able to return an answer immediately for <code>range</code> objects because it can compute an answer based off the start, stop, and step we provided.</p>
-
-<h2>Start, stop, and step</h2>
-
-<p>In Python 3, <code>range</code> objects have a start, stop, and step:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>These can be useful when playing with or extending the capability of <code>range</code>.</p>
-
-<p>We might for example wish that <code>range</code> objects could be negated to get a mirrored <code>range</code> on the opposite side of the number line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">numbers</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">bad operand type for unary -: &#39;range&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While <code>range</code> objects don&rsquo;t support this feature, we could implement something similar by negating the start, stop, and step ourselves and making a new <code>range</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(-5, -20, -1)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While you can provide start, stop, and step as arguments to Python 2&rsquo;s <code>xrange</code> objects, they don&rsquo;t have these start, stop, and step <strong>attributes</strong> at all:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">AttributeError</span>: <span class="n">&#39;xrange&#39; object has no attribute &#39;start&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you wanted to get start, stop, and step from an <code>xrange</code> object, you would need to calculate them manually.  Something like this might work:</p>
+<p>And unlike iterators, you can ask them whether they contain things without changing their state:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -579,48 +377,18 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">step</span>
-</span><span class='line'><span class="go">1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">numbers</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">numbers</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Support for big numbers</h2>
-
-<p>The last difference I&rsquo;d like to mention is sort of a silly one, but it could be important for some interesting use cases of <code>range</code> and <code>xrange</code>.</p>
-
-<p>In Python 3, the <code>range</code> object will accept integers of any size:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 10000000000000000000)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But Python 2&rsquo;s <code>xrange</code> objects are limited in the size of integers they can accept:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">OverflowError</span>: <span class="n">Python int too large to convert to C long</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I run into this difference most often during my on-site team training sessions because I sometimes use silly examples with big numbers when I teach.</p>
-
-<h2>Is any of this important to know?</h2>
-
-<p>Most of the time you use either Python 2&rsquo;s <code>xrange</code> objects or Python 3&rsquo;s <code>range</code> objects, you&rsquo;ll probably just be creating them and looping over them immediately:</p>
+<p>If you&rsquo;re looking for a description for <code>range</code> objects, you could call them &ldquo;lazy sequences&rdquo;.  They&rsquo;re sequences (like lists, tuples, and strings) but they don&rsquo;t really contain any memory under the hood and instead answer questions computationally.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -629,25 +397,72 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="go">6</span>
-</span><span class='line'><span class="go">9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So the missing <code>xrange</code> features I noted above don&rsquo;t matter most of the time.</p>
+<h2>Why does this distinction matter?</h2>
 
-<p>However, there are times when it&rsquo;s useful to have a sequence of consecutive numbers that supports features like slicing, fast containment checks, or equality.  In those cases, Python 2 users will be tempted to fall back to the Python 2 <code>range</code> function which returns a list.  In Python 3 though, you&rsquo;ll pretty much always find what you&rsquo;re looking for in the <code>range</code> class.  For pretty much every operation you&rsquo;ll want to perform, <strong>Python 3&rsquo;s <code>range</code> is fast, memory-efficient, and powerful</strong>.</p>
+<p>It might seem like I&rsquo;m nitpicking in saying that range isn&rsquo;t an iterator, but I really don&rsquo;t think I am.</p>
 
-<p>Python 3 put a lot of work into making sure its built-ins are memory efficient and fast.  Many built-in functions (e.g. <code>zip</code>, <code>map</code>, <code>filter</code>) now return iterators and lazy objects instead of lists.</p>
+<p>If I tell you something is an iterator, you&rsquo;ll know that when you call <code>iter</code> on it you&rsquo;ll always get the same object back (by definition):</p>
 
-<p>At the same time, Python 3 made common functions and classes, like <code>range</code>, more featureful.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">iter</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span> <span class="ow">is</span> <span class="n">my_iterator</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>There are many big improvements that Python 3 made over Python 2, but there are <strong>many many more tiny benefits to upgrading to Python 3</strong>.  If you haven&rsquo;t already, I&rsquo;d strongly consider whether it makes sense for you to upgrade your code to Python 3.</p>
+
+<p>And you&rsquo;ll be certain that you can call <code>next</code> on it because you can call <code>next</code> on all iterators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="mi">4</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">StopIteration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And you&rsquo;ll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">,</span> <span class="n">my_iterator</span><span class="p">))</span>
+</span><span class='line'><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So while it may seem like the difference between &ldquo;lazy iterable&rdquo; and &ldquo;iterator&rdquo; is subtle, these terms really do mean different things.  While &ldquo;lazy iterable&rdquo; is a very general term without concrete meaning, the word &ldquo;iterator&rdquo; implies an object with a very specific set of behaviors.</p>
+
+<h2>When in doubt say &ldquo;iterable&rdquo; or &ldquo;lazy iterable&rdquo;</h2>
+
+<p>If you know you can loop over something, it&rsquo;s an <strong>iterable</strong>.</p>
+
+<p>If you know the thing you&rsquo;re looping over happens to compute things as you loop over it, it&rsquo;s a <strong>lazy iterable</strong>.</p>
+
+<p>If you know you can pass something to the <code>next</code> function, it&rsquo;s an <strong>iterator</strong> (which are the most common form of lazy iterables).</p>
+
+<p>If you can loop over something multiple times without &ldquo;exhausting&rdquo; it, it&rsquo;s not an iterator.  If you can&rsquo;t pass something to the <code>next</code> function, it&rsquo;s not an iterator.  Python 3&rsquo;s <code>range</code> object is not an iterator.  If you&rsquo;re teaching people about <code>range</code> objects, please don&rsquo;t use the word &ldquo;iterator&rdquo;.  It&rsquo;s confusing and might cause others to start misusing the word &ldquo;iterator&rdquo; as well.</p>
+
+<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
+
+<p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
 </div>
   
   <footer>

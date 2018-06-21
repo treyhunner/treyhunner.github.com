@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="About five years ago a friend taught me a card game called Cabo. It was a memory game of sorts. It plays quickly and is perfect while idling between &hellip;">
+  <meta name="description" content="Sometimes the Pythonic way to solve a problem changes over time. As Python has evolved, so has the Pythonic way to count list items. Let&rsquo;s look &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,7 +103,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/06/cabo-card-game/">The Cabo card game</a></h1>
+      <h1 class="entry-title"><a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a></h1>
     
     
       <p class="meta">
@@ -112,134 +112,297 @@
 
 
 
-<time class='entry-date' datetime='2015-06-04T11:30:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 am</span></time>
+<time class='entry-date' datetime='2015-11-09T11:30:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 am</span></time>
         
-           | <a href="/2015/06/cabo-card-game/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/06/cabo-card-game/">Comments</a>
+           | <a href="/2015/11/counting-things-in-python/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/11/counting-things-in-python/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>About five years ago a friend taught me a card game called Cabo.  It was a memory game of sorts.  It plays quickly and is perfect while idling between activities.  I have spread this game to dozens of people at tech conferences, most recently during PyCon 2015.</p>
+  <div class="entry-content"><p>Sometimes the <a href="http://nedbatchelder.com/blog/201011/pythonic.html">Pythonic</a> way to solve a problem changes over time.  As Python has evolved, so has the Pythonic way to count list items.</p>
 
-<p>I often use this game as an ice breaker.  The conversation usually goes something like this:</p>
+<p>Let&rsquo;s look at different techniques for counting the number of times things appear in a list.  While analyzing these techniques, we will <em>only</em> be looking at code style.  We&rsquo;ll worry about performance later.</p>
 
-<p><strong>Me</strong>: Hi. Would you like to play a fairly quick card game?  It&rsquo;s called Cabo.<br/>
-<strong>Them</strong>: I&rsquo;ve never heard of it.<br/>
-<strong>Me</strong>: I&rsquo;ve never met anyone who has.  I&rsquo;ll teach you the rules.<br/>
-<strong>Them</strong>: What kind of game is it?<br/>
-<strong>Me</strong>: An information management game (&ldquo;memory game&rdquo; seems to discourage people).<br/>
-<strong>Them</strong>: Hm okay.</p>
+<p>We will need some historical context to understand these different techniques.  Fortunately we live in the <code>__future__</code> and we have a time machine.  Let&rsquo;s jump in our DeLorean and head to 1997.</p>
 
-<p>Cabo did not have a Wikipedia article when I first learned about it and I couldn&rsquo;t find anything online about it.  There is now a <a href="https://en.wikipedia.org/wiki/Cabo_(game)">Wikipedia entry for Cabo</a> and I ran across a website selling special Cabo playing cards: <a href="http://www.playcabo.com/">playcabo.com</a>.</p>
+<h2>if Statement</h2>
 
-<p>I have thought about making an online version of this game, printing playing cards with custom Cabo-themed artwork, and making an open source program that knows the rules of Cabo so I could use it as a teaching tool.  After chatting with friends I met at PyCon, I looked into what it would take to print a custom card deck to sell or gift to friends.</p>
+<p>It&rsquo;s January 1, 1997 and we&rsquo;re using Python 1.4.  We have a list of colors and we&rsquo;d love to know how many times each color occurs in this list.  Let&rsquo;s use <a href="https://docs.python.org/release/1.4/lib/node13.html">a dictionary</a>!</p>
 
-<p>I contacted the owner of <a href="http://www.playcabo.com/">playcabo.com</a> and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like <a href="https://en.wikipedia.org/wiki/Big_Two">Big Two</a>, <a href="https://en.wikipedia.org/wiki/Durak">Durak</a>, and <a href="https://en.wikipedia.org/wiki/Egyptian_Ratscrew">Egyptian Ratscrew</a>.  I was wrong.  This game has a known creator.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Hard work was put into the creation of this game.  This game was designed by Melissa Limes and Mandy Henning.  Melissa founded Eventide Games LLC, registered Cabo as a trademark, and registered a copyright for the rules.  I was a little disappointed to discover that Cabo is owned property, but I was very excited to discover the origins of this game.</p>
 
-<p>The game I know as Cabo is a little different from the one that Melissa Limes sells.  Her game seems more kid-friendly and more beginner-friendly.  With Melissa&rsquo;s permission, I will now share with you the rules for a game I know as Cabo.</p>
+<p><strong>Note:</strong> we&rsquo;re not using <code>+=</code> because augmented assignment won&rsquo;t be added until <a href="https://www.python.org/dev/peps/pep-0203/">Python 2.0</a> and we&rsquo;re not using the <code>c in color_counts</code> idiom because that won&rsquo;t be invented until <a href="https://docs.python.org/release/2.2/lib/typesmapping.html">Python 2.2</a>!</p>
 
-<h2>Cabo: the rules I know</h2>
+<p>After running this we&rsquo;ll see that our <code>color_counts</code> dictionary now contains the counts of each color in our list:</p>
 
-<h3>Setup</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
+</span><span class='line'><span class="go">{&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Each player starts with four cards, placed face-down and arranged into a two-by-two grid.  No one may look at any cards.</p>
 
-<p>In the beginning of the game all players will look at their bottom two cards (the ones closest to them) one time only.  Try to remember your cards.</p>
+<p>That was pretty simple.  We just looped through each color, checked if it was in the dictionary, added the color if it wasn&rsquo;t, and incremented the count if it was.</p>
 
-<h3>Objective</h3>
+<p>We could also write this as:</p>
 
-<p>The objective is to end the game with the lowest score.  Score is determined by summing up the value of each of your cards.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Card values:</p>
+
+<p>This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we&rsquo;re not worried about performance, we&rsquo;re worried about code style.  After some thought, we decide to stick with this new version.</p>
+
+<h2>try Block</h2>
+
+<p>It&rsquo;s January 2, 1997 and we&rsquo;re still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing &ldquo;Look Before You Leap&rdquo; (<a href="https://docs.python.org/2/glossary.html#term-lbyl">LBYL</a>) when we should be practicing &ldquo;Easier to Ask Forgiveness, Than Permission&rdquo; (<a href="https://docs.python.org/2/glossary.html#term-eafp">EAFP</a>) because EAFP is more Pythonic.  Let&rsquo;s refactor our code to use a try-except block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now our code attempts to increment the count for each color and if the color isn&rsquo;t in the dictionary, a <code>KeyError</code> will be raised and we will instead set the color count to 1 for the color.</p>
+
+<h2>get Method</h2>
+
+<p>It&rsquo;s January 1, 1998 and we&rsquo;ve upgraded to Python 1.5.  We&rsquo;ve decided to refactor our code to use the <a href="https://docs.python.org/release/1.5/lib/node13.html">new <code>get</code> method on dictionaries</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now our code loops through each color, gets the current count for the color from the dictionary, defaulting this count to <code>0</code>, adds <code>1</code> to the count, and sets the dictionary key to this new value.</p>
+
+<p>It&rsquo;s cool that this is all one line of code, but we&rsquo;re not entirely sure if this is more Pythonic.  We decide this might be too clever so we revert this change.</p>
+
+<h2>setdefault</h2>
+
+<p>It&rsquo;s January 1, 2001 and we&rsquo;re now using Python 2.0!  We&rsquo;ve heard that <a href="https://docs.python.org/release/2.0/lib/typesmapping.html">dictionaries have a <code>setdefault</code> method now</a> and we decide to refactor our code to use this new method.  We also decide to use the new <code>+=</code> augmented assignment operator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>setdefault</code> method is being called on every loop, regardless of whether it&rsquo;s needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.</p>
+
+<h2>fromkeys</h2>
+
+<p>It&rsquo;s January 1, 2004 and we&rsquo;re using Python 2.3.  We&rsquo;ve heard about a <a href="https://docs.python.org/release/2.3/lib/typesmapping.html">new <code>fromkeys</code> class method</a> on dictionaries for constructing dictionaries from a list of keys.  We refactor our code to use this new method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This creates a new dictionary using our colors as keys, with all values set to <code>0</code> initially.  This allows us to increment each key without worrying whether it has been set.  We&rsquo;ve removed the need for any checking or exception handling which seems like an improvement.  We decide to keep this change.</p>
+
+<h2>Comprehension and set</h2>
+
+<p>It&rsquo;s January 1, 2005 and we&rsquo;re using Python 2.4.  We realize that we could solve our counting problem using sets (<a href="https://docs.python.org/release/2.3/lib/module-sets.html">released in Python 2.3</a> and made into <a href="https://docs.python.org/release/2.4/lib/types-set.html">a built-in in 2.4</a>) and list comprehensions (<a href="https://www.python.org/dev/peps/pep-0202/">released in Python 2.0</a>).  After further thought, we remember that <a href="https://www.python.org/dev/peps/pep-0289/">generator expressions</a> were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">colors</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: we didn&rsquo;t use a dictionary comprehension because those won&rsquo;t be invented until <a href="https://www.python.org/dev/peps/pep-0274/">Python 2.7</a>.</p>
+
+<p>This works.  It&rsquo;s one line of code.  But is it Pythonic?</p>
+
+<p>We remember the <a href="https://www.python.org/dev/peps/pep-0020/">Zen of Python</a>, which <a href="https://mail.python.org/pipermail/python-list/1999-June/001951.html">started in a python-list email thread</a> and was <a href="http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&amp;view=markup">snuck into Python 2.2.1</a>.  We type <code>import this</code> at our REPL:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">this</span>
+</span><span class='line'><span class="go">The Zen of Python, by Tim Peters</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">Beautiful is better than ugly.</span>
+</span><span class='line'><span class="go">Explicit is better than implicit.</span>
+</span><span class='line'><span class="go">Simple is better than complex.</span>
+</span><span class='line'><span class="go">Complex is better than complicated.</span>
+</span><span class='line'><span class="go">Flat is better than nested.</span>
+</span><span class='line'><span class="go">Sparse is better than dense.</span>
+</span><span class='line'><span class="go">Readability counts.</span>
+</span><span class='line'><span class="go">Special cases aren&#39;t special enough to break the rules.</span>
+</span><span class='line'><span class="go">Although practicality beats purity.</span>
+</span><span class='line'><span class="go">Errors should never pass silently.</span>
+</span><span class='line'><span class="go">Unless explicitly silenced.</span>
+</span><span class='line'><span class="go">In the face of ambiguity, refuse the temptation to guess.</span>
+</span><span class='line'><span class="go">There should be one-- and preferably only one --obvious way to do it.</span>
+</span><span class='line'><span class="go">Although that way may not be obvious at first unless you&#39;re Dutch.</span>
+</span><span class='line'><span class="go">Now is better than never.</span>
+</span><span class='line'><span class="go">Although never is often better than *right* now.</span>
+</span><span class='line'><span class="go">If the implementation is hard to explain, it&#39;s a bad idea.</span>
+</span><span class='line'><span class="go">If the implementation is easy to explain, it may be a good idea.</span>
+</span><span class='line'><span class="go">Namespaces are one honking great idea -- let&#39;s do more of those!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our code is <em>more complex</em> (<strong>O(n<sup>2</sup>)</strong> instead of <strong>O(n)</strong>), <em>less beautiful</em>, and <em>less readable</em>.  That change was a fun experiment, but this one-line solution is <strong>less Pythonic</strong> than what we already had.  We decide to revert this change.</p>
+
+<h2>defaultdict</h2>
+
+<p>It&rsquo;s January 1, 2007 and we&rsquo;re using Python 2.5.  We&rsquo;ve just found out that <a href="https://docs.python.org/release/2.5/lib/defaultdict-objects.html"><code>defaultdict</code> is in the standard library</a> now.  This should allow us to set <code>0</code> as the default value in our dictionary.  Let&rsquo;s refactor our code to count using a <code>defaultdict</code> instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>for</code> loop is so simple now!  This is almost certainly more Pythonic.</p>
+
+<p>We realize that our <code>color_counts</code> variable does act differently, however it <em>does</em> inherit from <code>dict</code> and supports all the same mapping functionality.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
+</span><span class='line'><span class="go">defaultdict(&lt;type &#39;int&#39;&gt;, {&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead of converting <code>color_counts</code> to a <code>dict</code>, we&rsquo;ll assume the rest of our code practices <a href="https://docs.python.org/2/glossary.html#term-duck-typing">duck typing</a> and leave this dict-like object as-is.</p>
+
+<h2>Counter</h2>
+
+<p>It&rsquo;s January 1, 2011 and we&rsquo;re using Python 2.7.  We&rsquo;ve been told that our <code>defaultdict</code> code is no longer the most Pythonic way to count colors.  <a href="https://docs.python.org/2.7/library/collections.html#collections.Counter">A <code>Counter</code> class was included in the standard library</a> in Python 2.7 and it does all of the work for us!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Could this get any simpler?  This must be the most Pythonic way.</p>
+
+<p>Like <code>defaultdict</code>, this returns a dict-like object (a <code>dict</code> subclass actually), which should be good enough for our purposes, so we&rsquo;ll stick with it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
+</span><span class='line'><span class="go">Counter({&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>After thought: Performance</h2>
+
+<p>Notice that we didn&rsquo;t focus on efficiency for these solutions.  Most of these solutions have the same time complexity (<code>O(n)</code> in big O notation) but runtimes could vary based on the Python implementation.</p>
+
+<p>While performance isn&rsquo;t our main concern, <a href="https://gist.github.com/treyhunner/0987601f960a5617a1be">I did measure the run-times on CPython 3.5.0</a>.  It&rsquo;s interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.</p>
+
+<h2>Conclusion</h2>
+
+<p>Per the <a href="https://www.python.org/dev/peps/pep-0020/">Zen of Python</a>, &ldquo;there should be one&ndash; and preferably only one&ndash; obvious way to do it&rdquo;.  This is an aspirational message.  There isn&rsquo;t always one obvious way to do it.  The &ldquo;obvious&rdquo; way can vary by time, need, and level of expertise.</p>
+
+<p><strong>&ldquo;Pythonic&rdquo; is a relative term.</strong></p>
+
+<h3>Related Resources</h3>
 
 <ul>
-<li>Ace is worth 1</li>
-<li>Jack is worth 11</li>
-<li>Queen is worth 12</li>
-<li>King of diamonds (the one-eyed king) is worth 0 points</li>
-<li>The other three kings are worth 13 points</li>
+<li><a href="http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html">import this and the Zen of Python</a>: Zen of Python trivia borrowed from this post</li>
+<li><a href="https://www.youtube.com/watch?v=AZDWveIdqjY">Permission or Forgiveness</a>: Alex Martelli discusses Grace Hopper&rsquo;s EAFP</li>
+<li><a href="https://codefisher.org/catch/blog/2015/04/22/python-how-group-and-count-dictionaries/">Python How To: Group and Count with Dictionaries</a>: while writing this post, I discovered this related article</li>
 </ul>
 
 
-<p>1 through 6 are the &ldquo;low cards&rdquo;.  They have a low point value and are fairly desirable.</p>
+<h3>Credits</h3>
 
-<p>7 through Queen are the &ldquo;power cards&rdquo;.  You will not want to keep them for their points, but if you draw one on your turn you can choose to use its power.  More on this below.</p>
-
-<p>The one-eyed king is great but the other kings have no abilities and they are not particularly desirable.</p>
-
-<h3>Gameplay</h3>
-
-<p>We never had a rule for who goes first, so the game starts by someone declaring that they are going first or pointing at someone else to indicate that they go first.</p>
-
-<p>On your turn you may either:</p>
-
-<ul>
-<li>Draw a card from the deck (the face-down pile)</li>
-<li>Draw a card from the discard pile (which is face-up)</li>
-</ul>
-
-
-<p>When drawing you may either:</p>
-
-<ol>
-<li><p>Swap the drawn card with one of your own cards</p>
-
-<p>You pick one of your cards, discard it and put the card you just drew in its place.</p></li>
-<li><p>Match the drawn card with any other cards you know with the same face</p>
-
-<p>You can match the drawn card with any cards on the table (not counting draw piles) with the same face (e.g. queens match queens, and fives match fives).  All matched cards are discarded.  All cards matched from other player&rsquo;s hands should be replaced with a card from your hand.  No one may look at the replaced cards when they are moved.  All matched cards are discarded.  Every card you match results in one less card in your hand.</p>
-
-<p>The card that initiated the matching goes on top of the discard pile after matching (this only matters when the one-eyed king is matched).</p>
-
-<p>Sometimes memories fail.  If you mess up while matching, you must take a penalty card for each mistake.  You cannot look at the penalty card.</p></li>
-<li><p>Discard the drawn card (just put it on top of the discard pile)</p>
-
-<p>This is a common move when drawing a king as they are worth 13 points and have no special powers.</p></li>
-<li><p>Use the card you drew as a power card (for 7, 8, 9, 10, Jack, Queen)</p>
-
-<p>There are three types of power cards which you can remember with this rhyme:</p>
-
-<ul>
-<li><strong>Seven or eight, know your fate</strong>: look at one of your own cards and then put it back (only you get to see it)</li>
-<li><strong>Nine or ten, know a friend</strong>: look at one card from someone else and then put it back (only you get to see it)</li>
-<li><strong>Jack or Queen, switch between</strong>: trade the places of any two cards on the table (excluding draw piles)</li>
-</ul>
-
-
-<p>When using a power card, put the card in the discard pile and then use the power.  That&rsquo;s your whole turn.  <strong>You may only use a card&rsquo;s power when drawing from the face-down pile.</strong></p></li>
-</ol>
-
-
-<h3>End Game</h3>
-
-<p>If at any point during a person&rsquo;s turn they call &ldquo;Cabo&rdquo;, everyone except for that person gets one more turn and then the game ends.</p>
-
-<p>There are two other ways the game may end:</p>
-
-<ol>
-<li>Someone runs out of cards (they match their last card)</li>
-<li>The deck runs out (alternatively you could re-shuffle and keep playing)</li>
-</ol>
-
-
-<p>The lowest total score wins (see objective).</p>
-
-<h2>Buy a custom deck</h2>
-
-<p>The version of the game I know is played with a standard 52-card deck.  To play this version you need to remember the rules and the rhyme.</p>
-
-<p>The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at <a href="http://www.playcabo.com/">PlayCabo.com</a>.</p>
-
-<h2>Play it</h2>
-
-<p>Try out Cabo and let me know what you think.  If the rules need clarification, I&rsquo;m happy to update this post.</p>
-
-<p>If you like this game, spread it everywhere you go.  It&rsquo;s a great ice breaker and a fun way to pass the time.</p>
+<p>Thanks to <a href="http://brianschrader.com/">Brian Schrader</a> and <a href="http://stackoverflow.com/users/400617/davidism">David Lord</a> for proof-reading this post and <a href="http://micah.bigprob.net/">Micah Denbraver</a> for actually <a href="https://gist.github.com/macro1/9b364612ee3907df4179">testing out these solutions</a> on the correct versions of Python.</p>
 </div>
   
   <footer>
