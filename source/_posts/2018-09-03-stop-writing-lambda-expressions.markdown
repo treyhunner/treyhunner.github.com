@@ -6,21 +6,71 @@ comments: true
 categories: 
 ---
 
-It's hard for me to teach an in-depth Intro to Python class without mentioning lambda expressions.
-I've tried, but I *always* get questions about them.
-Sometimes it's because my students see them in code that their coworkers wrote.
-Sometimes it's because they see lambda expressions in answers on Stack Overflow.
-Sometimes it's because they see lambda expressions in code that their coworkers copy-pasted from Stack Overflow. 😉
+It's hard for me to teach an in-depth Python class without discussing lambda expressions.
+I almost always get questions about them.
+My students tend to see them in code on StackOverflow or they see them in a coworker's code (which, realistically, may have also come from StackOverflow).
 
-Python's lambda expressions are a "love it or hate" feature.
-I wouldn't say I hate them, but I have acquired a general dislike of them.
-My aversion to lambda expressions has been strengthened since I started teaching Python more regularly a few years ago.
+I'm hesitant to recommend my students embrace Python's lambda expressions.
+Python's lambda is a "love it or hate" feature and while I wouldn't say I hate them, I have acquired a general dislike of them.
+And from the time I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.
 
-I'd like to discuss how I see lambda expressions and why I tend to dislike them.
+I'm going to explain how I see lambda expressions and why I tend to dislike them.
 
 ## Lambda expressions in Python: what are they?
 
-Python's lambda expressions are Python's version of anonymous functions.
+Lambda expressions a special syntax in Python for creating [anonymous functions][].
+I'll call the `lambda` syntax itself a **lambda expression** and the function you get back from this I'll call a **lambda function**.
+
+Python's lambda allows a function to be created and passed around (often into another function) all in one line of code.
+Instead of this:
+
+```python
+colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+def lowercase(string):
+    return string.lower()
+
+normalized_colors = map(lowercase, colors)
+```
+
+We could do this:
+
+```python
+colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+normalized_colors = map(lambda s: s.lower(), colors)
+```
+
+Lambda expressions are just a special syntax for making functions.
+They can only have one statement in them and they return the result of that statement automatically.
+
+The limitations of lambda expressions are also part of their appeal.
+When you see a lambda expression you know you're working with a function that does a single thing and is only used in one place.
+
+
+
+The function you get back from a `lambda` expression has no name.
+
+You could try to "name" a lambda function but assigning a lambda function to a variable name isn't the same as actually giving the function object itself a name:
+
+```python
+>>> lowercase = lambda s: s.lower()
+>>> lowercase
+<function <lambda> at 0x7f264d5b91e0>
+```
+
+## Where they're usually used
+
+You'll typically see `lambda` expressions used when calling functions (or classes) that accept a function as their argument.
+
+Python's built-in `sorted` function accepts a function as its `key` argument.  This *key function* is used to compute a comparison key when determining the sorting order of items.  For example, here we're sorting words by ignoring their case:
+
+```python
+>>> colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+>>> sorted(colors, key=lambda s: s.lower())
+```
+
+This works but that lambda expression is rarely more immediately clear than a clearly named function
 
 They ...
 
@@ -33,15 +83,10 @@ As far as language features go, Python's lambda expressions sometimes feel like 
 
 ## When not to use them
 
+```python
 my_func = lambda x: x
+```
 PEP8 says not to do this
-
-
-## Where they're usually used
-
-sorted(things, key=lambda x: x)
-
-This works but that lambda expression is rarely more immediately clear than a clearly named function
 
 
 ## Why I dislike them
@@ -81,3 +126,5 @@ Using lambda expressions is fine if:
 - The operation you're doing is trivial: the function doesn't deserve a name
 - Having a lambda expression makes your code more understandable than any function name you can think of
 - Everyone on your team understands lambda expressions fairly well and you've all agreed to use them
+
+[anonymous functions]: https://en.wikipedia.org/wiki/Anonymous_function
