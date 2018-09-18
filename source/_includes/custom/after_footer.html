@@ -1,3 +1,22 @@
-{% comment %}
-  Add content to be output at the bottom of each page. (You might use this for analytics scripts, for example)
-{% endcomment %}
+{% comment %} Use section tag to work around Octopress's awfully generic body>div styling {% endcomment %}
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <p>
+      Build your Python skills with 1 Python exercise every week.
+    </p>
+    <p>
+      Enter your email below to get started:
+    </p>
+    <form method="post" action="https://www.pythonmorsels.com/email-signup/">
+      <input type="email" name="email" placeholder="email@domain.com">
+      <input type="submit" value="Sign me up!">
+    </form>
+  </div>
+</section>
