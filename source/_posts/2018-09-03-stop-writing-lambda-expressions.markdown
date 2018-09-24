@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Stop writing lambda expressions in Python"
-date: 2018-09-13 10:00:00 -0700
+date: 2018-09-25 07:30:00 -0700
 comments: true
-categories: 
+categories: python
 ---
 
 It's hard for me to teach an in-depth Python class without discussing lambda expressions.
