@@ -116,7 +116,7 @@ def normalize_case(s): return s.casefold()
 
 PEP8 recommends this because named functions are a common and easily understood thing.
 This also has the benefit of giving our function a proper name, which could make debugging easier.
-Unlike functions defined with `def` lambda functions never have a name (it's always `<lambda>`):
+Unlike functions defined with `def`, lambda functions never have a name (it's always `<lambda>`):
 
 ```python
 >>> normalize_case = lambda s: s.casefold()
@@ -324,7 +324,7 @@ I *usually* find using the functions in the `operator` module make my code clear
 
 ## Overuse: using lambda when the alternative is more readable
 
-Lambda expressions are useful when you're passing functions into other functions, which common when practicing functional programming.  Functional programming isn't the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.
+Lambda expressions are useful when you're passing functions into other functions, which is common when practicing functional programming.  Functional programming isn't the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.
 
 Compare this:
 
