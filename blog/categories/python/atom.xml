@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-09-18T20:41:59-07:00</updated>
+  <updated>2018-09-26T21:18:22-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,385 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Stop writing lambda expressions in Python]]></title>
+    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <updated>2018-09-27T07:30:00-07:00</updated>
+    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
+I almost always get questions about them.
+My students tend to see them in code on StackOverflow or they see them in a coworker&rsquo;s code (which, realistically, may have also come from StackOverflow).</p>
+
+<p>I get a lot of questions about lambda, I&rsquo;m hesitant to recommend my students embrace Python&rsquo;s lambda expressions.
+I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
+
+<p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
+
+<h2>Lambda expressions in Python: what are they?</h2>
+
+<p>Lambda expressions a special syntax in Python for creating <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a>.
+I&rsquo;ll call the <code>lambda</code> syntax itself a <strong>lambda expression</strong> and the function you get back from this I&rsquo;ll call a <strong>lambda function</strong>.</p>
+
+<p>Python&rsquo;s lambda expressions allow a function to be created and passed around (often into another function) all in one line of code.</p>
+
+<p>Lambda expressions allow us to take this code:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+def normalize_case(string):
+    return string.casefold()
+
+normalized_colors = map(normalize_case, colors)
+</code></pre>
+
+<p>And turn it into this code:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+normalized_colors = map(lambda s: s.casefold(), colors)
+</code></pre>
+
+<p>Lambda expressions are just a special syntax for making functions.
+They can only have one statement in them and they return the result of that statement automatically.</p>
+
+<p>The inherent limitations of lambda expressions are actually part of their appeal.
+When an experienced Python programmer sees a lambda expression they know that they&rsquo;re working with a function that is <strong>only used in one place</strong> and does <strong>just one thing</strong>.</p>
+
+<p>If you&rsquo;ve ever used anonymous functions in JavaScript before, you can think of Python&rsquo;s lambda expressions as the same, except they have more restrictions and use a very different syntax than the traditional function syntax.</p>
+
+<h2>Where they&rsquo;re usually used</h2>
+
+<p>You&rsquo;ll typically see <code>lambda</code> expressions used when calling functions (or classes) that accept a function as an argument.</p>
+
+<p>Python&rsquo;s built-in <code>sorted</code> function accepts a function as its <code>key</code> argument.  This <em>key function</em> is used to compute a comparison key when determining the sorting order of items.</p>
+
+<p>So <code>sorted</code> is a great example of a place that lambda expressions are often used:</p>
+
+<pre><code class="python">&gt;&gt;&gt; colors = ["Goldenrod", "purple", "Salmon", "turquoise", "cyan"]
+&gt;&gt;&gt; sorted(colors, key=lambda s: s.casefold())
+['cyan', 'Goldenrod', 'purple', 'Salmon', 'turquoise']
+</code></pre>
+
+<p>The above code returns the given colors sorted in a case-insensitive way.</p>
+
+<p>The <code>sorted</code> function isn&rsquo;t the only use of lambda expressions, but it&rsquo;s a common one.</p>
+
+<h2>The pros and cons of lambda</h2>
+
+<p>I frame my thinking around lambda expressions as a constant comparison to using <code>def</code> to define functions.
+Both of these tools give us functions, but they each have different limitations and use a different syntax.</p>
+
+<p>The main ways lambda expressions are different from <code>def</code>:</p>
+
+<ol>
+<li>They can be immediately passed around (no variable needed)</li>
+<li>They can only have a single line of code within them</li>
+<li>They return automatically</li>
+<li>They can&rsquo;t have a docstring and they don&rsquo;t have a name</li>
+<li>They use a different and unfamiliar syntax</li>
+</ol>
+
+
+<p>The fact that lambda expressions can be passed around is their biggest benefit.  Returning automatically is neat but not a big benefit in my mind.  I find the &ldquo;single line of code&rdquo; limitation is neither good nor bad overall.  The fact that lambda functions can&rsquo;t have docstrings and don&rsquo;t have a name is unfortunate and their unfamiliar syntax can be troublesome for newer Pythonistas.</p>
+
+<p>Overall I feel the cons slightly outweigh the pros of lambda expressions, but my biggest complaint about them is that I find that they tend to be both misused and overused.</p>
+
+<h2>Lambda is both misused and overused</h2>
+
+<p>When I see a lambda expression in unfamiliar code I immediately become skeptical.
+When I encounter a lambda expression in the wild, I often find that removing it improves code readability.</p>
+
+<p>Sometimes the issue is that lambda expressions are being misused, meaning they&rsquo;re <strong>used in a way that is nearly always unideal</strong>.
+Other times lambda expressions are simply being overused, meaning they&rsquo;re acceptable but I&rsquo;d personally <strong>prefer to see the code written a different way</strong>.</p>
+
+<p>Let&rsquo;s take a look at the various ways lambda expressions are misused and overused.</p>
+
+<h2>Misuse: naming lambda expressions</h2>
+
+<p>PEP8, the official Python style guide, advises never to write code like this:</p>
+
+<pre><code class="python">normalize_case = lambda s: s.casefold()
+</code></pre>
+
+<p>The above statement makes an anonymous function and then assigns it to a variable.
+The above code ignores the reason lambda functions are useful: <strong>lambda functions can be passed around without needing to be assigned to a variable first</strong>.</p>
+
+<p>If you want to create a one-liner function and store it in a variable, you should use <code>def</code> instead:</p>
+
+<pre><code class="python">def normalize_case(s): return s.casefold()
+</code></pre>
+
+<p>PEP8 recommends this because named functions are a common and easily understood thing.
+This also has the benefit of giving our function a proper name, which could make debugging easier.
+Unlike functions defined with <code>def</code>, lambda functions never have a name (it&rsquo;s always <code>&lt;lambda&gt;</code>):</p>
+
+<pre><code class="python">&gt;&gt;&gt; normalize_case = lambda s: s.casefold()
+&gt;&gt;&gt; normalize_case
+&lt;function &lt;lambda&gt; at 0x7f264d5b91e0&gt;
+&gt;&gt;&gt; def normalize_case(s): return s.casefold()
+...
+&gt;&gt;&gt; normalize_case
+&lt;function normalize_case at 0x7f247f68fea0&gt;
+</code></pre>
+
+<p><strong>If you want to create a function and store it in a variable, define your function using <code>def</code></strong>.
+That&rsquo;s exactly what it&rsquo;s for.
+It doesn&rsquo;t matter if your function is a single line of code or if you&rsquo;re defining a function inside of another function, <code>def</code> works just fine for those use cases.</p>
+
+<h2>Misuse: needless function calls</h2>
+
+<p>I frequently see lambda expressions used to wrap around a function that was already appropriate for the problem at hand.</p>
+
+<p>For example take this code:</p>
+
+<pre><code class="python">sorted_numbers = sorted(numbers, key=lambda n: abs(n))
+</code></pre>
+
+<p>The person who wrote this code likely learned that lambda expressions are used for making a function that can be passed around.
+But they missed out on a slightly bigger picture idea: <strong>all functions in Python (not just lambda functions) can be passed around</strong>.</p>
+
+<p>Since <code>abs</code> (which returns the absolute value of a number) is a function and all functions can be passed around, we could actually have written the above code like this:</p>
+
+<pre><code class="python">sorted_numbers = sorted(numbers, key=abs)
+</code></pre>
+
+<p>Now this example might feel contrived, but it&rsquo;s not terribly uncommon to overuse lambda expressions in this way.  Here&rsquo;s another example I&rsquo;ve seen:</p>
+
+<pre><code class="python">pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
+sorted_by_smallest = sorted(pairs, key=lambda x, y: min(x, y))
+</code></pre>
+
+<p>Because we&rsquo;re accepting exactly the same arguments as we&rsquo;re passing into <code>min</code>, we don&rsquo;t need that extra function call.  We can just pass the <code>min</code> function to <code>key</code> instead:</p>
+
+<pre><code class="python">pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
+sorted_by_smallest = sorted(pairs, key=min)
+</code></pre>
+
+<p>You don&rsquo;t need a lambda function if you already have another function that does what you want.</p>
+
+<h2>Overuse: simple, but non-trivial functions</h2>
+
+<p>It&rsquo;s common to see lambda expressions used to make a function that returns a couple of values in a tuple:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+colors_by_length = sorted(colors, key=lambda c: (len(c), c.casefold()))
+</code></pre>
+
+<p>That <code>key</code> function here is helping us sort these colors by their length followed by their case-normalized name.</p>
+
+<p>This code is the same as the above code, but I find it more readable:</p>
+
+<pre><code class="python">def length_and_alphabetical(string):
+    """Return sort key: length first, then case-normalized string."""
+    return (len(string), string.casefold())
+
+colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+colors_by_length = sorted(colors, key=length_and_alphabetical)
+</code></pre>
+
+<p>This code is quite a bit more verbose, but I find the name of that key function makes it clearer what we&rsquo;re sorting by.
+We&rsquo;re not just sorting by the length and we&rsquo;re not just sorting by the color: we&rsquo;re sorting by both.</p>
+
+<p><strong>If a function is important, it deserves a name</strong>.
+You could argue that most functions that are used in a lambda expression are so trivial that they don&rsquo;t deserve a name, but there&rsquo;s often little downside to naming functions and I find it usually makes my code more readable overall.</p>
+
+<p>Naming functions often makes code more readable, the same way <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">using tuple unpacking to name variables</a> instead of using arbitrary index-lookups often makes code more readable.</p>
+
+<h2>Overuse: when multiple lines would help</h2>
+
+<p>Sometimes the &ldquo;just one line&rdquo; aspect of lambda expressions cause us to write code in convoluted ways.  For example take this code:</p>
+
+<pre><code class="python">points = [((1, 2), 'red'), ((3, 4), 'green')]
+points_by_color = sorted(points, key=lambda p: p[1])
+</code></pre>
+
+<p>We&rsquo;re hard-coding an index lookup here to sort points by their color.
+If we used a named function we could have used <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">tuple unpacking</a> to make this code more readable:</p>
+
+<pre><code class="python">def color_of_point(point):
+    """Return the color of the given point."""
+    (x, y), color = point
+    return color
+
+points = [((1, 2), 'red'), ((3, 4), 'green')]
+points_by_color = sorted(points, key=color_of_point)
+</code></pre>
+
+<p>Tuple unpacking can improve readability over using hard-coded index lookups.
+<strong>Using lambda expressions often means sacrificing some Python language features</strong>, specifically those that require multiple lines of code (like an extra assignment statement).</p>
+
+<h2>Overuse: lambda with map and filter</h2>
+
+<p>Python&rsquo;s map and filter functions are almost always paired with lambda expressions.  It&rsquo;s common to see StackOverflow questions asking &ldquo;what is lambda&rdquo; answered with code examples like this:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
+&gt;&gt;&gt; squared_numbers = map(lambda n: n**2, numbers)
+&gt;&gt;&gt; odd_numbers = filter(lambda n: n % 2 == 1, numbers)
+</code></pre>
+
+<p>I find these examples a bit confusing because <strong>I almost never use map and filter in my code</strong>.</p>
+
+<p>Python&rsquo;s <code>map</code> and <code>filter</code> functions are used for looping over an iterable and making a new iterable that either slightly changes each element or filters the iterable down to only elements that match a certain condition.
+We can accomplish both of those tasks just as well with list comprehensions or generator expressions:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
+&gt;&gt;&gt; squared_numbers = (n**2 for n in numbers)
+&gt;&gt;&gt; odd_numbers = (n for n in numbers if n % 2 == 1)
+</code></pre>
+
+<p>Personally, I&rsquo;d prefer to see the above generator expressions written over multiple lines of code (<a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">see my article on comprehensions</a>) but I find even these one-line generator expressions more readable than those <code>map</code> and <code>filter</code> calls.</p>
+
+<p>The general operations of mapping and filtering are useful, but we really don&rsquo;t need the <code>map</code> and <code>filter</code> functions themselves.
+Generator expressions are a special syntax that exists just for the tasks of mapping and filtering.
+So my advice is to <strong>use generator expressions instead of the <code>map</code> and <code>filter</code> functions</strong>.</p>
+
+<h2>Misuse: sometimes you don&rsquo;t even need to pass a function</h2>
+
+<p>What about cases where you need to pass around a function that performs a single operation?</p>
+
+<p>Newer Pythonistas who are keen on functional programming sometimes write code like this:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+total = reduce(lambda x, y: x + y, numbers)
+</code></pre>
+
+<p>This code adds all the numbers in the <code>numbers</code> list.
+There&rsquo;s an even better way to do this:</p>
+
+<pre><code class="python">numbers = [2, 1, 3, 4, 7, 11, 18]
+total = sum(numbers)
+</code></pre>
+
+<p>Python&rsquo;s built-in <code>sum</code> function was made just for this task.</p>
+
+<p>The <code>sum</code> function, along with a number of other specialized Python tools, are easy to overlook.
+But I&rsquo;d encourage you to seek out the more specialized tools when you need them because they often make for more readable code.</p>
+
+<p>Instead of passing functions into other functions, <strong>look into whether there is a more specialized way to solve your problem instead</strong>.</p>
+
+<h2>Overuse: using lambda for very simple operations</h2>
+
+<p>Let&rsquo;s say instead of adding numbers up, we&rsquo;re multiply numbers together:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(lambda x, y: x * y, numbers, 1)
+</code></pre>
+
+<p>The above lambda expression is necessary because we&rsquo;re not allowed to pass the <code>*</code> operator around as if it were a function.
+If there was a function that was equivalent to <code>*</code>, we could pass it into the <code>reduce</code> function instead.</p>
+
+<p>Python&rsquo;s standard library actually has a whole module meant to address this problem:</p>
+
+<pre><code class="python">from functools import reduce
+from operator import mul
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(mul, numbers, 1)
+</code></pre>
+
+<p>Python&rsquo;s <a href="https://docs.python.org/3/library/operator.html">operator module</a> exists to make various Python operators easy to use as functions.
+If you&rsquo;re practicing functional(ish) programming, <strong>Python&rsquo;s <code>operator</code> module is your friend</strong>.</p>
+
+<p>In addition to providing functions corresponding to Python&rsquo;s many operators, the <code>operator</code> module provides a couple common higher level functions for accessing items and attributes and calling methods.</p>
+
+<p>There&rsquo;s <code>itemgetter</code> for accessing indexes of a list/sequence or keys of a dictionary/mapping:</p>
+
+<pre><code class="python"># Without operator: accessing a key/index
+rows_sorted_by_city = sorted(rows, key=lambda row: row['city'])
+
+# With operator: accessing a key/index
+from operator import itemgetter
+rows_sorted_by_city = sorted(rows, key=itemgetter('city'))
+</code></pre>
+
+<p>There&rsquo;s also <code>attrgetter</code> for accessing attributes on an object:</p>
+
+<pre><code class="python"># Without operator: accessing an attribute
+products_by_quantity = sorted(products, key=lambda p: p.quantity)
+
+# With operator: accessing an attribute
+from operator import attrgetter
+products_by_quantity = sorted(products, key=attrgetter('quantity'))
+</code></pre>
+
+<p>And <code>methodcaller</code> for calling methods on an object:</p>
+
+<pre><code class="python"># Without operator: calling a method
+sorted_colors = sorted(colors, key=lambda s: s.casefold())
+
+# With operator: calling a method
+from operator import methodcaller
+sorted_colors = sorted(colors, key=methodcaller('casefold'))
+</code></pre>
+
+<p>I <em>usually</em> find that <strong>using the functions in the <code>operator</code> module makes my code clearer</strong> than if I&rsquo;d used an equivalent lambda expression.</p>
+
+<h2>Overuse: when higher order functions add confusion</h2>
+
+<p>A function that accepts a function as an argument is called a <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher order function</a>.  Higher order functions are the kinds of functions that we tend to pass lambda functions to.</p>
+
+<p>The use of higher order functions is common when practicing functional programming.  Functional programming isn&rsquo;t the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.</p>
+
+<p>Compare this:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(lambda x, y: x * y, numbers, 1)
+</code></pre>
+
+<p>To this:</p>
+
+<pre><code class="python">def multiply_all(numbers):
+    """Return the product of the given numbers."""
+    product = 1
+    for n in numbers:
+        product *= n
+    return product
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = multiply_all(numbers)
+</code></pre>
+
+<p>The second code is longer, but folks without a functional programming background will often find it easier to understand.</p>
+
+<p>Anyone who has gone through one of my Python training courses can probably understand what that <code>multiply_all</code> function does, whereas that <code>reduce</code>/<code>lambda</code> combination is likely a bit more cryptic for many Python programmers.</p>
+
+<p>In general, <strong>passing one function into another function, tends to make code more complex, which can hurt readability</strong>.</p>
+
+<h2>Should you ever use lambda expressions?</h2>
+
+<p>So I find the use of lambda expressions problematic because:</p>
+
+<ul>
+<li>lambda expressions are an odd and unfamiliar syntax to many Python programmers</li>
+<li>lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do</li>
+<li>lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can&rsquo;t be used with them</li>
+<li>lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python</li>
+</ul>
+
+
+<p>Lambda expressions are rarely more immediately readable than a well-named function.
+While a <code>def</code> statement is often more understandable, <strong>Python also has a number of features that can be used to replace lambda expressions</strong>, including special syntaxes (comprehensions), built-in functions (sum), and standard library functions (in the <code>operators</code> module).</p>
+
+<p>I&rsquo;d say that using lambda expressions is acceptable only if your situation meets all four of these criteria:</p>
+
+<ol>
+<li>The operation you&rsquo;re doing is trivial: the function doesn&rsquo;t deserve a name</li>
+<li>Having a lambda expression makes your code more understandable than the function names you can think of</li>
+<li>You&rsquo;re pretty sure there&rsquo;s not already a function that does what you&rsquo;re looking for</li>
+<li>Everyone on your team understands lambda expressions and you&rsquo;ve all agreed to use them</li>
+</ol>
+
+
+<p>If any of those four statements don&rsquo;t fit your situation, I&rsquo;d recommend <strong>writing a new function using <code>def</code></strong> and (whenever possible) <strong>embracing a function that already exists within Python</strong> that already does what you&rsquo;re looking for.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to make an iterator in Python]]></title>
@@ -1655,242 +2034,6 @@ It&rsquo;s also common to overlook the fact that multiple assignment works <em>d
 
 <p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
 Please feel free to use this article as your personal reference guide to multiple assignment.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python: range is not an iterator!]]></title>
-    <link href="http://treyhunner.com/2018/02/python-range-is-not-an-iterator/"/>
-    <updated>2018-02-28T16:00:00-08:00</updated>
-    <id>http://treyhunner.com/2018/02/python-range-is-not-an-iterator</id>
-    <content type="html"><![CDATA[<p>After my <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better talk at PyGotham 2017</a> someone asked me a great question: iterators are lazy iterables and <code>range</code> is a lazy iterable in Python 3, so is <code>range</code> an iterator?</p>
-
-<p>Unfortunately, I don&rsquo;t remember the name of the person who asked me this question.  I do remember saying something along the lines of &ldquo;oh I love that question!&rdquo;</p>
-
-<p>I love this question because <code>range</code> objects in Python 3 (<a href="treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">xrange in Python 2</a>) are lazy, but <strong>range objects are not iterators</strong> and this is something I see folks mix up frequently.</p>
-
-<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
-
-<h2>Yes this <em>is</em> confusing</h2>
-
-<p>When people talk about iterators and iterables in Python, you&rsquo;re likely to hear the someone repeat the misconception that <code>range</code> is an iterator.  This mistake might seem unimportant at first, but I think it&rsquo;s actually a pretty critical one.  If you believe that <code>range</code> objects are iterators, your mental model of how iterators work in Python <em>isn&rsquo;t clear enough yet</em>.  Both <code>range</code> and iterators are &ldquo;lazy&rdquo; in a sense, but they&rsquo;re lazy in fairly different ways.</p>
-
-<p>With this article I&rsquo;m going to explain how iterators work, how <code>range</code> works, and how the laziness of these two types of &ldquo;lazy iterables&rdquo; differs.</p>
-
-<p>But first, I&rsquo;d like to ask that you <strong>do not use the information below as an excuse to be unkind to anyone</strong>, whether new learners or experienced Python programmers.  Many people have used Python very happily for years without fully understanding the distinction I&rsquo;m about to explain.  You can write many thousands of lines of Python code without having a strong mental model of how iterators work.</p>
-
-<h2>What&rsquo;s an iterator?</h2>
-
-<p>In Python an iterable is anything that you can iterate over and an iterator is the thing that does the actual iterating.</p>
-
-<p>Iter-<strong>ables</strong> are able to be iterated over.  Iter-<strong>ators</strong> are the agents that perform the iteration.</p>
-
-<p>You can get an iterator from any iterable in Python by using the <code>iter</code> function:</p>
-
-<pre><code class="python">&gt;&gt;&gt; iter([1, 2])
-&lt;list_iterator object at 0x7f043a081da0&gt;
-&gt;&gt;&gt; iter('hello')
-&lt;str_iterator object at 0x7f043a081dd8&gt;
-</code></pre>
-
-<p>Once you have an iterator, the only thing you can do with it is get its next item:</p>
-
-<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
-&gt;&gt;&gt; next(my_iterator)
-1
-&gt;&gt;&gt; next(my_iterator)
-2
-</code></pre>
-
-<p>And you&rsquo;ll get a stop iteration exception if you ask for the next item but there aren&rsquo;t anymore items:</p>
-
-<pre><code class="python">&gt;&gt;&gt; next(my_iterator)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-StopIteration
-</code></pre>
-
-<p>Both conveniently and somewhat confusingly, all iterators are also iterables.  Meaning you can get an iterator from an iterator (it&rsquo;ll give you itself back).  Therefore you can iterate over an iterator as well:</p>
-
-<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
-&gt;&gt;&gt; [x**2 for x in my_iterator]
-[1, 4]
-</code></pre>
-
-<p>Importantly, it should be noted that iterators are stateful.  Meaning once you&rsquo;ve consumed an item from an iterator, it&rsquo;s gone.  So after you&rsquo;ve looped over an iterator once, it&rsquo;ll be empty if you try to loop over it again:</p>
-
-<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2])
-&gt;&gt;&gt; [x**2 for x in my_iterator]
-[1, 4]
-&gt;&gt;&gt; [x**2 for x in my_iterator]
-[]
-</code></pre>
-
-<p>In Python 3, <code>enumerate</code>, <code>zip</code>, <code>reversed</code>, and a number of other built-in functions return iterators:</p>
-
-<pre><code class="python">&gt;&gt;&gt; enumerate(numbers)
-&lt;enumerate object at 0x7f04384ff678&gt;
-&gt;&gt;&gt; zip(numbers, numbers)
-&lt;zip object at 0x7f043a085cc8&gt;
-&gt;&gt;&gt; reversed(numbers)
-&lt;list_reverseiterator object at 0x7f043a081f28&gt;
-</code></pre>
-
-<p>Generators (whether from generator functions or generator expressions) are one of the simpler ways to create your own iterators:</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers = [1, 2, 3, 4, 5]
-&gt;&gt;&gt; squares = (n**2 for n in numbers)
-&gt;&gt;&gt; squares
-&lt;generator object &lt;genexpr&gt; at 0x7f043a0832b0&gt;
-</code></pre>
-
-<p>I often say that iterators are lazy single-use iterables.  They&rsquo;re &ldquo;lazy&rdquo; because they have the ability to only compute items as you loop over them.  And they&rsquo;re &ldquo;single-use&rdquo; because once you&rsquo;ve &ldquo;consumed&rdquo; an item from an iterator, it&rsquo;s gone forever.  The term &ldquo;exhausted&rdquo; is often used for an iterator that has been fully consumed.</p>
-
-<p>That was the quick summary of what iterators are.  If you haven&rsquo;t encountered iterators before, I&rsquo;d recommend reviewing them a bit further before continuing on.  I&rsquo;ve written <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">an article which explains iterators</a> and I&rsquo;ve given a talk, <a href="https://www.youtube.com/watch?v=Wd7vcuiMhxU">Loop Better</a> which I mentioned earlier, during which I dive a bit deeper into iterators.</p>
-
-<h2>How is range different?</h2>
-
-<p>Okay we&rsquo;ve reviewed iterators.  Let&rsquo;s talk about <code>range</code> now.</p>
-
-<p>The <code>range</code> object in Python 3 (<code>xrange</code> in Python 2) can be looped over like any other iterable:</p>
-
-<pre><code class="python">&gt;&gt;&gt; for n in range(3):
-...     print(n)
-...
-0
-1
-2
-</code></pre>
-
-<p>And because <code>range</code> is an iterable, we can get an iterator from it:</p>
-
-<pre><code class="python">&gt;&gt;&gt; iter(range(3))
-&lt;range_iterator object at 0x7f043a0a7f90&gt;
-</code></pre>
-
-<p>But <code>range</code> objects themselves are not iterators.  We <strong>cannot</strong> call <code>next</code> on a <code>range</code> object:</p>
-
-<pre><code class="python">&gt;&gt;&gt; next(range(3))
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: 'range' object is not an iterator
-</code></pre>
-
-<p>And unlike an iterator, we can loop over a <code>range</code> object without consuming it:</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers = range(3)
-&gt;&gt;&gt; tuple(numbers)
-(0, 1, 2)
-&gt;&gt;&gt; tuple(numbers)
-(0, 1, 2)
-</code></pre>
-
-<p>If we did this with an iterator, we&rsquo;d get no elements the second time we looped:</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers = iter(range(3))
-&gt;&gt;&gt; tuple(numbers)
-(0, 1, 2)
-&gt;&gt;&gt; tuple(numbers)
-()
-</code></pre>
-
-<p>Unlike <code>zip</code>, <code>enumerate</code>, or <code>generator</code> objects, <code>range</code> objects <strong>are not iterators</strong>.</p>
-
-<h2>So what is range?</h2>
-
-<p>The <code>range</code> object is &ldquo;lazy&rdquo; in a sense because it doesn&rsquo;t generate every number that it &ldquo;contains&rdquo; when we create it.  Instead it gives those numbers to us as we need them when looping over it.</p>
-
-<p>Here is a <code>range</code> object and a generator (which is a type of iterator):</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers = range(1_000_000)
-&gt;&gt;&gt; squares = (n**2 for n in numbers)
-</code></pre>
-
-<p>Unlike iterators, <code>range</code> objects have a length:</p>
-
-<pre><code class="python">&gt;&gt;&gt; len(numbers)
-1000000
-&gt;&gt;&gt; len(squares)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: object of type 'generator' has no len()
-</code></pre>
-
-<p>And they can be indexed:</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers[-2]
-999998
-&gt;&gt;&gt; squares[-2]
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: 'generator' object is not subscriptable
-</code></pre>
-
-<p>And unlike iterators, you can ask them whether they contain things without changing their state:</p>
-
-<pre><code class="python">&gt;&gt;&gt; 0 in numbers
-True
-&gt;&gt;&gt; 0 in numbers
-True
-&gt;&gt;&gt; 0 in squares
-True
-&gt;&gt;&gt; 0 in squares
-False
-</code></pre>
-
-<p>If you&rsquo;re looking for a description for <code>range</code> objects, you could call them &ldquo;lazy sequences&rdquo;.  They&rsquo;re sequences (like lists, tuples, and strings) but they don&rsquo;t really contain any memory under the hood and instead answer questions computationally.</p>
-
-<pre><code class="python">&gt;&gt;&gt; from collections.abc import Sequence
-&gt;&gt;&gt; isinstance([1, 2], Sequence)
-True
-&gt;&gt;&gt; isinstance('hello', Sequence)
-True
-&gt;&gt;&gt; isinstance(range(3), Sequence)
-True
-</code></pre>
-
-<h2>Why does this distinction matter?</h2>
-
-<p>It might seem like I&rsquo;m nitpicking in saying that range isn&rsquo;t an iterator, but I really don&rsquo;t think I am.</p>
-
-<p>If I tell you something is an iterator, you&rsquo;ll know that when you call <code>iter</code> on it you&rsquo;ll always get the same object back (by definition):</p>
-
-<pre><code>&gt;&gt;&gt; iter(my_iterator) is my_iterator
-True
-</code></pre>
-
-<p>And you&rsquo;ll be certain that you can call <code>next</code> on it because you can call <code>next</code> on all iterators:</p>
-
-<pre><code>&gt;&gt;&gt; next(my_iterator)
-4
-&gt;&gt;&gt; next(my_iterator)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-StopIteration
-</code></pre>
-
-<p>And you&rsquo;ll know that items will be consumed from the iterator as you loop over it.  Sometimes this feature can come in handy for processing iterators in particular ways:</p>
-
-<pre><code class="python">&gt;&gt;&gt; my_iterator = iter([1, 2, 3, 4])
-&gt;&gt;&gt; list(zip(my_iterator, my_iterator))
-[(1, 2), (3, 4)]
-</code></pre>
-
-<p>So while it may seem like the difference between &ldquo;lazy iterable&rdquo; and &ldquo;iterator&rdquo; is subtle, these terms really do mean different things.  While &ldquo;lazy iterable&rdquo; is a very general term without concrete meaning, the word &ldquo;iterator&rdquo; implies an object with a very specific set of behaviors.</p>
-
-<h2>When in doubt say &ldquo;iterable&rdquo; or &ldquo;lazy iterable&rdquo;</h2>
-
-<p>If you know you can loop over something, it&rsquo;s an <strong>iterable</strong>.</p>
-
-<p>If you know the thing you&rsquo;re looping over happens to compute things as you loop over it, it&rsquo;s a <strong>lazy iterable</strong>.</p>
-
-<p>If you know you can pass something to the <code>next</code> function, it&rsquo;s an <strong>iterator</strong> (which are the most common form of lazy iterables).</p>
-
-<p>If you can loop over something multiple times without &ldquo;exhausting&rdquo; it, it&rsquo;s not an iterator.  If you can&rsquo;t pass something to the <code>next</code> function, it&rsquo;s not an iterator.  Python 3&rsquo;s <code>range</code> object is not an iterator.  If you&rsquo;re teaching people about <code>range</code> objects, please don&rsquo;t use the word &ldquo;iterator&rdquo;.  It&rsquo;s confusing and might cause others to start misusing the word &ldquo;iterator&rdquo; as well.</p>
-
-<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
-
-<p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
 ]]></content>
   </entry>
   

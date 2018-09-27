@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to &hellip;">
+  <meta name="description" content="May 2013 Update: django-simple-history is back Recently I had a need to store a snapshot of every state of particular model instance in a Django &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,9 +28,23 @@
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 
-<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
-<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
-<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  <!-- Drip -->
+<script type="text/javascript">
+  var _dcq = _dcq || [];
+  var _dcs = _dcs || {};
+  _dcs.account = '3945860';
+
+  (function() {
+    var dc = document.createElement('script');
+    dc.type = 'text/javascript'; dc.async = true;
+    dc.src = '//tag.getdrip.com/3945860.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(dc, s);
+  })();
+</script>
+<!-- end Drip -->
 
   
   <script type="text/javascript">
@@ -89,7 +103,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/04/sharing-screenshots-in-linux/">Sharing Screenshots in Linux</a></h1>
+      <h1 class="entry-title"><a href="/2011/09/django-and-model-history/">Django and model history</a></h1>
     
     
       <p class="meta">
@@ -98,61 +112,37 @@
 
 
 
-<time class='entry-date' datetime='2011-04-03T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2011-09-29T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2011/04/sharing-screenshots-in-linux/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2011/04/sharing-screenshots-in-linux/">Comments</a>
+           | <a href="/2011/09/django-and-model-history/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2011/09/django-and-model-history/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to demonstrate bugs and Issues does not support file uploads.  There are <a href="http://wiki.dropbox.com/DropboxAddons/DropboxScreenGrabber">Windows</a> and <a href="http://www.getcloudapp.com/">Mac</a> applications that solve this problem by capturing a screenshot, uploading it, and copying a URL to access the screenshot to the clipboard.</p>
+  <div class="entry-content"><p><strong>May 2013 Update:</strong> <a href="http://treyhunner.com/2013/05/django-simple-history/">django-simple-history is back</a></p>
 
-<p>I did not find any Linux applications that will capture/upload a screenshot and copy the URL but I discovered <a href="http://forums.dropbox.com/topic.php?id=21735">a thread in the Dropbox forums</a> with a script that does just that.  I added comments to the script, changed the variable names, removed the need for a temporary file, and added a <code>notify-send</code> call as a visual cue (should work on Ubuntu).  I have the script mapped to <kbd>Ctrl-PrtScrn</kbd> in Ubuntu.</p>
+<p>Recently I had a need to store a snapshot of every state of particular model instance in a Django application.  I basically needed version control for the rows in my database tables.  When searching for applications that provided this feature, which I call <strong>model history</strong>, I found <a href="http://djangopackages.com/grids/g/model-audit/">many different approaches</a> but few good comparisons of them.  In an attempt to fill that void, I&rsquo;m going to detail some of my findings here.</p>
 
-<div><script src='https://gist.github.com/892492.js'></script>
-<noscript><pre><code>#!/bin/sh
-# Ubuntu-specific modification of http://wiki.dropbox.com/TipsAndTricks/ShareScreenshots
+<h3>django-reversion</h3>
 
-# Change these
-DB_USER_ID=YOURDBUSERID
-BITLY_USERNAME=YOURBITLYUSERNAME
-BITLY_API_KEY=YOURBITLYKEYHERE
-DROPBOX_PUBLIC_DIR=~/Dropbox/Public
-SCREENSHOT_DIR=screenshots
+<p>The <a href="https://github.com/etianen/django-reversion">django-reversion</a> application was started in 2008 by Dave Hall.  Reversion uses only one table to store data for all version-tracked models.  Each version of a model adds a new row to this table, using a JSON object representing the model state.  Models can be reverted to previous versions from the admin interface.  This single-table version structure makes django-reversion very easy to install and to uninstall, but it also creates <a href="http://groups.google.com/group/django-reversion/browse_thread/thread/922b4e42d9577e0b">problems when model fields are changed</a>.</p>
 
-CAPTURE_DELAY=0
-PICTURE_QUALITY=50
-FILE_EXTENSION=png
-TIME=$(date +%Y%m%d%H%M%S)
-FILENAME=$TIME.$FILE_EXTENSION
+<h3>django-revisions</h3>
 
-# Move to the directory where screenshots will be stored
-mkdir -p $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
-cd $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+<p>The <a href="https://github.com/stdbrouw/django-revisions">django-revisions</a> application was created by Stijn Debrouwere in 2010 because the existing Django model history applications at the time were abandoned or suffered from fundamental design problems.  Revisions uses a model history method called same-table versioning (<a href="http://stdbrouw.github.com/django-revisions/design.html">design details outlined here</a>).  Same-table versioning adds a few fields to each version-tracked model which allows it to record the most recent version of each model as well as old versions in the original model table.  Model changes are simplified because they change all versions at once and no new tables need to be added to use revisions (just new fields on existing tables).  The only problem I found with revisions was that it does not currently support database-level uniqueness constraints.  Adding <code>unique=True</code> to a model field or a <code>unique_together</code> Meta attribute will result in an error.  Currently uniqueness constraints must be specified in a separate way for Revisions to honor them when saving models.</p>
 
-# Take screenshot and save in screenshot directory
-scrot -d $CAPTURE_DELAY -q $PICTURE_QUALITY $FILENAME
+<h3>django-simple-history</h3>
 
-# Get Dropbox public URL for screenshot
-DB_URL=&quot;http://dl.dropbox.com/u/$DB_USER_ID/$SCREENSHOT_DIR/$FILENAME&quot;
+<p>The <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a> application was based on code originally written by Marty Alchin, author of Pro Django.  Marty Alchin posted <a href="https://code.djangoproject.com/wiki/AuditTrail">AuditTrail</a> on the Django trac wiki in 2007 and later revised and republished the code in his book Pro Django in 2008, renaming it to HistoricalRecords.  Corey Bertram created django-simple-history from this code and put it online in 2010.</p>
 
-# Get bit.ly shortened URL for Dropbox URL
-ESCAPED_DB_URL=&quot;$(echo $DB_URL | sed &#39;s,:,%3A,g;s,/,%2F,g&#39;)&quot;
-BITLY_API_CALL=&quot;http://api.bit.ly/v3/shorten?login=$BITLY_USERNAME&amp;apiKey=$BITLY_API_KEY&amp;longUrl=$ESCAPED_DB_URL&amp;format=txt&quot;
-SHORT_URL=$(curl -s -S $BITLY_API_CALL)
+<p>Simple History works by creating a separate &ldquo;historical&rdquo; model for each model that requires an audit trail and storing a snapshot of each changed model instance in that historical model.  For example, a Book model would have a HistoricalBook created from it that would store a new HistoricalBook instance every time a Book instance was changed.  Collisions are avoided by disabling uniqueness constraints and model schema changes are accepted by automatically changing historical models as well.  This method comes at the cost of creating an extra table in the database for each model that needs history.</p>
 
-# Copy shortened URL to clipboard
-echo $SHORT_URL | xclip -sel clip
+<h3>My conclusions</h3>
 
-# Display message to user (requires libnotify)
-notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboard: $SHORT_URL&quot;
-</code></pre></noscript></div>
-
-
-
+<p>When testing these three applications myself, I immediately eliminated django-reversion because I needed to allow easy model schema changes for my project.  I found that both django-revisions and django-simple-history worked well with schema migrations through <a href="http://south.aeracode.org/docs/about.html">South</a> (which I use on everything).  Django-revisions worked better for data migrations in South (due to only needing to change one model), but the uniqueness constraint problems with django-revisions would have been problematic for some of my models.  So eventually I settled on <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a>.</p>
 </div>
   
   <footer>
@@ -297,27 +287,6 @@ notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboa
 
 
 
-<section id="funnel-tools-capture" class="bounceInUp">
-  <div class="close">&#10005;</div>
-  <div class="open">&#8593;</div>
-
-  <div class="title">
-    Write more Pythonic code
-  </div>
-
-  <div class="description">
-    <p>
-      Build your Python skills with 1 Python exercise every week.
-    </p>
-    <p>
-      Enter your email below to get started:
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/email-signup/">
-      <input type="email" name="email" placeholder="email@domain.com">
-      <input type="submit" value="Sign me up!">
-    </form>
-  </div>
-</section>
 
 
 </body>
