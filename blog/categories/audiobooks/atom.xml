@@ -4,7 +4,7 @@
   <title><![CDATA[Category: audiobooks | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/audiobooks/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-09-26T21:18:22-07:00</updated>
+  <updated>2018-09-27T07:22:36-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -392,118 +392,7 @@ each book to discover what versions (if any) are available from each.  I got
 sick of searching both websites all the time, so I just created a Python script
 to do that work for me.</p>
 
-<p><div><script src='https://gist.github.com/21f307b975027be5162d.js'></script>
-<noscript><pre><code>#!/usr/bin/env python
-&quot;&quot;&quot;
-Search downpour.com and emusic.com for DRM-free audiobooks
-
-Usage::
-
-    ./find_audiobooks.py &lt;title&gt;...
-
-File released to the public domain under CC0 license:
-http://creativecommons.org/publicdomain/zero/1.0/deed
-
-Requires purl and beautifulsoup4::
-
-    $ pip install purl beautifulsoup4
-
-&quot;&quot;&quot;
-from __future__ import unicode_literals
-import sys
-from itertools import chain, izip_longest
-import urllib2
-
-from bs4 import BeautifulSoup
-from purl import URL
-
-
-def unescape(text):
-    &quot;&quot;&quot;Return string without smart apostrophes&quot;&quot;&quot;
-    return text.replace(&#39;\u2019&#39;, &quot;&#39;&quot;)
-
-
-def get_downpour_url(book_name):
-    &quot;&quot;&quot;Return search URL for downpour.com&quot;&quot;&quot;
-    base = URL(&quot;http://www.downpour.com/catalogsearch/result/&quot;)
-    return base.query_param(&#39;q&#39;, book_name).as_string()
-
-
-def get_emusic_url(book_name):
-    &quot;&quot;&quot;Return search URL for emusic.com&quot;&quot;&quot;
-    base_url = URL(&quot;http://www.emusic.com/search/book/&quot;)
-    return base_url.query_param(&#39;s&#39;, book_name).as_string()
-
-
-def search_downpour(book_name):
-    &quot;&quot;&quot;Search Downpour and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_downpour_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;item&quot;})
-    results = []
-    for book in books:
-        header = book.find(attrs={&#39;class&#39;: &quot;product-name&quot;})
-        link_tag = header.find(&#39;a&#39;)
-        title = &#39; &#39;.join(unescape(x)
-                         for x in link_tag.stripped_strings)
-        link = link_tag[&#39;href&#39;]
-        for node in book.find_all(attrs={&#39;class&#39;: &#39;author&#39;}):
-            author_text = node.text
-            if author_text.startswith(&#39;By&#39;):
-                author = author_text[2:].strip()
-        results.append({
-            &#39;title&#39;: title,
-            &#39;link&#39;: link,
-            &#39;author&#39;: author,
-        })
-    return results
-
-
-def search_emusic(book_name):
-    &quot;&quot;&quot;Search eMusic and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_emusic_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;bundle&quot;})
-    results = []
-    for book in books:
-        link_tag = book.find(&#39;h4&#39;).find(&#39;a&#39;)
-        author_tag = book.find(&#39;h5&#39;)
-        results.append({
-            &#39;title&#39;: link_tag.text,
-            &#39;link&#39;: link_tag[&#39;href&#39;],
-            &#39;author&#39;: author_tag.text,
-        })
-    return results
-
-
-def print_result(result):
-    &quot;&quot;&quot;Print title, author, and link for audiobook result&quot;&quot;&quot;
-    print &quot;Title: {}&quot;.format(result[&#39;title&#39;])
-    print &quot;Author: {}&quot;.format(result[&#39;author&#39;])
-    print &quot;Link: {}&quot;.format(result[&#39;link&#39;])
-    print
-
-
-def merge_lists(*lists):
-    &quot;&quot;&quot;Return merge of lists by alternating elements of each&quot;&quot;&quot;
-    combined_lists = chain.from_iterable(izip_longest(*lists))
-    return list(filter(bool, combined_lists))
-
-
-def main(*args):
-    &quot;&quot;&quot;Search audiobook sites and return search results&quot;&quot;&quot;
-    for book_name in args:
-        results1 = search_downpour(book_name)
-        results2 = search_emusic(book_name)
-        results = merge_lists(results1[:3], results2[:3])
-        for result in results:
-            print_result(result)
-
-
-if __name__ == &quot;__main__&quot;:
-    main(*sys.argv[1:])
-</code></pre></noscript></div>
-</p>
+<p>{% gist 21f307b975027be5162d %}</p>
 
 <h3>Future Improvements</h3>
 

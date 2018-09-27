@@ -9,8 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="In my last post I discussed the names Python library that generates
-random names. I&rsquo;ve now used this Python library to make a basic Flask &hellip;">
+  <meta name="description" content="I&rsquo;ve used multiple websites to generate random names for my test data when
+running manual or automated QA tests. Since discovering DuckDuckGo& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -29,23 +29,9 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 
-<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
-
-  <!-- Drip -->
-<script type="text/javascript">
-  var _dcq = _dcq || [];
-  var _dcs = _dcs || {};
-  _dcs.account = '3945860';
-
-  (function() {
-    var dc = document.createElement('script');
-    dc.type = 'text/javascript'; dc.async = true;
-    dc.src = '//tag.getdrip.com/3945860.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(dc, s);
-  })();
-</script>
-<!-- end Drip -->
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
   <script type="text/javascript">
@@ -104,7 +90,7 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/03/pseudorandom.name/">Random name generator website</a></h1>
+      <h1 class="entry-title"><a href="/2013/02/random-name-generator/">Random name generator in Python</a></h1>
     
     
       <p class="meta">
@@ -113,56 +99,66 @@ random names. I&rsquo;ve now used this Python library to make a basic Flask &hel
 
 
 
-<time class='entry-date' datetime='2013-03-10T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/03/pseudorandom.name/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/03/pseudorandom.name/">Comments</a>
+           | <a href="/2013/02/random-name-generator/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/02/random-name-generator/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In my <a href="/2013/02/random-name-generator/">last post</a> I discussed the <strong>names</strong> Python library that generates
-random names.  I&rsquo;ve now used this Python library to make a basic Flask website
-that generates random names.  You can visit it at:
-<a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a></p>
+  <div class="entry-content"><p>I&rsquo;ve used multiple websites to generate random names for my test data when
+running manual or automated QA tests.</p>
 
-<h2>It&rsquo;s responsive</h2>
+<p>Since discovering DuckDuckGo&rsquo;s <a href="https://duckduckgo.com/?q=random+word">random word</a> generation, I&rsquo;ve
+<a href="https://duckduckhack.uservoice.com/forums/5168-ideas-for-duckduckgo-instant-answer-plugins/suggestions/2850418-random-name">hoped</a> that someone would make a DuckDuckGo plugin to generate
+random names also.</p>
 
-<p>The font size and margin on pseudorandom.name change based on the web browser
-width and height.  I determined the font sizes I wanted to use for each screen
-width by using the longest first and last name in the name files I&rsquo;m using (11
-and 13 characters respectively).  The website looks reasonable on various
-desktop resolutions and on phone screens.</p>
+<p>I didn&rsquo;t want to write my own DuckDuckGo plugin yet so I made a Python-powered
+command line tool instead using <a href="https://www.census.gov/genealogy/www/data/1990surnames/index.html">1990 Census data</a>.</p>
 
-<h2>It&rsquo;s an HTTP API</h2>
+<p>The program is called <code>names</code> and can be found on <a href="https://github.com/treyhunner/names">Github</a> and <a href="http://pypi.python.org/pypi/names/0.1">PyPI</a>.</p>
 
-<p>If curl is used to access the site, plain text is returned instead of an HTML
-webpage.  For example:</p>
+<h3>It&rsquo;s really simple</h3>
 
-<pre><code>curl www.pseudorandom.name
+<p>It&rsquo;s basically just one file currently that&rsquo;s <a href="https://github.com/treyhunner/names/blob/f99542dc21f48aa82da4406f8ce408e92639430d/names/__init__.py">about 40 lines long</a>.
+There is only one feature available from the command line currently: generate a
+single random full name.  There&rsquo;s a few more features if importing as a Python
+package: generate random last name or generate random first name (with or
+without specifying gender), generate random full name (also without or without
+gender).</p>
+
+<p>The random name picker relies on the cumulative frequencies listed in the
+included Census data files.  Here&rsquo;s the steps that are taken:
+1. A random floating point number is chosen between 0.0 and 90.0
+2. Name file lines are iterated through until a cumulative frequency is found
+that is less than the randomly generated number
+3. The name on that line is chosen and returned (or printed out)</p>
+
+<h3>Examples</h3>
+
+<p>Here&rsquo;s how you use it from the command line:</p>
+
+<pre><code>$ names
+Kara Lopes
 </code></pre>
 
-<p>The site is hosted on Heroku which <a href="https://devcenter.heroku.com/articles/custom-domains#apex-domains-examplecom">doesn&rsquo;t support bare domains</a>.
-Currently <a href="http://pseudorandom.name">http://pseudorandom.name</a> redirects to <a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a> so
-using the bare domain requires telling curl to follow redirects with <code>-L</code>:</p>
+<p>Here&rsquo;s how you use it as a Python package:</p>
 
-<pre><code>curl -L pseudorandom.name
+<pre><code>&gt;&gt;&gt; import names
+&gt;&gt;&gt; names.get_full_name()
+u'Patricia Halford'
+&gt;&gt;&gt; names.get_full_name(gender='male')
+u'Patrick Keating'
+&gt;&gt;&gt; names.get_first_name()
+'Bernard'
+&gt;&gt;&gt; names.get_first_name(gender='female')
+'Christina'
+&gt;&gt;&gt; names.get_last_name()
+'Szczepanek'
 </code></pre>
-
-<h2>More to come?</h2>
-
-<p>It might be nice to allow generating multiple names at once, generating
-gender-specific names, and maybe providing other content types (JSON).  The
-HTML version could also use a cleaner, more feature-full design.</p>
-
-<p>Also it would probably be more efficient to use a SQL database for querying
-random names so I may eventually abandon the names library and use a database
-for querying.</p>
-
-<p>The website&rsquo;s source code is <a href="https://github.com/treyhunner/pseudorandom.name">hosted on Github</a> and provided under an
-<a href="http://th.mit-license.org/2013">MIT license</a>.  Feel free to fork it or submit an issue.</p>
 </div>
   
   <footer>
@@ -307,6 +303,27 @@ for querying.</p>
 
 
 
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <p>
+      Build your Python skills with 1 Python exercise every week.
+    </p>
+    <p>
+      Enter your email below to get started:
+    </p>
+    <form method="post" action="https://www.pythonmorsels.com/email-signup/">
+      <input type="email" name="email" placeholder="email@domain.com">
+      <input type="submit" value="Sign me up!">
+    </form>
+  </div>
+</section>
 
 
 </body>

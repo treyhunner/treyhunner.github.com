@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-09-26T21:18:22-07:00</updated>
+  <updated>2018-09-26T21:18:32-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,506 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Stop writing lambda expressions in Python]]></title>
-    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
-    <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
-I almost always get questions about them.
-My students tend to see them in code on StackOverflow or they see them in a coworker&rsquo;s code (which, realistically, may have also come from StackOverflow).</p>
-
-<p>I get a lot of questions about lambda, I&rsquo;m hesitant to recommend my students embrace Python&rsquo;s lambda expressions.
-I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
-
-<p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
-
-<h2>Lambda expressions in Python: what are they?</h2>
-
-<p>Lambda expressions a special syntax in Python for creating <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a>.
-I&rsquo;ll call the <code>lambda</code> syntax itself a <strong>lambda expression</strong> and the function you get back from this I&rsquo;ll call a <strong>lambda function</strong>.</p>
-
-<p>Python&rsquo;s lambda expressions allow a function to be created and passed around (often into another function) all in one line of code.</p>
-
-<p>Lambda expressions allow us to take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">normalized_colors</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">normalize_case</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And turn it into this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">normalized_colors</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">(),</span> <span class="n">colors</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Lambda expressions are just a special syntax for making functions.
-They can only have one statement in them and they return the result of that statement automatically.</p>
-
-<p>The inherent limitations of lambda expressions are actually part of their appeal.
-When an experienced Python programmer sees a lambda expression they know that they&rsquo;re working with a function that is <strong>only used in one place</strong> and does <strong>just one thing</strong>.</p>
-
-<p>If you&rsquo;ve ever used anonymous functions in JavaScript before, you can think of Python&rsquo;s lambda expressions as the same, except they have more restrictions and use a very different syntax than the traditional function syntax.</p>
-
-<h2>Where they&rsquo;re usually used</h2>
-
-<p>You&rsquo;ll typically see <code>lambda</code> expressions used when calling functions (or classes) that accept a function as an argument.</p>
-
-<p>Python&rsquo;s built-in <code>sorted</code> function accepts a function as its <code>key</code> argument.  This <em>key function</em> is used to compute a comparison key when determining the sorting order of items.</p>
-
-<p>So <code>sorted</code> is a great example of a place that lambda expressions are often used:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;cyan&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'><span class="p">[</span><span class="s">&#39;cyan&#39;</span><span class="p">,</span> <span class="s">&#39;Goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;Salmon&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above code returns the given colors sorted in a case-insensitive way.</p>
-
-<p>The <code>sorted</code> function isn&rsquo;t the only use of lambda expressions, but it&rsquo;s a common one.</p>
-
-<h2>The pros and cons of lambda</h2>
-
-<p>I frame my thinking around lambda expressions as a constant comparison to using <code>def</code> to define functions.
-Both of these tools give us functions, but they each have different limitations and use a different syntax.</p>
-
-<p>The main ways lambda expressions are different from <code>def</code>:</p>
-
-<ol>
-<li>They can be immediately passed around (no variable needed)</li>
-<li>They can only have a single line of code within them</li>
-<li>They return automatically</li>
-<li>They can&rsquo;t have a docstring and they don&rsquo;t have a name</li>
-<li>They use a different and unfamiliar syntax</li>
-</ol>
-
-
-<p>The fact that lambda expressions can be passed around is their biggest benefit.  Returning automatically is neat but not a big benefit in my mind.  I find the &ldquo;single line of code&rdquo; limitation is neither good nor bad overall.  The fact that lambda functions can&rsquo;t have docstrings and don&rsquo;t have a name is unfortunate and their unfamiliar syntax can be troublesome for newer Pythonistas.</p>
-
-<p>Overall I feel the cons slightly outweigh the pros of lambda expressions, but my biggest complaint about them is that I find that they tend to be both misused and overused.</p>
-
-<h2>Lambda is both misused and overused</h2>
-
-<p>When I see a lambda expression in unfamiliar code I immediately become skeptical.
-When I encounter a lambda expression in the wild, I often find that removing it improves code readability.</p>
-
-<p>Sometimes the issue is that lambda expressions are being misused, meaning they&rsquo;re <strong>used in a way that is nearly always unideal</strong>.
-Other times lambda expressions are simply being overused, meaning they&rsquo;re acceptable but I&rsquo;d personally <strong>prefer to see the code written a different way</strong>.</p>
-
-<p>Let&rsquo;s take a look at the various ways lambda expressions are misused and overused.</p>
-
-<h2>Misuse: naming lambda expressions</h2>
-
-<p>PEP8, the official Python style guide, advises never to write code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">normalize_case</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above statement makes an anonymous function and then assigns it to a variable.
-The above code ignores the reason lambda functions are useful: <strong>lambda functions can be passed around without needing to be assigned to a variable first</strong>.</p>
-
-<p>If you want to create a one-liner function and store it in a variable, you should use <code>def</code> instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>PEP8 recommends this because named functions are a common and easily understood thing.
-This also has the benefit of giving our function a proper name, which could make debugging easier.
-Unlike functions defined with <code>def</code>, lambda functions never have a name (it&rsquo;s always <code>&lt;lambda&gt;</code>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">function</span> <span class="o">&lt;</span><span class="k">lambda</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x7f264d5b91e0</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'><span class="o">...</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">function</span> <span class="n">normalize_case</span> <span class="n">at</span> <span class="mh">0x7f247f68fea0</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>If you want to create a function and store it in a variable, define your function using <code>def</code></strong>.
-That&rsquo;s exactly what it&rsquo;s for.
-It doesn&rsquo;t matter if your function is a single line of code or if you&rsquo;re defining a function inside of another function, <code>def</code> works just fine for those use cases.</p>
-
-<h2>Misuse: needless function calls</h2>
-
-<p>I frequently see lambda expressions used to wrap around a function that was already appropriate for the problem at hand.</p>
-
-<p>For example take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sorted_numbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The person who wrote this code likely learned that lambda expressions are used for making a function that can be passed around.
-But they missed out on a slightly bigger picture idea: <strong>all functions in Python (not just lambda functions) can be passed around</strong>.</p>
-
-<p>Since <code>abs</code> (which returns the absolute value of a number) is a function and all functions can be passed around, we could actually have written the above code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sorted_numbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now this example might feel contrived, but it&rsquo;s not terribly uncommon to overuse lambda expressions in this way.  Here&rsquo;s another example I&rsquo;ve seen:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
-</span><span class='line'><span class="n">sorted_by_smallest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Because we&rsquo;re accepting exactly the same arguments as we&rsquo;re passing into <code>min</code>, we don&rsquo;t need that extra function call.  We can just pass the <code>min</code> function to <code>key</code> instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
-</span><span class='line'><span class="n">sorted_by_smallest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">min</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You don&rsquo;t need a lambda function if you already have another function that does what you want.</p>
-
-<h2>Overuse: simple, but non-trivial functions</h2>
-
-<p>It&rsquo;s common to see lambda expressions used to make a function that returns a couple of values in a tuple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="n">colors_by_length</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">c</span><span class="o">.</span><span class="n">casefold</span><span class="p">()))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>key</code> function here is helping us sort these colors by their length followed by their case-normalized name.</p>
-
-<p>This code is the same as the above code, but I find it more readable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">length_and_alphabetical</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return sort key: length first, then case-normalized string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="n">string</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="n">colors_by_length</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">length_and_alphabetical</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This code is quite a bit more verbose, but I find the name of that key function makes it clearer what we&rsquo;re sorting by.
-We&rsquo;re not just sorting by the length and we&rsquo;re not just sorting by the color: we&rsquo;re sorting by both.</p>
-
-<p><strong>If a function is important, it deserves a name</strong>.
-You could argue that most functions that are used in a lambda expression are so trivial that they don&rsquo;t deserve a name, but there&rsquo;s often little downside to naming functions and I find it usually makes my code more readable overall.</p>
-
-<p>Naming functions often makes code more readable, the same way <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">using tuple unpacking to name variables</a> instead of using arbitrary index-lookups often makes code more readable.</p>
-
-<h2>Overuse: when multiple lines would help</h2>
-
-<p>Sometimes the &ldquo;just one line&rdquo; aspect of lambda expressions cause us to write code in convoluted ways.  For example take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">points</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;red&#39;</span><span class="p">),</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s">&#39;green&#39;</span><span class="p">)]</span>
-</span><span class='line'><span class="n">points_by_color</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;re hard-coding an index lookup here to sort points by their color.
-If we used a named function we could have used <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">tuple unpacking</a> to make this code more readable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">color_of_point</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return the color of the given point.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">point</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">color</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">points</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;red&#39;</span><span class="p">),</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s">&#39;green&#39;</span><span class="p">)]</span>
-</span><span class='line'><span class="n">points_by_color</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">color_of_point</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Tuple unpacking can improve readability over using hard-coded index lookups.
-<strong>Using lambda expressions often means sacrificing some Python language features</strong>, specifically those that require multiple lines of code (like an extra assignment statement).</p>
-
-<h2>Overuse: lambda with map and filter</h2>
-
-<p>Python&rsquo;s map and filter functions are almost always paired with lambda expressions.  It&rsquo;s common to see StackOverflow questions asking &ldquo;what is lambda&rdquo; answered with code examples like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squared_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">odd_numbers</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I find these examples a bit confusing because <strong>I almost never use map and filter in my code</strong>.</p>
-
-<p>Python&rsquo;s <code>map</code> and <code>filter</code> functions are used for looping over an iterable and making a new iterable that either slightly changes each element or filters the iterable down to only elements that match a certain condition.
-We can accomplish both of those tasks just as well with list comprehensions or generator expressions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squared_numbers</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">odd_numbers</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Personally, I&rsquo;d prefer to see the above generator expressions written over multiple lines of code (<a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">see my article on comprehensions</a>) but I find even these one-line generator expressions more readable than those <code>map</code> and <code>filter</code> calls.</p>
-
-<p>The general operations of mapping and filtering are useful, but we really don&rsquo;t need the <code>map</code> and <code>filter</code> functions themselves.
-Generator expressions are a special syntax that exists just for the tasks of mapping and filtering.
-So my advice is to <strong>use generator expressions instead of the <code>map</code> and <code>filter</code> functions</strong>.</p>
-
-<h2>Misuse: sometimes you don&rsquo;t even need to pass a function</h2>
-
-<p>What about cases where you need to pass around a function that performs a single operation?</p>
-
-<p>Newer Pythonistas who are keen on functional programming sometimes write code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This code adds all the numbers in the <code>numbers</code> list.
-There&rsquo;s an even better way to do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python&rsquo;s built-in <code>sum</code> function was made just for this task.</p>
-
-<p>The <code>sum</code> function, along with a number of other specialized Python tools, are easy to overlook.
-But I&rsquo;d encourage you to seek out the more specialized tools when you need them because they often make for more readable code.</p>
-
-<p>Instead of passing functions into other functions, <strong>look into whether there is a more specialized way to solve your problem instead</strong>.</p>
-
-<h2>Overuse: using lambda for very simple operations</h2>
-
-<p>Let&rsquo;s say instead of adding numbers up, we&rsquo;re multiply numbers together:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above lambda expression is necessary because we&rsquo;re not allowed to pass the <code>*</code> operator around as if it were a function.
-If there was a function that was equivalent to <code>*</code>, we could pass it into the <code>reduce</code> function instead.</p>
-
-<p>Python&rsquo;s standard library actually has a whole module meant to address this problem:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">mul</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python&rsquo;s <a href="https://docs.python.org/3/library/operator.html">operator module</a> exists to make various Python operators easy to use as functions.
-If you&rsquo;re practicing functional(ish) programming, <strong>Python&rsquo;s <code>operator</code> module is your friend</strong>.</p>
-
-<p>In addition to providing functions corresponding to Python&rsquo;s many operators, the <code>operator</code> module provides a couple common higher level functions for accessing items and attributes and calling methods.</p>
-
-<p>There&rsquo;s <code>itemgetter</code> for accessing indexes of a list/sequence or keys of a dictionary/mapping:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: accessing a key/index</span>
-</span><span class='line'><span class="n">rows_sorted_by_city</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;city&#39;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: accessing a key/index</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
-</span><span class='line'><span class="n">rows_sorted_by_city</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s also <code>attrgetter</code> for accessing attributes on an object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: accessing an attribute</span>
-</span><span class='line'><span class="n">products_by_quantity</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: accessing an attribute</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
-</span><span class='line'><span class="n">products_by_quantity</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s">&#39;quantity&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And <code>methodcaller</code> for calling methods on an object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: calling a method</span>
-</span><span class='line'><span class="n">sorted_colors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: calling a method</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">methodcaller</span>
-</span><span class='line'><span class="n">sorted_colors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">methodcaller</span><span class="p">(</span><span class="s">&#39;casefold&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I <em>usually</em> find that <strong>using the functions in the <code>operator</code> module makes my code clearer</strong> than if I&rsquo;d used an equivalent lambda expression.</p>
-
-<h2>Overuse: when higher order functions add confusion</h2>
-
-<p>A function that accepts a function as an argument is called a <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher order function</a>.  Higher order functions are the kinds of functions that we tend to pass lambda functions to.</p>
-
-<p>The use of higher order functions is common when practicing functional programming.  Functional programming isn&rsquo;t the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.</p>
-
-<p>Compare this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">multiply_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return the product of the given numbers.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">product</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">product</span> <span class="o">*=</span> <span class="n">n</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">product</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="n">multiply_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The second code is longer, but folks without a functional programming background will often find it easier to understand.</p>
-
-<p>Anyone who has gone through one of my Python training courses can probably understand what that <code>multiply_all</code> function does, whereas that <code>reduce</code>/<code>lambda</code> combination is likely a bit more cryptic for many Python programmers.</p>
-
-<p>In general, <strong>passing one function into another function, tends to make code more complex, which can hurt readability</strong>.</p>
-
-<h2>Should you ever use lambda expressions?</h2>
-
-<p>So I find the use of lambda expressions problematic because:</p>
-
-<ul>
-<li>lambda expressions are an odd and unfamiliar syntax to many Python programmers</li>
-<li>lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do</li>
-<li>lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can&rsquo;t be used with them</li>
-<li>lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python</li>
-</ul>
-
-
-<p>Lambda expressions are rarely more immediately readable than a well-named function.
-While a <code>def</code> statement is often more understandable, <strong>Python also has a number of features that can be used to replace lambda expressions</strong>, including special syntaxes (comprehensions), built-in functions (sum), and standard library functions (in the <code>operators</code> module).</p>
-
-<p>I&rsquo;d say that using lambda expressions is acceptable only if your situation meets all four of these criteria:</p>
-
-<ol>
-<li>The operation you&rsquo;re doing is trivial: the function doesn&rsquo;t deserve a name</li>
-<li>Having a lambda expression makes your code more understandable than the function names you can think of</li>
-<li>You&rsquo;re pretty sure there&rsquo;s not already a function that does what you&rsquo;re looking for</li>
-<li>Everyone on your team understands lambda expressions and you&rsquo;ve all agreed to use them</li>
-</ol>
-
-
-<p>If any of those four statements don&rsquo;t fit your situation, I&rsquo;d recommend <strong>writing a new function using <code>def</code></strong> and (whenever possible) <strong>embracing a function that already exists within Python</strong> that already does what you&rsquo;re looking for.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to make an iterator in Python]]></title>
@@ -6563,6 +6063,253 @@ But a dream within a dream?
 
 
 <p>At this point I am the only person who has worked with this adapter and I would love some feedback!  Have an opinion or want to help improve this adapter?  <strong>Please open an issue, comment below, tweet me, or email me.</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Creating a custom Bootstrap build]]></title>
+    <link href="http://treyhunner.com/2015/02/creating-a-custom-bootstrap-build/"/>
+    <updated>2015-02-25T16:20:00-08:00</updated>
+    <id>http://treyhunner.com/2015/02/creating-a-custom-bootstrap-build</id>
+    <content type="html"><![CDATA[<p>Have you ever tried to customize the font size for your <a href="http://getbootstrap.com/">Bootstrap</a>-powered website?</p>
+
+<p>It&rsquo;s not something you can easily do without recompiling Bootstrap&rsquo;s CSS. If you change the font size on your page, you&rsquo;ll want that change to cascade through.  A change in the base font size should recalculate header font sizes and margins/padding for text elements like paragraph tags.</p>
+
+<p>Let&rsquo;s look at how to create a custom <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a> build without maintaining our own fork of Bootstrap.</p>
+
+<h2>Using Bootstrap with Bower</h2>
+
+<p>We&rsquo;re going to use <code>bower</code> and <code>gulp</code> to compile Bootstrap, so we&rsquo;ll need <a href="http://nodejs.org/">Node.js</a>.</p>
+
+<p>First let&rsquo;s make a <code>package.json</code> file for Node to see.  Either use <code>npm init -y</code> or create a <code>package.json</code> file containing just an empty JSON object (<code>{}</code>).</p>
+
+<p>Now let&rsquo;s install <code>gulp</code>, <code>gulp-bower</code>, and <code>gulp-sass</code>:</p>
+
+<pre><code>$ npm install --save-dev gulp gulp-bower gulp-sass
+</code></pre>
+
+<p>Our <code>package.json</code> file should now look something like this:</p>
+
+<figure class='code'><figcaption><span>package.json </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;gulp&quot;</span><span class="p">:</span> <span class="s2">&quot;^3.8.11&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;gulp-bower&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.10&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;gulp-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;^1.3.3&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s use Bower to install bootstrap.  This will allow us to import Bootstrap into our SCSS code and compile it down to CSS manually.</p>
+
+<p>Create a <code>bower.json</code> file using <code>bower init</code> or by manually creating one:</p>
+
+<figure class='code'><figcaption><span>bower.json </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom-bootstrap-example&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="s2">&quot;Lillian Langston &lt;lillian@example.com&gt;&quot;</span>
+</span><span class='line'>  <span class="p">],</span>
+</span><span class='line'>  <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="s2">&quot;**/.*&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;bower_components&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;tests&quot;</span>
+</span><span class='line'>  <span class="p">],</span>
+</span><span class='line'>  <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s install <code>bootstrap-sass</code> with Bower.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bower install --save bootstrap-sass
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our <code>bower.json</code> file should now have <code>bootstrap-sass</code> listed as a dependency:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"dependencies": {
+</span><span class='line'>  "bootstrap-sass": "~3.3.3"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we can make an SCSS file that includes bootstrap into our project.  Let&rsquo;s call our SCSS file <code>css/app.scss</code>:</p>
+
+<figure class='code'><figcaption><span>css/app.scss </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s use gulp to compile our <code>app.scss</code> which includes Bootstrap SASS:</p>
+
+<figure class='code'><figcaption><span>gulpfile.js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-sass&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">bootstrapDir</span><span class="o">:</span> <span class="s1">&#39;./bower_components/bootstrap-sass&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicDir</span><span class="o">:</span> <span class="s1">&#39;./public&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./css/app.scss&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">includePaths</span><span class="o">:</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/stylesheets&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="p">}))</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/css&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;fonts&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/fonts/**/*&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/fonts&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;fonts&#39;</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when we run <code>gulp</code>, our compiled Bootstrap CSS should appear in the <code>public/css</code> directory:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
+</span><span class='line'><span class="nv">$ </span>ls public/css
+</span><span class='line'>app.css
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Customizing the font size</h2>
+
+<p>Now let&rsquo;s look at how we can go about customizing the font size in Bootstrap.</p>
+
+<p>Notice that the value of the <code>$font-size-base</code> variable in the <a href="https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss#L52"><code>_variables.scss</code> file</a> is used for calculating a variety of other important variables.  For example 8 of the lines below rely on <code>$font-size-base</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">14</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$font-size-large</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
+</span><span class='line'><span class="nv">$font-size-small</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$font-size-h1</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.6</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~36px</span>
+</span><span class='line'><span class="nv">$font-size-h2</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.15</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~30px</span>
+</span><span class='line'><span class="nv">$font-size-h3</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.7</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~24px</span>
+</span><span class='line'><span class="nv">$font-size-h4</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
+</span><span class='line'><span class="nv">$font-size-h5</span><span class="o">:</span>            <span class="nv">$font-size-base</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$font-size-h6</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice those <code>!default</code> flags?  That <code>!default</code> flag means the variables will be set <em>only</em> if they don&rsquo;t have a value already.</p>
+
+<p>All of the variables assigned in <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS&rsquo;s</a> <code>_variables.scss</code> file have a <code>!default</code> flag.  That means we can override those variables by assigning our own values before we import Bootstrap.</p>
+
+<p>Let&rsquo;s copy Bootstrap&rsquo;s <code>_variables.scss</code> file and make our own custom version:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss css/_variables.scss
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we need to reference our custom variables module from our <code>app.scss</code> file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;variables&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Remember to import our <code>variables</code> module <em>before</em> we import Bootstrap!  If we import it afterward, our changes customizations won&rsquo;t be applied.</p>
+
+<p>Now let&rsquo;s change <code>$font-size-base</code> to <code>16px</code> in <code>css/_variables.scss</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if we recompile our CSS we should see our larger font size reflected throughout our application:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Try it out!</h2>
+
+<p>I made a sample project to demonstrate how easy it is to customize Bootstrap variables before building <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a>.</p>
+
+<p><a href="https://github.com/treyhunner/custom-bootstrap-example">Check out the sample project on Github</a></p>
+
+<p>Know about a different way to customize Bootstrap?  Did I make a mistake in my explanation?  Leave a comment and let me know.</p>
 ]]></content>
   </entry>
   
