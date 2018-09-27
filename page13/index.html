@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Don&rsquo;t understand how regular expressions work? Having trouble making your regular expressions readable? I&rsquo;m doing a 90 minute webinar to &hellip;">
+  <meta name="description" content="If you&rsquo;re moving to Python from C or Java, you might be confused by Python&rsquo;s for loops. Python doesn&rsquo;t actually have for loops& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2016/03/regular-expressions-in-python-webinar/">Webinar: Regular Expressions in Python</a></h1>
+      <h1 class="entry-title"><a href="/2016/04/how-to-loop-with-indexes-in-python/">How to loop with indexes in Python</a></h1>
     
     
       <p class="meta">
@@ -98,97 +98,251 @@
 
 
 
-<time class='entry-date' datetime='2016-03-15T15:07:32-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:07 pm</span></time>
+<time class='entry-date' datetime='2016-04-25T09:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:00 am</span></time>
         
-           | <a href="/2016/03/regular-expressions-in-python-webinar/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2016/03/regular-expressions-in-python-webinar/">Comments</a>
+           | <a href="/2016/04/how-to-loop-with-indexes-in-python/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Don&rsquo;t understand how regular expressions <strong>work</strong>?</p>
+  <div class="entry-content"><p>If you&rsquo;re moving to Python from C or Java, you might be confused by Python&rsquo;s <code>for</code> loops.  <strong>Python doesn&rsquo;t actually have for loops</strong>&hellip; at least not the same kind of <code>for</code> loop that C-based languages have.  Python&rsquo;s <code>for</code> loops are actually <a href="https://en.wikipedia.org/wiki/Foreach_loop">foreach loops</a>.</p>
 
-<p>Having trouble making your regular expressions <strong>readable</strong>?</p>
+<p>In this article I&rsquo;ll compare Python&rsquo;s <code>for</code> loops to those of other languages and discuss the usual ways we solve common problems with <code>for</code> loops in Python.</p>
 
-<p>I&rsquo;m doing a 90 minute webinar to show you how to write <strong>readable regular expressions</strong>.</p>
+<h2>For loops in other languages</h2>
 
-<p>You can <a href="http://regex.eventbrite.com/?aff=blog">sign up here</a>.</p>
+<p>Before we look at Python&rsquo;s loops, let&rsquo;s take a look at a for loop in JavaScript:</p>
 
-<p><strong>May 2015 Update</strong>: the webinar was recorded and you can watch it by signing up at the same link.  The second half of this webinar event will be held this Saturday May 7 at 9am Pacific Time and is also accessible from the same link.</p>
-
-<h2>What&rsquo;s a webinar?</h2>
-
-<p>Is this like a seminar?  Aren&rsquo;t seminars boring?  Seminars can be boring but I&rsquo;m hoping this webinar will be fun.</p>
-
-<p>&ldquo;Webinar&rdquo; doesn&rsquo;t sound cool, but I prefer it over &ldquo;Wwworkshop&rdquo;.</p>
-
-<p>This will basically be like <strong>an online workshop</strong>.  I&rsquo;ll demonstrate some concepts through live coding and explanations and we&rsquo;ll take a couple breaks to work through exercises together.  There will be a chat room so we can discuss the concepts and share our answers for each of the exercises.</p>
-
-<p>I do plan to do more of these so if you have a better suggestion for what to call this kind of thing than &ldquo;webinar&rdquo;, I&rsquo;m all ears.</p>
-
-<h2>What will we learn?</h2>
-
-<p>We&rsquo;ll learn about using regular expressions for validating text and for searching within text.  We&rsquo;ll cover the basic regular expression syntax and how to use use regular expressions in Python in particular.</p>
-
-<p>Most importantly, we will discuss <strong>how to make your regular expressions readable</strong>.</p>
-
-<p>I will be reviewing the basics of regular expressions, so if you&rsquo;ve never used regular expressions before you should be able to follow along.</p>
-
-<h2>Will there be any follow-up to this?</h2>
-
-<p>Yes!  I&rsquo;m planning a second half to this webinar which will also be 90 minutes long.  I&rsquo;ll announce the date and time to attendees of part 1.</p>
-
-<p>There is more to regular expressions than validation and searching.</p>
-
-<p>Here are some things we will not cover in part 1, but which I hope to go over in part 2:</p>
-
-<ul>
-<li>Substitutions</li>
-<li>Data normalization</li>
-<li>Greediness</li>
-<li>Lookahead/lookbehind</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">colors</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">colors</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>When is this?</h2>
+<p>This JavaScript loop looks nearly identical in C/C++ and Java.</p>
 
-<p>March 26 at 9am Pacific Time.</p>
+<p>In this loop we:</p>
 
-<p>That&rsquo;s:</p>
-
-<ul>
-<li>11am in Chicago</li>
-<li>12pm in New York</li>
-<li>4pm in London</li>
-<li>5pm in Berlin</li>
-<li>6pm in Kyiv</li>
-<li>7pm in Moscow</li>
-<li>9:30pm in Bengaluru</li>
-<li>midnight in Perth</li>
-</ul>
+<ol>
+<li>Set a counter variable <code>i</code> to 0</li>
+<li>Check if the counter is less than the array length</li>
+<li>Execute the code in the loop <em>or</em> exit the loop if the counter is too high</li>
+<li>Increment the counter variable by 1</li>
+</ol>
 
 
-<p><a href="http://www.timeanddate.com/worldclock/fixedtime.html?msg=Regular+Expressions+in+Python&amp;iso=20160326T09&amp;p1=770&amp;ah=1&amp;am=30">Find out what time that is in your time zone</a></p>
+<h2>Looping in Python</h2>
 
-<h2>How much does this cost?</h2>
+<p>Now let&rsquo;s talk about loops in Python.  First we&rsquo;ll look at two slightly more familiar looping methods and then we&rsquo;ll look at the idiomatic way to loop in Python.</p>
 
-<p>$500.</p>
+<h3>while</h3>
 
-<p>Just kidding.</p>
+<p>If we wanted to mimic the behavior of our traditional C-style <code>for</code> loop in Python, we could use a <code>while</code> loop:</p>
 
-<p>It&rsquo;s free.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h2>Where can I sign up?</h2>
 
-<p>You can sign up at <a href="http://regex.eventbrite.com/?aff=blog">regex.eventbrite.com</a>.</p>
+<p>This involves the same 4 steps as the <code>for</code> loops in other languages (note that we&rsquo;re setting, checking, and incrementing <code>i</code>) but it&rsquo;s not quite as compact.</p>
 
-<p>I set the registration cap at 100 and as of this writing, 49 tickets have been claimed.</p>
+<p>This method of looping in Python is very uncommon.</p>
 
-<p>I did a similar event (on list comprehensions) for PyLadies Remote in the past and it went well.</p>
+<h3>range of length</h3>
 
-<p>I plan to do more of these kinds of events in the future.  I&rsquo;ll announce events to my email list first.</p>
+<p>I often see new Python programmers attempt to recreate traditional <code>for</code> loops in a slightly more creative fashion in Python:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This first creates a range corresponding to the indexes in our list (<code>0</code> to <code>len(colors) - 1</code>).  We can loop over this range using Python&rsquo;s for-in loop (really a <a href="https://en.wikipedia.org/wiki/Foreach_loop">foreach</a>).</p>
+
+<p>This provides us with the index of each item in our <code>colors</code> list, which is the same way that C-style <code>for</code> loops work.  To get the actual color, we use <code>colors[i]</code>.</p>
+
+<h3>for-in: the usual way</h3>
+
+<p>Both the while loop and range-of-len methods rely on looping over indexes.  But we don&rsquo;t actually care about the indexes: we&rsquo;re only using these indexes for the purpose of retrieving elements from our list.</p>
+
+<p>Because we don&rsquo;t actually care about the indexes in our loop, there is <strong>a much simpler method of looping</strong> we can use:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">color</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So instead of retrieving the item indexes and looking up each element, we can just loop over our list using a plain for-in loop.</p>
+
+<p>The other two methods we discussed are sometimes referred to as <a href="https://en.wikipedia.org/wiki/Anti-pattern">anti-patterns</a> because they are programming patterns which are widely considered unidiomatic.</p>
+
+<h2>What if we need indexes?</h2>
+
+<p>What if we actually need the indexes?  For example, let&rsquo;s say we&rsquo;re printing out president names along with their numbers (based on list indexes).</p>
+
+<h3>range of length</h3>
+
+<p>We could use <code>range(len(our_list))</code> and then lookup the index like before:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">presidents</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Washington&quot;</span><span class="p">,</span> <span class="s">&quot;Adams&quot;</span><span class="p">,</span> <span class="s">&quot;Jefferson&quot;</span><span class="p">,</span> <span class="s">&quot;Madison&quot;</span><span class="p">,</span> <span class="s">&quot;Monroe&quot;</span><span class="p">,</span> <span class="s">&quot;Adams&quot;</span><span class="p">,</span> <span class="s">&quot;Jackson&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">presidents</span><span class="p">)):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;President {}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">presidents</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But there&rsquo;s a more idiomatic way to accomplish this task: use the <code>enumerate</code> function.</p>
+
+<h3>enumerate</h3>
+
+<p>Python&rsquo;s built-in <code>enumerate</code> function allows us to loop over a list and retrieve both the index and the value of each item in the list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">presidents</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Washington&quot;</span><span class="p">,</span> <span class="s">&quot;Adams&quot;</span><span class="p">,</span> <span class="s">&quot;Jefferson&quot;</span><span class="p">,</span> <span class="s">&quot;Madison&quot;</span><span class="p">,</span> <span class="s">&quot;Monroe&quot;</span><span class="p">,</span> <span class="s">&quot;Adams&quot;</span><span class="p">,</span> <span class="s">&quot;Jackson&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">presidents</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;President {}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>enumerate</code> function gives us an iterable where each element is a tuple that contains the index of the item and the original item value.</p>
+
+<p>This function is meant for solving the task of:</p>
+
+<ol>
+<li>Accessing each item in a list (or another iterable)</li>
+<li>Also getting the index of each item accessed</li>
+</ol>
+
+
+<p>So whenever we need item indexes while looping, we should think of <code>enumerate</code>.</p>
+
+<p><strong>Note</strong>: the <code>start=1</code> option to <code>enumerate</code> here is optional.  If we didn&rsquo;t specify this, we&rsquo;d start counting at <code>0</code> by default.</p>
+
+<h2>What if we need to loop over multiple things?</h2>
+
+<p>Often when we use list indexes, it&rsquo;s to look something up in another list.</p>
+
+<h3>enumerate</h3>
+
+<p>For example, here we&rsquo;re looping over two lists at the same time using indexes to look up corresponding elements:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">ratios</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">ratio</span> <span class="o">=</span> <span class="n">ratios</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{}% {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that we only need the index in this scenario because we&rsquo;re using it to lookup elements at the same index in our second list.  What we really want is to loop over two lists simultaneously: the indexes just provide a means to do that.</p>
+
+<h3>zip</h3>
+
+<p>We don&rsquo;t actually care about the index when looping here.  Our real goal is to loop over two lists at once.  This need is common enough that there&rsquo;s a special built-in function just for this.</p>
+
+<p>Python&rsquo;s <code>zip</code> function allows us to <strong>loop over multiple lists at the same time</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">ratios</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">ratios</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{}% {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ratio</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>zip</code> function takes multiple lists and returns an iterable that provides a tuple of the corresponding elements of each list as we loop over it.</p>
+
+<p>Note that <code>zip</code> with different size lists will stop after the shortest list runs out of items.  You may want to look into <a href="https://docs.python.org/3/library/itertools.html#itertools.zip_longest">itertools.zip_longest</a> if you need different behavior.  Also note that <code>zip</code> in Python 2 returns a list but <code>zip</code> in Python 3 returns a lazy iterable.  In Python 2, <code>itertools.izip</code> is equivalent to the newer Python 3 <code>zip</code> function.</p>
+
+<h2>Looping cheat sheet</h2>
+
+<p>Here&rsquo;s a very short looping cheat sheet that might help you remember the preferred construct for each of these three looping scenarios.</p>
+
+<p>Loop over a single list with a regular for-in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Loop over multiple lists at the same time with <code>zip</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">rows</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rows</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Loop over a list while keeping track of indexes with <code>enumerate</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0:03d}: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">line</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>In Summary</h2>
+
+<p>If you find yourself tempted to use <code>range(len(my_list))</code> or a loop counter, think about whether you can reframe your problem to allow usage of <code>zip</code> or <code>enumerate</code> (or a combination of the two).</p>
+
+<p>In fact, if you find yourself reaching for <code>enumerate</code>, think about whether you actually need indexes at all.  It&rsquo;s quite rare to need indexes in Python.</p>
+
+<ol>
+<li>If you need to loop over multiple lists at the same time, use <code>zip</code></li>
+<li>If you only need to loop over a single list just use a for-in loop</li>
+<li>If you need to loop over a list and you need item indexes, use <code>enumerate</code></li>
+</ol>
+
+
+<p>If you find yourself struggling to figure out the best way to loop, try using the cheat sheet above.</p>
+
+<p>For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder&rsquo;s <a href="http://nedbatchelder.com/text/iter.html">Loop Like a Native</a> presentation.</p>
+
+<p>Thanks <a href="http://lost-theory.org/">Steven Kryskalla</a> and <a href="http://purplediane.github.io/">Diane Chen</a> for proof-reading this post.</p>
+
+<p><strong>Update</strong>: If you&rsquo;re interested in learning how to make your own Python objects that can be looped over, you may want to watch the <a href="https://www.crowdcast.io/e/operator-overloading">operator overloading chat</a> I held on April 30, 2016.</p>
+
+<p>Happy looping!</p>
 </div>
   
   <footer>

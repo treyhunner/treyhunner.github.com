@@ -747,7 +747,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p>{% img /images/generator-expression-copy-paste.gif %}</p>
+<p><img src="/images/generator-expression-copy-paste.gif"></p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
