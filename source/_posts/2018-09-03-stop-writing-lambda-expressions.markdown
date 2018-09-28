@@ -158,7 +158,7 @@ Now this example might feel contrived, but it's not terribly uncommon to overuse
 
 ```python
 pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
-sorted_by_smallest = sorted(pairs, key=lambda x, y: min(x, y))
+sorted_by_smallest = sorted(pairs, key=lambda items: min(items))
 ```
 
 Because we're accepting exactly the same arguments as we're passing into `min`, we don't need that extra function call.  We can just pass the `min` function to `key` instead:
