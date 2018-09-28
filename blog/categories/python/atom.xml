@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-09-27T07:22:36-07:00</updated>
+  <updated>2018-09-28T13:52:51-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -158,7 +158,7 @@ But they missed out on a slightly bigger picture idea: <strong>all functions in 
 <p>Now this example might feel contrived, but it&rsquo;s not terribly uncommon to overuse lambda expressions in this way.  Here&rsquo;s another example I&rsquo;ve seen:</p>
 
 <pre><code class="python">pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
-sorted_by_smallest = sorted(pairs, key=lambda x, y: min(x, y))
+sorted_by_smallest = sorted(pairs, key=lambda items: min(items))
 </code></pre>
 
 <p>Because we&rsquo;re accepting exactly the same arguments as we&rsquo;re passing into <code>min</code>, we don&rsquo;t need that extra function call.  We can just pass the <code>min</code> function to <code>key</code> instead:</p>
@@ -747,7 +747,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p><img src="/images/generator-expression-copy-paste.gif"></p>
+<p>{% img /images/generator-expression-copy-paste.gif %}</p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
