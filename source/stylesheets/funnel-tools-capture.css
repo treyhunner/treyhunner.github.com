@@ -175,3 +175,10 @@
 #funnel-tools-capture input.error {
   border-color: red;
 }
+
+#funnel-tools-capture .python-morsels-logo {
+  width: 66px;
+  height: 91.4px;
+  float: left;
+  margin: 0 1em 1em 0;
+}
