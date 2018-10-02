@@ -4,7 +4,7 @@
   <title><![CDATA[Category: django | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/django/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-09-28T13:52:51-07:00</updated>
+  <updated>2018-10-02T16:37:31-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -33,9 +33,9 @@ class AuthenticationForm(forms.Form):
 
 <p>Here&rsquo;s the form used in a template:</p>
 
-<p>{% raw %}
+<p>
     {{ form.as_p }}
-{% endraw %}</p>
+</p>
 
 <h2>The Problem</h2>
 
@@ -65,9 +65,9 @@ class AuthenticationForm(forms.Form):
 
 <p>If we&rsquo;re using <a href="https://django-floppyforms.readthedocs.org/">django-floppyforms</a> we could include logic in our <code>floppyforms/attrs.html</code> template to add specific classes based on a context variable (<a href="https://github.com/grundleborg/django-floppyforms-bootstrap3/blob/9ab0261eb8ae0c939e4ad01066716e445357cb95/floppyforms_bootstrap3/templates/floppyforms/attrs.html">example</a>).  Here&rsquo;s an example:</p>
 
-<p>{% raw %}
+<p>
     {% for name, value in attrs.items %} {{ name }}{% if value != True %}=&ldquo;{{ value }}{% if name == &#8220;class&rdquo; %} {{ extra_classes }}{% endif %}&ldquo;{% endfor %}
-{% endraw %}</p>
+</p>
 
 <p>This should work but it&rsquo;s ugly and in general I do not enjoy maintaining heavy logic in my templates.</p>
 
@@ -91,7 +91,7 @@ class AuthenticationForm(forms.Form):
 
 <p>Here&rsquo;s an example usage of the <code>add_class</code> filter for adding a CSS class to our form field:</p>
 
-<p>{% raw %}
+<p>
     {% load widget_tweaks %}
     <p>
         {{ form.username|add_class:&ldquo;input-lg&rdquo; }}
@@ -101,7 +101,7 @@ class AuthenticationForm(forms.Form):
         {{ form.password }}
         {{ form.password.errors }}
     </p>
-{% endraw %}</p>
+</p>
 
 <p>I find this solution both easy to read and easy to maintain.</p>
 
@@ -111,7 +111,7 @@ class AuthenticationForm(forms.Form):
 
 <p>With the <code>render_field</code> tag you can add attributes to form fields with a much more HTML-like syntax:</p>
 
-<p>{% raw %}
+<p>
     {% load widget_tweaks %}
     <p>
         {% render_field form.username class+=&ldquo;input-lg&rdquo; %}
@@ -121,7 +121,7 @@ class AuthenticationForm(forms.Form):
         {% render_field form.password %}
         {{ form.password.errors }}
     </p>
-{% endraw %}</p>
+</p>
 
 <p>As a bonus, with <code>render_field</code> we can also set a CSS class for erroneous and required form fields.  See <a href="https://pypi.python.org/pypi/django-widget-tweaks#render-field">the documentation</a> for more details.</p>
 
