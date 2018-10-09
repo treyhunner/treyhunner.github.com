@@ -1,18 +1,19 @@
 ---
 layout: post
 title: "Asterisks in Python: what they are and how to use them"
-date: 2018-10-04 07:30:00 -0700
+date: 2018-10-11 07:30:00 -0700
 comments: true
 categories: python
 ---
 
 There are a lot of places you'll see `*` and `**` used in Python.
+These two operators can be a bit mysterious at times, both for brand new programmers and for folks moving from many other programming languages which may not have completely equivalent operators.
 I'd like to discuss what those operators are and the many ways they're used.
 
 The `*` and `**` operators have grown in ability over the years and I'll be discussing all the ways that you can currently use these operators and noting which uses only work in modern versions of Python.
 So if you learned `*` and `**` back in the days of Python 2, I'd recommend at least skimming this article because Python 3 has added a lot of new uses for these operators.
 
-If you're newer to Python and you're not yet familiar with keyword arguments (a.k.a. named arguments), I'd recommend reading my article on [keyword arguments in Python][] first.
+If you're newer to Python and you're not yet familiar with keyword arguments (a.k.a. named arguments), I'd recommend reading my article on [keyword arguments in Python][keyword arguments] first.
 
 
 ## What we're not talking about
@@ -33,18 +34,25 @@ So I'm not talking about multiplication and exponentiation:
 We're talking about the `*` and `**` prefix operators, that is the `*` and `**` operators that are used before a variable.  For example:
 
 ```python
-TODO
+>>> numbers = [2, 1, 3, 4, 7]
+>>> more_numbers = [*numbers, 11, 18]
+>>> print(*more_numbers, sep=', ')
+2, 1, 3, 4, 7, 11, 18
 ```
+
+Two of the uses of `*` are shown in that code and no uses of `**` are shown.
 
 This includes:
 
-1. Using `*` and `**` to capture arguments passed into a function
-2. Using `*` and `**` to pass arguments to a function
+1. Using `*` and `**` to pass arguments to a function
+2. Using `*` and `**` to capture arguments passed into a function
+3. Using `*` to accept keyword-only arguments
 3. Using `*` to capture items during tuple unpacking
 4. Using `*` to unpack iterables into a list/tuple
-5. Using `**` to merge dictionaries
+5. Using `**` to unpack dictionaries into other dictionaries
 
-TODO various ways to use * and **
+Even if you think you're familiar with all of these ways of using `*` and `**`, I recommend looking at each of the code blocks below to make sure they're all things you're familiar with.
+They've continued to add features to these operators over the last few years and it's easy to overlook some of the newer uses of `*` and `**`.
 
 
 ## Asterisks for unpacking into function call
@@ -63,6 +71,23 @@ That `print(*fruits)` line is passing all of the items in the `fruits` list into
 
 The `*` operator isn't just syntactic sugar here.
 This ability of sending in all items in a particular iterable as separate arguments wouldn't be possible without `*`, unless the list was a fixed length.
+
+Here's another example:
+
+```python
+def transpose_list(list_of_lists):
+    return [
+        list(row)
+        for row in zip(*list_of_lists)
+    ]
+```
+
+Here we're accepting a list of lists and returning a "transposed" list of lists.
+
+```pycon
+>>> transpose_list([[1, 4, 7], [2, 5, 8], [3, 6, 9]])
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
 
 The `**` operator does something similar, but with keyword arguments.
 The `**` operator allows us to take a dictionary of key-value pairs and unpack it into keyword arguments in a function call.
@@ -106,26 +131,44 @@ When defining a function, the `*` operator can be used to capture an unlimited n
 These arguments are captured into a tuple.
 
 ```python
-def transpose_list(list_of_lists):
-    return [
-        list(row)
-        for row in zip(*list_of_lists)
-    ]
+from random import randint
+
+def roll(*dice):
+    return sum(randint(1, die) for die in dice)
 ```
 
-This is often used with the argument unpacking use of `*` we saw above:
+This function accepts any number of arguments:
 
-```python
-def TODO
+```pycon
+>>> roll(20)
+18
+>>> roll(6, 6)
+9
+>>> roll(6, 6, 6)
+8
 ```
 
 Python's `print` and `zip` functions accept any number of positional arguments.
-This argument-packing use of `*` allows us to make our own `print`- and `zip`-like functions.
+This argument-packing use of `*` allows us to make our own that, like `print` and `zip`, accept any number of arguments.
 
 The `**` operator also has another side to it: we can use `**` when defining a function to capture any keyword arguments given to the function into a dictionary:
 
 ```python
-TODO
+def tag(tag_name, **attributes):
+    attribute_list = [
+        f"{name}={repr(value)}"
+        for name, value in attributes.items()
+    ]
+    return f"<{tag_name} {' '.join(attribute_list)}>"
+```
+
+That `**` will capture any keyword arguments we give to this function into a dictionary which will that `attributes` arguments will reference.
+
+```pycon
+>>> tag('a', href="http://treyhunner.com")
+"<a href='http://treyhunner.com'>"
+>>> tag('img', height=20, width=40, src="face.jpg")
+"<img height=20 width=40 src='face.jpg'>"
 ```
 
 
@@ -134,7 +177,7 @@ TODO
 As of Python 3, we now have a special syntax for accepting keyword-only arguments to functions.
 To accept keyword-only arguments, we can put named arguments after a `*` usage when defining our function:
 
-```
+```python
 def get_multiple(*keys, dictionary, default=None):
     return [
         dictionary.get(key, default)
@@ -144,16 +187,16 @@ def get_multiple(*keys, dictionary, default=None):
 
 The above function can be used like this:
 
-```
+```pycon
 >>> fruits = {'lemon': 'yellow', 'orange': 'orange', 'tomato': 'red'}
 >>> get_multiple('lemon', 'tomato', 'squash', dictionary=fruits, default='unknown')
 ['yellow', 'red', 'unknown']
 ```
 
-The arguments `dictionary` and `default` come after `*keys`, which means they can *only* be specified as keyword arguments.
+The arguments `dictionary` and `default` come after `*keys`, which means they can *only* be specified as [keyword arguments][].
 If we try to specify them positionally we'll get an error:
 
-```
+```pycon
 >>> fruits = {'lemon': 'yellow', 'orange': 'orange', 'tomato': 'red'}
 >>> get_multiple('lemon', 'tomato', 'squash', fruits, 'unknown')
 Traceback (most recent call last):
@@ -161,7 +204,7 @@ Traceback (most recent call last):
 TypeError: get_multiple() missing 1 required keyword-only argument: 'dictionary'
 ```
 
-This behavior was introduced to Python through [PEP 3012][].
+This behavior was introduced to Python through [PEP 3102][].
 
 
 ## Keyword-only arguments without positional arguments
@@ -170,8 +213,46 @@ That keyword-only argument feature is cool, but what if you want to require keyw
 
 Python allows this with a somewhat strange `*`-on-its-own syntax:
 
+```python
+def with_previous(iterable, *, fillvalue=None):
+    """Yield each iterable item along with the item before it."""
+    previous = fillvalue
+    for item in iterable:
+        yield previous, item
+        previous = item
 ```
-TODO
+
+This function accepts an `iterable` argument, which can be specified positionally (as the first argument) or by its name and a `fillvalue` argument which is a keyword-only argument.  This means we can call `with_previous` like this:
+
+```pycon
+>>> list(with_previous([2, 1, 3], fillvalue=0))
+[(0, 2), (2, 1), (1, 3)]
+```
+
+But not like this:
+
+```pycon
+>>> list(with_previous([2, 1, 3], 0))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: with_previous() takes 1 positional argument but 2 were given
+```
+
+This function accepts two arguments and one of them, `fillvalue` *must be specified as a keyword argument*.
+
+I usually use keyword-only arguments used while capturing any number of positional arguments, but I do sometimes use this `*` to enforce an argument to only be specified positionally.
+
+Python's built-in `sorted` function actually uses this approach.  If you look at the help information on `sorted` you'll see the following:
+
+```
+>>> help(sorted)
+Help on built-in function sorted in module builtins:
+
+sorted(iterable, /, *, key=None, reverse=False)
+    Return a new list containing all items from the iterable in ascending order.
+
+    A custom key function can be supplied to customize the sort order, and the
+    reverse flag can be set to request the result in descending order.
 ```
 
 
@@ -253,26 +334,62 @@ We can also dump iterables into new tuples or sets:
 >>> (*fruits[1:], fruits[0])
 ```
 
-TODO
-- For dumping some iterables into a list (often useful for concatenating iterables of different types together)
-- Works in tuple/set literal too
-- Only Python 3.5+
-- Link to relevant PEP
+## Double asterisks in dictionary literals
 
+PEP 448 also expanded the abilities of `**` by allowing this operator to be used for dumping key/value pairs from one dictionary into another:
 
-## Asterisks for merging multiple dictionaries
+```pycon
+>>> date_info = {'year': "2020", 'month': "01", 'day': "01"}
+>>> track_info = {'artist': "Beethoven", 'title': 'Symphony No 5'}
+>>> all_info = {**date_info, **track_info}
+{'year': '2020', 'month': '01', 'day': '01', 'artist': 'Beethoven', 'title': 'Symphony No 5'}
+```
 
-TODO
+I wrote another article on how this is now the [idiomatic way to merge dictionaries in Python][merge dictionaries].
+
+This can be used for more than just merging two dictionaries together though.
+
+For example we can copy a dictionary while adding a new value to it:
+
+```pycon
+date_info = {'year': '2020', 'month': '01', 'day': '7'}
+event_info = {**date_info, 'group': "Python Meetup"}
+>>> event_info
+{'year': '2020', 'month': '01', 'day': '7', 'group': 'Python Meetup'}
+```
+
+Or copy/merge dictionaries while overriding particular values:
+
+```pycon
+>>> event_info = {'year': '2020', 'month': '01', 'day': '7', 'group': 'Python Meetup'}
+>>> new_info = {**event_info, 'day': "14"}
+>>> new_info
+{'year': '2020', 'month': '01', 'day': '14', 'group': 'Python Meetup'}
+```
 
 
 ## Python's asterisks are powerful
 
-TODO they're not just syntactic sugar: they allow for some features that simply don't exist otherwise
+Python's `*` and `**` operators aren't just syntactic sugar.
+Some of the things they allow you to do could be achieved through other means, but a number of the features they provide would be more cumbersome, more resource intensive, or even impossible (there's no way to accept any number of arguments without `*`).
+
+After reading all the features of `*` and `**`, you might be wondering what the names for these odd operators are.
+Unfortunately, they don't really have succinct names.
+I've heard `*` called the packing and unpacking operator.
+I've also heard it called "splat" (from the Ruby world) and I've heard it called simply "star".
+
+I tend to call these operators "star" and "double star" or "star star".
+That doesn't distinguish them from their infix multiplication relatives, but context usually makes it obvious whether we're talking about prefix or infix operators.
+
+If you don't understand `*` and `**` or you're concerned about memorizing all of their uses, don't be!
+These operators have many uses and memorizing the specific use of each one isn't as important as getting a feel for when you might be able to reach for these operators.
+I suggest using this article as a cheat sheet or to making your own cheat sheet to help you use `*` and `**` in Python.
 
 
-[keyword arguments in Python]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
+[keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
 [tuple unpacking in Python]: https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/
 [pep 3132]: https://www.python.org/dev/peps/pep-3132/
 [pep 468]: https://www.python.org/dev/peps/pep-0468/
 [pep 3102]: https://www.python.org/dev/peps/pep-3102/
 [pep 448]: https://www.python.org/dev/peps/pep-0448/
+[merge dictionaries]: https://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/
