@@ -52,7 +52,7 @@ This includes:
 5. Using `**` to unpack dictionaries into other dictionaries
 
 Even if you think you're familiar with all of these ways of using `*` and `**`, I recommend looking at each of the code blocks below to make sure they're all things you're familiar with.
-They've continued to add features to these operators over the last few years and it's easy to overlook some of the newer uses of `*` and `**`.
+The Python core developers have continued to add new abilities to these operators over the last few years and it's easy to overlook some of the newer uses of `*` and `**`.
 
 
 ## Asterisks for unpacking into function call
@@ -93,11 +93,13 @@ The `**` operator does something similar, but with keyword arguments.
 The `**` operator allows us to take a dictionary of key-value pairs and unpack it into keyword arguments in a function call.
 
 ```pycon
-date_info = {'year': "2020", 'month': "01", 'day': "01"}
-filename = "{year}-{month}-{day}.txt".format(**date_info)
+>>> date_info = {'year': "2020", 'month': "01", 'day': "01"}
+>>> filename = "{year}-{month}-{day}.txt".format(**date_info)
+>>> filename
+'2020-01-01.txt'
 ```
 
-I find that using `**` to unpack keyword arguments into a function call isn't very common.
+From my experience, using `**` to unpack keyword arguments into a function call isn't particularly common.
 The place I see this most is when practicing inheritance: calls to `super()` often include both `*` and `**`.
 
 Both `*` and `**` can be used multiple times in function calls, as of Python 3.5.
@@ -111,17 +113,20 @@ Using `*` multiple times can sometimes be handy:
 2 1 3 4 7 lemon pear watermelon tomato
 ```
 
-You need to be careful when using `**` multiple times though:
+Using `**` multiple times looks similar:
 
 ```pycon
-date_info = {'year': "2020", 'month': "01", 'day': "01"}
-track_info = {'artist': "Beethoven", 'title': 'Symphony No 5'}
-filename = "{year}-{month}-{day}-{artist}-{title}.txt".format(
-    **date_info,
-    **track_info,
-)
+>>> date_info = {'year': "2020", 'month': "01", 'day': "01"}
+>>> track_info = {'artist': "Beethoven", 'title': 'Symphony No 5'}
+>>> filename = "{year}-{month}-{day}-{artist}-{title}.txt".format(
+...     **date_info,
+...     **track_info,
+... )
+>>> filename
+'2020-01-01-Beethoven-Symphony No 5.txt'
 ```
 
+You need to be careful when using `**` multiple times though.
 Functions in Python can't have the same keyword argument specified multiple times, so the keys in each dictionary used with `**` must be distinct or an exception will be raised.
 
 
@@ -149,14 +154,14 @@ This function accepts any number of arguments:
 ```
 
 Python's `print` and `zip` functions accept any number of positional arguments.
-This argument-packing use of `*` allows us to make our own that, like `print` and `zip`, accept any number of arguments.
+This argument-packing use of `*` allows us to make our own function which, like `print` and `zip`, accept any number of arguments.
 
 The `**` operator also has another side to it: we can use `**` when defining a function to capture any keyword arguments given to the function into a dictionary:
 
 ```python
 def tag(tag_name, **attributes):
     attribute_list = [
-        f"{name}={repr(value)}"
+        f'{name}="{value}"'
         for name, value in attributes.items()
     ]
     return f"<{tag_name} {' '.join(attribute_list)}>"
@@ -166,15 +171,17 @@ That `**` will capture any keyword arguments we give to this function into a dic
 
 ```pycon
 >>> tag('a', href="http://treyhunner.com")
-"<a href='http://treyhunner.com'>"
+'<a href="http://treyhunner.com">'
 >>> tag('img', height=20, width=40, src="face.jpg")
-"<img height=20 width=40 src='face.jpg'>"
+'<img height="20" width="40" src="face.jpg">'
 ```
 
 
 ## Positional arguments with keyword-only arguments
 
 As of Python 3, we now have a special syntax for accepting keyword-only arguments to functions.
+Keyword-only arguments are function arguments which can *only* be specified using the keyword syntax, meaning they cannot be specified positionally.
+
 To accept keyword-only arguments, we can put named arguments after a `*` usage when defining our function:
 
 ```python
@@ -255,6 +262,8 @@ sorted(iterable, /, *, key=None, reverse=False)
     reverse flag can be set to request the result in descending order.
 ```
 
+There's an `*`-on-its-own, right in the documented arguments for `sorted`.
+
 
 ## Asterisks in tuple unpacking
 
@@ -269,14 +278,15 @@ The `*` operator can also be used in tuple unpacking now:
 >>> remaining
 ['watermelon', 'tomato']
 >>> first, *remaining = fruits
+>>> remaining
+['pear', 'watermelon', 'tomato']
 >>> first, *middle, last = fruits
 >>> middle
 ['pear', 'watermelon']
 ```
 
-In my article on [tuple unpacking in Python][], I noted how the `*` operator can be used as an alternative to slicing.
-
-The PEP that added this to Python 3.0 is [PEP 3132][] and it's not a very long one.
+If you're wondering "where could I use this in my own code", take a look at the examples in my article on [tuple unpacking in Python][].
+In that article I show how this use of the `*` operator can sometimes be used as an alternative to sequence slicing.
 
 Usually when I teach `*` I note that you can only use one `*` expression in a single multiple assignment call.
 That's technically incorrect because it's possible to use two in a nested unpacking (I talk about nested unpacking in my tuple unpacking article):
@@ -291,6 +301,8 @@ That's technically incorrect because it's possible to use two in a nested unpack
 ```
 
 I've never seen a good use for this though and I don't think I'd recommend using it even if you found one because it seems a bit cryptic.
+
+The PEP that added this to Python 3.0 is [PEP 3132][] and it's not a very long one.
 
 
 ## Asterisks in list literals
@@ -322,26 +334,41 @@ def rotate_first_item(sequence):
     return [*sequence[1:], sequence[0]]
 ```
 
-This use of the `*` operator is a great way to concatenate iterables of different types together.
+That function returns a new list where the first item in the given list (or other sequence) is moved to the end of the new list.
 
-This isn't just limited to lists either.
+This use of the `*` operator is a great way to concatenate iterables of different types together.
+The `*` operator works for any iterable, whereas using the `+` operator only works on particular sequences which have to all be the same type.
+
+This isn't just limited to creating lists either.
 We can also dump iterables into new tuples or sets:
 
-```python
+```pycon
 >>> fruits = ['lemon', 'pear', 'watermelon', 'tomato']
+>>> (*fruits[1:], fruits[0])
+('pear', 'watermelon', 'tomato', 'lemon')
 >>> uppercase_fruits = (f.upper() for f in fruits)
 >>> {*fruits, *uppercase_fruits}
->>> (*fruits[1:], fruits[0])
+{'lemon', 'watermelon', 'TOMATO', 'LEMON', 'PEAR', 'WATERMELON', 'tomato', 'pear'}
+```
+
+Notice that the last line above takes a list and a generator and dumps them into a new set.
+Before this use of `*`, there wasn't previously an easy way to do this in one line of code.
+There was a way to do this before, but it wasn't easy to remember or discover:
+
+```pycon
+>>> set().union(fruits, uppercase_fruits)
+{'lemon', 'watermelon', 'TOMATO', 'LEMON', 'PEAR', 'WATERMELON', 'tomato', 'pear'}
 ```
 
 ## Double asterisks in dictionary literals
 
-PEP 448 also expanded the abilities of `**` by allowing this operator to be used for dumping key/value pairs from one dictionary into another:
+PEP 448 also expanded the abilities of `**` by allowing this operator to be used for dumping key/value pairs from one dictionary into a new dictionary:
 
 ```pycon
 >>> date_info = {'year': "2020", 'month': "01", 'day': "01"}
 >>> track_info = {'artist': "Beethoven", 'title': 'Symphony No 5'}
 >>> all_info = {**date_info, **track_info}
+>>> all_info
 {'year': '2020', 'month': '01', 'day': '01', 'artist': 'Beethoven', 'title': 'Symphony No 5'}
 ```
 
@@ -352,8 +379,8 @@ This can be used for more than just merging two dictionaries together though.
 For example we can copy a dictionary while adding a new value to it:
 
 ```pycon
-date_info = {'year': '2020', 'month': '01', 'day': '7'}
-event_info = {**date_info, 'group': "Python Meetup"}
+>>> date_info = {'year': '2020', 'month': '01', 'day': '7'}
+>>> event_info = {**date_info, 'group': "Python Meetup"}
 >>> event_info
 {'year': '2020', 'month': '01', 'day': '7', 'group': 'Python Meetup'}
 ```
@@ -371,19 +398,20 @@ Or copy/merge dictionaries while overriding particular values:
 ## Python's asterisks are powerful
 
 Python's `*` and `**` operators aren't just syntactic sugar.
-Some of the things they allow you to do could be achieved through other means, but a number of the features they provide would be more cumbersome, more resource intensive, or even impossible (there's no way to accept any number of arguments without `*`).
+Some of the things they allow you to do could be achieved through other means, but the alternatives to `*` and `**` tend to be more cumbersome and more resource intensive.
+And some of the features they provide are simply impossible to achieve without them: for example there's no way to accept any number of positional arguments to a function without `*`.
 
-After reading all the features of `*` and `**`, you might be wondering what the names for these odd operators are.
+After reading about all the features of `*` and `**`, you might be wondering what the names for these odd operators are.
 Unfortunately, they don't really have succinct names.
-I've heard `*` called the packing and unpacking operator.
+I've heard `*` called the "packing" and "unpacking" operator.
 I've also heard it called "splat" (from the Ruby world) and I've heard it called simply "star".
 
 I tend to call these operators "star" and "double star" or "star star".
-That doesn't distinguish them from their infix multiplication relatives, but context usually makes it obvious whether we're talking about prefix or infix operators.
+That doesn't distinguish them from their infix relatives (multiplication and exponentiation), but context usually makes it obvious whether we're talking about prefix or infix operators.
 
 If you don't understand `*` and `**` or you're concerned about memorizing all of their uses, don't be!
 These operators have many uses and memorizing the specific use of each one isn't as important as getting a feel for when you might be able to reach for these operators.
-I suggest using this article as a cheat sheet or to making your own cheat sheet to help you use `*` and `**` in Python.
+I suggest using this article as **a cheat sheet** or to making your own cheat sheet to help you use `*` and `**` in Python.
 
 
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
