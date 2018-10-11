@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Sometimes the Pythonic way to solve a problem changes over time. As Python has evolved, so has the Pythonic way to count list items. Let&rsquo;s look &hellip;">
+  <meta name="description" content="Sometimes a programming design pattern becomes common enough to warrant its own special syntax. Python&rsquo;s list comprehensions are a prime &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a></h1>
+      <h1 class="entry-title"><a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></h1>
     
     
       <p class="meta">
@@ -98,25 +98,84 @@
 
 
 
-<time class='entry-date' datetime='2015-11-09T11:30:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:30 am</span></time>
+<time class='entry-date' datetime='2015-12-01T10:30:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:30 am</span></time>
         
-           | <a href="/2015/11/counting-things-in-python/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/11/counting-things-in-python/">Comments</a>
+           | <a href="/2015/12/python-list-comprehensions-now-in-color/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Sometimes the <a href="http://nedbatchelder.com/blog/201011/pythonic.html">Pythonic</a> way to solve a problem changes over time.  As Python has evolved, so has the Pythonic way to count list items.</p>
+  <div class="entry-content"><p>Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python&rsquo;s <a href="https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps">list comprehensions</a> are a prime example of such a syntactic sugar.</p>
 
-<p>Let&rsquo;s look at different techniques for counting the number of times things appear in a list.  While analyzing these techniques, we will <em>only</em> be looking at code style.  We&rsquo;ll worry about performance later.</p>
+<p>List comprehensions in Python are great, but mastering them can be tricky because they don&rsquo;t solve a new problem: they just provide a new syntax to solve an existing problem.</p>
 
-<p>We will need some historical context to understand these different techniques.  Fortunately we live in the <code>__future__</code> and we have a time machine.  Let&rsquo;s jump in our DeLorean and head to 1997.</p>
+<p>Let&rsquo;s learn what list comprehensions are and how to identify when to use them.</p>
 
-<h2>if Statement</h2>
+<p><strong>Update</strong>: I held a 1 hour <a href="http://ccst.io/e/list-comprehensions">video chat about list comprehensions</a> which extends the material in this article.  If you want more after reading this post, check out the recording.</p>
 
-<p>It&rsquo;s January 1, 1997 and we&rsquo;re using Python 1.4.  We have a list of colors and we&rsquo;d love to know how many times each color occurs in this list.  Let&rsquo;s use <a href="https://docs.python.org/release/1.4/lib/node13.html">a dictionary</a>!</p>
+<h2>What are list comprehensions?</h2>
+
+<p>List comprehensions are a tool for transforming one list (any <a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a> actually) into another list.  During this transformation, elements can be conditionally included in the new list and each element can be transformed as needed.</p>
+
+<p>If you&rsquo;re familiar with functional programming, you can think of list comprehensions as syntactic sugar for a <code>filter</code> followed by a <code>map</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&rsquo;re not familiar with functional programming, don&rsquo;t worry: I&rsquo;ll explain using <code>for</code> loops.</p>
+
+<h2>From loops to comprehensions</h2>
+
+<p>Every list comprehension can be rewritten as a <code>for</code> loop but not every <code>for</code> loop can be rewritten as a list comprehension.</p>
+
+<p>The key to understanding when to use list comprehensions is to practice identifying problems that <em>smell</em> like list comprehensions.</p>
+
+<p>If you can rewrite your code to look <em>just like this <code>for</code> loop</em>, you can also rewrite it as a list comprehension:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">new_things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can rewrite the above <code>for</code> loop as a list comprehension like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span> <span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span> <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>List Comprehensions: The Animated Movie™</h2>
+
+<p>That&rsquo;s great, but how did we do that?</p>
+
+<p>We <strong>copy-pasted</strong> our way from a <code>for</code> loop to a list comprehension.</p>
+
+<p><img src="/images/list-comprehension-condition.gif"></p>
+
+<p>Here&rsquo;s the order we copy-paste in:</p>
+
+<ol>
+<li>Copy the variable assignment for our new empty list (line 3)</li>
+<li>Copy the expression that we&rsquo;ve been <code>append</code>-ing into this new list (line 6)</li>
+<li>Copy the <code>for</code> loop line, excluding the final <code>:</code> (line 4)</li>
+<li>Copy the <code>if</code> statement line, also without the <code>:</code> (line 5)</li>
+</ol>
+
+
+<p>We&rsquo;ve now copied our way from this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -124,271 +183,274 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Note:</strong> we&rsquo;re not using <code>+=</code> because augmented assignment won&rsquo;t be added until <a href="https://www.python.org/dev/peps/pep-0203/">Python 2.0</a> and we&rsquo;re not using the <code>c in color_counts</code> idiom because that won&rsquo;t be invented until <a href="https://docs.python.org/release/2.2/lib/typesmapping.html">Python 2.2</a>!</p>
-
-<p>After running this we&rsquo;ll see that our <code>color_counts</code> dictionary now contains the counts of each color in our list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
-</span><span class='line'><span class="go">{&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That was pretty simple.  We just looped through each color, checked if it was in the dictionary, added the color if it wasn&rsquo;t, and incremented the count if it was.</p>
-
-<p>We could also write this as:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This might be a little slower on sparse lists (lists with lots of non-repeating colors) because it executes two statements instead of one, but we&rsquo;re not worried about performance, we&rsquo;re worried about code style.  After some thought, we decide to stick with this new version.</p>
-
-<h2>try Block</h2>
-
-<p>It&rsquo;s January 2, 1997 and we&rsquo;re still using Python 1.4.  We woke up this morning with a sudden realization: our code is practicing &ldquo;Look Before You Leap&rdquo; (<a href="https://docs.python.org/2/glossary.html#term-lbyl">LBYL</a>) when we should be practicing &ldquo;Easier to Ask Forgiveness, Than Permission&rdquo; (<a href="https://docs.python.org/2/glossary.html#term-eafp">EAFP</a>) because EAFP is more Pythonic.  Let&rsquo;s refactor our code to use a try-except block:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now our code attempts to increment the count for each color and if the color isn&rsquo;t in the dictionary, a <code>KeyError</code> will be raised and we will instead set the color count to 1 for the color.</p>
-
-<h2>get Method</h2>
-
-<p>It&rsquo;s January 1, 1998 and we&rsquo;ve upgraded to Python 1.5.  We&rsquo;ve decided to refactor our code to use the <a href="https://docs.python.org/release/1.5/lib/node13.html">new <code>get</code> method on dictionaries</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now our code loops through each color, gets the current count for the color from the dictionary, defaulting this count to <code>0</code>, adds <code>1</code> to the count, and sets the dictionary key to this new value.</p>
-
-<p>It&rsquo;s cool that this is all one line of code, but we&rsquo;re not entirely sure if this is more Pythonic.  We decide this might be too clever so we revert this change.</p>
-
-<h2>setdefault</h2>
-
-<p>It&rsquo;s January 1, 2001 and we&rsquo;re now using Python 2.0!  We&rsquo;ve heard that <a href="https://docs.python.org/release/2.0/lib/typesmapping.html">dictionaries have a <code>setdefault</code> method now</a> and we decide to refactor our code to use this new method.  We also decide to use the new <code>+=</code> augmented assignment operator:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>setdefault</code> method is being called on every loop, regardless of whether it&rsquo;s needed, but this does seem a little more readable.  We decide that this is more Pythonic than our previous solutions and commit our change.</p>
-
-<h2>fromkeys</h2>
-
-<p>It&rsquo;s January 1, 2004 and we&rsquo;re using Python 2.3.  We&rsquo;ve heard about a <a href="https://docs.python.org/release/2.3/lib/typesmapping.html">new <code>fromkeys</code> class method</a> on dictionaries for constructing dictionaries from a list of keys.  We refactor our code to use this new method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This creates a new dictionary using our colors as keys, with all values set to <code>0</code> initially.  This allows us to increment each key without worrying whether it has been set.  We&rsquo;ve removed the need for any checking or exception handling which seems like an improvement.  We decide to keep this change.</p>
-
-<h2>Comprehension and set</h2>
-
-<p>It&rsquo;s January 1, 2005 and we&rsquo;re using Python 2.4.  We realize that we could solve our counting problem using sets (<a href="https://docs.python.org/release/2.3/lib/module-sets.html">released in Python 2.3</a> and made into <a href="https://docs.python.org/release/2.4/lib/types-set.html">a built-in in 2.4</a>) and list comprehensions (<a href="https://www.python.org/dev/peps/pep-0202/">released in Python 2.0</a>).  After further thought, we remember that <a href="https://www.python.org/dev/peps/pep-0289/">generator expressions</a> were also just released in Python 2.4 and we decide to use one of those instead of a list comprehension:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">colors</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Note</strong>: we didn&rsquo;t use a dictionary comprehension because those won&rsquo;t be invented until <a href="https://www.python.org/dev/peps/pep-0274/">Python 2.7</a>.</p>
-
-<p>This works.  It&rsquo;s one line of code.  But is it Pythonic?</p>
-
-<p>We remember the <a href="https://www.python.org/dev/peps/pep-0020/">Zen of Python</a>, which <a href="https://mail.python.org/pipermail/python-list/1999-June/001951.html">started in a python-list email thread</a> and was <a href="http://svn.python.org/view/python/tags/r221/Lib/this.py?revision=25249&amp;view=markup">snuck into Python 2.2.1</a>.  We type <code>import this</code> at our REPL:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">this</span>
-</span><span class='line'><span class="go">The Zen of Python, by Tim Peters</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 </span><span class='line'>
-</span><span class='line'><span class="go">Beautiful is better than ugly.</span>
-</span><span class='line'><span class="go">Explicit is better than implicit.</span>
-</span><span class='line'><span class="go">Simple is better than complex.</span>
-</span><span class='line'><span class="go">Complex is better than complicated.</span>
-</span><span class='line'><span class="go">Flat is better than nested.</span>
-</span><span class='line'><span class="go">Sparse is better than dense.</span>
-</span><span class='line'><span class="go">Readability counts.</span>
-</span><span class='line'><span class="go">Special cases aren&#39;t special enough to break the rules.</span>
-</span><span class='line'><span class="go">Although practicality beats purity.</span>
-</span><span class='line'><span class="go">Errors should never pass silently.</span>
-</span><span class='line'><span class="go">Unless explicitly silenced.</span>
-</span><span class='line'><span class="go">In the face of ambiguity, refuse the temptation to guess.</span>
-</span><span class='line'><span class="go">There should be one-- and preferably only one --obvious way to do it.</span>
-</span><span class='line'><span class="go">Although that way may not be obvious at first unless you&#39;re Dutch.</span>
-</span><span class='line'><span class="go">Now is better than never.</span>
-</span><span class='line'><span class="go">Although never is often better than *right* now.</span>
-</span><span class='line'><span class="go">If the implementation is hard to explain, it&#39;s a bad idea.</span>
-</span><span class='line'><span class="go">If the implementation is easy to explain, it may be a good idea.</span>
-</span><span class='line'><span class="go">Namespaces are one honking great idea -- let&#39;s do more of those!</span>
+</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">doubled_odds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Our code is <em>more complex</em> (<strong>O(n<sup>2</sup>)</strong> instead of <strong>O(n)</strong>), <em>less beautiful</em>, and <em>less readable</em>.  That change was a fun experiment, but this one-line solution is <strong>less Pythonic</strong> than what we already had.  We decide to revert this change.</p>
+<p>To this:</p>
 
-<h2>defaultdict</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>It&rsquo;s January 1, 2007 and we&rsquo;re using Python 2.5.  We&rsquo;ve just found out that <a href="https://docs.python.org/release/2.5/lib/defaultdict-objects.html"><code>defaultdict</code> is in the standard library</a> now.  This should allow us to set <code>0</code> as the default value in our dictionary.  Let&rsquo;s refactor our code to count using a <code>defaultdict</code> instead:</p>
+
+<h2>List Comprehensions: Now in Color</h2>
+
+<p>Let&rsquo;s use colors to highlight what&rsquo;s going on.</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">doubled_odds</span> = <span class="collection-type">[]</span>
+<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
+    <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>:
+        <span class="new-collection">doubled_odds</span>.append(<span class="item-mutation">n * 2</span>)
+</pre>
+
+
+
+
+<pre class="colored-comprehension">
+<span class="new-collection">doubled_odds</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>]</span>
+</pre>
+
+
+<p>We copy-paste from a <code>for</code> loop into a list comprehension by:</p>
+
+<ol>
+<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span></li>
+<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list</li>
+<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code></li>
+<li>Copying <span class="conditional-clause">the <code>if</code> statement line</span>, also without the <code>:</code></li>
+</ol>
+
+
+<h2>Unconditional Comprehensions</h2>
+
+<p>But what about comprehensions that don&rsquo;t have a conditional clause (that <code>if SOMETHING</code> part at the end)?  These loop-and-append <code>for</code> loops are even simpler than the loop-and-conditionally-append ones we&rsquo;ve already covered.</p>
+
+<p>A <code>for</code> loop that doesn&rsquo;t have an <code>if</code> statement:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[]</span>
+<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
+    <span class="new-collection">doubled_numbers</span>.append(<span class="item-mutation">n * 2</span>)
+</pre>
+
+
+<p>That same code written as a comprehension:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type">]</span>
+</pre>
+
+
+<p>Here&rsquo;s the transformation animated:</p>
+
+<p><img src="/images/list-comprehension-no-condition.gif"></p>
+
+<p>We can copy-paste our way from a simple loop-and-append <code>for</code> loop by:</p>
+
+<ol>
+<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span> (line 3)</li>
+<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list (line 5)</li>
+<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code> (line 4)</li>
+</ol>
+
+
+<h2>Nested Loops</h2>
+
+<p>What about list comprehensions with nested looping?&hellip; 😦</p>
+
+<p>Here&rsquo;s a <code>for</code> loop that flattens a matrix (a list of lists):</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">flattened</span> = <span class="collection-type">[]</span>
+<span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span>:
+    <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span>:
+        <span class="new-collection">flattened</span>.append(<span class="item-mutation">n</span>)
+</pre>
+
+
+<p>Here&rsquo;s a list comprehension that does the same thing:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type"> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type">]</span>
+</pre>
+
+
+<p>Nested loops in list comprehensions do not read like English prose.</p>
+
+<p><strong>Note:</strong> My brain wants to write this list comprehension as:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type"> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type">]</span>
+</pre>
+
+
+<p><strong>But that&rsquo;s not right!</strong>  I&rsquo;ve mistakenly flipped the <code>for</code> loops here.  The correct version is the one above.</p>
+
+<p>When working with nested loops in list comprehensions remember that <strong>the <code>for</code> clauses remain in the same order</strong> as in our original <code>for</code> loops.</p>
+
+<h2>Other Comprehensions</h2>
+
+<p>This same principle applies to <a href="https://docs.python.org/3/tutorial/datastructures.html#sets">set comprehensions</a> and <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary comprehensions</a>.</p>
+
+<p>Code that creates a set of all the first letters in a sequence of words:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">first_letters</span> = <span class="collection-type">set()</span>
+<span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span>:
+    <span class="new-collection">first_letters</span>.add(<span class="item-mutation">w[0]</span>)
+</pre>
+
+
+<p>That same code written as a set comprehension:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">first_letters</span> = <span class="collection-type">{</span><span class="item-mutation">w[0]</span> <span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span><span class="collection-type">}</span>
+</pre>
+
+
+<p>Code that makes a new dictionary by swapping the keys and values of the original one:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">flipped</span> = <span class="collection-type">{}</span>
+<span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span>:
+    <span class="new-collection">flipped</span>[<span class="item-mutation">value</span>] = <span class="item-mutation">key</span>
+</pre>
+
+
+<p>That same code written as a dictionary comprehension:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">flipped</span> = <span class="collection-type">{</span><span class="item-mutation">value</span>: <span class="item-mutation">key</span> <span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span><span class="collection-type">}</span>
+</pre>
+
+
+<h2>Readability Counts</h2>
+
+<p>Did you find the above list comprehensions hard to read?  I often find longer list comprehensions very difficult to read when they&rsquo;re written on one line.</p>
+
+<p>Remember that <a href="https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining">Python allows line breaks</a> between brackets and braces.</p>
+
+<h3>List comprehension</h3>
+
+<p>Before</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">color_counts</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>That <code>for</code> loop is so simple now!  This is almost certainly more Pythonic.</p>
+<h3>Nested loops in list comprehension</h3>
 
-<p>We realize that our <code>color_counts</code> variable does act differently, however it <em>does</em> inherit from <code>dict</code> and supports all the same mapping functionality.</p>
+<p>Before</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
-</span><span class='line'><span class="go">defaultdict(&lt;type &#39;int&#39;&gt;, {&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1})</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Instead of converting <code>color_counts</code> to a <code>dict</code>, we&rsquo;ll assume the rest of our code practices <a href="https://docs.python.org/2/glossary.html#term-duck-typing">duck typing</a> and leave this dict-like object as-is.</p>
-
-<h2>Counter</h2>
-
-<p>It&rsquo;s January 1, 2011 and we&rsquo;re using Python 2.7.  We&rsquo;ve been told that our <code>defaultdict</code> code is no longer the most Pythonic way to count colors.  <a href="https://docs.python.org/2.7/library/collections.html#collections.Counter">A <code>Counter</code> class was included in the standard library</a> in Python 2.7 and it does all of the work for us!</p>
+<p>After</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;brown&quot;</span><span class="p">,</span> <span class="s">&quot;black&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">color_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">n</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span>
+</span><span class='line'><span class="p">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Could this get any simpler?  This must be the most Pythonic way.</p>
+<h3>Dictionary comprehension</h3>
 
-<p>Like <code>defaultdict</code>, this returns a dict-like object (a <code>dict</code> subclass actually), which should be good enough for our purposes, so we&rsquo;ll stick with it.</p>
+<p>Before</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_counts</span>
-</span><span class='line'><span class="go">Counter({&#39;brown&#39;: 3, &#39;yellow&#39;: 2, &#39;green&#39;: 1, &#39;black&#39;: 1, &#39;red&#39;: 1})</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">value</span><span class="p">:</span> <span class="n">key</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>After thought: Performance</h2>
+<p>Note that we are not adding line breaks arbitrarily: we&rsquo;re breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.</p>
 
-<p>Notice that we didn&rsquo;t focus on efficiency for these solutions.  Most of these solutions have the same time complexity (<code>O(n)</code> in big O notation) but runtimes could vary based on the Python implementation.</p>
+<h2>Learn with me</h2>
 
-<p>While performance isn&rsquo;t our main concern, <a href="https://gist.github.com/treyhunner/0987601f960a5617a1be">I did measure the run-times on CPython 3.5.0</a>.  It&rsquo;s interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.</p>
+<p>I did a <a href="https://www.youtube.com/watch?v=u-mhKtC1Xh4">class on list comprehensions</a> with <a href="http://remote.pyladies.com/">PyLadies Remote</a> recently.</p>
 
-<h2>Conclusion</h2>
+<p>If you&rsquo;d like to watch me walk through an explanation of any of the above topics, check out the video:</p>
 
-<p>Per the <a href="https://www.python.org/dev/peps/pep-0020/">Zen of Python</a>, &ldquo;there should be one&ndash; and preferably only one&ndash; obvious way to do it&rdquo;.  This is an aspirational message.  There isn&rsquo;t always one obvious way to do it.  The &ldquo;obvious&rdquo; way can vary by time, need, and level of expertise.</p>
-
-<p><strong>&ldquo;Pythonic&rdquo; is a relative term.</strong></p>
-
-<h3>Related Resources</h3>
-
-<ul>
-<li><a href="http://www.wefearchange.org/2010/06/import-this-and-zen-of-python.html">import this and the Zen of Python</a>: Zen of Python trivia borrowed from this post</li>
-<li><a href="https://www.youtube.com/watch?v=AZDWveIdqjY">Permission or Forgiveness</a>: Alex Martelli discusses Grace Hopper&rsquo;s EAFP</li>
-<li><a href="https://codefisher.org/catch/blog/2015/04/22/python-how-group-and-count-dictionaries/">Python How To: Group and Count with Dictionaries</a>: while writing this post, I discovered this related article</li>
-</ul>
+<ol>
+<li><a href="https://youtu.be/u-mhKtC1Xh4?t=3m30s">list comprehensions</a></li>
+<li><a href="https://youtu.be/u-mhKtC1Xh4?t=35m05s">generator expressions</a></li>
+<li><a href="https://youtu.be/u-mhKtC1Xh4?t=44m44s">set comprehensions</a></li>
+<li><a href="https://youtu.be/u-mhKtC1Xh4?t=47m44s">dictionary comprehensions</a></li>
+</ol>
 
 
-<h3>Credits</h3>
+<h2>Summary</h2>
 
-<p>Thanks to <a href="http://brianschrader.com/">Brian Schrader</a> and <a href="http://stackoverflow.com/users/400617/davidism">David Lord</a> for proof-reading this post and <a href="http://micah.bigprob.net/">Micah Denbraver</a> for actually <a href="https://gist.github.com/macro1/9b364612ee3907df4179">testing out these solutions</a> on the correct versions of Python.</p>
+<p>When struggling to write a comprehension, don&rsquo;t panic.  Start with a <code>for</code> loop first and copy-paste your way into a comprehension.</p>
+
+<p>Any <code>for</code> loop that looks like this:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
+<span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span>:
+    <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>:
+        <span class="new-collection">new_things</span>.append(<span class="item-mutation">"something with " + ITEM</span>)
+</pre>
+
+
+<p>Can be rewritten into a list comprehension like this:</p>
+
+<pre class="colored-comprehension">
+<span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
+</pre>
+
+
+<p>If you can nudge a <code>for</code> loop until it looks like the ones above, you can rewrite it as a list comprehension.</p>
+
+<p>This article was based on my Intro to Python class.  If you&rsquo;re interested in chatting about my <a href="http://truthful.technology/">Python training services</a>, <a href="mailto:hello@truthful.technology">drop me a line</a>.</p>
 </div>
   
   <footer>
