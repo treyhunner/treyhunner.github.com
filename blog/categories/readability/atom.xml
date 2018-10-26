@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T11:05:04-07:00</updated>
+  <updated>2018-10-26T15:14:42-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,862 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
+    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <updated>2018-09-27T07:30:00-07:00</updated>
+    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
+I almost always get questions about them.
+My students tend to see them in code on StackOverflow or they see them in a coworker&rsquo;s code (which, realistically, may have also come from StackOverflow).</p>
+
+<p>I get a lot of questions about lambda, I&rsquo;m hesitant to recommend my students embrace Python&rsquo;s lambda expressions.
+I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
+
+<p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
+
+<h2>Lambda expressions in Python: what are they?</h2>
+
+<p>Lambda expressions a special syntax in Python for creating <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a>.
+I&rsquo;ll call the <code>lambda</code> syntax itself a <strong>lambda expression</strong> and the function you get back from this I&rsquo;ll call a <strong>lambda function</strong>.</p>
+
+<p>Python&rsquo;s lambda expressions allow a function to be created and passed around (often into another function) all in one line of code.</p>
+
+<p>Lambda expressions allow us to take this code:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+def normalize_case(string):
+    return string.casefold()
+
+normalized_colors = map(normalize_case, colors)
+</code></pre>
+
+<p>And turn it into this code:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+
+normalized_colors = map(lambda s: s.casefold(), colors)
+</code></pre>
+
+<p>Lambda expressions are just a special syntax for making functions.
+They can only have one statement in them and they return the result of that statement automatically.</p>
+
+<p>The inherent limitations of lambda expressions are actually part of their appeal.
+When an experienced Python programmer sees a lambda expression they know that they&rsquo;re working with a function that is <strong>only used in one place</strong> and does <strong>just one thing</strong>.</p>
+
+<p>If you&rsquo;ve ever used anonymous functions in JavaScript before, you can think of Python&rsquo;s lambda expressions as the same, except they have more restrictions and use a very different syntax than the traditional function syntax.</p>
+
+<h2>Where they&rsquo;re usually used</h2>
+
+<p>You&rsquo;ll typically see <code>lambda</code> expressions used when calling functions (or classes) that accept a function as an argument.</p>
+
+<p>Python&rsquo;s built-in <code>sorted</code> function accepts a function as its <code>key</code> argument.  This <em>key function</em> is used to compute a comparison key when determining the sorting order of items.</p>
+
+<p>So <code>sorted</code> is a great example of a place that lambda expressions are often used:</p>
+
+<pre><code class="python">&gt;&gt;&gt; colors = ["Goldenrod", "purple", "Salmon", "turquoise", "cyan"]
+&gt;&gt;&gt; sorted(colors, key=lambda s: s.casefold())
+['cyan', 'Goldenrod', 'purple', 'Salmon', 'turquoise']
+</code></pre>
+
+<p>The above code returns the given colors sorted in a case-insensitive way.</p>
+
+<p>The <code>sorted</code> function isn&rsquo;t the only use of lambda expressions, but it&rsquo;s a common one.</p>
+
+<h2>The pros and cons of lambda</h2>
+
+<p>I frame my thinking around lambda expressions as a constant comparison to using <code>def</code> to define functions.
+Both of these tools give us functions, but they each have different limitations and use a different syntax.</p>
+
+<p>The main ways lambda expressions are different from <code>def</code>:</p>
+
+<ol>
+<li>They can be immediately passed around (no variable needed)</li>
+<li>They can only have a single line of code within them</li>
+<li>They return automatically</li>
+<li>They can&rsquo;t have a docstring and they don&rsquo;t have a name</li>
+<li>They use a different and unfamiliar syntax</li>
+</ol>
+
+
+<p>The fact that lambda expressions can be passed around is their biggest benefit.  Returning automatically is neat but not a big benefit in my mind.  I find the &ldquo;single line of code&rdquo; limitation is neither good nor bad overall.  The fact that lambda functions can&rsquo;t have docstrings and don&rsquo;t have a name is unfortunate and their unfamiliar syntax can be troublesome for newer Pythonistas.</p>
+
+<p>Overall I feel the cons slightly outweigh the pros of lambda expressions, but my biggest complaint about them is that I find that they tend to be both misused and overused.</p>
+
+<h2>Lambda is both misused and overused</h2>
+
+<p>When I see a lambda expression in unfamiliar code I immediately become skeptical.
+When I encounter a lambda expression in the wild, I often find that removing it improves code readability.</p>
+
+<p>Sometimes the issue is that lambda expressions are being misused, meaning they&rsquo;re <strong>used in a way that is nearly always unideal</strong>.
+Other times lambda expressions are simply being overused, meaning they&rsquo;re acceptable but I&rsquo;d personally <strong>prefer to see the code written a different way</strong>.</p>
+
+<p>Let&rsquo;s take a look at the various ways lambda expressions are misused and overused.</p>
+
+<h2>Misuse: naming lambda expressions</h2>
+
+<p>PEP8, the official Python style guide, advises never to write code like this:</p>
+
+<pre><code class="python">normalize_case = lambda s: s.casefold()
+</code></pre>
+
+<p>The above statement makes an anonymous function and then assigns it to a variable.
+The above code ignores the reason lambda functions are useful: <strong>lambda functions can be passed around without needing to be assigned to a variable first</strong>.</p>
+
+<p>If you want to create a one-liner function and store it in a variable, you should use <code>def</code> instead:</p>
+
+<pre><code class="python">def normalize_case(s): return s.casefold()
+</code></pre>
+
+<p>PEP8 recommends this because named functions are a common and easily understood thing.
+This also has the benefit of giving our function a proper name, which could make debugging easier.
+Unlike functions defined with <code>def</code>, lambda functions never have a name (it&rsquo;s always <code>&lt;lambda&gt;</code>):</p>
+
+<pre><code class="python">&gt;&gt;&gt; normalize_case = lambda s: s.casefold()
+&gt;&gt;&gt; normalize_case
+&lt;function &lt;lambda&gt; at 0x7f264d5b91e0&gt;
+&gt;&gt;&gt; def normalize_case(s): return s.casefold()
+...
+&gt;&gt;&gt; normalize_case
+&lt;function normalize_case at 0x7f247f68fea0&gt;
+</code></pre>
+
+<p><strong>If you want to create a function and store it in a variable, define your function using <code>def</code></strong>.
+That&rsquo;s exactly what it&rsquo;s for.
+It doesn&rsquo;t matter if your function is a single line of code or if you&rsquo;re defining a function inside of another function, <code>def</code> works just fine for those use cases.</p>
+
+<h2>Misuse: needless function calls</h2>
+
+<p>I frequently see lambda expressions used to wrap around a function that was already appropriate for the problem at hand.</p>
+
+<p>For example take this code:</p>
+
+<pre><code class="python">sorted_numbers = sorted(numbers, key=lambda n: abs(n))
+</code></pre>
+
+<p>The person who wrote this code likely learned that lambda expressions are used for making a function that can be passed around.
+But they missed out on a slightly bigger picture idea: <strong>all functions in Python (not just lambda functions) can be passed around</strong>.</p>
+
+<p>Since <code>abs</code> (which returns the absolute value of a number) is a function and all functions can be passed around, we could actually have written the above code like this:</p>
+
+<pre><code class="python">sorted_numbers = sorted(numbers, key=abs)
+</code></pre>
+
+<p>Now this example might feel contrived, but it&rsquo;s not terribly uncommon to overuse lambda expressions in this way.  Here&rsquo;s another example I&rsquo;ve seen:</p>
+
+<pre><code class="python">pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
+sorted_by_smallest = sorted(pairs, key=lambda items: min(items))
+</code></pre>
+
+<p>Because we&rsquo;re accepting exactly the same arguments as we&rsquo;re passing into <code>min</code>, we don&rsquo;t need that extra function call.  We can just pass the <code>min</code> function to <code>key</code> instead:</p>
+
+<pre><code class="python">pairs = [(4, 11), (8, 8), (5, 7), (11, 3)]
+sorted_by_smallest = sorted(pairs, key=min)
+</code></pre>
+
+<p>You don&rsquo;t need a lambda function if you already have another function that does what you want.</p>
+
+<h2>Overuse: simple, but non-trivial functions</h2>
+
+<p>It&rsquo;s common to see lambda expressions used to make a function that returns a couple of values in a tuple:</p>
+
+<pre><code class="python">colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+colors_by_length = sorted(colors, key=lambda c: (len(c), c.casefold()))
+</code></pre>
+
+<p>That <code>key</code> function here is helping us sort these colors by their length followed by their case-normalized name.</p>
+
+<p>This code is the same as the above code, but I find it more readable:</p>
+
+<pre><code class="python">def length_and_alphabetical(string):
+    """Return sort key: length first, then case-normalized string."""
+    return (len(string), string.casefold())
+
+colors = ["Goldenrod", "Purple", "Salmon", "Turquoise", "Cyan"])
+colors_by_length = sorted(colors, key=length_and_alphabetical)
+</code></pre>
+
+<p>This code is quite a bit more verbose, but I find the name of that key function makes it clearer what we&rsquo;re sorting by.
+We&rsquo;re not just sorting by the length and we&rsquo;re not just sorting by the color: we&rsquo;re sorting by both.</p>
+
+<p><strong>If a function is important, it deserves a name</strong>.
+You could argue that most functions that are used in a lambda expression are so trivial that they don&rsquo;t deserve a name, but there&rsquo;s often little downside to naming functions and I find it usually makes my code more readable overall.</p>
+
+<p>Naming functions often makes code more readable, the same way <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">using tuple unpacking to name variables</a> instead of using arbitrary index-lookups often makes code more readable.</p>
+
+<h2>Overuse: when multiple lines would help</h2>
+
+<p>Sometimes the &ldquo;just one line&rdquo; aspect of lambda expressions cause us to write code in convoluted ways.  For example take this code:</p>
+
+<pre><code class="python">points = [((1, 2), 'red'), ((3, 4), 'green')]
+points_by_color = sorted(points, key=lambda p: p[1])
+</code></pre>
+
+<p>We&rsquo;re hard-coding an index lookup here to sort points by their color.
+If we used a named function we could have used <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">tuple unpacking</a> to make this code more readable:</p>
+
+<pre><code class="python">def color_of_point(point):
+    """Return the color of the given point."""
+    (x, y), color = point
+    return color
+
+points = [((1, 2), 'red'), ((3, 4), 'green')]
+points_by_color = sorted(points, key=color_of_point)
+</code></pre>
+
+<p>Tuple unpacking can improve readability over using hard-coded index lookups.
+<strong>Using lambda expressions often means sacrificing some Python language features</strong>, specifically those that require multiple lines of code (like an extra assignment statement).</p>
+
+<h2>Overuse: lambda with map and filter</h2>
+
+<p>Python&rsquo;s map and filter functions are almost always paired with lambda expressions.  It&rsquo;s common to see StackOverflow questions asking &ldquo;what is lambda&rdquo; answered with code examples like this:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
+&gt;&gt;&gt; squared_numbers = map(lambda n: n**2, numbers)
+&gt;&gt;&gt; odd_numbers = filter(lambda n: n % 2 == 1, numbers)
+</code></pre>
+
+<p>I find these examples a bit confusing because <strong>I almost never use map and filter in my code</strong>.</p>
+
+<p>Python&rsquo;s <code>map</code> and <code>filter</code> functions are used for looping over an iterable and making a new iterable that either slightly changes each element or filters the iterable down to only elements that match a certain condition.
+We can accomplish both of those tasks just as well with list comprehensions or generator expressions:</p>
+
+<pre><code class="python">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
+&gt;&gt;&gt; squared_numbers = (n**2 for n in numbers)
+&gt;&gt;&gt; odd_numbers = (n for n in numbers if n % 2 == 1)
+</code></pre>
+
+<p>Personally, I&rsquo;d prefer to see the above generator expressions written over multiple lines of code (<a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">see my article on comprehensions</a>) but I find even these one-line generator expressions more readable than those <code>map</code> and <code>filter</code> calls.</p>
+
+<p>The general operations of mapping and filtering are useful, but we really don&rsquo;t need the <code>map</code> and <code>filter</code> functions themselves.
+Generator expressions are a special syntax that exists just for the tasks of mapping and filtering.
+So my advice is to <strong>use generator expressions instead of the <code>map</code> and <code>filter</code> functions</strong>.</p>
+
+<h2>Misuse: sometimes you don&rsquo;t even need to pass a function</h2>
+
+<p>What about cases where you need to pass around a function that performs a single operation?</p>
+
+<p>Newer Pythonistas who are keen on functional programming sometimes write code like this:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+total = reduce(lambda x, y: x + y, numbers)
+</code></pre>
+
+<p>This code adds all the numbers in the <code>numbers</code> list.
+There&rsquo;s an even better way to do this:</p>
+
+<pre><code class="python">numbers = [2, 1, 3, 4, 7, 11, 18]
+total = sum(numbers)
+</code></pre>
+
+<p>Python&rsquo;s built-in <code>sum</code> function was made just for this task.</p>
+
+<p>The <code>sum</code> function, along with a number of other specialized Python tools, are easy to overlook.
+But I&rsquo;d encourage you to seek out the more specialized tools when you need them because they often make for more readable code.</p>
+
+<p>Instead of passing functions into other functions, <strong>look into whether there is a more specialized way to solve your problem instead</strong>.</p>
+
+<h2>Overuse: using lambda for very simple operations</h2>
+
+<p>Let&rsquo;s say instead of adding numbers up, we&rsquo;re multiply numbers together:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(lambda x, y: x * y, numbers, 1)
+</code></pre>
+
+<p>The above lambda expression is necessary because we&rsquo;re not allowed to pass the <code>*</code> operator around as if it were a function.
+If there was a function that was equivalent to <code>*</code>, we could pass it into the <code>reduce</code> function instead.</p>
+
+<p>Python&rsquo;s standard library actually has a whole module meant to address this problem:</p>
+
+<pre><code class="python">from functools import reduce
+from operator import mul
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(mul, numbers, 1)
+</code></pre>
+
+<p>Python&rsquo;s <a href="https://docs.python.org/3/library/operator.html">operator module</a> exists to make various Python operators easy to use as functions.
+If you&rsquo;re practicing functional(ish) programming, <strong>Python&rsquo;s <code>operator</code> module is your friend</strong>.</p>
+
+<p>In addition to providing functions corresponding to Python&rsquo;s many operators, the <code>operator</code> module provides a couple common higher level functions for accessing items and attributes and calling methods.</p>
+
+<p>There&rsquo;s <code>itemgetter</code> for accessing indexes of a list/sequence or keys of a dictionary/mapping:</p>
+
+<pre><code class="python"># Without operator: accessing a key/index
+rows_sorted_by_city = sorted(rows, key=lambda row: row['city'])
+
+# With operator: accessing a key/index
+from operator import itemgetter
+rows_sorted_by_city = sorted(rows, key=itemgetter('city'))
+</code></pre>
+
+<p>There&rsquo;s also <code>attrgetter</code> for accessing attributes on an object:</p>
+
+<pre><code class="python"># Without operator: accessing an attribute
+products_by_quantity = sorted(products, key=lambda p: p.quantity)
+
+# With operator: accessing an attribute
+from operator import attrgetter
+products_by_quantity = sorted(products, key=attrgetter('quantity'))
+</code></pre>
+
+<p>And <code>methodcaller</code> for calling methods on an object:</p>
+
+<pre><code class="python"># Without operator: calling a method
+sorted_colors = sorted(colors, key=lambda s: s.casefold())
+
+# With operator: calling a method
+from operator import methodcaller
+sorted_colors = sorted(colors, key=methodcaller('casefold'))
+</code></pre>
+
+<p>I <em>usually</em> find that <strong>using the functions in the <code>operator</code> module makes my code clearer</strong> than if I&rsquo;d used an equivalent lambda expression.</p>
+
+<h2>Overuse: when higher order functions add confusion</h2>
+
+<p>A function that accepts a function as an argument is called a <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher order function</a>.  Higher order functions are the kinds of functions that we tend to pass lambda functions to.</p>
+
+<p>The use of higher order functions is common when practicing functional programming.  Functional programming isn&rsquo;t the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.</p>
+
+<p>Compare this:</p>
+
+<pre><code class="python">from functools import reduce
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = reduce(lambda x, y: x * y, numbers, 1)
+</code></pre>
+
+<p>To this:</p>
+
+<pre><code class="python">def multiply_all(numbers):
+    """Return the product of the given numbers."""
+    product = 1
+    for n in numbers:
+        product *= n
+    return product
+
+numbers = [2, 1, 3, 4, 7, 11, 18]
+product = multiply_all(numbers)
+</code></pre>
+
+<p>The second code is longer, but folks without a functional programming background will often find it easier to understand.</p>
+
+<p>Anyone who has gone through one of my Python training courses can probably understand what that <code>multiply_all</code> function does, whereas that <code>reduce</code>/<code>lambda</code> combination is likely a bit more cryptic for many Python programmers.</p>
+
+<p>In general, <strong>passing one function into another function, tends to make code more complex, which can hurt readability</strong>.</p>
+
+<h2>Should you ever use lambda expressions?</h2>
+
+<p>So I find the use of lambda expressions problematic because:</p>
+
+<ul>
+<li>lambda expressions are an odd and unfamiliar syntax to many Python programmers</li>
+<li>lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do</li>
+<li>lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can&rsquo;t be used with them</li>
+<li>lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python</li>
+</ul>
+
+
+<p>Lambda expressions are rarely more immediately readable than a well-named function.
+While a <code>def</code> statement is often more understandable, <strong>Python also has a number of features that can be used to replace lambda expressions</strong>, including special syntaxes (comprehensions), built-in functions (sum), and standard library functions (in the <code>operators</code> module).</p>
+
+<p>I&rsquo;d say that using lambda expressions is acceptable only if your situation meets all four of these criteria:</p>
+
+<ol>
+<li>The operation you&rsquo;re doing is trivial: the function doesn&rsquo;t deserve a name</li>
+<li>Having a lambda expression makes your code more understandable than the function names you can think of</li>
+<li>You&rsquo;re pretty sure there&rsquo;s not already a function that does what you&rsquo;re looking for</li>
+<li>Everyone on your team understands lambda expressions and you&rsquo;ve all agreed to use them</li>
+</ol>
+
+
+<p>If any of those four statements don&rsquo;t fit your situation, I&rsquo;d recommend <strong>writing a new function using <code>def</code></strong> and (whenever possible) <strong>embracing a function that already exists within Python</strong> that already does what you&rsquo;re looking for.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
+    <updated>2018-03-07T16:30:00-08:00</updated>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
+    <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
+
+<p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
+This feature often seems simple after you&rsquo;ve learned about it, but <strong>it can be tricky to recall multiple assignment when you need it most</strong>.</p>
+
+<p>In this article we&rsquo;ll see what multiple assignment is, we&rsquo;ll take a look at common uses of multiple assignment, and then we&rsquo;ll look at a few uses for multiple assignment that are often overlooked.</p>
+
+<p>Note that in this article I will be using <a href="https://cito.github.io/blog/f-strings/">f-strings</a> which are a Python 3.6+ feature.
+If you&rsquo;re on an older version of Python, you&rsquo;ll need to mentally translate those to use the string <code>format</code> method.</p>
+
+<h2>How multiple assignment works</h2>
+
+<p>I&rsquo;ll be using the words <strong>multiple assignment</strong>, <strong>tuple unpacking</strong>, and <strong>iterable unpacking</strong> interchangeably in this article.
+They&rsquo;re all just different words for the same thing.</p>
+
+<p>Python&rsquo;s multiple assignment looks like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 10, 20
+</code></pre>
+
+<p>Here we&rsquo;re setting <code>x</code> to <code>10</code> and <code>y</code> to <code>20</code>.</p>
+
+<p>What&rsquo;s happening at a lower level is that we&rsquo;re creating a tuple of <code>10, 20</code> and then looping over that tuple and taking each of the two items we get from looping and assigning them to <code>x</code> and <code>y</code> in order.</p>
+
+<p>This syntax might make that a bit more clear:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; (x, y) = (10, 20)
+</code></pre>
+
+<p>Parenthesis are optional around tuples in Python and they&rsquo;re also optional in multiple assignment (which uses a tuple-like syntax).
+All of these are equivalent:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 10, 20
+&gt;&gt;&gt; x, y = (10, 20)
+&gt;&gt;&gt; (x, y) = 10, 20
+&gt;&gt;&gt; (x, y) = (10, 20)
+</code></pre>
+
+<p>Multiple assignment is often called &ldquo;tuple unpacking&rdquo; because it&rsquo;s frequently used with tuples.
+But we can use multiple assignment with any iterable, not just tuples.
+Here we&rsquo;re using it with a list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = [10, 20]
+&gt;&gt;&gt; x
+10
+&gt;&gt;&gt; y
+20
+</code></pre>
+
+<p>And with a string:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 'hi'
+&gt;&gt;&gt; x
+'h'
+&gt;&gt;&gt; y
+'i'
+</code></pre>
+
+<p>Anything that can be looped over can be &ldquo;unpacked&rdquo; with tuple unpacking / multiple assignment.</p>
+
+<p>Here&rsquo;s another example to demonstrate that multiple assignment works with any number of items and that it works with variables as well as objects we&rsquo;ve just created:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; point = 10, 20, 30
+&gt;&gt;&gt; x, y, z = point
+&gt;&gt;&gt; print(x, y, z)
+10 20 30
+&gt;&gt;&gt; (x, y, z) = (z, y, x)
+&gt;&gt;&gt; print(x, y, z)
+30 20 10
+</code></pre>
+
+<p>Note that on that last line we&rsquo;re actually swapping variable names, which is something multiple assignment allows us to do easily.</p>
+
+<p>Alright, let&rsquo;s talk about how multiple assignment can be used.</p>
+
+<h2>Unpacking in a for loop</h2>
+
+<p>You&rsquo;ll commonly see multiple assignment used in <code>for</code> loops.</p>
+
+<p>Let&rsquo;s take a dictionary:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; person_dictionary = {'name': "Trey", 'company': "Truthful Technology LLC"}
+</code></pre>
+
+<p>Instead of looping over our dictionary like this:</p>
+
+<pre><code class="python">for item in person_dictionary.items():
+    print(f"Key {item[0]} has value {item[1]}")
+</code></pre>
+
+<p>You&rsquo;ll often see Python programmers use multiple assignment by writing this:</p>
+
+<pre><code class="python">for key, value in person_dictionary.items():
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>When you write the <code>for X in Y</code> line of a for loop, you&rsquo;re telling Python that it should do an assignment to <code>X</code> for each iteration of your loop.
+Just like in an assignment using the <code>=</code> operator, we can use multiple assignment here.</p>
+
+<p>This:</p>
+
+<pre><code class="python">for key, value in person_dictionary.items():
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>Is essentially the same as this:</p>
+
+<pre><code class="python">for item in person_dictionary.items():
+    key, value = item
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>We&rsquo;re just not doing an unnecessary extra assignment in the first example.</p>
+
+<p>So multiple assignment is great for unpacking dictionary items into key-value pairs, but it&rsquo;s helpful in many other places too.</p>
+
+<p>It&rsquo;s great when paired with the built-in <code>enumerate</code> function:</p>
+
+<pre><code class="python">for i, line in enumerate(my_file):
+    print(f"Line {i}: {line}")
+</code></pre>
+
+<p>And the <code>zip</code> function:</p>
+
+<pre><code class="python">for color, ratio in zip(colors, ratios):
+    print(f"It's {ratio*100}% {color}.")
+</code></pre>
+
+<pre><code class="python">for (product, price, color) in zip(products, prices, colors):
+    print(f"{product} is {color} and costs ${price:.2f}")
+</code></pre>
+
+<p>If you&rsquo;re unfamiliar with <code>enumerate</code> or <code>zip</code>, see my article on <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes in Python</a>.</p>
+
+<p>Newer Pythonistas often see multiple assignment in the context of <code>for</code> loops and sometimes assume it&rsquo;s tied to loops.  Multiple assignment works for any assignment though, not just loop assignments.</p>
+
+<h2>An alternative to hard coded indexes</h2>
+
+<p>It&rsquo;s not uncommon to see hard coded indexes (e.g. <code>point[0]</code>, <code>items[1]</code>, <code>vals[-1]</code>) in code:</p>
+
+<pre><code class="python">print(f"The first item is {items[0]} and the last item is {items[-1]}")
+</code></pre>
+
+<p>When you see Python code that uses hard coded indexes there&rsquo;s often a way to <strong>use multiple assignment to make your code more readable</strong>.</p>
+
+<p>Here&rsquo;s some code that has three hard coded indexes:</p>
+
+<pre><code class="python">def reformat_date(mdy_date_string):
+    """Reformat MM/DD/YYYY string into YYYY-MM-DD string."""
+    date = mdy_date_string.split('/')
+    return f"{date[2]}-{date[0]}-{date[1]}"
+</code></pre>
+
+<p>We can make this code much more readable by using multiple assignment to assign separate month, day, and year variables:</p>
+
+<pre><code class="python">def reformat_date(mdy_date_string):
+    """Reformat MM/DD/YYYY string into YYYY-MM-DD string."""
+    month, day, year = mdy_date_string.split('/')
+    return f"{year}-{month}-{day}"
+</code></pre>
+
+<p>Whenever you see hard coded indexes in your code, stop to consider whether you could use multiple assignment to make your code more readable.</p>
+
+<h2>Multiple assignment is very strict</h2>
+
+<p>Multiple assignment is actually fairly strict when it comes to unpacking the iterable we give to it.</p>
+
+<p>If we try to unpack a larger iterable into a smaller number of variables, we&rsquo;ll get an error:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = (10, 20, 30)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: too many values to unpack (expected 2)
+</code></pre>
+
+<p>If we try to unpack a smaller iterable into a larger number of variables, we&rsquo;ll also get an error:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y, z = (10, 20)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: not enough values to unpack (expected 3, got 2)
+</code></pre>
+
+<p>This strictness is pretty great.
+If we&rsquo;re working with an item that has a different size than we expected, the multiple assignment will fail loudly and we&rsquo;ll hopefully now know about a bug in our program that we weren&rsquo;t yet aware of.</p>
+
+<p>Let&rsquo;s look at an example.
+Imagine that we have a short command line program that parses command-line arguments in a rudimentary way, like this:</p>
+
+<pre><code class="python">import sys
+
+new_file = sys.argv[1]
+old_file = sys.argv[2]
+print(f"Copying {new_file} to {old_file}")
+</code></pre>
+
+<p>Our program is supposed to accept 2 arguments, like this:</p>
+
+<pre><code class="bash">$ my_program.py file1.txt file2.txt
+Copying file1.txt to file2.txt
+</code></pre>
+
+<p>But if someone called our program with three arguments, they will not see an error:</p>
+
+<pre><code class="bash">$ my_program.py file1.txt file2.txt file3.txt
+Copying file1.txt to file2.txt
+</code></pre>
+
+<p>There&rsquo;s no error because we&rsquo;re not validating that we&rsquo;ve received exactly 2 arguments.</p>
+
+<p>If we use multiple assignment instead of hard coded indexes, the assignment will verify that we receive exactly the expected number of arguments:</p>
+
+<pre><code class="python">import sys
+
+_, new_file, old_file = sys.argv
+print(f"Copying {new_file} to {old_file}")
+</code></pre>
+
+<p><strong>Note</strong>: we&rsquo;re using the variable name <code>_</code> to note that we don&rsquo;t care about <code>sys.argv[0]</code> (the name of our program).
+Using <code>_</code> for variables you don&rsquo;t care about is just a convention.</p>
+
+<h2>An alternative to slicing</h2>
+
+<p>So multiple assignment can be used for avoiding hard coded indexes and it can be used to ensure we&rsquo;re strict about the size of the tuples/iterables we&rsquo;re working with.</p>
+
+<p>Multiple assignment can be used to replace hard coded slices too!</p>
+
+<p>Slicing is a handy way to grab a specific portion of the items in lists and other sequences.</p>
+
+<p>Here are some slices that are &ldquo;hard coded&rdquo; in that they only use numeric indexes:</p>
+
+<pre><code class="python">all_after_first = items[1:]
+all_but_last_two = items[:-2]
+items_with_ends_removed = items[1:-1]
+</code></pre>
+
+<p>Whenever you see slices that don&rsquo;t use any variables in their slice indexes, you can often use multiple assignment instead.
+To do this we have to talk about a feature that I haven&rsquo;t mentioned yet: the <code>*</code> operator.</p>
+
+<p>In Python 3.0, the <code>*</code> operator was added to the multiple assignment syntax, allowing us to capture remaining items after an unpacking into a list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [1, 2, 3, 4, 5, 6]
+&gt;&gt;&gt; first, *rest = numbers
+&gt;&gt;&gt; rest
+[2, 3, 4, 5, 6]
+&gt;&gt;&gt; first
+1
+</code></pre>
+
+<p>The <code>*</code> operator allows us to replace hard coded slices near the ends of sequences.</p>
+
+<p>These two lines are equivalent:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; beginning, last = numbers[:-1], numbers[-1]
+&gt;&gt;&gt; *beginning, last = numbers
+</code></pre>
+
+<p>These two lines are equivalent also:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; head, middle, tail = numbers[0], numbers[1:-1], numbers[-1]
+&gt;&gt;&gt; head, *middle, tail = numbers
+</code></pre>
+
+<p>With the <code>*</code> operator and multiple assignment you can replace things like this:</p>
+
+<pre><code class="python">main(sys.argv[0], sys.argv[1:])
+</code></pre>
+
+<p>With more descriptive code, like this:</p>
+
+<pre><code class="python">program_name, *arguments = sys.argv
+main(program_name, arguments)
+</code></pre>
+
+<p>So if you see hard coded slice indexes in your code, consider whether you could use multiple assignment to clarify what those slices really represent.</p>
+
+<h2>Deep unpacking</h2>
+
+<p>This next feature is something that long-time Python programmers often overlook.
+It doesn&rsquo;t come up quite as often as the other uses for multiple assignment that I&rsquo;ve discussed, but it can be very handy to know about when you do need it.</p>
+
+<p>We&rsquo;ve seen multiple assignment for unpacking tuples and other iterables.
+We haven&rsquo;t yet seen that this is can be done <em>deeply</em>.</p>
+
+<p>I&rsquo;d say that the following multiple assignment is <em>shallow</em> because it unpacks one level deep:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; color, point = ("red", (1, 2, 3))
+&gt;&gt;&gt; color
+'red'
+&gt;&gt;&gt; point
+(1, 2, 3)
+</code></pre>
+
+<p>And I&rsquo;d say that this multiple assignment is <em>deep</em> because it unpacks the previous <code>point</code> tuple further into <code>x</code>, <code>y</code>, and <code>z</code> variables:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; color, (x, y, z) = ("red", (1, 2, 3))
+&gt;&gt;&gt; color
+'red'
+&gt;&gt;&gt; x
+1
+&gt;&gt;&gt; y
+2
+</code></pre>
+
+<p>If it seems confusing what&rsquo;s going on above, maybe using parenthesis consistently on both sides of this assignment will help clarify things:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; (color, (x, y, z)) = ("red", (1, 2, 3))
+</code></pre>
+
+<p>We&rsquo;re unpacking one level deep to get two objects, but then we take the second object and unpack it also to get 3 more objects.
+Then we assign our first object and our thrice-unpacked second object to our new variables (<code>color</code>, <code>x</code>, <code>y</code>, and <code>z</code>).</p>
+
+<p>Take these two lists:</p>
+
+<pre><code class="python">start_points = [(1, 2), (3, 4), (5, 6)]
+end_points = [(-1, -2), (-3, 4), (-6, -5)]
+</code></pre>
+
+<p>Here&rsquo;s an example of code that works with these lists by using shallow unpacking:</p>
+
+<pre><code class="python">for start, end in zip(start_points, end_points):
+    if start[0] == -end[0] and start[1] == -end[1]:
+        print(f"Point {start[0]},{start[1]} was negated.")
+</code></pre>
+
+<p>And here&rsquo;s the same thing with deeper unpacking:</p>
+
+<pre><code class="python">for (x1, y1), (x2, y2) in zip(start_points, end_points):
+    if x1 == -x2 and y1 == -y2:
+        print(f"Point {x1},{y1} was negated.")
+</code></pre>
+
+<p>Note that in this second case, it&rsquo;s much more clear what type of objects we&rsquo;re working with.
+The deep unpacking makes it apparent that we&rsquo;re receiving two 2-itemed tuples each time we loop.</p>
+
+<p>Deep unpacking often comes up when nesting looping utilities that each provide multiple items.
+For example, you may see deep multiple assignments when using <code>enumerate</code> and <code>zip</code> together:</p>
+
+<pre><code class="python">items = [1, 2, 3, 4, 2, 1]
+for i, (first, last) in enumerate(zip(items, reversed(items))):
+    if first != last:
+        raise ValueError(f"Item {i} doesn't match: {first} != {last}")
+</code></pre>
+
+<p>I said before that multiple assignment is strict about the size of our iterables as we unpack them.
+With deep unpacking we can also be <strong>strict about the shape of our iterables</strong>.</p>
+
+<p>This works:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2), (-1, -2))
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+True
+</code></pre>
+
+<p>But this buggy code works too:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2, 4), (-1, -2, 3), (6, 4, 5))
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+True
+</code></pre>
+
+<p>Whereas this works:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2), (-1, -2))
+&gt;&gt;&gt; (x1, y1), (x2, y2) = points
+&gt;&gt;&gt; x1 == -x2 and y1 == -y2
+True
+</code></pre>
+
+<p>But this does not:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2, 4), (-1, -2, 3), (6, 4, 5))
+&gt;&gt;&gt; (x1, y1), (x2, y2) = points
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: too many values to unpack (expected 2)
+</code></pre>
+
+<p>With multiple assignment we&rsquo;re assigning variables while also making particular assertions about the size and shape of our iterables.
+Multiple assignment will help you clarify your code to both humans (for <strong>better code readability</strong>) and to computers (for <strong>improved code correctness</strong>).</p>
+
+<h2>Using a list-like syntax</h2>
+
+<p>I noted before that multiple assignment uses a tuple-like syntax, but it works on any iterable.
+That tuple-like syntax is the reason it&rsquo;s commonly called &ldquo;tuple unpacking&rdquo; even though it might be more clear to say &ldquo;iterable unpacking&rdquo;.</p>
+
+<p>I didn&rsquo;t mention before that multiple assignment also works with <strong>a list-like syntax</strong>.</p>
+
+<p>Here&rsquo;s a multiple assignment with a list-like syntax:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; [x, y, z] = 1, 2, 3
+&gt;&gt;&gt; x
+1
+</code></pre>
+
+<p>This might seem really strange. What&rsquo;s the point of allowing both list-like and tuple-like syntaxes?</p>
+
+<p>I use this feature rarely, but I find it helpful for <strong>code clarity</strong> in specific circumstances.</p>
+
+<p>Let&rsquo;s say I have code that used to look like this:</p>
+
+<pre><code class="python">def most_common(items):
+    return Counter(items).most_common(1)[0][0]
+</code></pre>
+
+<p>And our well-intentioned coworker has decided to use deep multiple assignment to refactor our code to this:</p>
+
+<pre><code class="python">def most_common(items):
+    (value, times_seen), = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>See that trailing comma on the left-hand side of the assignment?
+It&rsquo;s easy to miss and it makes this code look sort of weird.
+What is that comma even doing in this code?</p>
+
+<p>That trailing comma is there to make a single item tuple.
+We&rsquo;re doing deep unpacking here.</p>
+
+<p>Here&rsquo;s another way we could write the same code:</p>
+
+<pre><code class="python">def most_common(items):
+    ((value, times_seen),) = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>This might make that deep unpacking a little more obvious but I&rsquo;d prefer to see this instead:</p>
+
+<pre><code class="python">def most_common(items):
+    [(value, times_seen)] = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>The list-syntax in our assignment makes it more clear that we&rsquo;re unpacking a one-item iterable and then unpacking that single item into <code>value</code> and <code>times_seen</code> variables.</p>
+
+<p>When I see this, I also think <em>I bet we&rsquo;re unpacking a single-item list</em>.
+And that is in fact what we&rsquo;re doing.
+We&rsquo;re using a <a href="https://docs.python.org/3/library/collections.html#collections.Counter">Counter</a> object from the collections module here.
+The <code>most_common</code> method on <code>Counter</code> objects allows us to limit the length of the list returned to us.
+We&rsquo;re limiting the list we&rsquo;re getting back to just a single item.</p>
+
+<p>When you&rsquo;re unpacking structures that often hold lots of values (like lists) and structures that often hold a very specific number of values (like tuples) you may decide that your code appears more <em>semantically accurate</em> if you use a list-like syntax when unpacking those list-like structures.</p>
+
+<p>If you&rsquo;d like you might even decide to adopt a convention of always using a list-like syntax when unpacking list-like structures (frequently the case when using <code>*</code> in multiple assignment):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; [first, *rest] = numbers
+</code></pre>
+
+<p>I don&rsquo;t usually use this convention myself, mostly because I&rsquo;m just not in the habit of using it.
+But if you find it helpful, you might consider using this convention in your own code.</p>
+
+<p>When using multiple assignment in your code, consider when and where a list-like syntax might make your code more descriptive and more clear.
+This can sometimes improve readability.</p>
+
+<h2>Don&rsquo;t forget about multiple assignment</h2>
+
+<p>Multiple assignment can improve both the readability of your code and the correctness of your code.
+It can make your code <strong>more descriptive</strong> while also making implicit assertions about the <strong>size and shape</strong> of the iterables you&rsquo;re unpacking.</p>
+
+<p>The use for multiple assignment that I often see forgotten is its ability to <strong>replace hard coded indexes</strong>, including <strong>replacing hard coded slices</strong> (using the <code>*</code> syntax).
+It&rsquo;s also common to overlook the fact that multiple assignment works <em>deeply</em> and can be used with both a <em>tuple-like</em> syntax and a <em>list-like</em> syntax.</p>
+
+<p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
+Please feel free to use this article as your personal reference guide to multiple assignment.</p>
+
+<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.
+To get practice writing some readable code using tuple unpacking, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.
+The first exercise I&rsquo;ll send you next Monday will benefit from using tuple unpacking.
+Sign up now to <a href="https://www.pythonmorsels.com/">level up your Python skills each week</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Craft Your Python Like Poetry]]></title>
@@ -275,6 +1131,306 @@ But a dream within a dream?
 <p>When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don&rsquo;t write a statement on a single line unless it&rsquo;s already <em>very</em> clear.  If you break each line over multiple lines for clarity, lines length shouldn&rsquo;t be a major concern because your lines of code will mostly be far shorter than 79 characters already.</p>
 
 <p>Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will <strong>right now</strong>.  So take that line of code you just wrote and carefully add line breaks to it.</p>
+
+<p>If you found this article interesting, you might want to watch my <a href="https://youtu.be/knMg6G9_XCg?t=59s">Readability Counts</a> talk or read some of the <a href="https://treyhunner.com/blog/categories/readability/">other articles I&rsquo;ve written on code readability</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Check Whether All Items Match a Condition in Python]]></title>
+    <link href="http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/"/>
+    <updated>2016-11-29T09:45:00-08:00</updated>
+    <id>http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python</id>
+    <content type="html"><![CDATA[<p>In this article, we&rsquo;re going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗</p>
+
+<p>We&rsquo;ll be discussing how to make code with this shape a little more descriptive:</p>
+
+<pre><code class="python">all_good = True
+for item in iterable:
+    if not condition(item):
+        all_good = False
+        break
+</code></pre>
+
+<h2>An Example: Primality</h2>
+
+<p>Here&rsquo;s a function that checks whether a given number is prime by trying to divide it by all numbers below it:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p><strong>Note</strong>: a <a href="http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176">square root</a> makes this faster and our code breaks below <code>2</code> but we&rsquo;ll ignore those issues here</p>
+
+<p>This function:</p>
+
+<ol>
+<li>loops from 2 to the given number</li>
+<li>returns <code>False</code> as soon as a divisor is found</li>
+<li>returns <code>True</code> if no divisor was found</li>
+</ol>
+
+
+<p>This primality check is asking &ldquo;do any numbers evenly divide the candidate number&rdquo;.</p>
+
+<p>Note that this function <strong>returns as soon as it finds a divisor</strong>, so it <em>only</em> iterates all the way through the number range when the candidate number is prime.</p>
+
+<p>Let&rsquo;s take a look at how we can rewrite this function using <code>all</code>.</p>
+
+<h2>What&rsquo;s <code>all</code>?</h2>
+
+<p>Python has a built-in function <code>all</code> that returns <code>True</code> if all items are <strong>truthy</strong></p>
+
+<pre><code class="pycon">&gt;&gt;&gt; all(['hello, 'there'])
+True
+&gt;&gt;&gt; all(['hello, 'there', ''])
+False
+&gt;&gt;&gt; all([1, 2, 3])
+True
+&gt;&gt;&gt; all([0, 1, 2, 3])
+False
+</code></pre>
+
+<p>You can think of truthy as meaning non-empty or non-zero (Python chat on <a href="https://www.crowdcast.io/e/truthiness">truthiness</a>).  For our purposes, we&rsquo;ll treat it as pretty much the same as <code>True</code>.</p>
+
+<p>The <code>all</code> built-in function is equivalent to this:</p>
+
+<pre><code class="python">def all(iterable):
+    for element in iterable:
+        if not element:
+            return False
+    return True
+</code></pre>
+
+<p>Notice the similarity between <code>all</code> and our <code>is_prime</code> function?  Our <code>is_prime</code> function is similar, but they&rsquo;re not quite the same structure.</p>
+
+<p>The <code>all</code> function checks for the truthiness of <code>element</code>, but we need something a little more than that: we need to check a condition on each element (whether it&rsquo;s a divsior).</p>
+
+<h2>Using <code>all</code></h2>
+
+<p>Our original <code>is_prime</code> function looks like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p>If we want to use <code>all</code> in this function, we need an iterable (like a list) to pass to <code>all</code>.</p>
+
+<p>If we wanted to be really silly, we could make such a list of boolean values like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = []
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            divisibility.append(False)
+        else:
+            divisibility.append(True)
+    return all(divisibility)
+</code></pre>
+
+<p>We could simplify this function like this:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = []
+    for n in range(2, candidate):
+        divisibility.append(candidate % n != 0)
+    return all(divisibility)
+</code></pre>
+
+<p>I know this is probably doesn&rsquo;t seem like progress, but bear with me for a few more steps&hellip;</p>
+
+<h2>List comprehensions</h2>
+
+<p>If you&rsquo;re familiar with list comprehensions, this code structure might look a little familiar.  We&rsquo;re creating one iterable from another which is exactly what list comprehensions are good for.</p>
+
+<p>Let&rsquo;s copy-paste our way into a list comprehension (see my article on <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">how to write list comprehensions</a>):</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = [
+        candidate % n != 0
+        for n in range(2, candidate)
+    ]
+    return all(divisibility)
+</code></pre>
+
+<p>That&rsquo;s quite a bit shorter, but there&rsquo;s a problem: we&rsquo;re <strong>building up an entire list just to loop over it once</strong>!</p>
+
+<p>This is less efficient than our original approach, which only looped all the way when <code>candidate</code> was prime.</p>
+
+<p>Let&rsquo;s fix this inefficiency by turning our list comprehension into a generator expression.</p>
+
+<h2>Generator expressions</h2>
+
+<p>A generator expression is like a list comprehension, but instead of making a list it makes a <strong>generator</strong> (Python chat on <a href="https://www.crowdcast.io/e/generators">generators</a>).</p>
+
+<p>A generator is a <strong>lazy iterable</strong>: generators don&rsquo;t compute the items they contain until you loop over them.  We&rsquo;ll see what that means in a moment.</p>
+
+<p>We can turn our list comprehension into a generator expression by changing the brackets to parentheses:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    divisibility = (
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+    return all(divisibility)
+</code></pre>
+
+<p>Now our code doesn&rsquo;t create a list to loop over.  Instead it provides us with a generator that allows us to compute the divisibility of each number one-by-one.</p>
+
+<p>We can make this code even more readable by putting that generator expression inside the function call (notice that we can drop the second set of parentheses):</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Note that because our generator is lazy, we stop computing divisibilities as soon as our <code>all</code> function finds a divisible number.  So we end up calculating <code>candidate % n != 0</code> only as many times as we did in our original function.</p>
+
+<h2>Recap</h2>
+
+<p>So we started with a <code>for</code> loop, an <code>if</code> statement, a <code>return</code> statement for stopping once we find a divisor, and a <code>return</code> statement for the case where our number had no divisors (when it&rsquo;s prime).</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p>We turned all that into a generator expression passed to the <code>all</code> function.</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>I prefer this second approach (a generator expression with <code>all</code>) because I find it <strong>more descriptive</strong>.</p>
+
+<p>We&rsquo;re checking to see whether &ldquo;all numbers in a range are not divisors of our candidate number&rdquo;.  That sounds quite a bit more like English to me than &ldquo;loop over all numbers in a range and return False if a divisor is found otherwise return True&rdquo;.</p>
+
+<p>If you don&rsquo;t find the behavior of <code>all</code> intuitive, you might find it easier to understand (and more English-like) when used with <code>if</code>:</p>
+
+<pre><code class="python">if all(condition(item) for item in iterable):
+    message = "All good"
+else:
+    message = "Bad value found"
+</code></pre>
+
+<p>You can always reformat your code to use an <code>if</code> statement if you find it more readable.</p>
+
+<h2><code>any</code> or <code>all</code></h2>
+
+<p>We&rsquo;ve been working with the <code>all</code> function, but I haven&rsquo;t mentioned it&rsquo;s counterpart: the <code>any</code> function.  Let&rsquo;s take a look at how <code>all</code> and <code>any</code> compare.</p>
+
+<p>These two expressions:</p>
+
+<pre><code class="python">all_good = all(
+    condition(x)
+    for x in things
+)
+some_bad = not all(
+    condition(x)
+    for x in things
+)
+</code></pre>
+
+<p>Are equivalent to these two expressions (because of <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">DeMorgan&rsquo;s Laws</a>):</p>
+
+<pre><code class="python">all_good = not any(
+    not condition(x)
+    for x in things
+)
+some_bad = any(
+    not condition(x)
+    for x in things
+)
+</code></pre>
+
+<p>So this code:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Is feature-identical to this code:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return not any(
+        candidate % n == 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>Both of them stop as soon as they find a divisor.</p>
+
+<p>I find the use of <code>all</code> more readable here, but I wanted to mention that <code>any</code> would work just as well.</p>
+
+<h2>Cheat sheet for refactoring with <code>any</code> and <code>all</code></h2>
+
+<p>All that explanation above was valuable, but how can we use this new knowledge to refactor our own code?  Here&rsquo;s a cheat sheet for you.</p>
+
+<p>Anytime you see code like this:</p>
+
+<pre><code class="python">all_good = True
+for item in iterable:
+    if not condition(item):
+        all_good = False
+        break
+</code></pre>
+
+<p>You can replace that code with this:</p>
+
+<pre><code class="python">all_good = all(
+    condition(item)
+    for item in iterable
+)
+</code></pre>
+
+<p>Anytime you see code like this:</p>
+
+<pre><code class="python">any_good = False
+for item in iterable:
+    if condition(item):
+        any_good = True
+        break
+</code></pre>
+
+<p>You can replace it with this:</p>
+
+<pre><code class="python">any_good = any(
+    condition(item)
+    for item in iterable
+)
+</code></pre>
+
+<p>Note that <code>break</code> is used in the code above because we&rsquo;re not returning from a function.  Using <code>return</code> (like we did in <code>is_prime</code>) is another way to stop our loop early.</p>
+
+<p>Python&rsquo;s <code>any</code> and <code>all</code> functions were <em>made</em> for use with generator expressions (discussion <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a> and <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a>).  You can use <code>any</code> and <code>all</code> without generator expressions, but I don&rsquo;t find a need for that as often.</p>
+
+<p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
+
+<h2>Conclusion: code style is a process</h2>
+
+<p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
+
+<p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
+
+<p>If you&rsquo;d like to get practice with Python-specific features like <code>any</code> and <code>all</code>, I highly recommend you <strong><a href="https://www.pythonmorsels.com/">give Python Morsels a try</a></strong>.
+I made Python Morsels to <strong>help experienced programmers level up their Python skills</strong>.
+Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to <strong>grow your skills every week</strong>!</p>
 ]]></content>
   </entry>
   

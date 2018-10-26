@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Check Whether All Items Match a Condition in Python Nov 29th, 2016 9:45 am | Comments In this article, we&rsquo;re going to look at a common &hellip;">
+  <meta name="description" content="In this article, we&rsquo;re going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗 We &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,17 +33,17 @@
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+ga('create', 'UA-26977066-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
@@ -523,28 +523,16 @@
 
 <p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
 
-<h2>Conclusion: code style in a process</h2>
+<h2>Conclusion: code style is a process</h2>
 
 <p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
 
 <p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
 
-<p>Have a question about code style?  Have a thought about <code>any</code>, <code>all</code>, and generator expressions?  Please <a href="http://twitter.com/treyhunner">tweet me</a>, <a href="mailto:hello@truthful.technology">email me</a>, or comment below. 😄</p>
+<p>If you&rsquo;d like to get practice with Python-specific features like <code>any</code> and <code>all</code>, I highly recommend you <strong><a href="https://www.pythonmorsels.com/">give Python Morsels a try</a></strong>.
+I made Python Morsels to <strong>help experienced programmers level up their Python skills</strong>.
+Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to <strong>grow your skills every week</strong>!</p>
 </div>
-
-<!-- Drip Sign Up Form -->
-<form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-  <h2>Like my teaching style?</h2>
-  <p>Want to learn more about Python?  I share my favorite Python resources and answer Python questions every week through live chats.  Sign up below and I&#8217;ll answer <strong>your questions</strong> about how to make your Python code more descriptive, more readable, and more Pythonic.</p>
-    <div>
-        <label for="drip-email">Email Address</label><br />
-        <input type="email" id="drip-email" name="fields[email]" value="" class="subscribe-email form-big">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- bottom of blog post">
-    </div>
-  <div>
-    <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn form-big">
-  </div>
-</form>
 
 
 
@@ -565,7 +553,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/favorite/'>favorite</a>, <a class='category' href='/blog/categories/python/'>python</a>
+    <a class='category' href='/blog/categories/favorite/'>favorite</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/readability/'>readability</a>
   
 </span>
 

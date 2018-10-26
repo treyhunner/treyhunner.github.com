@@ -33,17 +33,17 @@
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+ga('create', 'UA-26977066-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
@@ -526,21 +526,18 @@
 
 <p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
 
-<h2>Conclusion: code style in a process</h2>
+<h2>Conclusion: code style is a process</h2>
 
 <p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
 
 <p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
 
-<p>Have a question about code style?  Have a thought about <code>any</code>, <code>all</code>, and generator expressions?  Please <a href="http://twitter.com/treyhunner">tweet me</a>, <a href="mailto:hello@truthful.technology">email me</a>, or comment below. 😄</p>
+<p>If you&rsquo;d like to get practice with Python-specific features like <code>any</code> and <code>all</code>, I highly recommend you <strong><a href="https://www.pythonmorsels.com/">give Python Morsels a try</a></strong>.
+I made Python Morsels to <strong>help experienced programmers level up their Python skills</strong>.
+Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to <strong>grow your skills every week</strong>!</p>
 </div>
   
   <footer>
-  
-    <br>
-    <p>
-    👉  Want to find out what else there is to learn <strong><a href="https://www.getdrip.com/forms/121131143/submissions/new" data-drip-show-form="121131143">subscribe to my email list</a></strong>! 👈
-    </p>
   
   </footer>
 

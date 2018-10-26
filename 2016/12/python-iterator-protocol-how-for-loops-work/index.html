@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="The Iterator Protocol: How "For Loops" Work in Python Dec 28th, 2016 11:00 am | Comments We&rsquo;re interviewing for a job and our interviewer has &hellip;">
+  <meta name="description" content="We&rsquo;re interviewing for a job and our interviewer has asked us to remove all for loops from a block of code. They then mentioned something about &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,17 +33,17 @@
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+ga('create', 'UA-26977066-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
@@ -356,21 +356,16 @@
 <p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
 
 <p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
-</div>
 
-<!-- Drip Sign Up Form -->
-<form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-  <h2>Like my teaching style?</h2>
-  <p>Want to learn more about Python?  I share my favorite Python resources and answer Python questions every week through live chats.  Sign up below and I&#8217;ll answer <strong>your questions</strong> about how to make your Python code more descriptive, more readable, and more Pythonic.</p>
-    <div>
-        <label for="drip-email">Email Address</label><br />
-        <input type="email" id="drip-email" name="fields[email]" value="" class="subscribe-email form-big">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- bottom of blog post">
-    </div>
-  <div>
-    <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn form-big">
-  </div>
-</form>
+<h2>Even more on iterators</h2>
+
+<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to check out my <a href="https://youtu.be/V2PkkMS2Ack?t=25s">Loop Better talk</a> or my <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">article of the same name</a>.</p>
+
+<p>If you&rsquo;re interested in making your own iterators, I&rsquo;ve also written an article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator in Python</a>.</p>
+
+<p>If you want an excuse to practice making iterators, consider giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.
+The first few exercises include an excuse to create your own Python iterator.</p>
+</div>
 
 
 

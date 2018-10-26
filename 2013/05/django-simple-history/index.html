@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="django-simple-history is back May 1st, 2013 12:00 am | Comments I wrote a post over a year ago about recording a history of changes for Django model &hellip;">
+  <meta name="description" content="I wrote a post over a year ago about recording a history of changes for Django model instances. I evaluated three different Django packages to record &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -33,17 +33,17 @@
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+ga('create', 'UA-26977066-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
@@ -111,20 +111,6 @@
 
 <p>Soon after I started writing tests for the project I received feature requests, issues, pull requests, and emails with words of encouragement.  I appreciate all of the help I&rsquo;ve had while reviving the project.  I plan to remain responsive to the suggestions for my fork of the code.  If you&rsquo;d like to help out with the project please feel free to submit an issue, make a pull request, or comment on the code commits on the <a href="https://github.com/treyhunner/django-simple-history">Github page</a>.</p>
 </div>
-
-<!-- Drip Sign Up Form -->
-<form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-  <h2>Like my teaching style?</h2>
-  <p>Want to learn more about Python?  I share my favorite Python resources and answer Python questions every week through live chats.  Sign up below and I&#8217;ll answer <strong>your questions</strong> about how to make your Python code more descriptive, more readable, and more Pythonic.</p>
-    <div>
-        <label for="drip-email">Email Address</label><br />
-        <input type="email" id="drip-email" name="fields[email]" value="" class="subscribe-email form-big">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- bottom of blog post">
-    </div>
-  <div>
-    <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn form-big">
-  </div>
-</form>
 
 
 

@@ -34,17 +34,17 @@ These two operators can be a bit mysterious at times, both for brand new &hellip
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+ga('create', 'UA-26977066-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
@@ -641,14 +641,21 @@ That doesn&rsquo;t distinguish them from their infix relatives (multiplication a
 <p>If you don&rsquo;t understand <code>*</code> and <code>**</code> or you&rsquo;re concerned about memorizing all of their uses, don&rsquo;t be!
 These operators have many uses and memorizing the specific use of each one isn&rsquo;t as important as getting a feel for when you might be able to reach for these operators.
 I suggest using this article as <strong>a cheat sheet</strong> or to making your own cheat sheet to help you use <code>*</code> and <code>**</code> in Python.</p>
+
+<h2>Practice makes perfect</h2>
+
+<p>You don&rsquo;t learn by putting information in your head, you learn by attempting to retrieve information from your head.
+So you&rsquo;ve just read an article on something new, but <strong>you haven&rsquo;t learned yet</strong>.</p>
+
+<p>Write some code that uses <code>*</code> and <code>**</code> in a number of different ways today.
+Then quiz yourself on the many different ways to use <code>*</code> and <code>**</code> tomorrow!</p>
+
+<p>If you&rsquo;d like to get practice with <code>*</code> and <code>**</code>, <strong><a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a></strong>.
+The first few problems use <code>*</code> in a couple different ways.
+If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I&rsquo;ll help you <strong>level up your Python skills every week</strong>.</p>
 </div>
   
   <footer>
-  
-    <br>
-    <p>
-    👉  Want to find out what else there is to learn <strong><a href="https://www.getdrip.com/forms/121131143/submissions/new" data-drip-show-form="121131143">subscribe to my email list</a></strong>! 👈
-    </p>
   
   </footer>
 

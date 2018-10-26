@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T11:05:04-07:00</updated>
+  <updated>2018-10-26T15:14:42-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -550,11 +550,23 @@ That doesn&rsquo;t distinguish them from their infix relatives (multiplication a
 <p>If you don&rsquo;t understand <code>*</code> and <code>**</code> or you&rsquo;re concerned about memorizing all of their uses, don&rsquo;t be!
 These operators have many uses and memorizing the specific use of each one isn&rsquo;t as important as getting a feel for when you might be able to reach for these operators.
 I suggest using this article as <strong>a cheat sheet</strong> or to making your own cheat sheet to help you use <code>*</code> and <code>**</code> in Python.</p>
+
+<h2>Practice makes perfect</h2>
+
+<p>You don&rsquo;t learn by putting information in your head, you learn by attempting to retrieve information from your head.
+So you&rsquo;ve just read an article on something new, but <strong>you haven&rsquo;t learned yet</strong>.</p>
+
+<p>Write some code that uses <code>*</code> and <code>**</code> in a number of different ways today.
+Then quiz yourself on the many different ways to use <code>*</code> and <code>**</code> tomorrow!</p>
+
+<p>If you&rsquo;d like to get practice with <code>*</code> and <code>**</code>, <strong><a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a></strong>.
+The first few problems use <code>*</code> in a couple different ways.
+If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I&rsquo;ll help you <strong>level up your Python skills every week</strong>.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Stop writing lambda expressions in Python]]></title>
+    <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
     <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
     <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
@@ -2564,6 +2576,8 @@ Different PyCon attendees will have different recommendations for how to make th
 <p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
 
 <p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
+
+<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.</p>
 ]]></content>
   </entry>
   
@@ -3224,6 +3238,11 @@ It&rsquo;s also common to overlook the fact that multiple assignment works <em>d
 
 <p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
 Please feel free to use this article as your personal reference guide to multiple assignment.</p>
+
+<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.
+To get practice writing some readable code using tuple unpacking, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.
+The first exercise I&rsquo;ll send you next Monday will benefit from using tuple unpacking.
+Sign up now to <a href="https://www.pythonmorsels.com/">level up your Python skills each week</a>.</p>
 ]]></content>
   </entry>
   
@@ -4478,6 +4497,8 @@ But a dream within a dream?
 <p>When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don&rsquo;t write a statement on a single line unless it&rsquo;s already <em>very</em> clear.  If you break each line over multiple lines for clarity, lines length shouldn&rsquo;t be a major concern because your lines of code will mostly be far shorter than 79 characters already.</p>
 
 <p>Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will <strong>right now</strong>.  So take that line of code you just wrote and carefully add line breaks to it.</p>
+
+<p>If you found this article interesting, you might want to watch my <a href="https://youtu.be/knMg6G9_XCg?t=59s">Readability Counts</a> talk or read some of the <a href="https://treyhunner.com/blog/categories/readability/">other articles I&rsquo;ve written on code readability</a>.</p>
 ]]></content>
   </entry>
   
@@ -4737,6 +4758,15 @@ But a dream within a dream?
 <p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
 
 <p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
+
+<h2>Even more on iterators</h2>
+
+<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to check out my <a href="https://youtu.be/V2PkkMS2Ack?t=25s">Loop Better talk</a> or my <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">article of the same name</a>.</p>
+
+<p>If you&rsquo;re interested in making your own iterators, I&rsquo;ve also written an article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator in Python</a>.</p>
+
+<p>If you want an excuse to practice making iterators, consider giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.
+The first few exercises include an excuse to create your own Python iterator.</p>
 ]]></content>
   </entry>
   
@@ -5163,13 +5193,15 @@ But a dream within a dream?
 
 <p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
 
-<h2>Conclusion: code style in a process</h2>
+<h2>Conclusion: code style is a process</h2>
 
 <p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
 
 <p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
 
-<p>Have a question about code style?  Have a thought about <code>any</code>, <code>all</code>, and generator expressions?  Please <a href="http://twitter.com/treyhunner">tweet me</a>, <a href="mailto:hello@truthful.technology">email me</a>, or comment below. 😄</p>
+<p>If you&rsquo;d like to get practice with Python-specific features like <code>any</code> and <code>all</code>, I highly recommend you <strong><a href="https://www.pythonmorsels.com/">give Python Morsels a try</a></strong>.
+I made Python Morsels to <strong>help experienced programmers level up their Python skills</strong>.
+Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to <strong>grow your skills every week</strong>!</p>
 ]]></content>
   </entry>
   
@@ -5459,13 +5491,18 @@ But a dream within a dream?
 
 <p>If you find yourself struggling to figure out the best way to loop, try using the cheat sheet above.</p>
 
-<p>For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder&rsquo;s <a href="http://nedbatchelder.com/text/iter.html">Loop Like a Native</a> presentation.</p>
+<h2>Practice makes perfect</h2>
 
-<p>Thanks <a href="http://lost-theory.org/">Steven Kryskalla</a> and <a href="http://purplediane.github.io/">Diane Chen</a> for proof-reading this post.</p>
+<p>You don&rsquo;t learn by putting information in your head, you learn by attempting to retrieve information from your head.
+So you&rsquo;ve just read an article on something new, but you haven&rsquo;t learned yet.</p>
 
-<p><strong>Update</strong>: If you&rsquo;re interested in learning how to make your own Python objects that can be looped over, you may want to watch the <a href="https://www.crowdcast.io/e/operator-overloading">operator overloading chat</a> I held on April 30, 2016.</p>
+<p>Write some code that uses <code>enumerate</code> and <code>zip</code> later today and then quiz yourself tomorrow on the different ways of looping in Python.
+You have to practice these skills if you want to actually remember them.</p>
 
-<p>Happy looping!</p>
+<p>If you&rsquo;d like to <strong>get hands-on experience practicing Python</strong> every week, <strong><a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a></strong>, my Python skill-building service.
+Quite a few of the exercises I send through <a href="https://www.pythonmorsels.com/">Python Morsels</a> encourage practice with <code>enumerate</code>, <code>zip</code> <code>range</code>, and other Python looping techniques.</p>
+
+<p>Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to start leveling up your Python skills every week.</p>
 ]]></content>
   </entry>
   
@@ -5921,9 +5958,7 @@ But a dream within a dream?
 
 <p>If you&rsquo;re interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out <a href="https://gist.github.com/mahmoud/db02d16ac89fa401b968">this deep merging technique</a> from Mahmoud Hashemi.</p>
 
-<p><strong>Update</strong>: If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to watch the <a href="https://www.crowdcast.io/e/unpacking">Packing &amp; Unpacking Operators chat</a> I held on April 23, 2016.</p>
-
-<p><br>I teach Python for a living.  If you like my teaching style and your team is interested in <strong><a href="http://truthful.technology/">Python training</a></strong>, please <a href="mailto:hello@truthful.technology">contact me</a>!</p>
+<p><strong>Update</strong>: If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to read the article I wrote on <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">asterisks in Python</a>.</p>
 ]]></content>
   </entry>
   
@@ -5937,8 +5972,6 @@ But a dream within a dream?
 <p>List comprehensions in Python are great, but mastering them can be tricky because they don&rsquo;t solve a new problem: they just provide a new syntax to solve an existing problem.</p>
 
 <p>Let&rsquo;s learn what list comprehensions are and how to identify when to use them.</p>
-
-<p><strong>Update</strong>: I held a 1 hour <a href="http://ccst.io/e/list-comprehensions">video chat about list comprehensions</a> which extends the material in this article.  If you want more after reading this post, check out the recording.</p>
 
 <h2>What are list comprehensions?</h2>
 
@@ -6274,7 +6307,17 @@ But a dream within a dream?
 
 <p>If you can nudge a <code>for</code> loop until it looks like the ones above, you can rewrite it as a list comprehension.</p>
 
-<p>This article was based on my Intro to Python class.  If you&rsquo;re interested in chatting about my <a href="http://truthful.technology/">Python training services</a>, <a href="mailto:hello@truthful.technology">drop me a line</a>.</p>
+<h2>Even More Comprehensions</h2>
+
+<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to watch my 30 minute <a href="https://youtu.be/5_cJIcgM7rw?t=52s">Comprehensible Comprehensions</a> talk for more.</p>
+
+<p>The best way to learn is to practice.
+If you&rsquo;d like to practice your comprehension skills and your Python skills in general, I recommend giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.</p>
+
+<p>If you&rsquo;re looking for a <em>very</em> deep dive into comprehensions in particular, I have a <a href="http://pycon2018.trey.io/">3 hour tutorial</a> on comprehensions and generator expressions in Python.
+That tutorial is heavily inspired by my <a href="http://truthful.technology/">team Python training</a> workshops.
+If you&rsquo;re interested in diving <em>even deeper</em> into comprehensions and other topics, please <a href="mailto:hello@truthful.technology">drop me a line</a>.
+I&rsquo;d love to chat.</p>
 ]]></content>
   </entry>
   
