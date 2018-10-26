@@ -3,7 +3,7 @@ layout: post
 title: "Check Whether All Items Match a Condition in Python"
 date: 2016-11-29 09:45:00 -0800
 comments: true
-categories: python favorite
+categories: python favorite readability
 ---
 
 In this article, we're going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗

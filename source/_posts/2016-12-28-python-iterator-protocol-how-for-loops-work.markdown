@@ -201,8 +201,23 @@ The way iterators and iterables work is called the **iterator protocol**.  List 
 
 I'll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.
 
+
+## Even more on iterators
+
+If you'd like to dive a bit deeper into this topic, you might want to check out my [Loop Better talk][] or my [article of the same name][].
+
+If you're interested in making your own iterators, I've also written an article on [how to make an iterator in Python][].
+
+If you want an excuse to practice making iterators, consider giving [Python Morsels][] a try.
+The first few exercises include an excuse to create your own Python iterator.
+
+
 [loop with indexes]: http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
 [sequences]: https://docs.python.org/3/glossary.html#term-sequence
 [iterables]: https://docs.python.org/3/glossary.html#term-iterable
 [iterators]: https://docs.python.org/3/glossary.html#term-iterator
 [tally counters]: https://en.wikipedia.org/wiki/Tally_counter
+[loop better talk]: https://youtu.be/V2PkkMS2Ack?t=25s
+[article of the same name]: https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python
+[how to make an iterator in Python]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
+[python morsels]: https://www.pythonmorsels.com/

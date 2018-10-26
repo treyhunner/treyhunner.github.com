@@ -12,8 +12,6 @@ List comprehensions in Python are great, but mastering them can be tricky becaus
 
 Let's learn what list comprehensions are and how to identify when to use them.
 
-**Update**: I held a 1 hour [video chat about list comprehensions][crowdcast] which extends the material in this article.  If you want more after reading this post, check out the recording.
-
 
 ## What are list comprehensions?
 
@@ -296,7 +294,18 @@ Can be rewritten into a list comprehension like this:
 
 If you can nudge a `for` loop until it looks like the ones above, you can rewrite it as a list comprehension.
 
-This article was based on my Intro to Python class.  If you're interested in chatting about my [Python training services][], [drop me a line][].
+
+## Even More Comprehensions
+
+If you'd like to dive a bit deeper into this topic, you might want to watch my 30 minute [Comprehensible Comprehensions][] talk for more.
+
+The best way to learn is to practice.
+If you'd like to practice your comprehension skills and your Python skills in general, I recommend giving [Python Morsels][] a try.
+
+If you're looking for a *very* deep dive into comprehensions in particular, I have a [3 hour tutorial][] on comprehensions and generator expressions in Python.
+That tutorial is heavily inspired by my [team Python training][] workshops.
+If you're interested in diving *even deeper* into comprehensions and other topics, please [drop me a line][].
+I'd love to chat.
 
 
 [crowdcast]: http://ccst.io/e/list-comprehensions
@@ -307,9 +316,12 @@ This article was based on my Intro to Python class.  If you're interested in cha
 [class-set]: https://youtu.be/u-mhKtC1Xh4?t=44m44s
 [class-dict]: https://youtu.be/u-mhKtC1Xh4?t=47m44s
 [pyladies remote]: http://remote.pyladies.com/
-[python training services]: http://truthful.technology/
+[team Python training]: http://truthful.technology/
 [drop me a line]: mailto:hello@truthful.technology
 [line continuation]: https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining
 [list comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps
 [dictionary comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#dictionaries
 [set comprehensions]: https://docs.python.org/3/tutorial/datastructures.html#sets
+[comprehensible comprehensions]: https://youtu.be/5_cJIcgM7rw?t=52s
+[3 hour tutorial]: http://pycon2018.trey.io/
+[python morsels]: https://www.pythonmorsels.com/

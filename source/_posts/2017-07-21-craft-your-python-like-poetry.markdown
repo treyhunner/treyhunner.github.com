@@ -288,6 +288,8 @@ When crafting Python code, use spaces and line breaks to split up the logical co
 
 Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will **right now**.  So take that line of code you just wrote and carefully add line breaks to it.
 
+If you found this article interesting, you might want to watch my [Readability Counts][] talk or read some of the [other articles I've written on code readability][readability].
+
 
 [punch cards]: https://en.wikipedia.org/wiki/Punched_card
 [teletypes]: https://en.wikipedia.org/wiki/Teletype_Corporation
@@ -296,3 +298,5 @@ Make sure to craft your code carefully as you write it because your future self 
 [backslashes]: http://pep8.org/#maximum-line-length
 [line length on Wikipedia]: https://en.wikipedia.org/wiki/Line_length
 [indentation]: http://pep8.org/#indentation
+[readability]: https://treyhunner.com/blog/categories/readability/
+[readability counts]: https://youtu.be/knMg6G9_XCg?t=59s
