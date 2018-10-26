@@ -35,7 +35,7 @@
 #funnel-tools-capture .close,
 #funnel-tools-capture .open,
 #funnel-tools-capture .title,
-#funnel-tools-capture input[type="submit"] {
+#funnel-tools-capture *[type="submit"] {
   cursor: pointer;
 }
 
@@ -64,7 +64,7 @@
 }
 
 #funnel-tools-capture input[type="email"],
-#funnel-tools-capture input[type="submit"] {
+#funnel-tools-capture *[type="submit"] {
   width: 100%;
   margin: 0;
   -webkit-box-sizing: border-box;
@@ -79,7 +79,7 @@
   padding: 10px;
   font-size: 14px;
 }
-#funnel-tools-capture input[type="submit"] {
+#funnel-tools-capture *[type="submit"] {
   margin: 10px 0;
   padding: 10px;
   border: 0;
@@ -93,8 +93,12 @@
   color: white;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-#funnel-tools-capture input[type="submit"]:hover {
+#funnel-tools-capture *[type="submit"]:hover {
   background: #613091;
+}
+#funnel-tools-capture *[type="submit"]:disabled,
+#funnel-tools-capture *[type="submit"]:hover:disabled {
+  background: #aaa;
 }
 #funnel-tools-capture .funnel-tools-footer {
   text-align: center;
