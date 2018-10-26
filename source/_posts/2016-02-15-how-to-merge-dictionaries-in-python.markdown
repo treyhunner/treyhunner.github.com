@@ -309,9 +309,8 @@ If you are not yet using Python 3.5, you'll need to review the solutions above t
 
 If you're interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out [this deep merging technique][deep merge] from Mahmoud Hashemi.
 
-**Update**: If you're interested in learning more about the new features of ``*`` and ``**`` in Python 3.5 and their history you may want to watch the [Packing & Unpacking Operators chat][chat] I held on April 23, 2016.
+**Update**: If you're interested in learning more about the new features of ``*`` and ``**`` in Python 3.5 and their history you may want to read the article I wrote on [asterisks in Python][].
 
-<br>I teach Python for a living.  If you like my teaching style and your team is interested in **[Python training][]**, please [contact me][]!
 
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
 [chainmap]: https://docs.python.org/3/library/collections.html#collections.ChainMap
@@ -331,4 +330,4 @@ If you're interested in deep-merging this dictionary (merging a dictionary of di
 [contact me]: mailto:hello@truthful.technology
 [deepcopy]: https://docs.python.org/3/library/copy.html#copy.deepcopy
 [deep merge]: https://gist.github.com/mahmoud/db02d16ac89fa401b968
-[chat]: https://www.crowdcast.io/e/unpacking
+[asterisks in Python]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/

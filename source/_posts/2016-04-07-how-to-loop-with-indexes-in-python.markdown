@@ -190,13 +190,19 @@ In fact, if you find yourself reaching for `enumerate`, think about whether you 
 
 If you find yourself struggling to figure out the best way to loop, try using the cheat sheet above.
 
-For more a more detailed explanation of the fundamentals of looping in Python, see Ned Batchelder's [Loop Like a Native][] presentation.
 
-Thanks [Steven Kryskalla][] and [Diane Chen][] for proof-reading this post.
+## Practice makes perfect
 
-**Update**: If you're interested in learning how to make your own Python objects that can be looped over, you may want to watch the [operator overloading chat][chat] I held on April 30, 2016.
+You don't learn by putting information in your head, you learn by attempting to retrieve information from your head.
+So you've just read an article on something new, but you haven't learned yet.
 
-Happy looping!
+Write some code that uses `enumerate` and `zip` later today and then quiz yourself tomorrow on the different ways of looping in Python.
+You have to practice these skills if you want to actually remember them.
+
+If you'd like to **get hands-on experience practicing Python** every week, **[sign up for Python Morsels][python morsels]**, my Python skill-building service.
+Quite a few of the exercises I send through [Python Morsels][] encourage practice with `enumerate`, `zip` `range`, and other Python looping techniques.
+
+Sign up for [Python Morsels][] to start leveling up your Python skills every week.
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
 [foreach]: https://en.wikipedia.org/wiki/Foreach_loop
@@ -205,3 +211,4 @@ Happy looping!
 [Steven Kryskalla]: http://lost-theory.org/
 [Diane Chen]: http://purplediane.github.io/
 [chat]: https://www.crowdcast.io/e/operator-overloading
+[python morsels]: https://www.pythonmorsels.com/

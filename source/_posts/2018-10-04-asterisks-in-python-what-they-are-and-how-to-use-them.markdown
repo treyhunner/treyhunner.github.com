@@ -414,6 +414,19 @@ These operators have many uses and memorizing the specific use of each one isn't
 I suggest using this article as **a cheat sheet** or to making your own cheat sheet to help you use `*` and `**` in Python.
 
 
+## Practice makes perfect
+
+You don't learn by putting information in your head, you learn by attempting to retrieve information from your head.
+So you've just read an article on something new, but **you haven't learned yet**.
+
+Write some code that uses `*` and `**` in a number of different ways today.
+Then quiz yourself on the many different ways to use `*` and `**` tomorrow!
+
+If you'd like to get practice with `*` and `**`, **[sign up for Python Morsels][python morsels]**.
+The first few problems use `*` in a couple different ways.
+If you sign up for [Python Morsels][] I'll help you **level up your Python skills every week**.
+
+
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
 [tuple unpacking in Python]: https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/
 [pep 3132]: https://www.python.org/dev/peps/pep-3132/
@@ -421,3 +434,4 @@ I suggest using this article as **a cheat sheet** or to making your own cheat sh
 [pep 3102]: https://www.python.org/dev/peps/pep-3102/
 [pep 448]: https://www.python.org/dev/peps/pep-0448/
 [merge dictionaries]: https://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/
+[python morsels]: https://www.pythonmorsels.com/

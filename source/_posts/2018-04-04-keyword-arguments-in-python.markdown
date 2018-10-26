@@ -409,4 +409,8 @@ And remember that you can accept arbitrary keyword arguments to the functions yo
 
 Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!
 
+If you'd like to **level up your Python skills** and get practice using Python-specific features, like keyword arguments, [sign up for Python Morsels][python morsels].
+
+
 [pep 468]: https://www.python.org/dev/peps/pep-0468/
+[python morsels]: https://www.pythonmorsels.com/

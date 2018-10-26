@@ -314,13 +314,15 @@ Python's `any` and `all` functions were *made* for use with generator expression
 **Quick note**: `any(item == 'something' for item in iterable)` is the same as `'something' in iterable`.  Don't use `all`/`any` for checking containment, use `in`.
 
 
-## Conclusion: code style in a process
+## Conclusion: code style is a process
 
 As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it's a process.
 
 I hope I've inspired you to embrace the use of `any`/`all` with generator expressions for improved readability and code clarity.
 
-Have a question about code style?  Have a thought about `any`, `all`, and generator expressions?  Please [tweet me][], [email me][], or comment below. 😄
+If you'd like to get practice with Python-specific features like `any` and `all`, I highly recommend you **[give Python Morsels a try][python morsels]**.
+I made Python Morsels to **help experienced programmers level up their Python skills**.
+Sign up for [Python Morsels][] to **grow your skills every week**!
 
 
 [square root check]: http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176
@@ -331,3 +333,4 @@ Have a question about code style?  Have a thought about `any`, `all`, and genera
 [truthiness]: https://www.crowdcast.io/e/truthiness
 [tweet me]: http://twitter.com/treyhunner
 [email me]: mailto:hello@truthful.technology
+[python morsels]: https://www.pythonmorsels.com/

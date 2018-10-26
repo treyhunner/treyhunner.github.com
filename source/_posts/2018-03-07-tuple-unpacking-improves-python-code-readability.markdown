@@ -525,7 +525,13 @@ It's also common to overlook the fact that multiple assignment works *deeply* an
 It's tricky to recognize and remember all the cases that multiple assignment can come in handy.
 Please feel free to use this article as your personal reference guide to multiple assignment.
 
+You don't learn by reading articles like this one, **you learn by writing code**.
+To get practice writing some readable code using tuple unpacking, [sign up for Python Morsels][python morsels].
+The first exercise I'll send you next Monday will benefit from using tuple unpacking.
+Sign up now to [level up your Python skills each week][python morsels].
+
 
 [f-strings]: https://cito.github.io/blog/f-strings/
 [Counter]: https://docs.python.org/3/library/collections.html#collections.Counter
 [looping with indexes in Python]: http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
+[python morsels]: https://www.pythonmorsels.com/
