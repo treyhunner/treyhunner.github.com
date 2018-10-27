@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T15:14:42-07:00</updated>
+  <updated>2018-10-26T15:41:00-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -570,7 +570,9 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I
     <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
     <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
+    <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
+
+<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
 I almost always get questions about them.
 My students tend to see them in code on StackOverflow or they see them in a coworker&rsquo;s code (which, realistically, may have also come from StackOverflow).</p>
 
