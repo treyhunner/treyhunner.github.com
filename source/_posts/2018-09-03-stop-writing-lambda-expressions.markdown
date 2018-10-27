@@ -6,6 +6,8 @@ comments: true
 categories: python readability
 ---
 
+**Note**: This post was originally titled "Stop writing lambda expressions in Python" but I've changed the title after deciding that it was a little too extreme.
+
 It's hard for me to teach an in-depth Python class without discussing lambda expressions.
 I almost always get questions about them.
 My students tend to see them in code on StackOverflow or they see them in a coworker's code (which, realistically, may have also come from StackOverflow).
