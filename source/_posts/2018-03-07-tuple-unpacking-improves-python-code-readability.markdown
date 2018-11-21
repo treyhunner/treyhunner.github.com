@@ -3,7 +3,7 @@ layout: post
 title: "Multiple assignment and tuple unpacking improve Python code readability"
 date: 2018-03-07 16:30:00 -0800
 comments: true
-categories: python readability
+categories: python readability tuples
 ---
 
 Whether I'm teaching new Pythonistas or long-time Python programmers, I frequently find that **Python programmers underutilize multiple assignment**.
