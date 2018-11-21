@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tuples | Trey Hunner]]></title>
+  <link href="http://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2018-11-21T10:59:31-08:00</updated>
+  <id>http://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
+    <updated>2018-03-07T16:30:00-08:00</updated>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
+    <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
+
+<p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
+This feature often seems simple after you&rsquo;ve learned about it, but <strong>it can be tricky to recall multiple assignment when you need it most</strong>.</p>
+
+<p>In this article we&rsquo;ll see what multiple assignment is, we&rsquo;ll take a look at common uses of multiple assignment, and then we&rsquo;ll look at a few uses for multiple assignment that are often overlooked.</p>
+
+<p>Note that in this article I will be using <a href="https://cito.github.io/blog/f-strings/">f-strings</a> which are a Python 3.6+ feature.
+If you&rsquo;re on an older version of Python, you&rsquo;ll need to mentally translate those to use the string <code>format</code> method.</p>
+
+<h2>How multiple assignment works</h2>
+
+<p>I&rsquo;ll be using the words <strong>multiple assignment</strong>, <strong>tuple unpacking</strong>, and <strong>iterable unpacking</strong> interchangeably in this article.
+They&rsquo;re all just different words for the same thing.</p>
+
+<p>Python&rsquo;s multiple assignment looks like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 10, 20
+</code></pre>
+
+<p>Here we&rsquo;re setting <code>x</code> to <code>10</code> and <code>y</code> to <code>20</code>.</p>
+
+<p>What&rsquo;s happening at a lower level is that we&rsquo;re creating a tuple of <code>10, 20</code> and then looping over that tuple and taking each of the two items we get from looping and assigning them to <code>x</code> and <code>y</code> in order.</p>
+
+<p>This syntax might make that a bit more clear:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; (x, y) = (10, 20)
+</code></pre>
+
+<p>Parenthesis are optional around tuples in Python and they&rsquo;re also optional in multiple assignment (which uses a tuple-like syntax).
+All of these are equivalent:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 10, 20
+&gt;&gt;&gt; x, y = (10, 20)
+&gt;&gt;&gt; (x, y) = 10, 20
+&gt;&gt;&gt; (x, y) = (10, 20)
+</code></pre>
+
+<p>Multiple assignment is often called &ldquo;tuple unpacking&rdquo; because it&rsquo;s frequently used with tuples.
+But we can use multiple assignment with any iterable, not just tuples.
+Here we&rsquo;re using it with a list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = [10, 20]
+&gt;&gt;&gt; x
+10
+&gt;&gt;&gt; y
+20
+</code></pre>
+
+<p>And with a string:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = 'hi'
+&gt;&gt;&gt; x
+'h'
+&gt;&gt;&gt; y
+'i'
+</code></pre>
+
+<p>Anything that can be looped over can be &ldquo;unpacked&rdquo; with tuple unpacking / multiple assignment.</p>
+
+<p>Here&rsquo;s another example to demonstrate that multiple assignment works with any number of items and that it works with variables as well as objects we&rsquo;ve just created:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; point = 10, 20, 30
+&gt;&gt;&gt; x, y, z = point
+&gt;&gt;&gt; print(x, y, z)
+10 20 30
+&gt;&gt;&gt; (x, y, z) = (z, y, x)
+&gt;&gt;&gt; print(x, y, z)
+30 20 10
+</code></pre>
+
+<p>Note that on that last line we&rsquo;re actually swapping variable names, which is something multiple assignment allows us to do easily.</p>
+
+<p>Alright, let&rsquo;s talk about how multiple assignment can be used.</p>
+
+<h2>Unpacking in a for loop</h2>
+
+<p>You&rsquo;ll commonly see multiple assignment used in <code>for</code> loops.</p>
+
+<p>Let&rsquo;s take a dictionary:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; person_dictionary = {'name': "Trey", 'company': "Truthful Technology LLC"}
+</code></pre>
+
+<p>Instead of looping over our dictionary like this:</p>
+
+<pre><code class="python">for item in person_dictionary.items():
+    print(f"Key {item[0]} has value {item[1]}")
+</code></pre>
+
+<p>You&rsquo;ll often see Python programmers use multiple assignment by writing this:</p>
+
+<pre><code class="python">for key, value in person_dictionary.items():
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>When you write the <code>for X in Y</code> line of a for loop, you&rsquo;re telling Python that it should do an assignment to <code>X</code> for each iteration of your loop.
+Just like in an assignment using the <code>=</code> operator, we can use multiple assignment here.</p>
+
+<p>This:</p>
+
+<pre><code class="python">for key, value in person_dictionary.items():
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>Is essentially the same as this:</p>
+
+<pre><code class="python">for item in person_dictionary.items():
+    key, value = item
+    print(f"Key {key} has value {value}")
+</code></pre>
+
+<p>We&rsquo;re just not doing an unnecessary extra assignment in the first example.</p>
+
+<p>So multiple assignment is great for unpacking dictionary items into key-value pairs, but it&rsquo;s helpful in many other places too.</p>
+
+<p>It&rsquo;s great when paired with the built-in <code>enumerate</code> function:</p>
+
+<pre><code class="python">for i, line in enumerate(my_file):
+    print(f"Line {i}: {line}")
+</code></pre>
+
+<p>And the <code>zip</code> function:</p>
+
+<pre><code class="python">for color, ratio in zip(colors, ratios):
+    print(f"It's {ratio*100}% {color}.")
+</code></pre>
+
+<pre><code class="python">for (product, price, color) in zip(products, prices, colors):
+    print(f"{product} is {color} and costs ${price:.2f}")
+</code></pre>
+
+<p>If you&rsquo;re unfamiliar with <code>enumerate</code> or <code>zip</code>, see my article on <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes in Python</a>.</p>
+
+<p>Newer Pythonistas often see multiple assignment in the context of <code>for</code> loops and sometimes assume it&rsquo;s tied to loops.  Multiple assignment works for any assignment though, not just loop assignments.</p>
+
+<h2>An alternative to hard coded indexes</h2>
+
+<p>It&rsquo;s not uncommon to see hard coded indexes (e.g. <code>point[0]</code>, <code>items[1]</code>, <code>vals[-1]</code>) in code:</p>
+
+<pre><code class="python">print(f"The first item is {items[0]} and the last item is {items[-1]}")
+</code></pre>
+
+<p>When you see Python code that uses hard coded indexes there&rsquo;s often a way to <strong>use multiple assignment to make your code more readable</strong>.</p>
+
+<p>Here&rsquo;s some code that has three hard coded indexes:</p>
+
+<pre><code class="python">def reformat_date(mdy_date_string):
+    """Reformat MM/DD/YYYY string into YYYY-MM-DD string."""
+    date = mdy_date_string.split('/')
+    return f"{date[2]}-{date[0]}-{date[1]}"
+</code></pre>
+
+<p>We can make this code much more readable by using multiple assignment to assign separate month, day, and year variables:</p>
+
+<pre><code class="python">def reformat_date(mdy_date_string):
+    """Reformat MM/DD/YYYY string into YYYY-MM-DD string."""
+    month, day, year = mdy_date_string.split('/')
+    return f"{year}-{month}-{day}"
+</code></pre>
+
+<p>Whenever you see hard coded indexes in your code, stop to consider whether you could use multiple assignment to make your code more readable.</p>
+
+<h2>Multiple assignment is very strict</h2>
+
+<p>Multiple assignment is actually fairly strict when it comes to unpacking the iterable we give to it.</p>
+
+<p>If we try to unpack a larger iterable into a smaller number of variables, we&rsquo;ll get an error:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y = (10, 20, 30)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: too many values to unpack (expected 2)
+</code></pre>
+
+<p>If we try to unpack a smaller iterable into a larger number of variables, we&rsquo;ll also get an error:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; x, y, z = (10, 20)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: not enough values to unpack (expected 3, got 2)
+</code></pre>
+
+<p>This strictness is pretty great.
+If we&rsquo;re working with an item that has a different size than we expected, the multiple assignment will fail loudly and we&rsquo;ll hopefully now know about a bug in our program that we weren&rsquo;t yet aware of.</p>
+
+<p>Let&rsquo;s look at an example.
+Imagine that we have a short command line program that parses command-line arguments in a rudimentary way, like this:</p>
+
+<pre><code class="python">import sys
+
+new_file = sys.argv[1]
+old_file = sys.argv[2]
+print(f"Copying {new_file} to {old_file}")
+</code></pre>
+
+<p>Our program is supposed to accept 2 arguments, like this:</p>
+
+<pre><code class="bash">$ my_program.py file1.txt file2.txt
+Copying file1.txt to file2.txt
+</code></pre>
+
+<p>But if someone called our program with three arguments, they will not see an error:</p>
+
+<pre><code class="bash">$ my_program.py file1.txt file2.txt file3.txt
+Copying file1.txt to file2.txt
+</code></pre>
+
+<p>There&rsquo;s no error because we&rsquo;re not validating that we&rsquo;ve received exactly 2 arguments.</p>
+
+<p>If we use multiple assignment instead of hard coded indexes, the assignment will verify that we receive exactly the expected number of arguments:</p>
+
+<pre><code class="python">import sys
+
+_, new_file, old_file = sys.argv
+print(f"Copying {new_file} to {old_file}")
+</code></pre>
+
+<p><strong>Note</strong>: we&rsquo;re using the variable name <code>_</code> to note that we don&rsquo;t care about <code>sys.argv[0]</code> (the name of our program).
+Using <code>_</code> for variables you don&rsquo;t care about is just a convention.</p>
+
+<h2>An alternative to slicing</h2>
+
+<p>So multiple assignment can be used for avoiding hard coded indexes and it can be used to ensure we&rsquo;re strict about the size of the tuples/iterables we&rsquo;re working with.</p>
+
+<p>Multiple assignment can be used to replace hard coded slices too!</p>
+
+<p>Slicing is a handy way to grab a specific portion of the items in lists and other sequences.</p>
+
+<p>Here are some slices that are &ldquo;hard coded&rdquo; in that they only use numeric indexes:</p>
+
+<pre><code class="python">all_after_first = items[1:]
+all_but_last_two = items[:-2]
+items_with_ends_removed = items[1:-1]
+</code></pre>
+
+<p>Whenever you see slices that don&rsquo;t use any variables in their slice indexes, you can often use multiple assignment instead.
+To do this we have to talk about a feature that I haven&rsquo;t mentioned yet: the <code>*</code> operator.</p>
+
+<p>In Python 3.0, the <code>*</code> operator was added to the multiple assignment syntax, allowing us to capture remaining items after an unpacking into a list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [1, 2, 3, 4, 5, 6]
+&gt;&gt;&gt; first, *rest = numbers
+&gt;&gt;&gt; rest
+[2, 3, 4, 5, 6]
+&gt;&gt;&gt; first
+1
+</code></pre>
+
+<p>The <code>*</code> operator allows us to replace hard coded slices near the ends of sequences.</p>
+
+<p>These two lines are equivalent:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; beginning, last = numbers[:-1], numbers[-1]
+&gt;&gt;&gt; *beginning, last = numbers
+</code></pre>
+
+<p>These two lines are equivalent also:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; head, middle, tail = numbers[0], numbers[1:-1], numbers[-1]
+&gt;&gt;&gt; head, *middle, tail = numbers
+</code></pre>
+
+<p>With the <code>*</code> operator and multiple assignment you can replace things like this:</p>
+
+<pre><code class="python">main(sys.argv[0], sys.argv[1:])
+</code></pre>
+
+<p>With more descriptive code, like this:</p>
+
+<pre><code class="python">program_name, *arguments = sys.argv
+main(program_name, arguments)
+</code></pre>
+
+<p>So if you see hard coded slice indexes in your code, consider whether you could use multiple assignment to clarify what those slices really represent.</p>
+
+<h2>Deep unpacking</h2>
+
+<p>This next feature is something that long-time Python programmers often overlook.
+It doesn&rsquo;t come up quite as often as the other uses for multiple assignment that I&rsquo;ve discussed, but it can be very handy to know about when you do need it.</p>
+
+<p>We&rsquo;ve seen multiple assignment for unpacking tuples and other iterables.
+We haven&rsquo;t yet seen that this is can be done <em>deeply</em>.</p>
+
+<p>I&rsquo;d say that the following multiple assignment is <em>shallow</em> because it unpacks one level deep:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; color, point = ("red", (1, 2, 3))
+&gt;&gt;&gt; color
+'red'
+&gt;&gt;&gt; point
+(1, 2, 3)
+</code></pre>
+
+<p>And I&rsquo;d say that this multiple assignment is <em>deep</em> because it unpacks the previous <code>point</code> tuple further into <code>x</code>, <code>y</code>, and <code>z</code> variables:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; color, (x, y, z) = ("red", (1, 2, 3))
+&gt;&gt;&gt; color
+'red'
+&gt;&gt;&gt; x
+1
+&gt;&gt;&gt; y
+2
+</code></pre>
+
+<p>If it seems confusing what&rsquo;s going on above, maybe using parenthesis consistently on both sides of this assignment will help clarify things:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; (color, (x, y, z)) = ("red", (1, 2, 3))
+</code></pre>
+
+<p>We&rsquo;re unpacking one level deep to get two objects, but then we take the second object and unpack it also to get 3 more objects.
+Then we assign our first object and our thrice-unpacked second object to our new variables (<code>color</code>, <code>x</code>, <code>y</code>, and <code>z</code>).</p>
+
+<p>Take these two lists:</p>
+
+<pre><code class="python">start_points = [(1, 2), (3, 4), (5, 6)]
+end_points = [(-1, -2), (-3, 4), (-6, -5)]
+</code></pre>
+
+<p>Here&rsquo;s an example of code that works with these lists by using shallow unpacking:</p>
+
+<pre><code class="python">for start, end in zip(start_points, end_points):
+    if start[0] == -end[0] and start[1] == -end[1]:
+        print(f"Point {start[0]},{start[1]} was negated.")
+</code></pre>
+
+<p>And here&rsquo;s the same thing with deeper unpacking:</p>
+
+<pre><code class="python">for (x1, y1), (x2, y2) in zip(start_points, end_points):
+    if x1 == -x2 and y1 == -y2:
+        print(f"Point {x1},{y1} was negated.")
+</code></pre>
+
+<p>Note that in this second case, it&rsquo;s much more clear what type of objects we&rsquo;re working with.
+The deep unpacking makes it apparent that we&rsquo;re receiving two 2-itemed tuples each time we loop.</p>
+
+<p>Deep unpacking often comes up when nesting looping utilities that each provide multiple items.
+For example, you may see deep multiple assignments when using <code>enumerate</code> and <code>zip</code> together:</p>
+
+<pre><code class="python">items = [1, 2, 3, 4, 2, 1]
+for i, (first, last) in enumerate(zip(items, reversed(items))):
+    if first != last:
+        raise ValueError(f"Item {i} doesn't match: {first} != {last}")
+</code></pre>
+
+<p>I said before that multiple assignment is strict about the size of our iterables as we unpack them.
+With deep unpacking we can also be <strong>strict about the shape of our iterables</strong>.</p>
+
+<p>This works:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2), (-1, -2))
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+True
+</code></pre>
+
+<p>But this buggy code works too:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2, 4), (-1, -2, 3), (6, 4, 5))
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+True
+</code></pre>
+
+<p>Whereas this works:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2), (-1, -2))
+&gt;&gt;&gt; (x1, y1), (x2, y2) = points
+&gt;&gt;&gt; x1 == -x2 and y1 == -y2
+True
+</code></pre>
+
+<p>But this does not:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2, 4), (-1, -2, 3), (6, 4, 5))
+&gt;&gt;&gt; (x1, y1), (x2, y2) = points
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ValueError: too many values to unpack (expected 2)
+</code></pre>
+
+<p>With multiple assignment we&rsquo;re assigning variables while also making particular assertions about the size and shape of our iterables.
+Multiple assignment will help you clarify your code to both humans (for <strong>better code readability</strong>) and to computers (for <strong>improved code correctness</strong>).</p>
+
+<h2>Using a list-like syntax</h2>
+
+<p>I noted before that multiple assignment uses a tuple-like syntax, but it works on any iterable.
+That tuple-like syntax is the reason it&rsquo;s commonly called &ldquo;tuple unpacking&rdquo; even though it might be more clear to say &ldquo;iterable unpacking&rdquo;.</p>
+
+<p>I didn&rsquo;t mention before that multiple assignment also works with <strong>a list-like syntax</strong>.</p>
+
+<p>Here&rsquo;s a multiple assignment with a list-like syntax:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; [x, y, z] = 1, 2, 3
+&gt;&gt;&gt; x
+1
+</code></pre>
+
+<p>This might seem really strange. What&rsquo;s the point of allowing both list-like and tuple-like syntaxes?</p>
+
+<p>I use this feature rarely, but I find it helpful for <strong>code clarity</strong> in specific circumstances.</p>
+
+<p>Let&rsquo;s say I have code that used to look like this:</p>
+
+<pre><code class="python">def most_common(items):
+    return Counter(items).most_common(1)[0][0]
+</code></pre>
+
+<p>And our well-intentioned coworker has decided to use deep multiple assignment to refactor our code to this:</p>
+
+<pre><code class="python">def most_common(items):
+    (value, times_seen), = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>See that trailing comma on the left-hand side of the assignment?
+It&rsquo;s easy to miss and it makes this code look sort of weird.
+What is that comma even doing in this code?</p>
+
+<p>That trailing comma is there to make a single item tuple.
+We&rsquo;re doing deep unpacking here.</p>
+
+<p>Here&rsquo;s another way we could write the same code:</p>
+
+<pre><code class="python">def most_common(items):
+    ((value, times_seen),) = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>This might make that deep unpacking a little more obvious but I&rsquo;d prefer to see this instead:</p>
+
+<pre><code class="python">def most_common(items):
+    [(value, times_seen)] = Counter(items).most_common(1)
+    return value
+</code></pre>
+
+<p>The list-syntax in our assignment makes it more clear that we&rsquo;re unpacking a one-item iterable and then unpacking that single item into <code>value</code> and <code>times_seen</code> variables.</p>
+
+<p>When I see this, I also think <em>I bet we&rsquo;re unpacking a single-item list</em>.
+And that is in fact what we&rsquo;re doing.
+We&rsquo;re using a <a href="https://docs.python.org/3/library/collections.html#collections.Counter">Counter</a> object from the collections module here.
+The <code>most_common</code> method on <code>Counter</code> objects allows us to limit the length of the list returned to us.
+We&rsquo;re limiting the list we&rsquo;re getting back to just a single item.</p>
+
+<p>When you&rsquo;re unpacking structures that often hold lots of values (like lists) and structures that often hold a very specific number of values (like tuples) you may decide that your code appears more <em>semantically accurate</em> if you use a list-like syntax when unpacking those list-like structures.</p>
+
+<p>If you&rsquo;d like you might even decide to adopt a convention of always using a list-like syntax when unpacking list-like structures (frequently the case when using <code>*</code> in multiple assignment):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; [first, *rest] = numbers
+</code></pre>
+
+<p>I don&rsquo;t usually use this convention myself, mostly because I&rsquo;m just not in the habit of using it.
+But if you find it helpful, you might consider using this convention in your own code.</p>
+
+<p>When using multiple assignment in your code, consider when and where a list-like syntax might make your code more descriptive and more clear.
+This can sometimes improve readability.</p>
+
+<h2>Don&rsquo;t forget about multiple assignment</h2>
+
+<p>Multiple assignment can improve both the readability of your code and the correctness of your code.
+It can make your code <strong>more descriptive</strong> while also making implicit assertions about the <strong>size and shape</strong> of the iterables you&rsquo;re unpacking.</p>
+
+<p>The use for multiple assignment that I often see forgotten is its ability to <strong>replace hard coded indexes</strong>, including <strong>replacing hard coded slices</strong> (using the <code>*</code> syntax).
+It&rsquo;s also common to overlook the fact that multiple assignment works <em>deeply</em> and can be used with both a <em>tuple-like</em> syntax and a <em>list-like</em> syntax.</p>
+
+<p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
+Please feel free to use this article as your personal reference guide to multiple assignment.</p>
+
+<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.
+To get practice writing some readable code using tuple unpacking, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.
+The first exercise I&rsquo;ll send you next Monday will benefit from using tuple unpacking.
+Sign up now to <a href="https://www.pythonmorsels.com/">level up your Python skills each week</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

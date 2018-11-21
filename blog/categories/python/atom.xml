@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T15:41:00-07:00</updated>
+  <updated>2018-11-21T10:59:31-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,171 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
+    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
+    <updated>2018-11-21T11:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
+    <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
+
+<p>If you&rsquo;re an experienced programmer and you feel like your Python code could be <em>more Pythonic</em>, <a href="https://www.pythonmorsels.com/">Python Morsels</a> is for you.</p>
+
+<p>Before I jump into details, let me explain what Python Morsels is.</p>
+
+<h2>The inspiration</h2>
+
+<p>I do on-site Python training for teams, which means I work with a lot of developers at a lot of companies.
+One question I hear all the time is &ldquo;how can I make my code more Pythonic&rdquo;?</p>
+
+<p>Most of the folks I teach are not new to programming and they&rsquo;re usually not new to Python either, but they also aren&rsquo;t experienced at leveraging the features and idioms that make Python unique.
+Being a skilled programmer isn&rsquo;t the same as being a skilled <em>Python</em> programmer</p>
+
+<p>Late last year this conundrum inspired me to create <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
+
+<h2>Learning by doing</h2>
+
+<p>My training courses and workshops are exercise-driven and I find an exercise-heavy style of teaching very effective.</p>
+
+<p>You don&rsquo;t learn by putting information into your head, <strong>you learn by trying to retrieve information from your head</strong>.
+You can watch talks and read books and read code, but you&rsquo;ll absorb very little unless you <em>apply</em> what you&rsquo;ve learned.
+You learn by doing, which means writing Python code.</p>
+
+<p>That&rsquo;s why Python Morsels is entirely about writing code and reflecting on the code you&rsquo;ve written.</p>
+
+<h2>Python Morsels: exercise-driven learning</h2>
+
+<p>After you sign up for Python Morsels I&rsquo;ll send you <strong>one exercise every week</strong>.
+Not an interview questions: a realistic Python exercise inspired by the interesting problems I&rsquo;ve had to solve in the past. The purpose of these exercises is to <strong>inspire you to learn something new about Python each week</strong>.</p>
+
+<p>Each exercise includes a number of bonuses so you can <strong>choose your own difficulty level</strong>.
+All exercises also include automated tests so you can test your code quickly.
+After you&rsquo;ve solved the exercise I&rsquo;ll send you a number of different solutions to the problem with a discussion about why we might choose one solution over another.
+These solutions are meant to help you <strong>reconsider the way you write your code</strong>.</p>
+
+<p>While solving the bonuses is important, the more important thing is that you <strong>get into the habit of time-boxed weekly learning</strong>. You want to spend your time effectively and the best way to do that is to <strong>form a learning habit</strong> and time box that habit.
+I suggest that you dedicate 30 minutes every week to solving the exercise, regardless of the difficulty level you choose, as well as 30 minutes to reflecting on the solutions email I send you.</p>
+
+<h2>So how much is this sale for?</h2>
+
+<p>Python Morsels normally costs $16/month (or $160/year on the annual plan).</p>
+
+<p>From now until Monday I&rsquo;m offering a 40% discount off the annual plan, which means you&rsquo;ll get <strong>52 weeks of Python skill-building for $96</strong>.
+That&rsquo;s effectively $8/month or <strong>a 50% discount</strong> when compared to the monthly subscription.</p>
+
+<p>I say &ldquo;52 weeks&rdquo; instead of 1 year because Python Morsels subscriptions can be &ldquo;paused&rdquo; at any time, which allows for breaks during vacations and busy periods and ensures you&rsquo;ll get all of the 52 weeks you signed up for.</p>
+
+<p>To take advantage of this discount you&rsquo;ll need to sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a>, verify your email address, go to the Account page, and click the Subscribe button for the <strong>52 Week Plan</strong>.
+The BLACKFRIDAY discount code should be automatically applied from now until the end of the sale on Monday.</p>
+
+<h2>Money back guarantee</h2>
+
+<p>This is the first sale I&rsquo;ve ever held so I&rsquo;m not sure whether it&rsquo;s common to offer a guarantee on sales, but I&rsquo;m going to do it for this one because I&rsquo;m pretty confident in what I&rsquo;m offering.</p>
+
+<p>If you contact me with concerns but I can&rsquo;t find something that works for your needs, I&rsquo;ll send you a full refund.
+I want you to improve your Python skills, but I don&rsquo;t want you signing up for something that isn&rsquo;t for you.
+If you end up signing up for Python Morsels and you don&rsquo;t improve your Python skills because of it, <strong>you deserve a refund because I&rsquo;ve wasted your time</strong>.</p>
+
+<h2>What do the first 52 weeks of Python Morsels exercises cover?</h2>
+
+<p>Python Morsels starts small, but the exercises increase in difficulty over time.
+The first 52 weeks of Python exercises will wander into <strong>a lot of interesting topics</strong>.</p>
+
+<p>Within one year we&rsquo;ll:</p>
+
+<ul>
+<li>work with and create our own iterators (both generators and iterator classes)</li>
+<li>make text-parsing programs and command-line programs</li>
+<li>talk a lot about readability and code style</li>
+<li>dive into a number of the built-ins and standard library modules</li>
+<li>use operator overloading to make classes that support arithmetic</li>
+<li>create our context managers</li>
+<li>create our own decorators</li>
+<li>use properties and descriptors and even <strong>make our own descriptor</strong></li>
+<li>create custom collections (mappings, sequences, strings, sets, etc.)</li>
+</ul>
+
+
+<p>Haven&rsquo;t made a descriptor before?
+By this time next year you will have!</p>
+
+<h2>The sale ends on Monday</h2>
+
+<p>This sale will ends on <strong>Monday November 26</strong>, end of day.</p>
+
+<p>To get an effective 50% discount on Python Morsels over the next 52 weeks, <a href="https://www.pythonmorsels.com/signup/">sign up to Python Morsels</a>, verify your email, go to the Account page, and subscribe to the <strong>52 Week Plan</strong>.</p>
+
+<h2>Share this sale with friends and family</h2>
+
+<p>If you have a friend or colleague who might benefit from weekly Python practice, let them know about this sale!
+The BLACKFRIDAY coupon expires on Monday, but there&rsquo;s no limit on the number of signups, so there&rsquo;s no reason to keep this sale a secret.</p>
+
+<p>So please share this email or the discount code with anyone you know who might find value in 52 weeks of Python skill-building.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>These are questions that I&rsquo;ve been asked at least once (that&rsquo;s apparently what &ldquo;frequently&rdquo; means now).</p>
+
+<h4>Is this for someone who is brand new to programming?</h4>
+
+<p>No, it isn&rsquo;t.
+Python Morsels is for someone who has been using Python for a while and wants to improve their Python coding practices.
+Many of the folks currently signed up write primarily Python code, but have a background in at least one other programming language.
+However, there are a handful of folks who are signed up who would call Python their first and only programming language and I do try to accommodate folks in that camp as much as I can.</p>
+
+<p>In general, I recommend Python Morsels for <strong>folks who are currently writing Python code regularly</strong>.</p>
+
+<h4>How is Python Morsels different from a Python course?</h4>
+
+<p>During my on-site trainings I&rsquo;m present as a live instructor and coach.
+That&rsquo;s something you won&rsquo;t get from Python Morsels.
+During online courses there are videos explaining each topic before it&rsquo;s practiced.
+Python Morsels also doesn&rsquo;t have that.</p>
+
+<p>The focus of Python Morsels is a bit different than a course or a training.
+If you think of Python course as like taking a tennis class, Python Morsels is more like <strong>weekly tennis practice</strong>.
+A Python Morsels subscriber described it to me as <strong>like Hannon&rsquo;s finger exercises for piano or Kreutzer&rsquo;s études for violin</strong>.
+Python Morsels is guided <strong>deliberate practice</strong> in the domain of writing readable and maintainable Python code.</p>
+
+<h4>How much time does this require each week?</h4>
+
+<p>I expect that you&rsquo;ll spend <strong>about an hour each week on Python Morsels in total</strong>.</p>
+
+<p>You&rsquo;re a busy person who has production code to write and I don&rsquo;t want to waste your time.
+The exercise includes bonuses, but I don&rsquo;t expect you to solve them all each week: instead I want you to time box yourself.
+I recommend that you set aside 30 minutes to solve the problem each week, including running the tests and solving as many bonuses as you can.
+I&rsquo;d also like you to set aside 30 minutes to reflect on your code while reading the solution email I send each week.
+I often link to related resources to read/watch, but I&rsquo;d like you to bookmark those for later.</p>
+
+<p>If you have more than one hour to devote each week, you could sit on the solutions for a couple days and then resolve the exercise without looking at the solutions email.
+I don&rsquo;t expect this though.</p>
+
+<h4>What if the exercises are too easy for me and I don&rsquo;t learn anything new?</h4>
+
+<p>If you find the exercises are too easy, email me and I&rsquo;ll see what I can do.
+I&rsquo;ve developed quite a few exercises over the last year and I may be able to work with you to ensure the exercises you get are a good fit for your experience level.
+If it turns out that Python Morsels simply isn&rsquo;t for you, I&rsquo;ll refund you.</p>
+
+<h4>What if the exercises suddenly get too hard for me?</h4>
+
+<p>If the exercises turn out to be too challenging for you, either immediately or eventually, email me.
+I plan to create some easier tracks for Python Morsels eventually (there&rsquo;s certainly demand for this) and I may have some suitable exercises to send to you.
+If Python Morsels doesn&rsquo;t suit your needs and I can&rsquo;t easily fix the problem, I&rsquo;ll send you a refund.</p>
+
+<h2>Ready to start a weekly skill-building habit?</h2>
+
+<p>Are you ready to start 52 weeks of Python skill-building for $96 (normally $192)?
+That&rsquo;s less than $2/week and about one hour of your time each week (which really is the bigger cost here).</p>
+
+<p>If you have questions that I didn&rsquo;t address above, please <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a> and say what you&rsquo;re thinking/feeling.</p>
+
+<p>If you&rsquo;re interested in seeing the opinion of someone who has worked through Python Morsels exercises, see the testimonials <a href="https://www.pythonmorsels.com/">on the homepage</a> or take a look at what some of my Python Morsels friends have said about it on Twitter (<a href="https://twitter.com/AndrewsForge/status/1018597131496710144">Andrew Pinkham</a>, <a href="https://twitter.com/PavelAnni/status/963778202605932544">Pavel Anni</a>, <a href="https://twitter.com/jmwatt3/status/1035314897280794629">Jason Wattier</a>, <a href="https://twitter.com/abqpythonista/status/976202006405595136">Ben Jones</a>).</p>
+
+<p>Ready to sign up?
+<a href="https://www.pythonmorsels.com/signup/">Click here to get 52 weeks of Python Morsels at 50% off</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
@@ -1582,381 +1747,6 @@ Different PyCon attendees will have different recommendations for how to make th
 <p>Also, if you see me in the hallway at PyCon (I have a face that looks like me and will like have a &ldquo;Trey Hunner&rdquo; name badge on), say hi and let me know you read this article! 😄</p>
 
 <p>I hope you have a lovely PyCon!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
-    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
-    <updated>2018-04-04T08:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
-    <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
-
-<p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
-
-<p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
-
-<h2>What are keyword arguments?</h2>
-
-<p>Let&rsquo;s take a look at what keyword arguments (also called &ldquo;named arguments&rdquo;) are.</p>
-
-<p>First let&rsquo;s take this Python function:</p>
-
-<pre><code class="python">from math import sqrt
-
-def quadratic(a, b, c):
-    x1 = -b / (2*a)
-    x2 = sqrt(b**2 - 4*a*c) / (2*a)
-    return (x1 + x2), (x1 - x2)
-</code></pre>
-
-<p>When we call this function, we can pass each of our three arguments in two different ways.</p>
-
-<p>We can pass our arguments as positional arguments like this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, 62)
-(-1.0, -2.0)
-</code></pre>
-
-<p>Or we can pass our arguments as keyword arguments like this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
-(-1.0, -2.0)
-</code></pre>
-
-<p>The order of these arguments matters when they&rsquo;re passed positionally:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, 62)
-(-1.0, -2.0)
-&gt;&gt;&gt; quadratic(62, 93, 31)
-(-0.5, -1.0)
-</code></pre>
-
-<p>But it doesn&rsquo;t matter when they&rsquo;re passed by their name:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
-(-1.0, -2.0)
-&gt;&gt;&gt; quadratic(c=62, b=93, a=31)
-(-1.0, -2.0)
-</code></pre>
-
-<p>When we use keyword/named arguments, it&rsquo;s the name that matters, not the position:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(a=31, b=93, c=62)
-(-1.0, -2.0)
-&gt;&gt;&gt; quadratic(c=31, b=93, a=62)
-(-0.5, -1.0)
-</code></pre>
-
-<p>So unlike many other programming languages, Python knows the names of the arguments our function accepts.</p>
-
-<p>If we ask for help on our function Python will tell us our three arguments by name:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; help(quadratic)
-Help on function quadratic in module __main__:
-
-quadratic(a, b, c)
-</code></pre>
-
-<p>Note that functions can be called with a mix of positional and named arguments:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; quadratic(31, 93, c=62)
-(-1.0, -2.0)
-</code></pre>
-
-<p>That can come in handy, but with the particular function we&rsquo;ve written here it&rsquo;s most clear to use all positional arguments or all keyword arguments.</p>
-
-<h2>Why use keyword arguments?</h2>
-
-<p>When calling functions in Python, you&rsquo;ll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.</p>
-
-<p>Take this code:</p>
-
-<pre><code class="python">def write_gzip_file(output_file, contents):
-    with GzipFile(None, 'wt', 9, output_file) as gzip_out:
-        gzip_out.write(contents)
-</code></pre>
-
-<p>This takes a file object <code>output_file</code> and <code>contents</code> string and writes a gzipped version of the string to the output file.</p>
-
-<p>This code does the same thing but it uses keyword arguments instead of positional arguments:</p>
-
-<pre><code class="python">def write_gzip_file(output_file, contents):
-    with GzipFile(fileobj=output_file, mode='wt', compresslevel=9) as gzip_out:
-        gzip_out.write(contents)
-</code></pre>
-
-<p>Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.</p>
-
-<p>We were also able to leave off an argument here.  The first argument that we left off represents a <code>filename</code> and already has a default value of <code>None</code>.  We don&rsquo;t need a <code>filename</code> here because we&rsquo;re supposed to pass either a file object or a filename to <code>GzipFile</code>, not both.</p>
-
-<p>We&rsquo;re actually able to leave another argument off though.</p>
-
-<p>Here&rsquo;s the same code again, but the compress level has been left at its default value of <code>9</code> this time:</p>
-
-<pre><code class="python">def write_gzip_file(output_file, contents):
-    with GzipFile(fileobj=output_file, mode='wt') as gzip_out:
-        gzip_out.write(contents)
-</code></pre>
-
-<p>Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the &ldquo;wt&rdquo; access mode).</p>
-
-<p>When we use keyword arguments:</p>
-
-<ol>
-<li>We can often leave out arguments that have default values</li>
-<li>We can rearrange arguments in a way that makes them most readable</li>
-<li>We call arguments by their names to make it more clear what they represent</li>
-</ol>
-
-
-<h2>Where you see keyword arguments</h2>
-
-<p>You&rsquo;ll likely see keyword arguments quite a bit in Python.</p>
-
-<p>Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.</p>
-
-<p>The built-in <code>print</code> function accepts the optional <code>sep</code>, <code>end</code>, <code>file</code>, and <code>flush</code> attributes as keyword-only arguments:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; print('comma', 'separated', 'words', sep=', ')
-comma, separated, words
-</code></pre>
-
-<p>The <code>itertools.zip_longest</code> function also accepts an optional <code>fillvalue</code> attribute (which defaults to <code>None</code>) exclusively as a keyword argument:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from itertools import zip_longest
-&gt;&gt;&gt; list(zip_longest([1, 2], [7, 8, 9], [4, 5], fillvalue=0))
-[(1, 7, 4), (2, 8, 5), (0, 9, 0)]
-</code></pre>
-
-<p>In fact, some functions in Python force arguments to be named even when they <em>could</em> have been unambiguously specified positionally.</p>
-
-<p>In Python 2, the <code>sorted</code> function accepted all its arguments as either positional or keyword arguments:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], None, None, True)
-[8, 7, 4, 2, 1]
-&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], reverse=True)
-[8, 7, 4, 2, 1]
-</code></pre>
-
-<p>But Python 3&rsquo;s <code>sorted</code> function requires all arguments after the provided iterable to be specified as keyword arguments:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], None, True)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: must use keyword argument for key function
-&gt;&gt;&gt; sorted([4, 1, 8, 2, 7], reverse=True)
-[8, 7, 4, 2, 1]
-</code></pre>
-
-<p>Keyword arguments come up quite a bit in Python&rsquo;s built-in functions as well as in the standard library and third party libraries.</p>
-
-<h2>Requiring your arguments be named</h2>
-
-<p>You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the <code>*</code> operator to capture all the positional arguments and then specify optional keyword-only arguments after the <code>*</code> capture.</p>
-
-<p>Here&rsquo;s an example:</p>
-
-<pre><code class="python">def product(*numbers, initial=1):
-    total = initial
-    for n in numbers:
-        total *= n
-    return total
-</code></pre>
-
-<p><strong>Note</strong>: If you haven&rsquo;t seen that <code>*</code> syntax before, <code>*numbers</code> captures all positional arguments given to the <code>product</code> function into a tuple which the <code>numbers</code> variable points to.</p>
-
-<p>The <code>initial</code> argument in the above function must be specified as a keyword argument:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; product(4, 4)
-16
-&gt;&gt;&gt; product(4, 4, initial=1)
-16
-&gt;&gt;&gt; product(4, 5, 2, initial=3)
-120
-</code></pre>
-
-<p>Note that while <code>initial</code> has a default value, you can also specify <em>required</em> keyword-only arguments using this syntax:</p>
-
-<pre><code class="python">def join(*iterables, joiner):
-    if not iterables:
-        return
-    yield from iterables[0]
-    for iterable in iterables[1:]:
-        yield joiner
-        yield from iterable
-</code></pre>
-
-<p>That <code>joiner</code> variable doesn&rsquo;t have a default value, so it must be specified:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7], joiner=0))
-[1, 2, 3, 0, 4, 5, 0, 6, 7]
-&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7], joiner='-'))
-[1, 2, 3, '-', 4, 5, '-', 6, 7]
-&gt;&gt;&gt; list(join([1, 2, 3], [4, 5], [6, 7]))
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: join() missing 1 required keyword-only argument: 'joiner'
-</code></pre>
-
-<p>Note that this syntax of putting arguments after the <code>*</code> only works in Python 3.  There&rsquo;s no syntactic way in Python 2 to require an argument to be named.</p>
-
-<h2>Keyword-only arguments without positional arguments</h2>
-
-<p>What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?</p>
-
-<p>If you want to accept keyword-only arguments and you&rsquo;re not using a <code>*</code> to accept any number of positional arguments, you can use a <code>*</code> without anything after it.</p>
-
-<p>For example here&rsquo;s a modified version of Django&rsquo;s <code>django.shortcuts.render</code> function:</p>
-
-<pre><code class="python">def render(request, template_name, context=None, *, content_type=None, status=None, using=None):
-    content = loader.render_to_string(template_name, context, request, using=using)
-    return HttpResponse(content, content_type, status)
-</code></pre>
-
-<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>context_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; render(request, '500.html', {'error': error}, status=500)
-&lt;HttpResponse status_code=500, "text/html; charset=utf-8"&gt;
-&gt;&gt;&gt; render(request, '500.html', {'error': error}, 500)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: render() takes from 2 to 3 positional arguments but 4 were given
-</code></pre>
-
-<p>Just like with unlimited positional arguments, these keyword arguments can be required.  Here&rsquo;s a function with four required keyword-only arguments:</p>
-
-<pre><code class="python">from random import choice, shuffle
-UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-LOWERCASE = UPPERCASE.lower()
-DIGITS = "0123456789"
-ALL = UPPERCASE + LOWERCASE + DIGITS
-
-def random_password(*, upper, lower, digits, length):
-    chars = [
-        *(choice(UPPERCASE) for _ in range(upper)),
-        *(choice(LOWERCASE) for _ in range(lower)),
-        *(choice(DIGITS) for _ in range(digits)),
-        *(choice(ALL) for _ in range(length-upper-lower-digits)),
-    ]
-    shuffle(chars)
-    return "".join(chars)
-</code></pre>
-
-<p>This function requires all of its arguments to be specified using their name:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; random_password(upper=1, lower=1, digits=1, length=8)
-'oNA7rYWI'
-&gt;&gt;&gt; random_password(upper=1, lower=1, digits=1, length=8)
-'bjonpuM6'
-&gt;&gt;&gt; random_password(1, 1, 1, 8)
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: random_password() takes 0 positional arguments but 4 were given
-</code></pre>
-
-<p>Requiring arguments to be named can make calls to our function much clearer.</p>
-
-<p>The purpose of this function call:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; password = random_password(upper=1, lower=1, digits=1, length=8)
-</code></pre>
-
-<p>Is much more obvious than this one:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; password = random_password(1, 1, 1, 8)
-</code></pre>
-
-<p>Again note that this syntax also only works in Python 3.</p>
-
-<h2>Capturing arbitrary keyword arguments</h2>
-
-<p>What if you want to write a function that captures an arbitrary number of keyword arguments?</p>
-
-<p>For example the string format method accepts any keyword argument you give it:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; "My name is {name} and I like {color}".format(name="Trey", color="purple")
-'My name is Trey and I like purple'
-</code></pre>
-
-<p>How can you write such a function?</p>
-
-<p>Python allows functions to capture any keyword arguments provided to them using the <code>**</code> operator when defining the function:</p>
-
-<pre><code class="python">def format_attributes(**attributes):
-    """Return a string of comma-separated key-value pairs."""
-    return ", ".join(
-        f"{param}: {value}"
-        for param, value in attributes.items()
-    )
-</code></pre>
-
-<p>That <code>**</code> operator will allow our <code>format_attributes</code> function to accept any number of keyword arguments.  The given arguments will be stored in a dictionary called <code>attributes</code>.</p>
-
-<p>Here&rsquo;s an example use of our function:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
-'name: Trey, website: http://treyhunner.com, color: purple'
-</code></pre>
-
-<h2>Calling functions with arbitrary arguments</h2>
-
-<p>Just as you can define functions that take arbitrary keyword arguments, you can also call functions with arbitrary keyword arguments.</p>
-
-<p>By this I mean that you can pass keyword arguments into a function based on items in a dictionary.</p>
-
-<p>Here we&rsquo;re manually taking every key/value pair from a dictionary and passing them in as keyword arguments:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; items = {'name': "Trey", 'website': "http://treyhunner.com", 'color': "purple"}
-&gt;&gt;&gt; format_attributes(name=items['name'], website=items['website'], color=items['color'])
-'name: Trey, website: http://treyhunner.com, color: purple'
-</code></pre>
-
-<p>This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we&rsquo;re using at the time our code is written.  This won&rsquo;t work if we have a dictionary with unknown keys.</p>
-
-<p>We can pass arbitrary keyword arguments to our function using the <code>**</code> operator to unpack our dictionary items into keyword arguments in our function call:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; items = {'name': "Trey", 'website': "http://treyhunner.com", 'color': "purple"}
-&gt;&gt;&gt; format_attributes(**items)
-'name: Trey, website: http://treyhunner.com, color: purple'
-</code></pre>
-
-<p>This ability to pass arbitrary keyword arguments into functions and to accept arbitrary keyword arguments inside functions (as we did before) is seen frequently when using inheritance:</p>
-
-<pre><code class="python">def my_method(self, *args, **kwargs):
-    print('Do something interesting here')
-    super().my_method(*args, **kwargs)  # Call parent method with all given arguments
-</code></pre>
-
-<p><strong>Note</strong>: We&rsquo;re also using the <code>*</code> operator here for the same kind of capturing and unpacking of positional arguments.</p>
-
-<h2>Order matters</h2>
-
-<p>Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see <a href="https://www.python.org/dev/peps/pep-0468/">PEP 468</a>).  This means that when <code>**</code> is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.</p>
-
-<p>So since Python 3.6, you&rsquo;ll <em>never</em> see something like this happen:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
-'website: http://treyhunner.com, color: purple, name: Trey'
-</code></pre>
-
-<p>Instead, with Python 3.6+, arguments will always maintain the order they were passed in:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; format_attributes(name="Trey", website="http://treyhunner.com", color="purple")
-'name: Trey, website: http://treyhunner.com, color: purple'
-</code></pre>
-
-<h2>Embrace keyword arguments in Python</h2>
-
-<p>An arguments <em>position</em> often doesn&rsquo;t convey as much meaning as its <em>name</em>.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.</p>
-
-<p>When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the <code>*</code> operator to require those arguments be specified as keyword arguments.</p>
-
-<p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
-
-<p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
-
-<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.</p>
 ]]></content>
   </entry>
   

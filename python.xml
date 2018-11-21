@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T15:41:00-07:00</updated>
+  <updated>2018-11-21T10:59:31-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,171 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
+    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
+    <updated>2018-11-21T11:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
+    <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
+
+<p>If you&rsquo;re an experienced programmer and you feel like your Python code could be <em>more Pythonic</em>, <a href="https://www.pythonmorsels.com/">Python Morsels</a> is for you.</p>
+
+<p>Before I jump into details, let me explain what Python Morsels is.</p>
+
+<h2>The inspiration</h2>
+
+<p>I do on-site Python training for teams, which means I work with a lot of developers at a lot of companies.
+One question I hear all the time is &ldquo;how can I make my code more Pythonic&rdquo;?</p>
+
+<p>Most of the folks I teach are not new to programming and they&rsquo;re usually not new to Python either, but they also aren&rsquo;t experienced at leveraging the features and idioms that make Python unique.
+Being a skilled programmer isn&rsquo;t the same as being a skilled <em>Python</em> programmer</p>
+
+<p>Late last year this conundrum inspired me to create <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
+
+<h2>Learning by doing</h2>
+
+<p>My training courses and workshops are exercise-driven and I find an exercise-heavy style of teaching very effective.</p>
+
+<p>You don&rsquo;t learn by putting information into your head, <strong>you learn by trying to retrieve information from your head</strong>.
+You can watch talks and read books and read code, but you&rsquo;ll absorb very little unless you <em>apply</em> what you&rsquo;ve learned.
+You learn by doing, which means writing Python code.</p>
+
+<p>That&rsquo;s why Python Morsels is entirely about writing code and reflecting on the code you&rsquo;ve written.</p>
+
+<h2>Python Morsels: exercise-driven learning</h2>
+
+<p>After you sign up for Python Morsels I&rsquo;ll send you <strong>one exercise every week</strong>.
+Not an interview questions: a realistic Python exercise inspired by the interesting problems I&rsquo;ve had to solve in the past. The purpose of these exercises is to <strong>inspire you to learn something new about Python each week</strong>.</p>
+
+<p>Each exercise includes a number of bonuses so you can <strong>choose your own difficulty level</strong>.
+All exercises also include automated tests so you can test your code quickly.
+After you&rsquo;ve solved the exercise I&rsquo;ll send you a number of different solutions to the problem with a discussion about why we might choose one solution over another.
+These solutions are meant to help you <strong>reconsider the way you write your code</strong>.</p>
+
+<p>While solving the bonuses is important, the more important thing is that you <strong>get into the habit of time-boxed weekly learning</strong>. You want to spend your time effectively and the best way to do that is to <strong>form a learning habit</strong> and time box that habit.
+I suggest that you dedicate 30 minutes every week to solving the exercise, regardless of the difficulty level you choose, as well as 30 minutes to reflecting on the solutions email I send you.</p>
+
+<h2>So how much is this sale for?</h2>
+
+<p>Python Morsels normally costs $16/month (or $160/year on the annual plan).</p>
+
+<p>From now until Monday I&rsquo;m offering a 40% discount off the annual plan, which means you&rsquo;ll get <strong>52 weeks of Python skill-building for $96</strong>.
+That&rsquo;s effectively $8/month or <strong>a 50% discount</strong> when compared to the monthly subscription.</p>
+
+<p>I say &ldquo;52 weeks&rdquo; instead of 1 year because Python Morsels subscriptions can be &ldquo;paused&rdquo; at any time, which allows for breaks during vacations and busy periods and ensures you&rsquo;ll get all of the 52 weeks you signed up for.</p>
+
+<p>To take advantage of this discount you&rsquo;ll need to sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a>, verify your email address, go to the Account page, and click the Subscribe button for the <strong>52 Week Plan</strong>.
+The BLACKFRIDAY discount code should be automatically applied from now until the end of the sale on Monday.</p>
+
+<h2>Money back guarantee</h2>
+
+<p>This is the first sale I&rsquo;ve ever held so I&rsquo;m not sure whether it&rsquo;s common to offer a guarantee on sales, but I&rsquo;m going to do it for this one because I&rsquo;m pretty confident in what I&rsquo;m offering.</p>
+
+<p>If you contact me with concerns but I can&rsquo;t find something that works for your needs, I&rsquo;ll send you a full refund.
+I want you to improve your Python skills, but I don&rsquo;t want you signing up for something that isn&rsquo;t for you.
+If you end up signing up for Python Morsels and you don&rsquo;t improve your Python skills because of it, <strong>you deserve a refund because I&rsquo;ve wasted your time</strong>.</p>
+
+<h2>What do the first 52 weeks of Python Morsels exercises cover?</h2>
+
+<p>Python Morsels starts small, but the exercises increase in difficulty over time.
+The first 52 weeks of Python exercises will wander into <strong>a lot of interesting topics</strong>.</p>
+
+<p>Within one year we&rsquo;ll:</p>
+
+<ul>
+<li>work with and create our own iterators (both generators and iterator classes)</li>
+<li>make text-parsing programs and command-line programs</li>
+<li>talk a lot about readability and code style</li>
+<li>dive into a number of the built-ins and standard library modules</li>
+<li>use operator overloading to make classes that support arithmetic</li>
+<li>create our context managers</li>
+<li>create our own decorators</li>
+<li>use properties and descriptors and even <strong>make our own descriptor</strong></li>
+<li>create custom collections (mappings, sequences, strings, sets, etc.)</li>
+</ul>
+
+
+<p>Haven&rsquo;t made a descriptor before?
+By this time next year you will have!</p>
+
+<h2>The sale ends on Monday</h2>
+
+<p>This sale will ends on <strong>Monday November 26</strong>, end of day.</p>
+
+<p>To get an effective 50% discount on Python Morsels over the next 52 weeks, <a href="https://www.pythonmorsels.com/signup/">sign up to Python Morsels</a>, verify your email, go to the Account page, and subscribe to the <strong>52 Week Plan</strong>.</p>
+
+<h2>Share this sale with friends and family</h2>
+
+<p>If you have a friend or colleague who might benefit from weekly Python practice, let them know about this sale!
+The BLACKFRIDAY coupon expires on Monday, but there&rsquo;s no limit on the number of signups, so there&rsquo;s no reason to keep this sale a secret.</p>
+
+<p>So please share this email or the discount code with anyone you know who might find value in 52 weeks of Python skill-building.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>These are questions that I&rsquo;ve been asked at least once (that&rsquo;s apparently what &ldquo;frequently&rdquo; means now).</p>
+
+<h4>Is this for someone who is brand new to programming?</h4>
+
+<p>No, it isn&rsquo;t.
+Python Morsels is for someone who has been using Python for a while and wants to improve their Python coding practices.
+Many of the folks currently signed up write primarily Python code, but have a background in at least one other programming language.
+However, there are a handful of folks who are signed up who would call Python their first and only programming language and I do try to accommodate folks in that camp as much as I can.</p>
+
+<p>In general, I recommend Python Morsels for <strong>folks who are currently writing Python code regularly</strong>.</p>
+
+<h4>How is Python Morsels different from a Python course?</h4>
+
+<p>During my on-site trainings I&rsquo;m present as a live instructor and coach.
+That&rsquo;s something you won&rsquo;t get from Python Morsels.
+During online courses there are videos explaining each topic before it&rsquo;s practiced.
+Python Morsels also doesn&rsquo;t have that.</p>
+
+<p>The focus of Python Morsels is a bit different than a course or a training.
+If you think of Python course as like taking a tennis class, Python Morsels is more like <strong>weekly tennis practice</strong>.
+A Python Morsels subscriber described it to me as <strong>like Hannon&rsquo;s finger exercises for piano or Kreutzer&rsquo;s études for violin</strong>.
+Python Morsels is guided <strong>deliberate practice</strong> in the domain of writing readable and maintainable Python code.</p>
+
+<h4>How much time does this require each week?</h4>
+
+<p>I expect that you&rsquo;ll spend <strong>about an hour each week on Python Morsels in total</strong>.</p>
+
+<p>You&rsquo;re a busy person who has production code to write and I don&rsquo;t want to waste your time.
+The exercise includes bonuses, but I don&rsquo;t expect you to solve them all each week: instead I want you to time box yourself.
+I recommend that you set aside 30 minutes to solve the problem each week, including running the tests and solving as many bonuses as you can.
+I&rsquo;d also like you to set aside 30 minutes to reflect on your code while reading the solution email I send each week.
+I often link to related resources to read/watch, but I&rsquo;d like you to bookmark those for later.</p>
+
+<p>If you have more than one hour to devote each week, you could sit on the solutions for a couple days and then resolve the exercise without looking at the solutions email.
+I don&rsquo;t expect this though.</p>
+
+<h4>What if the exercises are too easy for me and I don&rsquo;t learn anything new?</h4>
+
+<p>If you find the exercises are too easy, email me and I&rsquo;ll see what I can do.
+I&rsquo;ve developed quite a few exercises over the last year and I may be able to work with you to ensure the exercises you get are a good fit for your experience level.
+If it turns out that Python Morsels simply isn&rsquo;t for you, I&rsquo;ll refund you.</p>
+
+<h4>What if the exercises suddenly get too hard for me?</h4>
+
+<p>If the exercises turn out to be too challenging for you, either immediately or eventually, email me.
+I plan to create some easier tracks for Python Morsels eventually (there&rsquo;s certainly demand for this) and I may have some suitable exercises to send to you.
+If Python Morsels doesn&rsquo;t suit your needs and I can&rsquo;t easily fix the problem, I&rsquo;ll send you a refund.</p>
+
+<h2>Ready to start a weekly skill-building habit?</h2>
+
+<p>Are you ready to start 52 weeks of Python skill-building for $96 (normally $192)?
+That&rsquo;s less than $2/week and about one hour of your time each week (which really is the bigger cost here).</p>
+
+<p>If you have questions that I didn&rsquo;t address above, please <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a> and say what you&rsquo;re thinking/feeling.</p>
+
+<p>If you&rsquo;re interested in seeing the opinion of someone who has worked through Python Morsels exercises, see the testimonials <a href="https://www.pythonmorsels.com/">on the homepage</a> or take a look at what some of my Python Morsels friends have said about it on Twitter (<a href="https://twitter.com/AndrewsForge/status/1018597131496710144">Andrew Pinkham</a>, <a href="https://twitter.com/PavelAnni/status/963778202605932544">Pavel Anni</a>, <a href="https://twitter.com/jmwatt3/status/1035314897280794629">Jason Wattier</a>, <a href="https://twitter.com/abqpythonista/status/976202006405595136">Ben Jones</a>).</p>
+
+<p>Ready to sign up?
+<a href="https://www.pythonmorsels.com/signup/">Click here to get 52 weeks of Python Morsels at 50% off</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
@@ -6890,127 +7055,6 @@ I&rsquo;d love to chat.</p>
 <p>I am on the lookout for new solutions to this problem, but django-widget-tweaks has served me well so far.  I have used it for three years now it remains one of my go-to libraries for new Django projects.</p>
 
 <p>How do you add CSS classes do your Django form fields?  If you have another solution please leave a comment below.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Supporting both Django 1.7 and South]]></title>
-    <link href="http://treyhunner.com/2014/03/migrating-to-django-1-dot-7/"/>
-    <updated>2014-03-27T13:05:00-07:00</updated>
-    <id>http://treyhunner.com/2014/03/migrating-to-django-1-dot-7</id>
-    <content type="html"><![CDATA[<p>Have an open source Django app with South migrations?  Adding support for Django 1.7 might be a little painful.  In this post I will discuss the difficulty of supporting Django 1.7 while maintaining South migrations for users of Django 1.6 and below.</p>
-
-<p>Django 1.7 uses the <code>migrations</code> sub-package in your app for database migrations and South relies on the same package.  Unfortunately, you can&rsquo;t store both packages in the same place.  At first glance, it seems we cannot support both Django 1.7 and previous versions of Django using South.  However, as I explain below, we can support both at once.</p>
-
-<h2>Assessing your options</h2>
-
-<p>In order to support both Django 1.7 and Django 1.6 with South we can rename the <code>migrations</code> package and instruct users to reference the new package in their settings module.  We can do this with the <a href="https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-MIGRATION_MODULES">MIGRATION_MODULES</a> or <a href="http://south.readthedocs.org/en/latest/settings.html#south-migration-modules">SOUTH_MIGRATION_MODULES</a> settings.  There are three options:</p>
-
-<ol>
-<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>migrations</code> package</li>
-<li>Create new Django 1.7 migrations package in <code>django_migrations</code> directory and leave existing South migrations package</li>
-<li>Move existing <code>migrations</code> directory to <code>south_migrations</code> and create Django 1.7 migrations in <code>django_migrations</code> directory</li>
-</ol>
-
-
-<p>The first option requires existing users either switch to Django 1.7 or update their settings module before upgrading to the new version of your app.  The second option requires all Django 1.7 users to customize their settings module to properly install your app.  The third option requires everyone (both Django 1.7 and South users) to update their settings module.</p>
-
-<p>Out of those options I prefer the first one.  When you eventually drop support for South, you will probably want your Django 1.7 migrations to live in the <code>migrations</code> directory.  If you don&rsquo;t force that switch now, you would eventually need to break backwards-compatibility or maintain two duplicate migrations directories.</p>
-
-<p>So our plan is to move the South migrations to <code>south_migrations</code> and create Django 1.7 migrations.  An example with the <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> app:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git mv email_log/migrations email_log/south_migrations
-</span><span class='line'><span class="nv">$ </span>python manage.py makemigrations email_log
-</span><span class='line'><span class="nv">$ </span>git add email_log/migrations
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Breaking South support</h2>
-
-<p>If you move <code>migrations</code> to <code>south_migrations</code> and make a Django 1.7 <code>migrations</code> package, what happens to existing users with South?</p>
-
-<p>Your new app upgrade will break backwards compatibility for South users and you want to make sure they <em>know</em> they need to make a change immediately after upgrading.  Users should see a loud and clear error message instructing them what they need to do.  This can be done by hijacking their use of the <strong>migrate</strong> command with South.</p>
-
-<p>Existing users will run <strong>migrate</strong> when upgrading your app.  If they don&rsquo;t migrate immediately, they will when they notice a problem and realize they need to run <strong>migrate</strong>.  Upon migrating, we want to show a clear error message telling the user what to do.</p>
-
-<h2>Failing loudly and with a clear error message</h2>
-
-<p>When South looks for app migrations it will import our <code>migrations</code> package.  Our <code>migrations</code> package contains Django 1.7 migrations, which South won&rsquo;t understand.  So we want to make sure that if our <code>migrations</code> package is imported either Django 1.7 is installed or a proper error message is displayed.  Upon importing this package, we can check for the presence of the new <code>django.db.migrations</code> module and if not found we will raise an exception with a descriptive error message.</p>
-
-<p>For example, this is the code I plan to add to the <code>email_log/migrations/__init__.py</code> file for <a href="https://github.com/treyhunner/django-email-log">django-email-log</a> to add Django 1.7 support:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="sd">Django migrations for email_log app</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">This package does not contain South migrations.  South migrations can be found</span>
-</span><span class='line'><span class="sd">in the ``south_migrations`` package.</span>
-</span><span class='line'><span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">SOUTH_ERROR_MESSAGE</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s"></span>
-</span><span class='line'><span class="s">For South support, customize the SOUTH_MIGRATION_MODULES setting like so:</span>
-</span><span class='line'>
-</span><span class='line'><span class="s">    SOUTH_MIGRATION_MODULES = {</span>
-</span><span class='line'><span class="s">        &#39;email_log&#39;: &#39;email_log.south_migrations&#39;,</span>
-</span><span class='line'><span class="s">    }</span>
-</span><span class='line'><span class="s">&quot;&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># Ensure the user is not using Django 1.6 or below with South</span>
-</span><span class='line'><span class="k">try</span><span class="p">:</span>
-</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">migrations</span>  <span class="c"># noqa</span>
-</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-</span><span class='line'>    <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ImproperlyConfigured</span>
-</span><span class='line'>    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span><span class="n">SOUTH_ERROR_MESSAGE</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now when we run <strong>migrate</strong> with Django 1.6 and South, we&rsquo;ll see the following exception raised:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">ImproperlyConfigured</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">For</span> <span class="n">South</span> <span class="n">support</span><span class="p">,</span> <span class="n">customize</span> <span class="n">the</span> <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="n">setting</span> <span class="n">like</span> <span class="n">so</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">SOUTH_MIGRATION_MODULES</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="s">&#39;email_log&#39;</span><span class="p">:</span> <span class="s">&#39;email_log.south_migrations&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Conclusion</h2>
-
-<p>This breaks backwards compatibility, but our users should immediately understand what has broken and how to fix it.  Remember to upgrade the major number of your package version to note this backwards-incompatible change.</p>
-
-<p>I would love to hear your thoughts about this approach in the comments below.  Let me know if you have other ideas about how to handle supporting Django 1.7 migrations and South at the same time.</p>
 ]]></content>
   </entry>
   

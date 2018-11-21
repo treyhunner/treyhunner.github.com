@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-10-26T15:41:00-07:00</updated>
+  <updated>2018-11-21T10:59:31-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,171 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
+    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
+    <updated>2018-11-21T11:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
+    <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
+
+<p>If you&rsquo;re an experienced programmer and you feel like your Python code could be <em>more Pythonic</em>, <a href="https://www.pythonmorsels.com/">Python Morsels</a> is for you.</p>
+
+<p>Before I jump into details, let me explain what Python Morsels is.</p>
+
+<h2>The inspiration</h2>
+
+<p>I do on-site Python training for teams, which means I work with a lot of developers at a lot of companies.
+One question I hear all the time is &ldquo;how can I make my code more Pythonic&rdquo;?</p>
+
+<p>Most of the folks I teach are not new to programming and they&rsquo;re usually not new to Python either, but they also aren&rsquo;t experienced at leveraging the features and idioms that make Python unique.
+Being a skilled programmer isn&rsquo;t the same as being a skilled <em>Python</em> programmer</p>
+
+<p>Late last year this conundrum inspired me to create <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
+
+<h2>Learning by doing</h2>
+
+<p>My training courses and workshops are exercise-driven and I find an exercise-heavy style of teaching very effective.</p>
+
+<p>You don&rsquo;t learn by putting information into your head, <strong>you learn by trying to retrieve information from your head</strong>.
+You can watch talks and read books and read code, but you&rsquo;ll absorb very little unless you <em>apply</em> what you&rsquo;ve learned.
+You learn by doing, which means writing Python code.</p>
+
+<p>That&rsquo;s why Python Morsels is entirely about writing code and reflecting on the code you&rsquo;ve written.</p>
+
+<h2>Python Morsels: exercise-driven learning</h2>
+
+<p>After you sign up for Python Morsels I&rsquo;ll send you <strong>one exercise every week</strong>.
+Not an interview questions: a realistic Python exercise inspired by the interesting problems I&rsquo;ve had to solve in the past. The purpose of these exercises is to <strong>inspire you to learn something new about Python each week</strong>.</p>
+
+<p>Each exercise includes a number of bonuses so you can <strong>choose your own difficulty level</strong>.
+All exercises also include automated tests so you can test your code quickly.
+After you&rsquo;ve solved the exercise I&rsquo;ll send you a number of different solutions to the problem with a discussion about why we might choose one solution over another.
+These solutions are meant to help you <strong>reconsider the way you write your code</strong>.</p>
+
+<p>While solving the bonuses is important, the more important thing is that you <strong>get into the habit of time-boxed weekly learning</strong>. You want to spend your time effectively and the best way to do that is to <strong>form a learning habit</strong> and time box that habit.
+I suggest that you dedicate 30 minutes every week to solving the exercise, regardless of the difficulty level you choose, as well as 30 minutes to reflecting on the solutions email I send you.</p>
+
+<h2>So how much is this sale for?</h2>
+
+<p>Python Morsels normally costs $16/month (or $160/year on the annual plan).</p>
+
+<p>From now until Monday I&rsquo;m offering a 40% discount off the annual plan, which means you&rsquo;ll get <strong>52 weeks of Python skill-building for $96</strong>.
+That&rsquo;s effectively $8/month or <strong>a 50% discount</strong> when compared to the monthly subscription.</p>
+
+<p>I say &ldquo;52 weeks&rdquo; instead of 1 year because Python Morsels subscriptions can be &ldquo;paused&rdquo; at any time, which allows for breaks during vacations and busy periods and ensures you&rsquo;ll get all of the 52 weeks you signed up for.</p>
+
+<p>To take advantage of this discount you&rsquo;ll need to sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a>, verify your email address, go to the Account page, and click the Subscribe button for the <strong>52 Week Plan</strong>.
+The BLACKFRIDAY discount code should be automatically applied from now until the end of the sale on Monday.</p>
+
+<h2>Money back guarantee</h2>
+
+<p>This is the first sale I&rsquo;ve ever held so I&rsquo;m not sure whether it&rsquo;s common to offer a guarantee on sales, but I&rsquo;m going to do it for this one because I&rsquo;m pretty confident in what I&rsquo;m offering.</p>
+
+<p>If you contact me with concerns but I can&rsquo;t find something that works for your needs, I&rsquo;ll send you a full refund.
+I want you to improve your Python skills, but I don&rsquo;t want you signing up for something that isn&rsquo;t for you.
+If you end up signing up for Python Morsels and you don&rsquo;t improve your Python skills because of it, <strong>you deserve a refund because I&rsquo;ve wasted your time</strong>.</p>
+
+<h2>What do the first 52 weeks of Python Morsels exercises cover?</h2>
+
+<p>Python Morsels starts small, but the exercises increase in difficulty over time.
+The first 52 weeks of Python exercises will wander into <strong>a lot of interesting topics</strong>.</p>
+
+<p>Within one year we&rsquo;ll:</p>
+
+<ul>
+<li>work with and create our own iterators (both generators and iterator classes)</li>
+<li>make text-parsing programs and command-line programs</li>
+<li>talk a lot about readability and code style</li>
+<li>dive into a number of the built-ins and standard library modules</li>
+<li>use operator overloading to make classes that support arithmetic</li>
+<li>create our context managers</li>
+<li>create our own decorators</li>
+<li>use properties and descriptors and even <strong>make our own descriptor</strong></li>
+<li>create custom collections (mappings, sequences, strings, sets, etc.)</li>
+</ul>
+
+
+<p>Haven&rsquo;t made a descriptor before?
+By this time next year you will have!</p>
+
+<h2>The sale ends on Monday</h2>
+
+<p>This sale will ends on <strong>Monday November 26</strong>, end of day.</p>
+
+<p>To get an effective 50% discount on Python Morsels over the next 52 weeks, <a href="https://www.pythonmorsels.com/signup/">sign up to Python Morsels</a>, verify your email, go to the Account page, and subscribe to the <strong>52 Week Plan</strong>.</p>
+
+<h2>Share this sale with friends and family</h2>
+
+<p>If you have a friend or colleague who might benefit from weekly Python practice, let them know about this sale!
+The BLACKFRIDAY coupon expires on Monday, but there&rsquo;s no limit on the number of signups, so there&rsquo;s no reason to keep this sale a secret.</p>
+
+<p>So please share this email or the discount code with anyone you know who might find value in 52 weeks of Python skill-building.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>These are questions that I&rsquo;ve been asked at least once (that&rsquo;s apparently what &ldquo;frequently&rdquo; means now).</p>
+
+<h4>Is this for someone who is brand new to programming?</h4>
+
+<p>No, it isn&rsquo;t.
+Python Morsels is for someone who has been using Python for a while and wants to improve their Python coding practices.
+Many of the folks currently signed up write primarily Python code, but have a background in at least one other programming language.
+However, there are a handful of folks who are signed up who would call Python their first and only programming language and I do try to accommodate folks in that camp as much as I can.</p>
+
+<p>In general, I recommend Python Morsels for <strong>folks who are currently writing Python code regularly</strong>.</p>
+
+<h4>How is Python Morsels different from a Python course?</h4>
+
+<p>During my on-site trainings I&rsquo;m present as a live instructor and coach.
+That&rsquo;s something you won&rsquo;t get from Python Morsels.
+During online courses there are videos explaining each topic before it&rsquo;s practiced.
+Python Morsels also doesn&rsquo;t have that.</p>
+
+<p>The focus of Python Morsels is a bit different than a course or a training.
+If you think of Python course as like taking a tennis class, Python Morsels is more like <strong>weekly tennis practice</strong>.
+A Python Morsels subscriber described it to me as <strong>like Hannon&rsquo;s finger exercises for piano or Kreutzer&rsquo;s études for violin</strong>.
+Python Morsels is guided <strong>deliberate practice</strong> in the domain of writing readable and maintainable Python code.</p>
+
+<h4>How much time does this require each week?</h4>
+
+<p>I expect that you&rsquo;ll spend <strong>about an hour each week on Python Morsels in total</strong>.</p>
+
+<p>You&rsquo;re a busy person who has production code to write and I don&rsquo;t want to waste your time.
+The exercise includes bonuses, but I don&rsquo;t expect you to solve them all each week: instead I want you to time box yourself.
+I recommend that you set aside 30 minutes to solve the problem each week, including running the tests and solving as many bonuses as you can.
+I&rsquo;d also like you to set aside 30 minutes to reflect on your code while reading the solution email I send each week.
+I often link to related resources to read/watch, but I&rsquo;d like you to bookmark those for later.</p>
+
+<p>If you have more than one hour to devote each week, you could sit on the solutions for a couple days and then resolve the exercise without looking at the solutions email.
+I don&rsquo;t expect this though.</p>
+
+<h4>What if the exercises are too easy for me and I don&rsquo;t learn anything new?</h4>
+
+<p>If you find the exercises are too easy, email me and I&rsquo;ll see what I can do.
+I&rsquo;ve developed quite a few exercises over the last year and I may be able to work with you to ensure the exercises you get are a good fit for your experience level.
+If it turns out that Python Morsels simply isn&rsquo;t for you, I&rsquo;ll refund you.</p>
+
+<h4>What if the exercises suddenly get too hard for me?</h4>
+
+<p>If the exercises turn out to be too challenging for you, either immediately or eventually, email me.
+I plan to create some easier tracks for Python Morsels eventually (there&rsquo;s certainly demand for this) and I may have some suitable exercises to send to you.
+If Python Morsels doesn&rsquo;t suit your needs and I can&rsquo;t easily fix the problem, I&rsquo;ll send you a refund.</p>
+
+<h2>Ready to start a weekly skill-building habit?</h2>
+
+<p>Are you ready to start 52 weeks of Python skill-building for $96 (normally $192)?
+That&rsquo;s less than $2/week and about one hour of your time each week (which really is the bigger cost here).</p>
+
+<p>If you have questions that I didn&rsquo;t address above, please <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a> and say what you&rsquo;re thinking/feeling.</p>
+
+<p>If you&rsquo;re interested in seeing the opinion of someone who has worked through Python Morsels exercises, see the testimonials <a href="https://www.pythonmorsels.com/">on the homepage</a> or take a look at what some of my Python Morsels friends have said about it on Twitter (<a href="https://twitter.com/AndrewsForge/status/1018597131496710144">Andrew Pinkham</a>, <a href="https://twitter.com/PavelAnni/status/963778202605932544">Pavel Anni</a>, <a href="https://twitter.com/jmwatt3/status/1035314897280794629">Jason Wattier</a>, <a href="https://twitter.com/abqpythonista/status/976202006405595136">Ben Jones</a>).</p>
+
+<p>Ready to sign up?
+<a href="https://www.pythonmorsels.com/signup/">Click here to get 52 weeks of Python Morsels at 50% off</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
@@ -6868,132 +7033,6 @@ I&rsquo;d love to chat.</p>
 <h3>Credits</h3>
 
 <p>Thanks to <a href="http://brianschrader.com/">Brian Schrader</a> and <a href="http://stackoverflow.com/users/400617/davidism">David Lord</a> for proof-reading this post and <a href="http://micah.bigprob.net/">Micah Denbraver</a> for actually <a href="https://gist.github.com/macro1/9b364612ee3907df4179">testing out these solutions</a> on the correct versions of Python.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Cabo card game]]></title>
-    <link href="http://treyhunner.com/2015/06/cabo-card-game/"/>
-    <updated>2015-06-04T11:30:00-07:00</updated>
-    <id>http://treyhunner.com/2015/06/cabo-card-game</id>
-    <content type="html"><![CDATA[<p>About five years ago a friend taught me a card game called Cabo.  It was a memory game of sorts.  It plays quickly and is perfect while idling between activities.  I have spread this game to dozens of people at tech conferences, most recently during PyCon 2015.</p>
-
-<p>I often use this game as an ice breaker.  The conversation usually goes something like this:</p>
-
-<p><strong>Me</strong>: Hi. Would you like to play a fairly quick card game?  It&rsquo;s called Cabo.<br/>
-<strong>Them</strong>: I&rsquo;ve never heard of it.<br/>
-<strong>Me</strong>: I&rsquo;ve never met anyone who has.  I&rsquo;ll teach you the rules.<br/>
-<strong>Them</strong>: What kind of game is it?<br/>
-<strong>Me</strong>: An information management game (&ldquo;memory game&rdquo; seems to discourage people).<br/>
-<strong>Them</strong>: Hm okay.</p>
-
-<p>Cabo did not have a Wikipedia article when I first learned about it and I couldn&rsquo;t find anything online about it.  There is now a <a href="https://en.wikipedia.org/wiki/Cabo_(game)">Wikipedia entry for Cabo</a> and I ran across a website selling special Cabo playing cards: <a href="http://www.playcabo.com/">playcabo.com</a>.</p>
-
-<p>I have thought about making an online version of this game, printing playing cards with custom Cabo-themed artwork, and making an open source program that knows the rules of Cabo so I could use it as a teaching tool.  After chatting with friends I met at PyCon, I looked into what it would take to print a custom card deck to sell or gift to friends.</p>
-
-<p>I contacted the owner of <a href="http://www.playcabo.com/">playcabo.com</a> and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like <a href="https://en.wikipedia.org/wiki/Big_Two">Big Two</a>, <a href="https://en.wikipedia.org/wiki/Durak">Durak</a>, and <a href="https://en.wikipedia.org/wiki/Egyptian_Ratscrew">Egyptian Ratscrew</a>.  I was wrong.  This game has a known creator.</p>
-
-<p>Hard work was put into the creation of this game.  This game was designed by Melissa Limes and Mandy Henning.  Melissa founded Eventide Games LLC, registered Cabo as a trademark, and registered a copyright for the rules.  I was a little disappointed to discover that Cabo is owned property, but I was very excited to discover the origins of this game.</p>
-
-<p>The game I know as Cabo is a little different from the one that Melissa Limes sells.  Her game seems more kid-friendly and more beginner-friendly.  With Melissa&rsquo;s permission, I will now share with you the rules for a game I know as Cabo.</p>
-
-<h2>Cabo: the rules I know</h2>
-
-<h3>Setup</h3>
-
-<p>Each player starts with four cards, placed face-down and arranged into a two-by-two grid.  No one may look at any cards.</p>
-
-<p>In the beginning of the game all players will look at their bottom two cards (the ones closest to them) one time only.  Try to remember your cards.</p>
-
-<h3>Objective</h3>
-
-<p>The objective is to end the game with the lowest score.  Score is determined by summing up the value of each of your cards.</p>
-
-<p>Card values:</p>
-
-<ul>
-<li>Ace is worth 1</li>
-<li>Jack is worth 11</li>
-<li>Queen is worth 12</li>
-<li>King of diamonds (the one-eyed king) is worth 0 points</li>
-<li>The other three kings are worth 13 points</li>
-</ul>
-
-
-<p>1 through 6 are the &ldquo;low cards&rdquo;.  They have a low point value and are fairly desirable.</p>
-
-<p>7 through Queen are the &ldquo;power cards&rdquo;.  You will not want to keep them for their points, but if you draw one on your turn you can choose to use its power.  More on this below.</p>
-
-<p>The one-eyed king is great but the other kings have no abilities and they are not particularly desirable.</p>
-
-<h3>Gameplay</h3>
-
-<p>We never had a rule for who goes first, so the game starts by someone declaring that they are going first or pointing at someone else to indicate that they go first.</p>
-
-<p>On your turn you may either:</p>
-
-<ul>
-<li>Draw a card from the deck (the face-down pile)</li>
-<li>Draw a card from the discard pile (which is face-up)</li>
-</ul>
-
-
-<p>When drawing you may either:</p>
-
-<ol>
-<li><p>Swap the drawn card with one of your own cards</p>
-
-<p>You pick one of your cards, discard it and put the card you just drew in its place.</p></li>
-<li><p>Match the drawn card with any other cards you know with the same face</p>
-
-<p>You can match the drawn card with any cards on the table (not counting draw piles) with the same face (e.g. queens match queens, and fives match fives).  All matched cards are discarded.  All cards matched from other player&rsquo;s hands should be replaced with a card from your hand.  No one may look at the replaced cards when they are moved.  All matched cards are discarded.  Every card you match results in one less card in your hand.</p>
-
-<p>The card that initiated the matching goes on top of the discard pile after matching (this only matters when the one-eyed king is matched).</p>
-
-<p>Sometimes memories fail.  If you mess up while matching, you must take a penalty card for each mistake.  You cannot look at the penalty card.</p></li>
-<li><p>Discard the drawn card (just put it on top of the discard pile)</p>
-
-<p>This is a common move when drawing a king as they are worth 13 points and have no special powers.</p></li>
-<li><p>Use the card you drew as a power card (for 7, 8, 9, 10, Jack, Queen)</p>
-
-<p>There are three types of power cards which you can remember with this rhyme:</p>
-
-<ul>
-<li><strong>Seven or eight, know your fate</strong>: look at one of your own cards and then put it back (only you get to see it)</li>
-<li><strong>Nine or ten, know a friend</strong>: look at one card from someone else and then put it back (only you get to see it)</li>
-<li><strong>Jack or Queen, switch between</strong>: trade the places of any two cards on the table (excluding draw piles)</li>
-</ul>
-
-
-<p>When using a power card, put the card in the discard pile and then use the power.  That&rsquo;s your whole turn.  <strong>You may only use a card&rsquo;s power when drawing from the face-down pile.</strong></p></li>
-</ol>
-
-
-<h3>End Game</h3>
-
-<p>If at any point during a person&rsquo;s turn they call &ldquo;Cabo&rdquo;, everyone except for that person gets one more turn and then the game ends.</p>
-
-<p>There are two other ways the game may end:</p>
-
-<ol>
-<li>Someone runs out of cards (they match their last card)</li>
-<li>The deck runs out (alternatively you could re-shuffle and keep playing)</li>
-</ol>
-
-
-<p>The lowest total score wins (see objective).</p>
-
-<h2>Buy a custom deck</h2>
-
-<p>The version of the game I know is played with a standard 52-card deck.  To play this version you need to remember the rules and the rhyme.</p>
-
-<p>The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at <a href="http://www.playcabo.com/">PlayCabo.com</a>.</p>
-
-<h2>Play it</h2>
-
-<p>Try out Cabo and let me know what you think.  If the rules need clarification, I&rsquo;m happy to update this post.</p>
-
-<p>If you like this game, spread it everywhere you go.  It&rsquo;s a great ice breaker and a fun way to pass the time.</p>
 ]]></content>
   </entry>
   

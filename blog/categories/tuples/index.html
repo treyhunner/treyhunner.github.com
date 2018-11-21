@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Trey Hunner</title>
+  <title>Category: tuples - Trey Hunner</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Uniquely identifiable URLs are necessary for many web applications. For example, a website that provides book reviews may identify the URL of a &hellip;">
+  <meta name="description" content="Category: tuples">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://treyhunner.com/page44">
+  <link rel="canonical" href="http://treyhunner.com/blog/categories/tuples">
   <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
@@ -81,149 +81,40 @@ ga('send', 'pageview');
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article role="article">
   
-  
-  
-    <article>
-      
   <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/encrypted-private-keys-in-django/">Encrypted private keys in Django</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2010-12-11T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:00 am</span></time>
-        
-           | <a href="/2010/12/encrypted-private-keys-in-django/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2010/12/encrypted-private-keys-in-django/">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: tuples</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-  <div class="entry-content"><p>Uniquely identifiable URLs are necessary for many web applications.  For example, a website that provides book reviews may identify the URL of a specific book like this: <strong>www.example.com/books/8839/</strong>.  The easiest way to identify entities in Django is to use the unique primary key of each object, which by default is an auto-incremented positive integer.</p>
 
-<p>Revealing the primary key of an entity is often not desirable.  An astute visitor of the website mentioned above may be able to guess information from the URL such as how many book reviews are available on the website or how old specific reviews are.</p>
+  
+  <h2>2018</h2>
 
-<p>The code snippet below demonstrates one way to use a unique but cryptic identifier for an object without needing to change the way primary keys are generated.  There are two notable extensions to the basic Django Model in the below code:</p>
+<article>
+  
+<h1><a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Multiple assignment and tuple unpacking improve Python code readability</a></h1>
+<time datetime="2018-03-07T16:30:00-08:00" pubdate><span class='month'>Mar</span> <span class='day'>07</span> <span class='year'>2018</span></time>
 
-<ol>
-<li>The encrypted_pk and encrypted_id model properties return an AES-encrypted version of the primary key as a 13 character base-36 string.</li>
-<li>The get method of the default manager can be queried with an encrypted primary key by using the keyword argument encrypted_pk.</li>
-</ol>
-
-
-<p>Feel free to use this code however you want.</p>
-
-<div><script src='https://gist.github.com/735861.js'></script>
-<noscript><pre><code># This code is under the MIT license.
-# Inspired by this StackOverflow question:
-http://stackoverflow.com/questions/3295405/creating-django-objects-with-a-random-primary-key
-
-import struct
-from Crypto.Cipher import DES
-from django.db import models
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/readability/'>readability</a>, <a class='category' href='/blog/categories/tuples/'>tuples</a></span>
+</footer>
 
 
-def base36encode(number):
-    &quot;&quot;&quot;Encode number to string of alphanumeric characters (0 to z). (Code taken from Wikipedia).&quot;&quot;&quot;
-    if not isinstance(number, (int, long)):
-        raise TypeError(&#39;number must be an integer&#39;)
-    if number &lt; 0:
-        raise ValueError(&#39;number must be positive&#39;)
-
-    alphabet = &#39;0123456789abcdefghijklmnopqrstuvwxyz&#39;
-    base36 = &#39;&#39;
-    while number:
-        number, i = divmod(number, 36)
-        base36 = alphabet[i] + base36
-
-    return base36 or alphabet[0]
-
-
-def base36decode(numstr):
-    &quot;&quot;&quot;Convert a base-36 string (made of alphanumeric characters) to its numeric value.&quot;&quot;&quot;
-    return int(numstr,36)
-
-
-class EncryptedPKModelManager(models.Manager):
-    &quot;&quot;&quot;This manager allows models to be identified based on their encrypted_pk value.&quot;&quot;&quot;
-    def get(self, *args, **kwargs):
-        encrypted_pk = kwargs.pop(&#39;encrypted_pk&#39;, None)
-        if encrypted_pk:
-            # If found, decrypt encrypted_pk argument and set pk argument to the appropriate value
-            kwargs[&#39;pk&#39;] = struct.unpack(&#39;&lt;Q&#39;, self.model.encryption_obj.decrypt(
-                struct.pack(&#39;&lt;Q&#39;, base36decode(encrypted_pk))
-            ))[0]
-        return super(EncryptedPKModelManager, self).get(*args, **kwargs)
-
-
-class EncryptedPKModel(models.Model):
-    &quot;&quot;&quot;Adds encrypted_pk property to children which returns the encrypted value of the primary key.&quot;&quot;&quot;
-    encryption_obj = DES.new(&#39;8charkey&#39;) # This 8 character secret key should be changed!
-
-    def __init__(self, *args, **kwargs):
-        super(EncryptedPKModel, self).__init__(*args, **kwargs)
-        setattr(
-            self.__class__,
-            &quot;encrypted_%s&quot; % (self._meta.pk.name,),
-            property(self.__class__._encrypted_pk)
-        )
-
-    def _encrypted_pk(self):
-        return base36encode(struct.unpack(&#39;&lt;Q&#39;, self.encryption_obj.encrypt(
-            str(struct.pack(&#39;&lt;Q&#39;, self.pk))
-        ))[0])
-
-    encrypted_pk = property(_encrypted_pk)
-
-    class Meta:
-        abstract = True
-
-
-class ExampleModelManager(EncryptedPKModelManager):
-    pass
-
-
-class ExampleModel(EncryptedPKModel):
-    objects = ExampleModelManager()
-    example_field = models.CharField(max_length=32)
-
-
-# Example usage:
-# example_instance = ExampleModel.objects.get(pk=1)
-# url_pk = example_instance.encrypted_pk
-# ExampleModel.objects.get(encrypted_pk=url_pk)
-</code></pre></noscript></div>
-
-
+</article>
 
 </div>
-  
-  <footer>
-  
-  </footer>
 
-
-    </article>
   
-  <div class="pagination">
-    
-      <a class="prev" href="/page45">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/page43">Newer &rarr;</a>
-    
-  </div>
+</article>
+
 </div>
+
 <aside class="sidebar">
   
     <section class="abouttrey">
@@ -294,6 +185,7 @@ class ExampleModel(EncryptedPKModel):
 
   
 </aside>
+
 
     </div>
   </div>
