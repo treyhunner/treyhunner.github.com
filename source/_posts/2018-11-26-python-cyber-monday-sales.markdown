@@ -41,6 +41,11 @@ Tracy Osborn is running a 50% off sale on her [Hello Web Books](https://helloweb
 You'll need to enter coupon code BLACKFRIDAY2018 to get these deals.
 
 
+### The pytest book
+
+Brian Okken's [Python Testing with pytest](https://pragprog.com/book/bopytest/python-testing-with-pytest) is on sale today (along with other Pragmatic Bookshelf books) for 40% off with coupon code turkeysale2018.
+
+
 ### More Python Books
 
 A number of Python book publishers, such as [No Starch](https://nostarch.com/catalog/python), are running big sales on their books.
