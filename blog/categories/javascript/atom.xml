@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-11-21T10:59:31-08:00</updated>
+  <updated>2018-11-26T07:51:52-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -155,152 +155,96 @@ $ ember deploy:activate --revision $tag --environment production
 
 <p>Our <code>package.json</code> file should now look something like this:</p>
 
-<p><figure class='code'><figcaption><span>package.json </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;devDependencies&amp;rdquo;:</span> <span class="err">{</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;gulp&amp;rdquo;:</span> <span class="err">&amp;ldquo;^3.8.11&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;gulp-bower&amp;rdquo;:</span> <span class="err">&amp;ldquo;0.0.10&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;gulp-sass&amp;rdquo;:</span> <span class="err">&amp;ldquo;^1.3.3&amp;rdquo;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:json package.json %}
+{
+  &ldquo;devDependencies&rdquo;: {
+    &ldquo;gulp&rdquo;: &ldquo;^3.8.11&rdquo;,
+    &ldquo;gulp-bower&rdquo;: &ldquo;0.0.10&rdquo;,
+    &ldquo;gulp-sass&rdquo;: &ldquo;^1.3.3&rdquo;
+  }
+}
+{% endcodeblock %}</p>
 
 <p>Now let&rsquo;s use Bower to install bootstrap.  This will allow us to import Bootstrap into our SCSS code and compile it down to CSS manually.</p>
 
 <p>Create a <code>bower.json</code> file using <code>bower init</code> or by manually creating one:</p>
 
-<p><figure class='code'><figcaption><span>bower.json </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;name&amp;rdquo;:</span> <span class="err">&amp;ldquo;custom-bootstrap-example&amp;rdquo;,</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;authors&amp;rdquo;:</span> <span class="err">[</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;Lillian</span> <span class="err">Langston</span> <span class="err">&lt;a</span> <span class="err">href=</span><span class="nt">&quot;&amp;#109;&amp;#97;&amp;#x69;&amp;#x6c;&amp;#116;&amp;#111;&amp;#x3a;&amp;#108;&amp;#x69;&amp;#x6c;&amp;#108;&amp;#105;&amp;#97;&amp;#x6e;&amp;#x40;&amp;#x65;&amp;#x78;&amp;#x61;&amp;#109;&amp;#x70;&amp;#x6c;&amp;#x65;&amp;#46;&amp;#99;&amp;#x6f;&amp;#109;&quot;</span><span class="err">&gt;&amp;#</span><span class="mi">108</span><span class="err">;&amp;#</span><span class="mi">105</span><span class="err">;&amp;#</span><span class="mi">108</span><span class="err">;&amp;#</span><span class="mi">108</span><span class="err">;&amp;#</span><span class="mi">105</span><span class="err">;&amp;#x</span><span class="mi">61</span><span class="err">;&amp;#</span><span class="mi">110</span><span class="err">;&amp;#x</span><span class="mi">40</span><span class="err">;&amp;#</span><span class="mi">101</span><span class="err">;&amp;#x</span><span class="mi">78</span><span class="err">;&amp;#</span><span class="mi">97</span><span class="err">;&amp;#x</span><span class="mi">6</span><span class="err">d;&amp;#x</span><span class="mi">70</span><span class="err">;&amp;#x</span><span class="mi">6</span><span class="err">c;&amp;#</span><span class="mi">101</span><span class="err">;&amp;#x</span><span class="mi">2</span><span class="err">e;&amp;#x</span><span class="mi">63</span><span class="err">;&amp;#x</span><span class="mi">6</span><span class="err">f;&amp;#</span><span class="mi">109</span><span class="err">;&lt;/a&gt;&amp;rdquo;</span>
-</span><span class='line'>  <span class="err">]</span><span class="p">,</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;private&amp;rdquo;:</span> <span class="err">true,</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;ignore&amp;rdquo;:</span> <span class="err">[</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;&lt;em&gt;*/.&lt;/em&gt;&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;node_modules&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;bower_components&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;test&amp;rdquo;,</span>
-</span><span class='line'>    <span class="err">&amp;ldquo;tests&amp;rdquo;</span>
-</span><span class='line'>  <span class="err">],</span>
-</span><span class='line'>  <span class="err">&amp;ldquo;dependencies&amp;rdquo;:</span> <span class="err">{</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:json bower.json %}
+{
+  &ldquo;name&rdquo;: &ldquo;custom-bootstrap-example&rdquo;,
+  &ldquo;authors&rdquo;: [
+    &ldquo;Lillian Langston <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#108;&#x69;&#x6c;&#x6c;&#105;&#97;&#110;&#64;&#x65;&#x78;&#97;&#x6d;&#x70;&#x6c;&#x65;&#x2e;&#99;&#x6f;&#109;">&#x6c;&#105;&#x6c;&#x6c;&#105;&#x61;&#110;&#64;&#101;&#120;&#x61;&#x6d;&#112;&#108;&#101;&#x2e;&#99;&#111;&#x6d;</a>&rdquo;
+  ],
+  &ldquo;private&rdquo;: true,
+  &ldquo;ignore&rdquo;: [
+    &ldquo;<em>*/.</em>&rdquo;,
+    &ldquo;node_modules&rdquo;,
+    &ldquo;bower_components&rdquo;,
+    &ldquo;test&rdquo;,
+    &ldquo;tests&rdquo;
+  ],
+  &ldquo;dependencies&rdquo;: {
+  }
+}
+{% endcodeblock %}</p>
 
 <p>Now let&rsquo;s install <code>bootstrap-sass</code> with Bower.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bower install <span class="p">&amp;</span>ndash<span class="p">;</span>save bootstrap-sass
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+$ bower install &ndash;save bootstrap-sass
+{% endcodeblock %}</p>
 
 <p>Our <code>bower.json</code> file should now have <code>bootstrap-sass</code> listed as a dependency:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&ldquo;dependencies&rdquo;: {
-</span><span class='line'>  &ldquo;bootstrap-sass&rdquo;: &ldquo;~3.3.3&rdquo;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock %}
+&ldquo;dependencies&rdquo;: {
+  &ldquo;bootstrap-sass&rdquo;: &ldquo;~3.3.3&rdquo;
+}
+{% endcodeblock %}</p>
 
 <p>Now we can make an SCSS file that includes bootstrap into our project.  Let&rsquo;s call our SCSS file <code>css/app.scss</code>:</p>
 
-<p><figure class='code'><figcaption><span>css/app.scss </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nt">bootstrap</span><span class="k">&amp;</span><span class="nt">rdquo</span><span class="o">;;</span>
-</span><span class='line'><span class="o">@</span><span class="nt">import</span> <span class="k">&amp;</span><span class="nt">ldquo</span><span class="o">;</span><span class="nt">bootstrap</span><span class="o">/</span><span class="nt">theme</span><span class="k">&amp;</span><span class="nt">rdquo</span><span class="o">;;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:scss css/app.scss %}
+@import &ldquo;bootstrap&rdquo;;
+@import &ldquo;bootstrap/theme&rdquo;;
+{% endcodeblock %}</p>
 
 <p>Now let&rsquo;s use gulp to compile our <code>app.scss</code> which includes Bootstrap SASS:</p>
 
-<p><figure class='code'><figcaption><span>gulpfile.js </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">gulp</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">gulp</span><span class="o">-</span><span class="nx">sass</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">bootstrapDir</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">bower_components</span><span class="o">/</span><span class="nx">bootstrap</span><span class="o">-</span><span class="nx">sass</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-</span><span class='line'>    <span class="nx">publicDir</span><span class="o">:</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="kr">public</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span>
-</span><span class='line'><span class="p">};</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">css</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;.</span><span class="o">/</span><span class="nx">css</span><span class="o">/</span><span class="nx">app</span><span class="p">.</span><span class="nx">scss</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;)</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">({</span>
-</span><span class='line'>        <span class="nx">includePaths</span><span class="o">:</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="err">/assets/stylesheets&amp;rsquo;],</span>
-</span><span class='line'>    <span class="p">}))</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="err">/css&amp;rsquo;));</span>
-</span><span class='line'><span class="p">});</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fonts</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="err">/assets/fonts/&lt;em&gt;*/&lt;/em&gt;&amp;rsquo;)</span>
-</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="err">/fonts&amp;rsquo;));</span>
-</span><span class='line'><span class="p">});</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="k">default</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="p">[</span><span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">css</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="nx">fonts</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;]);</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:js gulpfile.js %}</p>
+
+<p>var gulp = require(&lsquo;gulp&rsquo;);
+var sass = require(&lsquo;gulp-sass&rsquo;);</p>
+
+<p>var config = {
+    bootstrapDir: &lsquo;./bower_components/bootstrap-sass&rsquo;,
+    publicDir: &lsquo;./public&rsquo;,
+};</p>
+
+<p>gulp.task(&lsquo;css&rsquo;, function() {
+    return gulp.src(&lsquo;./css/app.scss&rsquo;)
+    .pipe(sass({
+        includePaths: [config.bootstrapDir + &lsquo;/assets/stylesheets&rsquo;],
+    }))
+    .pipe(gulp.dest(config.publicDir + &lsquo;/css&rsquo;));
+});</p>
+
+<p>gulp.task(&lsquo;fonts&rsquo;, function() {
+    return gulp.src(config.bootstrapDir + &lsquo;/assets/fonts/<em>*/</em>&rsquo;)
+    .pipe(gulp.dest(config.publicDir + &lsquo;/fonts&rsquo;));
+});</p>
+
+<p>gulp.task(&lsquo;default&rsquo;, [&lsquo;css&rsquo;, &lsquo;fonts&rsquo;]);</p>
+
+<p>{% endcodeblock %}</p>
 
 <p>Now when we run <code>gulp</code>, our compiled Bootstrap CSS should appear in the <code>public/css</code> directory:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
-</span><span class='line'><span class="nv">$ </span>ls public/css
-</span><span class='line'>app.css
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+$ gulp
+$ ls public/css
+app.css
+{% endcodeblock %}</p>
 
 <h2>Customizing the font size</h2>
 
@@ -308,27 +252,18 @@ $ ember deploy:activate --revision $tag --environment production
 
 <p>Notice that the value of the <code>$font-size-base</code> variable in the <a href="https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss#L52"><code>_variables.scss</code> file</a> is used for calculating a variety of other important variables.  For example 8 of the lines below rely on <code>$font-size-base</code>:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">14</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$font-size-large</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
-</span><span class='line'><span class="nv">$font-size-small</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">&lt;p&gt;$font-size-h1</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.6</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~36px</span>
-</span><span class='line'><span class="nv">$font-size-h2</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.15</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~30px</span>
-</span><span class='line'><span class="nv">$font-size-h3</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.7</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~24px</span>
-</span><span class='line'><span class="nv">$font-size-h4</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
-</span><span class='line'><span class="nv">$font-size-h5</span><span class="o">:</span>            <span class="nv">$font-size-base</span> <span class="nv">!default</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$font-size-h6</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:scss %}
+$font-size-base:          14px !default;
+$font-size-large:         ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)) !default; // ~12px</p>
+
+<p>$font-size-h1:            floor(($font-size-base * 2.6)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-h5:            $font-size-base !default;
+$font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
+{% endcodeblock %}</p>
 
 <p>Notice those <code>!default</code> flags?  That <code>!default</code> flag means the variables will be set <em>only</em> if they don&rsquo;t have a value already.</p>
 
@@ -336,33 +271,31 @@ $ ember deploy:activate --revision $tag --environment production
 
 <p>Let&rsquo;s copy Bootstrap&rsquo;s <code>_variables.scss</code> file and make our own custom version:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp bower_components/bootstrap-sass/assets/stylesheets/bootstrap/&lt;em&gt;variables.scss css/&lt;/em&gt;variables.scss
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+$ cp bower_components/bootstrap-sass/assets/stylesheets/bootstrap/<em>variables.scss css/</em>variables.scss
+{% endcodeblock %}</p>
 
 <p>Now we need to reference our custom variables module from our <code>app.scss</code> file.</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nt">variables</span><span class="k">&amp;</span><span class="nt">rdquo</span><span class="o">;;</span>
-</span><span class='line'><span class="o">@</span><span class="nt">import</span> <span class="k">&amp;</span><span class="nt">ldquo</span><span class="o">;</span><span class="nt">bootstrap</span><span class="k">&amp;</span><span class="nt">rdquo</span><span class="o">;;</span>
-</span><span class='line'><span class="o">@</span><span class="nt">import</span> <span class="k">&amp;</span><span class="nt">ldquo</span><span class="o">;</span><span class="nt">bootstrap</span><span class="o">/</span><span class="nt">theme</span><span class="k">&amp;</span><span class="nt">rdquo</span><span class="o">;;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:scss %}
+@import &ldquo;variables&rdquo;;
+@import &ldquo;bootstrap&rdquo;;
+@import &ldquo;bootstrap/theme&rdquo;;
+{% endcodeblock %}</p>
 
 <p>Remember to import our <code>variables</code> module <em>before</em> we import Bootstrap!  If we import it afterward, our changes customizations won&rsquo;t be applied.</p>
 
 <p>Now let&rsquo;s change <code>$font-size-base</code> to <code>16px</code> in <code>css/_variables.scss</code>:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:scss %}
+$font-size-base:          16px;
+{% endcodeblock %}</p>
 
 <p>Now if we recompile our CSS we should see our larger font size reflected throughout our application:</p>
 
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
-</span></code></pre></td></tr></table></div></figure></p>
+<p>{% codeblock lang:bash %}
+$ gulp
+{% endcodeblock %}</p>
 
 <h2>Try it out!</h2>
 
