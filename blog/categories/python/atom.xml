@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-11-26T07:51:52-08:00</updated>
+  <updated>2018-11-26T07:52:06-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -44,7 +44,12 @@ Reuven has courses on Python, Git, and regular expressions.</p>
 These are a different variety of code challenges than Python Morsels.
 You could sign up for both and <a href="https://www.pythonmorsels.com/">Python Morsels</a> if you wanted extra learning every week.</p>
 
-<h3>Python Books</h3>
+<h3>Hello Web Books</h3>
+
+<p>Tracy Osborn is running a 50% off sale on her <a href="https://hellowebbooks.com/order/">Hello Web Books</a>, which include books on Python and Django for beginners to web programming and books on design for beginners to web design.
+You&rsquo;ll need to enter coupon code BLACKFRIDAY2018 to get these deals.</p>
+
+<h3>More Python Books</h3>
 
 <p>A number of Python book publishers, such as <a href="https://nostarch.com/catalog/python">No Starch</a>, are running big sales on their books.
 I took a look at their sale, but haven&rsquo;t gone searching for more of them.</p>
@@ -1354,7 +1359,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p>{% img /images/generator-expression-copy-paste.gif %}</p>
+<p><img src="/images/generator-expression-copy-paste.gif"></p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
