@@ -35,7 +35,13 @@ These are a different variety of code challenges than Python Morsels.
 You could sign up for both and [Python Morsels][] if you wanted extra learning every week.
 
 
-### Python Books
+### Hello Web Books
+
+Tracy Osborn is running a 50% off sale on her [Hello Web Books](https://hellowebbooks.com/order/), which include books on Python and Django for beginners to web programming and books on design for beginners to web design.
+You'll need to enter coupon code BLACKFRIDAY2018 to get these deals.
+
+
+### More Python Books
 
 A number of Python book publishers, such as [No Starch](https://nostarch.com/catalog/python), are running big sales on their books.
 I took a look at their sale, but haven't gone searching for more of them.
