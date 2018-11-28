@@ -3,7 +3,7 @@ layout: post
 title: "Overusing lambda expressions in Python"
 date: 2018-09-27 07:30:00 -0700
 comments: true
-categories: python readability
+categories: python readability favorite
 ---
 
 **Note**: This post was originally titled "Stop writing lambda expressions in Python" but I've changed the title after deciding that it was a little too extreme.

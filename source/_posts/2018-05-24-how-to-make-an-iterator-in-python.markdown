@@ -3,7 +3,7 @@ layout: post
 title: "How to make an iterator in Python"
 date: 2018-06-21 16:00:00 -0700
 comments: true
-categories: python
+categories: python favorite
 ---
 
 I wrote an article sometime ago on [the iterator protocol that powers Python's `for` loops][for loops].

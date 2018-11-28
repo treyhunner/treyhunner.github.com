@@ -3,7 +3,7 @@ layout: post
 title: "Asterisks in Python: what they are and how to use them"
 date: 2018-10-11 07:30:00 -0700
 comments: true
-categories: python
+categories: python favorite
 ---
 
 There are a lot of places you'll see `*` and `**` used in Python.

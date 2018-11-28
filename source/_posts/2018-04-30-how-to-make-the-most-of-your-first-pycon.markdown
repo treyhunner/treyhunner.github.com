@@ -3,7 +3,7 @@ layout: post
 title: "How to have a great first PyCon"
 date: 2018-04-30 08:00:00 -0700
 comments: true
-categories: python
+categories: python favorite
 ---
 
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
