@@ -21,7 +21,7 @@ aside.sidebar {
       }
     }
   }
-  img {
+  img:not(.no-border) {
     @extend .flex-content;
     @extend .basic-alignment;
     @include shadow-box($border: #fff .3em solid);
