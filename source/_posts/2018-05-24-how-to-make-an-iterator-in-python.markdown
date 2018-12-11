@@ -82,7 +82,7 @@ For example if you wanted to print out just the first line of a 10 gigabyte log 
 This is the first line in a giant file
 ```
 
-File objects in Python are implemented iterators.
+File objects in Python are implemented as iterators.
 As you loop over a file, data is read into memory one line at a time.
 If we instead used the `readlines` method to store all lines in memory, we might run out of system memory.
 
@@ -290,7 +290,7 @@ def count(start=0):
         num += 1
 ```
 
-Just like our `Counter` iterator class, we can manually loop over the generator we get back from calling `count`:
+Just like our `Count` iterator class, we can manually loop over the generator we get back from calling `count`:
 
 ```python
 >>> c = count()
@@ -417,7 +417,7 @@ If you find you need an iterator class, try to write a generator function that d
 
 You'll see iterator classes in the wild, but there's rarely a good opportunity to write your own.
 
-While it's rare to create your own iterator class, it's not unusual to make your own iterable class.
+While it's rare to create your own iterator class, it's not as unusual to make your own iterable class.
 And iterable classes require a `__iter__` method which returns an iterator.
 Since generators are the easy way to make an iterator, we can use a generator function or a generator expression to create our `__iter__` methods.
 
@@ -436,7 +436,7 @@ Note that our `Point` class here creates an **iterable** when called (not an ite
 That means our `__iter__` method must return an iterator.
 The easiest way to create an iterator is by making a generator function, so that's just what we did.
 
-We stuck `yield` in our `__iter__` to make it into a generator function and now our `Point` class con be looped over, just like any other iterable.
+We stuck `yield` in our `__iter__` to make it into a generator function and now our `Point` class can be looped over, just like any other iterable.
 
 ```python
 >>> p = Point(1, 2)
