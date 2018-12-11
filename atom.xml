@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-04T18:26:20-08:00</updated>
+  <updated>2018-12-10T17:41:32-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1389,7 +1389,7 @@ For example if you wanted to print out just the first line of a 10 gigabyte log 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>File objects in Python are implemented iterators.
+<p>File objects in Python are implemented as iterators.
 As you loop over a file, data is read into memory one line at a time.
 If we instead used the <code>readlines</code> method to store all lines in memory, we might run out of system memory.</p>
 
@@ -1673,7 +1673,7 @@ We&rsquo;ll make a generator function that does the same thing as our <code>Coun
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Just like our <code>Counter</code> iterator class, we can manually loop over the generator we get back from calling <code>count</code>:</p>
+<p>Just like our <code>Count</code> iterator class, we can manually loop over the generator we get back from calling <code>count</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1834,7 +1834,7 @@ If you find you need an iterator class, try to write a generator function that d
 
 <p>You&rsquo;ll see iterator classes in the wild, but there&rsquo;s rarely a good opportunity to write your own.</p>
 
-<p>While it&rsquo;s rare to create your own iterator class, it&rsquo;s not unusual to make your own iterable class.
+<p>While it&rsquo;s rare to create your own iterator class, it&rsquo;s not as unusual to make your own iterable class.
 And iterable classes require a <code>__iter__</code> method which returns an iterator.
 Since generators are the easy way to make an iterator, we can use a generator function or a generator expression to create our <code>__iter__</code> methods.</p>
 
@@ -1859,7 +1859,7 @@ Since generators are the easy way to make an iterator, we can use a generator fu
 That means our <code>__iter__</code> method must return an iterator.
 The easiest way to create an iterator is by making a generator function, so that&rsquo;s just what we did.</p>
 
-<p>We stuck <code>yield</code> in our <code>__iter__</code> to make it into a generator function and now our <code>Point</code> class con be looped over, just like any other iterable.</p>
+<p>We stuck <code>yield</code> in our <code>__iter__</code> to make it into a generator function and now our <code>Point</code> class can be looped over, just like any other iterable.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
