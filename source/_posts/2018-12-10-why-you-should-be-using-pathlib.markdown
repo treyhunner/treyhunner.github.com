@@ -6,12 +6,12 @@ comments: true
 categories: 
 ---
 
-When I discovered Python's new `pathlib` module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the `os.path` module.
+When I discovered Python's new [pathlib][] module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the `os.path` module.
 I was wrong.
 Python's `pathlib` module is actually [wonderful][]!
 
 In this article I'm going to try to sell you on `pathlib`.
-I hope that this article will inspire you to use Python's `pathlib` module pretty much anytime you need to work with files in Python.
+I hope that this article will inspire you to **use Python's `pathlib` module pretty much anytime you need to work with files in Python**.
 
 ## os.path is clunky
 
@@ -61,7 +61,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = BASE_DIR.joinpath('templates')
 ```
 
-The `os.path` module requires function nesting, but the `pathlib` modules' `Path` class allows us to chain methods and attributes on `Path` objects to get an equivalent path representation.
+The `os.path` module requires function nesting, but **the `pathlib` modules' `Path` class allows us to chain methods and attributes** on `Path` objects to get an equivalent path representation.
 
 I know what you're thinking: wait these `Path` objects aren't the same thing: they're objects, not path strings!
 I'll address that later (hint: these can pretty much be used interchangeably with path strings).
@@ -77,9 +77,9 @@ Also `chdir`, `link`, `walk`, `listdir`, `makedirs`, `renames`, `removedirs`, `u
 And a bunch of other stuff that isn't related to the filesystems at all: `fork`, `getenv`, `putenv`, `environ`, `getlogin`, and `system`.
 Plus dozens of things I didn't mention in this paragraph.
 
-Python's `os` module does a little bit of everything; it's sort of a junk drawer for system-related stuff.
-There's a lot of lovely stuff in the `os` module, but it can be hard to find what you're looking for sometimes.
-So if you're looking for path-related or filesystem-related things in the `os` module, you'll need to do a bit of digging.
+**Python's `os` module does a little bit of everything; it's sort of a junk drawer for system-related stuff**.
+There's a lot of lovely stuff in the `os` module, but it can be hard to find what you're looking for sometimes:
+if you're looking for path-related or filesystem-related things in the `os` module, you'll need to do a bit of digging.
 
 The `pathlib` module replaces many of these filesystem-related `os` utilities with methods on the `Path` object.
 
@@ -106,8 +106,8 @@ Notice that the `pathlib` code puts the path first because of method chaining!
 
 As the Zen of Python says, "namespaces are one honking great idea, let's do more of those".
 The `os` module is a very large namespace with a bunch of stuff in it.
-The `pathlib.Path` class is a much smaller namespace with a much smaller number things, all of which fall under a slightly more specific category.
-Plus the methods in this `Path` namespace return `Path` objects, which allows for method chaining instead of nested function string-iful function calls.
+**The pathlib.Path class is a much smaller and more specific namespace than the os module**.
+Plus the methods in this `Path` namespace return `Path` objects, which allows for method chaining instead of nested string-iful function calls.
 
 
 ## Don't forget about the glob module!
@@ -133,7 +133,7 @@ top_level_csv_files = Path.cwd().glob('*.csv')
 all_csv_files = Path.cwd().rglob('*.csv')
 ```
 
-After you've started using `pathlib` more heavily, you can pretty much forget about the `glob` module entirely: you've got all the glob functionality you need with `Path` objects.
+After you've started using `pathlib` more heavily, **you can pretty much forget about the glob module entirely**: you've got all the glob functionality you need with `Path` objects.
 
 
 ## pathlib makes the simple cases simpler
@@ -177,26 +177,6 @@ Or you could use the `write_text` method:
 
 ```python
 Path('.editorconfig').write_text('# config goes here')
-```
-
-If you just need to "touch" a file (creating an empty file only if it doesn't exist already):
-
-```python
-from os import utime
-
-filename = '.editorconfig'
-try:
-    utime(filename, None)
-except OSError:
-    open(filename, mode='ab').close()
-```
-
-Or you could use the `touch` method on your `Path` object:
-
-```python
-from pathlib import Path
-
-Path('.editorconfig').touch()
 ```
 
 If you prefer using `open`, whether as a context manager or otherwise, you could instead use the `open` method on your `Path` object:
@@ -246,182 +226,26 @@ pycon_2019 = date(2019, 5, 1)
 home_directory = Path('/home/trey')
 ```
 
-JSON objects deserialize to dictionaries, dates are represented natively using `datetime.date` objects, and filesystem paths can now be generically represented using `pathlib.Path` objects.
+JSON objects deserialize to dictionaries, dates are represented natively using `datetime.date` objects, and **filesystem paths can now be generically represented using `pathlib.Path` objects**.
 
-**Using `Path` objects makes your code more explicit**.
+Using `Path` objects makes your code more explicit.
 If you're trying to represent a date, you can use a `date` object.
 If you're trying to represent a filepath, you can use a `Path` object.
 
-
-## Path objects are a useful abstraction
-
 I'm not a strong advocate of object-oriented programming.
 Classes add another layer of abstraction and abstractions can sometimes add more complexity than simplicity.
-But the `pathlib.Path` class is a good example of when you *should* use a class.
-
-Working with filesystem paths involves state (the path string) and functionality (the operations we can do with a path).
-That's exactly when a class can come in handy.
-These `Path` objects are meant to be immutable just as strings are, so their methods return new paths which allows for nicely chainable code.
-
-So while classes aren't always wonderful, **the `pathlib.Path` class is a useful abstraction**.
-
-
-## Path objects are accepted all over now
-
-Not only is this `Path` class a useful abstraction, it's also quickly becoming a universally recognized abstraction.
+But the `pathlib.Path` class is **a useful abstraction**.
+It's also quickly becoming a universally recognized abstraction.
 
 Thanks to [PEP 519][], file path objects are now becoming the standard for working with paths.
 As of Python 3.6, the built-in `open` function and the various functions in the `os`, `shutil`, and `os.path` modules all work properly with `pathlib.Path` objects.
-
-Third party libraries are also expected to start working appropriately with `Path` objects.
-Most libraries will likely continue to return string-based paths, but `Path` objects being accepted by Python itself means that many of the path-related utilities that these libraries include will sometimes just accept `Path` objects with minimal changes or without any changes at all.
-
-
-## Path-like objects: a new protocol
-
-In Python we don't usually use strict typing checking.
-Instead we tend to practice [duck typing][]: if it walks like a duck and quacks like a duck, it's a duck.
-
-Instead of caring whether something is a list or a dictionary, we care whether it's a *sequence* or a *mapping*.
-Instead of caring whether we're working with a function or a generator, we care whether we've been given a *callable* or an *iterable*.
-We embrace duck typing so much that we don't even distinguish between actual files and fake files: the Python glossary lists [file-like object as a synonym for file object][file object].
-
-In Python we call these abstract types protocols  (like informal interfaces because we don't have actual interfaces).  We have an iterator protocol, context manager protocol, and a buffer protocol among others.
-Now we also have a path-like protocol, which [path-like objects][] should adhere to.
-
-A path-like object should either be a string (as paths were up until now) or it should have a `__fspath__` method, which `pathlib.Path` objects have.
-If we wanted to invent our own path-like object, we could inherit from `os.PathLike` or just make a class with a `__fspath__` method.
-
-If you have a path-like object (regardless of whether it's a string or an object with `__fspath__`):
-
-```python
-from pathlib import Path
-
-path1 = '/home/trey'
-path2 = Path('/home/trey')
-```
-
-You can normalize it to a string by calling `os.fspath` on it:
-
-```pycon
->>> from os import fspath
->>> fspath(path1)
-'/home/trey'
->>> fspath(path2)
-'/home/trey'
-```
-
-Or you can normalize it to a `pathlib.Path` object by passing it to `pathlib.Path`:
-
-```pycon
->>> Path(path1)
-PosixPath('/home/trey')
->>> Path(path2)
-PosixPath('/home/trey')
-```
-
-We now have a fairly nice abstraction specifically for representing file paths in Python!
-
-
-## Some pathlib'd code examples
-
-Let's take a look at a couple examples of code that's been converted to embrace `pathlib`.
-
-This program accepts a string representing a directory and prints the contents of the `.gitignore` file in that directory if one exists:
-
-
-```python
-import os.path
-import sys
-
-
-directory = sys.argv[1]
-ignore_filename = os.path.join(directory, '.gitignore')
-if os.path.isfile(ignore_filename):
-    with open(ignore_filename, mode='rt') as ignore_file:
-        print(ignore_file.read(), end='')
-```
-
-
-This is the same code using `pathlib.Path`:
-
-```python
-from pathlib import Path
-import sys
-
-
-directory = Path(sys.argv[1])
-ignore_path = directory / '.gitignore'
-if ignore_path.is_file():
-    print(ignore_path.read_text(), end='')
-```
-
-Instead of using `os.path.join`, we're using the `/` operator which `Path` objects have overridden in a neat way.
-Instead of using `os.path.isfile` we're relying on the `is_file` method on our `Path` object.
-Instead of using the built-in `open` to read all contents of the file, we just use the `read_text` method.
-
-Here's another example:
-
-```python
-from collections import defaultdict
-from hashlib import md5
-from os import cwd, walk
-import os.path
-
-
-def find_files(filepath):
-    for root, directories, filenames in walk(filepath):
-        for filename in filenames:
-            yield os.path.join(root, filename)
-
-
-file_hashes = defaultdict(list)
-for path in find_files(cwd()):
-    with open(path, mode='rb') as my_file:
-        file_hash = md5(my_file.read()).hexdigest()
-        file_hashes[file_hash].append(path)
-
-for paths in file_hashes.values():
-    if len(paths) > 1:
-        print("Duplicate files found:")
-        print(*paths, sep='\n')
-```
-
-The above code prints all groups of files in and below the current working directory which are duplicates (judged by a hash of their file contents).
-
-This is the same code that uses `pathlib.Path` instead:
-
-```python
-from collections import defaultdict
-from hashlib import md5
-from pathlib import Path
-
-
-def find_files(filepath):
-    for path in Path(filepath).rglob('*'):
-        if path.is_file():
-            yield path
-
-
-file_hashes = defaultdict(list)
-for path in find_files(Path.cwd()):
-    file_hash = md5(path.read_bytes()).hexdigest()
-    file_hashes[file_hash].append(path)
-
-for paths in file_hashes.values():
-    if len(paths) > 1:
-        print("Duplicate files found:")
-        print(*paths, sep='\n')
-```
-
-I tend to find that using `pathlib` often makes my code more readable at a glance.
-My code still might not be pretty, but it's often *prettier* with `pathlib`.
+**You can start using pathlib today without changing most of your code that works with paths**!
 
 
 ## What's missing from pathlib?
 
 While `pathlib` is great, it's not all-encompassing.
-There are definitely a few missing features I've stumbled upon that I wish the `pathlib` included.
+There are definitely **a few missing features I've stumbled upon that I wish the `pathlib` module included**.
 
 The first gap I've noticed is the lack of `shutil` equivalents within the `pathlib.Path` methods.
 
@@ -451,29 +275,16 @@ chdir(parent)
 ```
 
 The `os.walk` function has no `pathlib` equivalent either.
-Though, as you can see from the duplicate-file finding example above, you can make your own `walk`-like functions using `pathlib` fairly easily.
-
-Here's something that's somewhat similar to `os.walk`:
-
-```python
-def walk(directory):
-    for path in directory.iterdir():
-        if path.is_dir():
-            yield from walk(path)
-        else:
-            yield path
-```
+Though you can make your own `walk`-like functions using `pathlib` fairly easily.
 
 My hope is that `pathlib.Path` objects might eventually include methods for some of these missing operations.
 But even with these missing features, **I still find it much more manageable to use "`pathlib` and friends" than "`os.path` and friends"**.
 
 
-## Should you use pathlib?
+## Should you always use pathlib?
 
-I think you should use `pathlib`.
-
-If you're on Python 3.6 or above, `pathlib.Path` objects work pretty much everywhere you're already using path strings.
-I see no reason *not* to use `pathlib` if you're at least on Python 3.6.
+Since Python 3.6, **pathlib.Path objects work nearly everywhere you're already using path strings**.
+So I see no reason *not* to use `pathlib` if you're on Python 3.6 (or higher).
 
 If you're on an earlier version of Python 3, you can always wrap your `Path` object in a `str` call to get a string out of it when you need an escape hatch back to string land.
 It's awkward but it works:
@@ -486,13 +297,14 @@ chdir(Path('/home/trey'))  # Works on Python 3.6+
 chdir(str(Path('/home/trey')))  # Works on earlier versions also
 ```
 
-Regardless of which version of Python 3 you're on, I would recommend using `pathlib`.
+Regardless of which version of Python 3 you're on, I would recommend giving `pathlib` a try.
 
 And if you're stuck on Python 2 still (the clock is ticking!) the third-party [pathlib2][] module on PyPI is a backport so you can use `pathlib` on any version of Python.
 
-I find that using `pathlib` often makes my code more readable.
-If you can use `pathlib`, you should.
 
+I find that using `pathlib` often makes my code more readable.
+Most of my code that works with files now defaults to using `pathlib` and I recommend that you do the same.
+**If you can use `pathlib`, you should**.
 
 [wonderful]: https://jefftriplett.com/2017/pathlib-is-wonderful/
 [duck typing]: https://en.wikipedia.org/wiki/Duck_typing
@@ -500,3 +312,4 @@ If you can use `pathlib`, you should.
 [file object]: https://docs.python.org/3/glossary.html#term-file-object
 [path-like objects]: https://docs.python.org/3/glossary.html#term-path-like-object
 [pathlib2]: https://github.com/mcmtroffaes/pathlib2
+[pathlib]: https://docs.python.org/3/library/pathlib.html
