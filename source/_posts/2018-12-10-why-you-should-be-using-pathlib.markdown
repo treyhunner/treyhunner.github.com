@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why you should be using pathlib"
-date: 2018-12-20 09:00:00 -0800
+date: 2018-12-20 10:00:00 -0800
 comments: true
 categories: 
 ---
