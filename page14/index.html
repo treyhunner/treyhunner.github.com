@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="In this article, we&rsquo;re going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗 We &hellip;">
+  <meta name="description" content="We&rsquo;re interviewing for a job and our interviewer has asked us to remove all for loops from a block of code. They then mentioned something about &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a></h1>
+      <h1 class="entry-title"><a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How &#8220;For Loops&#8221; Work in Python</a></h1>
     
     
       <p class="meta">
@@ -98,131 +98,208 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2016-11-29T09:45:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:45 am</span></time>
+<time class='entry-date' datetime='2016-12-28T11:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:00 am</span></time>
         
-           | <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">Comments</a>
+           | <a href="/2016/12/python-iterator-protocol-how-for-loops-work/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In this article, we&rsquo;re going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗</p>
+  <div class="entry-content"><p>We&rsquo;re interviewing for a job and our interviewer has asked us to remove all <code>for</code> loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We&rsquo;re nervous and frustrated about being assigned this ridiculous task, but we&rsquo;ll try our best.</p>
 
-<p>We&rsquo;ll be discussing how to make code with this shape a little more descriptive:</p>
+<p>To understand how to loop without a <code>for</code> loop, we&rsquo;ll need to discover what makes <code>for</code> loops tick.</p>
+
+<p>We&rsquo;re about to learn how <code>for</code> loops work in Python.  Along the way we&rsquo;ll need to learn about iterables, iterators, and the iterator protocol.  Let&rsquo;s loop. ➿</p>
+
+<h2>Looping with indexes: a failed attempt</h2>
+
+<p>We might initially try to remove our <code>for</code> loops by using a traditional looping idiom from the world of C: <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes</a>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_good</span> <span class="o">=</span> <span class="bp">True</span>
-</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">all_good</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works on lists, but it fails on sets:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'><span class="gp">... </span>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">&#39;set&#39; object does not support indexing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This approach only works on <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a>, which are data types that have indexes from <code>0</code> to one less than their length.  Lists, strings, and tuples are sequences.  Dictionaries, sets, and many other <em>iterables</em> are not <em>sequences</em>.</p>
+
+<p>We&rsquo;ve been instructed to implement a looping construct that works on <em>all iterables</em>, not just sequences.</p>
+
+<h2>Iterables: what are they?</h2>
+
+<p>In the Python world, an <strong>iterable</strong> is any object that <strong>you can loop over with a for loop</strong>.</p>
+
+<p><a href="https://docs.python.org/3/glossary.html#term-iterable">Iterables</a> are not always indexable, they don&rsquo;t always have lengths, and they&rsquo;re not always finite.</p>
+
+<p>Here&rsquo;s an <em>infinite</em> iterable which provides every multiple of 5 as you loop over it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+</span><span class='line'><span class="n">multiples_of_five</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we were using <code>for</code> loops, we could have looped over the beginning of this iterable like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">multiples_of_five</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
 </span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>An Example: Primality</h2>
+<p>If we removed the <code>break</code> condition from that <code>for</code> loop, it would go on printing forever.</p>
 
-<p>Here&rsquo;s a function that checks whether a given number is prime by trying to divide it by all numbers below it:</p>
+<p>So iterables can be infinitely long: which means that we can&rsquo;t always convert an iterable to a <code>list</code> (or any other sequence) before we loop over it.  We need to somehow ask our iterable for each item of our iterable individually, the same way our <code>for</code> loop works.</p>
+
+<h2>Iterables &amp; Iterators</h2>
+
+<p>Okay we&rsquo;ve defined <em>iterable</em>, but how do iterables actually work in Python?</p>
+
+<p>All <a href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a> can be passed to the built-in <code>iter</code> function to get an <strong>iterator</strong> from them.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="bp">False</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">True</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">([</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">])</span>
+</span><span class='line'><span class="go">&lt;list_iterator object at 0x7f227ad51128&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">({</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;set&#39;</span><span class="p">})</span>
+</span><span class='line'><span class="go">&lt;set_iterator object at 0x7f227ad32b40&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="s">&#39;some string&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;str_iterator object at 0x7f227ad51240&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Note</strong>: a <a href="http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176">square root</a> makes this faster and our code breaks below <code>2</code> but we&rsquo;ll ignore those issues here</p>
+<p>That&rsquo;s an interesting fact but&hellip; what&rsquo;s an <em>iterator</em>?</p>
 
-<p>This function:</p>
+<p>Iterators have exactly one job: return the &ldquo;next&rdquo; item in our iterable.  They&rsquo;re sort of like <a href="https://en.wikipedia.org/wiki/Tally_counter">tally counters</a>, but they don&rsquo;t have a reset button and instead of giving the next number they give the next item in our iterable.</p>
+
+<p>You can get an iterator from <em>any</em> iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And iterators can be passed to <code>next</code> to get their next item:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;h&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;i&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">StopIteration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So <a href="https://docs.python.org/3/glossary.html#term-iterator">iterators</a> can be passed to the built-in <code>next</code> function to get the next item from them and if there is no next item (because we reached the end), a <code>StopIteration</code> exception will be raised.</p>
+
+<h2>Iterators are also iterables</h2>
+
+<p>So calling <code>iter</code> on an <em>iterable</em> gives us an iterator.  And calling <code>next</code> on an <em>iterator</em> gives us the next item or raises a <code>StopIteration</code> exception if there aren&rsquo;t any more items.</p>
+
+<p>There&rsquo;s actually a bit more to it than that though.  You can pass iterators to the built-in <code>iter</code> function to get themselves back.  That means that iterators are also iterables.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator2</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="ow">is</span> <span class="n">iterator2</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That fact leads to some interesting consequences that we don&rsquo;t have time to go into right now.  We&rsquo;ll save that discussion for a future learning adventure&hellip;</p>
+
+<h2>The Iterator Protocol</h2>
+
+<p>The <strong>iterator protocol</strong> is a fancy term meaning &ldquo;how iterables actually work in Python&rdquo;.</p>
+
+<p>Let&rsquo;s redefine iterables from Python&rsquo;s perspective.</p>
+
+<p>Iterables:</p>
 
 <ol>
-<li>loops from 2 to the given number</li>
-<li>returns <code>False</code> as soon as a divisor is found</li>
-<li>returns <code>True</code> if no divisor was found</li>
+<li>Can be passed to the <code>iter</code> function to get an iterator for them.</li>
+<li>There is no 2.  That&rsquo;s <em>really</em> all that&rsquo;s needed to be an iterable.</li>
 </ol>
 
 
-<p>This primality check is asking &ldquo;do any numbers evenly divide the candidate number&rdquo;.</p>
+<p>Iterators:</p>
 
-<p>Note that this function <strong>returns as soon as it finds a divisor</strong>, so it <em>only</em> iterates all the way through the number range when the candidate number is prime.</p>
-
-<p>Let&rsquo;s take a look at how we can rewrite this function using <code>all</code>.</p>
-
-<h2>What&rsquo;s <code>all</code>?</h2>
-
-<p>Python has a built-in function <code>all</code> that returns <code>True</code> if all items are <strong>truthy</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">([</span><span class="s">&#39;hello, &#39;</span><span class="n">there</span><span class="s">&#39;])</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">([</span><span class="s">&#39;hello, &#39;</span><span class="n">there</span><span class="s">&#39;, &#39;&#39;])</span>
-</span><span class='line'><span class="go">False</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">all</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li>Can be passed to the <code>next</code> function which gives their next item or raises <code>StopIteration</code></li>
+<li>Return themselves when passed to the <code>iter</code> function.</li>
+</ol>
 
 
-<p>You can think of truthy as meaning non-empty or non-zero (Python chat on <a href="https://www.crowdcast.io/e/truthiness">truthiness</a>).  For our purposes, we&rsquo;ll treat it as pretty much the same as <code>True</code>.</p>
+<p>The inverse of these statements should also hold true.  Which means:</p>
 
-<p>The <code>all</code> built-in function is equivalent to this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="bp">False</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li>Anything that can be passed to <code>iter</code> without an error is an iterable.</li>
+<li>Anything that can be passed to <code>next</code> without an error (except for <code>StopIteration</code>) is an iterator.</li>
+<li>Anything that returns itself when passed to <code>iter</code> is an iterator.</li>
+</ol>
 
 
-<p>Notice the similarity between <code>all</code> and our <code>is_prime</code> function?  Our <code>is_prime</code> function is similar, but they&rsquo;re not quite the same structure.</p>
+<h2>Looping with iterators</h2>
 
-<p>The <code>all</code> function checks for the truthiness of <code>element</code>, but we need something a little more than that: we need to check a condition on each element (whether it&rsquo;s a divsior).</p>
+<p>With what we&rsquo;ve learned about iterables and iterators, we should now be able to recreate a <code>for</code> loop without actually using a <code>for</code> loop.</p>
 
-<h2>Using <code>all</code></h2>
-
-<p>Our original <code>is_prime</code> function looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="bp">False</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If we want to use <code>all</code> in this function, we need an iterable (like a list) to pass to <code>all</code>.</p>
-
-<p>If we wanted to be really silly, we could make such a list of boolean values like this:</p>
+<p>This <code>while</code> loop manually loops over some <code>iterable</code>, printing out each item as it goes:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -232,309 +309,65 @@ ga('send', 'pageview');
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">divisibility</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">divisibility</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">break</span>  <span class="c"># Iterator exhausted: stop the loop</span>
 </span><span class='line'>        <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">divisibility</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">divisibility</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We could simplify this function like this:</p>
+<p>We can call this function with any iterable and it will loop over it:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">divisibility</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>      <span class="n">divisibility</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">divisibility</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">print_each</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">2</span>
+</span><span class='line'><span class="go">3</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I know this is probably doesn&rsquo;t seem like progress, but bear with me for a few more steps&hellip;</p>
-
-<h2>List comprehensions</h2>
-
-<p>If you&rsquo;re familiar with list comprehensions, this code structure might look a little familiar.  We&rsquo;re creating one iterable from another which is exactly what list comprehensions are good for.</p>
-
-<p>Let&rsquo;s copy-paste our way into a list comprehension (see my article on <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">how to write list comprehensions</a>):</p>
+<p>The above function is essentially the same as this one which uses a <code>for</code> loop:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">divisibility</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>      <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">]</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">divisibility</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>That&rsquo;s quite a bit shorter, but there&rsquo;s a problem: we&rsquo;re <strong>building up an entire list just to loop over it once</strong>!</p>
+<p>This <code>for</code> loop is automatically doing what we were doing manually: calling <code>iter</code> to get an iterator and then calling <code>next</code> over and over until a <code>StopIteration</code> exception is raised.</p>
 
-<p>This is less efficient than our original approach, which only looped all the way when <code>candidate</code> was prime.</p>
+<p>The iterator protocol is used by <code>for</code> loops, tuple unpacking, and all built-in functions that work on generic iterables.  Using the iterator protocol (either manually or automatically) is the only universal way to loop over any iterable in Python.</p>
 
-<p>Let&rsquo;s fix this inefficiency by turning our list comprehension into a generator expression.</p>
+<h2>For loops: more complex than they seem</h2>
 
-<h2>Generator expressions</h2>
+<p>We&rsquo;re now ready to complete the very silly task our interviewer assigned to us.  We&rsquo;ll remove all <code>for</code> loops from our code by manually using <code>iter</code> and <code>next</code> to loop over iterables.  What did we learn in exploring this task?</p>
 
-<p>A generator expression is like a list comprehension, but instead of making a list it makes a <strong>generator</strong> (Python chat on <a href="https://www.crowdcast.io/e/generators">generators</a>).</p>
+<p>Everything you can loop over is an <strong>iterable</strong>.  Looping over iterables works via getting an <strong>iterator</strong> from an iterable and then repeatedly asking the iterator for the next item.</p>
 
-<p>A generator is a <strong>lazy iterable</strong>: generators don&rsquo;t compute the items they contain until you loop over them.  We&rsquo;ll see what that means in a moment.</p>
+<p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
 
-<p>We can turn our list comprehension into a generator expression by changing the brackets to parentheses:</p>
+<p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">divisibility</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>      <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">)</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">divisibility</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<h2>Even more on iterators</h2>
 
+<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to check out my <a href="https://youtu.be/V2PkkMS2Ack?t=25s">Loop Better talk</a> or my <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">article of the same name</a>.</p>
 
-<p>Now our code doesn&rsquo;t create a list to loop over.  Instead it provides us with a generator that allows us to compute the divisibility of each number one-by-one.</p>
+<p>If you&rsquo;re interested in making your own iterators, I&rsquo;ve also written an article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator in Python</a>.</p>
 
-<p>We can make this code even more readable by putting that generator expression inside the function call (notice that we can drop the second set of parentheses):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>      <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that because our generator is lazy, we stop computing divisibilities as soon as our <code>all</code> function finds a divisible number.  So we end up calculating <code>candidate % n != 0</code> only as many times as we did in our original function.</p>
-
-<h2>Recap</h2>
-
-<p>So we started with a <code>for</code> loop, an <code>if</code> statement, a <code>return</code> statement for stopping once we find a divisor, and a <code>return</code> statement for the case where our number had no divisors (when it&rsquo;s prime).</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="bp">False</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We turned all that into a generator expression passed to the <code>all</code> function.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>        <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I prefer this second approach (a generator expression with <code>all</code>) because I find it <strong>more descriptive</strong>.</p>
-
-<p>We&rsquo;re checking to see whether &ldquo;all numbers in a range are not divisors of our candidate number&rdquo;.  That sounds quite a bit more like English to me than &ldquo;loop over all numbers in a range and return False if a divisor is found otherwise return True&rdquo;.</p>
-
-<p>If you don&rsquo;t find the behavior of <code>all</code> intuitive, you might find it easier to understand (and more English-like) when used with <code>if</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;All good&quot;</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Bad value found&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can always reformat your code to use an <code>if</code> statement if you find it more readable.</p>
-
-<h2><code>any</code> or <code>all</code></h2>
-
-<p>We&rsquo;ve been working with the <code>all</code> function, but I haven&rsquo;t mentioned it&rsquo;s counterpart: the <code>any</code> function.  Let&rsquo;s take a look at how <code>all</code> and <code>any</code> compare.</p>
-
-<p>These two expressions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_good</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">things</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'><span class="n">some_bad</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">things</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Are equivalent to these two expressions (because of <a href="https://en.wikipedia.org/wiki/De_Morgan%27s_laws">DeMorgan&rsquo;s Laws</a>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_good</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
-</span><span class='line'>    <span class="ow">not</span> <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">things</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'><span class="n">some_bad</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
-</span><span class='line'>    <span class="ow">not</span> <span class="n">condition</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">things</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>        <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Is feature-identical to this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
-</span><span class='line'>        <span class="n">candidate</span> <span class="o">%</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Both of them stop as soon as they find a divisor.</p>
-
-<p>I find the use of <code>all</code> more readable here, but I wanted to mention that <code>any</code> would work just as well.</p>
-
-<h2>Cheat sheet for refactoring with <code>any</code> and <code>all</code></h2>
-
-<p>All that explanation above was valuable, but how can we use this new knowledge to refactor our own code?  Here&rsquo;s a cheat sheet for you.</p>
-
-<p>Anytime you see code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_good</span> <span class="o">=</span> <span class="bp">True</span>
-</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">all_good</span> <span class="o">=</span> <span class="bp">False</span>
-</span><span class='line'>        <span class="k">break</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can replace that code with this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_good</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Anytime you see code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">any_good</span> <span class="o">=</span> <span class="bp">False</span>
-</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">any_good</span> <span class="o">=</span> <span class="bp">True</span>
-</span><span class='line'>        <span class="k">break</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can replace it with this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">any_good</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that <code>break</code> is used in the code above because we&rsquo;re not returning from a function.  Using <code>return</code> (like we did in <code>is_prime</code>) is another way to stop our loop early.</p>
-
-<p>Python&rsquo;s <code>any</code> and <code>all</code> functions were <em>made</em> for use with generator expressions (discussion <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a> and <a href="https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010">here</a>).  You can use <code>any</code> and <code>all</code> without generator expressions, but I don&rsquo;t find a need for that as often.</p>
-
-<p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
-
-<h2>Conclusion: code style is a process</h2>
-
-<p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
-
-<p>I hope I&rsquo;ve inspired you to embrace the use of <code>any</code>/<code>all</code> with generator expressions for improved readability and code clarity.</p>
-
-<p>If you&rsquo;d like to get practice with Python-specific features like <code>any</code> and <code>all</code>, I highly recommend you <strong><a href="https://www.pythonmorsels.com/">give Python Morsels a try</a></strong>.
-I made Python Morsels to <strong>help experienced programmers level up their Python skills</strong>.
-Sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> to <strong>grow your skills every week</strong>!</p>
+<p>If you want an excuse to practice making iterators, consider giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.
+The first few exercises include an excuse to create your own Python iterator.</p>
 </div>
   
   <footer>

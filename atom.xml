@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-10T17:41:32-08:00</updated>
+  <updated>2018-12-20T09:54:43-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,389 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why you should be using pathlib]]></title>
+    <link href="http://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
+    <updated>2018-12-20T10:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
+    <content type="html"><![CDATA[<p>When I discovered Python&rsquo;s new <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the <code>os.path</code> module.
+I was wrong.
+Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftriplett.com/2017/pathlib-is-wonderful/">wonderful</a>!</p>
+
+<p>In this article I&rsquo;m going to try to sell you on <code>pathlib</code>.
+I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pathlib</code> module pretty much anytime you need to work with files in Python</strong>.</p>
+
+<h2>os.path is clunky</h2>
+
+<p>The <code>os.path</code> module has always been what we reached for to work with paths in Python.
+It&rsquo;s got pretty much all you need, but it can be very clunky sometimes.</p>
+
+<p>Should you import it like this?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or like this?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or maybe that <code>join</code> function is too generically named&hellip; so we could do this instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span> <span class="k">as</span> <span class="n">joinpath</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find all of these a bit awkward.
+We&rsquo;re passing strings into functions that return strings which we then pass into other functions that return strings.
+All of these strings happen to represent paths, but they&rsquo;re still just strings.</p>
+
+<p>The string-in-string-out functions in <code>os.path</code> are really awkward when nested because the code has to be read from the inside out.
+Wouldn&rsquo;t it be nice if we could take these nested function calls and turn them into chained method calls instead?</p>
+
+<p>With the <code>pathlib</code> module we can!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">BASE_DIR</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules&#8217; <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
+
+<p>I know what you&rsquo;re thinking: wait these <code>Path</code> objects aren&rsquo;t the same thing: they&rsquo;re objects, not path strings!
+I&rsquo;ll address that later (hint: these can pretty much be used interchangeably with path strings).</p>
+
+<h2>The os module is crowded</h2>
+
+<p>Python&rsquo;s classic <code>os.path</code> module is just for working with paths.
+Once you want to actually <em>do</em> something with a path (e.g. create a directory) you&rsquo;ll need to reach for another Python module, often the <code>os</code> module.</p>
+
+<p>The <code>os</code> module has lots of utilities for working with files and directories: <code>mkdir</code>, <code>getcwd</code>, <code>chmod</code>, <code>stat</code>, <code>remove</code>, <code>rename</code>, and <code>rmdir</code>.
+Also <code>chdir</code>, <code>link</code>, <code>walk</code>, <code>listdir</code>, <code>makedirs</code>, <code>renames</code>, <code>removedirs</code>, <code>unlink</code> (same as <code>remove</code>), and <code>symlink</code>.
+And a bunch of other stuff that isn&rsquo;t related to the filesystems at all: <code>fork</code>, <code>getenv</code>, <code>putenv</code>, <code>environ</code>, <code>getlogin</code>, and <code>system</code>.
+Plus dozens of things I didn&rsquo;t mention in this paragraph.</p>
+
+<p><strong>Python&rsquo;s <code>os</code> module does a little bit of everything; it&rsquo;s sort of a junk drawer for system-related stuff</strong>.
+There&rsquo;s a lot of lovely stuff in the <code>os</code> module, but it can be hard to find what you&rsquo;re looking for sometimes:
+if you&rsquo;re looking for path-related or filesystem-related things in the <code>os</code> module, you&rsquo;ll need to do a bit of digging.</p>
+
+<p>The <code>pathlib</code> module replaces many of these filesystem-related <code>os</code> utilities with methods on the <code>Path</code> object.</p>
+
+<p>Here&rsquo;s some code that makes a <code>src/__pypackages__</code> directory and renames our <code>.editorconfig</code> file to <code>src/.editorconfig</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;__pypackages__&#39;</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code does the same thing using <code>Path</code> objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the <code>pathlib</code> code puts the path first because of method chaining!</p>
+
+<p>As the Zen of Python says, &ldquo;namespaces are one honking great idea, let&rsquo;s do more of those&rdquo;.
+The <code>os</code> module is a very large namespace with a bunch of stuff in it.
+<strong>The pathlib.Path class is a much smaller and more specific namespace than the os module</strong>.
+Plus the methods in this <code>Path</code> namespace return <code>Path</code> objects, which allows for method chaining instead of nested string-iful function calls.</p>
+
+<h2>Don&rsquo;t forget about the glob module!</h2>
+
+<p>The <code>os</code> and <code>os.path</code> modules aren&rsquo;t the only filepath/filesystem-related utilities in the Python standard library.
+The <code>glob</code> module is another handy path-related module.</p>
+
+<p>We can use the <code>glob.glob</code> function for finding files that match a certain pattern:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">top_level_csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">all_csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;**/*.csv&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The new <code>pathlib</code> module includes glob-like utilities as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">top_level_csv_files</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">all_csv_files</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After you&rsquo;ve started using <code>pathlib</code> more heavily, <strong>you can pretty much forget about the glob module entirely</strong>: you&rsquo;ve got all the glob functionality you need with <code>Path</code> objects.</p>
+
+<h2>pathlib makes the simple cases simpler</h2>
+
+<p>The <code>pathlib</code> module makes a number of complex cases somewhat simpler, but <strong>it also makes some of the simple cases even simpler</strong>.</p>
+
+<p>Need to read all the text in one or more files?</p>
+
+<p>You could open the file, read its contents and close the file using a <code>with</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;**/*.py&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">python_file</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">python_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or you could use the <code>read_text</code> method on <code>Path</code> objects and a list comprehension to read the file contents into a new list all in one line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_contents</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*.py&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What if you reed to write to a file?</p>
+
+<p>You could use the <code>open</code> context manager again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or you could use the <code>write_text</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you prefer using <code>open</code>, whether as a context manager or otherwise, you could instead use the <code>open</code> method on your <code>Path</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, as of Python 3.6, you can even pass your <code>Path</code> object to the built-in <code>open</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Path objects make your code more explicit</h2>
+
+<p>What do the following 3 variables point to?
+What do their values represent?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="s">&#39;{&quot;name&quot;: &quot;Trey Hunner&quot;, &quot;location&quot;: &quot;San Diego&quot;}&#39;</span>
+</span><span class='line'><span class="n">pycon_2019</span> <span class="o">=</span> <span class="s">&quot;2019-05-01&quot;</span>
+</span><span class='line'><span class="n">home_directory</span> <span class="o">=</span> <span class="s">&#39;/home/trey&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each of those variables points to a string.</p>
+
+<p>Those strings represent different things: one is a JSON blob, one is a date, and one is a file path.</p>
+
+<p>These are a little bit more useful representations for these objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Trey Hunner&quot;</span><span class="p">,</span> <span class="s">&quot;location&quot;</span><span class="p">:</span> <span class="s">&quot;San Diego&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="n">pycon_2019</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">home_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JSON objects deserialize to dictionaries, dates are represented natively using <code>datetime.date</code> objects, and <strong>filesystem paths can now be generically represented using <code>pathlib.Path</code> objects</strong>.</p>
+
+<p>Using <code>Path</code> objects makes your code more explicit.
+If you&rsquo;re trying to represent a date, you can use a <code>date</code> object.
+If you&rsquo;re trying to represent a filepath, you can use a <code>Path</code> object.</p>
+
+<p>I&rsquo;m not a strong advocate of object-oriented programming.
+Classes add another layer of abstraction and abstractions can sometimes add more complexity than simplicity.
+But the <code>pathlib.Path</code> class is <strong>a useful abstraction</strong>.
+It&rsquo;s also quickly becoming a universally recognized abstraction.</p>
+
+<p>Thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, file path objects are now becoming the standard for working with paths.
+As of Python 3.6, the built-in <code>open</code> function and the various functions in the <code>os</code>, <code>shutil</code>, and <code>os.path</code> modules all work properly with <code>pathlib.Path</code> objects.
+<strong>You can start using pathlib today without changing most of your code that works with paths</strong>!</p>
+
+<h2>What&rsquo;s missing from pathlib?</h2>
+
+<p>While <code>pathlib</code> is great, it&rsquo;s not all-encompassing.
+There are definitely <strong>a few missing features I&rsquo;ve stumbled upon that I wish the <code>pathlib</code> module included</strong>.</p>
+
+<p>The first gap I&rsquo;ve noticed is the lack of <code>shutil</code> equivalents within the <code>pathlib.Path</code> methods.</p>
+
+<p>While you can pass <code>Path</code> objects (and path-like objects) to the higher-level <code>shutil</code> functions for copying/deleting/moving files and directories, there&rsquo;s no equivalent to these functions on <code>Path</code> objects.</p>
+
+<p>So to copy a file you still have to do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">source</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old_file.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">destination</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;new_file.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">copyfile</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s also no <code>pathlib</code> equivalent of <code>os.chdir</code>.</p>
+
+<p>This just means you&rsquo;ll need to import <code>chdir</code> if you ever need to change the current working directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">parent</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>os.walk</code> function has no <code>pathlib</code> equivalent either.
+Though you can make your own <code>walk</code>-like functions using <code>pathlib</code> fairly easily.</p>
+
+<p>My hope is that <code>pathlib.Path</code> objects might eventually include methods for some of these missing operations.
+But even with these missing features, <strong>I still find it much more manageable to use &ldquo;<code>pathlib</code> and friends&rdquo; than &ldquo;<code>os.path</code> and friends&rdquo;</strong>.</p>
+
+<h2>Should you always use pathlib?</h2>
+
+<p>Since Python 3.6, <strong>pathlib.Path objects work nearly everywhere you&rsquo;re already using path strings</strong>.
+So I see no reason <em>not</em> to use <code>pathlib</code> if you&rsquo;re on Python 3.6 (or higher).</p>
+
+<p>If you&rsquo;re on an earlier version of Python 3, you can always wrap your <code>Path</code> object in a <code>str</code> call to get a string out of it when you need an escape hatch back to string land.
+It&rsquo;s awkward but it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">))</span>  <span class="c"># Works on Python 3.6+</span>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">)))</span>  <span class="c"># Works on earlier versions also</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Regardless of which version of Python 3 you&rsquo;re on, I would recommend giving <code>pathlib</code> a try.</p>
+
+<p>And if you&rsquo;re stuck on Python 2 still (the clock is ticking!) the third-party <a href="https://github.com/mcmtroffaes/pathlib2">pathlib2</a> module on PyPI is a backport so you can use <code>pathlib</code> on any version of Python.</p>
+
+<p>I find that using <code>pathlib</code> often makes my code more readable.
+Most of my code that works with files now defaults to using <code>pathlib</code> and I recommend that you do the same.
+<strong>If you can use <code>pathlib</code>, you should</strong>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Cyber Monday Sales]]></title>
@@ -6443,365 +6826,6 @@ Quite a few of the exercises I send through <a href="https://www.pythonmorsels.c
 <li><a href="http://www.downpour.com/for-all-the-tea-in-china-1">DRM-free audiobook</a> read by Sarah Rose</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python List Comprehensions: Explained Visually]]></title>
-    <link href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/"/>
-    <updated>2015-12-01T10:30:00-08:00</updated>
-    <id>http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color</id>
-    <content type="html"><![CDATA[<p>Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python&rsquo;s <a href="https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps">list comprehensions</a> are a prime example of such a syntactic sugar.</p>
-
-<p>List comprehensions in Python are great, but mastering them can be tricky because they don&rsquo;t solve a new problem: they just provide a new syntax to solve an existing problem.</p>
-
-<p>Let&rsquo;s learn what list comprehensions are and how to identify when to use them.</p>
-
-<h2>What are list comprehensions?</h2>
-
-<p>List comprehensions are a tool for transforming one list (any <a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a> actually) into another list.  During this transformation, elements can be conditionally included in the new list and each element can be transformed as needed.</p>
-
-<p>If you&rsquo;re familiar with functional programming, you can think of list comprehensions as syntactic sugar for a <code>filter</code> followed by a <code>map</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re not familiar with functional programming, don&rsquo;t worry: I&rsquo;ll explain using <code>for</code> loops.</p>
-
-<h2>From loops to comprehensions</h2>
-
-<p>Every list comprehension can be rewritten as a <code>for</code> loop but not every <code>for</code> loop can be rewritten as a list comprehension.</p>
-
-<p>The key to understanding when to use list comprehensions is to practice identifying problems that <em>smell</em> like list comprehensions.</p>
-
-<p>If you can rewrite your code to look <em>just like this <code>for</code> loop</em>, you can also rewrite it as a list comprehension:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">new_things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can rewrite the above <code>for</code> loop as a list comprehension like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span> <span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span> <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List Comprehensions: The Animated Movie™</h2>
-
-<p>That&rsquo;s great, but how did we do that?</p>
-
-<p>We <strong>copy-pasted</strong> our way from a <code>for</code> loop to a list comprehension.</p>
-
-<p><img src="http://treyhunner.com/images/list-comprehension-condition.gif"></p>
-
-<p>Here&rsquo;s the order we copy-paste in:</p>
-
-<ol>
-<li>Copy the variable assignment for our new empty list (line 3)</li>
-<li>Copy the expression that we&rsquo;ve been <code>append</code>-ing into this new list (line 6)</li>
-<li>Copy the <code>for</code> loop line, excluding the final <code>:</code> (line 4)</li>
-<li>Copy the <code>if</code> statement line, also without the <code>:</code> (line 5)</li>
-</ol>
-
-
-<p>We&rsquo;ve now copied our way from this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">doubled_odds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List Comprehensions: Now in Color</h2>
-
-<p>Let&rsquo;s use colors to highlight what&rsquo;s going on.</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>:
-        <span class="new-collection">doubled_odds</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
-
-
-
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>]</span>
-</pre>
-
-
-<p>We copy-paste from a <code>for</code> loop into a list comprehension by:</p>
-
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span></li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code></li>
-<li>Copying <span class="conditional-clause">the <code>if</code> statement line</span>, also without the <code>:</code></li>
-</ol>
-
-
-<h2>Unconditional Comprehensions</h2>
-
-<p>But what about comprehensions that don&rsquo;t have a conditional clause (that <code>if SOMETHING</code> part at the end)?  These loop-and-append <code>for</code> loops are even simpler than the loop-and-conditionally-append ones we&rsquo;ve already covered.</p>
-
-<p>A <code>for</code> loop that doesn&rsquo;t have an <code>if</code> statement:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="new-collection">doubled_numbers</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
-
-
-<p>That same code written as a comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p>Here&rsquo;s the transformation animated:</p>
-
-<p><img src="http://treyhunner.com/images/list-comprehension-no-condition.gif"></p>
-
-<p>We can copy-paste our way from a simple loop-and-append <code>for</code> loop by:</p>
-
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span> (line 3)</li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list (line 5)</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code> (line 4)</li>
-</ol>
-
-
-<h2>Nested Loops</h2>
-
-<p>What about list comprehensions with nested looping?&hellip; 😦</p>
-
-<p>Here&rsquo;s a <code>for</code> loop that flattens a matrix (a list of lists):</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span>:
-    <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span>:
-        <span class="new-collection">flattened</span>.append(<span class="item-mutation">n</span>)
-</pre>
-
-
-<p>Here&rsquo;s a list comprehension that does the same thing:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type"> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p>Nested loops in list comprehensions do not read like English prose.</p>
-
-<p><strong>Note:</strong> My brain wants to write this list comprehension as:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type"> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p><strong>But that&rsquo;s not right!</strong>  I&rsquo;ve mistakenly flipped the <code>for</code> loops here.  The correct version is the one above.</p>
-
-<p>When working with nested loops in list comprehensions remember that <strong>the <code>for</code> clauses remain in the same order</strong> as in our original <code>for</code> loops.</p>
-
-<h2>Other Comprehensions</h2>
-
-<p>This same principle applies to <a href="https://docs.python.org/3/tutorial/datastructures.html#sets">set comprehensions</a> and <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary comprehensions</a>.</p>
-
-<p>Code that creates a set of all the first letters in a sequence of words:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">set()</span>
-<span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span>:
-    <span class="new-collection">first_letters</span>.add(<span class="item-mutation">w[0]</span>)
-</pre>
-
-
-<p>That same code written as a set comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">{</span><span class="item-mutation">w[0]</span> <span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<p>Code that makes a new dictionary by swapping the keys and values of the original one:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{}</span>
-<span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span>:
-    <span class="new-collection">flipped</span>[<span class="item-mutation">value</span>] = <span class="item-mutation">key</span>
-</pre>
-
-
-<p>That same code written as a dictionary comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{</span><span class="item-mutation">value</span>: <span class="item-mutation">key</span> <span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<h2>Readability Counts</h2>
-
-<p>Did you find the above list comprehensions hard to read?  I often find longer list comprehensions very difficult to read when they&rsquo;re written on one line.</p>
-
-<p>Remember that <a href="https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining">Python allows line breaks</a> between brackets and braces.</p>
-
-<h3>List comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Nested loops in list comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Dictionary comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">value</span><span class="p">:</span> <span class="n">key</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that we are not adding line breaks arbitrarily: we&rsquo;re breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.</p>
-
-<h2>Learn with me</h2>
-
-<p>I did a <a href="https://www.youtube.com/watch?v=u-mhKtC1Xh4">class on list comprehensions</a> with <a href="http://remote.pyladies.com/">PyLadies Remote</a> recently.</p>
-
-<p>If you&rsquo;d like to watch me walk through an explanation of any of the above topics, check out the video:</p>
-
-<ol>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=3m30s">list comprehensions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=35m05s">generator expressions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=44m44s">set comprehensions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=47m44s">dictionary comprehensions</a></li>
-</ol>
-
-
-<h2>Summary</h2>
-
-<p>When struggling to write a comprehension, don&rsquo;t panic.  Start with a <code>for</code> loop first and copy-paste your way into a comprehension.</p>
-
-<p>Any <code>for</code> loop that looks like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span>:
-    <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>:
-        <span class="new-collection">new_things</span>.append(<span class="item-mutation">"something with " + ITEM</span>)
-</pre>
-
-
-<p>Can be rewritten into a list comprehension like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
-</pre>
-
-
-<p>If you can nudge a <code>for</code> loop until it looks like the ones above, you can rewrite it as a list comprehension.</p>
-
-<h2>Even More Comprehensions</h2>
-
-<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to watch my 30 minute <a href="https://youtu.be/5_cJIcgM7rw?t=52s">Comprehensible Comprehensions</a> talk for more.</p>
-
-<p>The best way to learn is to practice.
-If you&rsquo;d like to practice your comprehension skills and your Python skills in general, I recommend giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.</p>
-
-<p>If you&rsquo;re looking for a <em>very</em> deep dive into comprehensions in particular, I have a <a href="http://pycon2018.trey.io/">3 hour tutorial</a> on comprehensions and generator expressions in Python.
-That tutorial is heavily inspired by my <a href="http://truthful.technology/">team Python training</a> workshops.
-If you&rsquo;re interested in diving <em>even deeper</em> into comprehensions and other topics, please <a href="mailto:hello@truthful.technology">drop me a line</a>.
-I&rsquo;d love to chat.</p>
 ]]></content>
   </entry>
   
