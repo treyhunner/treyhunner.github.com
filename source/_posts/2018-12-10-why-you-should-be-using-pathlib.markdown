@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Why you should be using pathlib"
-date: 2018-12-20 10:00:00 -0800
+date: 2018-12-21 14:00:00 -0800
 comments: true
-categories: 
+categories: python
 ---
 
 When I discovered Python's new [pathlib][] module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the `os.path` module.
