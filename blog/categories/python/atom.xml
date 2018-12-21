@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-20T09:54:56-08:00</updated>
+  <updated>2018-12-21T13:42:54-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,287 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why you should be using pathlib]]></title>
+    <link href="http://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
+    <updated>2018-12-21T14:00:00-08:00</updated>
+    <id>http://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
+    <content type="html"><![CDATA[<p>When I discovered Python&rsquo;s new <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the <code>os.path</code> module.
+I was wrong.
+Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftriplett.com/2017/pathlib-is-wonderful/">wonderful</a>!</p>
+
+<p>In this article I&rsquo;m going to try to sell you on <code>pathlib</code>.
+I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pathlib</code> module pretty much anytime you need to work with files in Python</strong>.</p>
+
+<h2>os.path is clunky</h2>
+
+<p>The <code>os.path</code> module has always been what we reached for to work with paths in Python.
+It&rsquo;s got pretty much all you need, but it can be very clunky sometimes.</p>
+
+<p>Should you import it like this?</p>
+
+<pre><code class="python">import os.path
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+</code></pre>
+
+<p>Or like this?</p>
+
+<pre><code class="python">from os.path import abspath, dirname, join
+
+BASE_DIR = dirname(dirname(abspath(__file__)))
+TEMPLATES_DIR = join(BASE_DIR, 'templates')
+</code></pre>
+
+<p>Or maybe that <code>join</code> function is too generically named&hellip; so we could do this instead:</p>
+
+<pre><code class="python">from os.path import abspath, dirname, join as joinpath
+
+BASE_DIR = dirname(dirname(abspath(__file__)))
+TEMPLATES_DIR = joinpath(BASE_DIR, 'templates')
+</code></pre>
+
+<p>I find all of these a bit awkward.
+We&rsquo;re passing strings into functions that return strings which we then pass into other functions that return strings.
+All of these strings happen to represent paths, but they&rsquo;re still just strings.</p>
+
+<p>The string-in-string-out functions in <code>os.path</code> are really awkward when nested because the code has to be read from the inside out.
+Wouldn&rsquo;t it be nice if we could take these nested function calls and turn them into chained method calls instead?</p>
+
+<p>With the <code>pathlib</code> module we can!</p>
+
+<pre><code class="python">from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATES_DIR = BASE_DIR.joinpath('templates')
+</code></pre>
+
+<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules&#8217; <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
+
+<p>I know what you&rsquo;re thinking: wait these <code>Path</code> objects aren&rsquo;t the same thing: they&rsquo;re objects, not path strings!
+I&rsquo;ll address that later (hint: these can pretty much be used interchangeably with path strings).</p>
+
+<h2>The os module is crowded</h2>
+
+<p>Python&rsquo;s classic <code>os.path</code> module is just for working with paths.
+Once you want to actually <em>do</em> something with a path (e.g. create a directory) you&rsquo;ll need to reach for another Python module, often the <code>os</code> module.</p>
+
+<p>The <code>os</code> module has lots of utilities for working with files and directories: <code>mkdir</code>, <code>getcwd</code>, <code>chmod</code>, <code>stat</code>, <code>remove</code>, <code>rename</code>, and <code>rmdir</code>.
+Also <code>chdir</code>, <code>link</code>, <code>walk</code>, <code>listdir</code>, <code>makedirs</code>, <code>renames</code>, <code>removedirs</code>, <code>unlink</code> (same as <code>remove</code>), and <code>symlink</code>.
+And a bunch of other stuff that isn&rsquo;t related to the filesystems at all: <code>fork</code>, <code>getenv</code>, <code>putenv</code>, <code>environ</code>, <code>getlogin</code>, and <code>system</code>.
+Plus dozens of things I didn&rsquo;t mention in this paragraph.</p>
+
+<p><strong>Python&rsquo;s <code>os</code> module does a little bit of everything; it&rsquo;s sort of a junk drawer for system-related stuff</strong>.
+There&rsquo;s a lot of lovely stuff in the <code>os</code> module, but it can be hard to find what you&rsquo;re looking for sometimes:
+if you&rsquo;re looking for path-related or filesystem-related things in the <code>os</code> module, you&rsquo;ll need to do a bit of digging.</p>
+
+<p>The <code>pathlib</code> module replaces many of these filesystem-related <code>os</code> utilities with methods on the <code>Path</code> object.</p>
+
+<p>Here&rsquo;s some code that makes a <code>src/__pypackages__</code> directory and renames our <code>.editorconfig</code> file to <code>src/.editorconfig</code>:</p>
+
+<pre><code class="python">import os
+import os.path
+
+os.makedirs(os.path.join('src', '__pypackages__'), exist_ok=True)
+os.rename('.editorconfig', os.path.join('src', '.editorconfig'))
+</code></pre>
+
+<p>This code does the same thing using <code>Path</code> objects:</p>
+
+<pre><code class="python">from pathlib import Path
+
+Path('src/__pypackages__').mkdir(parents=True, exist_ok=True)
+Path('.editorconfig').rename('src/.editorconfig')
+</code></pre>
+
+<p>Notice that the <code>pathlib</code> code puts the path first because of method chaining!</p>
+
+<p>As the Zen of Python says, &ldquo;namespaces are one honking great idea, let&rsquo;s do more of those&rdquo;.
+The <code>os</code> module is a very large namespace with a bunch of stuff in it.
+<strong>The pathlib.Path class is a much smaller and more specific namespace than the os module</strong>.
+Plus the methods in this <code>Path</code> namespace return <code>Path</code> objects, which allows for method chaining instead of nested string-iful function calls.</p>
+
+<h2>Don&rsquo;t forget about the glob module!</h2>
+
+<p>The <code>os</code> and <code>os.path</code> modules aren&rsquo;t the only filepath/filesystem-related utilities in the Python standard library.
+The <code>glob</code> module is another handy path-related module.</p>
+
+<p>We can use the <code>glob.glob</code> function for finding files that match a certain pattern:</p>
+
+<pre><code class="python">from glob import glob
+
+top_level_csv_files = glob('*.csv')
+all_csv_files = glob('**/*.csv', recursive=True)
+</code></pre>
+
+<p>The new <code>pathlib</code> module includes glob-like utilities as well.</p>
+
+<pre><code class="python">from pathlib import Path
+
+top_level_csv_files = Path.cwd().glob('*.csv')
+all_csv_files = Path.cwd().rglob('*.csv')
+</code></pre>
+
+<p>After you&rsquo;ve started using <code>pathlib</code> more heavily, <strong>you can pretty much forget about the glob module entirely</strong>: you&rsquo;ve got all the glob functionality you need with <code>Path</code> objects.</p>
+
+<h2>pathlib makes the simple cases simpler</h2>
+
+<p>The <code>pathlib</code> module makes a number of complex cases somewhat simpler, but <strong>it also makes some of the simple cases even simpler</strong>.</p>
+
+<p>Need to read all the text in one or more files?</p>
+
+<p>You could open the file, read its contents and close the file using a <code>with</code> block:</p>
+
+<pre><code class="python">from glob import glob
+
+file_contents = []
+for filename in glob('**/*.py', recursive=True):
+    with open(filename) as python_file:
+        file_contents.append(python_file.read())
+</code></pre>
+
+<p>Or you could use the <code>read_text</code> method on <code>Path</code> objects and a list comprehension to read the file contents into a new list all in one line:</p>
+
+<pre><code class="python">from pathlib import Path
+
+file_contents = [
+    path.read_text()
+    for path in Path.cwd().rglob('*.py')
+]
+</code></pre>
+
+<p>What if you need to write to a file?</p>
+
+<p>You could use the <code>open</code> context manager again:</p>
+
+<pre><code class="python">with open('.editorconfig') as config:
+    config.write('# config goes here')
+</code></pre>
+
+<p>Or you could use the <code>write_text</code> method:</p>
+
+<pre><code class="python">Path('.editorconfig').write_text('# config goes here')
+</code></pre>
+
+<p>If you prefer using <code>open</code>, whether as a context manager or otherwise, you could instead use the <code>open</code> method on your <code>Path</code> object:</p>
+
+<pre><code class="python">from pathlib import Path
+
+path = Path('.editorconfig')
+with path.open(mode='wt') as config:
+    config.write('# config goes here')
+</code></pre>
+
+<p>Or, as of Python 3.6, you can even pass your <code>Path</code> object to the built-in <code>open</code> function:</p>
+
+<pre><code class="python">from pathlib import Path
+
+path = Path('.editorconfig')
+with open(path, mode='wt') as config:
+    config.write('# config goes here')
+</code></pre>
+
+<h2>Path objects make your code more explicit</h2>
+
+<p>What do the following 3 variables point to?
+What do their values represent?</p>
+
+<pre><code class="python">person = '{"name": "Trey Hunner", "location": "San Diego"}'
+pycon_2019 = "2019-05-01"
+home_directory = '/home/trey'
+</code></pre>
+
+<p>Each of those variables points to a string.</p>
+
+<p>Those strings represent different things: one is a JSON blob, one is a date, and one is a file path.</p>
+
+<p>These are a little bit more useful representations for these objects:</p>
+
+<pre><code class="python">from datetime import date
+from pathlib import Path
+
+person = {"name": "Trey Hunner", "location": "San Diego"}
+pycon_2019 = date(2019, 5, 1)
+home_directory = Path('/home/trey')
+</code></pre>
+
+<p>JSON objects deserialize to dictionaries, dates are represented natively using <code>datetime.date</code> objects, and <strong>filesystem paths can now be generically represented using <code>pathlib.Path</code> objects</strong>.</p>
+
+<p>Using <code>Path</code> objects makes your code more explicit.
+If you&rsquo;re trying to represent a date, you can use a <code>date</code> object.
+If you&rsquo;re trying to represent a filepath, you can use a <code>Path</code> object.</p>
+
+<p>I&rsquo;m not a strong advocate of object-oriented programming.
+Classes add another layer of abstraction and abstractions can sometimes add more complexity than simplicity.
+But the <code>pathlib.Path</code> class is <strong>a useful abstraction</strong>.
+It&rsquo;s also quickly becoming a universally recognized abstraction.</p>
+
+<p>Thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, file path objects are now becoming the standard for working with paths.
+As of Python 3.6, the built-in <code>open</code> function and the various functions in the <code>os</code>, <code>shutil</code>, and <code>os.path</code> modules all work properly with <code>pathlib.Path</code> objects.
+<strong>You can start using pathlib today without changing most of your code that works with paths</strong>!</p>
+
+<h2>What&rsquo;s missing from pathlib?</h2>
+
+<p>While <code>pathlib</code> is great, it&rsquo;s not all-encompassing.
+There are definitely <strong>a few missing features I&rsquo;ve stumbled upon that I wish the <code>pathlib</code> module included</strong>.</p>
+
+<p>The first gap I&rsquo;ve noticed is the lack of <code>shutil</code> equivalents within the <code>pathlib.Path</code> methods.</p>
+
+<p>While you can pass <code>Path</code> objects (and path-like objects) to the higher-level <code>shutil</code> functions for copying/deleting/moving files and directories, there&rsquo;s no equivalent to these functions on <code>Path</code> objects.</p>
+
+<p>So to copy a file you still have to do something like this:</p>
+
+<pre><code class="python">from pathlib import Path
+from shutil import copyfile
+
+source = Path('old_file.txt')
+destination = Path('new_file.txt')
+copyfile(source, destination)
+</code></pre>
+
+<p>There&rsquo;s also no <code>pathlib</code> equivalent of <code>os.chdir</code>.</p>
+
+<p>This just means you&rsquo;ll need to import <code>chdir</code> if you ever need to change the current working directory:</p>
+
+<pre><code class="python">from pathlib import Path
+from os import chdir
+
+parent = Path('..')
+chdir(parent)
+</code></pre>
+
+<p>The <code>os.walk</code> function has no <code>pathlib</code> equivalent either.
+Though you can make your own <code>walk</code>-like functions using <code>pathlib</code> fairly easily.</p>
+
+<p>My hope is that <code>pathlib.Path</code> objects might eventually include methods for some of these missing operations.
+But even with these missing features, <strong>I still find it much more manageable to use &ldquo;<code>pathlib</code> and friends&rdquo; than &ldquo;<code>os.path</code> and friends&rdquo;</strong>.</p>
+
+<h2>Should you always use pathlib?</h2>
+
+<p>Since Python 3.6, <strong>pathlib.Path objects work nearly everywhere you&rsquo;re already using path strings</strong>.
+So I see no reason <em>not</em> to use <code>pathlib</code> if you&rsquo;re on Python 3.6 (or higher).</p>
+
+<p>If you&rsquo;re on an earlier version of Python 3, you can always wrap your <code>Path</code> object in a <code>str</code> call to get a string out of it when you need an escape hatch back to string land.
+It&rsquo;s awkward but it works:</p>
+
+<pre><code class="python">from os import chdir
+from pathlib import Path
+
+chdir(Path('/home/trey'))  # Works on Python 3.6+
+chdir(str(Path('/home/trey')))  # Works on earlier versions also
+</code></pre>
+
+<p>Regardless of which version of Python 3 you&rsquo;re on, I would recommend giving <code>pathlib</code> a try.</p>
+
+<p>And if you&rsquo;re stuck on Python 2 still (the clock is ticking!) the third-party <a href="https://github.com/mcmtroffaes/pathlib2">pathlib2</a> module on PyPI is a backport so you can use <code>pathlib</code> on any version of Python.</p>
+
+<p>I find that using <code>pathlib</code> often makes my code more readable.
+Most of my code that works with files now defaults to using <code>pathlib</code> and I recommend that you do the same.
+<strong>If you can use <code>pathlib</code>, you should</strong>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Cyber Monday Sales]]></title>
@@ -1005,433 +1286,6 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
 
 
 <p>If any of those four statements don&rsquo;t fit your situation, I&rsquo;d recommend <strong>writing a new function using <code>def</code></strong> and (whenever possible) <strong>embracing a function that already exists within Python</strong> that already does what you&rsquo;re looking for.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to make an iterator in Python]]></title>
-    <link href="http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
-    <updated>2018-06-21T16:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
-    <content type="html"><![CDATA[<p>I wrote an article sometime ago on <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">the iterator protocol that powers Python&rsquo;s <code>for</code> loops</a>.
-One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
-
-<p>In this article I&rsquo;m going to discuss why you&rsquo;d want to make your own iterators and then show you how to do so.</p>
-
-<h2>What is an iterator?</h2>
-
-<p>First let&rsquo;s quickly address what an iterator is.
-For a much more detailed explanation, consider watching my <a href="https://www.youtube.com/watch?v=V2PkkMS2Ack">Loop Better talk</a> or reading <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">the article based on the talk</a>.</p>
-
-<p>An <strong>iter<em>able</em></strong> is anything you&rsquo;re able to loop over.</p>
-
-<p>An <strong>iter<em>ator</em></strong> is the object that does the actual iterating.</p>
-
-<p>You can get an iterator from any iterable by calling the built-in <code>iter</code> function on the iterable.</p>
-
-<pre><code class="python">&gt;&gt;&gt; favorite_numbers = [6, 57, 4, 7, 68, 95]
-&gt;&gt;&gt; iter(favorite_numbers)
-&lt;list_iterator object at 0x7fe8e5623160&gt;
-</code></pre>
-
-<p>You can use the built-in <code>next</code> function on an iterator to get the next item from it (you&rsquo;ll get a <code>StopIteration</code> exception if there are no more items).</p>
-
-<pre><code class="python">&gt;&gt;&gt; favorite_numbers = [6, 57, 4, 7, 68, 95]
-&gt;&gt;&gt; my_iterator = iter(favorite_numbers)
-&gt;&gt;&gt; next(my_iterator)
-6
-&gt;&gt;&gt; next(my_iterator)
-57
-</code></pre>
-
-<p>There&rsquo;s one more rule about iterators that makes everything interesting: <strong>iterators are also iterables</strong> and their iterator is themselves.
-I explain the consequences of that more fully in that <a href="https://www.youtube.com/watch?v=V2PkkMS2Ack">Loop Better talk</a> I mentioned above.</p>
-
-<h2>Why make an iterator?</h2>
-
-<p>Iterators allow you to make an iterable that computes its items as it goes.
-Which means that you can make iterables that are <strong>lazy</strong>, in that they don&rsquo;t determine what their next item is until you ask them for it.</p>
-
-<p>Using an iterator instead of a list, set, or another iterable data structure can sometimes allow us to save memory.
-For example, we can use <code>itertools.repeat</code> to create an iterable that provides 100 million <code>4</code>&rsquo;s to us:</p>
-
-<pre><code class="python">&gt;&gt;&gt; from itertools import repeat
-&gt;&gt;&gt; lots_of_fours = repeat(4, times=100_000_000)
-</code></pre>
-
-<p>This iterator takes up 56 bytes of memory on my machine:</p>
-
-<pre><code class="python">&gt;&gt;&gt; import sys
-&gt;&gt;&gt; sys.getsizeof(lots_of_fours)
-56
-</code></pre>
-
-<p>An equivalent list of 100 million <code>4</code>&rsquo;s takes up many megabytes of memory:</p>
-
-<pre><code class="python">&gt;&gt;&gt; lots_of_fours = [4] * 100_000_000
-&gt;&gt;&gt; import sys
-&gt;&gt;&gt; sys.getsizeof(lots_of_fours)
-800000064
-</code></pre>
-
-<p>While iterators can save memory, they can also save time.
-For example if you wanted to print out just the first line of a 10 gigabyte log file, you could do this:</p>
-
-<pre><code class="python">&gt;&gt;&gt; print(next(open('giant_log_file.txt')))
-This is the first line in a giant file
-</code></pre>
-
-<p>File objects in Python are implemented as iterators.
-As you loop over a file, data is read into memory one line at a time.
-If we instead used the <code>readlines</code> method to store all lines in memory, we might run out of system memory.</p>
-
-<p>So <strong>iterators can save us memory</strong>, but <strong>iterators can sometimes save us time</strong> also.</p>
-
-<p>Additionally, <strong>iterators have abilities that other iterables don&rsquo;t</strong>.
-For example, the laziness of iterables can be used to make iterables that have an unknown length.
-In fact, you can even make infinitely long iterators.</p>
-
-<p>For example, the <code>itertools.count</code> utility will give us an iterator that will provide every number from <code>0</code> upward as we loop over it:</p>
-
-<pre><code class="python">&gt;&gt;&gt; from itertools import count
-&gt;&gt;&gt; for n in count():
-...     print(n)
-...
-0
-1
-2
-(this goes on forever)
-</code></pre>
-
-<p>That <code>itertools.count</code> object is essentially an infinitely long iterable.
-And it&rsquo;s implemented as an iterator.</p>
-
-<h2>Making an iterator: the object-oriented way</h2>
-
-<p>So we&rsquo;ve seen that iterators can save us memory, save us CPU time, and unlock new abilities to us.</p>
-
-<p>Let&rsquo;s make our own iterators.
-We&rsquo;ll start be re-inventing the <code>itertools.count</code> iterator object.</p>
-
-<p>Here&rsquo;s an iterator implemented using a class:</p>
-
-<pre><code class="python">class Count:
-
-    """Iterator that counts upward forever."""
-
-    def __init__(self, start=0):
-        self.num = start
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        num = self.num
-        self.num += 1
-        return num
-</code></pre>
-
-<p>This class has an initializer that initializes our current number to <code>0</code> (or whatever is passed in as the <code>start</code>).
-The things that make this class usable as an iterator are the <code>__iter__</code> and <code>__next__</code> methods.</p>
-
-<p>When an object is passed to the <code>str</code> built-in function, its <code>__str__</code> method is called.
-When an object is passed to the <code>len</code> built-in function, its <code>__len__</code> method is called.</p>
-
-<pre><code class="python">&gt;&gt;&gt; numbers = [1, 2, 3]
-&gt;&gt;&gt; str(numbers), numbers.__str__()
-('[1, 2, 3]', '[1, 2, 3]')
-&gt;&gt;&gt; len(numbers), numbers.__len__()
-(3, 3)
-</code></pre>
-
-<p>Calling the built-in <code>iter</code> function on an object will attempt to call its <code>__iter__</code> method.
-Calling the built-in <code>next</code> function on an object will attempt to call its <code>__next__</code> method.</p>
-
-<p>The <code>iter</code> function is supposed to return an iterator.
-So our <code>__iter__</code> function must return an iterator.
-But <strong>our object is an iterator</strong>, so should return ourself.
-Therefore our <code>Count</code> object returns <code>self</code> from its <code>__iter__</code> method because it is <em>its own iterator</em>.</p>
-
-<p>The <code>next</code> function is supposed to return the next item in our iterator or raise a <code>StopIteration</code> exception when there are no more items.
-We&rsquo;re returning the current number and incrementing the number so it&rsquo;ll be larger during the next <code>__next__</code> call.</p>
-
-<p>We can manually loop over our <code>Count</code> iterator class like this:</p>
-
-<pre><code class="python">&gt;&gt;&gt; c = Count()
-&gt;&gt;&gt; next(c)
-0
-&gt;&gt;&gt; next(c)
-1
-</code></pre>
-
-<p>We could also loop over our <code>Count</code> object like using a <code>for</code> loop, as with any other iterable:</p>
-
-<pre><code class="python">&gt;&gt;&gt; for n in Count():
-...     print(n)
-...
-0
-1
-2
-(this goes on forever)
-</code></pre>
-
-<p>This object-oriented approach to making an iterator is cool, but it&rsquo;s not the usual way that Python programmers make iterators.
-Usually when we want an iterator, we make a generator.</p>
-
-<h2>Generators: the easy way to make an iterator</h2>
-
-<p>The easiest ways to make our own iterators in Python is to create a generator.</p>
-
-<p>There are two ways to make generators in Python.</p>
-
-<p>Given this list of numbers:</p>
-
-<pre><code class="python">&gt;&gt;&gt; favorite_numbers = [6, 57, 4, 7, 68, 95]
-</code></pre>
-
-<p>We can make a generator that will lazily provide us with all the squares of these numbers like this:</p>
-
-<pre><code class="python">&gt;&gt;&gt; def square_all(numbers):
-...     for n in numbers:
-...         yield n**2
-...
-&gt;&gt;&gt; squares = square_all(favorite_numbers)
-</code></pre>
-
-<p>Or we can make the same generator like this:</p>
-
-<pre><code class="python">&gt;&gt;&gt; squares = (n**2 for n in favorite_numbers)
-</code></pre>
-
-<p>The first one is called a <strong>generator function</strong> and the second one is called a <strong>generator expression</strong>.</p>
-
-<p>Both of these generator objects work the same way.
-They both have a type of <code>generator</code> and they&rsquo;re both iterators that provide squares of the numbers in our numbers list.</p>
-
-<pre><code class="python">&gt;&gt;&gt; type(squares)
-&lt;class 'generator'&gt;
-&gt;&gt;&gt; next(squares)
-36
-&gt;&gt;&gt; next(squares)
-3249
-</code></pre>
-
-<p>We&rsquo;re going to talk about both of these approaches to making a generator, but first let&rsquo;s talk about terminology.</p>
-
-<p>The word &ldquo;generator&rdquo; is used in quite a few ways in Python:</p>
-
-<ul>
-<li>A <strong>generator</strong>, also called a <strong>generator object</strong>, is an iterator whose type is <code>generator</code></li>
-<li>A <strong>generator function</strong> is a special syntax that allows us to make a function which returns a <strong>generator object</strong> when we call it</li>
-<li>A <strong>generator expression</strong> is a comprehension-like syntax that allows you to create a <strong>generator object</strong> inline</li>
-</ul>
-
-
-<p>With that terminology out of the way, let&rsquo;s take a look at each one of these things individually.
-We&rsquo;ll look at generator functions first.</p>
-
-<h2>Generator functions</h2>
-
-<p>Generator functions are distinguished from plain old functions by the fact that they have one or more <code>yield</code> statements.</p>
-
-<p>Normally when you call a function, its code is executed:</p>
-
-<pre><code class="python">&gt;&gt;&gt; def gimme4_please():
-...     print("Let me go get that number for you.")
-...     return 4
-...
-&gt;&gt;&gt; num = gimme4_please()
-Let me go get that number for you.
-&gt;&gt;&gt; num
-4
-</code></pre>
-
-<p>But if the function has a <code>yield</code> statement in it, it isn&rsquo;t a typical function anymore.
-It&rsquo;s now a <strong>generator function</strong>, meaning it will return a <strong>generator object</strong> when called.
-That generator object can be looped over to execute it until a <code>yield</code> statement is hit:</p>
-
-<pre><code class="python">&gt;&gt;&gt; def gimme4_later_please():
-...     print("Let me go get that number for you.")
-...     yield 4
-...
-&gt;&gt;&gt; get4 = gimme4_later_please()
-&gt;&gt;&gt; get4
-&lt;generator object gimme4_later_please at 0x7f78b2e7e2b0&gt;
-&gt;&gt;&gt; num = next(get4)
-Let me go get that number for you.
-&gt;&gt;&gt; num
-4
-</code></pre>
-
-<p>The mere presence of a <code>yield</code> statement turns a function into a generator function.
-If you see a function and there&rsquo;s a <code>yield</code>, you&rsquo;re working with a different animal.
-It&rsquo;s a bit odd, but that&rsquo;s the way generator functions work.</p>
-
-<p>Okay let&rsquo;s look at a real example of a generator function.
-We&rsquo;ll make a generator function that does the same thing as our <code>Count</code> iterator class we made earlier.</p>
-
-<pre><code class="python">def count(start=0):
-    num = start
-    while True:
-        yield num
-        num += 1
-</code></pre>
-
-<p>Just like our <code>Count</code> iterator class, we can manually loop over the generator we get back from calling <code>count</code>:</p>
-
-<pre><code class="python">&gt;&gt;&gt; c = count()
-&gt;&gt;&gt; next(c)
-0
-&gt;&gt;&gt; next(c)
-1
-</code></pre>
-
-<p>And we can loop over this generator object using a <code>for</code> loop, just like before:</p>
-
-<pre><code class="python">&gt;&gt;&gt; for n in count():
-...     print(n)
-...
-0
-1
-2
-(this goes on forever)
-</code></pre>
-
-<p>But this function is considerably shorter than our <code>Count</code> class we created before.</p>
-
-<h2>Generator expressions</h2>
-
-<p>Generator expressions are a list comprehension-like syntax that allow us to make a generator object.</p>
-
-<p>Let&rsquo;s say we have a list comprehension that filters empty lines from a file and strips newlines from the end:</p>
-
-<pre><code class="python">lines = [
-    line.rstrip('\n')
-    for line in poem_file
-    if line != '\n'
-]
-</code></pre>
-
-<p>We could create a generator instead of a list, by turning the square brackets of that comprehension into parenthesis:</p>
-
-<pre><code class="python">lines = (
-    line.rstrip('\n')
-    for line in poem_file
-    if line != '\n'
-)
-</code></pre>
-
-<p>Just as our list comprehension gave us a list back, our <strong>generator expression</strong> gives us a <strong>generator object</strong> back:</p>
-
-<pre><code class="python">&gt;&gt;&gt; type(lines)
-&lt;class 'generator'&gt;
-&gt;&gt;&gt; next(lines)
-' This little bag I hope will prove'
-&gt;&gt;&gt; next(lines)
-'To be not vainly made--'
-</code></pre>
-
-<p>Generator expressions use a shorter inline syntax compared to generator functions.
-They&rsquo;re not as powerful though.</p>
-
-<p>If you can write your generator function in this form:</p>
-
-<pre><code class="python">def get_a_generator(some_iterable):
-    for item in some_iterable:
-        if some_condition(item):
-            yield item
-</code></pre>
-
-<p>Then you can replace it with a generator expression:</p>
-
-<pre><code class="python">def get_a_generator(some_iterable):
-    return (
-        item
-        for item in some_iterable
-        if some_condition(item)
-    )
-</code></pre>
-
-<p>If you can&rsquo;t write your generator function in that form, then you can&rsquo;t create a generator expression to replace it.</p>
-
-<h2>Generator expressions vs generator functions</h2>
-
-<p>You can think of generator expressions as the list comprehensions of the generator world.</p>
-
-<p>If you&rsquo;re not familiar with list comprehensions, I recommend reading my article on <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">list comprehensions in Python</a>.
-I note in that article that you can copy-paste your way from a <code>for</code> loop to a list comprehension.</p>
-
-<p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
-
-<p><img src="/images/generator-expression-copy-paste.gif"></p>
-
-<p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
-
-<p>Generator expressions are so similar to comprehensions, that you might even be tempted to say <strong>generator comprehension</strong> instead of generator expression.
-That&rsquo;s not technically the correct name, but if you say it everyone will know what you&rsquo;re talking about.
-Ned Batchelder actually proposed that we should all <a href="https://nedbatchelder.com/blog/201605/generator_comprehensions.html">start calling generator expressions generator comprehensions</a> and I tend to agree that this would be a clearer name.</p>
-
-<h2>So what&rsquo;s the best way to make an iterator?</h2>
-
-<p>To make an iterator you could create an iterator class, a generator function, or a generator expression.
-Which way is the best way though?</p>
-
-<p>Generator expressions are <strong>very succinct</strong>, but they&rsquo;re <strong>not nearly as flexible</strong> as generator functions.
-Generator functions are flexible, but if you need to <strong>attach extra methods or attributes</strong> to your iterator object, you&rsquo;ll probably need to switch to using an iterator class.</p>
-
-<p>I&rsquo;d recommend reaching for generator expressions the same way you reach for list comprehensions.
-If you&rsquo;re doing a simple <strong>mapping or filtering operation</strong>, a <strong>generator expression</strong> is a great solution.
-If you&rsquo;re doing something <strong>a bit more sophisticated</strong>, you&rsquo;ll likely need a <strong>generator function</strong>.</p>
-
-<p>I&rsquo;d recommend using generator functions the same way you&rsquo;d use <code>for</code> loops that append to a list.
-Everywhere you&rsquo;d see an <code>append</code> method, you&rsquo;d often see a <code>yield</code> statement instead.</p>
-
-<p>And I&rsquo;d say that you should <strong>almost never create an iterator class</strong>.
-If you find you need an iterator class, try to write a generator function that does what you need and see how it compares to your iterator class.</p>
-
-<h2>Generators can help when making iterables too</h2>
-
-<p>You&rsquo;ll see iterator classes in the wild, but there&rsquo;s rarely a good opportunity to write your own.</p>
-
-<p>While it&rsquo;s rare to create your own iterator class, it&rsquo;s not as unusual to make your own iterable class.
-And iterable classes require a <code>__iter__</code> method which returns an iterator.
-Since generators are the easy way to make an iterator, we can use a generator function or a generator expression to create our <code>__iter__</code> methods.</p>
-
-<p>For example here&rsquo;s an iterable that provides x-y coordinates:</p>
-
-<pre><code class="python">class Point:
-    def __init__(self, x, y):
-        self.x, self.y = x, y
-    def __iter__(self):
-        yield self.x
-        yield self.y
-</code></pre>
-
-<p>Note that our <code>Point</code> class here creates an <strong>iterable</strong> when called (not an iterator).
-That means our <code>__iter__</code> method must return an iterator.
-The easiest way to create an iterator is by making a generator function, so that&rsquo;s just what we did.</p>
-
-<p>We stuck <code>yield</code> in our <code>__iter__</code> to make it into a generator function and now our <code>Point</code> class can be looped over, just like any other iterable.</p>
-
-<pre><code class="python">&gt;&gt;&gt; p = Point(1, 2)
-&gt;&gt;&gt; x, y = p
-&gt;&gt;&gt; print(x, y)
-1 2
-&gt;&gt;&gt; list(p)
-[1, 2]
-</code></pre>
-
-<p>Generator functions are a natural fit for creating <code>__iter__</code> methods on your iterable classes.</p>
-
-<h2>Generators are <em>the</em> way to make iterators</h2>
-
-<p>Dictionaries are the typical way to make a mapping in Python.
-Functions are the typical way to make a callable object in Python.
-Likewise, <strong>generators are the typical way to make an iterator in Python</strong>.</p>
-
-<p>So when you&rsquo;re thinking &ldquo;it sure would be nice to implement an iterable that lazily computes things as it&rsquo;s looped over,&rdquo; think of iterators.</p>
-
-<p>And when you&rsquo;re considering <strong>how to create your own iterator</strong>, think of <strong>generator functions</strong> and <strong>generator expressions</strong>.</p>
 ]]></content>
   </entry>
   
