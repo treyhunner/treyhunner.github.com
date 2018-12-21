@@ -164,7 +164,7 @@ file_contents = [
 ]
 ```
 
-What if you reed to write to a file?
+What if you need to write to a file?
 
 You could use the `open` context manager again:
 
