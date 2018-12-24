@@ -252,7 +252,7 @@ def render(request, template_name, context=None, *, content_type=None, status=No
     return HttpResponse(content, content_type, status)
 ```
 
-Unlike Django's current implementation of `render`, this version disallows calling `render` by specifying every argument positionally.  The `context_type`, `status`, and `using` arguments must be specified by their `name`.
+Unlike Django's current implementation of `render`, this version disallows calling `render` by specifying every argument positionally.  The `content_type`, `status`, and `using` arguments must be specified by their `name`.
 
 ```pycon
 >>> render(request, '500.html', {'error': error}, status=500)
