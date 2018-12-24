@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-21T13:42:54-08:00</updated>
+  <updated>2018-12-23T19:35:10-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -2976,7 +2976,7 @@ Different PyCon attendees will have different recommendations for how to make th
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>context_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
+<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>content_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

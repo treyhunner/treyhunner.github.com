@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-21T13:42:54-08:00</updated>
+  <updated>2018-12-23T19:35:10-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1814,7 +1814,7 @@ TypeError: join() missing 1 required keyword-only argument: 'joiner'
     return HttpResponse(content, content_type, status)
 </code></pre>
 
-<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>context_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
+<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>content_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; render(request, '500.html', {'error': error}, status=500)
 &lt;HttpResponse status_code=500, "text/html; charset=utf-8"&gt;
