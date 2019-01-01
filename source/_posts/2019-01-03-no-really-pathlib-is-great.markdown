@@ -96,6 +96,8 @@ I don't use Windows.
 I don't own a Windows machine.
 But a ton of the developers who use my code likely use Windows and I don't want my code to break on their machines.
 
+If there's a chance that your Python code will ever run on a Windows machine, **you really need `pathlib`**.
+
 **Don't stress about path normalization**: just use `pathlib.Path` whenever you need to represent a file path.
 
 
@@ -242,7 +244,7 @@ So the `pathlib` version of this program **ran twice as slow** for `.py` files a
 **The `pathlib` code was indeed slower**, much slower percentage-wise.
 
 But in my case, this speed difference doesn't matter much.
-I searched for every Python file in my home directory and lost 6 seconds to the slower version of my code.
+I searched for every file in my home directory and lost 6 seconds to the slower version of my code.
 If I needed to scale this code to search 10 million files, I'd probably want to rewrite it.
 But that's a problem I can get to if I experience it.
 
@@ -381,12 +383,12 @@ This is a huge feature that can make for **more readable code which is also more
 Also the Python standard library and built-ins (like `open`) accept `pathlib.Path` objects now.
 This means **you can start using pathlib, even if your dependencies don't**!
 
-Lastly, while `pathlib` is sometimes slower than the alternative the cases where this matters are often rare and **you can always jump back to using path strings for parts of your code that are particularly performance sensitive**.
+While `pathlib` is sometimes slower than the alternative the cases where this matters are often rare and **you can always jump back to using path strings for parts of your code that are particularly performance sensitive**.
 
 Using `pathlib` makes for more readable code.
 
 I'm going to reiterate what I said in my last post on `pathlib`: if you're on Python 3.6 or newer you should start using `pathlib`.
-It's lovely.
+The `pathlib` module is lovely: start using it!
 
 
 [pathlib]: https://docs.python.org/3/library/pathlib.html
