@@ -14,6 +14,7 @@ Some people were also concerned that `pathlib` will take a very long time to be 
 And there were also concerns expressed about performance.
 
 In this article I'd like to acknowledge and address these concerns.
+This will be both a defense of `pathlib` and a love letter to [PEP 519][].
 
 
 ## Comparing pathlib and os.path the right way
@@ -38,11 +39,9 @@ Path('.editorconfig').rename('src/.editorconfig')
 ```
 
 This might seem like an unfair comparison because I used `os.path.join` in the first example to ensure the correct path separator is used on all platforms but I didn't do that in the second example.
-But **this is in fact a fair comparison**.
+But this is in fact a fair comparison because **the Path class normalizes path separators automatically**.
 
-This is a fair comparison because **the Path class normalizes path separators automatically**!
-
-We can prove this by looking at the string representation of this `Path` on Windows:
+We can prove this by looking at the string representation of this `Path` object on Windows:
 
 ```python
 >>> str(Path('src/__pypackages__'))
@@ -96,7 +95,7 @@ I don't use Windows.
 I don't own a Windows machine.
 But a ton of the developers who use my code likely use Windows and I don't want my code to break on their machines.
 
-If there's a chance that your Python code will ever run on a Windows machine, **you really need `pathlib`**.
+**If there's a chance that your Python code will ever run on a Windows machine, you really need `pathlib`**.
 
 **Don't stress about path normalization**: just use `pathlib.Path` whenever you need to represent a file path.
 
@@ -145,6 +144,23 @@ And `os.makedirs` accepts `Path` objects too.
 In fact the built-in `open` function accepts `Path` objects and `shutil` does and anything in the standard library that previously accepted a `Path` object is now expected to work with both `Path` objects and path strings.
 
 This is all thanks to [PEP 519][], which called for an `os.PathLike` abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.
+
+
+## But my favorite third-party library X has a better Path object!
+
+You might already be using a third-party library that has a `Path` object which works differently than pathlib's Path objects.
+Maybe you even like it better.
+
+For example [django-environ][], [path.py][], [plumbum][], and [visidata][] all have their own custom `Path` objects that represent file paths.
+Some of these `pathlib` alternatives predate `pathlib` and chose to inherit from `str` so they could be passed to functions that expected path strings.
+Thanks to PEP 519 both `pathlib` and its third-party alternatives can play nicely without needing to resort to the hack of inheriting from `str`.
+
+Let's say you don't like `pathlib` because `Path` objects are immutable and you very much prefer using mutable `Path` objects.
+Well thanks to [PEP 519][], you can create your own even-better-because-it-is-mutable `Path` and also has a `__fspath__`.
+You don't *need* to use `pathlib` to benefit from it.
+
+Any homegrown `Path` object you make or find in a third party library now has the ability to work natively with the Python built-ins and standard library modules that expect Path objects.
+**Even if you don't like `pathlib`, its existence a big win for third-party `Path` objects as well**.
 
 
 ## But Path objects and path strings don't mix, do they?
@@ -255,8 +271,8 @@ But **don't optimize parts of your code that aren't bottlenecks**: it's a waste 
 ## Improving readability with pathlib
 
 I'd like to wrap up these thoughts by ending with some `pathlib` refactorings.
-
 I've taken a couple small examples of code that work with files and refactored these examples to use `pathlib` instead.
+I'll mostly leave these code blocks without comment and let you be the judge of which versions you like best.
 
 Here's the `make_editorconfig` function we saw earlier:
 
@@ -395,3 +411,7 @@ The `pathlib` module is lovely: start using it!
 [pep 519]: https://www.python.org/dev/peps/pep-0519/#standard-library-changes
 [duck typing]: https://en.wikipedia.org/wiki/Duck_typing
 [path-like objects]: https://docs.python.org/3/glossary.html#term-path-like-object
+[django-environ]: https://github.com/joke2k/django-environ
+[path.py]: https://github.com/jaraco/path.py
+[plumbum]: https://github.com/tomerfiliba/plumbum
+[visidata]: https://github.com/saulpw/visidata
