@@ -9,8 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I&rsquo;m running a sale that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I& &hellip;">
+  <meta name="description" content="When I discovered Python&rsquo;s new pathlib module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2018/11/python-cyber-monday-sales/">Python Cyber Monday Sales</a></h1>
+      <h1 class="entry-title"><a href="/2018/12/why-you-should-be-using-pathlib/">Why you should be using pathlib</a></h1>
     
     
       <p class="meta">
@@ -99,66 +98,391 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2018-11-26T07:45:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>7:45 am</span></time>
+<time class='entry-date' datetime='2018-12-21T14:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>2:00 pm</span></time>
         
-           | <a href="/2018/11/python-cyber-monday-sales/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2018/11/python-cyber-monday-sales/">Comments</a>
+           | <a href="/2018/12/why-you-should-be-using-pathlib/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;m running <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
+  <div class="entry-content"><p>When I discovered Python&rsquo;s new <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the <code>os.path</code> module.
+I was wrong.
+Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftriplett.com/2017/pathlib-is-wonderful/">wonderful</a>!</p>
 
-<h3>Python Morsels weekly skill-building</h3>
+<p>In this article I&rsquo;m going to try to sell you on <code>pathlib</code>.
+I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pathlib</code> module pretty much anytime you need to work with files in Python</strong>.</p>
 
-<p>This is my weekly Python skill-building service.</p>
+<h2>os.path is clunky</h2>
 
-<p>I&rsquo;m offering 52 weeks of <a href="https://www.pythonmorsels.com/">Python Morsels</a> for 50% off.</p>
+<p>The <code>os.path</code> module has always been what we reached for to work with paths in Python.
+It&rsquo;s got pretty much all you need, but it can be very clunky sometimes.</p>
 
-<p>You can find <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">more details on this sale here</a>.</p>
+<p>Should you import it like this?</p>
 
-<h3>Talk Python Course Bundle</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Michael Kennedy of <a href="https://training.talkpython.fm/courses/bundle/black-friday-2018">Talk Python</a> is offering a 4 course bundle for a number of Python courses.</p>
 
-<h3>Reuven Lerner&rsquo;s Python courses</h3>
+<p>Or like this?</p>
 
-<p>Reuven Lerner is also offering a <a href="http://blog.lerner.co.il/last-chance-to-save-40-on-python-and-git-courses/">40% off sale on his courses</a>.
-Reuven has courses on Python, Git, and regular expressions.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h3>PyBites Code Challenges</h3>
 
-<p>Bob and Julian of PyBites are offering a 50% off sale on their <a href="https://gumroad.com/l/ZFrD/black-friday">Code Challenges</a>.
-These are a different variety of code challenges than Python Morsels.
-You could sign up for both and <a href="https://www.pythonmorsels.com/">Python Morsels</a> if you wanted extra learning every week.</p>
+<p>Or maybe that <code>join</code> function is too generically named&hellip; so we could do this instead:</p>
 
-<h3>Hello Web Books</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span> <span class="k">as</span> <span class="n">joinpath</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Tracy Osborn is running a 50% off sale on her <a href="https://hellowebbooks.com/order/">Hello Web Books</a>, which include books on Python and Django for beginners to web programming and books on design for beginners to web design.
-You&rsquo;ll need to enter coupon code BLACKFRIDAY2018 to get these deals.</p>
 
-<h3>The pytest book</h3>
+<p>I find all of these a bit awkward.
+We&rsquo;re passing strings into functions that return strings which we then pass into other functions that return strings.
+All of these strings happen to represent paths, but they&rsquo;re still just strings.</p>
 
-<p>Brian Okken&rsquo;s <a href="https://pragprog.com/book/bopytest/python-testing-with-pytest">Python Testing with pytest</a> is on sale today (along with other Pragmatic Bookshelf books) for 40% off with coupon code turkeysale2018.</p>
+<p>The string-in-string-out functions in <code>os.path</code> are really awkward when nested because the code has to be read from the inside out.
+Wouldn&rsquo;t it be nice if we could take these nested function calls and turn them into chained method calls instead?</p>
 
-<h3>More Python Books</h3>
+<p>With the <code>pathlib</code> module we can!</p>
 
-<p>A number of Python book publishers, such as <a href="https://nostarch.com/catalog/python">No Starch</a>, are running big sales on their books.
-I took a look at their sale, but haven&rsquo;t gone searching for more of them.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+</span><span class='line'><span class="n">TEMPLATES_DIR</span> <span class="o">=</span> <span class="n">BASE_DIR</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s">&#39;templates&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h3>Other Cyber Monday deals?</h3>
 
-<p>If you have questions about the <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">Python Morsels sale</a>, <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a>.</p>
+<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules&#8217; <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
 
-<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
+<p>I know what you&rsquo;re thinking: wait these <code>Path</code> objects aren&rsquo;t the same thing: they&rsquo;re objects, not path strings!
+I&rsquo;ll address that later (hint: these can pretty much be used interchangeably with path strings).</p>
 
-<p>So go check them out!</p>
+<h2>The os module is crowded</h2>
 
-<p>Did I miss a deal that you know about?
-Link to it in the comments!</p>
+<p>Python&rsquo;s classic <code>os.path</code> module is just for working with paths.
+Once you want to actually <em>do</em> something with a path (e.g. create a directory) you&rsquo;ll need to reach for another Python module, often the <code>os</code> module.</p>
+
+<p>The <code>os</code> module has lots of utilities for working with files and directories: <code>mkdir</code>, <code>getcwd</code>, <code>chmod</code>, <code>stat</code>, <code>remove</code>, <code>rename</code>, and <code>rmdir</code>.
+Also <code>chdir</code>, <code>link</code>, <code>walk</code>, <code>listdir</code>, <code>makedirs</code>, <code>renames</code>, <code>removedirs</code>, <code>unlink</code> (same as <code>remove</code>), and <code>symlink</code>.
+And a bunch of other stuff that isn&rsquo;t related to the filesystems at all: <code>fork</code>, <code>getenv</code>, <code>putenv</code>, <code>environ</code>, <code>getlogin</code>, and <code>system</code>.
+Plus dozens of things I didn&rsquo;t mention in this paragraph.</p>
+
+<p><strong>Python&rsquo;s <code>os</code> module does a little bit of everything; it&rsquo;s sort of a junk drawer for system-related stuff</strong>.
+There&rsquo;s a lot of lovely stuff in the <code>os</code> module, but it can be hard to find what you&rsquo;re looking for sometimes:
+if you&rsquo;re looking for path-related or filesystem-related things in the <code>os</code> module, you&rsquo;ll need to do a bit of digging.</p>
+
+<p>The <code>pathlib</code> module replaces many of these filesystem-related <code>os</code> utilities with methods on the <code>Path</code> object.</p>
+
+<p>Here&rsquo;s some code that makes a <code>src/__pypackages__</code> directory and renames our <code>.editorconfig</code> file to <code>src/.editorconfig</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;__pypackages__&#39;</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code does the same thing using <code>Path</code> objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the <code>pathlib</code> code puts the path first because of method chaining!</p>
+
+<p>As the Zen of Python says, &ldquo;namespaces are one honking great idea, let&rsquo;s do more of those&rdquo;.
+The <code>os</code> module is a very large namespace with a bunch of stuff in it.
+<strong>The pathlib.Path class is a much smaller and more specific namespace than the os module</strong>.
+Plus the methods in this <code>Path</code> namespace return <code>Path</code> objects, which allows for method chaining instead of nested string-iful function calls.</p>
+
+<h2>Don&rsquo;t forget about the glob module!</h2>
+
+<p>The <code>os</code> and <code>os.path</code> modules aren&rsquo;t the only filepath/filesystem-related utilities in the Python standard library.
+The <code>glob</code> module is another handy path-related module.</p>
+
+<p>We can use the <code>glob.glob</code> function for finding files that match a certain pattern:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">top_level_csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">all_csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;**/*.csv&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The new <code>pathlib</code> module includes glob-like utilities as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">top_level_csv_files</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">all_csv_files</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*.csv&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After you&rsquo;ve started using <code>pathlib</code> more heavily, <strong>you can pretty much forget about the glob module entirely</strong>: you&rsquo;ve got all the glob functionality you need with <code>Path</code> objects.</p>
+
+<h2>pathlib makes the simple cases simpler</h2>
+
+<p>The <code>pathlib</code> module makes a number of complex cases somewhat simpler, but <strong>it also makes some of the simple cases even simpler</strong>.</p>
+
+<p>Need to read all the text in one or more files?</p>
+
+<p>You could open the file, read its contents and close the file using a <code>with</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_contents</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="s">&#39;**/*.py&#39;</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">python_file</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">file_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">python_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or you could use the <code>read_text</code> method on <code>Path</code> objects and a list comprehension to read the file contents into a new list all in one line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_contents</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*.py&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What if you need to write to a file?</p>
+
+<p>You could use the <code>open</code> context manager again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or you could use the <code>write_text</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you prefer using <code>open</code>, whether as a context manager or otherwise, you could instead use the <code>open</code> method on your <code>Path</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, as of Python 3.6, you can even pass your <code>Path</code> object to the built-in <code>open</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;# config goes here&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Path objects make your code more explicit</h2>
+
+<p>What do the following 3 variables point to?
+What do their values represent?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="s">&#39;{&quot;name&quot;: &quot;Trey Hunner&quot;, &quot;location&quot;: &quot;San Diego&quot;}&#39;</span>
+</span><span class='line'><span class="n">pycon_2019</span> <span class="o">=</span> <span class="s">&quot;2019-05-01&quot;</span>
+</span><span class='line'><span class="n">home_directory</span> <span class="o">=</span> <span class="s">&#39;/home/trey&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each of those variables points to a string.</p>
+
+<p>Those strings represent different things: one is a JSON blob, one is a date, and one is a file path.</p>
+
+<p>These are a little bit more useful representations for these objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Trey Hunner&quot;</span><span class="p">,</span> <span class="s">&quot;location&quot;</span><span class="p">:</span> <span class="s">&quot;San Diego&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="n">pycon_2019</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">home_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JSON objects deserialize to dictionaries, dates are represented natively using <code>datetime.date</code> objects, and <strong>filesystem paths can now be generically represented using <code>pathlib.Path</code> objects</strong>.</p>
+
+<p>Using <code>Path</code> objects makes your code more explicit.
+If you&rsquo;re trying to represent a date, you can use a <code>date</code> object.
+If you&rsquo;re trying to represent a filepath, you can use a <code>Path</code> object.</p>
+
+<p>I&rsquo;m not a strong advocate of object-oriented programming.
+Classes add another layer of abstraction and abstractions can sometimes add more complexity than simplicity.
+But the <code>pathlib.Path</code> class is <strong>a useful abstraction</strong>.
+It&rsquo;s also quickly becoming a universally recognized abstraction.</p>
+
+<p>Thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, file path objects are now becoming the standard for working with paths.
+As of Python 3.6, the built-in <code>open</code> function and the various functions in the <code>os</code>, <code>shutil</code>, and <code>os.path</code> modules all work properly with <code>pathlib.Path</code> objects.
+<strong>You can start using pathlib today without changing most of your code that works with paths</strong>!</p>
+
+<h2>What&rsquo;s missing from pathlib?</h2>
+
+<p>While <code>pathlib</code> is great, it&rsquo;s not all-encompassing.
+There are definitely <strong>a few missing features I&rsquo;ve stumbled upon that I wish the <code>pathlib</code> module included</strong>.</p>
+
+<p>The first gap I&rsquo;ve noticed is the lack of <code>shutil</code> equivalents within the <code>pathlib.Path</code> methods.</p>
+
+<p>While you can pass <code>Path</code> objects (and path-like objects) to the higher-level <code>shutil</code> functions for copying/deleting/moving files and directories, there&rsquo;s no equivalent to these functions on <code>Path</code> objects.</p>
+
+<p>So to copy a file you still have to do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">source</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old_file.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">destination</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;new_file.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">copyfile</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s also no <code>pathlib</code> equivalent of <code>os.chdir</code>.</p>
+
+<p>This just means you&rsquo;ll need to import <code>chdir</code> if you ever need to change the current working directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">parent</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>os.walk</code> function has no <code>pathlib</code> equivalent either.
+Though you can make your own <code>walk</code>-like functions using <code>pathlib</code> fairly easily.</p>
+
+<p>My hope is that <code>pathlib.Path</code> objects might eventually include methods for some of these missing operations.
+But even with these missing features, <strong>I still find it much more manageable to use &ldquo;<code>pathlib</code> and friends&rdquo; than &ldquo;<code>os.path</code> and friends&rdquo;</strong>.</p>
+
+<h2>Should you always use pathlib?</h2>
+
+<p>Since Python 3.6, <strong>pathlib.Path objects work nearly everywhere you&rsquo;re already using path strings</strong>.
+So I see no reason <em>not</em> to use <code>pathlib</code> if you&rsquo;re on Python 3.6 (or higher).</p>
+
+<p>If you&rsquo;re on an earlier version of Python 3, you can always wrap your <code>Path</code> object in a <code>str</code> call to get a string out of it when you need an escape hatch back to string land.
+It&rsquo;s awkward but it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">chdir</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">))</span>  <span class="c"># Works on Python 3.6+</span>
+</span><span class='line'><span class="n">chdir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;/home/trey&#39;</span><span class="p">)))</span>  <span class="c"># Works on earlier versions also</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Regardless of which version of Python 3 you&rsquo;re on, I would recommend giving <code>pathlib</code> a try.</p>
+
+<p>And if you&rsquo;re stuck on Python 2 still (the clock is ticking!) the third-party <a href="https://github.com/mcmtroffaes/pathlib2">pathlib2</a> module on PyPI is a backport so you can use <code>pathlib</code> on any version of Python.</p>
+
+<p>I find that using <code>pathlib</code> often makes my code more readable.
+Most of my code that works with files now defaults to using <code>pathlib</code> and I recommend that you do the same.
+<strong>If you can use <code>pathlib</code>, you should</strong>.</p>
 </div>
   
   <footer>
@@ -258,7 +582,7 @@ Link to it in the comments!</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Trey Hunner -
+  Copyright &copy; 2019 - Trey Hunner -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

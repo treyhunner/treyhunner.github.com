@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently added a new type of test to my testing arsenal: visual tests. Visual tests ensure the CSS, markup, and JavaScript produce a webpage that &hellip;">
+  <meta name="description" content="I helped host a free Test-Driven Django Web Development workshop on Saturday November 2 with San Diego Python. We created a series of tutorials &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/10/visual-integration-tests-for-django/">Visual Integration Tests for Django</a></h1>
+      <h1 class="entry-title"><a href="/2013/11/tdd-with-django-workshop/">TDD with Django Tutorial</a></h1>
     
     
       <p class="meta">
@@ -98,76 +98,21 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2013-10-03T15:19:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>3:19 pm</span></time>
+<time class='entry-date' datetime='2013-11-04T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/10/visual-integration-tests-for-django/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/10/visual-integration-tests-for-django/">Comments</a>
+           | <a href="/2013/11/tdd-with-django-workshop/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/11/tdd-with-django-workshop/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.</p>
+  <div class="entry-content"><p>I helped host a free Test-Driven Django Web Development workshop on <time date="2013-11-02">Saturday November 2</time> with <a href="http://pythonsd.org/">San Diego Python</a>.  We created a series of tutorials demonstrating how to create a Django-powered blog while practicing test-driven development.  The <a href="http://python.org/psf/">Python Software Foundation</a> sponsored the event and the <a href="http://aicenterca.com/">Ansir Innovation Center</a> provided a venue.</p>
 
-<h2>Visual testing frameworks</h2>
+<p>You can find the tutorials at <a href="http://bit.ly/pysd-tdd">http://bit.ly/pysd-tdd</a> .  The tutorials are provided under a <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA license</a> so you can reuse and modify them for your own purposes.</p>
 
-<p>Visual testing tools compare screenshots to ensure tested webpages look pixel perfect.  Capturing webpage screenshots requires a full-featured web browser to render CSS and execute JavaScript.  All three of the visual testing tools I found rely on Selenium or PhantomJS for rendering.</p>
-
-<h3>PhantomCSS</h3>
-
-<p><a href="https://github.com/Huddle/PhantomCSS">PhantomCSS</a> uses PhantomJS for screenshot differencing.  PhantomCSS won&rsquo;t integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you&rsquo;d need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I needed integration with the Django live server.</p>
-
-<h3>Django-casper</h3>
-
-<p><a href="https://github.com/dobarkod/django-casper">Django-casper</a> uses Django live server tests to execute CasperJS test files (which use PhantomJS) to compare screenshots.  Each test requires an additional Python test which references a JavaScript file that executes the navigation and screenshotting code.  I found this approach messy and difficult to setup.</p>
-
-<h3>Needle</h3>
-
-<p>The <a href="https://github.com/bfirsh/needle">needle</a> Python library uses Selenium to navigate your website and screenshot rendered pages.  Unfortunately needle has poor test coverage, a seemingly failing test suite, and no change log.  Despite these shortcomings, I went with needle for my visual integration tests because it got the job done.</p>
-
-<h2>Django and Needle</h2>
-
-<p>I used the following mixin to integrate the Django live server with needle.  I used PhantomJS, but Firefox or another Selenium web driver should work as well.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">LiveServerTestCase</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">needle.cases</span> <span class="kn">import</span> <span class="n">NeedleTestCase</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="kn">import</span> <span class="n">PhantomJS</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">DjangoNeedleTestCase</span><span class="p">(</span><span class="n">NeedleTestCase</span><span class="p">,</span> <span class="n">LiveServerTestCase</span><span class="p">):</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Needle test case for use with Django live server&quot;&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">driver</span> <span class="o">=</span> <span class="n">PhantomJS</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@classmethod</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">get_web_driver</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="s">&#39;NeedleWebDriver&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">NeedleWebDriverMixin</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">driver</span><span class="p">),</span> <span class="p">{})()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unfortunately the above code only works with the version of needle on Github.  The PyPI version does not yet include the <code>NeedleWebDriverMixin</code> (which I contributed recently for Django support).  I have created <a href="https://github.com/bfirsh/needle/issues/13">an issue</a> suggesting a new PyPI release be made to resolve this problem.</p>
-
-<h2>Room for improvement</h2>
-
-<p>Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may run them during continuous integration.</p>
-
-<p>Do you have another solution for visual integration testing?  Let me know in the comments.</p>
+<p>Tutorial markdown files and working source code may be found on <a href="https://github.com/pythonsd/test-driven-django-development">Github</a>.  We plan to improve and extend these tutorials for a future workshop.  If you have ideas for improvements/additions or if you notice a bug, please submit an issue or open a pull request.</p>
 </div>
   
   <footer>
@@ -267,7 +212,7 @@ ga('send', 'pageview');
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Trey Hunner -
+  Copyright &copy; 2019 - Trey Hunner -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

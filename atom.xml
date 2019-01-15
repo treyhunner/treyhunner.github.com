@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2018-12-23T19:35:10-08:00</updated>
+  <updated>2019-01-15T11:19:48-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,637 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[No really, pathlib is great]]></title>
+    <link href="http://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
+    <updated>2019-01-15T11:20:00-08:00</updated>
+    <id>http://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
+    <content type="html"><![CDATA[<p>I recently published an article about Python&rsquo;s <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module and how I think everyone should be using it.</p>
+
+<p>I won some <code>pathlib</code> converts, but some folks also brought up concerns.
+Some folks noted that I seemed to be comparing <code>pathlib</code> to <code>os.path</code> in a disingenuous way.
+Some people were also concerned that <code>pathlib</code> will take a very long time to be widely adopted because <code>os.path</code> is so entrenched in the Python community.
+And there were also concerns expressed about performance.</p>
+
+<p>In this article I&rsquo;d like to acknowledge and address these concerns.
+This will be both a defense of <code>pathlib</code> and a love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
+
+<h2>Comparing pathlib and os.path the right way</h2>
+
+<p>In my last article I compared this code which uses <code>os</code> and <code>os.path</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;__pypackages__&#39;</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To this code with uses <code>pathlib.Path</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This might seem like an unfair comparison because I used <code>os.path.join</code> in the first example to ensure the correct path separator is used on all platforms but I didn&rsquo;t do that in the second example.
+But this is in fact a fair comparison because <strong>the Path class normalizes path separators automatically</strong>.</p>
+
+<p>We can prove this by looking at the string representation of this <code>Path</code> object on Windows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">&#39;src\\__pypackages__&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No matter whether we use the <code>joinpath</code> method, a <code>/</code> in a path string, the <code>/</code> operator (which is a neat feature of <code>Path</code> objects), or separate arguments to the <code>Path</code> constructor, we get the same representation in all cases:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s">&#39;.editorconfig&#39;</span>
+</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That last expression caused some confusion from folks who assumed <code>pathlib</code> wouldn&rsquo;t be smart enough to convert that <code>/</code> into a <code>\</code> in the path string.
+Fortunately, it is!</p>
+
+<p>With <code>Path</code> objects, you never have to worry about backslashes vs forward slashes again: specify all paths using forward slashes and you&rsquo;ll get what you&rsquo;d expect on all platforms.</p>
+
+<h2>Normalizing file paths shouldn&rsquo;t be your concern</h2>
+
+<p>If you&rsquo;re developing on Linux or Mac, it&rsquo;s very easy to add bugs to your code that only affect Windows users.
+Unless you&rsquo;re careful to use <code>os.path.join</code> to build your paths up or <code>os.path.normcase</code> to convert forward slashes to backslashes as appropriate, <strong>you may be writing code that breaks on Windows</strong>.</p>
+
+<p>This is a Windows bug waiting to happen (we&rsquo;ll get mixed backslashes and forward slashes here):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;new_package/__init__.py&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This just works on all systems:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;new_package/__init__.py&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It used to be the responsibility of you the Python programmer to carefully join and normalize your paths, just as it used to be your responsibility in Python 2 land to use unicode whenever it was more appropriate than bytes.
+This is the case no more.
+The <code>pathlib.Path</code> class is careful to fix path separator issues before they even occur.</p>
+
+<p>I don&rsquo;t use Windows.
+I don&rsquo;t own a Windows machine.
+But a ton of the developers who use my code likely use Windows and I don&rsquo;t want my code to break on their machines.</p>
+
+<p><strong>If there&rsquo;s a chance that your Python code will ever run on a Windows machine, you really need <code>pathlib</code></strong>.</p>
+
+<p><strong>Don&rsquo;t stress about path normalization</strong>: just use <code>pathlib.Path</code> whenever you need to represent a file path.</p>
+
+<h2>pathlib seems great, but I depend on code that doesn&rsquo;t use it!</h2>
+
+<p>You have lots of code that works with path strings.
+Why would you switch to using <code>pathlib</code> when it means you&rsquo;d need to rewrite all this code?</p>
+
+<p>Let&rsquo;s say you have a function like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filename.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">filename</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This function accepts a directory to create a <code>.editorconfig</code> file in, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;my_package&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">&#39;src/my_package/.editorconfig&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But our code also works with a <code>Path</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">&#39;src/my_package/.editorconfig&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But&hellip; how??</p>
+
+<p>Well <code>os.path.join</code> accepts <code>Path</code> objects (as of Python 3.6).
+And <code>os.makedirs</code> accepts <code>Path</code> objects too.</p>
+
+<p>In fact the built-in <code>open</code> function accepts <code>Path</code> objects and <code>shutil</code> does and anything in the standard library that previously accepted a <code>Path</code> object is now expected to work with both <code>Path</code> objects and path strings.</p>
+
+<p>This is all thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, which called for an <code>os.PathLike</code> abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.</p>
+
+<h2>But my favorite third-party library X has a better Path object!</h2>
+
+<p>You might already be using a third-party library that has a <code>Path</code> object which works differently than pathlib&rsquo;s Path objects.
+Maybe you even like it better.</p>
+
+<p>For example <a href="https://github.com/joke2k/django-environ">django-environ</a>, <a href="https://github.com/jaraco/path.py">path.py</a>, <a href="https://github.com/tomerfiliba/plumbum">plumbum</a>, and <a href="https://github.com/saulpw/visidata">visidata</a> all have their own custom <code>Path</code> objects that represent file paths.
+Some of these <code>pathlib</code> alternatives predate <code>pathlib</code> and chose to inherit from <code>str</code> so they could be passed to functions that expected path strings.
+Thanks to PEP 519 both <code>pathlib</code> and its third-party alternatives can play nicely without needing to resort to the hack of inheriting from <code>str</code>.</p>
+
+<p>Let&rsquo;s say you don&rsquo;t like <code>pathlib</code> because <code>Path</code> objects are immutable and you very much prefer using mutable <code>Path</code> objects.
+Well thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, you can create your own even-better-because-it-is-mutable <code>Path</code> and also has a <code>__fspath__</code>.
+You don&rsquo;t <em>need</em> to use <code>pathlib</code> to benefit from it.</p>
+
+<p>Any homegrown <code>Path</code> object you make or find in a third party library now has the ability to work natively with the Python built-ins and standard library modules that expect Path objects.
+<strong>Even if you don&rsquo;t like <code>pathlib</code>, its existence a big win for third-party <code>Path</code> objects as well</strong>.</p>
+
+<h2>But Path objects and path strings don&rsquo;t mix, do they?</h2>
+
+<p>You might be thinking: this is really wonderful, but won&rsquo;t this sometimes-a-string and sometimes-a-path-object situation add confusion to my code?</p>
+
+<p>The answer is yes, somewhat.
+But I&rsquo;ve found that it&rsquo;s pretty easy to work around.</p>
+
+<p>PEP 519 added a couple other things along with path-like objects: one is a way to convert all path-like objects to path strings and the other is a way to convert all path-like objects to <code>Path</code> objects.</p>
+
+<p>Given either a path string or a <code>Path</code> object (or anything with a <code>__fspath__</code> method):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'><span class="n">p1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;my_package&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>os.fspath</code> function will now normalize both of these types of paths to strings:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fspath</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">fspath</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+</span><span class='line'><span class="go">(&#39;src/my_package&#39;, &#39;src/my_package&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the <code>Path</code> class will now accept both of these types of paths and convert them to <code>Path</code> objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+</span><span class='line'><span class="go">(PosixPath(&#39;src/my_package&#39;), PosixPath(&#39;src/my_package&#39;))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That means you could convert the output of the <code>make_editorconfig</code> function back into a <code>Path</code> object if you wanted to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">)))</span>
+</span><span class='line'><span class="go">PosixPath(&#39;src/my_package/.editorconfig&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Though of course a better long-term approach would be to rewrite the <code>make_editorconfig</code> function to use <code>pathlib</code> instead.</p>
+
+<h2>pathlib is too slow</h2>
+
+<p>I&rsquo;ve heard this concern come up a few times: <code>pathlib</code> is just too slow.</p>
+
+<p>It&rsquo;s true that <code>pathlib</code> can be slow.
+Creating thousands of <code>Path</code> objects can make a noticeable impact on your code.</p>
+
+<p>I decided to test the performance difference between <code>pathlib</code> and the alternative on my own machine using two different programs that both look for all <code>.py</code> files below the current directory.</p>
+
+<p>Here&rsquo;s the <code>os.walk</code> version:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go"># 1.914</span>
+</span><span class='line'><span class="go">from os import getcwd, walk</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="go">extension = &#39;.py&#39;</span>
+</span><span class='line'><span class="go">count = 0</span>
+</span><span class='line'><span class="go">for root, directories, filenames in walk(getcwd()):</span>
+</span><span class='line'><span class="go">    for filename in filenames:</span>
+</span><span class='line'><span class="go">        if filename.endswith(extension):</span>
+</span><span class='line'><span class="go">            count += 1</span>
+</span><span class='line'><span class="go">print(f&quot;{count} Python files found&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s the <code>Path.rglob</code> version:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go"># 2.275</span>
+</span><span class='line'><span class="go">from pathlib import Path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="go">extension = &#39;.py&#39;</span>
+</span><span class='line'><span class="go">count = 0</span>
+</span><span class='line'><span class="go">for filename in Path.cwd().rglob(f&#39;*{extension}&#39;):</span>
+</span><span class='line'><span class="go">    count += 1</span>
+</span><span class='line'><span class="go">print(f&quot;{count} Python files found&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Testing runtimes for programs that rely on filesystem accesses is tricky because runtimes vary greatly, so I reran each script 10 times and compared the best runtime of each.</p>
+
+<p>Both scripts found 97,507 Python files in the directory I ran them in.
+The first one finished in 1.914 seconds (best out of 10 runs).
+The second one finished in 3.430 seconds (best out of 10 runs).</p>
+
+<p>When I set <code>extension = ''</code> these find about 600,000 files and the differences spread a little further apart.
+The first runs in 1.888 seconds and the second in 7.485 seconds.</p>
+
+<p>So the <code>pathlib</code> version of this program <strong>ran twice as slow</strong> for <code>.py</code> files and <strong>four times as slow</strong> for every file in my home directory.
+<strong>The <code>pathlib</code> code was indeed slower</strong>, much slower percentage-wise.</p>
+
+<p>But in my case, this speed difference doesn&rsquo;t matter much.
+I searched for every file in my home directory and lost 6 seconds to the slower version of my code.
+If I needed to scale this code to search 10 million files, I&rsquo;d probably want to rewrite it.
+But that&rsquo;s a problem I can get to if I experience it.</p>
+
+<p>If you have a tight loop that could use some optimizing and <code>pathlib.Path</code> is one of the bottlenecks that&rsquo;s slowing that loop down, abandon <code>pathlib</code> in that part of your code.
+But <strong>don&rsquo;t optimize parts of your code that aren&rsquo;t bottlenecks</strong>: it&rsquo;s a waste of time and often results in less readable code for little gain.</p>
+
+<h2>Improving readability with pathlib</h2>
+
+<p>I&rsquo;d like to wrap up these thoughts by ending with some <code>pathlib</code> refactorings.
+I&rsquo;ve taken a couple small examples of code that work with files and refactored these examples to use <code>pathlib</code> instead.
+I&rsquo;ll mostly leave these code blocks without comment and let you be the judge of which versions you like best.</p>
+
+<p>Here&rsquo;s the <code>make_editorconfig</code> function we saw earlier:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filename.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">filename</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And here&rsquo;s the same function using <code>pathlib.Path</code> instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filepath.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s a command-line program that accepts a string representing a directory and prints the contents of the <code>.gitignore</code> file in that directory if one exists:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="n">ignore_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;.gitignore&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">ignore_filename</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ignore_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ignore_file</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">ignore_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the same code using <code>pathlib.Path</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span><span class='line'><span class="n">ignore_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s">&#39;.gitignore&#39;</span>
+</span><span class='line'><span class="k">if</span> <span class="n">ignore_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">ignore_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And here&rsquo;s some code that prints all groups of files in and below the current directory which are duplicates:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">walk</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_files</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">directories</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_hashes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">find_files</span><span class="p">(</span><span class="n">getcwd</span><span class="p">()):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">my_file</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">file_hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">my_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">file_hashes</span><span class="p">[</span><span class="n">file_hash</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">file_hashes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Duplicate files found:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the same code that uses <code>pathlib.Path</code> instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">find_files</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span class='line'>            <span class="k">yield</span> <span class="n">path</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">file_hashes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">find_files</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()):</span>
+</span><span class='line'>    <span class="n">file_hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">file_hashes</span><span class="p">[</span><span class="n">file_hash</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">file_hashes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Duplicate files found:&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The changes here are subtle, but I think they add up.
+I prefer this <code>pathlib</code>-refactored version.</p>
+
+<h2>Start using pathlib.Path objects</h2>
+
+<p>Let&rsquo;s recap.</p>
+
+<p>The <code>/</code> separators in <code>pathlib.Path</code> strings are automatically converted to the correct path separator based on the operating system you&rsquo;re on.
+This is a huge feature that can make for code that is <strong>more readable and more certain to be free of path-related bugs</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir&#39;</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s">&#39;file&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path3</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir/file&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path3</span>
+</span><span class='line'><span class="go">WindowsPath(&#39;dir/file&#39;)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">==</span> <span class="n">path2</span> <span class="o">==</span> <span class="n">path3</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Python standard library and built-ins (like <code>open</code>) also accept <code>pathlib.Path</code> objects now.
+This means <strong>you can start using pathlib, even if your dependencies don&rsquo;t</strong>!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">move</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">rename_and_redirect</span><span class="p">(</span><span class="n">old_filename</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">move</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;This file has moved to {new}&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old.txt&#39;</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;new.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rename_and_redirect</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+</span><span class='line'><span class="go">&#39;This file has moved to new.txt&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And if you don&rsquo;t like <code>pathlib</code>, you can use a third-party library that provides the same path-like interface.
+This is great because <strong>even if you&rsquo;re not a fan of <code>pathlib</code> you&rsquo;ll still benefit from the new changes detailed in PEP 519</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">This file has moved to new.txt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While <code>pathlib</code> is sometimes slower than the alternative(s), the cases where this matters are somewhat rare (in my experience at least) and <strong>you can always jump back to using path strings for parts of your code that are particularly performance sensitive</strong>.</p>
+
+<p>And in general, <code>pathlib</code> makes for more readable code.
+Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="n">gitignore</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.gitignore&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">gitignore</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">gitignore</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>pathlib</code> module is lovely: start using it!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Why you should be using pathlib]]></title>
@@ -6669,163 +7300,6 @@ Quite a few of the exercises I send through <a href="https://www.pythonmorsels.c
 <p>If you&rsquo;re interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out <a href="https://gist.github.com/mahmoud/db02d16ac89fa401b968">this deep merging technique</a> from Mahmoud Hashemi.</p>
 
 <p><strong>Update</strong>: If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to read the article I wrote on <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">asterisks in Python</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My favorite audiobooks of 2015]]></title>
-    <link href="http://treyhunner.com/2015/12/my-favorite-audiobooks-of-2015/"/>
-    <updated>2015-12-31T07:30:00-08:00</updated>
-    <id>http://treyhunner.com/2015/12/my-favorite-audiobooks-of-2015</id>
-    <content type="html"><![CDATA[<p>I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks &ndash; that&rsquo;s over 1 hour of listening per day.</p>
-
-<p>I make an effort to listen to audiobooks that challenge me.  I try to read books by people from different backgrounds, books from genres I&rsquo;m unaccustomed to, and books on subjects that challenge my world views.</p>
-
-<p>This list only represents 10 of my favorite listens from this year.  You can find a <a href="https://www.goodreads.com/user/year_in_books/2015/29459515">full list of the books I read in 2015 on my Goodreads page</a>.</p>
-
-<h3>1. How to Slowly Kill Yourself and Others in America</h3>
-
-<p>This book meanders through heavy issues, including exceptionalism, misogyny, and dying young.  Kanye, Obama, and Tupac all make appearances.  This is some of the most eloquent and addictive prose I&rsquo;ve heard: witty and grave.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/17290919-how-to-slowly-kill-yourself-and-others-in-america">How to Slowly Kill Yourself and Others in America</a> by Kiese Laymon</li>
-<li><a href="http://www.audible.com/pd/Nonfiction/How-to-Slowly-Kill-Yourself-and-Others-in-America-Audiobook/B00S5AAG1K/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Kevin Free</li>
-</ul>
-
-
-<h3>2. Whistling Vivaldi</h3>
-
-<p>Even in the seeming absence of individual and institutional discrimination, we can be affected by stereotype threats.  Identity threat is a real problem.  If you help lead an organization of people, you should read this book or at least read a good summary of it.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/6649312-whistling-vivaldi">Whistling Vivaldi</a> by Claude M. Steele</li>
-<li><a href="http://www.audible.com/pd/Nonfiction/Whistling-Vivaldi-Audiobook/B00CJ0I41Q/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by DeMario Clarke</li>
-</ul>
-
-
-<h3>3. Americanah</h3>
-
-<p>The main character, Ifemelu, is a complex individual who struggles with romance, family, and identity.  I really enjoyed this story and I especially enjoyed Adjoa Andoh&rsquo;s audiobook narration.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/15796700-americanah">Americanah</a> by Chimamanda Ngozi Adichie</li>
-<li><a href="http://www.downpour.com/catalog/product/view/id/135855">DRM-free audiobook</a> read by Adjoa Andoh</li>
-</ul>
-
-
-<h3>4. The Righteous Mind</h3>
-
-<p>We tend to categorize ourselves based on which moral pillars we hold sacred and which we ignore.  It is difficult but important to empathize with those who recognize different moral pillars than you.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/11324722-the-righteous-mind">The Righteous Mind</a> by Jonathan Haidt</li>
-<li><a href="http://www.downpour.com/catalog/product/view/id/100887">DRM-free audiobook</a> read by Jonathan Haidt</li>
-</ul>
-
-
-<h3>5. The New Jim Crow</h3>
-
-<p>This book discusses the effects of the war on drugs, rising incarceration rates, affirmative action, color-blindness, and a number of other issues.  I learned quite a few eye-opening facts while reading.  Take a break from Law and Order and listen to this book instead.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/6792458-the-new-jim-crow">The New Jim Crow</a> by Michelle Alexander</li>
-<li><a href="http://www.downpour.com/the-new-jim-crow-1">DRM-free audiobook</a> read by Karen Chilton</li>
-</ul>
-
-
-<h3>6. Reading Lolita in Tehran</h3>
-
-<p>In this book we reflect upon Iranian life through nineteenth and twentieth century literature.  Culture and politics are discussed in the context of the books studied in a secret book club.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/7603.Reading_Lolita_in_Tehran">Reading Lolita in Tehran</a> by Azar Nafisi</li>
-<li><a href="http://www.audible.com/pd/Bios-Memoirs/Reading-Lolita-in-Tehran-Audiobook/B002V0ABTC/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Lisette Lecat</li>
-</ul>
-
-
-<h3>7. Twelve Years a Slave</h3>
-
-<p>This autobiography was very clear, very event-filled, and overall I found it very well-written.  I had less trouble keeping track of the characters than in much of the fiction I read.  I haven&rsquo;t seen the movie yet, but I&rsquo;m hoping it&rsquo;s as good as the book.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/18478222-twelve-years-a-slave">Twelve Years a Slave</a> by Solomon Northup</li>
-<li><a href="http://www.downpour.com/twelve-years-a-slave-1">DRM-free audiobook</a> read by Louis Gossett, Jr.</li>
-</ul>
-
-
-<h3>8. The Wordy Shipmates</h3>
-
-<p>This journey through history included religion, politics, and drama with tie-ins to modern culture and a smattering of humor.  I didn&rsquo;t understand much of this book, but I did really enjoy it.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/2845287-the-wordy-shipmates">The Wordy Shipmates</a> by Sarah Vowell</li>
-<li><a href="http://www.downpour.com/catalog/product/view/id/93953">DRM-free audiobook</a> read by Sarah Vowell</li>
-</ul>
-
-
-<h3>9. The Handmaid&rsquo;s Tale</h3>
-
-<p>Some people call this book &ldquo;science fiction&rdquo;.  I&rsquo;d call it fiction set in the future, a relatable and frightening future.  This dystopian patriarchy is fueled by religious extremism and a fertility problem.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/38447.The_Handmaid_s_Tale">The Handmaid&rsquo;s Tale</a> by Margaret Atwood</li>
-<li><a href="http://www.audible.com/pd/Fiction/The-Handmaids-Tale-Audiobook/B008NB9GIU/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Claire Danes</li>
-</ul>
-
-
-<h3>10. For the Win</h3>
-
-<p>This book focuses on abuse of workers around the world.  It doesn&rsquo;t focus on technology or corruption, unlike other Doctorow books I&rsquo;ve read.  The protagonists (there were many) seemed less stereotypical than the protagonist in Little Brother.</p>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/7241373-for-the-win">For the Win</a> by Cory Doctorow</li>
-<li><a href="http://craphound.com/ftw/for-the-win-audiobook/">DRM-free audiobook</a> read by George Newbern</li>
-</ul>
-
-
-<h3>Bonus</h3>
-
-<p>Need more than 10 audiobook recommendations?  Here&rsquo;s five more.</p>
-
-<h4>1. Between the World and Me</h4>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/25489625-between-the-world-and-me">Between the World and Me</a> by Ta-Nehisi Coates</li>
-<li><a href="http://www.downpour.com/catalog/product/view/id/198859">DRM-free audiobook</a> read by Ta-Nehisi Coates</li>
-</ul>
-
-
-<h4>2. The Truth is a Cave in the Black Mountains</h4>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/18635092-the-truth-is-a-cave-in-the-black-mountains">The Truth is a Cave in the Black Mountains</a> by Neil Gaiman</li>
-<li><a href="http://www.downpour.com/catalog/product/view/id/157874">DRM-free audiobook</a> read by Neil Gaiman</li>
-</ul>
-
-
-<h4>3. The Woman Warrior</h4>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/30852.The_Woman_Warrior">The Woman Warrior</a> by Maxine Hong Kingston</li>
-<li><a href="http://www.audible.com/pd/Bios-Memoirs/The-Woman-Warrior-Audiobook/B004HMEXGE/ref=a_search_c4_1_2_srTtl">Audible audiobook</a> read by Ming-Na</li>
-</ul>
-
-
-<h4>4. Information Doesn&rsquo;t Want to Be Free</h4>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/20763766-information-doesn-t-want-to-be-free">Information Doesn&rsquo;t Want to Be Free</a> by Cory Doctorow</li>
-<li><a href="http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/">DRM-free audiobook</a> read by Wil Wheaton</li>
-</ul>
-
-
-<h4>5. For All the Tea in China</h4>
-
-<ul>
-<li><a href="https://www.goodreads.com/book/show/3081255-for-all-the-tea-in-china">For All the Tea in China</a> by Sarah Rose</li>
-<li><a href="http://www.downpour.com/for-all-the-tea-in-china-1">DRM-free audiobook</a> read by Sarah Rose</li>
-</ul>
-
 ]]></content>
   </entry>
   

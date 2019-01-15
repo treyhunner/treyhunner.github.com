@@ -9,7 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages. It &hellip;">
+  <meta name="description" content="You&rsquo;ve decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
+Now you want to make sure you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a></h1>
+      <h1 class="entry-title"><a href="/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a></h1>
     
     
       <p class="meta">
@@ -98,551 +99,381 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2018-04-04T08:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:00 am</span></time>
+<time class='entry-date' datetime='2018-04-30T08:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:00 am</span></time>
         
-           | <a href="/2018/04/keyword-arguments-in-python/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2018/04/keyword-arguments-in-python/">Comments</a>
+           | <a href="/2018/04/how-to-make-the-most-of-your-first-pycon/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
+  <div class="entry-content"><p>You&rsquo;ve decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
+Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming relations with other PyCon attendees.
+But you&rsquo;re (naturally) not an expert conference-goer.
+How do you do this?
+How do you make the most of your first PyCon?</p>
 
-<p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
+<p>I&rsquo;m an introvert by nature, but I have increased my ability to socialize with others over the years through practice, gamification of social situations, and learning my limits.</p>
 
-<p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
+<p>Over the last few years, I&rsquo;ve interviewed many PyCon attendees on <a href="http://weeklypython.chat">Weekly Python Chat</a> and I&rsquo;ve spoken with many first-time PyCon-goers about making the most of PyCon.
+It&rsquo;s difficult to describe what PyCon is like to first-time attendees and it&rsquo;s even more difficult to identify how any one person should spend their time at PyCon.
+So I&rsquo;m writing this article to compile some of the advice I&rsquo;ve heard from others and to address some of the common fears I hear among first-time PyCon attendees.
+Not all of the suggestions below will be right for you, so try to take the advice that works well for you.</p>
 
-<h2>What are keyword arguments?</h2>
+<p>Before you read any further, I have to link you to the <a href="https://us.pycon.org/2018/events/newcomer_orientation/">Newcomer Orientation</a>.
+This is a new event hosted by Adrienne Lowe this year.
+If this is your first PyCon, I&rsquo;d definitely recommend showing up early to the newcomer orientation and get your footing before the big event starts.</p>
 
-<p>Let&rsquo;s take a look at what keyword arguments (also called &ldquo;named arguments&rdquo;) are.</p>
+<h3>Spending your time: which talks should I go to? 🤔</h3>
 
-<p>First let&rsquo;s take this Python function:</p>
+<p>The talks at PyCon are typically <strong>uploaded to YouTube within 24 hours after the talk ends</strong>.
+That means that you can spend your evening watching the talks you missed the day before or you can watch the talks when you go home.
+I&rsquo;m not suggesting you shouldn&rsquo;t watch talks at PyCon.
+I am suggesting that <strong>you don&rsquo;t need to worry about attending every talk</strong>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">quadratic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">x2</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>So how should I decide which talks to go to?
+I&rsquo;ve chatted with folks who purposely go exclusively to talks on topics they&rsquo;re not normally interested in.
+I also know people who <strong>love going to the keynotes and the lightning talks</strong> but hang out in the hallway (I&rsquo;ll talk about the hallway track later) or attend open spaces the rest of the time.
+I&rsquo;m personally one of those people who <strong>attends very few talks</strong> and spends a lot of time in open spaces and the in hallway.</p>
 
+<p><strong>You cannot and will not do everything there is to do at PyCon</strong>.</p>
 
-<p>When we call this function, we can pass each of our three arguments in two different ways.</p>
+<p>I suggest embracing this idea by chatting with others about things you&rsquo;ve missed out on.
+<strong>People often enjoy reflecting on a talk they just watched</strong> the same way you might want to reflect on a movie.
+If you meet someone who just came out of a talk you missed, ask them what it was like and what they learned from it.
+They might say &ldquo;eh, it wasn&rsquo;t for me&rdquo; or they might ramble about how exciting it was.</p>
 
-<p>We can pass our arguments as positional arguments like this:</p>
+<p>Consider these things before walking into a talk:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or we can pass our arguments as keyword arguments like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The order of these arguments matters when they&rsquo;re passed positionally:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-0.5, -1.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>Would it be nice to show up to this talk a few minutes early and focus my attention on it?</li>
+<li>Do I want to possibly ask the speaker a question during Q&amp;A?  (tips for Q&amp;A <a href="https://kev.inburke.com/kevin/how-not-to-ask-questions-at-conference/">here</a> and <a href="https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/">here</a>)</li>
+<li>Am I having a conversation that I&rsquo;d really like to continue instead of attending this talk?</li>
+<li>Should I take a personal break during this time instead?</li>
+</ul>
 
 
-<p>But it doesn&rsquo;t matter when they&rsquo;re passed by their name:</p>
+<p>Remember that PyCon is less about the talks than the discussions that happen around them.
+Talks are a wonderful tool to start discussions, but they&rsquo;re not the only way to spark conversation.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>Open spaces: attend them and consider hosting your own! 👐</h3>
 
+<p><a href="https://us.pycon.org/2018/events/open-spaces/">Open spaces</a> are <strong>community-run mini meetup events and they aren&rsquo;t decided before PyCon starts</strong>.
+The way it works is that someone puts an index card on the open spaces board to indicate that they&rsquo;re holding an event at a particular time in one of the open spaces rooms that day.
+Then others check the open spaces board throughout the day and attend ones they&rsquo;re interested in.</p>
 
-<p>When we use keyword/named arguments, it&rsquo;s the name that matters, not the position:</p>
+<p>During every talk at PyCon there are at least 4 other talks happening.
+There are also 9 open spaces rooms though.
+So you&rsquo;re missing out on over 90% of PyCon at any time!</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-0.5, -1.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>When choosing between an open space and a talk, I usually choose the open space.</p>
 
-
-<p>So unlike many other programming languages, Python knows the names of the arguments our function accepts.</p>
-
-<p>If we ask for help on our function Python will tell us our three arguments by name:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">quadratic</span><span class="p">)</span>
-</span><span class='line'><span class="go">Help on function quadratic in module __main__:</span>
-</span><span class='line'>
-</span><span class='line'><span class="go">quadratic(a, b, c)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that functions can be called with a mix of positional and named arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
-</span><span class='line'><span class="go">(-1.0, -2.0)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That can come in handy, but with the particular function we&rsquo;ve written here it&rsquo;s most clear to use all positional arguments or all keyword arguments.</p>
-
-<h2>Why use keyword arguments?</h2>
-
-<p>When calling functions in Python, you&rsquo;ll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.</p>
-
-<p>Take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This takes a file object <code>output_file</code> and <code>contents</code> string and writes a gzipped version of the string to the output file.</p>
-
-<p>This code does the same thing but it uses keyword arguments instead of positional arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.</p>
-
-<p>We were also able to leave off an argument here.  The first argument that we left off represents a <code>filename</code> and already has a default value of <code>None</code>.  We don&rsquo;t need a <code>filename</code> here because we&rsquo;re supposed to pass either a file object or a filename to <code>GzipFile</code>, not both.</p>
-
-<p>We&rsquo;re actually able to leave another argument off though.</p>
-
-<p>Here&rsquo;s the same code again, but the compress level has been left at its default value of <code>9</code> this time:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the &ldquo;wt&rdquo; access mode).</p>
-
-<p>When we use keyword arguments:</p>
+<p>There are a few reasons I often pick open spaces over talks:</p>
 
 <ol>
-<li>We can often leave out arguments that have default values</li>
-<li>We can rearrange arguments in a way that makes them most readable</li>
-<li>We call arguments by their names to make it more clear what they represent</li>
+<li>Often the <strong>open spaces are more niche and topical than the talks</strong>: there are some subjects that exist in open spaces every year but which I&rsquo;ve never seen a talk on</li>
+<li><strong>Open spaces are all about interaction and discussion</strong> whereas talks are a monologue that often evolves into subsequent dialogues</li>
+<li><strong>Open spaces aren&rsquo;t recorded whereas the talks are</strong>, meaning you can&rsquo;t really catch up on them later</li>
 </ol>
 
 
-<h2>Where you see keyword arguments</h2>
+<p>If you&rsquo;re looking for kinship and conversation, the open spaces a great place to look.</p>
 
-<p>You&rsquo;ll likely see keyword arguments quite a bit in Python.</p>
+<p>If you&rsquo;re hoping to <em>start</em> a discussion, I&rsquo;d also recommend <a href="https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html">creating your own open space</a> during PyCon.
+The PyCon blog will be publishing a post on open spaces soon which I co-authored.</p>
 
-<p>Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.</p>
+<p>Disclaimed after the fact: I&rsquo;m one of the volunteer open spaces co-chairs, so I&rsquo;m biased in my love for them.</p>
 
-<p>The built-in <code>print</code> function accepts the optional <code>sep</code>, <code>end</code>, <code>file</code>, and <code>flush</code> attributes as keyword-only arguments:</p>
+<h3>Feeling like an imposter or an outsider 🌪</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&#39;comma&#39;</span><span class="p">,</span> <span class="s">&#39;separated&#39;</span><span class="p">,</span> <span class="s">&#39;words&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">comma, separated, words</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>itertools.zip_longest</code> function also accepts an optional <code>fillvalue</code> attribute (which defaults to <code>None</code>) exclusively as a keyword argument:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">zip_longest</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-</span><span class='line'><span class="go">[(1, 7, 4), (2, 8, 5), (0, 9, 0)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In fact, some functions in Python force arguments to be named even when they <em>could</em> have been unambiguously specified positionally.</p>
-
-<p>In Python 2, the <code>sorted</code> function accepted all its arguments as either positional or keyword arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But Python 3&rsquo;s <code>sorted</code> function requires all arguments after the provided iterable to be specified as keyword arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">must use keyword argument for key function</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Keyword arguments come up quite a bit in Python&rsquo;s built-in functions as well as in the standard library and third party libraries.</p>
+<p>A common fear when attending PyCon is that people will judge you because you aren&rsquo;t as skilled as they are.</p>
 
-<h2>Requiring your arguments be named</h2>
-
-<p>You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the <code>*</code> operator to capture all the positional arguments and then specify optional keyword-only arguments after the <code>*</code> capture.</p>
-
-<p>Here&rsquo;s an example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">initial</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">total</span> <span class="o">*=</span> <span class="n">n</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">total</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Note</strong>: If you haven&rsquo;t seen that <code>*</code> syntax before, <code>*numbers</code> captures all positional arguments given to the <code>product</code> function into a tuple which the <code>numbers</code> variable points to.</p>
-
-<p>The <code>initial</code> argument in the above function must be specified as a keyword argument:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-</span><span class='line'><span class="go">16</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="go">16</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</span><span class='line'><span class="go">120</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that while <code>initial</code> has a default value, you can also specify <em>required</em> keyword-only arguments using this syntax:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">,</span> <span class="n">joiner</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">iterables</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span>
-</span><span class='line'>    <span class="k">yield from</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-</span><span class='line'>        <span class="k">yield</span> <span class="n">joiner</span>
-</span><span class='line'>        <span class="k">yield from</span> <span class="n">iterable</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>joiner</code> variable doesn&rsquo;t have a default value, so it must be specified:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-</span><span class='line'><span class="go">[1, 2, 3, 0, 4, 5, 0, 6, 7]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
-</span><span class='line'><span class="go">[1, 2, 3, &#39;-&#39;, 4, 5, &#39;-&#39;, 6, 7]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]))</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">join() missing 1 required keyword-only argument: &#39;joiner&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that this syntax of putting arguments after the <code>*</code> only works in Python 3.  There&rsquo;s no syntactic way in Python 2 to require an argument to be named.</p>
-
-<h2>Keyword-only arguments without positional arguments</h2>
-
-<p>What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?</p>
-
-<p>If you want to accept keyword-only arguments and you&rsquo;re not using a <code>*</code> to accept any number of positional arguments, you can use a <code>*</code> without anything after it.</p>
-
-<p>For example here&rsquo;s a modified version of Django&rsquo;s <code>django.shortcuts.render</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">content</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">render_to_string</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="n">using</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">content_type</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>content_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;HttpResponse status_code=500, &quot;text/html; charset=utf-8&quot;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="mi">500</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">render() takes from 2 to 3 positional arguments but 4 were given</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Just like with unlimited positional arguments, these keyword arguments can be required.  Here&rsquo;s a function with four required keyword-only arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">shuffle</span>
-</span><span class='line'><span class="n">UPPERCASE</span> <span class="o">=</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
-</span><span class='line'><span class="n">LOWERCASE</span> <span class="o">=</span> <span class="n">UPPERCASE</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-</span><span class='line'><span class="n">DIGITS</span> <span class="o">=</span> <span class="s">&quot;0123456789&quot;</span>
-</span><span class='line'><span class="n">ALL</span> <span class="o">=</span> <span class="n">UPPERCASE</span> <span class="o">+</span> <span class="n">LOWERCASE</span> <span class="o">+</span> <span class="n">DIGITS</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">random_password</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">UPPERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upper</span><span class="p">)),</span>
-</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">LOWERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lower</span><span class="p">)),</span>
-</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">digits</span><span class="p">)),</span>
-</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="o">-</span><span class="n">upper</span><span class="o">-</span><span class="n">lower</span><span class="o">-</span><span class="n">digits</span><span class="p">)),</span>
-</span><span class='line'>    <span class="p">]</span>
-</span><span class='line'>    <span class="n">shuffle</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This function requires all of its arguments to be specified using their name:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;oNA7rYWI&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;bjonpuM6&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">random_password() takes 0 positional arguments but 4 were given</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Requiring arguments to be named can make calls to our function much clearer.</p>
-
-<p>The purpose of this function call:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Is much more obvious than this one:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Again note that this syntax also only works in Python 3.</p>
-
-<h2>Capturing arbitrary keyword arguments</h2>
-
-<p>What if you want to write a function that captures an arbitrary number of keyword arguments?</p>
-
-<p>For example the string format method accepts any keyword argument you give it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;My name is {name} and I like {color}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;My name is Trey and I like purple&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Maybe you&rsquo;re new to Python and you&rsquo;re worried your peers won&rsquo;t accept you because you think you might be years-off from matching their skills.
+Maybe you&rsquo;re &ldquo;not a developer&rdquo; and you&rsquo;re afraid you&rsquo;ll feel like an imposter at PyCon.</p>
 
+<p>Not feeling like you&rsquo;ll be smart enough or skilled enough to understand the talks and conversations you&rsquo;ll be in is a big and intimidating thought.
+If you&rsquo;re afraid of folks misjudging your expertise, it may help to plan out a few techniques for presenting yourself in a way that makes you feel comfortable.</p>
 
-<p>How can you write such a function?</p>
+<p>You might rehearse a few different very <strong>brief elevator pitches</strong>.
+Here are some examples:</p>
 
-<p>Python allows functions to capture any keyword arguments provided to them using the <code>**</code> operator when defining the function:</p>
+<ul>
+<li>I&rsquo;m a JavaScript developer here to meet folks in the Python world</li>
+<li>I&rsquo;m a new programmer and I&rsquo;m here because I&rsquo;ve been told the Python community was pretty welcoming to newcomers</li>
+<li>I don&rsquo;t consider myself a developer, but I do write Python code at work to automate things and I&rsquo;m here to learn more</li>
+<li>I don&rsquo;t write code for work, but I have some side projects that I&rsquo;m using Python for.  So I&rsquo;m here to learn and meet friendly people.</li>
+</ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return a string of comma-separated key-value pairs.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-</span><span class='line'>        <span class="n">f</span><span class="s">&quot;{param}: {value}&quot;</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
 
+<p>Remember that <strong>you do not need to justify your presence at PyCon</strong>.
+If you believe you belong at PyCon, then you do.</p>
 
-<p>That <code>**</code> operator will allow our <code>format_attributes</code> function to accept any number of keyword arguments.  The given arguments will be stored in a dictionary called <code>attributes</code>.</p>
+<p>If you&rsquo;re interested in the conversation you&rsquo;re in, others may mirror that interest.
+If you&rsquo;re enthusiastic about learning new things, others you meet may mirror that enthusiasm.
+I&rsquo;ve witnessed quite a few conversations at PyCon that included phrases like &ldquo;oh you don&rsquo;t know about X?  Cool, essentially it&rsquo;s&hellip;&rdquo;
+You&rsquo;ll hopefully find that many of the more long-time PyCon attendees go out of their way to welcome beginners.
+This is not a universal phenomenon and even folks with good intentions can alienate those around them.</p>
 
-<p>Here&rsquo;s an example use of our function:</p>
+<h3>Tips for starting conversation 💬</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Make sure to treat each person you meet as new.
+<strong>Not everyone you meet will be at the conference for the same reasons as you are</strong>.
+Some people write code but don&rsquo;t know Python, some people only using a little bit of Python and don&rsquo;t consider themselves developers, some people don&rsquo;t work in tech, and some people don&rsquo;t write code for work at all and may be considering whether they should make a career transition into tech.
+Just as you don&rsquo;t need to justify your presence at PyCon to anyone, no one needs to justify their presence to you.</p>
 
+<p>I mentioned above that you might want to make an elevator pitch or two for yourself.
+You might also want to consider how you&rsquo;ll respond to some of the questions that will come up frequently, like &ldquo;what do you do?&rdquo; or &ldquo;where do you work?&rdquo;.
+You will be asked some of the same questions over and over when meeting new people.
+<strong>Knowing how you&rsquo;ll respond to common questions will help put your mind at ease when meeting new people</strong>.</p>
 
-<h2>Calling functions with arbitrary arguments</h2>
+<p>I also recommend occasionally considering what questions you ask, why you&rsquo;re asking them, and the phrasing you use.
+Also notice how others ask questions and consider what questions and phrases seem to put others at ease and lead to interesting conversations.
+Conversations often go pretty well if you <strong>ask questions that make others feel comfortable and appreciated</strong>.</p>
 
-<p>Just as you can define functions that take arbitrary keyword arguments, you can also call functions with arbitrary keyword arguments.</p>
+<h3>Tips for breakfast and lunch time 🍽</h3>
 
-<p>By this I mean that you can pass keyword arguments into a function based on items in a dictionary.</p>
+<p>How do lunch and breakfast work?
+Can I just sit with anyone or should I choose an empty table?
+Are people going to be nice to me?
+Do I need to introduce myself when I sit down?</p>
 
-<p>Here we&rsquo;re manually taking every key/value pair from a dictionary and passing them in as keyword arguments:</p>
+<p>Meal dynamics are interesting because there&rsquo;s not really a rule book for these social dynamics.
+Below is what I&rsquo;ve observed over the years.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">website</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;website&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;color&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><strong>At lunch and breakfast, you can sit anywhere</strong>.
+Often people will ask &ldquo;is this seat taken&rdquo; when sitting down just in case a group of acquaintances are waiting on another person to join them.
+Sometimes when a new person joins your table, a particularly friendly person at the table (if one exists) will introduce themselves to make that newcomer feel welcome.
+Often this entails a name, a smile, and a wave or a nod.
+Beyond these typical social norms, everything else can differ based on the folks sitting at your table (that includes you!).</p>
 
+<p>Sometimes a couple people at a table will be very interested to know what brings everyone to the conference and what each person &ldquo;does&rdquo;.
+<strong>Meals are a good time to test out your elevator pitch</strong> when introducing yourself to see how the conversation goes and to verify that it makes you feel comfortable.</p>
 
-<p>This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we&rsquo;re using at the time our code is written.  This won&rsquo;t work if we have a dictionary with unknown keys.</p>
+<p>Sometimes people will be more interested in either sitting quietly or talking to a particular person or two with whom they&rsquo;ve found something interesting to discuss.
+Personally I often find myself asking others where they&rsquo;re traveling from, whether it&rsquo;s their first year attending, what they&rsquo;ve thought of the conference so far, and <strong>what inspired them to come to PyCon</strong>.
+I tend to leave questions about employment and jobs for later because folks will often bring up their work (if they want to) on their own.</p>
 
-<p>We can pass arbitrary keyword arguments to our function using the <code>**</code> operator to unpack our dictionary items into keyword arguments in our function call:</p>
+<h3>The hallway track 👣</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">items</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Something you might consider doing while at PyCon is <strong>taking breaks in the hallway</strong>.
+Sit at a table in the open and if someone asks whether they can sit at your table say something inviting/friendly like &ldquo;sure! I&rsquo;m YOUR_NAME. Nice to meet you new friend!&rdquo; (or just smile and gesture in a friendly way if you&rsquo;re not feeling adventurous in the moment).
+Chatting with folks in the hallway in an unstructured way is often referred to as the <a href="http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/">hallway track</a>.</p>
 
+<p>In addition to joining or starting a table in the hallway, consider identifying groups that have <a href="http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/">a PacMan opening</a> to join and make sure the groups you&rsquo;re in are PacMan-friendly.</p>
 
-<p>This ability to pass arbitrary keyword arguments into functions and to accept arbitrary keyword arguments inside functions (as we did before) is seen frequently when using inheritance:</p>
+<p>While chatting with new friends, giving one person your full attention in a 5 minute conversation is often more rewarding and memorable than having five 1 minute conversations with different people.
+But do keep in mind though that <strong>if you&rsquo;re no longer interested in a conversation or activity, you don&rsquo;t need to keep it going</strong>.
+There are lots of things going on at any one time at PyCon and lots of people there.
+It&rsquo;s not unusual to say &ldquo;nice talking to you&rdquo; and leave one conversation to walk off to another conversation or to something else entirely.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">my_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Do something interesting here&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">my_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c"># Call parent method with all given arguments</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>Don&rsquo;t just follow the rules: be compassionate 💖</h3>
 
+<p>You&rsquo;re at a professional event.
+You should absolutely try to have fun and derive as much value as you can from PyCon, but you always want to make sure you feel welcome, comfortable, and safe.
+Importantly, you should also be mindful to make sure those around you feel the same way.
+Please <strong>be cognizant of the preferences of those around you and be respectful of their needs</strong>.</p>
 
-<p><strong>Note</strong>: We&rsquo;re also using the <code>*</code> operator here for the same kind of capturing and unpacking of positional arguments.</p>
+<p>PyCon has a <a href="https://us.pycon.org/2018/about/code-of-conduct/">code of conduct</a>.
+Read it.
+I expect you to go beyond embracing the law of the code of conduct.
+I&rsquo;d like you to embrace the spirit of the code of conduct as well.</p>
 
-<h2>Order matters</h2>
+<p>When meeting people in general, <strong>make sure to be nice</strong>.
+Don&rsquo;t talk down to people, don&rsquo;t insult people, and don&rsquo;t treat anyone like they don&rsquo;t belong or aren&rsquo;t worthy.
+<strong>The Python community prides itself on being nice</strong> and we expect you to be nice as well.
+Be kind, be compassionate, be considerate.</p>
 
-<p>Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see <a href="https://www.python.org/dev/peps/pep-0468/">PEP 468</a>).  This means that when <code>**</code> is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.</p>
+<p>On that note, you may run into folks who act unkind or make you feel unwelcome at some point.
+It&rsquo;s okay to cut and run at any point during any conversation or event.
+If you don&rsquo;t feel welcome, I recommend <strong>removing yourself from the space you&rsquo;re in and contacting one of the staff members</strong> listed on <a href="https://us.pycon.org/2018/about/code-of-conduct/">the code of conduct page</a>.
+Even if you just want to say &ldquo;hey something happened that could maybe be avoided in the future,&rdquo; it would be wonderful if you could muster the courage to contact a staff member.
+<strong>PyCon tries to improve every year and feedback is the way that happens</strong>.</p>
 
-<p>So since Python 3.6, you&rsquo;ll <em>never</em> see something like this happen:</p>
+<h3>Interacting online during PyCon 🐦</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;website: http://treyhunner.com, color: purple, name: Trey&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>After PyCon is over, some people occasionally follow-up with folks they met over email.
+Sometimes people will add each other on LinkedIn or Facebook also.
+But the means of interaction I&rsquo;ve noticed most is Twitter.
+I&rsquo;m unlikely to send most of the people I meet at PyCon an email, but I try to add most of the people I meet to my <a href="https://twitter.com/treyhunner/lists/pycon-2017/members">PyCon list</a> on Twitter.</p>
 
+<p>If you&rsquo;re not completely opposed to it, <strong>I recommend getting a Twitter account to make it easier to passively keep up with folks from PyCon after the conference ends</strong>.
+You don&rsquo;t have to use Twitter all the time to get value from it, you could just use it as a modern day <a href="https://en.wikipedia.org/wiki/Rolodex">rolodex</a> of sorts.
+Twitter isn&rsquo;t the only way people stay in touch, but it&rsquo;s an extremely easy passive way to stay in touch.</p>
 
-<p>Instead, with Python 3.6+, arguments will always maintain the order they were passed in:</p>
+<p>If you do get a Twitter account, I recommend adding a saved search for &ldquo;pycon2018 OR pycon&rdquo; to your Twitter app or to <a href="https://tweetdeck.twitter.com">TweetDeck</a> (if you use it) to <strong>follow a bit of the random PyCon-related Twitter chatter during the conference</strong> and to like/reply/interact with others online.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Sometimes <strong>people on Twitter will ask if anyone would like to join them for dinner</strong> and you might decide to reply and say you&rsquo;d like to join.
+Sometimes you&rsquo;ll recognize the face or name of someone you met over breakfast or someone you recognize from another part of the internet.
+If you&rsquo;re feeling comfortable with it, you could send a tweet to that person to ask if they&rsquo;d like to meet up and chat during one of the breaks.</p>
 
+<p>However, I keep in mind when you meet people that people are just people.
+If you think someone is famous or important or smart, don&rsquo;t treat them like they&rsquo;re a celebrity or like they&rsquo;re superior to you.
+<strong>It&rsquo;s wonderful to show appreciation for what someone does</strong>.
+But keep in mind that <strong>most people feel awkward when they feel like they&rsquo;re being put on a pedestal</strong>.
+Treat folks you meet as your equals.</p>
 
-<h2>Embrace keyword arguments in Python</h2>
+<h3>Networking isn&rsquo;t a dirty word: it means making friends 👥</h3>
 
-<p>An arguments <em>position</em> often doesn&rsquo;t convey as much meaning as its <em>name</em>.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.</p>
+<p>I hear two opposing concerns sometimes expressed about PyCon:</p>
 
-<p>When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the <code>*</code> operator to require those arguments be specified as keyword arguments.</p>
+<ol>
+<li>Isn&rsquo;t everyone here to get a job or hire people?</li>
+<li>Is it acceptable to go to PyCon looking for a job?</li>
+</ol>
 
-<p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
 
-<p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
+<p>PyCon is a networking event.
+That doesn&rsquo;t necessarily mean everyone is there to get a job, but it also definitely doesn&rsquo;t mean it&rsquo;s unacceptable to job-seek at Python.</p>
 
-<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.</p>
+<p>There is <strong>no shame in going to PyCon with the goal of getting a new job</strong>.
+Many of the sponsors in the Expo hall are looking to hire new developers and events like the job fair are specifically designed to bring together folks seeking work and folks seeking workers.
+But <strong>if you are not at PyCon to get a job or to hire someone else, that&rsquo;s absolutely okay also</strong>!</p>
+
+<p>The focus of PyCon is on <strong>meeting people and sharing experiences</strong> and that can come in a <em>lot</em> of different forms.
+Sometimes the people you meet will end up being your coworkers one day, sometimes they&rsquo;re folks you&rsquo;d like to keep in touch with, and sometimes they&rsquo;re just a friendly unnamed Pythonistas you once had a good conversation with.</p>
+
+<p>PyCon is a networking event and networking isn&rsquo;t a dirty word.
+<strong>Networking means meeting new people</strong>.
+I&rsquo;ve met a <em>lot</em> of people at PyCon who I care deeply about.
+Some of them I haven&rsquo;t seen in years and only keep in touch with sporadically through social media, some I see once or twice each year, and some I chat with on a weekly basis online.</p>
+
+<p>Speaking of networking, there&rsquo;s a <a href="https://us.pycon.org/2018/events/speed_networking/">Speed Networking</a> event during the opening reception at PyCon this year that I&rsquo;d recommend going to.</p>
+
+<p>Whatever your goals are at PyCon, try <strong>savor the experiences you have</strong> while there.</p>
+
+<h3>Be prepared to keep in touch 📇</h3>
+
+<p>How am I supposed to remember all these amazing people I met!
+Should I bring business cards and if so how many?
+How should I follow up with people after the conference?</p>
+
+<p>If you have a good conversation with someone, I&rsquo;d recommend exchanging information with them.
+I&rsquo;ve seen people <strong>write email addresses on napkins</strong>.
+I&rsquo;ve also frequently seen people exchange business cards or name cards.
+Sometimes people simply <strong>write down Twitter handles</strong> or even ask to take a picture of a face and a badge.
+As I noted above, I like to get people&rsquo;s Twitter handles and add them to a <a href="https://twitter.com/treyhunner/lists/pycon-2017/members">PyCon list</a> I maintain for myself.
+I also exchange business cards and other forms of contact information.</p>
+
+<p>Being handed a business card doesn&rsquo;t mean &ldquo;this is a business interaction and we are fancy business people&rdquo;.
+If someone hands you a business card, it usually means they appreciated the conversation they had with you and they&rsquo;d like to keep in touch (or at least allow for that possibility).
+Sometimes it means they want to hire you, but often they simply want a way to remember your name so they can find you on social media or send you an email later.</p>
+
+<p>The tricky part is remembering to stay in touch when you go home and remembering which people you had which conversations with.
+It&rsquo;s not unusual for people to <strong>take notes on business cards about what they talked about with you and why</strong>.
+I think this is a great strategy for remembering who you&rsquo;re most interested in sending a kind note to after you go home and I wish I remembered to do this more often.</p>
+
+<p>This blog post on <a href="http://swombat.com/2011/2/25/kevin-mcdonagh-how-to-attend-a-conference">how to attend a conference</a> has recommendations for staying in touch (as well as many other recommendations).</p>
+
+<h3>Evening events: dinners and board games 🃏</h3>
+
+<p>What do people do for dinner?
+How do they organize?
+How late do they stay?
+Is there dinner at the conference center, if you don&rsquo;t want to go out?
+How do I find people to go to dinner with if I don&rsquo;t know anyone?
+Also I know that there are some informal get-togethers at the conference.
+How do I propose them?
+How do I know what&rsquo;s there?</p>
+
+<p>One trick that I&rsquo;ve used and I&rsquo;ve seen others use: <strong>make a game of inviting people you don&rsquo;t really know well to dinner</strong>.
+If you&rsquo;re nervous about being with lots of new people, <strong>find a couple familiar people and ask each to invite just 1 person</strong>.
+If you&rsquo;d like to do dinner in a very small group, post on Twitter and say: &ldquo;I&rsquo;m looking for a small dinner group and I&rsquo;m looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?&rdquo;.</p>
+
+<p>Sometimes people make a reservation at a restaurant and hope they can find people to join them.
+I&rsquo;m not that gutsy and I usually prefer to gather people until I have a headcount and then call a nearby restaurant to ask if a reservation is needed.
+During your first conference I&rsquo;m recommend <strong>walking up to a group of folks and asking &ldquo;does anyone have dinner plans?&rdquo;</strong>
+Often the response will be &ldquo;we&rsquo;re trying to figure that out now, want to join us?&rdquo;</p>
+
+<p>As far as events in the evening besides dinner go, there&rsquo;s a variety of options usually.
+Some people go out drinking.
+I don&rsquo;t drink, so I don&rsquo;t do this but I&rsquo;ve also heard the recommendation from drinkers that <strong>it&rsquo;s a very bad idea to drink heavily during a conference</strong>.
+You&rsquo;re with people you don&rsquo;t know in a new community: don&rsquo;t increase the chance that you might alienate someone by doing something you regret.
+I&rsquo;m very biased here, but I&rsquo;d drinking very moderately if you drink at all during PyCon.</p>
+
+<p>One thing you&rsquo;ll likely see a lot of during PyCon is board games.
+Folks often play board games in the hotel lobbies, in board game bars, and even in the open spaces!
+PyCon&rsquo;s open spaces usually involve some evening time for after hour events and board games are frequently one of those events.
+There&rsquo;s usually <strong>at least one night with a semi-official board game open spaces</strong> event, but there are often others that appear.
+You could even put your own board game open space event on the board!</p>
+
+<p>I can&rsquo;t mention board games without mentioning my absolute favorite conference ice breaker: <strong>the cabo card game</strong>.
+I&rsquo;ve played Cabo at <a href="https://twitter.com/treyhunner/status/573027732902133760">most</a> <a href="https://twitter.com/treyhunner/status/587086868396822528">tech</a> <a href="https://twitter.com/algosuna/status/641421944005378048">conferences</a> <a href="https://twitter.com/treyhunner/status/746454264495513601">I&rsquo;ve</a> <a href="https://twitter.com/treyhunner/status/755887571264212993">been</a> <a href="https://twitter.com/treyhunner/status/897971022334382080">to</a>.
+I love Cabo because it only requires a 52 card deck and using the phrase &ldquo;want to learn a 20 minute card game that I guarantee you&rsquo;ve never heard of&rdquo; seems to allow people to let their guard down and meet new people (not everyone says yes, but many people do).
+If you&rsquo;d like to try playing Cabo yourself, you can read my blog post on <a href="http://treyhunner.com/2015/06/cabo-card-game/">the rules to the Cabo card game</a>.</p>
+
+<p>The thing I love about nearly all forms of games is that your technical interests or expertise don&rsquo;t usually matter when you&rsquo;re playing a game.
+You can bond with people without have any deep conversation at all.
+I&rsquo;ve met people the day after playing a long game and <strong>felt like I already knew them even though I didn&rsquo;t even know their name yet</strong>.</p>
+
+<h3>Volunteering 💝</h3>
+
+<p>If you&rsquo;re the type of person who derives comfort from understanding and being part of the inner workings of a community event, I recommend <a href="https://us.pycon.org/2018/about/volunteers/">volunteering to help out while at PyCon</a>.</p>
+
+<p>You might think it&rsquo;s premature to volunteer during your first PyCon and for some roles, it likely is.
+You probably shouldn&rsquo;t volunteer to be a session chair during your first PyCon for example because that&rsquo;s a big role.
+But you could absolutely be part of the <a href="https://us.pycon.org/2018/about/volunteers/#swag">swag bag stuffing</a>, which is a way to see lots friendly of faces while being a smiling cog in a bag-stuff assembly line.</p>
+
+<p>You could also volunteer to help <a href="https://us.pycon.org/2018/about/volunteers/#swag_dist">hand out swag bags</a>, act as a friendly <a href="https://us.pycon.org/2018/about/volunteers/#tutorials">greeter for folks coming into tutorials</a>, or <a href="https://us.pycon.org/2018/about/volunteers/#registration">help out at the registration desk</a>.
+These might sound like scary tasks, but from my experience <strong>the folks who coordinate volunteers are happy to answer questions and prepare you for your role</strong> so that you feel comfortable doing the job you&rsquo;ve signed up for.
+All three of those tasks are ways to practice being a cheerful and empathetic face, which will help other first-time attendees to feel comfortable too.</p>
+
+<p>After volunteering, people may occasionally meet you in the hall and wonder why they&rsquo;re already familiar with your friendly face.
+It&rsquo;s because you handed them their badge or checked their name off a list!
+Also volunteering can give you glimpse behind the scenes of PyCon and <strong>make things feel a little less scary and official</strong>.</p>
+
+<p>If you are planning to volunteer though, make sure you block that time off on your calendar and that you show up.
+<strong>Don&rsquo;t miss your volunteering time slots and leave the staff scrambling to find someone to fill in at the last minute</strong>.</p>
+
+<p>If volunteering to be a small part of the event inner-workings isn&rsquo;t your thing, don&rsquo;t worry.
+<strong>There are lots of great ways to spend your time while at PyCon</strong>!</p>
+
+<h3>Give a lightning talk ⚡</h3>
+
+<p>If you&rsquo;re feeling particularly bold one day, you could sign up on the <a href="https://us.pycon.org/2018/events/lightning/talks/">lightning talk board</a> to give a 5 minute lightning talk on a topic of your choosing.
+This is another excuse for people to talk to you.</p>
+
+<p>I gave my first conference lightning talk <a href="https://us.pycon.org/2018/about/volunteers/#registration">at DjangoCon 2015</a>, during which I compared modern JavaScript to Python.
+A few people I&rsquo;d never met started a conversation with me at a bar afterward by saying &ldquo;I liked your lightning talk.&rdquo;
+Lightning talks can act as an ice breaker.
+If you give a talk to a giant room of people, you&rsquo;ve given everyone in that room at least a reason to talk to you.</p>
+
+<p>If you do give a lightning talk, <strong>make sure it&rsquo;s less than 5 minutes</strong>.
+You do not want to run over time in a lightning talk.
+The shorter and more compact, the better.</p>
+
+<h3>Take care of yourself 💗</h3>
+
+<p>There&rsquo;s so many people.
+What do I do if I get overwhelmed?</p>
+
+<p>While at PyCon, you&rsquo;ll want to <strong>make sure you pace yourself</strong> and that you <strong>find a way to slow down and recharge</strong> when needed.
+If you&rsquo;re an introvert, your laptop&rsquo;s batteries will likely last longer than yours before needing a recharge at PyCon.
+At least once a day, I&rsquo;d recommend finding a quiet place to sit, breathe deeply, think about your day, and meditate.</p>
+
+<p>Don&rsquo;t expect yourself to be able to wake up, head to the conference venue, do things at every moment during the day, and then go out with folks for dinner and more conversation in the evening.
+If you know your limits, respect them.
+<strong>Push yourself outside of your comfort zone, but don&rsquo;t stretch your boundaries too far</strong>.
+Make sure to check in with yourself and take breaks to assess whether you need mid-day a nap or a bit of quiet alone time between lunch and dinner.
+<strong>You cannot be &ldquo;on&rdquo; at every moment</strong>.</p>
+
+<h3>Tips from others 😄</h3>
+
+<p>I can&rsquo;t write a guide on attending PyCon without referencing a couple other wonderful guides that have been written on this topic.</p>
+
+<p>Danny Greenfeld&rsquo;s <a href="https://www.pydanny.com/beginners-guide-pycon-2014.html">Beginner&rsquo;s Guide to PyCon 2015</a> is another great guide to PyCon, with lots of tips on how to make the most of PyCon.
+It&rsquo;s much more compact than my post here, so it&rsquo;s a quick and dense read.</p>
+
+<p>Al Sweigart also talks quite a bit about his strategies for meeting new people at PyCon in his <a href="https://automatetheboringstuff.com/how-to-do-pycon.html">How to Do PyCon</a> post.
+Al is also an introvert, but he&rsquo;s very good at gamifying socializing with others.</p>
+
+<p>I also <strong>highly recommend asking questions</strong> to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they&rsquo;re approachable).
+Different PyCon attendees will have different recommendations for how to make the most of PyCon without getting overwhelmed.</p>
+
+<p>Also, if you see me in the hallway at PyCon (I have a face that looks like me and will like have a &ldquo;Trey Hunner&rdquo; name badge on), say hi and let me know you read this article! 😄</p>
+
+<p>I hope you have a lovely PyCon!</p>
 </div>
   
   <footer>
@@ -742,7 +573,7 @@ ga('send', 'pageview');
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Trey Hunner -
+  Copyright &copy; 2019 - Trey Hunner -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
