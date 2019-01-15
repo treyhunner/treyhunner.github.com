@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-01-15T11:19:48-08:00</updated>
+  <updated>2019-01-15T11:28:44-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -292,18 +292,16 @@ Creating thousands of <code>Path</code> objects can make a noticeable impact on 
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go"># 1.914</span>
-</span><span class='line'><span class="go">from os import getcwd, walk</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">walk</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="go">extension = &#39;.py&#39;</span>
-</span><span class='line'><span class="go">count = 0</span>
-</span><span class='line'><span class="go">for root, directories, filenames in walk(getcwd()):</span>
-</span><span class='line'><span class="go">    for filename in filenames:</span>
-</span><span class='line'><span class="go">        if filename.endswith(extension):</span>
-</span><span class='line'><span class="go">            count += 1</span>
-</span><span class='line'><span class="go">print(f&quot;{count} Python files found&quot;)</span>
+</span><span class='line'><span class="n">extension</span> <span class="o">=</span> <span class="s">&#39;.py&#39;</span>
+</span><span class='line'><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">directories</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">getcwd</span><span class="p">()):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">extension</span><span class="p">):</span>
+</span><span class='line'>            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{count} Python files found&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -317,16 +315,14 @@ Creating thousands of <code>Path</code> objects can make a noticeable impact on 
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go"># 2.275</span>
-</span><span class='line'><span class="go">from pathlib import Path</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="go">extension = &#39;.py&#39;</span>
-</span><span class='line'><span class="go">count = 0</span>
-</span><span class='line'><span class="go">for filename in Path.cwd().rglob(f&#39;*{extension}&#39;):</span>
-</span><span class='line'><span class="go">    count += 1</span>
-</span><span class='line'><span class="go">print(f&quot;{count} Python files found&quot;)</span>
+</span><span class='line'><span class="n">extension</span> <span class="o">=</span> <span class="s">&#39;.py&#39;</span>
+</span><span class='line'><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;*{extension}&#39;</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{count} Python files found&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
