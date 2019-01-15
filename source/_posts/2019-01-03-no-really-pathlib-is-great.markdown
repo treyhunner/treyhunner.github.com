@@ -6,15 +6,15 @@ comments: true
 categories: python
 ---
 
-I recently published an article about Python's [pathlib][] module and how I think everyone should be using it.
+I recently [published an article about Python's pathlib module][original article] and how I think everyone should be using it.
 
-I won some `pathlib` converts, but some folks also brought up concerns.
+I won some [pathlib][] converts, but some folks also brought up concerns.
 Some folks noted that I seemed to be comparing `pathlib` to `os.path` in a disingenuous way.
 Some people were also concerned that `pathlib` will take a very long time to be widely adopted because `os.path` is so entrenched in the Python community.
 And there were also concerns expressed about performance.
 
 In this article I'd like to acknowledge and address these concerns.
-This will be both a defense of `pathlib` and a love letter to [PEP 519][].
+This will be both a defense of `pathlib` and a sort of love letter to [PEP 519][].
 
 
 ## Comparing pathlib and os.path the right way
@@ -462,3 +462,4 @@ The `pathlib` module is lovely: start using it!
 [path.py]: https://github.com/jaraco/path.py
 [plumbum]: https://github.com/tomerfiliba/plumbum
 [visidata]: https://github.com/saulpw/visidata
+[original article]: https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/
