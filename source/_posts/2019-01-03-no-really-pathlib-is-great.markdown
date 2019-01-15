@@ -222,8 +222,7 @@ I decided to test the performance difference between `pathlib` and the alternati
 
 Here's the `os.walk` version:
 
-```
-# 1.914
+```python
 from os import getcwd, walk
 
 
@@ -238,8 +237,7 @@ print(f"{count} Python files found")
 
 Here's the `Path.rglob` version:
 
-```
-# 2.275
+```python
 from pathlib import Path
 
 
