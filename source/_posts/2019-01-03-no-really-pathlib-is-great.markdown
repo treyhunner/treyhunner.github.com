@@ -43,23 +43,26 @@ But this is in fact a fair comparison because **the Path class normalizes path s
 
 We can prove this by looking at the string representation of this `Path` object on Windows:
 
-```python
+```pycon
 >>> str(Path('src/__pypackages__'))
 'src\\__pypackages__'
 ```
 
 No matter whether we use the `joinpath` method, a `/` in a path string, the `/` operator (which is a neat feature of `Path` objects), or separate arguments to the `Path` constructor, we get the same representation in all cases:
 
-```python
->>> Path('src').joinpath('__pypackages__')
+```pycon
+>>> Path('src', '.editorconfig')
+WindowsPath('src/.editorconfig')
+>>> Path('src') / '.editorconfig'
+WindowsPath('src/.editorconfig')
+>>> Path('src').joinpath('.editorconfig')
 WindowsPath('src/.editorconfig')
 >>> Path('src/.editorconfig')
 WindowsPath('src/.editorconfig')
->>> Path('src') / '__pypackages__'
-WindowsPath('src/.editorconfig')
->>> Path('src', '.editorconfig')
-WindowsPath('src/.editorconfig')
 ```
+
+That last expression caused some confusion from folks who assumed `pathlib` wouldn't be smart enough to convert that `/` into a `\` in the path string.
+Fortunately, it is!
 
 With `Path` objects, you never have to worry about backslashes vs forward slashes again: specify all paths using forward slashes and you'll get what you'd expect on all platforms.
 
@@ -122,7 +125,7 @@ def make_editorconfig(dir_path):
 
 This function accepts a directory to create a `.editorconfig` file in, like this:
 
-```python
+```pycon
 >>> import os.path
 >>> make_editorconfig(os.path.join('src', 'my_package'))
 'src/my_package/.editorconfig'
@@ -130,7 +133,7 @@ This function accepts a directory to create a `.editorconfig` file in, like this
 
 But our code also works with a `Path` object:
 
-```python
+```pycon
 >>> from pathlib import Path
 >>> make_editorconfig(Path('src/my_package'))
 'src/my_package/.editorconfig'
@@ -183,7 +186,7 @@ p2 = Path('src/my_package')
 
 The `os.fspath` function will now normalize both of these types of paths to strings:
 
-```python
+```pycon
 >>> from os import fspath
 >>> fspath(p1), fspath(p2)
 ('src/my_package', 'src/my_package')
@@ -191,7 +194,7 @@ The `os.fspath` function will now normalize both of these types of paths to stri
 
 And the `Path` class will now accept both of these types of paths and convert them to `Path` objects:
 
-```python
+```pycon
 >>> Path(p1), Path(p2)
 (PosixPath('src/my_package'), PosixPath('src/my_package'))
 
@@ -199,7 +202,7 @@ And the `Path` class will now accept both of these types of paths and convert th
 
 That means you could convert the output of the `make_editorconfig` function back into a `Path` object if you wanted to:
 
-```python
+```pycon
 >>> from pathlib import Path
 >>> Path(make_editorconfig(Path('src/my_package')))
 PosixPath('src/my_package/.editorconfig')
@@ -393,17 +396,63 @@ I prefer this `pathlib`-refactored version.
 
 Let's recap.
 
-First, `pathlib.Path` objects automatically convert path separators as appropriate for the operating system you're on.
-This is a huge feature that can make for **more readable code which is also more certain to be free of path-related bugs**.
+The `/` separators in `pathlib.Path` strings are automatically converted to the correct path separator based on the operating system you're on.
+This is a huge feature that can make for code that is **more readable and more certain to be free of path-related bugs**.
 
-Also the Python standard library and built-ins (like `open`) accept `pathlib.Path` objects now.
+```pycon
+>>> path1 = Path('dir', 'file')
+>>> path2 = Path('dir') / 'file'
+>>> path3 = Path('dir/file')
+>>> path3
+WindowsPath('dir/file')
+>>> path1 == path2 == path3
+True
+```
+
+The Python standard library and built-ins (like `open`) also accept `pathlib.Path` objects now.
 This means **you can start using pathlib, even if your dependencies don't**!
 
-While `pathlib` is sometimes slower than the alternative the cases where this matters are often rare and **you can always jump back to using path strings for parts of your code that are particularly performance sensitive**.
+```python
+from shutil import move
 
-Using `pathlib` makes for more readable code.
+def rename_and_redirect(old_filename, new_filename):
+    move(old, new)
+    with open(old, mode='wt') as f:
+        f.write(f'This file has moved to {new}')
+```
 
-I'm going to reiterate what I said in my last post on `pathlib`: if you're on Python 3.6 or newer you should start using `pathlib`.
+```pycon
+>>> from pathlib import Path
+>>> old, new = Path('old.txt'), Path('new.txt')
+>>> rename_and_redirect(old, new)
+>>> old.read_text()
+'This file has moved to new.txt'
+```
+
+And if you don't like `pathlib`, you can use a third-party library that provides the same path-like interface.
+This is great because **even if you're not a fan of `pathlib` you'll still benefit from the new changes detailed in PEP 519**.
+
+```pycon
+>>> from plumbum import Path
+>>> my_path = Path('old.txt')
+>>> with open(my_path) as f:
+...     print(f.read())
+...
+This file has moved to new.txt
+```
+
+While `pathlib` is sometimes slower than the alternative(s), the cases where this matters are somewhat rare (in my experience at least) and **you can always jump back to using path strings for parts of your code that are particularly performance sensitive**.
+
+And in general, `pathlib` makes for more readable code.
+Here's a succinct and descriptive Python script to demonstrate my point:
+
+```python
+from pathlib import Path
+gitignore = Path('.gitignore')
+if gitignore.is_file():
+    print(gitignore.read_text(), end='')
+```
+
 The `pathlib` module is lovely: start using it!
 
 
