@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-01-15T11:28:44-08:00</updated>
+  <updated>2019-01-15T11:40:11-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -18,15 +18,15 @@
     <link href="http://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
     <updated>2019-01-15T11:20:00-08:00</updated>
     <id>http://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
-    <content type="html"><![CDATA[<p>I recently published an article about Python&rsquo;s <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module and how I think everyone should be using it.</p>
+    <content type="html"><![CDATA[<p>I recently <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">published an article about Python&rsquo;s pathlib module</a> and how I think everyone should be using it.</p>
 
-<p>I won some <code>pathlib</code> converts, but some folks also brought up concerns.
+<p>I won some <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> converts, but some folks also brought up concerns.
 Some folks noted that I seemed to be comparing <code>pathlib</code> to <code>os.path</code> in a disingenuous way.
 Some people were also concerned that <code>pathlib</code> will take a very long time to be widely adopted because <code>os.path</code> is so entrenched in the Python community.
 And there were also concerns expressed about performance.</p>
 
 <p>In this article I&rsquo;d like to acknowledge and address these concerns.
-This will be both a defense of <code>pathlib</code> and a love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
+This will be both a defense of <code>pathlib</code> and a sort of love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
 
 <h2>Comparing pathlib and os.path the right way</h2>
 
