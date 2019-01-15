@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "No really, pathlib is great"
-date: 2019-01-03 10:00:00 -0800
+date: 2019-01-15 11:20:00 -0800
 comments: true
 categories: python
 ---
