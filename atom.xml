@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-01-15T11:40:11-08:00</updated>
+  <updated>2019-01-15T11:40:57-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -652,6 +652,8 @@ Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftrip
 <p>In this article I&rsquo;m going to try to sell you on <code>pathlib</code>.
 I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pathlib</code> module pretty much anytime you need to work with files in Python</strong>.</p>
 
+<p><strong>Update</strong>: I wrote a follow-up article to address further comments and concerns that were raised after this one.  Read this article first and then take a look at <a href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/">the follow-up article here</a>.</p>
+
 <h2>os.path is clunky</h2>
 
 <p>The <code>os.path</code> module has always been what we reached for to work with paths in Python.
@@ -1020,6 +1022,8 @@ It&rsquo;s awkward but it works:</p>
 <p>I find that using <code>pathlib</code> often makes my code more readable.
 Most of my code that works with files now defaults to using <code>pathlib</code> and I recommend that you do the same.
 <strong>If you can use <code>pathlib</code>, you should</strong>.</p>
+
+<p>If you&rsquo;d like to continue reading about pathlib, check out my follow-up article called <a href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/">No really, pathlib is great</a>.</p>
 ]]></content>
   </entry>
   
