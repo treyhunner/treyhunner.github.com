@@ -13,6 +13,8 @@ Python's `pathlib` module is actually [wonderful][]!
 In this article I'm going to try to sell you on `pathlib`.
 I hope that this article will inspire you to **use Python's `pathlib` module pretty much anytime you need to work with files in Python**.
 
+**Update**: I wrote a follow-up article to address further comments and concerns that were raised after this one.  Read this article first and then take a look at [the follow-up article here][follow-up].
+
 ## os.path is clunky
 
 The `os.path` module has always been what we reached for to work with paths in Python.
@@ -306,6 +308,8 @@ I find that using `pathlib` often makes my code more readable.
 Most of my code that works with files now defaults to using `pathlib` and I recommend that you do the same.
 **If you can use `pathlib`, you should**.
 
+If you'd like to continue reading about pathlib, check out my follow-up article called [No really, pathlib is great][follow-up].
+
 [wonderful]: https://jefftriplett.com/2017/pathlib-is-wonderful/
 [duck typing]: https://en.wikipedia.org/wiki/Duck_typing
 [pep 519]: https://www.python.org/dev/peps/pep-0519/#standard-library-changes
@@ -313,3 +317,4 @@ Most of my code that works with files now defaults to using `pathlib` and I reco
 [path-like objects]: https://docs.python.org/3/glossary.html#term-path-like-object
 [pathlib2]: https://github.com/mcmtroffaes/pathlib2
 [pathlib]: https://docs.python.org/3/library/pathlib.html
+[follow-up]: https://treyhunner.com/2019/01/no-really-pathlib-is-great/
