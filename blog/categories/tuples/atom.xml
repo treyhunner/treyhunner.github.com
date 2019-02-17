@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tuples | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-01-15T11:40:57-08:00</updated>
+  <updated>2019-02-17T14:20:07-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -368,14 +368,14 @@ With deep unpacking we can also be <strong>strict about the shape of our iterabl
 <p>This works:</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2), (-1, -2))
-&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -points[1][1]
 True
 </code></pre>
 
 <p>But this buggy code works too:</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; points = ((1, 2, 4), (-1, -2, 3), (6, 4, 5))
-&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -point[1][1]
+&gt;&gt;&gt; points[0][0] == -points[1][0] and points[0][1] == -points[1][1]
 True
 </code></pre>
 

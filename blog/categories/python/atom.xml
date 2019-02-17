@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-01-15T11:40:57-08:00</updated>
+  <updated>2019-02-17T14:20:07-08:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -144,7 +144,7 @@ def make_editorconfig(dir_path):
 <p>Well <code>os.path.join</code> accepts <code>Path</code> objects (as of Python 3.6).
 And <code>os.makedirs</code> accepts <code>Path</code> objects too.</p>
 
-<p>In fact the built-in <code>open</code> function accepts <code>Path</code> objects and <code>shutil</code> does and anything in the standard library that previously accepted a <code>Path</code> object is now expected to work with both <code>Path</code> objects and path strings.</p>
+<p>In fact the built-in <code>open</code> function accepts <code>Path</code> objects and <code>shutil</code> does and anything in the standard library that previously accepted a path string is now expected to work with both <code>Path</code> objects and path strings.</p>
 
 <p>This is all thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, which called for an <code>os.PathLike</code> abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.</p>
 
