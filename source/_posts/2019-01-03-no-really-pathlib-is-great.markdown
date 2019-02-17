@@ -144,7 +144,7 @@ But... how??
 Well `os.path.join` accepts `Path` objects (as of Python 3.6).
 And `os.makedirs` accepts `Path` objects too.
 
-In fact the built-in `open` function accepts `Path` objects and `shutil` does and anything in the standard library that previously accepted a `Path` object is now expected to work with both `Path` objects and path strings.
+In fact the built-in `open` function accepts `Path` objects and `shutil` does and anything in the standard library that previously accepted a path string is now expected to work with both `Path` objects and path strings.
 
 This is all thanks to [PEP 519][], which called for an `os.PathLike` abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.
 
