@@ -20,30 +20,26 @@ By "comparison operators" I mean the equality operators (`==` and `!=`) and the 
 We can use these operators to compare numbers, as you'd expect:
 
 ```python
->>> x = 3
->>> y = 4
->>> x == y
+>>> 3 == 4
 False
->>> x != y
+>>> 3 != 4
 True
->>> x < y
+>>> 3 < 4
 True
->>> x > y
+>>> 3 > 4
 False
 ```
 
 But we can also use these operators to compare strings:
 
 ```python
->>> your_word = "pickle"
->>> my_word = "pear"
->>> my_word == your_word
+>>> "pear" == "pickle"
 False
->>> my_word != your_word
+>>> "pear" != "pickle"
 True
->>> my_word < your_word
+>>> "pear" < "pickle"
 True
->>> my_word > your_word
+>>> "pear" > "pickle"
 False
 ```
 
@@ -220,7 +216,7 @@ True
 ```
 
 The dictionaries ask each of their keys "are you in the other dictionary" and then asks each of the corresponding values for those keys "are you equal to the other value".
-But each of these operations may (as in this case) requires another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
+But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
 And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.
 
 We don't have to worry about any of this though: Python just does these deep comparisons for us automatically.
@@ -325,7 +321,7 @@ True
 False
 ```
 
-Sets overload these operators to answer questions about whether one set is a subset or superset of another ([sets in the documentation][sets]).
+Sets overload these operators to answer questions about whether one set is a subset or superset of another ([see sets in the documentation][sets]).
 
 
 ## Sorting by multiple attributes at once
