@@ -7,8 +7,8 @@ categories: python readability tuples
 ---
 
 Comparing things in Python.
-It sounds like something that almost doesn't even need to be taught.
-But I've found that Python's comparison operators are often misunderstood and under-appreciated by newer Pythonistas.
+That sounds like something that almost doesn't even need to be taught.
+But I've found that **Python's comparison operators are often misunderstood and under-appreciated by newer Pythonistas**.
 
 Let's review how Python's comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.
 
@@ -56,8 +56,9 @@ True
 False
 ```
 
-Many programming languages don't have an equivalent to Python's comparison operators.
-Let's dive into how these operators work on different types of objects and then discuss how to best use these in your own code.
+Many programming languages don't have an equivalent to Python's very flexible comparison operators.
+
+We'll take a look at how these operators work on tuples and more complex objects in a moment, but we'll start with something simpler: string comparisons.
 
 
 ## String comparisons in Python
@@ -73,10 +74,10 @@ False
 ```
 
 Note that I'm glossing over a very big exception: unicode characters.
-There are often multiple ways to represent the same text and those different representations must be normalized before they're seen as equal.
-We're going to stick to ASCII characters in this article.
+There are often multiple ways to represent the same text and those different representations must be [normalized][normalize] before they're seen as equal.
+For simplicity, we're going to stick to ASCII characters in this article.
 
-Ordering of strings is where things get a bit interesting:
+Ordering of strings is where things get a bit interesting in Python:
 
 ```python
 >>> "pickle" < "python"
@@ -92,8 +93,9 @@ False
 ```
 
 The string `"Python"` is less than `"pickle"` because `P` is less than `p`.
-We're not actually ordering alphabetically here so much as ASCII-betically (technically unicode-betically since we're in Python 3).
-These strings are being ordered by the ASCII values of their characters (`p` is 112 [in ASCII][ascii] and `P` is 80).
+
+We're not actually ordering alphabetically here so much as **ASCII-betically** (unicode-betically really since we're in Python 3).
+These strings are being ordered by the ASCII values of their characters (`p` is 112 in [ASCII][] and `P` is 80).
 
 ```python
 >>> ord("p")
@@ -104,16 +106,16 @@ These strings are being ordered by the ASCII values of their characters (`p` is 
 True
 ```
 
-Technically Python compares the unicode code point (which is what [ord][] does) for these characters and that happens to be the same as the ASCII value for ASCII characters.
+Technically Python compares the Unicode code point (which is what [ord][] does) for these characters and that happens to be the same as the ASCII value for ASCII characters.
 
 The rules for ordering strings are:
 
-1. Compare the n-th characters of each string (starting with the first) using `==`; if they're equal, repeat this step with the next character
-2. For unequal characters, find the character with the lower code point and declare its string "less than" the other
+1. Compare the n-th characters of each string (starting with the first character, index `0`) using the `==` operator; if they're equal, repeat this step with the next character
+2. For two unequal characters, take the character that has the lower code point and declare its string "less than" the other
 3. If all characters are equal, the strings are equal
 4. If one string runs out of characters during step 1 (one string is a "prefix" of the other), the shorter string is "less than" the longer one
 
-The ordering algorithm Python uses might seem complicated, but it's very similar to the ordering algorithm used in dictionaries; not Python dictionaries but [physical dictionaries][dictionary] (those things we used before the Internet existed).
+The ordering algorithm Python uses for strings might seem complicated, but it's **very similar to the ordering algorithm used in dictionaries**; not Python dictionaries but [physical dictionaries][dictionary] (those things we used before the Internet existed).
 We give precedence to the first characters when ordering words in dictionaries and if one word is a prefix of another, it comes first.
 
 
@@ -142,16 +144,16 @@ False
 ```
 
 String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn't often feel quite as intuitive at first.
-Tuple ordering uses exactly the same algorithm as string ordering though.
+But you're actually somewhat much familiar with tuple ordering already because **tuple ordering uses the same algorithm as string ordering**.
 
-The rules for ordering tuples are essentially the same as ordering strings:
+The rules for ordering tuples (which are essentially the same as ordering strings):
 
-1. Compare the n-th items of each tuple (starting with the first) using `==`; if they're equal, repeat this step with the next item
-2. For unequal items, the item that is "less than" makes the tuple that contains it also "less than" the other tuple
+1. Compare the n-th items of each tuple (starting with the first, index `0`) using the `==` operator; if they're equal, repeat this step with the next item
+2. For two unequal items, the item that is "less than" makes the tuple that contains it also "less than" the other tuple
 3. If all items are equal, the tuples are equal
 4. If one tuple runs out of items during step 1 (one tuple is a "prefix" of the other), the shorter tuple is "less than" the longer one
 
-In Python, this algorithm looks like this:
+In Python, this algorithm might look sort of like this:
 
 ```python
 def less_than(tuple1, tuple2):
@@ -176,10 +178,10 @@ def less_than(tuple1, tuple2):
 
 ## Lexicographical ordering
 
-This alphabetical-like style of ordering that gives precedence to the first items in an iterable is called [Lexicographical ordering][].
-You don't need to know that phrase, but if you ever need to describe the way ordering works in Python, *lexicographical* is the word to use.
+This **alphabetical-like style of ordering** that gives precedence to the first items in an iterable is called [lexicographical ordering][].
+You don't need to know that phrase, but if you ever need to describe *the way ordering works in Python*, **lexicographical** is the word to use.
 
-Strings and tuples are ordered lexicographically as we've seen, but so are lists:
+Strings and tuples are ordered lexicographically, as we've seen, but so are lists:
 
 ```python
 >>> [1, 2, 3] < [1, 4]
@@ -188,15 +190,52 @@ True
 False
 ```
 
-In fact, most [sequences][] in Python [should be ordered lexicographically][sequence ordering] (`range` objects are an exception to this).
+In fact, most [sequences][] in Python [should be ordered lexicographically][sequence ordering] (`range` objects are an exception to this as they can't be ordered at all).
 
-But not everything is ordered lexicographically.
+But not every collection in Python is relies on lexicographical ordering.
+
+
+## Dictionary and set comparisons
+
+Many objects in Python work with equality but don't work with ordering at all.
+
+For example dictionaries compare "equal" when they have all the same keys and values:
+
+```python
+>>> expected = {'name': 'Trey', 'python_version': 3.7.0}
+>>> actual = {'name': 'Trey', 'python_version': 2.7.0}
+>>> expected == actual
+False
+>>> actual['python_version'] = 3.7.0
+>>> expected == actual
+True
+```
+
+But **dictionaries can't be ordered** using the `<` or `>` operators:
+
+```python
+>>> expected < actual
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+```
+
+Sets are similar, except that sets *do* work with ordering operators... they just don't use those operators for ordering:
+
+```python
+>>> {1, 2} < {1, 2, 3}
+True
+>>> {1, 3} < {1, 2, 4}
+False
+```
+
+Sets overload these operators to answer questions about **whether one set is a subset or superset of another** ([see sets in the documentation][sets]).
 
 
 ## Deep equality
 
 Comparisons between two data structures in Python tend to be **deep comparisons**.
-Whether we're comparing lists, tuples, sets, or dictionaries, when we ask whether two objects are "equal" Python will recurse through each sub-object and ask whether each of them are "equal".
+Whether we're comparing lists, tuples, sets, or dictionaries, when we ask whether two of these objects are "equal" Python will recurse through each sub-object and ask whether each is "equal".
 
 So given a dictionary that maps tuples to lists of tuples:
 
@@ -211,6 +250,7 @@ Asking whether these two dictionaries are equal is equivalent to asking whether 
 >>> current_portals == previous_portals
 False
 >>> current_portals[2, 1].pop()
+(3, 4)
 >>> current_portals == previous_portals
 True
 ```
@@ -219,10 +259,11 @@ The dictionaries ask each of their keys "are you in the other dictionary" and th
 But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
 And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.
 
-We don't have to worry about any of this though: Python just does these deep comparisons for us automatically.
-The fact that Python's comparisons are deep is pretty handy to know about though.
+**We don't have to worry about any of this though**: Python just does these deep comparisons for us automatically.
 
-For example if we have a class with `x`, `y`, and `z` attributes we'd like to compare in our `__eq__` method, instead of this long boolean expression:
+While you don't need to worry about how deep comparisons work, the fact that Python's comparisons *are* deep can be pretty handy to know.
+
+For example if we have [a class][point] with `x`, `y`, and `z` attributes we'd like to compare in our `__eq__` method, instead of this long boolean expression:
 
 ```python
 def __eq__(self, other):
@@ -236,8 +277,7 @@ def __eq__(self, other):
     return (self.x, self.y, self.z) == (other.x, other.y, other.z)
 ```
 
-We've added some symmetry to our code: we have one `==` expression with the same kind of object on each side of it.
-I find this more readable than the alternative.
+I find this more readable, mostly because **we've added symmetry to our code**: we have one `==` expression with the same kind of object on each side of it.
 
 
 ## Deep ordering
@@ -260,10 +300,10 @@ def __lt__(self, other):
         return False
 ```
 
-This method implements the `<` operator on a class that has a `first_name` and a `last_name` attribute (of course [this is an anti-pattern][names] but we'll to ignore that for this example).
-This method returns `True` if `self` is less than `other`.
+This `__lt__` method implements the `<` operator on [its class][person], returning `True` if `self` is less than `other`.
+Storing and comparing `first_name` and `last_name` attributes this way is [an anti-pattern][names] but we'll to ignore that fact for this example.
 
-Our `__lt__` method gives precedence to the `last_name` here: the `first_name` is only checked if the `last_name` attribute of these two objects happens to be equal.
+That `__lt__` method above gives precedence to the `last_name`: the `first_name` is only checked if the `last_name` attribute of these two objects happens to be equal.
 
 If we wanted to collapse this logic some, we could rewrite our code like this:
 
@@ -287,50 +327,14 @@ Our tuples happen to contain strings, which are also ordered lexicographically (
 So we're **deeply ordering** these objects.
 
 
-## Dictionary and set comparisons
-
-Many objects in Python work with equality but don't work with ordering.
-
-For example dictionaries compare "equal" when they have all the same keys and values:
-
-```python
->>> expected = {'name': 'Trey', 'python_version': 3.7.0}
->>> actual = {'name': 'Trey', 'python_version': 2.7.0}
->>> expected == actual
-False
->>> actual['python_version'] = 3.7.0
->>> expected == actual
-True
-```
-
-But dictionaries can't be "ordered" using `<`, `>` and related operators:
-
-```python
->>> expected < actual
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: '<' not supported between instances of 'dict' and 'dict'
-```
-
-Sets are similar, except that sets *do* work with ordering operators... they just don't use those operators for ordering:
-
-```python
->>> {1, 2} < {1, 2, 3}
-True
->>> {1, 3} < {1, 2, 4}
-False
-```
-
-Sets overload these operators to answer questions about whether one set is a subset or superset of another ([see sets in the documentation][sets]).
-
-
 ## Sorting by multiple attributes at once
 
 Knowing about lexicographical ordering and deep ordering of Python sequences can be quite useful when sorting Python objects.
+From Python's perspective, **sorting is really just ordering over and over**.
 
 Python's built-in `sorted` function accepts a `key` function which can return a corresponding key object to sort each of these items by.
 
-Here we're specifying a `key` function that accepts a word and returns the length of the word and the case-normalized word:
+Here we're specifying a `key` function that accepts a word and returns a tuple of two things: the length of the word and the case-normalized word:
 
 ```python
 >>> fruits = ['kumquat', 'Cherimoya', 'Loquat', 'longan', 'jujube']
@@ -350,11 +354,11 @@ If we just sorted by length we would have had a different ordering:
 ['Loquat', 'longan', 'jujube', 'kumquat', 'Cherimoya']
 ```
 
-Deep comparisons actually predate the `sorted` function's `key` argument in Python.
+**Slight aside**: deep comparisons actually predate the `sorted` function's `key` argument in Python.
 Before there was a key function Python developers would create lists of tuples, sort the lists of tuples, and then grab the actual value they cared about out of that list (which is [discussed in the docs][decorate-sort-undecorate]).
 
 The `sorted` function isn't the only place where tuple ordering can come in handy.
-Many places where you see a `key` function might be a candidate for relying on tuple ordering.
+Any place where you see a `key` function might be a candidates for relying on tuple ordering.
 For example the `min` and `max` functions:
 
 ```
@@ -363,6 +367,8 @@ For example the `min` and `max` functions:
 >>> max(fruits, key=str.casefold)
 'Loquat'
 ```
+
+Anywhere Python does an ordering operation might be a place you could rely on the deep ordering of Python's data structures.
 
 
 ## Deep hashability (and unhashability)
@@ -378,7 +384,7 @@ Tuples can be used as a key in a dictionary (as we saw earlier), and they can be
 >>> points = {(1, 2), (2, 1), (3, 4)}
 ```
 
-This only works for tuples that contain immutable values:
+But this only works for tuples that contain immutable values:
 
 ```python
 >>> things = {(["dress", "truck"], "yellow"), (["ball", "plane"], "purple")}
@@ -387,7 +393,9 @@ Traceback (most recent call last):
 TypeError: unhashable type: 'list'
 ```
 
-If we use tuples containing tuples, this works:
+Tuples with lists in them aren't hashable because lists aren't hashable: each object inside a tuple must be hashable for the tuple itself to be hashable.
+
+So while tuples containing lists aren't hashable, tuples containing tuples *are* hashable:
 
 ```python
 >>> things = {(("dress", "truck"), "yellow"), (("ball", "plane"), "purple")}
@@ -406,9 +414,10 @@ Tuples compute their hash values by delegating to the hash values of the items t
 True
 ```
 
-If this section on hashability was confusing, that's okay.
-You don't need to know how hashing works in Python.
-The takeaway here is that Python supports deep hashability which is the reason we can use tuples as dictionary keys and in sets.
+While hashability is a big subject, this is really all I'm going to say about it.
+You don't really need to know how hashing works in Python so if you found this section confusing, that's okay!
+
+The takeaway here is that Python supports **deep hashability** which is **the reason we can use tuples as dictionary keys** and the reason we can use tuples in sets.
 
 
 ## Deep comparisons are a tool to remember
@@ -481,5 +490,8 @@ Remember these features: you may not need them today, but they'll almost certain
 [sequence ordering]: https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types
 [sets]: https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset
 [sequences]: https://docs.python.org/3/glossary.html#term-sequence
-[names]: https://pyvideo.org/pycon-au-2017/red-user-blue-user-myuser-authuser.html
+[names]: https://www.youtube.com/watch?v=458KmAKq0bQ&feature=youtu.be&t=148
 [decorate-sort-undecorate]: https://docs.python.org/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate
+[normalize]: https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize
+[point]: https://pastebin.com/raw/yspKmfyj
+[person]: https://pastebin.com/raw/u8uGDArq
