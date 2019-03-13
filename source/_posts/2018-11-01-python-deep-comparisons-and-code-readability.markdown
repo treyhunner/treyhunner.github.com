@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Deep comparisons and code readability in Python"
-date: 2019-03-12 08:00:00 -0700
+date: 2019-03-13 08:00:00 -0700
 comments: true
 categories: python readability tuples
 ---
