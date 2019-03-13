@@ -144,7 +144,7 @@ False
 ```
 
 String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn't often feel quite as intuitive at first.
-But you're actually somewhat much familiar with tuple ordering already because **tuple ordering uses the same algorithm as string ordering**.
+But you're actually somewhat familiar with tuple ordering already because **tuple ordering uses the same algorithm as string ordering**.
 
 The rules for ordering tuples (which are essentially the same as ordering strings):
 
@@ -192,7 +192,7 @@ False
 
 In fact, most [sequences][] in Python [should be ordered lexicographically][sequence ordering] (`range` objects are an exception to this as they can't be ordered at all).
 
-But not every collection in Python is relies on lexicographical ordering.
+But not every collection in Python relies on lexicographical ordering.
 
 
 ## Dictionary and set comparisons
