@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-13T07:19:00-07:00</updated>
+  <updated>2019-03-13T10:50:17-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -206,7 +206,7 @@ We give precedence to the first characters when ordering words in dictionaries a
 
 
 <p>String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn&rsquo;t often feel quite as intuitive at first.
-But you&rsquo;re actually somewhat much familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
+But you&rsquo;re actually somewhat familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
 
 <p>The rules for ordering tuples (which are essentially the same as ordering strings):</p>
 
@@ -271,7 +271,7 @@ You don&rsquo;t need to know that phrase, but if you ever need to describe <em>t
 
 <p>In fact, most <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a> in Python <a href="https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types">should be ordered lexicographically</a> (<code>range</code> objects are an exception to this as they can&rsquo;t be ordered at all).</p>
 
-<p>But not every collection in Python is relies on lexicographical ordering.</p>
+<p>But not every collection in Python relies on lexicographical ordering.</p>
 
 <h2>Dictionary and set comparisons</h2>
 
