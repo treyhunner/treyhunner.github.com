@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Line length is a big deal&hellip; programmers argue about it quite a bit. PEP 8, the Python style guide, recommends a 79 character maximum line &hellip;">
+  <meta name="description" content="If you&rsquo;re switching between Python 2 and Python 3, you might think that Python 2&rsquo;s xrange objects are pretty much the identical to Python &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a></h1>
+      <h1 class="entry-title"><a href="/2018/02/python-3-s-range-better-than-python-2-s-xrange/">Python 3&#8217;s range is more powerful than Python 2&#8217;s xrange</a></h1>
     
     
       <p class="meta">
@@ -98,149 +98,89 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2017-07-23T10:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>10:00 am</span></time>
+<time class='entry-date' datetime='2018-02-15T08:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:00 am</span></time>
         
-           | <a href="/2017/07/craft-your-python-like-poetry/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2017/07/craft-your-python-like-poetry/">Comments</a>
+           | <a href="/2018/02/python-3-s-range-better-than-python-2-s-xrange/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Line length is a big deal&hellip; programmers argue about it quite a bit.  PEP 8, the Python style guide, recommends a <a href="http://pep8.org/#maximum-line-length">79 character maximum line length</a> but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.</p>
+  <div class="entry-content"><p>If you&rsquo;re switching between Python 2 and Python 3, you might think that Python 2&rsquo;s <code>xrange</code> objects are pretty much the identical to Python 3&rsquo;s <code>range</code> object.  It seems like they probably just renamed <code>xrange</code> to <code>range</code>, right?</p>
 
-<p>So 79 characters is recommended&hellip; but isn&rsquo;t line length completely obsolete?  After all, programmers are no longer restricted by <a href="https://en.wikipedia.org/wiki/Punched_card">punch cards</a>, <a href="https://en.wikipedia.org/wiki/Teletype_Corporation">teletypes</a>, and 80 column <a href="https://en.wikipedia.org/wiki/Computer_terminal">terminals</a>.  The laptop screen I&rsquo;m typing this on can fit about 200 characters per line.</p>
+<p>Not quite.</p>
 
-<h2>Line length is not obsolete</h2>
+<p>Python 2&rsquo;s <code>xrange</code> is somewhat more limited than Python 3&rsquo;s <code>range</code>.  In this article we&rsquo;re going to take a look at how <code>xrange</code> in Python 2 differs from <code>range</code> in Python 3.</p>
 
-<p>Line length is not a technical limitation: it&rsquo;s a human-imposed limitation.  Many programmers prefer short lines because <strong>long lines are hard to read</strong>.  This is true in typography and it&rsquo;s true in programming as well.</p>
+<p>The inspiration for this article came from <a href="https://www.crowdcast.io/e/range/1/q/-KpfDuicwa4YGF9tAoMW">a question I addressed</a> during a <a href="http://www.weeklypython.chat">Weekly Python Chat</a> session I did last year on range objects.</p>
 
-<p>Short lines are easier to read.</p>
+<h2>Python 2 vs Python 3: range</h2>
 
-<p>In the typography world, a line length of 55 characters per line is recommended for electronic text (see <a href="https://en.wikipedia.org/wiki/Line_length">line length on Wikipedia</a>).  That doesn&rsquo;t mean we should use a 55 character limit though; typography and programming are different.</p>
+<p>The first thing I need to address is how <code>range</code> works in Python 2 and Python 3.</p>
 
-<h2>Python isn&rsquo;t prose</h2>
-
-<p>Python code isn&rsquo;t structured like prose.  English prose is structured in flowing sentences: each line wraps into the next line.  In Python, <strong>statements</strong> are somewhat like <strong>sentences</strong>, meaning each sentence begins at the <em>start</em> of each line.</p>
-
-<p>Python code is more like poetry than prose.  Poets and Python programmers don&rsquo;t wrap lines once they hit an arbitrary length; they wrap lines when they make sense for readability and beauty.</p>
-
-<pre><code>I stand amid the roar Of a surf-tormented shore, And I hold within my hand
-Grains of the golden sand— How few! yet how they creep Through my fingers to
-the deep, While I weep—while I weep! O God! can I not grasp Them with a
-tighter clasp? O God! can I not save One from the pitiless wave? Is all that we
-see or seem But a dream within a dream?
-</code></pre>
-
-<p>Don&rsquo;t wrap lines arbitrarily. Craft each line with care to help readers <strong>experience your code exactly the way you intended</strong>.</p>
-
-<pre><code>I stand amid the roar
-Of a surf-tormented shore,
-And I hold within my hand
-Grains of the golden sand—
-How few! yet how they creep
-Through my fingers to the deep,
-While I weep—while I weep!
-O God! can I not grasp
-Them with a tighter clasp?
-O God! can I not save
-One from the pitiless wave?
-Is all that we see or seem
-But a dream within a dream?
-</code></pre>
-
-<h2>Examples</h2>
-
-<p>It&rsquo;s not possible to make a single rule for when and how to wrap lines of code.  <a href="http://pep8.org/#indentation">PEP8 discusses line wrapping briefly</a>, but it only discusses one case of line wrapping and three different acceptable styles are provided, leaving the reader to choose which is best.</p>
-
-<p>Line wrapping is best discussed through examples.  Let&rsquo;s look at a few examples of long lines and few variations for line wrapping for each.</p>
-
-<h3>Example: Wrapping a Comprehension</h3>
-
-<p>This line of code is over 79 characters long:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">employee_hours</span> <span class="o">=</span> <span class="p">[</span><span class="n">schedule</span><span class="o">.</span><span class="n">earliest_hour</span> <span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_employees</span> <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">employee</span><span class="o">.</span><span class="n">schedules</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;ve wrapped that line of code so that it&rsquo;s two shorter lines of code:</p>
+<p>In Python 2, the <code>range</code> function returned a list of numbers:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">employee_hours</span> <span class="o">=</span> <span class="p">[</span><span class="n">schedule</span><span class="o">.</span><span class="n">earliest_hour</span> <span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span>
-</span><span class='line'>                  <span class="bp">self</span><span class="o">.</span><span class="n">public_employees</span> <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">employee</span><span class="o">.</span><span class="n">schedules</span><span class="p">]</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We&rsquo;re able to insert that line break in this line because we have an <strong>unclosed square bracket</strong>.  This is called an <strong>implicit line continuation</strong>.  Python knows we&rsquo;re continuing a line of code whenever there&rsquo;s a line break inside unclosed square brackets, curly braces, or parentheses.</p>
-
-<p>This code still isn&rsquo;t very easy to read because the line break was inserted arbitrarily.  We simply wrapped this line just before a specific line length.  We were thinking about line length here, but we completely neglected to think about readability.</p>
-
-<p>This code is the same as above, but we&rsquo;ve inserted line breaks in very particular places:</p>
+<p>And the <code>xrange</code> class represented an iterable that provided the same thing when looped over, but it was lazy:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">employee_hours</span> <span class="o">=</span> <span class="p">[</span><span class="n">schedule</span><span class="o">.</span><span class="n">earliest_hour</span>
-</span><span class='line'>                  <span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_employees</span>
-</span><span class='line'>                  <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">employee</span><span class="o">.</span><span class="n">schedules</span><span class="p">]</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">xrange(5)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We have two lines breaks here and we&rsquo;ve purposely inserted them before our <code>for</code> clauses in this list comprehension.</p>
-
-<p>Statements have logical components that make up a whole, the same way sentences have clauses that make up the whole.  We&rsquo;ve chosen to break up this list comprehension by inserting line breaks <strong>between these logical components</strong>.</p>
-
-<p>Here&rsquo;s another way to break up this statement:</p>
+<p>This laziness was really embraced in Python 3.  In Python 3, they removed the original <code>range</code> function and renamed <code>xrange</code> to <code>range</code>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">employee_hours</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">schedule</span><span class="o">.</span><span class="n">earliest_hour</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_employees</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">schedule</span> <span class="ow">in</span> <span class="n">employee</span><span class="o">.</span><span class="n">schedules</span>
-</span><span class='line'><span class="p">]</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 5)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Which of these methods you prefer is up to you.  It&rsquo;s important to make sure you break up the logical components though.  And whichever method you choose, <strong>be consistent</strong>!</p>
-
-<h3>Example: Function Calls</h3>
-
-<p>This is a Django model field with a whole bunch of arguments being passed to it:</p>
+<p>So if you wanted the Python 2 behavior for <code>range</code> in Python 3, you could always convert the <code>range</code> object to a list:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">default_appointment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">othermodel</span><span class="o">=</span><span class="s">&#39;AppointmentType&#39;</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;+&#39;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We&rsquo;re already using an implicit line continuation to wrap these lines of code, but again we&rsquo;re wrapping this code at an arbitrary line length.</p>
+<p>Okay now let&rsquo;s compare Python 2&rsquo;s <code>xrange</code> class to Python 3&rsquo;s <code>range</code> class.</p>
 
-<p>Here&rsquo;s the same Django model field with one argument specific per line:</p>
+<h2>Similarities</h2>
+
+<p>Before we take a look at differences between <code>xrange</code> and <code>range</code> objects, let&rsquo;s take a look at some of the similarities.</p>
+
+<p>Python 2&rsquo;s <code>xrange</code> has a fairly descriptive string representation:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">default_appointment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">othermodel</span><span class="o">=</span><span class="s">&#39;AppointmentType&#39;</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
-</span><span class='line'>                                        <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;+&#39;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="go">xrange(10)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We&rsquo;re breaking up the component parts (the arguments) of this statement onto separate lines.</p>
+<p>And so does Python 3&rsquo;s <code>range</code> object:</p>
 
-<p>We could also wrap this line by indenting each argument instead of aligning them:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 10)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>xrange</code> object in Python 2 is an iterable (anything you can loop over is an iterable):</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -248,16 +188,16 @@ But a dream within a dream?
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">default_appointment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">othermodel</span><span class="o">=</span><span class="s">&#39;AppointmentType&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;+&#39;</span>
-</span><span class='line'><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span> <span class="n">n</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Notice we&rsquo;re also leaving that closing parenthesis on its own line.  We could additionally add a trailing comma if we wanted:</p>
+<p>And the <code>range</code> object in Python 3 is also an iterable:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -265,142 +205,16 @@ But a dream within a dream?
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">default_appointment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">othermodel</span><span class="o">=</span><span class="s">&#39;AppointmentType&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;+&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Which of these is the best way to wrap this line?</strong></p>
-
-<p>Personally for this line I prefer that last approach: each argument on its own line, the closing parenthesis on its own line, and a comma after each argument.</p>
-
-<p>It&rsquo;s important to decide what you prefer, reflect on why you prefer it, and always maintain consistency within each project/file you create.  And keep in mind that consistence of your personal style is less important than <strong>consistency within a single project</strong>.</p>
-
-<h3>Example: Chained Function Calls</h3>
-
-<p>Here&rsquo;s a long line of chained Django queryset methods:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice that there aren&rsquo;t parenthesis around this whole statement, so the only place we can currently wrap our lines is inside those parenthesis.  We could do something like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-</span><span class='line'>    <span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span>
-</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
-</span><span class='line'>    <span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span>
-</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But that looks kind of weird and it doesn&rsquo;t really improve readability.</p>
-
-<p>We could add backslashes at the end of each line to allow us to wrap at arbitrary places:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span>\
-</span><span class='line'>    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span>\
-</span><span class='line'>    <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span>\
-</span><span class='line'>    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works, but <a href="http://pep8.org/#maximum-line-length">PEP8 recommends against this</a>.</p>
-
-<p>We could wrap the whole statement in parenthesis, allowing us to use implicit line continuation wherever we&rsquo;d like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">objects</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&rsquo;s not uncommon to see extra parenthesis added in Python code to allow implicit line continuations.</p>
-
-<p>That indentation style is a little odd though.  We could align our code with the parenthesis instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">objects</span>
-</span><span class='line'>         <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span>
-</span><span class='line'>         <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span>
-</span><span class='line'>         <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Although I&rsquo;d probably prefer to align the dots in this case:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="p">(</span><span class="n">Book</span><span class="o">.</span><span class="n">objects</span>
-</span><span class='line'>             <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span>
-</span><span class='line'>             <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span>
-</span><span class='line'>             <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A fully indentation-based style works too (we&rsquo;ve also moved <code>objects</code> to its own line here):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">books</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">Book</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">objects</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author__in</span><span class="o">=</span><span class="n">favorite_authors</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;author&#39;</span><span class="p">,</span> <span class="s">&#39;publisher&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There are yet more ways to resolve this problem.  For example we could try to use intermediary variables to avoid line wrapping entirely.</p>
-
-<p>Chained methods pose a different problem for line wrapping than single method calls and require a different solution.  Focus on readability when picking a preferred solution and be consistent with the solution you pick.  <strong>Consistency lies at the heart of readability</strong>.</p>
-
-<h3>Example: Dictionary Literals</h3>
-
-<p>I often define long dictionaries and lists defined in Python code.</p>
-
-<p>Here&rsquo;s a dictionary definition that has been over multiple lines, with line breaks inserted as a maximum line length is approached:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">MONTHS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;January&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;February&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;March&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;April&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;June&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s">&#39;July&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s">&#39;August&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s">&#39;September&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s">&#39;October&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;November&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s">&#39;December&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here&rsquo;s the same dictionary with each key-value pair on its own line, aligned with the first key-value pair:</p>
+<p>The <code>xrange</code> object has a start, stop, and step.  Step is optional and so is start:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -410,26 +224,18 @@ But a dream within a dream?
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">MONTHS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;January&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;February&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;March&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;April&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;May&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;June&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;July&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;August&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;September&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;October&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;November&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-</span><span class='line'>          <span class="s">&#39;December&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="go">xrange(5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">xrange(5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">xrange(5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And the same dictionary again, with each key-value pair indented instead of aligned (with a trailing comma on the last line as well):</p>
+<p>So does the <code>range</code> object:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -439,40 +245,395 @@ But a dream within a dream?
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">MONTHS</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="s">&#39;January&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;February&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;March&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;April&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;May&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;June&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;July&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;August&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;September&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;October&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;November&#39;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;December&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 5)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This is the strategy I prefer for wrapping long dictionaries and lists.  I very often wrap short dictionaries and lists this way as well, for the sake of readability.</p>
+<p>Both have a length and both can be indexed in forward or reverse order:</p>
 
-<h2>Python is Poetry</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</span><span class='line'><span class="go">5</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="go">3</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="go">4</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>The moment of <strong>peak readability</strong> is <strong>the moment just after you write a line of code</strong>.  Your code will be far less readable to you one day, one week, and one month after you&rsquo;ve written it.</p>
 
-<p>When crafting Python code, use spaces and line breaks to split up the logical components of each statement.  Don&rsquo;t write a statement on a single line unless it&rsquo;s already <em>very</em> clear.  If you break each line over multiple lines for clarity, lines length shouldn&rsquo;t be a major concern because your lines of code will mostly be far shorter than 79 characters already.</p>
+<p>Python considers both <code>range</code> and <code>xrange</code> to be sequences:</p>
 
-<p>Make sure to craft your code carefully as you write it because your future self will have a much more difficult time cleaning it up than you will <strong>right now</strong>.  So take that line of code you just wrote and carefully add line breaks to it.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Sequence</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Sequence</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>If you found this article interesting, you might want to watch my <a href="https://youtu.be/knMg6G9_XCg?t=59s">Readability Counts</a> talk or read some of the <a href="https://treyhunner.com/blog/categories/readability/">other articles I&rsquo;ve written on code readability</a>.</p>
+
+<p>So much of the basic functionality is the same between <code>xrange</code> and <code>range</code>.  Let&rsquo;s talk about the differences.</p>
+
+<h2>Dunder Methods</h2>
+
+<p>The first difference we&rsquo;ll look at is the built-in documentation that exists for Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code>.</p>
+
+<p>If we use the <code>help</code> function to ask <code>xrange</code> for documentation, we&rsquo;ll see a number of dunder methods.  Dunder methods are what Python uses when you use many operators on objects (like <code>+</code> or <code>*</code>) as well as other features shared between different objects (like the <code>len</code> and <code>str</code> functions).</p>
+
+<p>Here are the core dunder methods which Python 2&rsquo;s <code>xrange</code> objects fully implement:</p>
+
+<pre><code> |  __getitem__(...)
+ |      x.__getitem__(y) &lt;==&gt; x[y]
+ |
+ |  __iter__(...)
+ |      x.__iter__() &lt;==&gt; iter(x)
+ |
+ |  __len__(...)
+ |      x.__len__() &lt;==&gt; len(x)
+ |
+ |  __reduce__(...)
+ |
+ |  __repr__(...)
+ |      x.__repr__() &lt;==&gt; repr(x)
+ |
+ |  __reversed__(...)
+ |      Returns a reverse iterator.
+</code></pre>
+
+<p>And here are the core dunder methods which Python 3&rsquo;s <code>range</code> objects fully implement:</p>
+
+<pre><code> |  __contains__(self, key, /)
+ |      Return key in self.
+ |
+ |  __eq__(self, value, /)
+ |      Return self==value.
+ |
+ |  __getitem__(self, key, /)
+ |      Return self[key].
+ |
+ |  __iter__(self, /)
+ |      Implement iter(self).
+ |
+ |  __len__(self, /)
+ |      Return len(self).
+ |
+ |  __ne__(self, value, /)
+ |      Return self!=value.
+ |
+ |  __repr__(self, /)
+ |      Return repr(self).
+ |
+ |  __reversed__(...)
+ |      Return a reverse iterator.
+ |
+ |  count(...)
+ |      rangeobject.count(value) -&gt; integer -- return number of occurrences of value
+ |
+ |  index(...)
+ |      rangeobject.index(value, [start, [stop]]) -&gt; integer -- return index of value.
+ |      Raise ValueError if the value is not present.
+</code></pre>
+
+<p>Notice that <code>range</code> objects support many more operations than <code>xrange</code> does.  Let&rsquo;s take a look at some of them.</p>
+
+<h2>Comparability</h2>
+
+<p>Python 3&rsquo;s <code>range</code> support equality checks:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python 2&rsquo;s <code>xrange</code> objects may seem like they support equality:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But they&rsquo;re actually falling back to Python&rsquo;s default identity check:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Two <code>xrange</code> objects will not be seen as equal unless they are actually the same exact object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Whereas a comparison between two <code>range</code> objects in Python 3 actually checks whether the start, stop, and step of each object is equal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Sliceabiltiy</h2>
+
+<p>We already saw that both Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code> support indexing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="go">3</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="go">9</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python 3&rsquo;s <code>range</code> object also supports slicing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+</span><span class='line'><span class="go">range(2, 10)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'><span class="go">range(3, 8, -1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>xrange</code> doesn&rsquo;t:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">sequence index must be integer, not &#39;slice&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Containment</h2>
+
+<p>Both <code>range</code> and <code>xrange</code> support containment checks:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">5</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But this support is a little deceptive with <code>xrange</code>.  Python 2&rsquo;s <code>xrange</code> objects don&rsquo;t actually implement the <code>__contains__</code> method that is used to implement Python&rsquo;s <code>in</code> operator.</p>
+
+<p>So while we can ask whether an <code>xrange</code> object contains a number, in order to answer our question Python will have to manually loop over the <code>xrange</code> object until it finds a match.</p>
+
+<p>This takes about 20 seconds to run on my computer in Python 2.7.12:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But in Python 3 this returns an answer immediately:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python 3 is able to return an answer immediately for <code>range</code> objects because it can compute an answer based off the start, stop, and step we provided.</p>
+
+<h2>Start, stop, and step</h2>
+
+<p>In Python 3, <code>range</code> objects have a start, stop, and step:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span>
+</span><span class='line'><span class="go">10</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span>
+</span><span class='line'><span class="go">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>These can be useful when playing with or extending the capability of <code>range</code>.</p>
+
+<p>We might for example wish that <code>range</code> objects could be negated to get a mirrored <code>range</code> on the opposite side of the number line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">numbers</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">bad operand type for unary -: &#39;range&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While <code>range</code> objects don&rsquo;t support this feature, we could implement something similar by negating the start, stop, and step ourselves and making a new <code>range</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(-5, -20, -1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While you can provide start, stop, and step as arguments to Python 2&rsquo;s <code>xrange</code> objects, they don&rsquo;t have these start, stop, and step <strong>attributes</strong> at all:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">AttributeError</span>: <span class="n">&#39;xrange&#39; object has no attribute &#39;start&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you wanted to get start, stop, and step from an <code>xrange</code> object, you would need to calculate them manually.  Something like this might work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span>
+</span><span class='line'><span class="go">10</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">step</span>
+</span><span class='line'><span class="go">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Support for big numbers</h2>
+
+<p>The last difference I&rsquo;d like to mention is sort of a silly one, but it could be important for some interesting use cases of <code>range</code> and <code>xrange</code>.</p>
+
+<p>In Python 3, the <code>range</code> object will accept integers of any size:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 10000000000000000000)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But Python 2&rsquo;s <code>xrange</code> objects are limited in the size of integers they can accept:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">OverflowError</span>: <span class="n">Python int too large to convert to C long</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I run into this difference most often during my on-site team training sessions because I sometimes use silly examples with big numbers when I teach.</p>
+
+<h2>Is any of this important to know?</h2>
+
+<p>Most of the time you use either Python 2&rsquo;s <code>xrange</code> objects or Python 3&rsquo;s <code>range</code> objects, you&rsquo;ll probably just be creating them and looping over them immediately:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="go">3</span>
+</span><span class='line'><span class="go">6</span>
+</span><span class='line'><span class="go">9</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So the missing <code>xrange</code> features I noted above don&rsquo;t matter most of the time.</p>
+
+<p>However, there are times when it&rsquo;s useful to have a sequence of consecutive numbers that supports features like slicing, fast containment checks, or equality.  In those cases, Python 2 users will be tempted to fall back to the Python 2 <code>range</code> function which returns a list.  In Python 3 though, you&rsquo;ll pretty much always find what you&rsquo;re looking for in the <code>range</code> class.  For pretty much every operation you&rsquo;ll want to perform, <strong>Python 3&rsquo;s <code>range</code> is fast, memory-efficient, and powerful</strong>.</p>
+
+<p>Python 3 put a lot of work into making sure its built-ins are memory efficient and fast.  Many built-in functions (e.g. <code>zip</code>, <code>map</code>, <code>filter</code>) now return iterators and lazy objects instead of lists.</p>
+
+<p>At the same time, Python 3 made common functions and classes, like <code>range</code>, more featureful.</p>
+
+<p>There are many big improvements that Python 3 made over Python 2, but there are <strong>many many more tiny benefits to upgrading to Python 3</strong>.  If you haven&rsquo;t already, I&rsquo;d strongly consider whether it makes sense for you to upgrade your code to Python 3.</p>
 </div>
   
   <footer>
@@ -505,25 +666,18 @@ But a dream within a dream?
 
 </section>
 
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
-    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <button type="submit" class="subscribe-btn">Sign up</button>
+<!-- Drip Signup Form -->
+<section>
+
+    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
+      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
+      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
+      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
+      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
+        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
+      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
     </form>
+
 </section>
 <section>
   <h1>Favorite Posts</h1>

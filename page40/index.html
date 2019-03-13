@@ -9,8 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="In my last post I discussed the names Python library that generates
-random names. I&rsquo;ve now used this Python library to make a basic Flask &hellip;">
+  <meta name="description" content="I wrote a post over a year ago about recording a history of changes for Django model instances. I evaluated three different Django packages to record &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/03/pseudorandom.name/">Random name generator website</a></h1>
+      <h1 class="entry-title"><a href="/2013/05/django-simple-history/">django-simple-history is back</a></h1>
     
     
       <p class="meta">
@@ -99,56 +98,21 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2013-03-10T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-05-01T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/03/pseudorandom.name/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/03/pseudorandom.name/">Comments</a>
+           | <a href="/2013/05/django-simple-history/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/05/django-simple-history/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>In my <a href="/2013/02/random-name-generator/">last post</a> I discussed the <strong>names</strong> Python library that generates
-random names.  I&rsquo;ve now used this Python library to make a basic Flask website
-that generates random names.  You can visit it at:
-<a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a></p>
+  <div class="entry-content"><p>I wrote <a href="http://treyhunner.com/2011/09/django-and-model-history/">a post</a> over a year ago about recording a history of changes for Django model instances.  I evaluated three different Django packages to record model history.  My favorite of the options, django-simple-history, was abandoned and development continued through multiple forks.</p>
 
-<h2>It&rsquo;s responsive</h2>
+<p>I recently attempted to revive <a href="https://github.com/treyhunner/django-simple-history">django-simple-history</a>.  I added tests, put it <a href="https://pypi.python.org/pypi/django-simple-history/">on PyPI</a>, and made it easier to use with newer versions of Django.  I moved my fork of the project to git and Github, added Travis and Coveralls support for continuous integration and code coverage tracking, and noted future features on the issue tracker.</p>
 
-<p>The font size and margin on pseudorandom.name change based on the web browser
-width and height.  I determined the font sizes I wanted to use for each screen
-width by using the longest first and last name in the name files I&rsquo;m using (11
-and 13 characters respectively).  The website looks reasonable on various
-desktop resolutions and on phone screens.</p>
-
-<h2>It&rsquo;s an HTTP API</h2>
-
-<p>If curl is used to access the site, plain text is returned instead of an HTML
-webpage.  For example:</p>
-
-<pre><code>curl www.pseudorandom.name
-</code></pre>
-
-<p>The site is hosted on Heroku which <a href="https://devcenter.heroku.com/articles/custom-domains#apex-domains-examplecom">doesn&rsquo;t support bare domains</a>.
-Currently <a href="http://pseudorandom.name">http://pseudorandom.name</a> redirects to <a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a> so
-using the bare domain requires telling curl to follow redirects with <code>-L</code>:</p>
-
-<pre><code>curl -L pseudorandom.name
-</code></pre>
-
-<h2>More to come?</h2>
-
-<p>It might be nice to allow generating multiple names at once, generating
-gender-specific names, and maybe providing other content types (JSON).  The
-HTML version could also use a cleaner, more feature-full design.</p>
-
-<p>Also it would probably be more efficient to use a SQL database for querying
-random names so I may eventually abandon the names library and use a database
-for querying.</p>
-
-<p>The website&rsquo;s source code is <a href="https://github.com/treyhunner/pseudorandom.name">hosted on Github</a> and provided under an
-<a href="http://th.mit-license.org/2013">MIT license</a>.  Feel free to fork it or submit an issue.</p>
+<p>Soon after I started writing tests for the project I received feature requests, issues, pull requests, and emails with words of encouragement.  I appreciate all of the help I&rsquo;ve had while reviving the project.  I plan to remain responsive to the suggestions for my fork of the code.  If you&rsquo;d like to help out with the project please feel free to submit an issue, make a pull request, or comment on the code commits on the <a href="https://github.com/treyhunner/django-simple-history">Github page</a>.</p>
 </div>
   
   <footer>
@@ -181,25 +145,18 @@ for querying.</p>
 
 </section>
 
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
-    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <button type="submit" class="subscribe-btn">Sign up</button>
+<!-- Drip Signup Form -->
+<section>
+
+    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
+      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
+      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
+      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
+      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
+        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
+      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
     </form>
+
 </section>
 <section>
   <h1>Favorite Posts</h1>

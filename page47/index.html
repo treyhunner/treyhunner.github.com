@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Uniquely identifiable URLs are necessary for many web applications. For example, a website that provides book reviews may identify the URL of a &hellip;">
+  <meta name="description" content="I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2010/12/encrypted-private-keys-in-django/">Encrypted private keys in Django</a></h1>
+      <h1 class="entry-title"><a href="/2011/04/sharing-screenshots-in-linux/">Sharing Screenshots in Linux</a></h1>
     
     
       <p class="meta">
@@ -98,109 +98,57 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2010-12-11T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2011-04-03T00:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2010/12/encrypted-private-keys-in-django/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2010/12/encrypted-private-keys-in-django/">Comments</a>
+           | <a href="/2011/04/sharing-screenshots-in-linux/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2011/04/sharing-screenshots-in-linux/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Uniquely identifiable URLs are necessary for many web applications.  For example, a website that provides book reviews may identify the URL of a specific book like this: <strong>www.example.com/books/8839/</strong>.  The easiest way to identify entities in Django is to use the unique primary key of each object, which by default is an auto-incremented positive integer.</p>
+  <div class="entry-content"><p>I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to demonstrate bugs and Issues does not support file uploads.  There are <a href="http://wiki.dropbox.com/DropboxAddons/DropboxScreenGrabber">Windows</a> and <a href="http://www.getcloudapp.com/">Mac</a> applications that solve this problem by capturing a screenshot, uploading it, and copying a URL to access the screenshot to the clipboard.</p>
 
-<p>Revealing the primary key of an entity is often not desirable.  An astute visitor of the website mentioned above may be able to guess information from the URL such as how many book reviews are available on the website or how old specific reviews are.</p>
+<p>I did not find any Linux applications that will capture/upload a screenshot and copy the URL but I discovered <a href="http://forums.dropbox.com/topic.php?id=21735">a thread in the Dropbox forums</a> with a script that does just that.  I added comments to the script, changed the variable names, removed the need for a temporary file, and added a <code>notify-send</code> call as a visual cue (should work on Ubuntu).  I have the script mapped to <kbd>Ctrl-PrtScrn</kbd> in Ubuntu.</p>
 
-<p>The code snippet below demonstrates one way to use a unique but cryptic identifier for an object without needing to change the way primary keys are generated.  There are two notable extensions to the basic Django Model in the below code:</p>
+<div><script src='https://gist.github.com/892492.js'></script>
+<noscript><pre><code>#!/bin/sh
+# Ubuntu-specific modification of http://wiki.dropbox.com/TipsAndTricks/ShareScreenshots
 
-<ol>
-<li>The encrypted_pk and encrypted_id model properties return an AES-encrypted version of the primary key as a 13 character base-36 string.</li>
-<li>The get method of the default manager can be queried with an encrypted primary key by using the keyword argument encrypted_pk.</li>
-</ol>
+# Change these
+DB_USER_ID=YOURDBUSERID
+BITLY_USERNAME=YOURBITLYUSERNAME
+BITLY_API_KEY=YOURBITLYKEYHERE
+DROPBOX_PUBLIC_DIR=~/Dropbox/Public
+SCREENSHOT_DIR=screenshots
 
+CAPTURE_DELAY=0
+PICTURE_QUALITY=50
+FILE_EXTENSION=png
+TIME=$(date +%Y%m%d%H%M%S)
+FILENAME=$TIME.$FILE_EXTENSION
 
-<p>Feel free to use this code however you want.</p>
+# Move to the directory where screenshots will be stored
+mkdir -p $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+cd $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
 
-<div><script src='https://gist.github.com/735861.js'></script>
-<noscript><pre><code># This code is under the MIT license.
-# Inspired by this StackOverflow question:
-http://stackoverflow.com/questions/3295405/creating-django-objects-with-a-random-primary-key
+# Take screenshot and save in screenshot directory
+scrot -d $CAPTURE_DELAY -q $PICTURE_QUALITY $FILENAME
 
-import struct
-from Crypto.Cipher import DES
-from django.db import models
+# Get Dropbox public URL for screenshot
+DB_URL=&quot;http://dl.dropbox.com/u/$DB_USER_ID/$SCREENSHOT_DIR/$FILENAME&quot;
 
+# Get bit.ly shortened URL for Dropbox URL
+ESCAPED_DB_URL=&quot;$(echo $DB_URL | sed &#39;s,:,%3A,g;s,/,%2F,g&#39;)&quot;
+BITLY_API_CALL=&quot;http://api.bit.ly/v3/shorten?login=$BITLY_USERNAME&amp;apiKey=$BITLY_API_KEY&amp;longUrl=$ESCAPED_DB_URL&amp;format=txt&quot;
+SHORT_URL=$(curl -s -S $BITLY_API_CALL)
 
-def base36encode(number):
-    &quot;&quot;&quot;Encode number to string of alphanumeric characters (0 to z). (Code taken from Wikipedia).&quot;&quot;&quot;
-    if not isinstance(number, (int, long)):
-        raise TypeError(&#39;number must be an integer&#39;)
-    if number &lt; 0:
-        raise ValueError(&#39;number must be positive&#39;)
+# Copy shortened URL to clipboard
+echo $SHORT_URL | xclip -sel clip
 
-    alphabet = &#39;0123456789abcdefghijklmnopqrstuvwxyz&#39;
-    base36 = &#39;&#39;
-    while number:
-        number, i = divmod(number, 36)
-        base36 = alphabet[i] + base36
-
-    return base36 or alphabet[0]
-
-
-def base36decode(numstr):
-    &quot;&quot;&quot;Convert a base-36 string (made of alphanumeric characters) to its numeric value.&quot;&quot;&quot;
-    return int(numstr,36)
-
-
-class EncryptedPKModelManager(models.Manager):
-    &quot;&quot;&quot;This manager allows models to be identified based on their encrypted_pk value.&quot;&quot;&quot;
-    def get(self, *args, **kwargs):
-        encrypted_pk = kwargs.pop(&#39;encrypted_pk&#39;, None)
-        if encrypted_pk:
-            # If found, decrypt encrypted_pk argument and set pk argument to the appropriate value
-            kwargs[&#39;pk&#39;] = struct.unpack(&#39;&lt;Q&#39;, self.model.encryption_obj.decrypt(
-                struct.pack(&#39;&lt;Q&#39;, base36decode(encrypted_pk))
-            ))[0]
-        return super(EncryptedPKModelManager, self).get(*args, **kwargs)
-
-
-class EncryptedPKModel(models.Model):
-    &quot;&quot;&quot;Adds encrypted_pk property to children which returns the encrypted value of the primary key.&quot;&quot;&quot;
-    encryption_obj = DES.new(&#39;8charkey&#39;) # This 8 character secret key should be changed!
-
-    def __init__(self, *args, **kwargs):
-        super(EncryptedPKModel, self).__init__(*args, **kwargs)
-        setattr(
-            self.__class__,
-            &quot;encrypted_%s&quot; % (self._meta.pk.name,),
-            property(self.__class__._encrypted_pk)
-        )
-
-    def _encrypted_pk(self):
-        return base36encode(struct.unpack(&#39;&lt;Q&#39;, self.encryption_obj.encrypt(
-            str(struct.pack(&#39;&lt;Q&#39;, self.pk))
-        ))[0])
-
-    encrypted_pk = property(_encrypted_pk)
-
-    class Meta:
-        abstract = True
-
-
-class ExampleModelManager(EncryptedPKModelManager):
-    pass
-
-
-class ExampleModel(EncryptedPKModel):
-    objects = ExampleModelManager()
-    example_field = models.CharField(max_length=32)
-
-
-# Example usage:
-# example_instance = ExampleModel.objects.get(pk=1)
-# url_pk = example_instance.encrypted_pk
-# ExampleModel.objects.get(encrypted_pk=url_pk)
+# Display message to user (requires libnotify)
+notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboard: $SHORT_URL&quot;
 </code></pre></noscript></div>
 
 
@@ -237,25 +185,18 @@ class ExampleModel(EncryptedPKModel):
 
 </section>
 
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
-    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <button type="submit" class="subscribe-btn">Sign up</button>
+<!-- Drip Signup Form -->
+<section>
+
+    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
+      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
+      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
+      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
+      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
+        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
+      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
     </form>
+
 </section>
 <section>
   <h1>Favorite Posts</h1>

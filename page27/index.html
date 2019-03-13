@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers. So, with ECMAScript 6 nearing standardization, let& &hellip;">
+  <meta name="description" content="Have you ever tried to customize the font size for your Bootstrap-powered website? It&rsquo;s not something you can easily do without recompiling &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/02/ecmascript-5-the-future-is-now/">ECMAScript 5: The Future is Now</a></h1>
+      <h1 class="entry-title"><a href="/2015/02/creating-a-custom-bootstrap-build/">Creating a custom Bootstrap build</a></h1>
     
     
       <p class="meta">
@@ -98,121 +98,255 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2015-02-09T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2015-02-25T16:20:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:20 pm</span></time>
         
-           | <a href="/2015/02/ecmascript-5-the-future-is-now/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/02/ecmascript-5-the-future-is-now/">Comments</a>
+           | <a href="/2015/02/creating-a-custom-bootstrap-build/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/02/creating-a-custom-bootstrap-build/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let&rsquo;s talk about ECMAScript 5.</p>
+  <div class="entry-content"><p>Have you ever tried to customize the font size for your <a href="http://getbootstrap.com/">Bootstrap</a>-powered website?</p>
 
-<p>Do you know what features were added in ECMAScript 5?</p>
+<p>It&rsquo;s not something you can easily do without recompiling Bootstrap&rsquo;s CSS. If you change the font size on your page, you&rsquo;ll want that change to cascade through.  A change in the base font size should recalculate header font sizes and margins/padding for text elements like paragraph tags.</p>
 
-<p>Do your target browsers support ECMAScript 5 yet?</p>
+<p>Let&rsquo;s look at how to create a custom <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a> build without maintaining our own fork of Bootstrap.</p>
 
-<p><aside>
-    <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
-</aside></p>
+<h2>Using Bootstrap with Bower</h2>
 
-<h2>Arrays</h2>
+<p>We&rsquo;re going to use <code>bower</code> and <code>gulp</code> to compile Bootstrap, so we&rsquo;ll need <a href="http://nodejs.org/">Node.js</a>.</p>
 
-<p><a href="http://underscorejs.org/">Underscore.js</a> is a popular JavaScript library containing &ldquo;a whole mess of useful functional programming helpers&rdquo;.  Most of these helpers work on arrays and other enumerable objects (collections, as Underscore calls them).</p>
+<p>First let&rsquo;s make a <code>package.json</code> file for Node to see.  Either use <code>npm init -y</code> or create a <code>package.json</code> file containing just an empty JSON object (<code>{}</code>).</p>
 
-<p>The ECMAScript 5 spec includes a handful of these functional programming helpers as methods on native JavaScript Array objects.</p>
+<p>Now let&rsquo;s install <code>gulp</code>, <code>gulp-bower</code>, and <code>gulp-sass</code>:</p>
 
-<ul>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"><code>indexOf</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"><code>lastIndexOf</code></a></strong>, like <a href="http://underscorejs.org/#indexOf"><code>_.indexOf</code></a> and <a href="http://underscorejs.org/#lastIndexOf"><code>_.lastIndexOf</code></a>, return the index (or last index) at which a value can be found in the array</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"><code>every</code></a></strong>, like <a href="http://underscorejs.org/#every"><code>_.every</code></a>, returns true if <strong>all</strong> the values in the array pass the test implemented by the provided function</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"><code>some</code></a></strong>, like <a href="http://underscorejs.org/#some"><code>_.some</code></a>, returns true if <strong>any</strong> of the values in the array pass the test implemented by the provided function</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><code>forEach</code></a></strong>, like <a href="http://underscorejs.org/#each"><code>_.each</code></a>, executes a provided function once for each array item</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code>map</code></a></strong>, like <a href="http://underscorejs.org/#map"><code>_.map</code></a>, returns a new array with the results of calling a provided function on each item of the array</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"><code>filter</code></a></strong>, like <a href="http://underscorejs.org/#filter"><code>_.filter</code></a>, returns a new array with all array items that pass the given test function included.</p></li>
-<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"><code>reduce</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight"><code>reduceRight</code></a></strong>, like <a href="http://underscorejs.org/#reduce"><code>_.reduce</code></a> and <a href="http://underscorejs.org/#reduceRight"><code>_.reduceRight</code></a>, reduce a list of values into a single value using an accumulator function (either left-to-right or right-to-left)</p></li>
-</ul>
+<pre><code>$ npm install --save-dev gulp gulp-bower gulp-sass
+</code></pre>
 
+<p>Our <code>package.json</code> file should now look something like this:</p>
 
-<h2>Miscellaneous</h2>
-
-<p>Here are a variety of other features that were added to ECMAScript 5, in addition to array helper functions:</p>
-
-<ul>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys"><code>Object.keys</code></a>, like <a href="http://underscorejs.org/#keys"><code>_.keys</code></a>, returns an array of a given object&rsquo;s enumerable properties</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"><code>Array.isArray</code></a>, like <a href="http://underscorejs.org/#isArray"><code>_.isArray</code></a>, returns <code>true</code> if a given object is an array</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now"><code>Date.now</code></a>, like <a href="http://underscorejs.org/#now"><code>_.now</code></a> returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify</code></a> converts JavaScript objects to JSON strings and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse</code></a> converts JSON strings to JavaScript objects.</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>Function.prototype.bind</code></a>, like <a href="http://underscorejs.org/#bind"><code>_.bind</code></a>, returns a function that when called has its <code>this</code> keyword argument set to the provided value</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim"><code>String.prototype.trim</code></a>, returns a copy of the string with whitespace removed from the beginning and end of the string</p></li>
-<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"><code>parseInt</code></a> no longer treats strings starting with <code>0</code> as octal values</p></li>
-<li><p>Strict mode, Object.create, Object.seal, Object.freeze, getters/setters, and more were also added in ECMAScript 5</p></li>
-</ul>
+<figure class='code'><figcaption><span>package.json </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;gulp&quot;</span><span class="p">:</span> <span class="s2">&quot;^3.8.11&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;gulp-bower&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.10&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;gulp-sass&quot;</span><span class="p">:</span> <span class="s2">&quot;^1.3.3&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Underscore.js vs Native</h2>
+<p>Now let&rsquo;s use Bower to install bootstrap.  This will allow us to import Bootstrap into our SCSS code and compile it down to CSS manually.</p>
 
-<p>I try to use native array methods instead of their Underscore.js equivalents whenever possible.  However, these native array methods don&rsquo;t work in all cases.</p>
+<p>Create a <code>bower.json</code> file using <code>bower init</code> or by manually creating one:</p>
 
-<h3>Not all enumerables are arrays</h3>
-
-<p>Here&rsquo;s two enumerable objects which are not arrays:</p>
-
-<ol>
-<li>NodeList objects in the browser</li>
-<li>File buffers in Node.js</li>
-</ol>
-
-
-<p>You cannot use array methods like <code>forEach</code> on these enumerables, but you can the Underscore.js equivalents like <code>_.each</code>.</p>
-
-<h3>So why not use Underscore for everything?</h3>
-
-<h4>Native methods are more understandable</h4>
-
-<p>Web developers know JavaScript.  Web developers may not Underscore or your Underscore-like library of choice.  Don&rsquo;t stray far from vanilla JavaScript when you don&rsquo;t need to.</p>
-
-<h4>Underscore is less portable</h4>
-
-<p>Underscore doesn&rsquo;t come bundled with your rendering engine.</p>
-
-<h4>Native methods are future-proof</h4>
-
-<p>Underscore is cool today, but <a href="https://github.com/lodash/lodash">lodash</a> might be cooler tomorrow.  Or maybe you&rsquo;d prefer to use <a href="https://github.com/cmstead/JFP">JFP</a>.</p>
-
-<h4>Native methods can be faster</h4>
-
-<p>As browser engines improve their optimization of native code, your code improves in speed.  Underscore&rsquo;s equivalents of these methods cannot be further optimized at the low-level as their native equivalents.</p>
-
-<p>This claim as a theoretical one.  Here&rsquo;s some jsPerf links to test the real performance difference:</p>
-
-<ul>
-<li><a href="http://jsperf.com/array-prototype-indexof-vs-indexof">indexOf</a> and <a href="http://jsperf.com/array-prototype-lastindexof-vs-lastindexof">lastIndexOf</a></li>
-<li><a href="http://jsperf.com/array-prototype-every-vs-every">every</a></li>
-<li><a href="http://jsperf.com/array-prototype-some-vs-some2">some</a></li>
-<li><a href="http://jsperf.com/array-prototype-foreach-vs-each">forEach</a></li>
-<li><a href="http://jsperf.com/array-prototype-map-vs-map">map</a></li>
-<li><a href="http://jsperf.com/array-prototype-filter-vs-filter">filter</a></li>
-<li><a href="http://jsperf.com/array-prototype-reduce-vs-reduce">reduce</a> and <a href="http://jsperf.com/array-prototype-reduceright-vs-reduceright">reduceRight</a></li>
-</ul>
+<figure class='code'><figcaption><span>bower.json </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;custom-bootstrap-example&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="s2">&quot;Lillian Langston &lt;lillian@example.com&gt;&quot;</span>
+</span><span class='line'>  <span class="p">],</span>
+</span><span class='line'>  <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="s2">&quot;**/.*&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;bower_components&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;tests&quot;</span>
+</span><span class='line'>  <span class="p">],</span>
+</span><span class='line'>  <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>What browsers support ECMAScript 5?</h2>
+<p>Now let&rsquo;s install <code>bootstrap-sass</code> with Bower.</p>
 
-<p>ECMAScript 5 is fully supported in Internet Explorer 10 and nearly fully supported in IE9.  Modern versions of Chrome and Firefox also fully support ECMAScript 5.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bower install --save bootstrap-sass
+</span></code></pre></td></tr></table></div></figure>
 
-<h4>What if you need to support IE7 or IE8?</h4>
 
-<p>Fortunately, all of the array methods discussed above and some of the other ECMAScript 5 features can be <a href="https://remysharp.com/2010/10/08/what-is-a-polyfill">polyfilled</a> using <a href="https://github.com/es-shims/es5-shim">es5-shim</a>.</p>
+<p>Our <code>bower.json</code> file should now have <code>bootstrap-sass</code> listed as a dependency:</p>
 
-<h4>ECMAScript 5 all the things!</h4>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"dependencies": {
+</span><span class='line'>  "bootstrap-sass": "~3.3.3"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-<p>With these pollyfills in place, you should be able to use the majority of ECMAScript 5 features everywhere.  Go forth and ES5-ify your code!</p>
 
-<p><aside>
-This blog post was based on my ECMAScript 5 talk.  You can view the slides at <a href="http://treyhunner.com/es5-talk/">http://treyhunner.com/es5-talk/</a>
-</aside></p>
+<p>Now we can make an SCSS file that includes bootstrap into our project.  Let&rsquo;s call our SCSS file <code>css/app.scss</code>:</p>
+
+<figure class='code'><figcaption><span>css/app.scss </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s use gulp to compile our <code>app.scss</code> which includes Bootstrap SASS:</p>
+
+<figure class='code'><figcaption><span>gulpfile.js </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">sass</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-sass&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">bootstrapDir</span><span class="o">:</span> <span class="s1">&#39;./bower_components/bootstrap-sass&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">publicDir</span><span class="o">:</span> <span class="s1">&#39;./public&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./css/app.scss&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">sass</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">includePaths</span><span class="o">:</span> <span class="p">[</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/stylesheets&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="p">}))</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/css&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;fonts&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bootstrapDir</span> <span class="o">+</span> <span class="s1">&#39;/assets/fonts/**/*&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">publicDir</span> <span class="o">+</span> <span class="s1">&#39;/fonts&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;fonts&#39;</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when we run <code>gulp</code>, our compiled Bootstrap CSS should appear in the <code>public/css</code> directory:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
+</span><span class='line'><span class="nv">$ </span>ls public/css
+</span><span class='line'>app.css
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Customizing the font size</h2>
+
+<p>Now let&rsquo;s look at how we can go about customizing the font size in Bootstrap.</p>
+
+<p>Notice that the value of the <code>$font-size-base</code> variable in the <a href="https://github.com/twbs/bootstrap-sass/blob/master/assets/stylesheets/bootstrap/_variables.scss#L52"><code>_variables.scss</code> file</a> is used for calculating a variety of other important variables.  For example 8 of the lines below rely on <code>$font-size-base</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">14</span><span class="kt">px</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$font-size-large</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
+</span><span class='line'><span class="nv">$font-size-small</span><span class="o">:</span>         <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$font-size-h1</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.6</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~36px</span>
+</span><span class='line'><span class="nv">$font-size-h2</span><span class="o">:</span>            <span class="nf">floor</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">2</span><span class="mf">.15</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~30px</span>
+</span><span class='line'><span class="nv">$font-size-h3</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.7</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~24px</span>
+</span><span class='line'><span class="nv">$font-size-h4</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">1</span><span class="mf">.25</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~18px</span>
+</span><span class='line'><span class="nv">$font-size-h5</span><span class="o">:</span>            <span class="nv">$font-size-base</span> <span class="nv">!default</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$font-size-h6</span><span class="o">:</span>            <span class="nf">ceil</span><span class="p">((</span><span class="nv">$font-size-base</span> <span class="o">*</span> <span class="mi">0</span><span class="mf">.85</span><span class="p">))</span> <span class="nv">!default</span><span class="p">;</span> <span class="c1">// ~12px</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice those <code>!default</code> flags?  That <code>!default</code> flag means the variables will be set <em>only</em> if they don&rsquo;t have a value already.</p>
+
+<p>All of the variables assigned in <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS&rsquo;s</a> <code>_variables.scss</code> file have a <code>!default</code> flag.  That means we can override those variables by assigning our own values before we import Bootstrap.</p>
+
+<p>Let&rsquo;s copy Bootstrap&rsquo;s <code>_variables.scss</code> file and make our own custom version:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>cp bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss css/_variables.scss
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we need to reference our custom variables module from our <code>app.scss</code> file.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="k">@import</span> <span class="s2">&quot;variables&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">@import</span> <span class="s2">&quot;bootstrap/theme&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Remember to import our <code>variables</code> module <em>before</em> we import Bootstrap!  If we import it afterward, our changes customizations won&rsquo;t be applied.</p>
+
+<p>Now let&rsquo;s change <code>$font-size-base</code> to <code>16px</code> in <code>css/_variables.scss</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nv">$font-size-base</span><span class="o">:</span>          <span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if we recompile our CSS we should see our larger font size reflected throughout our application:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>gulp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Try it out!</h2>
+
+<p>I made a sample project to demonstrate how easy it is to customize Bootstrap variables before building <a href="https://github.com/twbs/bootstrap-sass">Bootstrap SASS</a>.</p>
+
+<p><a href="https://github.com/treyhunner/custom-bootstrap-example">Check out the sample project on Github</a></p>
+
+<p>Know about a different way to customize Bootstrap?  Did I make a mistake in my explanation?  Leave a comment and let me know.</p>
 </div>
   
   <footer>
@@ -245,25 +379,18 @@ This blog post was based on my ECMAScript 5 talk.  You can view the slides at <a
 
 </section>
 
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
-    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <button type="submit" class="subscribe-btn">Sign up</button>
+<!-- Drip Signup Form -->
+<section>
+
+    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
+      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
+      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
+      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
+      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
+        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
+      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
     </form>
+
 </section>
 <section>
   <h1>Favorite Posts</h1>

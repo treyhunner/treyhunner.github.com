@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Maintaining consistent coding conventions with EditorConfig - Trey Hunner</title>
+  <title>Trey Hunner</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I often have indentation issues when coding because I work with many open
-source (and closed source) projects that have different identation styles. &hellip;">
+  <meta name="description" content="I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently. My laptop has a solid-state drive and I had tweaked the boot process previously so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ source (and closed source) projects that have different identation styles. &hell
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://treyhunner.com/2012/02/editorconfig">
+  <link rel="canonical" href="http://treyhunner.com/page51">
   <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
@@ -82,12 +81,15 @@ ga('send', 'pageview');
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Maintaining consistent coding conventions with EditorConfig</h1>
+      <h1 class="entry-title"><a href="/2009/05/ubuntu-now-boots-in-10-seconds/">Ubuntu Now Boots in 10 Seconds</a></h1>
     
     
       <p class="meta">
@@ -96,135 +98,38 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2012-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2009-05-01T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com">Comments</a>
+           | <a href="/2009/05/ubuntu-now-boots-in-10-seconds/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>I often have indentation issues when coding because I work with many open
-source (and closed source) projects that have different identation styles.  For
-example, my <a href="https://github.com/treyhunner/jquery-formrestrict">jQuery formrestrict</a> uses 4 spaces for indentation,
-<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> uses 2 spaces, and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a> uses hard tabs.
-I don&rsquo;t want to change my text editor&rsquo;s indentation settings every time I open
-one of these files and using a plugin to auto-detect indentation is only a
-partial solution.  To solve this problem I started a project I call
-EditorConfig.</p>
+  <div class="entry-content"><p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
 
-<p><a href="http://editorconfig.org">EditorConfig</a> defines coding conventions for groups of files and instructs
-text editors to adhere to these conventions.  To solve my problem, I just
-create a file called <code>.editorconfig</code> that sets indentation for my files and
-with my EditorConfig plugin installed Vim takes care of the rest.  Here&rsquo;s an
-example <code>.editorconfig</code> file I could add to my project that uses
-<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a>:</p>
+<p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
 
-<figure class='code'><figcaption><span>.editorconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[*.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">[jquery.expander.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">2</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">[jquery.pagination.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">tab</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With this <code>.editorconfig</code> file, all JavaScript files use 4 spaces for
-indentation except for <code>jquery.expander.js</code> which uses 2 spaces and
-<code>jquery.pagination.js</code> which uses hard tabs with a column width of 4.  If I put
-my <code>.editorconfig</code> file under version control, other developers working on my
-project can see the coding conventions I defined and if their text editor has
-an EditorConfig plugin installed their editor will automatically use the
-correct indentation as well.</p>
-
-<p>Example EditorConfig files can be seen in my own projects (such as
-<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">in my dotfiles repo</a>) and in the
-<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">various EditorConfig plugin codebases</a>.  More
-information on EditorConfig can be found at the
-<a href="http://editorconfig.org">EditorConfig website</a>.</p>
-
-<p>EditorConfig plugins are <a href="http://editorconfig.org/#download">available for 6 different editors</a>
-now.  If you like the idea, <a href="http://editorconfig.org">try out EditorConfig</a> for your
-favorite editor and <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">tell us what you think</a>.  If you don&rsquo;t like
-the idea or have a problem with EditorConfig please <a href="https://github.com/editorconfig/editorconfig/issues">submit an issue</a>,
-add a thread to <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">the mailing list</a>, or send me an email voicing
-your concern.</p>
+<p>The main reason the boot time is so fast is due to my solid state drive.  That is how I got my boot down to 15 seconds before.  However, 7 seconds is a ridiculously fast boot time in my opinion.  Especially since it seems like it takes only about 3 seconds until my login manager is loaded and waiting for me.</p>
 </div>
-
-
-
+  
   <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
-
-      
-
-
-
-
-<time class='entry-date' datetime='2012-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/editorconfig/'>editorconfig</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://treyhunner.com/2012/02/editorconfig/" data-via="treyhunner" data-counturl="http://treyhunner.com/2012/02/editorconfig/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/2011/11/migrating-from-subversion-to-git/" title="Previous Post: Migrating from Subversion to Git">&laquo; Migrating from Subversion to Git</a>
-      
-      
-        <a class="basic-alignment right" href="/2012/12/tmuxstart/" title="Next Post: tmuxstart">tmuxstart &raquo;</a>
-      
-    </p>
   </footer>
-</article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/page50">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section class="abouttrey">
@@ -295,7 +200,6 @@ your concern.</p>
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -310,10 +214,7 @@ your concern.</p>
       var disqus_shortname = 'treyhunner';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://treyhunner.com/2012/02/editorconfig/';
-        var disqus_url = 'http://treyhunner.com/2012/02/editorconfig/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

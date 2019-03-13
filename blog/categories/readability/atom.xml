@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-02-17T14:20:07-08:00</updated>
+  <updated>2019-03-13T07:19:00-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,451 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
+    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
+    <updated>2019-03-13T07:30:00-07:00</updated>
+    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
+    <content type="html"><![CDATA[<p>Comparing things in Python.
+That sounds like something that almost doesn&rsquo;t even need to be taught.
+But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
+
+<p>Let&rsquo;s review how Python&rsquo;s comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.</p>
+
+<h2>Python&rsquo;s comparison operators</h2>
+
+<p>By &ldquo;comparison operators&rdquo; I mean the equality operators (<code>==</code> and <code>!=</code>) and the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</p>
+
+<p>We can use these operators to compare numbers, as you&rsquo;d expect:</p>
+
+<pre><code class="python">&gt;&gt;&gt; 3 == 4
+False
+&gt;&gt;&gt; 3 != 4
+True
+&gt;&gt;&gt; 3 &lt; 4
+True
+&gt;&gt;&gt; 3 &gt; 4
+False
+</code></pre>
+
+<p>But we can also use these operators to compare strings:</p>
+
+<pre><code class="python">&gt;&gt;&gt; "pear" == "pickle"
+False
+&gt;&gt;&gt; "pear" != "pickle"
+True
+&gt;&gt;&gt; "pear" &lt; "pickle"
+True
+&gt;&gt;&gt; "pear" &gt; "pickle"
+False
+</code></pre>
+
+<p>And even tuples:</p>
+
+<pre><code class="python">&gt;&gt;&gt; target = (3, 6, 2)
+&gt;&gt;&gt; installed = (3, 7, 0)
+&gt;&gt;&gt; target == installed
+False
+&gt;&gt;&gt; target &lt;= installed
+True
+&gt;&gt;&gt; target &gt; installed
+False
+</code></pre>
+
+<p>Many programming languages don&rsquo;t have an equivalent to Python&rsquo;s very flexible comparison operators.</p>
+
+<p>We&rsquo;ll take a look at how these operators work on tuples and more complex objects in a moment, but we&rsquo;ll start with something simpler: string comparisons.</p>
+
+<h2>String comparisons in Python</h2>
+
+<p>Equality and inequality with strings is fairly simple.
+If two strings have exactly the same characters, they&rsquo;re equal:</p>
+
+<pre><code class="python">&gt;&gt;&gt; "hello" == "hello"
+True
+&gt;&gt;&gt; "hello" == "hella"
+False
+</code></pre>
+
+<p>Note that I&rsquo;m glossing over a very big exception: unicode characters.
+There are often multiple ways to represent the same text and those different representations must be <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize">normalized</a> before they&rsquo;re seen as equal.
+For simplicity, we&rsquo;re going to stick to ASCII characters in this article.</p>
+
+<p>Ordering of strings is where things get a bit interesting in Python:</p>
+
+<pre><code class="python">&gt;&gt;&gt; "pickle" &lt; "python"
+True
+</code></pre>
+
+<p>The string <code>"pickle"</code> is <em>less than</em> the string <code>"python"</code> because we&rsquo;re ordering alphabetically&hellip; sort of.
+Capitalization matters:</p>
+
+<pre><code class="python">&gt;&gt;&gt; "pickle" &lt; "Python"
+False
+</code></pre>
+
+<p>The string <code>"Python"</code> is less than <code>"pickle"</code> because <code>P</code> is less than <code>p</code>.</p>
+
+<p>We&rsquo;re not actually ordering alphabetically here so much as <strong>ASCII-betically</strong> (unicode-betically really since we&rsquo;re in Python 3).
+These strings are being ordered by the ASCII values of their characters (<code>p</code> is 112 in <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters">ASCII</a> and <code>P</code> is 80).</p>
+
+<pre><code class="python">&gt;&gt;&gt; ord("p")
+112
+&gt;&gt;&gt; ord("P")
+80
+&gt;&gt;&gt; "P" &lt; "p"
+True
+</code></pre>
+
+<p>Technically Python compares the Unicode code point (which is what <a href="https://docs.python.org/3/library/functions.html#ord">ord</a> does) for these characters and that happens to be the same as the ASCII value for ASCII characters.</p>
+
+<p>The rules for ordering strings are:</p>
+
+<ol>
+<li>Compare the n-th characters of each string (starting with the first character, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next character</li>
+<li>For two unequal characters, take the character that has the lower code point and declare its string &ldquo;less than&rdquo; the other</li>
+<li>If all characters are equal, the strings are equal</li>
+<li>If one string runs out of characters during step 1 (one string is a &ldquo;prefix&rdquo; of the other), the shorter string is &ldquo;less than&rdquo; the longer one</li>
+</ol>
+
+
+<p>The ordering algorithm Python uses for strings might seem complicated, but it&rsquo;s <strong>very similar to the ordering algorithm used in dictionaries</strong>; not Python dictionaries but <a href="https://en.wikipedia.org/wiki/Dictionary">physical dictionaries</a> (those things we used before the Internet existed).
+We give precedence to the first characters when ordering words in dictionaries and if one word is a prefix of another, it comes first.</p>
+
+<h2>Tuple comparisons</h2>
+
+<p>We can ask tuples if they&rsquo;re equal, just as we can ask strings if they&rsquo;re equal:</p>
+
+<pre><code class="python">&gt;&gt;&gt; (3, 6, 2) == (3, 6, 2)
+True
+&gt;&gt;&gt; (3, 6, 2) == (3, 7, 0)
+False
+</code></pre>
+
+<p>But we can also compare tuples using the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>):</p>
+
+<pre><code class="python">&gt;&gt;&gt; (3, 6, 2) &lt; (3, 6, 2)
+False
+&gt;&gt;&gt; (3, 6, 2) &lt;= (3, 6, 2)
+True
+&gt;&gt;&gt; (3, 6, 2) &lt; (3, 7, 0)
+True
+&gt;&gt;&gt; (3, 6, 2) &gt;= (3, 7, 0)
+False
+</code></pre>
+
+<p>String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn&rsquo;t often feel quite as intuitive at first.
+But you&rsquo;re actually somewhat much familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
+
+<p>The rules for ordering tuples (which are essentially the same as ordering strings):</p>
+
+<ol>
+<li>Compare the n-th items of each tuple (starting with the first, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next item</li>
+<li>For two unequal items, the item that is &ldquo;less than&rdquo; makes the tuple that contains it also &ldquo;less than&rdquo; the other tuple</li>
+<li>If all items are equal, the tuples are equal</li>
+<li>If one tuple runs out of items during step 1 (one tuple is a &ldquo;prefix&rdquo; of the other), the shorter tuple is &ldquo;less than&rdquo; the longer one</li>
+</ol>
+
+
+<p>In Python, this algorithm might look sort of like this:</p>
+
+<pre><code class="python">def less_than(tuple1, tuple2):
+    for x, y in zip(tuple1, tuple2):
+        if x == y:
+            continue
+        return (x &lt; y)
+    if len(tuple1) &lt; len(tuple2):
+        return True  # There were more items in the second tuple
+    else:
+        return False  # The first tuple had more items or they are equal
+</code></pre>
+
+<p>Note that we&rsquo;d never write code like this because Python is doing all this work for us already.
+That whole function is the same as using the <code>&lt;</code> operator:</p>
+
+<pre><code class="python">def less_than(tuple1, tuple2):
+    return tuple1 &lt; tuple2
+</code></pre>
+
+<h2>Lexicographical ordering</h2>
+
+<p>This <strong>alphabetical-like style of ordering</strong> that gives precedence to the first items in an iterable is called <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical ordering</a>.
+You don&rsquo;t need to know that phrase, but if you ever need to describe <em>the way ordering works in Python</em>, <strong>lexicographical</strong> is the word to use.</p>
+
+<p>Strings and tuples are ordered lexicographically, as we&rsquo;ve seen, but so are lists:</p>
+
+<pre><code class="python">&gt;&gt;&gt; [1, 2, 3] &lt; [1, 4]
+True
+&gt;&gt;&gt; [1, 2, 3] &lt; [1, 2, 2]
+False
+</code></pre>
+
+<p>In fact, most <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a> in Python <a href="https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types">should be ordered lexicographically</a> (<code>range</code> objects are an exception to this as they can&rsquo;t be ordered at all).</p>
+
+<p>But not every collection in Python is relies on lexicographical ordering.</p>
+
+<h2>Dictionary and set comparisons</h2>
+
+<p>Many objects in Python work with equality but don&rsquo;t work with ordering at all.</p>
+
+<p>For example dictionaries compare &ldquo;equal&rdquo; when they have all the same keys and values:</p>
+
+<pre><code class="python">&gt;&gt;&gt; expected = {'name': 'Trey', 'python_version': 3.7.0}
+&gt;&gt;&gt; actual = {'name': 'Trey', 'python_version': 2.7.0}
+&gt;&gt;&gt; expected == actual
+False
+&gt;&gt;&gt; actual['python_version'] = 3.7.0
+&gt;&gt;&gt; expected == actual
+True
+</code></pre>
+
+<p>But <strong>dictionaries can&rsquo;t be ordered</strong> using the <code>&lt;</code> or <code>&gt;</code> operators:</p>
+
+<pre><code class="python">&gt;&gt;&gt; expected &lt; actual
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: '&lt;' not supported between instances of 'dict' and 'dict'
+</code></pre>
+
+<p>Sets are similar, except that sets <em>do</em> work with ordering operators&hellip; they just don&rsquo;t use those operators for ordering:</p>
+
+<pre><code class="python">&gt;&gt;&gt; {1, 2} &lt; {1, 2, 3}
+True
+&gt;&gt;&gt; {1, 3} &lt; {1, 2, 4}
+False
+</code></pre>
+
+<p>Sets overload these operators to answer questions about <strong>whether one set is a subset or superset of another</strong> (<a href="https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset">see sets in the documentation</a>).</p>
+
+<h2>Deep equality</h2>
+
+<p>Comparisons between two data structures in Python tend to be <strong>deep comparisons</strong>.
+Whether we&rsquo;re comparing lists, tuples, sets, or dictionaries, when we ask whether two of these objects are &ldquo;equal&rdquo; Python will recurse through each sub-object and ask whether each is &ldquo;equal&rdquo;.</p>
+
+<p>So given a dictionary that maps tuples to lists of tuples:</p>
+
+<pre><code class="python">&gt;&gt;&gt; current_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2), (3, 4)]}
+&gt;&gt;&gt; previous_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2)]}
+</code></pre>
+
+<p>Asking whether these two dictionaries are equal is equivalent to asking whether each key-value pair is equal, recursively:</p>
+
+<pre><code class="python">&gt;&gt;&gt; current_portals == previous_portals
+False
+&gt;&gt;&gt; current_portals[2, 1].pop()
+(3, 4)
+&gt;&gt;&gt; current_portals == previous_portals
+True
+</code></pre>
+
+<p>The dictionaries ask each of their keys &ldquo;are you in the other dictionary&rdquo; and then asks each of the corresponding values for those keys &ldquo;are you equal to the other value&rdquo;.
+But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
+And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.</p>
+
+<p><strong>We don&rsquo;t have to worry about any of this though</strong>: Python just does these deep comparisons for us automatically.</p>
+
+<p>While you don&rsquo;t need to worry about how deep comparisons work, the fact that Python&rsquo;s comparisons <em>are</em> deep can be pretty handy to know.</p>
+
+<p>For example if we have <a href="https://pastebin.com/raw/yspKmfyj">a class</a> with <code>x</code>, <code>y</code>, and <code>z</code> attributes we&rsquo;d like to compare in our <code>__eq__</code> method, instead of this long boolean expression:</p>
+
+<pre><code class="python">def __eq__(self, other):
+    return self.x == other.x and self.y == other.y and self.z == other.z
+</code></pre>
+
+<p>We could bundle these values into 3-item tuples and compare them that way instead:</p>
+
+<pre><code class="python">def __eq__(self, other):
+    return (self.x, self.y, self.z) == (other.x, other.y, other.z)
+</code></pre>
+
+<p>I find this more readable, mostly because <strong>we&rsquo;ve added symmetry to our code</strong>: we have one <code>==</code> expression with the same kind of object on each side of it.</p>
+
+<h2>Deep ordering</h2>
+
+<p>This &ldquo;deep comparison&rdquo; works for equality, but it also works for ordering.</p>
+
+<p>The use case for deep ordering isn&rsquo;t as obvious as for deep equality, but identifying places where deep ordering is handy can help you drastically improve the readability of your code.</p>
+
+<p>Take this example method:</p>
+
+<pre><code class="python">def __lt__(self, other):
+    if self.last_name &lt; other.last_name:
+        return True
+    elif other.last_name &lt; self.last_name:
+        return False
+    elif self.first_name &lt; other.first_name:
+        return True
+    else:
+        return False
+</code></pre>
+
+<p>This <code>__lt__</code> method implements the <code>&lt;</code> operator on <a href="https://pastebin.com/raw/u8uGDArq">its class</a>, returning <code>True</code> if <code>self</code> is less than <code>other</code>.
+Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll to ignore that fact for this example.</p>
+
+<p>That <code>__lt__</code> method above gives precedence to the <code>last_name</code>: the <code>first_name</code> is only checked if the <code>last_name</code> attribute of these two objects happens to be equal.</p>
+
+<p>If we wanted to collapse this logic some, we could rewrite our code like this:</p>
+
+<pre><code class="python">def __lt__(self, other):
+    return (
+        self.last_name &lt; other.last_name or
+        self.last_name == other.last_name and self.first_name &lt; other.first_name
+    )
+</code></pre>
+
+<p>Or&hellip; we could rely on the deep ordering of tuples instead:</p>
+
+<pre><code class="python">def __lt__(self, other):
+    return (self.last_name, self.first_name) &lt; (other.last_name, other.first_name)
+</code></pre>
+
+<p>Here we&rsquo;re ordering our tuples lexicographically (by their first item first).
+Our tuples happen to contain strings, which are also ordered lexicographically (by their first character first).
+So we&rsquo;re <strong>deeply ordering</strong> these objects.</p>
+
+<h2>Sorting by multiple attributes at once</h2>
+
+<p>Knowing about lexicographical ordering and deep ordering of Python sequences can be quite useful when sorting Python objects.
+From Python&rsquo;s perspective, <strong>sorting is really just ordering over and over</strong>.</p>
+
+<p>Python&rsquo;s built-in <code>sorted</code> function accepts a <code>key</code> function which can return a corresponding key object to sort each of these items by.</p>
+
+<p>Here we&rsquo;re specifying a <code>key</code> function that accepts a word and returns a tuple of two things: the length of the word and the case-normalized word:</p>
+
+<pre><code class="python">&gt;&gt;&gt; fruits = ['kumquat', 'Cherimoya', 'Loquat', 'longan', 'jujube']
+&gt;&gt;&gt; def length_and_word(word): return (len(word), word.casefold())
+...
+&gt;&gt;&gt; sorted(fruits, key=length_and_word)
+['jujube', 'longan', 'Loquat', 'kumquat', 'Cherimoya']
+</code></pre>
+
+<p>With the key function above we&rsquo;re able to sort fruits first by their length and <em>then</em> by their case-normalized equivalent.
+So &ldquo;jujube&rdquo; comes first because it&rsquo;s 6 letters (like <code>longan</code> and <code>Loquat</code>) but it&rsquo;s also alphabetically before <code>longan</code> and <code>Loquat</code>.</p>
+
+<p>If we just sorted by length we would have had a different ordering:</p>
+
+<pre><code class="python">&gt;&gt;&gt; sorted(fruits, key=len)
+['Loquat', 'longan', 'jujube', 'kumquat', 'Cherimoya']
+</code></pre>
+
+<p><strong>Slight aside</strong>: deep comparisons actually predate the <code>sorted</code> function&rsquo;s <code>key</code> argument in Python.
+Before there was a key function Python developers would create lists of tuples, sort the lists of tuples, and then grab the actual value they cared about out of that list (which is <a href="https://docs.python.org/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate">discussed in the docs</a>).</p>
+
+<p>The <code>sorted</code> function isn&rsquo;t the only place where tuple ordering can come in handy.
+Any place where you see a <code>key</code> function might be a candidates for relying on tuple ordering.
+For example the <code>min</code> and <code>max</code> functions:</p>
+
+<pre><code>&gt;&gt;&gt; min(fruits, key=str.casefold)
+'Cherimoya'
+&gt;&gt;&gt; max(fruits, key=str.casefold)
+'Loquat'
+</code></pre>
+
+<p>Anywhere Python does an ordering operation might be a place you could rely on the deep ordering of Python&rsquo;s data structures.</p>
+
+<h2>Deep hashability (and unhashability)</h2>
+
+<p>Python has both deep equality and deep orderability.
+But Python&rsquo;s deep comparisons don&rsquo;t stop there: there&rsquo;s also deep hashability.</p>
+
+<p>This is something that mostly comes up with tuples.
+Tuples can be used as a key in a dictionary (as we saw earlier), and they can be used in sets:</p>
+
+<pre><code class="python">&gt;&gt;&gt; current_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2), (3, 4)]}
+&gt;&gt;&gt; points = {(1, 2), (2, 1), (3, 4)}
+</code></pre>
+
+<p>But this only works for tuples that contain immutable values:</p>
+
+<pre><code class="python">&gt;&gt;&gt; things = {(["dress", "truck"], "yellow"), (["ball", "plane"], "purple")}
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: unhashable type: 'list'
+</code></pre>
+
+<p>Tuples with lists in them aren&rsquo;t hashable because lists aren&rsquo;t hashable: each object inside a tuple must be hashable for the tuple itself to be hashable.</p>
+
+<p>So while tuples containing lists aren&rsquo;t hashable, tuples containing tuples <em>are</em> hashable:</p>
+
+<pre><code class="python">&gt;&gt;&gt; things = {(("dress", "truck"), "yellow"), (("ball", "plane"), "purple")}
+&gt;&gt;&gt; things
+{(('dress', 'truck'), 'yellow'), (('ball', 'plane'), 'purple')}
+</code></pre>
+
+<p>Tuples compute their hash values by delegating to the hash values of the items they contain:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = (1, 2)
+&gt;&gt;&gt; y = (1, 2)
+&gt;&gt;&gt; hash(x)
+3713081631934410656
+&gt;&gt;&gt; hash(x) == hash(y)
+True
+</code></pre>
+
+<p>While hashability is a big subject, this is really all I&rsquo;m going to say about it.
+You don&rsquo;t really need to know how hashing works in Python so if you found this section confusing, that&rsquo;s okay!</p>
+
+<p>The takeaway here is that Python supports <strong>deep hashability</strong> which is <strong>the reason we can use tuples as dictionary keys</strong> and the reason we can use tuples in sets.</p>
+
+<h2>Deep comparisons are a tool to remember</h2>
+
+<p>When you have code that compares two objects based on subparts in a particular order:</p>
+
+<pre><code class="python">d1 = (1999, 12, 31)
+d2 = (1999, 12, 1)
+if d1[0] &gt; d2[0]:
+    greater = d1
+elif d1[0] &lt; d2[0]:
+    greater = d2
+elif d1[1] &gt; d2[1]:
+    greater = d1
+elif d2[1] &gt; d2[1]:
+    greater = d2
+elif d1[2] &gt; d2[2]:
+    greater = d1
+else:
+    greater = d2
+</code></pre>
+
+<p>You could probably rely on tuple ordering instead:</p>
+
+<pre><code class="python">d1 = (1999, 12, 31)
+d2 = (1999, 12, 1)
+if d1 &lt; d2:
+    greater = d1
+else:
+    greater = d2
+</code></pre>
+
+<p>If you are comparing many different things as equal:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d1 = (1999, 12, 31)
+&gt;&gt;&gt; d2 = (1999, 12, 1)
+&gt;&gt;&gt; d1[0] == d2[0] and d1[1] == d2[1] and d1[2] == d2[2]
+False
+</code></pre>
+
+<p>You could probably rely on deep equality instead:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d1 = (1999, 12, 31)
+&gt;&gt;&gt; d2 = (1999, 12, 1)
+&gt;&gt;&gt; d1 == d2
+False
+</code></pre>
+
+<p>And if you need to use a dictionary that has a key made up of multiple parts, if those parts are each hashable, you could probably use a tuple:</p>
+
+<pre><code class="python">&gt;&gt;&gt; points = {}
+&gt;&gt;&gt; points[1, 2] = 'red'
+&gt;&gt;&gt; points
+{(1, 2): 'red'}
+</code></pre>
+
+<p><strong>Python&rsquo;s support for lexicographical ordering and deep comparisons is often overlooked by folks moving from other programming languages</strong>.
+Remember these features: you may not need them today, but they&rsquo;ll almost certainly come in handy at some point.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
