@@ -7,10 +7,10 @@ categories: python
 ---
 
 Occasionally in Python (and in programming in general), you'll need an object which can be uniquely identified.
-Sometimes this unique object represents a **stop value** or a **skip value** and sometimes it's an **initial value** or **default value**.
+Sometimes this unique object represents a **stop value** or a **skip value** and sometimes it's an **initial value**.
 But in each of these cases you want your object to stand out from the other objects you're working with.
 
-In this article we'll take a look at a few different ways to create these unique values that stand out from the rest and we'll wander through a few different uses for these unique values along the way.
+In this article we'll talk about when `None` isn't enough, I'll show you how I create unique values when `None` doesn't cut it, and we'll see a few different uses for this technique.
 
 
 ## Initial values and default values
@@ -529,7 +529,7 @@ We could have done this:
 >>> INITIAL = ['completely unique value']
 ```
 
-But I find this even less confusing because it's clear... because readers won't have a chance to be confused by the list-yness of a list:
+But I find using `object()` even less confusing because it's clear... because readers won't have a chance to be confused by the list-yness of a list:
 
 ```python
 >>> INITIAL = object()  # completely unique value
@@ -622,7 +622,7 @@ You never want to use the `is` operator *except* for true identity checks: [sing
 
 ## So when would we use `object()`?
 
-When would we practically use `object()` for a uniqueness check in our own code?
+When would we actually use `object()` for a uniqueness check in our own code?
 
 I can think of a few cases:
 
