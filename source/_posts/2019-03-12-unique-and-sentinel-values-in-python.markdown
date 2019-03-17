@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Unique values, sentinel values, and the problem with None"
+title: "Unique sentinel values, identity checks, and when to use object() instead of None"
 date: 2019-03-20 07:30:00 -0700
 comments: true
 categories: python
@@ -9,6 +9,9 @@ categories: python
 Occasionally in Python (and in programming in general), you'll need an object which can be uniquely identified.
 Sometimes this unique object represents a **stop value** or a **skip value** and sometimes it's an **initial value**.
 But in each of these cases you want your object to stand out from the other objects you're working with.
+
+When you need a unique value (a **sentinel value** maybe) `None` is often the value to reach for.
+But sometimes `None` isn't enough: sometimes `None` is ambiguous.
 
 In this article we'll talk about when `None` isn't enough, I'll show you how I create unique values when `None` doesn't cut it, and we'll see a few different uses for this technique.
 
@@ -148,9 +151,9 @@ ValueError: Empty iterable
 
 But not the second.
 
-To fix the second bug we need to use a different default value for our `default` (other than `None`).
+To fix the second bug we need to use a different default value for our `default` argument (other than `None`).
 
-To do this, we'll make a global "constant" (by convention only) variable, `INITIAL`, outside our function:
+To do this, we'll make a global "constant" (by convention) variable, `INITIAL`, outside our function:
 
 ```python
 INITIAL = object()
@@ -195,7 +198,7 @@ Why does it work, how does it work, and when should we use it?
 
 ## What is `object()`?
 
-Every class in Python has a base class of `object` (in Python 3, things were a bit weirder in Python 2).
+Every class in Python has a base class of `object` (in Python 3 that is... things were a bit weirder in Python 2).
 
 So `object` is a class:
 
@@ -220,7 +223,7 @@ frozenset()
 So we're creating an instance of `object`.
 But... why?
 
-Well, in an instance of `object` shouldn't be seen as equal to any other object:
+Well, an instance of `object` shouldn't be seen as equal to any other object:
 
 ```python
 >>> x = object()
@@ -258,16 +261,18 @@ False
 ```
 
 We needed a placeholder value in our code.
-`None` is a lovely placeholder as long as we don't need to worry about distinguishing between *our `None`* and *their `None`*
+`None` is a lovely placeholder as long as **we don't need to worry about distinguishing between *our* `None` from *their* `None`**.
 
 If `None` is valid *data*, it's no longer just a placeholder.
-At that point, we need to start reaching for `object()`.
+At that point, we need to start reaching for `object()` instead.
 
 
 ## Equality vs identity
 
 I noted that `object()` isn't *equal* to anything else.
-But we weren't actually using `==` or `!=` in our function:
+But we weren't actually checking for equality (using `==` or `!=`) in our function:
+
+Instead of `==` and `!=`, we used `is` and `is not`.
 
 ```python
 INITIAL = object()
@@ -287,8 +292,7 @@ def min(iterable, default=INITIAL):
         raise ValueError("Empty iterable")
 ```
 
-Instead of `==` and `!=`, we used `is` and `is not`.
-Those first operators are equality operators and the second ones are **identity operators**.
+While `==` and `!=` are equality operators, `is` and `is not` are **identity operators**.
 
 Python's `is` operator asks about the **identity** of an object: are the two objects on either side of the `is` operator actually the same exact object.
 
@@ -350,7 +354,7 @@ False
 True
 ```
 
-Each object can customize the behavior of that `==` to answer whatever question they'd like.
+Each object can **customize the behavior of `==`** to answer whatever question they'd like.
 
 Which means someone could make a class like this:
 
@@ -372,13 +376,11 @@ False
 True
 ```
 
-If you've never seen the `is` operator, [here's an article with a bit more on `==` vs `is`][identity vs equality]
-
 
 ## Use identity to compare unique objects
 
 The `is` operator, unlike `==`, is not overloadable.
-Unlike `==`, there's no way to control or change what happens when you say `x is y`.
+**Unlike with `==`, there's no way to control or change what happens when you say `x is y`.**
 
 There's a `__eq__` method, but there's no such thing as a `__is__` method.
 Which means the `is` operator will never lie to you: it will always tell you whether two objects are one in the same.
@@ -452,47 +454,49 @@ True
 False
 ```
 
+The objects that those `x` and `y` variables point to have **the same value** but are **not actually the same object**.
+
 
 ## None is a placeholder value
 
 Python's `None` is lovely.
 `None` is a universal placeholder value.
-
 Need a placeholder?
-Cool!
-Python has a great one called `None`.
+Great!
+Python has a great placeholder value and it's called `None`!
 
-There are lots of places where Python uses `None` as a placeholder value as well.
+There are lots of places where Python itself actually uses `None` as a placeholder value also.
 
-If you pass no arguments to the string `split` method, that's the same as passing a separator of `None`:
+If you pass no arguments to the string `split` method, that's the same as passing a separator value of `None`:
 
 ```python
+>>> s = "hello world"
 >>> s.split()
-['hello']
+['hello', 'world']
 >>> s.split(None)
-['hello']
+['hello', 'world']
 ```
 
 If you pass in a `key` function of `None` to the `sorted` builtin, that's the same as passing in no `key` function at all:
 
 ```python
 >>> sorted(s, key=None)
-['e', 'h', 'l', 'l', 'o']
+[' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w']
 >>> sorted(s)
-['e', 'h', 'l', 'l', 'o']
+[' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w']
 ```
 
 Python loves using `None` as a placeholder because it's often a pretty great placeholder value.
 
-The issue with `None` only appears if someone else could reasonably be using `None` as a non-placeholder input to our function.
-This is often the case when the caller of a function has placeholder values (often `None`) in their inputs and the author of that function needs a separate unique placeholder.
+The issue with `None` only appears **if someone else could reasonably be using `None` as a non-placeholder input to our function**.
+This is often the case when the caller of a function has a placeholder values (often `None`) in their inputs and the author of that function (that's us) needs a separate unique placeholder.
 
 Using `None` to represent two different things at once is like having two identical-looking bookmarks in the same book: it's confusing!
 
 
 ## Creating unique non-None placeholders: why `object()`?
 
-When we made that `INITIAL` value before, we were sort of inventing our own `None`-like object: an object that we could uniquely reference using the `is` operator.
+When we made that `INITIAL` value before, we were sort of inventing our own `None`-like object: an object that we could uniquely reference by using the `is` operator.
 
 That `INITIAL` object we made should be completely unique: it shouldn't ever be seen in any arbitrary input that may be given to our function (unless someone made the strange decision to import `INITIAL` and reference it specifically).
 
@@ -529,7 +533,7 @@ We could have done this:
 >>> INITIAL = ['completely unique value']
 ```
 
-But I find using `object()` even less confusing because it's clear... because readers won't have a chance to be confused by the list-yness of a list:
+But I find using `object()` less confusing than this because it's clear: readers won't have a chance to be confused by the listy-ness of a list.
 
 ```python
 >>> INITIAL = object()  # completely unique value
@@ -541,15 +545,14 @@ Also if a confused developer Googles "what is `object()` in Python?" they might 
 ## Other cases for non-None placeholders
 
 There's a word I've been avoiding using up to this point.
-I've only been avoiding it because I think I may misuse it.
+I've only been avoiding it because I think I typically misuse it (or rather overuse it).
 The word is [sentinel value][].
 
-I suspect I overuse this word only because I use it to mean any unique placeholder value, such as the `INITIAL` object we made before.
-
+I suspect I overuse this word because I use it to mean any unique placeholder value, such as the `INITIAL` object we made before.
 But most definitions I've seen use "sentinel value" to specifically mean a value which indicates the end of a list, a loop, or an algorithm.
-Sentinel values are a thing that, when seen, indicate that something has finished.
 
-I think of a sentinel value as a **stop value**: when you see a sentinel value it's a signal that the loop or algorithm that you're in should terminate.
+Sentinel values are a thing that, when seen, indicate that something has finished.
+I think of this as a **stop value**: when you see a sentinel value it's a signal that the loop or algorithm that you're in should terminate.
 
 Before we weren't using a stop value so much as an **initial value**.
 
@@ -594,17 +597,17 @@ def strict_zip(*iterables):
 
 I'm fine with either of these functions.  The first is a bit more readable even though this one is arguably a bit more correct.
 
-Identity checks are often faster than equality checks (`==` has to call the `__eq__` method, but `is` is a hard-coded memory check).
-But also they're just a bit more *correct*: if it's uniqueness we care about, a unique memory location is the ultimate uniqueness check.
+Identity checks are often faster than equality checks (`==` has to call the `__eq__` method, but `is` does a straight memory ID check).
+But identity checks are also a bit more *correct*: if it's uniqueness we care about, **a unique memory location is the ultimate uniqueness check**.
 
-In general, when writing code that uses a unique object, **it's wise to rely on identity rather than equality if you can**.
+When writing code that uses **a unique object**, it's wise to **rely on identity rather than equality** if you can.
 
 
 ## This is what `is` was made for
 
-If we care about *equality* we use `==`, if we care about *identity* we use `is`.
+If we care about *equality* (the value of an object) we use `==`, if we care about *identity* (the memory location) we use `is`.
 
-If you search my Python code for " is " you'll pretty much only find the following things:
+If you search my Python code for ` is ` you'll pretty much only find the following things:
 
 1. `x is None` (this is the most common thing you'll see)
 2. `x is True` or `x is False` (sometimes my tests get picky about `True` vs truthiness)
@@ -616,11 +619,13 @@ The third one is checking if we've seen **the same object twice** (an iterator i
 And the fourth one is checking for the presence of these unique values we've been discussing.
 
 The `is` operator checks whether two objects are exactly the same object in memory.
-
-You never want to use the `is` operator *except* for true identity checks: [singletons][] (like `None`, `True`, and `False`), and checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).
+**You never want to use the `is` operator *except* for true identity checks**: [singletons][] (like `None`, `True`, and `False`), and checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).
 
 
 ## So when would we use `object()`?
+
+Oftentimes `None` is both the easy answer and the right answer for a unique placeholder value in Python, but sometimes you just need to invent your own unique placeholder value.
+In those cases `object()` is a great tool to have in your Python toolbox.
 
 When would we actually use `object()` for a uniqueness check in our own code?
 
@@ -641,4 +646,3 @@ May your `None` values be unambiguous and your identity checks be truly unique.
 [singletons]: https://en.wikipedia.org/wiki/Singleton_pattern
 [pep8]: https://pep8.org/#programming-recommendations
 [iterators]: https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/
-[identity vs equality]: https://www.blog.pythonlibrary.org/2017/02/28/python-101-equality-vs-identity/
