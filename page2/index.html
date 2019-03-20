@@ -9,7 +9,9 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently published an article about Python&rsquo;s pathlib module and how I think everyone should be using it. I won some pathlib converts, but &hellip;">
+  <meta name="description" content="Comparing things in Python.
+That sounds like something that almost doesn&rsquo;t even need to be taught.
+But I&rsquo;ve found that Python&rsquo;s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +91,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2019/01/no-really-pathlib-is-great/">No really, pathlib is great</a></h1>
+      <h1 class="entry-title"><a href="/2019/03/python-deep-comparisons-and-code-readability/">Tuple ordering and deep comparisons in Python</a></h1>
     
     
       <p class="meta">
@@ -98,69 +100,27 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2019-01-15T11:20:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>11:20 am</span></time>
+<time class='entry-date' datetime='2019-03-13T07:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>7:30 am</span></time>
         
-           | <a href="/2019/01/no-really-pathlib-is-great/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2019/01/no-really-pathlib-is-great/">Comments</a>
+           | <a href="/2019/03/python-deep-comparisons-and-code-readability/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">published an article about Python&rsquo;s pathlib module</a> and how I think everyone should be using it.</p>
+  <div class="entry-content"><p>Comparing things in Python.
+That sounds like something that almost doesn&rsquo;t even need to be taught.
+But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
 
-<p>I won some <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> converts, but some folks also brought up concerns.
-Some folks noted that I seemed to be comparing <code>pathlib</code> to <code>os.path</code> in a disingenuous way.
-Some people were also concerned that <code>pathlib</code> will take a very long time to be widely adopted because <code>os.path</code> is so entrenched in the Python community.
-And there were also concerns expressed about performance.</p>
+<p>Let&rsquo;s review how Python&rsquo;s comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.</p>
 
-<p>In this article I&rsquo;d like to acknowledge and address these concerns.
-This will be both a defense of <code>pathlib</code> and a sort of love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
+<h2>Python&rsquo;s comparison operators</h2>
 
-<h2>Comparing pathlib and os.path the right way</h2>
+<p>By &ldquo;comparison operators&rdquo; I mean the equality operators (<code>==</code> and <code>!=</code>) and the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</p>
 
-<p>In my last article I compared this code which uses <code>os</code> and <code>os.path</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;__pypackages__&#39;</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To this code with uses <code>pathlib.Path</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="n">Path</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This might seem like an unfair comparison because I used <code>os.path.join</code> in the first example to ensure the correct path separator is used on all platforms but I didn&rsquo;t do that in the second example.
-But this is in fact a fair comparison because <strong>the Path class normalizes path separators automatically</strong>.</p>
-
-<p>We can prove this by looking at the string representation of this <code>Path</code> object on Windows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/__pypackages__&#39;</span><span class="p">))</span>
-</span><span class='line'><span class="go">&#39;src\\__pypackages__&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>No matter whether we use the <code>joinpath</code> method, a <code>/</code> in a path string, the <code>/</code> operator (which is a neat feature of <code>Path</code> objects), or separate arguments to the <code>Path</code> constructor, we get the same representation in all cases:</p>
+<p>We can use these operators to compare numbers, as you&rsquo;d expect:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -170,71 +130,18 @@ But this is in fact a fair comparison because <strong>the Path class normalizes 
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s">&#39;.editorconfig&#39;</span>
-</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">WindowsPath(&#39;src/.editorconfig&#39;)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">4</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">4</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">&lt;</span> <span class="mi">4</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">&gt;</span> <span class="mi">4</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>That last expression caused some confusion from folks who assumed <code>pathlib</code> wouldn&rsquo;t be smart enough to convert that <code>/</code> into a <code>\</code> in the path string.
-Fortunately, it is!</p>
-
-<p>With <code>Path</code> objects, you never have to worry about backslashes vs forward slashes again: specify all paths using forward slashes and you&rsquo;ll get what you&rsquo;d expect on all platforms.</p>
-
-<h2>Normalizing file paths shouldn&rsquo;t be your concern</h2>
-
-<p>If you&rsquo;re developing on Linux or Mac, it&rsquo;s very easy to add bugs to your code that only affect Windows users.
-Unless you&rsquo;re careful to use <code>os.path.join</code> to build your paths up or <code>os.path.normcase</code> to convert forward slashes to backslashes as appropriate, <strong>you may be writing code that breaks on Windows</strong>.</p>
-
-<p>This is a Windows bug waiting to happen (we&rsquo;ll get mixed backslashes and forward slashes here):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;new_package/__init__.py&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This just works on all systems:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;new_package/__init__.py&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It used to be the responsibility of you the Python programmer to carefully join and normalize your paths, just as it used to be your responsibility in Python 2 land to use unicode whenever it was more appropriate than bytes.
-This is the case no more.
-The <code>pathlib.Path</code> class is careful to fix path separator issues before they even occur.</p>
-
-<p>I don&rsquo;t use Windows.
-I don&rsquo;t own a Windows machine.
-But a ton of the developers who use my code likely use Windows and I don&rsquo;t want my code to break on their machines.</p>
-
-<p><strong>If there&rsquo;s a chance that your Python code will ever run on a Windows machine, you really need <code>pathlib</code></strong>.</p>
-
-<p><strong>Don&rsquo;t stress about path normalization</strong>: just use <code>pathlib.Path</code> whenever you need to represent a file path.</p>
-
-<h2>pathlib seems great, but I depend on code that doesn&rsquo;t use it!</h2>
-
-<p>You have lots of code that works with path strings.
-Why would you switch to using <code>pathlib</code> when it means you&rsquo;d need to rewrite all this code?</p>
-
-<p>Let&rsquo;s say you have a function like this:</p>
+<p>But we can also use these operators to compare strings:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -244,133 +151,166 @@ Why would you switch to using <code>pathlib</code> when it means you&rsquo;d nee
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filename.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">filename</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">==</span> <span class="s">&quot;pickle&quot;</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">!=</span> <span class="s">&quot;pickle&quot;</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;pickle&quot;</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">&gt;</span> <span class="s">&quot;pickle&quot;</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This function accepts a directory to create a <code>.editorconfig</code> file in, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;my_package&#39;</span><span class="p">))</span>
-</span><span class='line'><span class="go">&#39;src/my_package/.editorconfig&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But our code also works with a <code>Path</code> object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">))</span>
-</span><span class='line'><span class="go">&#39;src/my_package/.editorconfig&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But&hellip; how??</p>
-
-<p>Well <code>os.path.join</code> accepts <code>Path</code> objects (as of Python 3.6).
-And <code>os.makedirs</code> accepts <code>Path</code> objects too.</p>
-
-<p>In fact the built-in <code>open</code> function accepts <code>Path</code> objects and <code>shutil</code> does and anything in the standard library that previously accepted a path string is now expected to work with both <code>Path</code> objects and path strings.</p>
-
-<p>This is all thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, which called for an <code>os.PathLike</code> abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.</p>
-
-<h2>But my favorite third-party library X has a better Path object!</h2>
-
-<p>You might already be using a third-party library that has a <code>Path</code> object which works differently than pathlib&rsquo;s Path objects.
-Maybe you even like it better.</p>
-
-<p>For example <a href="https://github.com/joke2k/django-environ">django-environ</a>, <a href="https://github.com/jaraco/path.py">path.py</a>, <a href="https://github.com/tomerfiliba/plumbum">plumbum</a>, and <a href="https://github.com/saulpw/visidata">visidata</a> all have their own custom <code>Path</code> objects that represent file paths.
-Some of these <code>pathlib</code> alternatives predate <code>pathlib</code> and chose to inherit from <code>str</code> so they could be passed to functions that expected path strings.
-Thanks to PEP 519 both <code>pathlib</code> and its third-party alternatives can play nicely without needing to resort to the hack of inheriting from <code>str</code>.</p>
-
-<p>Let&rsquo;s say you don&rsquo;t like <code>pathlib</code> because <code>Path</code> objects are immutable and you very much prefer using mutable <code>Path</code> objects.
-Well thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, you can create your own even-better-because-it-is-mutable <code>Path</code> and also has a <code>__fspath__</code>.
-You don&rsquo;t <em>need</em> to use <code>pathlib</code> to benefit from it.</p>
-
-<p>Any homegrown <code>Path</code> object you make or find in a third party library now has the ability to work natively with the Python built-ins and standard library modules that expect Path objects.
-<strong>Even if you don&rsquo;t like <code>pathlib</code>, its existence a big win for third-party <code>Path</code> objects as well</strong>.</p>
-
-<h2>But Path objects and path strings don&rsquo;t mix, do they?</h2>
-
-<p>You might be thinking: this is really wonderful, but won&rsquo;t this sometimes-a-string and sometimes-a-path-object situation add confusion to my code?</p>
-
-<p>The answer is yes, somewhat.
-But I&rsquo;ve found that it&rsquo;s pretty easy to work around.</p>
-
-<p>PEP 519 added a couple other things along with path-like objects: one is a way to convert all path-like objects to path strings and the other is a way to convert all path-like objects to <code>Path</code> objects.</p>
-
-<p>Given either a path string or a <code>Path</code> object (or anything with a <code>__fspath__</code> method):</p>
+<p>And even tuples:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'><span class="n">p1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;src&#39;</span><span class="p">,</span> <span class="s">&#39;my_package&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">p2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">)</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">installed</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">==</span> <span class="n">installed</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">installed</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">installed</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>os.fspath</code> function will now normalize both of these types of paths to strings:</p>
+<p>Many programming languages don&rsquo;t have an equivalent to Python&rsquo;s very flexible comparison operators.</p>
+
+<p>We&rsquo;ll take a look at how these operators work on tuples and more complex objects in a moment, but we&rsquo;ll start with something simpler: string comparisons.</p>
+
+<h2>String comparisons in Python</h2>
+
+<p>Equality and inequality with strings is fairly simple.
+If two strings have exactly the same characters, they&rsquo;re equal:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">fspath</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fspath</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">fspath</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-</span><span class='line'><span class="go">(&#39;src/my_package&#39;, &#39;src/my_package&#39;)</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;hello&quot;</span> <span class="o">==</span> <span class="s">&quot;hello&quot;</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;hello&quot;</span> <span class="o">==</span> <span class="s">&quot;hella&quot;</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And the <code>Path</code> class will now accept both of these types of paths and convert them to <code>Path</code> objects:</p>
+<p>Note that I&rsquo;m glossing over a very big exception: unicode characters.
+There are often multiple ways to represent the same text and those different representations must be <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize">normalized</a> before they&rsquo;re seen as equal.
+For simplicity, we&rsquo;re going to stick to ASCII characters in this article.</p>
+
+<p>Ordering of strings is where things get a bit interesting in Python:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="n">p1</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-</span><span class='line'><span class="go">(PosixPath(&#39;src/my_package&#39;), PosixPath(&#39;src/my_package&#39;))</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pickle&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;python&quot;</span>
+</span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>That means you could convert the output of the <code>make_editorconfig</code> function back into a <code>Path</code> object if you wanted to:</p>
+<p>The string <code>"pickle"</code> is <em>less than</em> the string <code>"python"</code> because we&rsquo;re ordering alphabetically&hellip; sort of.
+Capitalization matters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pickle&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;Python&quot;</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The string <code>"Python"</code> is less than <code>"pickle"</code> because <code>P</code> is less than <code>p</code>.</p>
+
+<p>We&rsquo;re not actually ordering alphabetically here so much as <strong>ASCII-betically</strong> (unicode-betically really since we&rsquo;re in Python 3).
+These strings are being ordered by the ASCII values of their characters (<code>p</code> is 112 in <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters">ASCII</a> and <code>P</code> is 80).</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">Path</span><span class="p">(</span><span class="n">make_editorconfig</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s">&#39;src/my_package&#39;</span><span class="p">)))</span>
-</span><span class='line'><span class="go">PosixPath(&#39;src/my_package/.editorconfig&#39;)</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="mi">112</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="s">&quot;P&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="mi">80</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;P&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;p&quot;</span>
+</span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Though of course a better long-term approach would be to rewrite the <code>make_editorconfig</code> function to use <code>pathlib</code> instead.</p>
+<p>Technically Python compares the Unicode code point (which is what <a href="https://docs.python.org/3/library/functions.html#ord">ord</a> does) for these characters and that happens to be the same as the ASCII value for ASCII characters.</p>
 
-<h2>pathlib is too slow</h2>
+<p>The rules for ordering strings are:</p>
 
-<p>I&rsquo;ve heard this concern come up a few times: <code>pathlib</code> is just too slow.</p>
+<ol>
+<li>Compare the n-th characters of each string (starting with the first character, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next character</li>
+<li>For two unequal characters, take the character that has the lower code point and declare its string &ldquo;less than&rdquo; the other</li>
+<li>If all characters are equal, the strings are equal</li>
+<li>If one string runs out of characters during step 1 (one string is a &ldquo;prefix&rdquo; of the other), the shorter string is &ldquo;less than&rdquo; the longer one</li>
+</ol>
 
-<p>It&rsquo;s true that <code>pathlib</code> can be slow.
-Creating thousands of <code>Path</code> objects can make a noticeable impact on your code.</p>
 
-<p>I decided to test the performance difference between <code>pathlib</code> and the alternative on my own machine using two different programs that both look for all <code>.py</code> files below the current directory.</p>
+<p>The ordering algorithm Python uses for strings might seem complicated, but it&rsquo;s <strong>very similar to the ordering algorithm used in dictionaries</strong>; not Python dictionaries but <a href="https://en.wikipedia.org/wiki/Dictionary">physical dictionaries</a> (those things we used before the Internet existed).
+We give precedence to the first characters when ordering words in dictionaries and if one word is a prefix of another, it comes first.</p>
 
-<p>Here&rsquo;s the <code>os.walk</code> version:</p>
+<h2>Tuple comparisons</h2>
+
+<p>We can ask tuples if they&rsquo;re equal, just as we can ask strings if they&rsquo;re equal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But we can also compare tuples using the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn&rsquo;t often feel quite as intuitive at first.
+But you&rsquo;re actually somewhat familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
+
+<p>The rules for ordering tuples (which are essentially the same as ordering strings):</p>
+
+<ol>
+<li>Compare the n-th items of each tuple (starting with the first, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next item</li>
+<li>For two unequal items, the item that is &ldquo;less than&rdquo; makes the tuple that contains it also &ldquo;less than&rdquo; the other tuple</li>
+<li>If all items are equal, the tuples are equal</li>
+<li>If one tuple runs out of items during step 1 (one tuple is a &ldquo;prefix&rdquo; of the other), the shorter tuple is &ldquo;less than&rdquo; the longer one</li>
+</ol>
+
+
+<p>In Python, this algorithm might look sort of like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -381,21 +321,55 @@ Creating thousands of <code>Path</code> objects can make a noticeable impact on 
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">walk</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">extension</span> <span class="o">=</span> <span class="s">&#39;.py&#39;</span>
-</span><span class='line'><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">directories</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">getcwd</span><span class="p">()):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">extension</span><span class="p">):</span>
-</span><span class='line'>            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{count} Python files found&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">continue</span>
+</span><span class='line'>        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tuple1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tuple2</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>  <span class="c"># There were more items in the second tuple</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>  <span class="c"># The first tuple had more items or they are equal</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here&rsquo;s the <code>Path.rglob</code> version:</p>
+<p>Note that we&rsquo;d never write code like this because Python is doing all this work for us already.
+That whole function is the same as using the <code>&lt;</code> operator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">tuple1</span> <span class="o">&lt;</span> <span class="n">tuple2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Lexicographical ordering</h2>
+
+<p>This <strong>alphabetical-like style of ordering</strong> that gives precedence to the first items in an iterable is called <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical ordering</a>.
+You don&rsquo;t need to know that phrase, but if you ever need to describe <em>the way ordering works in Python</em>, <strong>lexicographical</strong> is the word to use.</p>
+
+<p>Strings and tuples are ordered lexicographically, as we&rsquo;ve seen, but so are lists:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In fact, most <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a> in Python <a href="https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types">should be ordered lexicographically</a> (<code>range</code> objects are an exception to this as they can&rsquo;t be ordered at all).</p>
+
+<p>But not every collection in Python relies on lexicographical ordering.</p>
+
+<h2>Dictionary and set comparisons</h2>
+
+<p>Many objects in Python work with equality but don&rsquo;t work with ordering at all.</p>
+
+<p>For example dictionaries compare &ldquo;equal&rdquo; when they have all the same keys and values:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -404,45 +378,110 @@ Creating thousands of <code>Path</code> objects can make a noticeable impact on 
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">extension</span> <span class="o">=</span> <span class="s">&#39;.py&#39;</span>
-</span><span class='line'><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;*{extension}&#39;</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{count} Python files found&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span><span class="p">[</span><span class="s">&#39;python_version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
+</span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Testing runtimes for programs that rely on filesystem accesses is tricky because runtimes vary greatly, so I reran each script 10 times and compared the best runtime of each.</p>
+<p>But <strong>dictionaries can&rsquo;t be ordered</strong> using the <code>&lt;</code> or <code>&gt;</code> operators:</p>
 
-<p>Both scripts found 97,507 Python files in the directory I ran them in.
-The first one finished in 1.914 seconds (best out of 10 runs).
-The second one finished in 3.430 seconds (best out of 10 runs).</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">&lt;</span> <span class="n">actual</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;&lt;&#39;</span> <span class="ow">not</span> <span class="n">supported</span> <span class="n">between</span> <span class="n">instances</span> <span class="n">of</span> <span class="s">&#39;dict&#39;</span> <span class="ow">and</span> <span class="s">&#39;dict&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>When I set <code>extension = ''</code> these find about 600,000 files and the differences spread a little further apart.
-The first runs in 1.888 seconds and the second in 7.485 seconds.</p>
 
-<p>So the <code>pathlib</code> version of this program <strong>ran twice as slow</strong> for <code>.py</code> files and <strong>four times as slow</strong> for every file in my home directory.
-<strong>The <code>pathlib</code> code was indeed slower</strong>, much slower percentage-wise.</p>
+<p>Sets are similar, except that sets <em>do</em> work with ordering operators&hellip; they just don&rsquo;t use those operators for ordering:</p>
 
-<p>But in my case, this speed difference doesn&rsquo;t matter much.
-I searched for every file in my home directory and lost 6 seconds to the slower version of my code.
-If I needed to scale this code to search 10 million files, I&rsquo;d probably want to rewrite it.
-But that&rsquo;s a problem I can get to if I experience it.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span> <span class="o">&lt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="o">&lt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>If you have a tight loop that could use some optimizing and <code>pathlib.Path</code> is one of the bottlenecks that&rsquo;s slowing that loop down, abandon <code>pathlib</code> in that part of your code.
-But <strong>don&rsquo;t optimize parts of your code that aren&rsquo;t bottlenecks</strong>: it&rsquo;s a waste of time and often results in less readable code for little gain.</p>
 
-<h2>Improving readability with pathlib</h2>
+<p>Sets overload these operators to answer questions about <strong>whether one set is a subset or superset of another</strong> (<a href="https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset">see sets in the documentation</a>).</p>
 
-<p>I&rsquo;d like to wrap up these thoughts by ending with some <code>pathlib</code> refactorings.
-I&rsquo;ve taken a couple small examples of code that work with files and refactored these examples to use <code>pathlib</code> instead.
-I&rsquo;ll mostly leave these code blocks without comment and let you be the judge of which versions you like best.</p>
+<h2>Deep equality</h2>
 
-<p>Here&rsquo;s the <code>make_editorconfig</code> function we saw earlier:</p>
+<p>Comparisons between two data structures in Python tend to be <strong>deep comparisons</strong>.
+Whether we&rsquo;re comparing lists, tuples, sets, or dictionaries, when we ask whether two of these objects are &ldquo;equal&rdquo; Python will recurse through each sub-object and ask whether each is &ldquo;equal&rdquo;.</p>
+
+<p>So given a dictionary that maps tuples to lists of tuples:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">previous_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Asking whether these two dictionaries are equal is equivalent to asking whether each key-value pair is equal, recursively:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">==</span> <span class="n">previous_portals</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">==</span> <span class="n">previous_portals</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The dictionaries ask each of their keys &ldquo;are you in the other dictionary&rdquo; and then asks each of the corresponding values for those keys &ldquo;are you equal to the other value&rdquo;.
+But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
+And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.</p>
+
+<p><strong>We don&rsquo;t have to worry about any of this though</strong>: Python just does these deep comparisons for us automatically.</p>
+
+<p>While you don&rsquo;t need to worry about how deep comparisons work, the fact that Python&rsquo;s comparisons <em>are</em> deep can be pretty handy to know.</p>
+
+<p>For example if we have <a href="https://pastebin.com/raw/yspKmfyj">a class</a> with <code>x</code>, <code>y</code>, and <code>z</code> attributes we&rsquo;d like to compare in our <code>__eq__</code> method, instead of this long boolean expression:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We could bundle these values into 3-item tuples and compare them that way instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find this more readable, mostly because <strong>we&rsquo;ve added symmetry to our code</strong>: we have one <code>==</code> expression with the same kind of object on each side of it.</p>
+
+<h2>Deep ordering</h2>
+
+<p>This &ldquo;deep comparison&rdquo; works for equality, but it also works for ordering.</p>
+
+<p>The use case for deep ordering isn&rsquo;t as obvious as for deep equality, but identifying places where deep ordering is handy can help you drastically improve the readability of your code.</p>
+
+<p>Take this example method:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -453,23 +492,147 @@ I&rsquo;ll mostly leave these code blocks without comment and let you be the jud
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filename.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">filename</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And here&rsquo;s the same function using <code>pathlib.Path</code> instead:</p>
+<p>This <code>__lt__</code> method implements the <code>&lt;</code> operator on <a href="https://pastebin.com/raw/u8uGDArq">its class</a>, returning <code>True</code> if <code>self</code> is less than <code>other</code>.
+Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll to ignore that fact for this example.</p>
+
+<p>That <code>__lt__</code> method above gives precedence to the <code>last_name</code>: the <code>first_name</code> is only checked if the <code>last_name</code> attribute of these two objects happens to be equal.</p>
+
+<p>If we wanted to collapse this logic some, we could rewrite our code like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="ow">or</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>    <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or&hellip; we could rely on the deep ordering of tuples instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here we&rsquo;re ordering our tuples lexicographically (by their first item first).
+Our tuples happen to contain strings, which are also ordered lexicographically (by their first character first).
+So we&rsquo;re <strong>deeply ordering</strong> these objects.</p>
+
+<h2>Sorting by multiple attributes at once</h2>
+
+<p>Knowing about lexicographical ordering and deep ordering of Python sequences can be quite useful when sorting Python objects.
+From Python&rsquo;s perspective, <strong>sorting is really just ordering over and over</strong>.</p>
+
+<p>Python&rsquo;s built-in <code>sorted</code> function accepts a <code>key</code> function which can return a corresponding key object to sort each of these items by.</p>
+
+<p>Here we&rsquo;re specifying a <code>key</code> function that accepts a word and returns a tuple of two things: the length of the word and the case-normalized word:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">length_and_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">),</span> <span class="n">word</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
+</span><span class='line'><span class="o">...</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">length_and_word</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;jujube&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the key function above we&rsquo;re able to sort fruits first by their length and <em>then</em> by their case-normalized equivalent.
+So &ldquo;jujube&rdquo; comes first because it&rsquo;s 6 letters (like <code>longan</code> and <code>Loquat</code>) but it&rsquo;s also alphabetically before <code>longan</code> and <code>Loquat</code>.</p>
+
+<p>If we just sorted by length we would have had a different ordering:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">,</span> <span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Slight aside</strong>: deep comparisons actually predate the <code>sorted</code> function&rsquo;s <code>key</code> argument in Python.
+Before there was a key function Python developers would create lists of tuples, sort the lists of tuples, and then grab the actual value they cared about out of that list (which is <a href="https://docs.python.org/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate">discussed in the docs</a>).</p>
+
+<p>The <code>sorted</code> function isn&rsquo;t the only place where tuple ordering can come in handy.
+Any place where you see a <code>key</code> function might be a candidates for relying on tuple ordering.
+For example the <code>min</code> and <code>max</code> functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;Cherimoya&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;Loquat&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Anywhere Python does an ordering operation might be a place you could rely on the deep ordering of Python&rsquo;s data structures.</p>
+
+<h2>Deep hashability (and unhashability)</h2>
+
+<p>Python has both deep equality and deep orderability.
+But Python&rsquo;s deep comparisons don&rsquo;t stop there: there&rsquo;s also deep hashability.</p>
+
+<p>This is something that mostly comes up with tuples.
+Tuples can be used as a key in a dictionary (as we saw earlier), and they can be used in sets:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But this only works for tuples that contain immutable values:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span> <span class="o">=</span> <span class="p">{([</span><span class="s">&quot;dress&quot;</span><span class="p">,</span> <span class="s">&quot;truck&quot;</span><span class="p">],</span> <span class="s">&quot;yellow&quot;</span><span class="p">),</span> <span class="p">([</span><span class="s">&quot;ball&quot;</span><span class="p">,</span> <span class="s">&quot;plane&quot;</span><span class="p">],</span> <span class="s">&quot;purple&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="n">unhashable</span> <span class="nb">type</span><span class="p">:</span> <span class="s">&#39;list&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Tuples with lists in them aren&rsquo;t hashable because lists aren&rsquo;t hashable: each object inside a tuple must be hashable for the tuple itself to be hashable.</p>
+
+<p>So while tuples containing lists aren&rsquo;t hashable, tuples containing tuples <em>are</em> hashable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span> <span class="o">=</span> <span class="p">{((</span><span class="s">&quot;dress&quot;</span><span class="p">,</span> <span class="s">&quot;truck&quot;</span><span class="p">),</span> <span class="s">&quot;yellow&quot;</span><span class="p">),</span> <span class="p">((</span><span class="s">&quot;ball&quot;</span><span class="p">,</span> <span class="s">&quot;plane&quot;</span><span class="p">),</span> <span class="s">&quot;purple&quot;</span><span class="p">)}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span>
+</span><span class='line'><span class="p">{((</span><span class="s">&#39;dress&#39;</span><span class="p">,</span> <span class="s">&#39;truck&#39;</span><span class="p">),</span> <span class="s">&#39;yellow&#39;</span><span class="p">),</span> <span class="p">((</span><span class="s">&#39;ball&#39;</span><span class="p">,</span> <span class="s">&#39;plane&#39;</span><span class="p">),</span> <span class="s">&#39;purple&#39;</span><span class="p">)}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Tuples compute their hash values by delegating to the hash values of the items they contain:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -477,68 +640,23 @@ I&rsquo;ll mostly leave these code blocks without comment and let you be the jud
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">make_editorconfig</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filepath.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">path</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="mi">3713081631934410656</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">hash</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here&rsquo;s a command-line program that accepts a string representing a directory and prints the contents of the <code>.gitignore</code> file in that directory if one exists:</p>
+<p>While hashability is a big subject, this is really all I&rsquo;m going to say about it.
+You don&rsquo;t really need to know how hashing works in Python so if you found this section confusing, that&rsquo;s okay!</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">ignore_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;.gitignore&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">ignore_filename</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ignore_filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ignore_file</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">ignore_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>The takeaway here is that Python supports <strong>deep hashability</strong> which is <strong>the reason we can use tuples as dictionary keys</strong> and the reason we can use tuples in sets.</p>
 
+<h2>Deep comparisons are a tool to remember</h2>
 
-<p>This is the same code using <code>pathlib.Path</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</span><span class='line'><span class="n">ignore_path</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s">&#39;.gitignore&#39;</span>
-</span><span class='line'><span class="k">if</span> <span class="n">ignore_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">ignore_path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And here&rsquo;s some code that prints all groups of files in and below the current directory which are duplicates:</p>
+<p>When you have code that compares two objects based on subparts in a particular order:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -554,40 +672,24 @@ I&rsquo;ll mostly leave these code blocks without comment and let you be the jud
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">walk</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os.path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">find_files</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">directories</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">walk</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">yield</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">file_hashes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">find_files</span><span class="p">(</span><span class="n">getcwd</span><span class="p">()):</span>
-</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">my_file</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">file_hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">my_file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">file_hashes</span><span class="p">[</span><span class="n">file_hash</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">file_hashes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Duplicate files found:&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
+</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
+</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
+</span><span class='line'><span class="k">elif</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
+</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This is the same code that uses <code>pathlib.Path</code> instead:</p>
+<p>You could probably rely on tuple ordering instead:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -595,138 +697,56 @@ I&rsquo;ll mostly leave these code blocks without comment and let you be the jud
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">md5</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">find_files</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-</span><span class='line'>            <span class="k">yield</span> <span class="n">path</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">file_hashes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</span><span class='line'><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">find_files</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()):</span>
-</span><span class='line'>    <span class="n">file_hash</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">read_bytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">file_hashes</span><span class="p">[</span><span class="n">file_hash</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">file_hashes</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Duplicate files found:&quot;</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">paths</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">d1</span> <span class="o">&lt;</span> <span class="n">d2</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The changes here are subtle, but I think they add up.
-I prefer this <code>pathlib</code>-refactored version.</p>
-
-<h2>Start using pathlib.Path objects</h2>
-
-<p>Let&rsquo;s recap.</p>
-
-<p>The <code>/</code> separators in <code>pathlib.Path</code> strings are automatically converted to the correct path separator based on the operating system you&rsquo;re on.
-This is a huge feature that can make for code that is <strong>more readable and more certain to be free of path-related bugs</strong>.</p>
+<p>If you are comparing many different things as equal:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir&#39;</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path2</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s">&#39;file&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path3</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;dir/file&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path3</span>
-</span><span class='line'><span class="go">WindowsPath(&#39;dir/file&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">path1</span> <span class="o">==</span> <span class="n">path2</span> <span class="o">==</span> <span class="n">path3</span>
-</span><span class='line'><span class="go">True</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The Python standard library and built-ins (like <code>open</code>) also accept <code>pathlib.Path</code> objects now.
-This means <strong>you can start using pathlib, even if your dependencies don&rsquo;t</strong>!</p>
+<p>You could probably rely on deep equality instead:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">move</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">rename_and_redirect</span><span class="p">(</span><span class="n">old_filename</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">move</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="s">&#39;This file has moved to {new}&#39;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">==</span> <span class="n">d2</span>
+</span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-
+<p>And if you need to use a dictionary that has a key made up of multiple parts, if those parts are each hashable, you could probably use a tuple:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old.txt&#39;</span><span class="p">),</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;new.txt&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rename_and_redirect</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">old</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
-</span><span class='line'><span class="go">&#39;This file has moved to new.txt&#39;</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;red&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span>
+</span><span class='line'><span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And if you don&rsquo;t like <code>pathlib</code>, you can use a third-party library that provides the same path-like interface.
-This is great because <strong>even if you&rsquo;re not a fan of <code>pathlib</code> you&rsquo;ll still benefit from the new changes detailed in PEP 519</strong>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;old.txt&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">my_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">This file has moved to new.txt</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While <code>pathlib</code> is sometimes slower than the alternative(s), the cases where this matters are somewhat rare (in my experience at least) and <strong>you can always jump back to using path strings for parts of your code that are particularly performance sensitive</strong>.</p>
-
-<p>And in general, <code>pathlib</code> makes for more readable code.
-Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-</span><span class='line'><span class="n">gitignore</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">&#39;.gitignore&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">if</span> <span class="n">gitignore</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">gitignore</span><span class="o">.</span><span class="n">read_text</span><span class="p">(),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>pathlib</code> module is lovely: start using it!</p>
+<p><strong>Python&rsquo;s support for lexicographical ordering and deep comparisons is often overlooked by folks moving from other programming languages</strong>.
+Remember these features: you may not need them today, but they&rsquo;ll almost certainly come in handy at some point.</p>
 </div>
   
   <footer>
@@ -759,18 +779,28 @@ Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</
 
 </section>
 
-<!-- Drip Signup Form -->
-<section>
-
-    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
-      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
-      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
-      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
-      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
+    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 4 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>four free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
-
+    </p>
+    <p>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    </p>
 </section>
 <section>
   <h1>Favorite Posts</h1>
@@ -881,13 +911,11 @@ Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</
     <p>
     If you&#8217;d like to <strong>improve your Python skills every week</strong>, sign up!
     </p>
-    <p>
-      Read my short <a href="https://www.pythonmorsels.com/privacy/">Privacy Policy</a> and then enter your email below to get started:
-    </p>
     <form method="post" action="https://www.pythonmorsels.com/email-signup/">
       <input type="email" name="email" placeholder="email@domain.com" required>
       <button type="submit">Sign me up for Python Morsels!</button>
     </form>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
   </div>
 </section>
 

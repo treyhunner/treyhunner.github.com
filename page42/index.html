@@ -9,8 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I&rsquo;ve used multiple websites to generate random names for my test data when
-running manual or automated QA tests. Since discovering DuckDuckGo& &hellip;">
+  <meta name="description" content="In my last post I discussed the names Python library that generates
+random names. I&rsquo;ve now used this Python library to make a basic Flask &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2013/02/random-name-generator/">Random name generator in Python</a></h1>
+      <h1 class="entry-title"><a href="/2013/03/pseudorandom.name/">Random name generator website</a></h1>
     
     
       <p class="meta">
@@ -99,66 +99,56 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2013-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-03-10T00:00:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2013/02/random-name-generator/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2013/02/random-name-generator/">Comments</a>
+           | <a href="/2013/03/pseudorandom.name/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/03/pseudorandom.name/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve used multiple websites to generate random names for my test data when
-running manual or automated QA tests.</p>
+  <div class="entry-content"><p>In my <a href="/2013/02/random-name-generator/">last post</a> I discussed the <strong>names</strong> Python library that generates
+random names.  I&rsquo;ve now used this Python library to make a basic Flask website
+that generates random names.  You can visit it at:
+<a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a></p>
 
-<p>Since discovering DuckDuckGo&rsquo;s <a href="https://duckduckgo.com/?q=random+word">random word</a> generation, I&rsquo;ve
-<a href="https://duckduckhack.uservoice.com/forums/5168-ideas-for-duckduckgo-instant-answer-plugins/suggestions/2850418-random-name">hoped</a> that someone would make a DuckDuckGo plugin to generate
-random names also.</p>
+<h2>It&rsquo;s responsive</h2>
 
-<p>I didn&rsquo;t want to write my own DuckDuckGo plugin yet so I made a Python-powered
-command line tool instead using <a href="https://www.census.gov/genealogy/www/data/1990surnames/index.html">1990 Census data</a>.</p>
+<p>The font size and margin on pseudorandom.name change based on the web browser
+width and height.  I determined the font sizes I wanted to use for each screen
+width by using the longest first and last name in the name files I&rsquo;m using (11
+and 13 characters respectively).  The website looks reasonable on various
+desktop resolutions and on phone screens.</p>
 
-<p>The program is called <code>names</code> and can be found on <a href="https://github.com/treyhunner/names">Github</a> and <a href="http://pypi.python.org/pypi/names/0.1">PyPI</a>.</p>
+<h2>It&rsquo;s an HTTP API</h2>
 
-<h3>It&rsquo;s really simple</h3>
+<p>If curl is used to access the site, plain text is returned instead of an HTML
+webpage.  For example:</p>
 
-<p>It&rsquo;s basically just one file currently that&rsquo;s <a href="https://github.com/treyhunner/names/blob/f99542dc21f48aa82da4406f8ce408e92639430d/names/__init__.py">about 40 lines long</a>.
-There is only one feature available from the command line currently: generate a
-single random full name.  There&rsquo;s a few more features if importing as a Python
-package: generate random last name or generate random first name (with or
-without specifying gender), generate random full name (also without or without
-gender).</p>
-
-<p>The random name picker relies on the cumulative frequencies listed in the
-included Census data files.  Here&rsquo;s the steps that are taken:
-1. A random floating point number is chosen between 0.0 and 90.0
-2. Name file lines are iterated through until a cumulative frequency is found
-that is less than the randomly generated number
-3. The name on that line is chosen and returned (or printed out)</p>
-
-<h3>Examples</h3>
-
-<p>Here&rsquo;s how you use it from the command line:</p>
-
-<pre><code>$ names
-Kara Lopes
+<pre><code>curl www.pseudorandom.name
 </code></pre>
 
-<p>Here&rsquo;s how you use it as a Python package:</p>
+<p>The site is hosted on Heroku which <a href="https://devcenter.heroku.com/articles/custom-domains#apex-domains-examplecom">doesn&rsquo;t support bare domains</a>.
+Currently <a href="http://pseudorandom.name">http://pseudorandom.name</a> redirects to <a href="http://www.pseudorandom.name">http://www.pseudorandom.name</a> so
+using the bare domain requires telling curl to follow redirects with <code>-L</code>:</p>
 
-<pre><code>&gt;&gt;&gt; import names
-&gt;&gt;&gt; names.get_full_name()
-u'Patricia Halford'
-&gt;&gt;&gt; names.get_full_name(gender='male')
-u'Patrick Keating'
-&gt;&gt;&gt; names.get_first_name()
-'Bernard'
-&gt;&gt;&gt; names.get_first_name(gender='female')
-'Christina'
-&gt;&gt;&gt; names.get_last_name()
-'Szczepanek'
+<pre><code>curl -L pseudorandom.name
 </code></pre>
+
+<h2>More to come?</h2>
+
+<p>It might be nice to allow generating multiple names at once, generating
+gender-specific names, and maybe providing other content types (JSON).  The
+HTML version could also use a cleaner, more feature-full design.</p>
+
+<p>Also it would probably be more efficient to use a SQL database for querying
+random names so I may eventually abandon the names library and use a database
+for querying.</p>
+
+<p>The website&rsquo;s source code is <a href="https://github.com/treyhunner/pseudorandom.name">hosted on Github</a> and provided under an
+<a href="http://th.mit-license.org/2013">MIT license</a>.  Feel free to fork it or submit an issue.</p>
 </div>
   
   <footer>
@@ -191,18 +181,28 @@ u'Patrick Keating'
 
 </section>
 
-<!-- Drip Signup Form -->
-<section>
-
-    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
-      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
-      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
-      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
-      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
+    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 4 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>four free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
-
+    </p>
+    <p>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    </p>
 </section>
 <section>
   <h1>Favorite Posts</h1>
@@ -313,13 +313,11 @@ u'Patrick Keating'
     <p>
     If you&#8217;d like to <strong>improve your Python skills every week</strong>, sign up!
     </p>
-    <p>
-      Read my short <a href="https://www.pythonmorsels.com/privacy/">Privacy Policy</a> and then enter your email below to get started:
-    </p>
     <form method="post" action="https://www.pythonmorsels.com/email-signup/">
       <input type="email" name="email" placeholder="email@domain.com" required>
       <button type="submit">Sign me up for Python Morsels!</button>
     </form>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
   </div>
 </section>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="We&rsquo;re interviewing for a job and our interviewer has asked us to remove all for loops from a block of code. They then mentioned something about &hellip;">
+  <meta name="description" content="I set a goal of listening to 40 audiobooks in 2016. I met that goal, but just barely. I finished exactly 40 books and one of them I actually read the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How &#8220;For Loops&#8221; Work in Python</a></h1>
+      <h1 class="entry-title"><a href="/2017/01/my-favorite-audiobooks-of-2016/">My Favorite Audiobooks of 2016</a></h1>
     
     
       <p class="meta">
@@ -98,276 +98,110 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2016-12-28T11:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:00 am</span></time>
+<time class='entry-date' datetime='2017-01-01T17:00:00-08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2017</span></span> <span class='time'>5:00 pm</span></time>
         
-           | <a href="/2016/12/python-iterator-protocol-how-for-loops-work/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">Comments</a>
+           | <a href="/2017/01/my-favorite-audiobooks-of-2016/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2017/01/my-favorite-audiobooks-of-2016/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>We&rsquo;re interviewing for a job and our interviewer has asked us to remove all <code>for</code> loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We&rsquo;re nervous and frustrated about being assigned this ridiculous task, but we&rsquo;ll try our best.</p>
+  <div class="entry-content"><p>I set a goal of listening to 40 audiobooks in 2016.  I met that goal, but just barely.  I finished exactly 40 books and one of them I actually read the old fashioned way&hellip; as an e-book!  (Philip Morgan really needs to record an audiobook of <a href="https://www.goodreads.com/book/show/25754062-the-positioning-manual-for-technical-firms">The Positioning Manual</a>.)</p>
 
-<p>To understand how to loop without a <code>for</code> loop, we&rsquo;ll need to discover what makes <code>for</code> loops tick.</p>
+<p>I try to listen to a diverse set of books every year: I want to end my year having read books from different categories and genres and from authors with different backgrounds and writing styles.</p>
 
-<p>We&rsquo;re about to learn how <code>for</code> loops work in Python.  Along the way we&rsquo;ll need to learn about iterables, iterators, and the iterator protocol.  Let&rsquo;s loop. ➿</p>
+<p>I wrote about my favorite audiobooks I read in <a href="http://treyhunner.com/2015/12/my-favorite-audiobooks-of-2015/">2015</a> and <a href="http://treyhunner.com/2014/12/top-6-books-of-2014/">2014</a>.  Now I&rsquo;m going to attempt the same thing for 2016.  This task is always difficult because many of these books are very different from each other so I&rsquo;m not comparing apples to apples.  But I&rsquo;m going to try my best to pick my top 6.</p>
 
-<h2>Looping with indexes: a failed attempt</h2>
+<p>The full list of <a href="https://www.goodreads.com/user/year_in_books/2016/29459515">books I read in 2016 is available on my Goodreads page</a>.</p>
 
-<p>We might initially try to remove our <code>for</code> loops by using a traditional looping idiom from the world of C: <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes</a>.</p>
+<h3>1. Success and Luck</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>This book was written by an economist, but you don&rsquo;t need to know anything at all about economics to appreciate most of it.  The book is strangely (though conveniently) split into two parts: the first two-thirds of the book are very different from the last one-third.</p>
 
+<p>During the first two-thirds of the book, Robert Frank describes the role of luck in our lives.  I believe the world view he describes can result in increased humility and happiness; it&rsquo;s a mental model of the world which encourages gratitude for your life&rsquo;s path.</p>
 
-<p>This works on lists, but it fails on sets:</p>
+<p>The last one-third of the book describes a tax policy that makes quite a bit of sense once you&rsquo;ve embraced this world view.  If not you&rsquo;re into economics, feel free to skim or skip this part.  I found it pretty interesting and quite worthwhile considering it&rsquo;s only one-third of a fairly short book.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'><span class="gp">... </span>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">&#39;set&#39; object does not support indexing</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>I&rsquo;m skeptical of meritocracies, self-made people, and the idea that &ldquo;you can make it if you try&rdquo;.  If you do not share this particular brand of skepticism but you&rsquo;re curious about the reasons behind my views, read this book.  It does a great job of coherently expressing certain thoughts I&rsquo;ve had, but never been able to verbalize.</p>
 
+<p><a href="https://www.goodreads.com/book/show/26597345-success-and-luck">Success and Luck</a> by Robert H. Frank</p>
 
-<p>This approach only works on <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a>, which are data types that have indexes from <code>0</code> to one less than their length.  Lists, strings, and tuples are sequences.  Dictionaries, sets, and many other <em>iterables</em> are not <em>sequences</em>.</p>
+<p><a href="http://www.downpour.com/catalog/product/view/id/221484/">DRM-free audiobook</a> read by the author, Robert H. Frank</p>
 
-<p>We&rsquo;ve been instructed to implement a looping construct that works on <em>all iterables</em>, not just sequences.</p>
+<h3>2. Make it Stick</h3>
 
-<h2>Iterables: what are they?</h2>
+<p>My biggest career transition so far has been moving from consultant to trainer: as of mid-2015, I teach for a living.  I used to solve business problems that involved writing code, but now I focus on solving business problems that involve teaching others to write code.  I picked up Make it Stick in an effort to improve my teaching style.</p>
 
-<p>In the Python world, an <strong>iterable</strong> is any object that <strong>you can loop over with a for loop</strong>.</p>
+<p>This is one of the first books I&rsquo;ve read on pedagogy.  The book covered a lot of ground.  The authors consist of a writer (Peter C. Brown) and two cognitive scientists (Henry L. Roediger III and Mark A. McDaniel).  Together, they&rsquo;ve made a coherent book consisting of actionable advice based in research.  That&rsquo;s the big distinguishing feature of this book: it&rsquo;s research summed up for the masses.</p>
 
-<p><a href="https://docs.python.org/3/glossary.html#term-iterable">Iterables</a> are not always indexable, they don&rsquo;t always have lengths, and they&rsquo;re not always finite.</p>
+<p>This book covers the growth mindset, active retrieval, interleaved practice, spaced practice, elaboration, and other topics I&rsquo;ve forgotten the names of.  While reading this book, I frequently had ideas about how I could improve my training style.  I plan to reread this book again in 2017 as I actively incorporate ideas from this book into my training courses.</p>
 
-<p>Here&rsquo;s an <em>infinite</em> iterable which provides every multiple of 5 as you loop over it:</p>
+<p><a href="https://www.goodreads.com/book/show/18770267-make-it-stick">Make it Stick</a> by Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
-</span><span class='line'><span class="n">multiples_of_five</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><a href="http://www.downpour.com/catalog/product/view/id/158926/">DRM-free audiobook</a> read by Qarie Marshall</p>
 
+<h3>3. The Brain Audit</h3>
 
-<p>When we were using <code>for</code> loops, we could have looped over the beginning of this iterable like this:</p>
+<p>I believe this is the first audiobook I&rsquo;ve listened to twice.  I listened to it early in the year while on a family vacation and then listened to it a few months later while struggling to apply some of the ideas from this book to my business.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">multiples_of_five</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">break</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>This is not just a business book.  I&rsquo;ve found this book valuable when promoting my Python chats, tweeting about charitable and non-profit events, and even writing blog posts.</p>
 
+<p>The Brain Audit really changed the way I look at my business, my writing, and sales &amp; marketing in general.  Most importantly, it included a ton of actionable advice.  Sean D&#8217;Souza does give some general advice but he definitely gets very specific with some of his advice, which I really appreciated.</p>
 
-<p>If we removed the <code>break</code> condition from that <code>for</code> loop, it would go on printing forever.</p>
+<p><a href="https://www.goodreads.com/book/show/10417944-the-brain-audit">The Brain Audit</a> by Sean D&#8217;Souza</p>
 
-<p>So iterables can be infinitely long: which means that we can&rsquo;t always convert an iterable to a <code>list</code> (or any other sequence) before we loop over it.  We need to somehow ask our iterable for each item of our iterable individually, the same way our <code>for</code> loop works.</p>
+<p><a href="https://www.psychotactics.com/brain-audit-audio-book/">DRM-free audiobook</a> read by the author, Sean D&#8217;Souza</p>
 
-<h2>Iterables &amp; Iterators</h2>
+<h3>4. How to Be Black</h3>
 
-<p>Okay we&rsquo;ve defined <em>iterable</em>, but how do iterables actually work in Python?</p>
+<p>I read this book before realizing that I&rsquo;ve seen Baratunde participating in the CodeNewbies Twitter chats.</p>
 
-<p>All <a href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a> can be passed to the built-in <code>iter</code> function to get an <strong>iterator</strong> from them.</p>
+<p>I did not know what this book was about when I picked it up and the book started as a satirical instruction manual of sorts which both confused and amused me.  The majority of the book was a memoir punctuated by life lessons and questions answered by a panel of &ldquo;experts&rdquo;.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">([</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="go">&lt;list_iterator object at 0x7f227ad51128&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">({</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;set&#39;</span><span class="p">})</span>
-</span><span class='line'><span class="go">&lt;set_iterator object at 0x7f227ad32b40&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="s">&#39;some string&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;str_iterator object at 0x7f227ad51240&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>The book pokes fun at the notion of categorizing people by blackness, but it does so while staying grounded in the reality of our race-aware world.  The asides between Baratunde&rsquo;s story included groan-worthy truths, ideas pushed to ridiculous ends, and a lot of humor wrapped around both light and heavy subjects.</p>
 
+<p><a href="https://www.goodreads.com/book/show/12959743-how-to-be-black">How to Be Black</a> by Baratunde Thurston</p>
 
-<p>That&rsquo;s an interesting fact but&hellip; what&rsquo;s an <em>iterator</em>?</p>
+<p><a href="http://www.downpour.com/catalog/product/view/id/96254/">DRM-free audiobook</a> read by the author, Baratunde Thurston</p>
 
-<p>Iterators have exactly one job: return the &ldquo;next&rdquo; item in our iterable.  They&rsquo;re sort of like <a href="https://en.wikipedia.org/wiki/Tally_counter">tally counters</a>, but they don&rsquo;t have a reset button and instead of giving the next number they give the next item in our iterable.</p>
+<h3>5. The Art of Asking</h3>
 
-<p>You can get an iterator from <em>any</em> iterable:</p>
+<p>I&rsquo;m likely biased in my enjoyment for this book by the fact that I like Amanda Palmer&rsquo;s music and I appreciated watching interviews and talks from her before reading her book.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>This is not a self help book: this is really more of a themed memoir.  I really enjoyed hearing Amanda Palmer&rsquo;s story and I especially enjoyed hearing her read her own work.  She narrates very well and the occasional musical interludes made the book even more special to me.</p>
 
+<p><a href="https://www.goodreads.com/book/show/20980987-the-art-of-asking-or-how-i-learned-to-stop-worrying-and-let-people-hel">The Art of Asking</a> by Amanda Palmer</p>
 
-<p>And iterators can be passed to <code>next</code> to get their next item:</p>
+<p><a href="http://www.downpour.com/catalog/product/view/id/178890/">DRM-free audiobook</a> read by the author, Amanda Palmer</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;h&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;i&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">StopIteration</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>6. The Beautiful Struggle</h3>
 
+<p>This is non-fiction, but the scenes stuck with me like it was fiction.  Ta-Nehisi Coates&#8217; told the story of his childhood beautifully.  This was very well-written and the audiobook was well-narrated.</p>
 
-<p>So <a href="https://docs.python.org/3/glossary.html#term-iterator">iterators</a> can be passed to the built-in <code>next</code> function to get the next item from them and if there is no next item (because we reached the end), a <code>StopIteration</code> exception will be raised.</p>
+<p><a href="https://www.goodreads.com/book/show/2784926-the-beautiful-struggle">The Beautiful Struggle</a> by Ta-Nehisi Coates</p>
 
-<h2>Iterators are also iterables</h2>
+<p><a href="http://www.downpour.com/catalog/product/view/id/224786/">DRM-free audiobook</a> read by J.D. Jackson</p>
 
-<p>So calling <code>iter</code> on an <em>iterable</em> gives us an iterator.  And calling <code>next</code> on an <em>iterator</em> gives us the next item or raises a <code>StopIteration</code> exception if there aren&rsquo;t any more items.</p>
+<h3>More books</h3>
 
-<p>There&rsquo;s actually a bit more to it than that though.  You can pass iterators to the built-in <code>iter</code> function to get themselves back.  That means that iterators are also iterables.</p>
+<p>After compiling this list I realized a few interesting things:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator2</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="ow">is</span> <span class="n">iterator2</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>All of the books are available DRM-free (this wasn&rsquo;t true for my 2014 and 2015 lists)</li>
+<li>Most of the books are narrated by the authors, which is slightly uncommon</li>
+<li>All of these books are non-fiction</li>
+</ul>
 
 
-<p>That fact leads to some interesting consequences that we don&rsquo;t have time to go into right now.  We&rsquo;ll save that discussion for a future learning adventure&hellip;</p>
+<p>Usually I mix in some fiction, so I&rsquo;ll recommend some of the fiction I read now.</p>
 
-<h2>The Iterator Protocol</h2>
+<p>If you&rsquo;re looking for historical fiction try <a href="https://www.goodreads.com/book/show/14891.A_Tree_Grows_in_Brooklyn">A Tree Grows in Brooklyn</a>, <a href="https://www.goodreads.com/book/show/230996.Wild_Ginger">Wild Ginger</a>, or <a href="https://www.goodreads.com/book/show/18749.Half_of_a_Yellow_Sun">Half of a Yellow Sun</a>.  If you&rsquo;re looking for science fiction or fantasy try <a href="https://www.goodreads.com/book/show/115969.Overclocked">Overclocked</a>, <a href="https://www.goodreads.com/book/show/14497.Neverwhere">Neverwhere</a>, or <a href="https://www.goodreads.com/book/show/9969571-ready-player-one">Ready Player One</a>.</p>
 
-<p>The <strong>iterator protocol</strong> is a fancy term meaning &ldquo;how iterables actually work in Python&rdquo;.</p>
+<p>Now for this year&rsquo;s reading goal!  I&rsquo;m going to be a little less ambitious this year.  I plan to listen to more long audiobooks, so I&rsquo;ve lowered my reading goal drastically.  In 2017 <a href="https://www.goodreads.com/user_challenges/7102421">I plan to read 24 books</a>, all of them likely audiobooks.  Feel free to <a href="https://www.goodreads.com/user/show/29459515-trey-hunner">follow me on Goodreads</a> if you&rsquo;d like to keep up with my reading habits.</p>
 
-<p>Let&rsquo;s redefine iterables from Python&rsquo;s perspective.</p>
-
-<p>Iterables:</p>
-
-<ol>
-<li>Can be passed to the <code>iter</code> function to get an iterator for them.</li>
-<li>There is no 2.  That&rsquo;s <em>really</em> all that&rsquo;s needed to be an iterable.</li>
-</ol>
-
-
-<p>Iterators:</p>
-
-<ol>
-<li>Can be passed to the <code>next</code> function which gives their next item or raises <code>StopIteration</code></li>
-<li>Return themselves when passed to the <code>iter</code> function.</li>
-</ol>
-
-
-<p>The inverse of these statements should also hold true.  Which means:</p>
-
-<ol>
-<li>Anything that can be passed to <code>iter</code> without an error is an iterable.</li>
-<li>Anything that can be passed to <code>next</code> without an error (except for <code>StopIteration</code>) is an iterator.</li>
-<li>Anything that returns itself when passed to <code>iter</code> is an iterator.</li>
-</ol>
-
-
-<h2>Looping with iterators</h2>
-
-<p>With what we&rsquo;ve learned about iterables and iterators, we should now be able to recreate a <code>for</code> loop without actually using a <code>for</code> loop.</p>
-
-<p>This <code>while</code> loop manually loops over some <code>iterable</code>, printing out each item as it goes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">break</span>  <span class="c"># Iterator exhausted: stop the loop</span>
-</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can call this function with any iterable and it will loop over it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">print_each</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
-</span><span class='line'><span class="go">3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above function is essentially the same as this one which uses a <code>for</code> loop:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <code>for</code> loop is automatically doing what we were doing manually: calling <code>iter</code> to get an iterator and then calling <code>next</code> over and over until a <code>StopIteration</code> exception is raised.</p>
-
-<p>The iterator protocol is used by <code>for</code> loops, tuple unpacking, and all built-in functions that work on generic iterables.  Using the iterator protocol (either manually or automatically) is the only universal way to loop over any iterable in Python.</p>
-
-<h2>For loops: more complex than they seem</h2>
-
-<p>We&rsquo;re now ready to complete the very silly task our interviewer assigned to us.  We&rsquo;ll remove all <code>for</code> loops from our code by manually using <code>iter</code> and <code>next</code> to loop over iterables.  What did we learn in exploring this task?</p>
-
-<p>Everything you can loop over is an <strong>iterable</strong>.  Looping over iterables works via getting an <strong>iterator</strong> from an iterable and then repeatedly asking the iterator for the next item.</p>
-
-<p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
-
-<p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
-
-<h2>Even more on iterators</h2>
-
-<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to check out my <a href="https://youtu.be/V2PkkMS2Ack?t=25s">Loop Better talk</a> or my <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">article of the same name</a>.</p>
-
-<p>If you&rsquo;re interested in making your own iterators, I&rsquo;ve also written an article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator in Python</a>.</p>
-
-<p>If you want an excuse to practice making iterators, consider giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.
-The first few exercises include an excuse to create your own Python iterator.</p>
+<p>What good audiobooks have you listened to?  Have any recommendations for me?  Please share them with me on Goodreads, tweet at me, email me, or comment below!</p>
 </div>
   
   <footer>
@@ -400,18 +234,28 @@ The first few exercises include an excuse to create your own Python iterator.</p
 
 </section>
 
-<!-- Drip Signup Form -->
-<section>
-
-    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
-      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
-      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
-      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
-      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
+    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 4 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>four free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
-
+    </p>
+    <p>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    </p>
 </section>
 <section>
   <h1>Favorite Posts</h1>
@@ -522,13 +366,11 @@ The first few exercises include an excuse to create your own Python iterator.</p
     <p>
     If you&#8217;d like to <strong>improve your Python skills every week</strong>, sign up!
     </p>
-    <p>
-      Read my short <a href="https://www.pythonmorsels.com/privacy/">Privacy Policy</a> and then enter your email below to get started:
-    </p>
     <form method="post" action="https://www.pythonmorsels.com/email-signup/">
       <input type="email" name="email" placeholder="email@domain.com" required>
       <button type="submit">Sign me up for Python Morsels!</button>
     </form>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
   </div>
 </section>
 

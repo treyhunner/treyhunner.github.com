@@ -9,8 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="There are a lot of places you&rsquo;ll see * and ** used in Python.
-These two operators can be a bit mysterious at times, both for brand new &hellip;">
+  <meta name="description" content="I launched a weekly Python skill-building service earlier this year called Python Morsels.
+This week I&rsquo;m running my first sale, which will also &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">Asterisks in Python: what they are and how to use them</a></h1>
+      <h1 class="entry-title"><a href="/2018/11/python-morsels-sale-52-weeks-of-python/">Black Friday Sale: 50% Off 52 weeks of Python Morsels</a></h1>
     
     
       <p class="meta">
@@ -99,560 +99,173 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2018-10-11T07:30:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>7:30 am</span></time>
+<time class='entry-date' datetime='2018-11-21T11:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>11:00 am</span></time>
         
-           | <a href="/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">Comments</a>
+           | <a href="/2018/11/python-morsels-sale-52-weeks-of-python/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>There are a lot of places you&rsquo;ll see <code>*</code> and <code>**</code> used in Python.
-These two operators can be a bit mysterious at times, both for brand new programmers and for folks moving from many other programming languages which may not have completely equivalent operators.
-I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;re used.</p>
+  <div class="entry-content"><p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
 
-<p>The <code>*</code> and <code>**</code> operators have grown in ability over the years and I&rsquo;ll be discussing all the ways that you can currently use these operators and noting which uses only work in modern versions of Python.
-So if you learned <code>*</code> and <code>**</code> back in the days of Python 2, I&rsquo;d recommend at least skimming this article because Python 3 has added a lot of new uses for these operators.</p>
+<p>If you&rsquo;re an experienced programmer and you feel like your Python code could be <em>more Pythonic</em>, <a href="https://www.pythonmorsels.com/">Python Morsels</a> is for you.</p>
 
-<p>If you&rsquo;re newer to Python and you&rsquo;re not yet familiar with keyword arguments (a.k.a. named arguments), I&rsquo;d recommend reading my article on <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">keyword arguments in Python</a> first.</p>
+<p>Before I jump into details, let me explain what Python Morsels is.</p>
 
-<h2>What we&rsquo;re not talking about</h2>
+<h2>The inspiration</h2>
 
-<p>When I discuss <code>*</code> and <code>**</code> in this article, I&rsquo;m talking about the <code>*</code> and <code>**</code> <em>prefix</em> operators, not the <em>infix</em> operators.</p>
+<p>I do on-site Python training for teams, which means I work with a lot of developers at a lot of companies.
+One question I hear all the time is &ldquo;how can I make my code more Pythonic&rdquo;?</p>
 
-<p>So I&rsquo;m not talking about multiplication and exponentiation:</p>
+<p>Most of the folks I teach are not new to programming and they&rsquo;re usually not new to Python either, but they also aren&rsquo;t experienced at leveraging the features and idioms that make Python unique.
+Being a skilled programmer isn&rsquo;t the same as being a skilled <em>Python</em> programmer</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span> <span class="o">*</span> <span class="mi">5</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">2</span> <span class="o">**</span> <span class="mi">5</span>
-</span><span class='line'><span class="go">32</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Late last year this conundrum inspired me to create <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
 
+<h2>Learning by doing</h2>
 
-<h2>So what are we talking about?</h2>
+<p>My training courses and workshops are exercise-driven and I find an exercise-heavy style of teaching very effective.</p>
 
-<p>We&rsquo;re talking about the <code>*</code> and <code>**</code> prefix operators, that is the <code>*</code> and <code>**</code> operators that are used before a variable.  For example:</p>
+<p>You don&rsquo;t learn by putting information into your head, <strong>you learn by trying to retrieve information from your head</strong>.
+You can watch talks and read books and read code, but you&rsquo;ll absorb very little unless you <em>apply</em> what you&rsquo;ve learned.
+You learn by doing, which means writing Python code.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">more_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">more_numbers</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
-</span><span class='line'><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>That&rsquo;s why Python Morsels is entirely about writing code and reflecting on the code you&rsquo;ve written.</p>
 
+<h2>Python Morsels: exercise-driven learning</h2>
 
-<p>Two of the uses of <code>*</code> are shown in that code and no uses of <code>**</code> are shown.</p>
+<p>After you sign up for Python Morsels I&rsquo;ll send you <strong>one exercise every week</strong>.
+Not an interview questions: a realistic Python exercise inspired by the interesting problems I&rsquo;ve had to solve in the past. The purpose of these exercises is to <strong>inspire you to learn something new about Python each week</strong>.</p>
 
-<p>This includes:</p>
+<p>Each exercise includes a number of bonuses so you can <strong>choose your own difficulty level</strong>.
+All exercises also include automated tests so you can test your code quickly.
+After you&rsquo;ve solved the exercise I&rsquo;ll send you a number of different solutions to the problem with a discussion about why we might choose one solution over another.
+These solutions are meant to help you <strong>reconsider the way you write your code</strong>.</p>
 
-<ol>
-<li>Using <code>*</code> and <code>**</code> to pass arguments to a function</li>
-<li>Using <code>*</code> and <code>**</code> to capture arguments passed into a function</li>
-<li>Using <code>*</code> to accept keyword-only arguments</li>
-<li>Using <code>*</code> to capture items during tuple unpacking</li>
-<li>Using <code>*</code> to unpack iterables into a list/tuple</li>
-<li>Using <code>**</code> to unpack dictionaries into other dictionaries</li>
-</ol>
-
-
-<p>Even if you think you&rsquo;re familiar with all of these ways of using <code>*</code> and <code>**</code>, I recommend looking at each of the code blocks below to make sure they&rsquo;re all things you&rsquo;re familiar with.
-The Python core developers have continued to add new abilities to these operators over the last few years and it&rsquo;s easy to overlook some of the newer uses of <code>*</code> and <code>**</code>.</p>
+<p>While solving the bonuses is important, the more important thing is that you <strong>get into the habit of time-boxed weekly learning</strong>. You want to spend your time effectively and the best way to do that is to <strong>form a learning habit</strong> and time box that habit.
+I suggest that you dedicate 30 minutes every week to solving the exercise, regardless of the difficulty level you choose, as well as 30 minutes to reflecting on the solutions email I send you.</p>
 
-<h2>Asterisks for unpacking into function call</h2>
+<h2>So how much is this sale for?</h2>
 
-<p>When calling a function, the <code>*</code> operator can be used to unpack an iterable into the arguments in the function call:</p>
+<p>Python Morsels normally costs $16/month (or $160/year on the annual plan).</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="go">lemon pear watermelon tomato</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">fruits</span><span class="p">)</span>
-</span><span class='line'><span class="go">lemon pear watermelon tomato</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>print(*fruits)</code> line is passing all of the items in the <code>fruits</code> list into the <code>print</code> function call as separate arguments, without us even needing to know how many arguments are in the list.</p>
+<p>From now until Monday I&rsquo;m offering a 40% discount off the annual plan, which means you&rsquo;ll get <strong>52 weeks of Python skill-building for $96</strong>.
+That&rsquo;s effectively $8/month or <strong>a 50% discount</strong> when compared to the monthly subscription.</p>
 
-<p>The <code>*</code> operator isn&rsquo;t just syntactic sugar here.
-This ability of sending in all items in a particular iterable as separate arguments wouldn&rsquo;t be possible without <code>*</code>, unless the list was a fixed length.</p>
+<p>I say &ldquo;52 weeks&rdquo; instead of 1 year because Python Morsels subscriptions can be &ldquo;paused&rdquo; at any time, which allows for breaks during vacations and busy periods and ensures you&rsquo;ll get all of the 52 weeks you signed up for.</p>
 
-<p>Here&rsquo;s another example:</p>
+<p>To take advantage of this discount you&rsquo;ll need to sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a>, verify your email address, go to the Account page, and click the Subscribe button for the <strong>52 Week Plan</strong>.
+The BLACKFRIDAY discount code should be automatically applied from now until the end of the sale on Monday.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">transpose_list</span><span class="p">(</span><span class="n">list_of_lists</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span>
-</span><span class='line'>        <span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">list_of_lists</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;re accepting a list of lists and returning a &ldquo;transposed&rdquo; list of lists.</p>
+<h2>Money back guarantee</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">transpose_list</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-</span><span class='line'><span class="go">[[1, 2, 3], [4, 5, 6], [7, 8, 9]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>**</code> operator does something similar, but with keyword arguments.
-The <code>**</code> operator allows us to take a dictionary of key-value pairs and unpack it into keyword arguments in a function call.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">date_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="s">&quot;2020&quot;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;{year}-{month}-{day}.txt&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">date_info</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span>
-</span><span class='line'><span class="go">&#39;2020-01-01.txt&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>From my experience, using <code>**</code> to unpack keyword arguments into a function call isn&rsquo;t particularly common.
-The place I see this most is when practicing inheritance: calls to <code>super()</code> often include both <code>*</code> and <code>**</code>.</p>
-
-<p>Both <code>*</code> and <code>**</code> can be used multiple times in function calls, as of Python 3.5.</p>
-
-<p>Using <code>*</code> multiple times can sometimes be handy:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="o">*</span><span class="n">fruits</span><span class="p">)</span>
-</span><span class='line'><span class="go">2 1 3 4 7 lemon pear watermelon tomato</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using <code>**</code> multiple times looks similar:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">date_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="s">&quot;2020&quot;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">track_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;artist&#39;</span><span class="p">:</span> <span class="s">&quot;Beethoven&quot;</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="s">&#39;Symphony No 5&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;{year}-{month}-{day}-{artist}-{title}.txt&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-</span><span class='line'><span class="gp">... </span>    <span class="o">**</span><span class="n">date_info</span><span class="p">,</span>
-</span><span class='line'><span class="gp">... </span>    <span class="o">**</span><span class="n">track_info</span><span class="p">,</span>
-</span><span class='line'><span class="gp">... </span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span>
-</span><span class='line'><span class="go">&#39;2020-01-01-Beethoven-Symphony No 5.txt&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You need to be careful when using <code>**</code> multiple times though.
-Functions in Python can&rsquo;t have the same keyword argument specified multiple times, so the keys in each dictionary used with <code>**</code> must be distinct or an exception will be raised.</p>
-
-<h2>Asterisks for packing arguments given to function</h2>
-
-<p>When defining a function, the <code>*</code> operator can be used to capture an unlimited number of positional arguments given to the function.
-These arguments are captured into a tuple.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="o">*</span><span class="n">dice</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">die</span><span class="p">)</span> <span class="k">for</span> <span class="n">die</span> <span class="ow">in</span> <span class="n">dice</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This function accepts any number of arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">roll</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="go">18</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">roll</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-</span><span class='line'><span class="go">9</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">roll</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-</span><span class='line'><span class="go">8</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python&rsquo;s <code>print</code> and <code>zip</code> functions accept any number of positional arguments.
-This argument-packing use of <code>*</code> allows us to make our own function which, like <code>print</code> and <code>zip</code>, accept any number of arguments.</p>
-
-<p>The <code>**</code> operator also has another side to it: we can use <code>**</code> when defining a function to capture any keyword arguments given to the function into a dictionary:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">tag</span><span class="p">(</span><span class="n">tag_name</span><span class="p">,</span> <span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">attribute_list</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>        <span class="n">f</span><span class="s">&#39;{name}=&quot;{value}&quot;&#39;</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">]</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">f</span><span class="s">&quot;&lt;{tag_name} {&#39; &#39;.join(attribute_list)}&gt;&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>**</code> will capture any keyword arguments we give to this function into a dictionary which will that <code>attributes</code> arguments will reference.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">tag</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;&lt;a href=&quot;http://treyhunner.com&quot;&gt;&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">tag</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="s">&quot;face.jpg&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;&lt;img height=&quot;20&quot; width=&quot;40&quot; src=&quot;face.jpg&quot;&gt;&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Positional arguments with keyword-only arguments</h2>
-
-<p>As of Python 3, we now have a special syntax for accepting keyword-only arguments to functions.
-Keyword-only arguments are function arguments which can <em>only</em> be specified using the keyword syntax, meaning they cannot be specified positionally.</p>
-
-<p>To accept keyword-only arguments, we can put named arguments after a <code>*</code> usage when defining our function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">get_multiple</span><span class="p">(</span><span class="o">*</span><span class="n">keys</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span>
-</span><span class='line'>        <span class="n">dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span>
-</span><span class='line'>    <span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above function can be used like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;lemon&#39;</span><span class="p">:</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">:</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_multiple</span><span class="p">(</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">,</span> <span class="s">&#39;squash&#39;</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="n">fruits</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;unknown&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">[&#39;yellow&#39;, &#39;red&#39;, &#39;unknown&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The arguments <code>dictionary</code> and <code>default</code> come after <code>*keys</code>, which means they can <em>only</em> be specified as <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">keyword arguments</a>.
-If we try to specify them positionally we&rsquo;ll get an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;lemon&#39;</span><span class="p">:</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">:</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_multiple</span><span class="p">(</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">,</span> <span class="s">&#39;squash&#39;</span><span class="p">,</span> <span class="n">fruits</span><span class="p">,</span> <span class="s">&#39;unknown&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">get_multiple() missing 1 required keyword-only argument: &#39;dictionary&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This behavior was introduced to Python through <a href="https://www.python.org/dev/peps/pep-3102/">PEP 3102</a>.</p>
-
-<h2>Keyword-only arguments without positional arguments</h2>
-
-<p>That keyword-only argument feature is cool, but what if you want to require keyword-only arguments without capturing unlimited positional arguments?</p>
-
-<p>Python allows this with a somewhat strange <code>*</code>-on-its-own syntax:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">with_previous</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Yield each iterable item along with the item before it.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">previous</span> <span class="o">=</span> <span class="n">fillvalue</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">yield</span> <span class="n">previous</span><span class="p">,</span> <span class="n">item</span>
-</span><span class='line'>        <span class="n">previous</span> <span class="o">=</span> <span class="n">item</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This function accepts an <code>iterable</code> argument, which can be specified positionally (as the first argument) or by its name and a <code>fillvalue</code> argument which is a keyword-only argument.  This means we can call <code>with_previous</code> like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">with_previous</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-</span><span class='line'><span class="go">[(0, 2), (2, 1), (1, 3)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But not like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">with_previous</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">with_previous() takes 1 positional argument but 2 were given</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This function accepts two arguments and one of them, <code>fillvalue</code> <em>must be specified as a keyword argument</em>.</p>
-
-<p>I usually use keyword-only arguments used while capturing any number of positional arguments, but I do sometimes use this <code>*</code> to enforce an argument to only be specified positionally.</p>
-
-<p>Python&rsquo;s built-in <code>sorted</code> function actually uses this approach.  If you look at the help information on <code>sorted</code> you&rsquo;ll see the following:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="nb">sorted</span><span class="p">)</span>
-</span><span class='line'><span class="go">Help on built-in function sorted in module builtins:</span>
-</span><span class='line'>
-</span><span class='line'><span class="go">sorted(iterable, /, *, key=None, reverse=False)</span>
-</span><span class='line'><span class="go">    Return a new list containing all items from the iterable in ascending order.</span>
-</span><span class='line'>
-</span><span class='line'><span class="go">    A custom key function can be supplied to customize the sort order, and the</span>
-</span><span class='line'><span class="go">    reverse flag can be set to request the result in descending order.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s an <code>*</code>-on-its-own, right in the documented arguments for <code>sorted</code>.</p>
-
-<h2>Asterisks in tuple unpacking</h2>
-
-<p>Python 3 also added a new way of using the <code>*</code> operator that is only somewhat related to the <code>*</code>-when-defining-a-function and <code>*</code>-when-calling-a-function features above.</p>
-
-<p>The <code>*</code> operator can also be used in tuple unpacking now:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="n">remaining</span> <span class="o">=</span> <span class="n">fruits</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">remaining</span>
-</span><span class='line'><span class="go">[&#39;watermelon&#39;, &#39;tomato&#39;]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">remaining</span> <span class="o">=</span> <span class="n">fruits</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">remaining</span>
-</span><span class='line'><span class="go">[&#39;pear&#39;, &#39;watermelon&#39;, &#39;tomato&#39;]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">middle</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">fruits</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">middle</span>
-</span><span class='line'><span class="go">[&#39;pear&#39;, &#39;watermelon&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re wondering &ldquo;where could I use this in my own code&rdquo;, take a look at the examples in my article on <a href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">tuple unpacking in Python</a>.
-In that article I show how this use of the <code>*</code> operator can sometimes be used as an alternative to sequence slicing.</p>
-
-<p>Usually when I teach <code>*</code> I note that you can only use one <code>*</code> expression in a single multiple assignment call.
-That&rsquo;s technically incorrect because it&rsquo;s possible to use two in a nested unpacking (I talk about nested unpacking in my tuple unpacking article):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">((</span><span class="n">first_letter</span><span class="p">,</span> <span class="o">*</span><span class="n">remaining</span><span class="p">),</span> <span class="o">*</span><span class="n">other_fruits</span><span class="p">)</span> <span class="o">=</span> <span class="n">fruits</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">remaining</span>
-</span><span class='line'><span class="go">[&#39;e&#39;, &#39;m&#39;, &#39;o&#39;, &#39;n&#39;]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">other_fruits</span>
-</span><span class='line'><span class="go">[&#39;pear&#39;, &#39;watermelon&#39;, &#39;tomato&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;ve never seen a good use for this though and I don&rsquo;t think I&rsquo;d recommend using it even if you found one because it seems a bit cryptic.</p>
-
-<p>The PEP that added this to Python 3.0 is <a href="https://www.python.org/dev/peps/pep-3132/">PEP 3132</a> and it&rsquo;s not a very long one.</p>
-
-<h2>Asterisks in list literals</h2>
-
-<p>Python 3.5 introduced a ton of new <code>*</code>-related features through <a href="https://www.python.org/dev/peps/pep-0448/">PEP 448</a>.
-One of the biggest new features is the ability to use <code>*</code> to dump an iterable into a new list.</p>
-
-<p>Say you have a function that takes any sequence and returns a list with the sequence and the reverse of that sequence concatenated together:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">palindromify</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">sequence</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This function needs to convert things to lists a couple times in order to concatenate the lists and return the result.
-In Python 3.5, we can type this instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">palindromify</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">sequence</span><span class="p">,</span> <span class="o">*</span><span class="nb">reversed</span><span class="p">(</span><span class="n">sequence</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This code removes some needless list calls so our code is both more efficient and more readable.</p>
-
-<p>Here&rsquo;s another example:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">rotate_first_item</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">sequence</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">sequence</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That function returns a new list where the first item in the given list (or other sequence) is moved to the end of the new list.</p>
-
-<p>This use of the <code>*</code> operator is a great way to concatenate iterables of different types together.
-The <code>*</code> operator works for any iterable, whereas using the <code>+</code> operator only works on particular sequences which have to all be the same type.</p>
-
-<p>This isn&rsquo;t just limited to creating lists either.
-We can also dump iterables into new tuples or sets:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">*</span><span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span><span class='line'><span class="go">(&#39;pear&#39;, &#39;watermelon&#39;, &#39;tomato&#39;, &#39;lemon&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">uppercase_fruits</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="o">*</span><span class="n">fruits</span><span class="p">,</span> <span class="o">*</span><span class="n">uppercase_fruits</span><span class="p">}</span>
-</span><span class='line'><span class="go">{&#39;lemon&#39;, &#39;watermelon&#39;, &#39;TOMATO&#39;, &#39;LEMON&#39;, &#39;PEAR&#39;, &#39;WATERMELON&#39;, &#39;tomato&#39;, &#39;pear&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice that the last line above takes a list and a generator and dumps them into a new set.
-Before this use of <code>*</code>, there wasn&rsquo;t previously an easy way to do this in one line of code.
-There was a way to do this before, but it wasn&rsquo;t easy to remember or discover:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">set</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">uppercase_fruits</span><span class="p">)</span>
-</span><span class='line'><span class="go">{&#39;lemon&#39;, &#39;watermelon&#39;, &#39;TOMATO&#39;, &#39;LEMON&#39;, &#39;PEAR&#39;, &#39;WATERMELON&#39;, &#39;tomato&#39;, &#39;pear&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Double asterisks in dictionary literals</h2>
-
-<p>PEP 448 also expanded the abilities of <code>**</code> by allowing this operator to be used for dumping key/value pairs from one dictionary into a new dictionary:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">date_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="s">&quot;2020&quot;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&quot;01&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">track_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;artist&#39;</span><span class="p">:</span> <span class="s">&quot;Beethoven&quot;</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="s">&#39;Symphony No 5&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">all_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">date_info</span><span class="p">,</span> <span class="o">**</span><span class="n">track_info</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">all_info</span>
-</span><span class='line'><span class="go">{&#39;year&#39;: &#39;2020&#39;, &#39;month&#39;: &#39;01&#39;, &#39;day&#39;: &#39;01&#39;, &#39;artist&#39;: &#39;Beethoven&#39;, &#39;title&#39;: &#39;Symphony No 5&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I wrote another article on how this is now the <a href="https://treyhunner.com/2016/02/how-to-merge-dictionaries-in-python/">idiomatic way to merge dictionaries in Python</a>.</p>
-
-<p>This can be used for more than just merging two dictionaries together though.</p>
-
-<p>For example we can copy a dictionary while adding a new value to it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">date_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="s">&#39;2020&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="s">&#39;01&#39;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&#39;7&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">event_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">date_info</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">:</span> <span class="s">&quot;Python Meetup&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">event_info</span>
-</span><span class='line'><span class="go">{&#39;year&#39;: &#39;2020&#39;, &#39;month&#39;: &#39;01&#39;, &#39;day&#39;: &#39;7&#39;, &#39;group&#39;: &#39;Python Meetup&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or copy/merge dictionaries while overriding particular values:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">event_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="s">&#39;2020&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="s">&#39;01&#39;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;group&#39;</span><span class="p">:</span> <span class="s">&#39;Python Meetup&#39;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">new_info</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">event_info</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="s">&quot;14&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">new_info</span>
-</span><span class='line'><span class="go">{&#39;year&#39;: &#39;2020&#39;, &#39;month&#39;: &#39;01&#39;, &#39;day&#39;: &#39;14&#39;, &#39;group&#39;: &#39;Python Meetup&#39;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Python&rsquo;s asterisks are powerful</h2>
-
-<p>Python&rsquo;s <code>*</code> and <code>**</code> operators aren&rsquo;t just syntactic sugar.
-Some of the things they allow you to do could be achieved through other means, but the alternatives to <code>*</code> and <code>**</code> tend to be more cumbersome and more resource intensive.
-And some of the features they provide are simply impossible to achieve without them: for example there&rsquo;s no way to accept any number of positional arguments to a function without <code>*</code>.</p>
-
-<p>After reading about all the features of <code>*</code> and <code>**</code>, you might be wondering what the names for these odd operators are.
-Unfortunately, they don&rsquo;t really have succinct names.
-I&rsquo;ve heard <code>*</code> called the &ldquo;packing&rdquo; and &ldquo;unpacking&rdquo; operator.
-I&rsquo;ve also heard it called &ldquo;splat&rdquo; (from the Ruby world) and I&rsquo;ve heard it called simply &ldquo;star&rdquo;.</p>
-
-<p>I tend to call these operators &ldquo;star&rdquo; and &ldquo;double star&rdquo; or &ldquo;star star&rdquo;.
-That doesn&rsquo;t distinguish them from their infix relatives (multiplication and exponentiation), but context usually makes it obvious whether we&rsquo;re talking about prefix or infix operators.</p>
-
-<p>If you don&rsquo;t understand <code>*</code> and <code>**</code> or you&rsquo;re concerned about memorizing all of their uses, don&rsquo;t be!
-These operators have many uses and memorizing the specific use of each one isn&rsquo;t as important as getting a feel for when you might be able to reach for these operators.
-I suggest using this article as <strong>a cheat sheet</strong> or to making your own cheat sheet to help you use <code>*</code> and <code>**</code> in Python.</p>
-
-<h2>Practice makes perfect</h2>
-
-<p>You don&rsquo;t learn by putting information in your head, you learn by attempting to retrieve information from your head.
-So you&rsquo;ve just read an article on something new, but <strong>you haven&rsquo;t learned yet</strong>.</p>
-
-<p>Write some code that uses <code>*</code> and <code>**</code> in a number of different ways today.
-Then quiz yourself on the many different ways to use <code>*</code> and <code>**</code> tomorrow!</p>
-
-<p>If you&rsquo;d like to get practice with <code>*</code> and <code>**</code>, <strong><a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a></strong>.
-The first few problems use <code>*</code> in a couple different ways.
-If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I&rsquo;ll help you <strong>level up your Python skills every week</strong>.</p>
+<p>This is the first sale I&rsquo;ve ever held so I&rsquo;m not sure whether it&rsquo;s common to offer a guarantee on sales, but I&rsquo;m going to do it for this one because I&rsquo;m pretty confident in what I&rsquo;m offering.</p>
+
+<p>If you contact me with concerns but I can&rsquo;t find something that works for your needs, I&rsquo;ll send you a full refund.
+I want you to improve your Python skills, but I don&rsquo;t want you signing up for something that isn&rsquo;t for you.
+If you end up signing up for Python Morsels and you don&rsquo;t improve your Python skills because of it, <strong>you deserve a refund because I&rsquo;ve wasted your time</strong>.</p>
+
+<h2>What do the first 52 weeks of Python Morsels exercises cover?</h2>
+
+<p>Python Morsels starts small, but the exercises increase in difficulty over time.
+The first 52 weeks of Python exercises will wander into <strong>a lot of interesting topics</strong>.</p>
+
+<p>Within one year we&rsquo;ll:</p>
+
+<ul>
+<li>work with and create our own iterators (both generators and iterator classes)</li>
+<li>make text-parsing programs and command-line programs</li>
+<li>talk a lot about readability and code style</li>
+<li>dive into a number of the built-ins and standard library modules</li>
+<li>use operator overloading to make classes that support arithmetic</li>
+<li>create our context managers</li>
+<li>create our own decorators</li>
+<li>use properties and descriptors and even <strong>make our own descriptor</strong></li>
+<li>create custom collections (mappings, sequences, strings, sets, etc.)</li>
+</ul>
+
+
+<p>Haven&rsquo;t made a descriptor before?
+By this time next year you will have!</p>
+
+<h2>The sale ends on Monday</h2>
+
+<p>This sale will ends on <strong>Monday November 26</strong>, end of day.</p>
+
+<p>To get an effective 50% discount on Python Morsels over the next 52 weeks, <a href="https://www.pythonmorsels.com/signup/">sign up to Python Morsels</a>, verify your email, go to the Account page, and subscribe to the <strong>52 Week Plan</strong>.</p>
+
+<h2>Share this sale with friends and family</h2>
+
+<p>If you have a friend or colleague who might benefit from weekly Python practice, let them know about this sale!
+The BLACKFRIDAY coupon expires on Monday, but there&rsquo;s no limit on the number of signups, so there&rsquo;s no reason to keep this sale a secret.</p>
+
+<p>So please share this email or the discount code with anyone you know who might find value in 52 weeks of Python skill-building.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>These are questions that I&rsquo;ve been asked at least once (that&rsquo;s apparently what &ldquo;frequently&rdquo; means now).</p>
+
+<h4>Is this for someone who is brand new to programming?</h4>
+
+<p>No, it isn&rsquo;t.
+Python Morsels is for someone who has been using Python for a while and wants to improve their Python coding practices.
+Many of the folks currently signed up write primarily Python code, but have a background in at least one other programming language.
+However, there are a handful of folks who are signed up who would call Python their first and only programming language and I do try to accommodate folks in that camp as much as I can.</p>
+
+<p>In general, I recommend Python Morsels for <strong>folks who are currently writing Python code regularly</strong>.</p>
+
+<h4>How is Python Morsels different from a Python course?</h4>
+
+<p>During my on-site trainings I&rsquo;m present as a live instructor and coach.
+That&rsquo;s something you won&rsquo;t get from Python Morsels.
+During online courses there are videos explaining each topic before it&rsquo;s practiced.
+Python Morsels also doesn&rsquo;t have that.</p>
+
+<p>The focus of Python Morsels is a bit different than a course or a training.
+If you think of Python course as like taking a tennis class, Python Morsels is more like <strong>weekly tennis practice</strong>.
+A Python Morsels subscriber described it to me as <strong>like Hannon&rsquo;s finger exercises for piano or Kreutzer&rsquo;s études for violin</strong>.
+Python Morsels is guided <strong>deliberate practice</strong> in the domain of writing readable and maintainable Python code.</p>
+
+<h4>How much time does this require each week?</h4>
+
+<p>I expect that you&rsquo;ll spend <strong>about an hour each week on Python Morsels in total</strong>.</p>
+
+<p>You&rsquo;re a busy person who has production code to write and I don&rsquo;t want to waste your time.
+The exercise includes bonuses, but I don&rsquo;t expect you to solve them all each week: instead I want you to time box yourself.
+I recommend that you set aside 30 minutes to solve the problem each week, including running the tests and solving as many bonuses as you can.
+I&rsquo;d also like you to set aside 30 minutes to reflect on your code while reading the solution email I send each week.
+I often link to related resources to read/watch, but I&rsquo;d like you to bookmark those for later.</p>
+
+<p>If you have more than one hour to devote each week, you could sit on the solutions for a couple days and then resolve the exercise without looking at the solutions email.
+I don&rsquo;t expect this though.</p>
+
+<h4>What if the exercises are too easy for me and I don&rsquo;t learn anything new?</h4>
+
+<p>If you find the exercises are too easy, email me and I&rsquo;ll see what I can do.
+I&rsquo;ve developed quite a few exercises over the last year and I may be able to work with you to ensure the exercises you get are a good fit for your experience level.
+If it turns out that Python Morsels simply isn&rsquo;t for you, I&rsquo;ll refund you.</p>
+
+<h4>What if the exercises suddenly get too hard for me?</h4>
+
+<p>If the exercises turn out to be too challenging for you, either immediately or eventually, email me.
+I plan to create some easier tracks for Python Morsels eventually (there&rsquo;s certainly demand for this) and I may have some suitable exercises to send to you.
+If Python Morsels doesn&rsquo;t suit your needs and I can&rsquo;t easily fix the problem, I&rsquo;ll send you a refund.</p>
+
+<h2>Ready to start a weekly skill-building habit?</h2>
+
+<p>Are you ready to start 52 weeks of Python skill-building for $96 (normally $192)?
+That&rsquo;s less than $2/week and about one hour of your time each week (which really is the bigger cost here).</p>
+
+<p>If you have questions that I didn&rsquo;t address above, please <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a> and say what you&rsquo;re thinking/feeling.</p>
+
+<p>If you&rsquo;re interested in seeing the opinion of someone who has worked through Python Morsels exercises, see the testimonials <a href="https://www.pythonmorsels.com/">on the homepage</a> or take a look at what some of my Python Morsels friends have said about it on Twitter (<a href="https://twitter.com/AndrewsForge/status/1018597131496710144">Andrew Pinkham</a>, <a href="https://twitter.com/PavelAnni/status/963778202605932544">Pavel Anni</a>, <a href="https://twitter.com/jmwatt3/status/1035314897280794629">Jason Wattier</a>, <a href="https://twitter.com/abqpythonista/status/976202006405595136">Ben Jones</a>).</p>
+
+<p>Ready to sign up?
+<a href="https://www.pythonmorsels.com/signup/">Click here to get 52 weeks of Python Morsels at 50% off</a>.</p>
 </div>
   
   <footer>
@@ -685,18 +298,28 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I
 
 </section>
 
-<!-- Drip Signup Form -->
-<section>
-
-    <form action="https://www.getdrip.com/forms/121131143/submissions" method="post" data-drip-embedded-form="121131143">
-      <h1 data-drip-attribute="headline">Write more Pythonic code</h1>
-      <p>I answer questions about Python and Django through my email newsletter and live webcasts. &#x1f4bb;&#x1f49d;</p>
-      <p>Sign up for Python tips, new article announcements, and invitations to my <a href="http://www.pythonchat.com">live Python webcasts</a>! &#x1f4e7;&#x1f604;</p>
-      <input type="email" name="fields[email]" value="" class="subscribe-email" placeholder="Your email">
-        <input type="hidden" name="fields[form_placement]" value="treyhunner.com -- sidebar">
-      <input type="submit" value="Sign Up" data-drip-attribute="sign-up-button" class="subscribe-btn">
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
+    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 4 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>four free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
-
+    </p>
+    <p>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    </p>
 </section>
 <section>
   <h1>Favorite Posts</h1>
@@ -807,13 +430,11 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> I
     <p>
     If you&#8217;d like to <strong>improve your Python skills every week</strong>, sign up!
     </p>
-    <p>
-      Read my short <a href="https://www.pythonmorsels.com/privacy/">Privacy Policy</a> and then enter your email below to get started:
-    </p>
     <form method="post" action="https://www.pythonmorsels.com/email-signup/">
       <input type="email" name="email" placeholder="email@domain.com" required>
       <button type="submit">Sign me up for Python Morsels!</button>
     </form>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
   </div>
 </section>
 

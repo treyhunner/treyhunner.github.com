@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-13T10:50:17-07:00</updated>
+  <updated>2019-03-20T07:05:32-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,606 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Unique sentinel values, identity checks, and when to use object() instead of None]]></title>
+    <link href="http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
+    <updated>2019-03-20T07:30:00-07:00</updated>
+    <id>http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
+    <content type="html"><![CDATA[<p>Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
+Sometimes this unique object represents a <strong>stop value</strong> or a <strong>skip value</strong> and sometimes it&rsquo;s an <strong>initial value</strong>.
+But in each of these cases you want your object to stand out from the other objects you&rsquo;re working with.</p>
+
+<p>When you need a unique value (a <strong>sentinel value</strong> maybe) <code>None</code> is often the value to reach for.
+But sometimes <code>None</code> isn&rsquo;t enough: sometimes <code>None</code> is ambiguous.</p>
+
+<p>In this article we&rsquo;ll talk about when <code>None</code> isn&rsquo;t enough, I&rsquo;ll show you how I create unique values when <code>None</code> doesn&rsquo;t cut it, and we&rsquo;ll see a few different uses for this technique.</p>
+
+<h2>Initial values and default values</h2>
+
+<p>Let&rsquo;s re-implement a version of Python&rsquo;s built-in <code>min</code> function.</p>
+
+<pre><code class="python">def min(iterable, default=None):
+    """Imperfect re-implementation of Python's built-in min function."""
+    minimum = None
+    for item in iterable:
+        if minimum is None or item &lt; minimum:
+            minimum = item
+    if minimum is not None:
+        return minimum
+    elif default is not None:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>This <code>min</code> function, like the built-in one, returns the minimum value in the given iterable or raises an exception when an empty iterable is given unless a default value is specified (in which case the default is returned).</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([4, 3, 8, 7])
+3
+&gt;&gt;&gt; min([9])
+9
+&gt;&gt;&gt; min([])
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 12, in min
+ValueError: Empty iterable
+&gt;&gt;&gt; min([], default=9)
+9
+&gt;&gt;&gt; min([4, 3, 8, 7], default=9)
+3
+</code></pre>
+
+<p>This behavior is somewhat similar to the built-in <code>min</code> function, except <strong>our code is buggy</strong>!</p>
+
+<p>There are two bugs here.</p>
+
+<p>First, an iterable containing a single <code>None</code> value will be treated as if it was an empty iterable:</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([None], default=0)
+0
+&gt;&gt;&gt; min([None])
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 8, in min
+ValueError: Empty iterable
+</code></pre>
+
+<p>Second, if we specify our <code>default</code> value as <code>None</code> this <code>min</code> function won&rsquo;t accept it:</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([], default='')
+''
+&gt;&gt;&gt; min([], default=None)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 12, in min
+ValueError: Empty iterable
+</code></pre>
+
+<p>Why is this happening?</p>
+
+<p>It&rsquo;s all about <code>None</code>.</p>
+
+<h2>Why is <code>None</code> a problem?</h2>
+
+<p>The first bug in our code is related to the initial value for <code>minimum</code> and the second is related to the default value for our <code>default</code> argument.
+In both cases, <strong>we&rsquo;re using <code>None</code> to represent an <em>unspecified</em> or <em>un-initialized</em> value</strong>.</p>
+
+<pre><code class="python">def min(iterable, default=None):
+    """Imperfect re-implementation of Python's built-in min function."""
+    minimum = None
+    for item in iterable:
+        if minimum is None or item &lt; minimum:
+            minimum = item
+    if minimum is not None:
+        return minimum
+    elif default is not None:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>Using <code>None</code> is a problem in both cases because <code>None</code> is both a valid value for <code>default</code> and a valid value in our iterable.</p>
+
+<p>Python&rsquo;s <code>None</code> value is useful for representing emptiness, but it isn&rsquo;t magical, at least not any more magical than any other valid value.</p>
+
+<p>If we need a truly unique value for our default state, we need to invent our own.</p>
+
+<p>When <code>None</code> isn&rsquo;t a valid input for your function, it&rsquo;s perfectly fine to use it to represent a unique default or initial state.
+But <code>None</code> is often valid data, which means <strong><code>None</code> is sometimes a poor choice for a unique initial state</strong>.</p>
+
+<p>We&rsquo;ll fix both of our bugs by using <code>object()</code>: a somewhat common convention for creating a truly unique value in Python.</p>
+
+<p>First we&rsquo;ll set <code>minimum</code> to a unique object:</p>
+
+<pre><code class="python">def min(iterable, default=None):
+    """Imperfect re-implementation of Python's built-in min function."""
+    initial = object()
+    minimum = initial
+    for item in iterable:
+        if minimum is initial or item &lt; minimum:
+            minimum = item
+    if minimum is not initial:
+        return minimum
+    elif default is not None:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>That <code>initial</code> variable holds our unique value so we can check for its presence later.</p>
+
+<p>This fixes the first bug:</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([None], default=0)
+&gt;&gt;&gt; min([None])
+&gt;&gt;&gt; min([])
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 13, in min
+ValueError: Empty iterable
+</code></pre>
+
+<p>But not the second.</p>
+
+<p>To fix the second bug we need to use a different default value for our <code>default</code> argument (other than <code>None</code>).</p>
+
+<p>To do this, we&rsquo;ll make a global &ldquo;constant&rdquo; (by convention) variable, <code>INITIAL</code>, outside our function:</p>
+
+<pre><code class="python">INITIAL = object()
+
+
+def min(iterable, default=INITIAL):
+    """Imperfect re-implementation of Python's built-in min function."""
+    minimum = INITIAL
+    for item in iterable:
+        if minimum is INITIAL or item &lt; minimum:
+            minimum = item
+    if minimum is not INITIAL:
+        return minimum
+    elif default is not INITIAL:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>Now our code works exactly how we&rsquo;d hope it would:</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([None], default=0)
+&gt;&gt;&gt; min([None])
+&gt;&gt;&gt; min([], default=None)
+&gt;&gt;&gt; min([], default='')
+''
+&gt;&gt;&gt; min([4, 3, 7, 8])
+3
+&gt;&gt;&gt; min([4, 3, 7, 8], default=0)
+3
+&gt;&gt;&gt; min([])
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+  File "&lt;stdin&gt;", line 12, in min
+ValueError: Empty iterable
+</code></pre>
+
+<p>That&rsquo;s lovely&hellip; but what is this magical <code>object()</code> thing?
+Why does it work, how does it work, and when should we use it?</p>
+
+<h2>What is <code>object()</code>?</h2>
+
+<p>Every class in Python has a base class of <code>object</code> (in Python 3 that is&hellip; things were a bit weirder in Python 2).</p>
+
+<p>So <code>object</code> is a class:</p>
+
+<pre><code class="python">&gt;&gt;&gt; object
+&lt;class 'object'&gt;
+&gt;&gt;&gt; type(object)
+&lt;class 'type'&gt;
+</code></pre>
+
+<p>When we call <code>object</code> we&rsquo;re creating an &ldquo;instance&rdquo; of the object class, just as calling any other class (when given the correct arguments) will create instances of them:</p>
+
+<pre><code class="python">&gt;&gt;&gt; set()
+set()
+&gt;&gt;&gt; bytearray()
+bytearray(b'')
+&gt;&gt;&gt; frozenset()
+frozenset()
+</code></pre>
+
+<p>So we&rsquo;re creating an instance of <code>object</code>.
+But&hellip; why?</p>
+
+<p>Well, an instance of <code>object</code> shouldn&rsquo;t be seen as equal to any other object:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; y = object()
+&gt;&gt;&gt; x == y
+False
+&gt;&gt;&gt; x == 4
+False
+&gt;&gt;&gt; x == None
+False
+&gt;&gt;&gt; x == []
+False
+</code></pre>
+
+<p>Except itself:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; z = x
+&gt;&gt;&gt; x == z
+True
+</code></pre>
+
+<p>Python&rsquo;s <code>None</code> is similar, except that <em>anyone</em> can get access to this unique <code>None</code> object anywhere in their code by just typing <code>None</code>.</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = None
+&gt;&gt;&gt; y = None
+&gt;&gt;&gt; x == y
+True
+&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; y = object()
+&gt;&gt;&gt; x == y
+False
+</code></pre>
+
+<p>We needed a placeholder value in our code.
+<code>None</code> is a lovely placeholder as long as <strong>we don&rsquo;t need to worry about distinguishing between <em>our</em> <code>None</code> from <em>their</em> <code>None</code></strong>.</p>
+
+<p>If <code>None</code> is valid <em>data</em>, it&rsquo;s no longer just a placeholder.
+At that point, we need to start reaching for <code>object()</code> instead.</p>
+
+<h2>Equality vs identity</h2>
+
+<p>I noted that <code>object()</code> isn&rsquo;t <em>equal</em> to anything else.
+But we weren&rsquo;t actually checking for equality (using <code>==</code> or <code>!=</code>) in our function:</p>
+
+<p>Instead of <code>==</code> and <code>!=</code>, we used <code>is</code> and <code>is not</code>.</p>
+
+<pre><code class="python">INITIAL = object()
+
+
+def min(iterable, default=INITIAL):
+    """Imperfect re-implementation of Python's built-in min function."""
+    minimum = INITIAL
+    for item in iterable:
+        if minimum is INITIAL or item &lt; minimum:
+            minimum = item
+    if minimum is not INITIAL:
+        return minimum
+    elif default is not INITIAL:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>While <code>==</code> and <code>!=</code> are equality operators, <code>is</code> and <code>is not</code> are <strong>identity operators</strong>.</p>
+
+<p>Python&rsquo;s <code>is</code> operator asks about the <strong>identity</strong> of an object: are the two objects on either side of the <code>is</code> operator actually the same exact object.</p>
+
+<p>We&rsquo;re not just asking <em>are they equal</em>, but are they stored in <em>the same place in memory</em> and in fact refer to the same exact object.</p>
+
+<p>Two of the variables below (<code>x</code> and <code>z</code>) point to the same object:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; y = object()
+&gt;&gt;&gt; z = x
+</code></pre>
+
+<p>So while <code>y</code> has a unique ID in memory, <code>x</code> and <code>z</code> do not:</p>
+
+<pre><code class="python">&gt;&gt;&gt; id(x)
+140079600030400
+&gt;&gt;&gt; id(y)
+140079561403808
+&gt;&gt;&gt; id(z)
+140079600030400
+</code></pre>
+
+<p>Which means <code>x</code> is <em>identical</em> to <code>z</code>:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x is y
+False
+&gt;&gt;&gt; x is z
+True
+</code></pre>
+
+<p>By default, Python&rsquo;s <code>==</code> operator delegates to <code>is</code>.
+Meaning unless two variables point to the exact some object in memory, <code>==</code> will return <code>False</code>:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; y = object()
+&gt;&gt;&gt; z = x
+&gt;&gt;&gt; x == x
+True
+&gt;&gt;&gt; x == y
+False
+&gt;&gt;&gt; x == z
+True
+</code></pre>
+
+<p>This is true <em>by default</em>&hellip; but many objects in Python overload the <code>==</code> operator to do much more useful things when we ask about equality.</p>
+
+<pre><code class="python">&gt;&gt;&gt; 0 == 0.0
+True
+&gt;&gt;&gt; [1, 2, 3] == [1, 2, 3]
+True
+&gt;&gt;&gt; (1, 2) == (1, 3)
+False
+&gt;&gt;&gt; {} == {}
+True
+</code></pre>
+
+<p>Each object can <strong>customize the behavior of <code>==</code></strong> to answer whatever question they&rsquo;d like.</p>
+
+<p>Which means someone could make a class like this:</p>
+
+<pre><code class="python">&gt;&gt;&gt; class AlwaysEqual:
+...     def __eq__(self, other):
+...         return True
+...
+</code></pre>
+
+<p>And suddenly our assumption about <code>==</code> with <code>object()</code> (or any other value) will fail us:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = object()
+&gt;&gt;&gt; y = AlwaysEqual()
+&gt;&gt;&gt; x is y
+False
+&gt;&gt;&gt; x == y
+True
+</code></pre>
+
+<h2>Use identity to compare unique objects</h2>
+
+<p>The <code>is</code> operator, unlike <code>==</code>, is not overloadable.
+<strong>Unlike with <code>==</code>, there&rsquo;s no way to control or change what happens when you say <code>x is y</code>.</strong></p>
+
+<p>There&rsquo;s a <code>__eq__</code> method, but there&rsquo;s no such thing as a <code>__is__</code> method.
+Which means the <code>is</code> operator will never lie to you: it will always tell you whether two objects are one in the same.</p>
+
+<p>If we use <code>is</code> instead of <code>==</code>, we could actually use any unique object to represent our unique <code>INITIAL</code> value.</p>
+
+<p>Even an empty list:</p>
+
+<pre><code class="python">INITIAL = []
+
+
+def min(iterable, default=INITIAL):
+    """Imperfect re-implementation of Python's built-in min function."""
+    minimum = INITIAL
+    for item in iterable:
+        if minimum is INITIAL or item &lt; minimum:
+            minimum = item
+    if minimum is not INITIAL:
+        return minimum
+    elif default is not INITIAL:
+        return default
+    else:
+        raise ValueError("Empty iterable")
+</code></pre>
+
+<p>An empty list might seem problematic in the same way as <code>None</code> was: but they&rsquo;re actually quite different.</p>
+
+<p>We don&rsquo;t have any of the same issues as we did with <code>None</code> before:</p>
+
+<pre><code class="python">&gt;&gt;&gt; min([[]], default=0)
+[]
+&gt;&gt;&gt; min([[]])
+[]
+&gt;&gt;&gt; min([], default=[])
+[]
+</code></pre>
+
+<p>The reason is that <code>None</code> is a <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singleton value</a>.
+That means that every time you say <code>None</code> in your Python code, you&rsquo;re referencing the exact same <code>None</code> object every time.</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = None
+&gt;&gt;&gt; y = None
+&gt;&gt;&gt; x is y
+True
+&gt;&gt;&gt; id(x), id(y)
+(94548887510464, 94548887510464)
+</code></pre>
+
+<p>Whereas every empty list we make creates a brand new list object:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = []
+&gt;&gt;&gt; y = []
+&gt;&gt;&gt; x is y
+False
+&gt;&gt;&gt; id(x), id(y)
+(140079561624776, 140079598927432)
+</code></pre>
+
+<p>So while two independent empty lists may be <em>equal</em>, they aren&rsquo;t the same object:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = []
+&gt;&gt;&gt; y = []
+&gt;&gt;&gt; x == y
+True
+&gt;&gt;&gt; x is y
+False
+</code></pre>
+
+<p>The objects that those <code>x</code> and <code>y</code> variables point to have <strong>the same value</strong> but are <strong>not actually the same object</strong>.</p>
+
+<h2>None is a placeholder value</h2>
+
+<p>Python&rsquo;s <code>None</code> is lovely.
+<code>None</code> is a universal placeholder value.
+Need a placeholder?
+Great!
+Python has a great placeholder value and it&rsquo;s called <code>None</code>!</p>
+
+<p>There are lots of places where Python itself actually uses <code>None</code> as a placeholder value also.</p>
+
+<p>If you pass no arguments to the string <code>split</code> method, that&rsquo;s the same as passing a separator value of <code>None</code>:</p>
+
+<pre><code class="python">&gt;&gt;&gt; s = "hello world"
+&gt;&gt;&gt; s.split()
+['hello', 'world']
+&gt;&gt;&gt; s.split(None)
+['hello', 'world']
+</code></pre>
+
+<p>If you pass in a <code>key</code> function of <code>None</code> to the <code>sorted</code> builtin, that&rsquo;s the same as passing in no <code>key</code> function at all:</p>
+
+<pre><code class="python">&gt;&gt;&gt; sorted(s, key=None)
+[' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w']
+&gt;&gt;&gt; sorted(s)
+[' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w']
+</code></pre>
+
+<p>Python loves using <code>None</code> as a placeholder because it&rsquo;s often a pretty great placeholder value.</p>
+
+<p>The issue with <code>None</code> only appears <strong>if someone else could reasonably be using <code>None</code> as a non-placeholder input to our function</strong>.
+This is often the case when the caller of a function has a placeholder values (often <code>None</code>) in their inputs and the author of that function (that&rsquo;s us) needs a separate unique placeholder.</p>
+
+<p>Using <code>None</code> to represent two different things at once is like having two identical-looking bookmarks in the same book: it&rsquo;s confusing!</p>
+
+<h2>Creating unique non-None placeholders: why <code>object()</code>?</h2>
+
+<p>When we made that <code>INITIAL</code> value before, we were sort of inventing our own <code>None</code>-like object: an object that we could uniquely reference by using the <code>is</code> operator.</p>
+
+<p>That <code>INITIAL</code> object we made should be completely unique: it shouldn&rsquo;t ever be seen in any arbitrary input that may be given to our function (unless someone made the strange decision to import <code>INITIAL</code> and reference it specifically).</p>
+
+<p>Why <code>object()</code> though?
+After all we could have used any unique object by creating an instance of pretty much any class:</p>
+
+<pre><code class="python">&gt;&gt;&gt; INITIAL = []
+&gt;&gt;&gt; INITIAL == []
+True
+&gt;&gt;&gt; INITIAL is []
+False
+</code></pre>
+
+<p>Though it might have been even more clear to create our own class just for this purpose:</p>
+
+<pre><code class="python">class DummyClass:
+    """Class that just creates unique objects."""
+
+INITIAL = DummyClass()
+</code></pre>
+
+<p>But I&rsquo;d argue that <code>object()</code> is the &ldquo;right&rdquo; thing to use here.</p>
+
+<p>Everyone knows what <code>[]</code> means, but <code>object()</code> is mysterious, which is actually the reason I think it&rsquo;s a good choice in this case.</p>
+
+<p>When we see an empty list we expect that list to be used <em>as a list</em> and when we see a class instance, we expect that class to <em>do something</em>.
+But we don&rsquo;t actually want this object to <em>do</em> anything: <strong>we only care about the uniqueness of this new object</strong>.</p>
+
+<p>We could have done this:</p>
+
+<pre><code class="python">&gt;&gt;&gt; INITIAL = ['completely unique value']
+</code></pre>
+
+<p>But I find using <code>object()</code> less confusing than this because it&rsquo;s clear: readers won&rsquo;t have a chance to be confused by the listy-ness of a list.</p>
+
+<pre><code class="python">&gt;&gt;&gt; INITIAL = object()  # completely unique value
+</code></pre>
+
+<p>Also if a confused developer Googles &ldquo;what is <code>object()</code> in Python?&rdquo; they might end up with <a href="https://stackoverflow.com/questions/28306371/what-is-object-good-for">some sort of explanation</a>.</p>
+
+<h2>Other cases for non-None placeholders</h2>
+
+<p>There&rsquo;s a word I&rsquo;ve been avoiding using up to this point.
+I&rsquo;ve only been avoiding it because I think I typically misuse it (or rather overuse it).
+The word is <a href="https://en.wikipedia.org/wiki/Sentinel_value">sentinel value</a>.</p>
+
+<p>I suspect I overuse this word because I use it to mean any unique placeholder value, such as the <code>INITIAL</code> object we made before.
+But most definitions I&rsquo;ve seen use &ldquo;sentinel value&rdquo; to specifically mean a value which indicates the end of a list, a loop, or an algorithm.</p>
+
+<p>Sentinel values are a thing that, when seen, indicate that something has finished.
+I think of this as a <strong>stop value</strong>: when you see a sentinel value it&rsquo;s a signal that the loop or algorithm that you&rsquo;re in should terminate.</p>
+
+<p>Before we weren&rsquo;t using a stop value so much as an <strong>initial value</strong>.</p>
+
+<p>Here&rsquo;s an example of a stop value; a true sentinel value:</p>
+
+<pre><code class="python">from itertools import zip_longest
+
+SENTINEL = object()
+
+def strict_zip(*iterables):
+    """Variation of ``zip`` which requires equal-length iterables."""
+    for values in zip_longest(*iterables, fillvalue=SENTINEL):
+        if SENTINEL in values:
+            raise ValueError("Given iterables must have the same length.")
+        yield values
+</code></pre>
+
+<p>We&rsquo;re using the unique <code>SENTINEL</code> value above to signal that we need to stop looping and raise an exception.
+The presence of this value indicates that one of our iterables was a different length than the others and we need to handle this error case.</p>
+
+<h2>Rely on identity checks for unique values</h2>
+
+<p>Note that we&rsquo;re implicitly relying on <code>==</code> above because we&rsquo;re saying <code>if SENTINEL in values</code> which actually loops over <code>values</code> looking for a value that is equal to <code>SENTINEL</code>.</p>
+
+<p>If we wanted to be more strict (and possibly more efficient) we could rely on <code>is</code>, but we&rsquo;d need to do some looping ourselves.
+Fortunately Python&rsquo;s <code>any</code> function and a generator expression would make that a bit easier:</p>
+
+<pre><code class="python">from itertools import zip_longest
+
+SENTINEL = object()
+
+def strict_zip(*iterables):
+    """Variation of ``zip`` which requires equal-length iterables."""
+    for values in zip_longest(*iterables, fillvalue=SENTINEL):
+        if any(v is SENTINEL for v in values):
+            raise ValueError("Given iterables must have the same length.")
+        yield values
+</code></pre>
+
+<p>I&rsquo;m fine with either of these functions.  The first is a bit more readable even though this one is arguably a bit more correct.</p>
+
+<p>Identity checks are often faster than equality checks (<code>==</code> has to call the <code>__eq__</code> method, but <code>is</code> does a straight memory ID check).
+But identity checks are also a bit more <em>correct</em>: if it&rsquo;s uniqueness we care about, <strong>a unique memory location is the ultimate uniqueness check</strong>.</p>
+
+<p>When writing code that uses <strong>a unique object</strong>, it&rsquo;s wise to <strong>rely on identity rather than equality</strong> if you can.</p>
+
+<h2>This is what <code>is</code> was made for</h2>
+
+<p>If we care about <em>equality</em> (the value of an object) we use <code>==</code>, if we care about <em>identity</em> (the memory location) we use <code>is</code>.</p>
+
+<p>If you search my Python code for <code>is</code> you&rsquo;ll pretty much only find the following things:</p>
+
+<ol>
+<li><code>x is None</code> (this is the most common thing you&rsquo;ll see)</li>
+<li><code>x is True</code> or <code>x is False</code> (sometimes my tests get picky about <code>True</code> vs truthiness)</li>
+<li><code>iter(x) is x</code> (<a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">iterators</a> are a different Python rabbit hole)</li>
+<li><code>x is some_unique_object</code></li>
+</ol>
+
+
+<p>Those first two are checking for a <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> value (as <a href="https://pep8.org/#programming-recommendations">recommended by PEP 8</a>).
+The third one is checking if we&rsquo;ve seen <strong>the same object twice</strong> (an iterator in this case).
+And the fourth one is checking for the presence of these unique values we&rsquo;ve been discussing.</p>
+
+<p>The <code>is</code> operator checks whether two objects are exactly the same object in memory.
+<strong>You never want to use the <code>is</code> operator <em>except</em> for true identity checks</strong>: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singletons</a> (like <code>None</code>, <code>True</code>, and <code>False</code>), and checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).</p>
+
+<h2>So when would we use <code>object()</code>?</h2>
+
+<p>Oftentimes <code>None</code> is both the easy answer and the right answer for a unique placeholder value in Python, but sometimes you just need to invent your own unique placeholder value.
+In those cases <code>object()</code> is a great tool to have in your Python toolbox.</p>
+
+<p>When would we actually use <code>object()</code> for a uniqueness check in our own code?</p>
+
+<p>I can think of a few cases:</p>
+
+<ol>
+<li><strong>Unique initial values</strong>: a starting value that should be distinguished from values seen later (<code>default</code> and <code>initial</code> in our <code>min</code> function)</li>
+<li><strong>Unique stop values</strong>: a value whose presence tells us to stop looping/processing (a true sentinel value, as in <code>strict_zip</code>)</li>
+<li><strong>Unique skip values</strong>: a value whose presence should be treated as an empty value to be skipped over (we didn&rsquo;t see this, but it comes up with utilities like <code>itertools.zip_longest</code> sometimes)</li>
+</ol>
+
+
+<p>I hope this meandering through unique values has given you something (some non-<code>None</code> things) to think about.</p>
+
+<p>May your <code>None</code> values be unambiguous and your identity checks be truly unique.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
@@ -1216,171 +1816,6 @@ I took a look at their sale, but haven&rsquo;t gone searching for more of them.<
 
 <p>Did I miss a deal that you know about?
 Link to it in the comments!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
-    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
-    <updated>2018-11-21T11:00:00-08:00</updated>
-    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
-    <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
-This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
-
-<p>If you&rsquo;re an experienced programmer and you feel like your Python code could be <em>more Pythonic</em>, <a href="https://www.pythonmorsels.com/">Python Morsels</a> is for you.</p>
-
-<p>Before I jump into details, let me explain what Python Morsels is.</p>
-
-<h2>The inspiration</h2>
-
-<p>I do on-site Python training for teams, which means I work with a lot of developers at a lot of companies.
-One question I hear all the time is &ldquo;how can I make my code more Pythonic&rdquo;?</p>
-
-<p>Most of the folks I teach are not new to programming and they&rsquo;re usually not new to Python either, but they also aren&rsquo;t experienced at leveraging the features and idioms that make Python unique.
-Being a skilled programmer isn&rsquo;t the same as being a skilled <em>Python</em> programmer</p>
-
-<p>Late last year this conundrum inspired me to create <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
-
-<h2>Learning by doing</h2>
-
-<p>My training courses and workshops are exercise-driven and I find an exercise-heavy style of teaching very effective.</p>
-
-<p>You don&rsquo;t learn by putting information into your head, <strong>you learn by trying to retrieve information from your head</strong>.
-You can watch talks and read books and read code, but you&rsquo;ll absorb very little unless you <em>apply</em> what you&rsquo;ve learned.
-You learn by doing, which means writing Python code.</p>
-
-<p>That&rsquo;s why Python Morsels is entirely about writing code and reflecting on the code you&rsquo;ve written.</p>
-
-<h2>Python Morsels: exercise-driven learning</h2>
-
-<p>After you sign up for Python Morsels I&rsquo;ll send you <strong>one exercise every week</strong>.
-Not an interview questions: a realistic Python exercise inspired by the interesting problems I&rsquo;ve had to solve in the past. The purpose of these exercises is to <strong>inspire you to learn something new about Python each week</strong>.</p>
-
-<p>Each exercise includes a number of bonuses so you can <strong>choose your own difficulty level</strong>.
-All exercises also include automated tests so you can test your code quickly.
-After you&rsquo;ve solved the exercise I&rsquo;ll send you a number of different solutions to the problem with a discussion about why we might choose one solution over another.
-These solutions are meant to help you <strong>reconsider the way you write your code</strong>.</p>
-
-<p>While solving the bonuses is important, the more important thing is that you <strong>get into the habit of time-boxed weekly learning</strong>. You want to spend your time effectively and the best way to do that is to <strong>form a learning habit</strong> and time box that habit.
-I suggest that you dedicate 30 minutes every week to solving the exercise, regardless of the difficulty level you choose, as well as 30 minutes to reflecting on the solutions email I send you.</p>
-
-<h2>So how much is this sale for?</h2>
-
-<p>Python Morsels normally costs $16/month (or $160/year on the annual plan).</p>
-
-<p>From now until Monday I&rsquo;m offering a 40% discount off the annual plan, which means you&rsquo;ll get <strong>52 weeks of Python skill-building for $96</strong>.
-That&rsquo;s effectively $8/month or <strong>a 50% discount</strong> when compared to the monthly subscription.</p>
-
-<p>I say &ldquo;52 weeks&rdquo; instead of 1 year because Python Morsels subscriptions can be &ldquo;paused&rdquo; at any time, which allows for breaks during vacations and busy periods and ensures you&rsquo;ll get all of the 52 weeks you signed up for.</p>
-
-<p>To take advantage of this discount you&rsquo;ll need to sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a>, verify your email address, go to the Account page, and click the Subscribe button for the <strong>52 Week Plan</strong>.
-The BLACKFRIDAY discount code should be automatically applied from now until the end of the sale on Monday.</p>
-
-<h2>Money back guarantee</h2>
-
-<p>This is the first sale I&rsquo;ve ever held so I&rsquo;m not sure whether it&rsquo;s common to offer a guarantee on sales, but I&rsquo;m going to do it for this one because I&rsquo;m pretty confident in what I&rsquo;m offering.</p>
-
-<p>If you contact me with concerns but I can&rsquo;t find something that works for your needs, I&rsquo;ll send you a full refund.
-I want you to improve your Python skills, but I don&rsquo;t want you signing up for something that isn&rsquo;t for you.
-If you end up signing up for Python Morsels and you don&rsquo;t improve your Python skills because of it, <strong>you deserve a refund because I&rsquo;ve wasted your time</strong>.</p>
-
-<h2>What do the first 52 weeks of Python Morsels exercises cover?</h2>
-
-<p>Python Morsels starts small, but the exercises increase in difficulty over time.
-The first 52 weeks of Python exercises will wander into <strong>a lot of interesting topics</strong>.</p>
-
-<p>Within one year we&rsquo;ll:</p>
-
-<ul>
-<li>work with and create our own iterators (both generators and iterator classes)</li>
-<li>make text-parsing programs and command-line programs</li>
-<li>talk a lot about readability and code style</li>
-<li>dive into a number of the built-ins and standard library modules</li>
-<li>use operator overloading to make classes that support arithmetic</li>
-<li>create our context managers</li>
-<li>create our own decorators</li>
-<li>use properties and descriptors and even <strong>make our own descriptor</strong></li>
-<li>create custom collections (mappings, sequences, strings, sets, etc.)</li>
-</ul>
-
-
-<p>Haven&rsquo;t made a descriptor before?
-By this time next year you will have!</p>
-
-<h2>The sale ends on Monday</h2>
-
-<p>This sale will ends on <strong>Monday November 26</strong>, end of day.</p>
-
-<p>To get an effective 50% discount on Python Morsels over the next 52 weeks, <a href="https://www.pythonmorsels.com/signup/">sign up to Python Morsels</a>, verify your email, go to the Account page, and subscribe to the <strong>52 Week Plan</strong>.</p>
-
-<h2>Share this sale with friends and family</h2>
-
-<p>If you have a friend or colleague who might benefit from weekly Python practice, let them know about this sale!
-The BLACKFRIDAY coupon expires on Monday, but there&rsquo;s no limit on the number of signups, so there&rsquo;s no reason to keep this sale a secret.</p>
-
-<p>So please share this email or the discount code with anyone you know who might find value in 52 weeks of Python skill-building.</p>
-
-<h2>Frequently Asked Questions</h2>
-
-<p>These are questions that I&rsquo;ve been asked at least once (that&rsquo;s apparently what &ldquo;frequently&rdquo; means now).</p>
-
-<h4>Is this for someone who is brand new to programming?</h4>
-
-<p>No, it isn&rsquo;t.
-Python Morsels is for someone who has been using Python for a while and wants to improve their Python coding practices.
-Many of the folks currently signed up write primarily Python code, but have a background in at least one other programming language.
-However, there are a handful of folks who are signed up who would call Python their first and only programming language and I do try to accommodate folks in that camp as much as I can.</p>
-
-<p>In general, I recommend Python Morsels for <strong>folks who are currently writing Python code regularly</strong>.</p>
-
-<h4>How is Python Morsels different from a Python course?</h4>
-
-<p>During my on-site trainings I&rsquo;m present as a live instructor and coach.
-That&rsquo;s something you won&rsquo;t get from Python Morsels.
-During online courses there are videos explaining each topic before it&rsquo;s practiced.
-Python Morsels also doesn&rsquo;t have that.</p>
-
-<p>The focus of Python Morsels is a bit different than a course or a training.
-If you think of Python course as like taking a tennis class, Python Morsels is more like <strong>weekly tennis practice</strong>.
-A Python Morsels subscriber described it to me as <strong>like Hannon&rsquo;s finger exercises for piano or Kreutzer&rsquo;s études for violin</strong>.
-Python Morsels is guided <strong>deliberate practice</strong> in the domain of writing readable and maintainable Python code.</p>
-
-<h4>How much time does this require each week?</h4>
-
-<p>I expect that you&rsquo;ll spend <strong>about an hour each week on Python Morsels in total</strong>.</p>
-
-<p>You&rsquo;re a busy person who has production code to write and I don&rsquo;t want to waste your time.
-The exercise includes bonuses, but I don&rsquo;t expect you to solve them all each week: instead I want you to time box yourself.
-I recommend that you set aside 30 minutes to solve the problem each week, including running the tests and solving as many bonuses as you can.
-I&rsquo;d also like you to set aside 30 minutes to reflect on your code while reading the solution email I send each week.
-I often link to related resources to read/watch, but I&rsquo;d like you to bookmark those for later.</p>
-
-<p>If you have more than one hour to devote each week, you could sit on the solutions for a couple days and then resolve the exercise without looking at the solutions email.
-I don&rsquo;t expect this though.</p>
-
-<h4>What if the exercises are too easy for me and I don&rsquo;t learn anything new?</h4>
-
-<p>If you find the exercises are too easy, email me and I&rsquo;ll see what I can do.
-I&rsquo;ve developed quite a few exercises over the last year and I may be able to work with you to ensure the exercises you get are a good fit for your experience level.
-If it turns out that Python Morsels simply isn&rsquo;t for you, I&rsquo;ll refund you.</p>
-
-<h4>What if the exercises suddenly get too hard for me?</h4>
-
-<p>If the exercises turn out to be too challenging for you, either immediately or eventually, email me.
-I plan to create some easier tracks for Python Morsels eventually (there&rsquo;s certainly demand for this) and I may have some suitable exercises to send to you.
-If Python Morsels doesn&rsquo;t suit your needs and I can&rsquo;t easily fix the problem, I&rsquo;ll send you a refund.</p>
-
-<h2>Ready to start a weekly skill-building habit?</h2>
-
-<p>Are you ready to start 52 weeks of Python skill-building for $96 (normally $192)?
-That&rsquo;s less than $2/week and about one hour of your time each week (which really is the bigger cost here).</p>
-
-<p>If you have questions that I didn&rsquo;t address above, please <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a> and say what you&rsquo;re thinking/feeling.</p>
-
-<p>If you&rsquo;re interested in seeing the opinion of someone who has worked through Python Morsels exercises, see the testimonials <a href="https://www.pythonmorsels.com/">on the homepage</a> or take a look at what some of my Python Morsels friends have said about it on Twitter (<a href="https://twitter.com/AndrewsForge/status/1018597131496710144">Andrew Pinkham</a>, <a href="https://twitter.com/PavelAnni/status/963778202605932544">Pavel Anni</a>, <a href="https://twitter.com/jmwatt3/status/1035314897280794629">Jason Wattier</a>, <a href="https://twitter.com/abqpythonista/status/976202006405595136">Ben Jones</a>).</p>
-
-<p>Ready to sign up?
-<a href="https://www.pythonmorsels.com/signup/">Click here to get 52 weeks of Python Morsels at 50% off</a>.</p>
 ]]></content>
   </entry>
   
