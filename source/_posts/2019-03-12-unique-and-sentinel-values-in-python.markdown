@@ -556,7 +556,7 @@ I think of this as a **stop value**: when you see a sentinel value it's a signal
 
 Before we weren't using a stop value so much as an **initial value**.
 
-Here's an example of a stop value, a true sentinel value:
+Here's an example of a stop value; a true sentinel value:
 
 ```python
 from itertools import zip_longest
