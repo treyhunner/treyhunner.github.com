@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-20T07:05:32-07:00</updated>
+  <updated>2019-03-20T11:08:54-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -402,7 +402,7 @@ But&hellip; why?</p>
 
 
 <p>We needed a placeholder value in our code.
-<code>None</code> is a lovely placeholder as long as <strong>we don&rsquo;t need to worry about distinguishing between <em>our</em> <code>None</code> from <em>their</em> <code>None</code></strong>.</p>
+<code>None</code> is a lovely placeholder as long as <strong>we don&rsquo;t need to worry about distinguishing between <em>our</em> <code>None</code> and <em>their</em> <code>None</code></strong>.</p>
 
 <p>If <code>None</code> is valid <em>data</em>, it&rsquo;s no longer just a placeholder.
 At that point, we need to start reaching for <code>object()</code> instead.</p>
@@ -636,7 +636,7 @@ Which means the <code>is</code> operator will never lie to you: it will always t
 
 
 <p>The reason is that <code>None</code> is a <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singleton value</a>.
-That means that every time you say <code>None</code> in your Python code, you&rsquo;re referencing the exact same <code>None</code> object every time.</p>
+That means that whenever you say <code>None</code> in your Python code, you&rsquo;re referencing the exact same <code>None</code> object every time.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -890,7 +890,7 @@ The third one is checking if we&rsquo;ve seen <strong>the same object twice</str
 And the fourth one is checking for the presence of these unique values we&rsquo;ve been discussing.</p>
 
 <p>The <code>is</code> operator checks whether two objects are exactly the same object in memory.
-<strong>You never want to use the <code>is</code> operator <em>except</em> for true identity checks</strong>: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singletons</a> (like <code>None</code>, <code>True</code>, and <code>False</code>), and checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).</p>
+<strong>You never want to use the <code>is</code> operator <em>except</em> for true identity checks</strong>: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singletons</a> (like <code>None</code>, <code>True</code>, and <code>False</code>), checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).</p>
 
 <h2>So when would we use <code>object()</code>?</h2>
 
