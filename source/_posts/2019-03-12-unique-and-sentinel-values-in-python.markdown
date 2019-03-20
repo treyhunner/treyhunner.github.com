@@ -261,7 +261,7 @@ False
 ```
 
 We needed a placeholder value in our code.
-`None` is a lovely placeholder as long as **we don't need to worry about distinguishing between *our* `None` from *their* `None`**.
+`None` is a lovely placeholder as long as **we don't need to worry about distinguishing between *our* `None` and *their* `None`**.
 
 If `None` is valid *data*, it's no longer just a placeholder.
 At that point, we need to start reaching for `object()` instead.
@@ -421,7 +421,7 @@ We don't have any of the same issues as we did with `None` before:
 ```
 
 The reason is that `None` is a [singleton value][singletons].
-That means that every time you say `None` in your Python code, you're referencing the exact same `None` object every time.
+That means that whenever you say `None` in your Python code, you're referencing the exact same `None` object every time.
 
 ```python
 >>> x = None
@@ -619,7 +619,7 @@ The third one is checking if we've seen **the same object twice** (an iterator i
 And the fourth one is checking for the presence of these unique values we've been discussing.
 
 The `is` operator checks whether two objects are exactly the same object in memory.
-**You never want to use the `is` operator *except* for true identity checks**: [singletons][] (like `None`, `True`, and `False`), and checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).
+**You never want to use the `is` operator *except* for true identity checks**: [singletons][] (like `None`, `True`, and `False`), checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).
 
 
 ## So when would we use `object()`?
