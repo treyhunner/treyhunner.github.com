@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-20T11:08:54-07:00</updated>
+  <updated>2019-03-21T13:00:09-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1489,7 +1489,7 @@ You don&rsquo;t really need to know how hashing works in Python so if you found 
 </span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
 </span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
 </span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
-</span><span class='line'><span class="k">elif</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
 </span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
 </span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
 </span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
