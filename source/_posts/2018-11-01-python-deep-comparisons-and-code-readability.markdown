@@ -433,7 +433,7 @@ elif d1[0] < d2[0]:
     greater = d2
 elif d1[1] > d2[1]:
     greater = d1
-elif d2[1] > d2[1]:
+elif d1[1] > d2[1]:
     greater = d2
 elif d1[2] > d2[2]:
     greater = d1
