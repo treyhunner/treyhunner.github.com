@@ -6,6 +6,7 @@ comments: true
 categories: 
 ---
 
+
 ## Your fears going into the sprints
 
 
@@ -25,7 +26,7 @@ The sprints include sprint coordinators who can help point you to projects they'
 ### It'll be too fast-paced for me
 
 Sprints involve smart people coding for many hours on end, racing against the clock.
-False.
+**False**.
 From my experience, sprints usually aren't like that at all.
 
 There are some very smart people at the sprints, but everyone at the sprints is new to *something* and there are many newcomers (and [mediocre programmers][]) at the sprints as well.
@@ -41,50 +42,217 @@ I've attended at least one day of sprints at PyCon US for each of the last 5 yea
 - Some **rubber duck time**.  I often wander around asking people what they're working on and sometimes act as their [rubber duck][].  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own person project or an open source project I'm contributing to).
 - Plenty of **personal break time**.  I very often take mental breaks during sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.
 
-- Sprints involves smart people coding for many hours on end, racing against the clock
-    - I've attended at least one day of sprints at PyCon US for each of the last 5 years and my sprint experience has never been like that
-    - Sprints are probably intense for some people, but they certainly don't have to be
-    - Often my sprints feel more relaxed than the main conference
+Sprints are an intense experience for some people, but they don't have to be.
+Sprints are what you make them: some people prefer many hours of furious coding with their headphones in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**.
+
+My sprints are often more relaxed than the conference and many of the best conversations I have during PyCon come out of the sprints.
 
 ### I won't be able to get enough done while I'm there
 
-- Can I get up to speed quick enough to accomplish something by the end of the day?
-- I have one day to work on a project that I don't really understand: what can I really get done in that time?
+So I have one day to work on a project that I don't really understand; what can I really get done in that time?
+
+If you're only planning to be at the sprints for one day, can you really expect to get up to speed quickly enough to accomplish something meaningful?
+
+This fear is very real for all sprint attendees.
+If you're just getting started on contributing to a new (to you) code base, you may not have a pull request merged by the end of the day.
+
+This fear is about framing: what is your goal at the sprints?
+
+If your goal is to get a pull request merged into an open source project by the end of the day, find something minor that needs fixing in the documentation, website styling, or something else that the project maintainer agrees needs fixing.
+You can probably get a minor change fixed if you get an early start and pick a very small issue.
+
+But if your goal is to make a more substantial improvement to a project you probably won't get much code merged (if any) by the end of the day.
+For bigger changes TODO
+
 
 ## What to expect
 
-- Different projects sprint in different ways
-- Some projects go out of their way to welcome contributions from newcomers while a few projects might hold a sprint that's focused on engaging existing contributors primarily (you're less likely to stumble upon those).
-- I recommend picking a project to sprint on that seems particularly newcomer friendly
+### Some projects are easier to sprint on than others
 
-- During the sprints, project maintainers are often focused on enabling your contributions.  They can quietly write code at home, but it's hard for them to encourage *you* to quietly write code at home.  So many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints.
-- If you contribute to a project during sprints, it's more likely you'll decide to contribute to the project again *after* the sprints.  That would be great for them (they're getting your help) and might be quite fun for you to (you get to contribute to an open source project).
+Different projects sprint in different ways.
+Many projects go out of their way to welcome contributions from newcomers, some projects may struggle a little in welcoming newcomers, and a few projects might hold a sprint that's focused entirely on engaging existing contributors (you're unlikely to stumble upon those though).
+
+If you're not sure what project you'd like to sprint on during first day at the sprints, **I recommend picking a project to sprint on that seems particularly newcomer friendly**.
+Alternatively (or additionally), if you've identified a project that particularly suits your interests, **talk to the maintainers** and see if they think (and you think) their project would be a good fit for you.
+
+Keep in mind that *newer projects* often have more to be done.
+Big and stable projects like CPython and Django are fairly stable and it can be quite challenging to find a small bug or low-hanging feature request that needs fixing.
+Newer projects and smaller projects often need more help.
+
+It's also usually more fun to be a **big fish in a small pond** rather than a small fish in a big pond.
+It might take you the same amount of effort to make a small improvement to a big project as it takes to make a big change to a small project.
+
+### The maintainers are there to help you
+
+During the sprints, project maintainers are there to help you.
+Project maintainers can quietly write code at home, but it's hard for them to encourage *you* to quietly write code at home.
+So **many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints**.
+
+The maintainers of projects are usually focused on **enabling your contributions during sprints** because they want your help.
+If you contribute to a project during sprints, it's more likely you'll decide to contribute to the project again *after* the sprints.
+That would be great for the maintainers (they're getting your help) and might be quite fun for you too.
+
+You might be thinking "surely, the maintainers can't be there entirely to help me".
+And you're right: usually the maintainers do contribute code to their own projects during the sprints.
+But the amount of code maintainers commit to their projects often increases as the sprints stretch on.
+There are far fewer people on the third and fourth days of sprints than on the first and second days.
+If a maintainer stays for all four days of the sprints, they're much more likely to commit code to their own project as the number of sprinters working on their project dwindles and as those still working start to need a bit less help than they did on the first day.
+
+### The sprints can be more relaxing than the talks
+
+The talk days of PyCon can be pretty overwhelming.
+The sprints are a bit more structured (in a sort of odd semi-structured way) because everyone there is working on something together (or at least they're working on something *and* they're together).
+
+The sprints are **sort of like an introvert party**: everyone is sitting at tables next to each other, sometimes talking and sometimes working quietly, but always sitting next to other humans without the need to constantly talk and interact.
+And even if you're *not* working on the same thing as someone else, **you're still a PyCon person in a room with other PyCon people, doing whatever it is you're all doing**.
+
+For some people the sprints really are a sprint, but for most of us they're more like an endurance race, one with *plenty* of breaks.
+
+
+### Contributing at the sprints is often easier than online
+
+- It's often easier to connect with someone in-person than online: speaking with someone at the same table with you is usually less intimidating than writing out a comment on GitHub to communicate with them.
+
 
 ## How to get the most out of the sprints
 
+### Don't underestimate your skills
+
+If you're trying to get a feel for what project might be a good fit for you, let the maintainers know what skills you do and don't have and see if you get a good vibe from both the maintainers and the project.
+If you do, run with it!
+
+If you're afraid you won't have something to contribute, remember that open source projects, like businesses, have a very wide variety of needs.
+
+If you know something about marketing, you can offer to sit with project maintainers and help them improve their marketing material.
+At PyCon 2016 I interviewed some project maintainers and then crafted slogans and wrote marketing copy that explained what problem their project solved and who needed it.
+I feel those were some of the most valuable contributions I made in a pretty short amount of time.
+
+If you're pretty good at design, you could offer to create visuals for projects (maybe logos, diagrams, or other visualizations).
+
+If you know CSS or JavaScript, you could find a web-based project that needs help with their front-end.
+Being the "front-end dev among Pythonistas" or the "UX person among developers" can really help you make uniquely helpful contributions to projects.
+
+Also keep in mind that there are often small projects that you can make big contributions to at the sprints simply because they're in great need.
+Sometimes people even start a project *at the sprints* because it's easier to get help from others when you're in a room full of folks who might know a few things about the technology you're using.
+If you join a newer or smaller project at the sprints (or start your own), you'll often be able to find a whole bunch of low-hanging fruit that hasn't been done only because no one has had the time to work on it yet.
+
+- There's a list of projects listed on the main sprints page which are planning to sprint
+- Even more projects give a very short pitch about their project at the end of the conference so folks know about their project
+- There's also a board at the sprints as you walk in which shows which room each project is in
+
 ### Try to prepare yourself for the setup time
 
-- Getting started can take a lot of time, so prepare yourself
-    - Try to get your machine prepared as much as you can before the first day of sprints: install git, get a modern version of Python installed, and install a code editor you're comfortable with.  This will reduce the time you lose on your first sprint day on setup.
-    - Get an early start on setting up the project if possible
-        - The sooner you figure out a project you'd like to sprint on, the sooner you can clone the repo, install third-party dependencies, figure out how to run the tests, and generally get your development environment setup
-        - Any project you choose will likely require some dev environment setup
-        - The setup process can sometimes take longer than expected (sometimes it's even buggy and fixing the instructions will end up being your first pull request)
-    - If you get the pleasure to meet the maintainer of a project you'd like to contribute to the night before sprints, ask them their recommendations for what you can do to prepare
-    - Show up early.  The project maintainer may not show up early, but that's okay.  If you have a project in mind, you can at least make sure your dev environment is setup and pick out a couple issues to ask the project maintainer about when they arrive.
+Getting started on a new project can take a lot of time, so try to prepare yourself and your development environment as much as you can early on.
+
+Make sure you have git, GitHub, a code editor, and a modern version (maybe multiple versions) of Python installed on your machine.
+
+Get an early start if possible.
+The setup process can take a long time for some projects.
+Sometimes the setup process is even buggy and **the first pull request you make to a project may be related to improving the setup instructions**.
+
+If you show up to sprints early, you might be able to pick a project and get that project setup on your machine before break time.
+If you're feeling extra ambitious, you could even get a head start and prepare your machine the night before the sprints.
+I've never done this because I'm rarely feeling ambitious, but I know some do this to make sure they can get in a little more quality sprinting time on the first day.
+
+Another way to prepare yourself for setup time is to stay longer.
+If you're staying for 2 or 3 days of sprints, you can take it easy and spend more time on setup and getting your footing during the first day.
+That way you'll feel more confident and more independent on the second day.
+If you stay more than one day, you might also get the opportunity to sprint on two different projects if you decide you'd like to switch projects on day 2 (or even mid-day if you'd like).
+
+Oh and another way to prepare yourself: remember your laptop and your laptop charger (and if you're from outside the US, a power adapter if needed).
 
 ### Ask for help
 
-- If the maintainer of the project your sprinting on is in the room they're likely there because they want to help you contribute to their project.  Their job today isn't to write code, it's to help you.  Please don't forget to ask for help when you need it.
-- Struggling is a great way to learn, but don't let yourself flounder for too long on issues that aren't your area of expertise.
-- If you get stuck, attempt to fix your problem by Googling and trial and error, talk to your rubber duck (or your neighbor if they're willing to act as a rubber duck would), and you're still stuck... ask for help!
+If the maintainer of the project your sprinting on is in the room they're likely there because **they want to help you contribute to their project**.
+On day 1 of sprints, project maintainers tend to prioritize helping you over writing their own code.
+**Please don't forget to ask for help when you need it**.
 
-- Opening a pull request isn't the end of your sprinting journey: often PRs require more work before merging.  If you have time and the willpower to follow through, don't drop out after opening your pull request.
-- Expect to get started at the sprints, not finish
-    - Ask the maintainers what form of communication is best for questions you have regarding your contributions while at home
+If you're at the sprints to learn, you do want to struggle *some*.
+Struggling is a great way to learn, but don't let yourself flounder for too long on issues that aren't your area of expertise.
+If you get stuck, attempt to fix your problem by trial-and-error and Googling, talk to your neighbor or your [rubber duck][] and **if you're after you've given yourself some time to troubleshoot, ask for help**!
+
+### Plan to follow-through when home (if you'd like)
+
+Keep in mind that you may not complete your work at the sprints.
+You're likely to find yourself at the end of your sprints still in the middle of a pull request back-and-forth.
+Pull requests often require more work before merging.
+So expect to get started at the sprints, not finish.
+
+You're welcome to drop out after the sprints if you'd like, but maintainers appreciate it if you can follow through if you have the time and interest.
+If you do plan to complete your pull request at home, ask the project maintainer what form of remote communication would be best for questions you have regarding contributions.
+
+### Empathize with others
+
+Your project maintainer may not show up early on day 1 and they might even leave early, depending on what their plans and schedule look like.
+You might consider asking them when they plan to be present and how they plan to operate (will they be writing code or only helping others write code).
+
+When sprinting, try to empathize with your project maintainer.
+Empathizing is possibly the trickiest part of fully remote open source contributions, but I find it tricky even in-person.
+
+Try to consider what your project maintainer's motivations are and remember that they're often trying to balance getting many new contributors to their project, getting bugs fixed, and maintaining the quality and consistency of their code base.
+
+Text-based communication is hard, so seize your face-to-face communication while you're at the sprints and try to imagine what's going on in your project maintainers head in case you do decide to continue contributing at home.
+If you do contribute more after the sprints are over, that in-person empathy can help you continue to empathize remotely as well.
+
+Some other places you may want to use empathy: empathizing with users of your code/documentation/design (someone is going to use your work) and the other sprinters in the room with you.
+If there are other new sprinters around you, they might appreciate a congratulatory high five after they their code working.
+
+If you bring snacks, candy, donuts, or a small power strip to expand one power strip port into multiple, **your kindness might give you happy neighbors at the sprints**.
+
+### Be kind to yourself
+
+Don't go into the sprints with a very specific thing that you absolutely must do: have a goal but **allow yourself change your goal** as you learn new information about your environment.
+**Be flexible and be forgiving with yourself**.
+
+You're allowed to **switch projects** at any time and as often as you like.
+You're allowed to **stop sprinting** at any time and **take a break**.
+You aren't obligated to follow through on a pull request you opened (it'd be lovely if you did, but you don't *have* to).
+
+Time-wise, there's lots of flexibility at the sprints.
+The maintainer of the project you're sprinting on might get an early start or they might not show up until later on the first day of sprints.
+You need to give yourself flexibility as well.
+
+Don't feel obligated at the sprints: you don't have to make a code change, **you don't have to be productive**, you don't have to show up at a certain time or stay for a certain amount of time, and **you don't even have to sprint on an open source project** (I frequently don't).
+
+If you'd like to take half of a sprint day to explore the city you're in with a new friend (or on your own because you need personal time), go for it!
+
+Embrace self-care at the sprints, whatever that means for you.
+
+### Remember that sprints are lots of things to lots of people
+
+During my first PyCon sprint in 2014, I helped a project figure out how to migrate from Python 2 to Python 3.
+The project maintainer wasn't looking forward to that migration so they were grateful to have another brain troubleshooting with them.
+
+But during that sprint I also got an idea for a contribution to another project (Django), was encouraged to pursue the idea, and [a few weeks after the sprints](https://github.com/django/deps/pull/4) I proposed the idea publicly.
+After my suggestion sat without feedback, I sort of abandoned it.
+
+But at the PyCon 2015 sprints the next year, I brought up my abandoned idea to a Django core developer and they offered to shepherd my change through, so I [continued my efforts](https://github.com/django/deps/pull/13) during the sprints.
+A couple weeks after the sprints ended I [finished up the idea at home](https://github.com/django/deps/pull/14) and finally [implemented the changes](https://github.com/django/django/pull/4573), which were eventually merged (after [some scope tweaks](https://github.com/django/deps/pull/15/files)).
+
+My first two years of PyCon sprints involved some substantial code contributions that I hadn't expected to make.
+Most of the changes I made were **started at the sprints but finished at home**.
+
+The sprints were a source of idea generation and inspiration, not a place to get lots of work done.
+Since 2015 I've started sprinting on *ideas* more than code.
+
+During my PyCon 2016 sprints I helped a few open source projects improve their marketing copy (so someone hitting their website would better understand what their project did and who it was for).
+My pull requests during these sprints were text-based changes, not code changes.
+
+My PyCon 2017 sprints involved a lot of community work: discussions with folks about the PSF and the new code of conduct work group.
+I spent much more time in Google Docs tweaking documents than I did using git.
+
+My sprints at PyCon 2018 involved writing talk proposals, meeting with new friends, and chatting with core developers about the soon-to-be-written [PEP 582][].
+I don't think I made any contributions to open source projects (outside of possibly inspiring an bullet point or two in that PEP).
+But I had a great time and setting in the sprint rooms helped me get a lot of work done on my talk proposals.
+
+**The sprints aren't one thing**.
+If you're not feeling like a code contribution is the thing you'd like to do during the sprints, get creative!
+**Your time at the sprints can be spent however you'd like it to be**.
 
 
 ## Running your own sprint
+
+I h
 
 Running your own sprint (running your own sprint could be a whole article on its own, but I wanted to give a few quick tips for folks who might be attempting to run a sprint on their own project or help a fellow maintainer run a sprint)
 
@@ -97,3 +265,5 @@ TODO Related Resources
 - https://pycon.blogspot.com/2016/03/why-not-join-sprints-this-year-at-pycon.html
 
 [mediocre programmers]: TODO
+[rubber duck]: TODO
+[pep 582]: https://www.python.org/dev/peps/pep-0582/
