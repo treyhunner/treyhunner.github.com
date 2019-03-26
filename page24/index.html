@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Sometimes a programming design pattern becomes common enough to warrant its own special syntax. Python&rsquo;s list comprehensions are a prime &hellip;">
+  <meta name="description" content="I set a goal of listening to 50 audiobooks in 2015 and I met this goal. I listened to over 400 hours of audiobooks &ndash; that&rsquo;s over 1 hour &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></h1>
+      <h1 class="entry-title"><a href="/2015/12/my-favorite-audiobooks-of-2015/">My favorite audiobooks of 2015</a></h1>
     
     
       <p class="meta">
@@ -98,367 +98,165 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2015-12-01T10:30:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:30 am</span></time>
+<time class='entry-date' datetime='2015-12-31T07:30:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>7:30 am</span></time>
         
-           | <a href="/2015/12/python-list-comprehensions-now-in-color/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Comments</a>
+           | <a href="/2015/12/my-favorite-audiobooks-of-2015/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/12/my-favorite-audiobooks-of-2015/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python&rsquo;s <a href="https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps">list comprehensions</a> are a prime example of such a syntactic sugar.</p>
+  <div class="entry-content"><p>I set a goal of listening to 50 audiobooks in 2015 and I met this goal.  I listened to over 400 hours of audiobooks &ndash; that&rsquo;s over 1 hour of listening per day.</p>
 
-<p>List comprehensions in Python are great, but mastering them can be tricky because they don&rsquo;t solve a new problem: they just provide a new syntax to solve an existing problem.</p>
+<p>I make an effort to listen to audiobooks that challenge me.  I try to read books by people from different backgrounds, books from genres I&rsquo;m unaccustomed to, and books on subjects that challenge my world views.</p>
 
-<p>Let&rsquo;s learn what list comprehensions are and how to identify when to use them.</p>
+<p>This list only represents 10 of my favorite listens from this year.  You can find a <a href="https://www.goodreads.com/user/year_in_books/2015/29459515">full list of the books I read in 2015 on my Goodreads page</a>.</p>
 
-<h2>What are list comprehensions?</h2>
+<h3>1. How to Slowly Kill Yourself and Others in America</h3>
 
-<p>List comprehensions are a tool for transforming one list (any <a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a> actually) into another list.  During this transformation, elements can be conditionally included in the new list and each element can be transformed as needed.</p>
+<p>This book meanders through heavy issues, including exceptionalism, misogyny, and dying young.  Kanye, Obama, and Tupac all make appearances.  This is some of the most eloquent and addictive prose I&rsquo;ve heard: witty and grave.</p>
 
-<p>If you&rsquo;re familiar with functional programming, you can think of list comprehensions as syntactic sugar for a <code>filter</code> followed by a <code>map</code>:</p>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/17290919-how-to-slowly-kill-yourself-and-others-in-america">How to Slowly Kill Yourself and Others in America</a> by Kiese Laymon</li>
+<li><a href="http://www.audible.com/pd/Nonfiction/How-to-Slowly-Kill-Yourself-and-Others-in-America-Audiobook/B00S5AAG1K/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Kevin Free</li>
+</ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
 
+<h3>2. Whistling Vivaldi</h3>
 
-<p>If you&rsquo;re not familiar with functional programming, don&rsquo;t worry: I&rsquo;ll explain using <code>for</code> loops.</p>
+<p>Even in the seeming absence of individual and institutional discrimination, we can be affected by stereotype threats.  Identity threat is a real problem.  If you help lead an organization of people, you should read this book or at least read a good summary of it.</p>
 
-<h2>From loops to comprehensions</h2>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/6649312-whistling-vivaldi">Whistling Vivaldi</a> by Claude M. Steele</li>
+<li><a href="http://www.audible.com/pd/Nonfiction/Whistling-Vivaldi-Audiobook/B00CJ0I41Q/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by DeMario Clarke</li>
+</ul>
 
-<p>Every list comprehension can be rewritten as a <code>for</code> loop but not every <code>for</code> loop can be rewritten as a list comprehension.</p>
 
-<p>The key to understanding when to use list comprehensions is to practice identifying problems that <em>smell</em> like list comprehensions.</p>
+<h3>3. Americanah</h3>
 
-<p>If you can rewrite your code to look <em>just like this <code>for</code> loop</em>, you can also rewrite it as a list comprehension:</p>
+<p>The main character, Ifemelu, is a complex individual who struggles with romance, family, and identity.  I really enjoyed this story and I especially enjoyed Adjoa Andoh&rsquo;s audiobook narration.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">new_things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/15796700-americanah">Americanah</a> by Chimamanda Ngozi Adichie</li>
+<li><a href="http://www.downpour.com/catalog/product/view/id/135855">DRM-free audiobook</a> read by Adjoa Andoh</li>
+</ul>
 
 
-<p>You can rewrite the above <code>for</code> loop as a list comprehension like this:</p>
+<h3>4. The Righteous Mind</h3>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span> <span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span> <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>We tend to categorize ourselves based on which moral pillars we hold sacred and which we ignore.  It is difficult but important to empathize with those who recognize different moral pillars than you.</p>
 
+<ul>
+<li><a href="https://www.goodreads.com/book/show/11324722-the-righteous-mind">The Righteous Mind</a> by Jonathan Haidt</li>
+<li><a href="http://www.downpour.com/catalog/product/view/id/100887">DRM-free audiobook</a> read by Jonathan Haidt</li>
+</ul>
 
-<h2>List Comprehensions: The Animated Movie™</h2>
 
-<p>That&rsquo;s great, but how did we do that?</p>
+<h3>5. The New Jim Crow</h3>
 
-<p>We <strong>copy-pasted</strong> our way from a <code>for</code> loop to a list comprehension.</p>
+<p>This book discusses the effects of the war on drugs, rising incarceration rates, affirmative action, color-blindness, and a number of other issues.  I learned quite a few eye-opening facts while reading.  Take a break from Law and Order and listen to this book instead.</p>
 
-<p><img src="/images/list-comprehension-condition.gif"></p>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/6792458-the-new-jim-crow">The New Jim Crow</a> by Michelle Alexander</li>
+<li><a href="http://www.downpour.com/the-new-jim-crow-1">DRM-free audiobook</a> read by Karen Chilton</li>
+</ul>
 
-<p>Here&rsquo;s the order we copy-paste in:</p>
 
-<ol>
-<li>Copy the variable assignment for our new empty list (line 3)</li>
-<li>Copy the expression that we&rsquo;ve been <code>append</code>-ing into this new list (line 6)</li>
-<li>Copy the <code>for</code> loop line, excluding the final <code>:</code> (line 4)</li>
-<li>Copy the <code>if</code> statement line, also without the <code>:</code> (line 5)</li>
-</ol>
+<h3>6. Reading Lolita in Tehran</h3>
 
+<p>In this book we reflect upon Iranian life through nineteenth and twentieth century literature.  Culture and politics are discussed in the context of the books studied in a secret book club.</p>
 
-<p>We&rsquo;ve now copied our way from this:</p>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/7603.Reading_Lolita_in_Tehran">Reading Lolita in Tehran</a> by Azar Nafisi</li>
+<li><a href="http://www.audible.com/pd/Bios-Memoirs/Reading-Lolita-in-Tehran-Audiobook/B002V0ABTC/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Lisette Lecat</li>
+</ul>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">doubled_odds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
 
+<h3>7. Twelve Years a Slave</h3>
 
-<p>To this:</p>
+<p>This autobiography was very clear, very event-filled, and overall I found it very well-written.  I had less trouble keeping track of the characters than in much of the fiction I read.  I haven&rsquo;t seen the movie yet, but I&rsquo;m hoping it&rsquo;s as good as the book.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/18478222-twelve-years-a-slave">Twelve Years a Slave</a> by Solomon Northup</li>
+<li><a href="http://www.downpour.com/twelve-years-a-slave-1">DRM-free audiobook</a> read by Louis Gossett, Jr.</li>
+</ul>
 
 
-<h2>List Comprehensions: Now in Color</h2>
+<h3>8. The Wordy Shipmates</h3>
 
-<p>Let&rsquo;s use colors to highlight what&rsquo;s going on.</p>
+<p>This journey through history included religion, politics, and drama with tie-ins to modern culture and a smattering of humor.  I didn&rsquo;t understand much of this book, but I did really enjoy it.</p>
 
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>:
-        <span class="new-collection">doubled_odds</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/2845287-the-wordy-shipmates">The Wordy Shipmates</a> by Sarah Vowell</li>
+<li><a href="http://www.downpour.com/catalog/product/view/id/93953">DRM-free audiobook</a> read by Sarah Vowell</li>
+</ul>
 
 
+<h3>9. The Handmaid&rsquo;s Tale</h3>
 
+<p>Some people call this book &ldquo;science fiction&rdquo;.  I&rsquo;d call it fiction set in the future, a relatable and frightening future.  This dystopian patriarchy is fueled by religious extremism and a fertility problem.</p>
 
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>]</span>
-</pre>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/38447.The_Handmaid_s_Tale">The Handmaid&rsquo;s Tale</a> by Margaret Atwood</li>
+<li><a href="http://www.audible.com/pd/Fiction/The-Handmaids-Tale-Audiobook/B008NB9GIU/ref=a_search_c4_1_1_srTtl">Audible audiobook</a> read by Claire Danes</li>
+</ul>
 
 
-<p>We copy-paste from a <code>for</code> loop into a list comprehension by:</p>
+<h3>10. For the Win</h3>
 
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span></li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code></li>
-<li>Copying <span class="conditional-clause">the <code>if</code> statement line</span>, also without the <code>:</code></li>
-</ol>
+<p>This book focuses on abuse of workers around the world.  It doesn&rsquo;t focus on technology or corruption, unlike other Doctorow books I&rsquo;ve read.  The protagonists (there were many) seemed less stereotypical than the protagonist in Little Brother.</p>
 
+<ul>
+<li><a href="https://www.goodreads.com/book/show/7241373-for-the-win">For the Win</a> by Cory Doctorow</li>
+<li><a href="http://craphound.com/ftw/for-the-win-audiobook/">DRM-free audiobook</a> read by George Newbern</li>
+</ul>
 
-<h2>Unconditional Comprehensions</h2>
 
-<p>But what about comprehensions that don&rsquo;t have a conditional clause (that <code>if SOMETHING</code> part at the end)?  These loop-and-append <code>for</code> loops are even simpler than the loop-and-conditionally-append ones we&rsquo;ve already covered.</p>
+<h3>Bonus</h3>
 
-<p>A <code>for</code> loop that doesn&rsquo;t have an <code>if</code> statement:</p>
+<p>Need more than 10 audiobook recommendations?  Here&rsquo;s five more.</p>
 
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="new-collection">doubled_numbers</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
+<h4>1. Between the World and Me</h4>
 
+<ul>
+<li><a href="https://www.goodreads.com/book/show/25489625-between-the-world-and-me">Between the World and Me</a> by Ta-Nehisi Coates</li>
+<li><a href="http://www.downpour.com/catalog/product/view/id/198859">DRM-free audiobook</a> read by Ta-Nehisi Coates</li>
+</ul>
 
-<p>That same code written as a comprehension:</p>
 
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type">]</span>
-</pre>
+<h4>2. The Truth is a Cave in the Black Mountains</h4>
 
+<ul>
+<li><a href="https://www.goodreads.com/book/show/18635092-the-truth-is-a-cave-in-the-black-mountains">The Truth is a Cave in the Black Mountains</a> by Neil Gaiman</li>
+<li><a href="http://www.downpour.com/catalog/product/view/id/157874">DRM-free audiobook</a> read by Neil Gaiman</li>
+</ul>
 
-<p>Here&rsquo;s the transformation animated:</p>
 
-<p><img src="/images/list-comprehension-no-condition.gif"></p>
+<h4>3. The Woman Warrior</h4>
 
-<p>We can copy-paste our way from a simple loop-and-append <code>for</code> loop by:</p>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/30852.The_Woman_Warrior">The Woman Warrior</a> by Maxine Hong Kingston</li>
+<li><a href="http://www.audible.com/pd/Bios-Memoirs/The-Woman-Warrior-Audiobook/B004HMEXGE/ref=a_search_c4_1_2_srTtl">Audible audiobook</a> read by Ming-Na</li>
+</ul>
 
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span> (line 3)</li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list (line 5)</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code> (line 4)</li>
-</ol>
 
+<h4>4. Information Doesn&rsquo;t Want to Be Free</h4>
 
-<h2>Nested Loops</h2>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/20763766-information-doesn-t-want-to-be-free">Information Doesn&rsquo;t Want to Be Free</a> by Cory Doctorow</li>
+<li><a href="http://craphound.com/news/2014/12/10/information-doesnt-want-to-be-free-audiobook/">DRM-free audiobook</a> read by Wil Wheaton</li>
+</ul>
 
-<p>What about list comprehensions with nested looping?&hellip; 😦</p>
 
-<p>Here&rsquo;s a <code>for</code> loop that flattens a matrix (a list of lists):</p>
+<h4>5. For All the Tea in China</h4>
 
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span>:
-    <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span>:
-        <span class="new-collection">flattened</span>.append(<span class="item-mutation">n</span>)
-</pre>
+<ul>
+<li><a href="https://www.goodreads.com/book/show/3081255-for-all-the-tea-in-china">For All the Tea in China</a> by Sarah Rose</li>
+<li><a href="http://www.downpour.com/for-all-the-tea-in-china-1">DRM-free audiobook</a> read by Sarah Rose</li>
+</ul>
 
-
-<p>Here&rsquo;s a list comprehension that does the same thing:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type"> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p>Nested loops in list comprehensions do not read like English prose.</p>
-
-<p><strong>Note:</strong> My brain wants to write this list comprehension as:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type"> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p><strong>But that&rsquo;s not right!</strong>  I&rsquo;ve mistakenly flipped the <code>for</code> loops here.  The correct version is the one above.</p>
-
-<p>When working with nested loops in list comprehensions remember that <strong>the <code>for</code> clauses remain in the same order</strong> as in our original <code>for</code> loops.</p>
-
-<h2>Other Comprehensions</h2>
-
-<p>This same principle applies to <a href="https://docs.python.org/3/tutorial/datastructures.html#sets">set comprehensions</a> and <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary comprehensions</a>.</p>
-
-<p>Code that creates a set of all the first letters in a sequence of words:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">set()</span>
-<span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span>:
-    <span class="new-collection">first_letters</span>.add(<span class="item-mutation">w[0]</span>)
-</pre>
-
-
-<p>That same code written as a set comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">{</span><span class="item-mutation">w[0]</span> <span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<p>Code that makes a new dictionary by swapping the keys and values of the original one:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{}</span>
-<span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span>:
-    <span class="new-collection">flipped</span>[<span class="item-mutation">value</span>] = <span class="item-mutation">key</span>
-</pre>
-
-
-<p>That same code written as a dictionary comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{</span><span class="item-mutation">value</span>: <span class="item-mutation">key</span> <span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<h2>Readability Counts</h2>
-
-<p>Did you find the above list comprehensions hard to read?  I often find longer list comprehensions very difficult to read when they&rsquo;re written on one line.</p>
-
-<p>Remember that <a href="https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining">Python allows line breaks</a> between brackets and braces.</p>
-
-<h3>List comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Nested loops in list comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Dictionary comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">value</span><span class="p">:</span> <span class="n">key</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that we are not adding line breaks arbitrarily: we&rsquo;re breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.</p>
-
-<h2>Learn with me</h2>
-
-<p>I did a <a href="https://www.youtube.com/watch?v=u-mhKtC1Xh4">class on list comprehensions</a> with <a href="http://remote.pyladies.com/">PyLadies Remote</a> recently.</p>
-
-<p>If you&rsquo;d like to watch me walk through an explanation of any of the above topics, check out the video:</p>
-
-<ol>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=3m30s">list comprehensions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=35m05s">generator expressions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=44m44s">set comprehensions</a></li>
-<li><a href="https://youtu.be/u-mhKtC1Xh4?t=47m44s">dictionary comprehensions</a></li>
-</ol>
-
-
-<h2>Summary</h2>
-
-<p>When struggling to write a comprehension, don&rsquo;t panic.  Start with a <code>for</code> loop first and copy-paste your way into a comprehension.</p>
-
-<p>Any <code>for</code> loop that looks like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span>:
-    <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>:
-        <span class="new-collection">new_things</span>.append(<span class="item-mutation">"something with " + ITEM</span>)
-</pre>
-
-
-<p>Can be rewritten into a list comprehension like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
-</pre>
-
-
-<p>If you can nudge a <code>for</code> loop until it looks like the ones above, you can rewrite it as a list comprehension.</p>
-
-<h2>Even More Comprehensions</h2>
-
-<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to watch my 30 minute <a href="https://youtu.be/5_cJIcgM7rw?t=52s">Comprehensible Comprehensions</a> talk for more.</p>
-
-<p>The best way to learn is to practice.
-If you&rsquo;d like to practice your comprehension skills and your Python skills in general, I recommend giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.</p>
-
-<p>If you&rsquo;re looking for a <em>very</em> deep dive into comprehensions in particular, I have a <a href="http://pycon2018.trey.io/">3 hour tutorial</a> on comprehensions and generator expressions in Python.
-That tutorial is heavily inspired by my <a href="http://truthful.technology/">team Python training</a> workshops.
-If you&rsquo;re interested in diving <em>even deeper</em> into comprehensions and other topics, please <a href="mailto:hello@truthful.technology">drop me a line</a>.
-I&rsquo;d love to chat.</p>
 </div>
   
   <footer>

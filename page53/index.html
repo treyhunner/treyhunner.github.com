@@ -9,8 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently acquired an appreciation for audiobooks. I listen to multiple
-audiobooks every month and I prefer DRM-free audiobooks so that I can listen &hellip;">
+  <meta name="description" content="I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently. My laptop has a solid-state drive and I had tweaked the boot process previously so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ audiobooks every month and I prefer DRM-free audiobooks so that I can listen &he
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://treyhunner.com/page34">
+  <link rel="canonical" href="http://treyhunner.com/page53">
   <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
@@ -90,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2014/05/cli-for-finding-drm-free-audiobooks/">CLI for finding DRM-free Audiobooks</a></h1>
+      <h1 class="entry-title"><a href="/2009/05/ubuntu-now-boots-in-10-seconds/">Ubuntu Now Boots in 10 Seconds</a></h1>
     
     
       <p class="meta">
@@ -99,150 +98,21 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2014-05-14T12:31:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:31 pm</span></time>
+<time class='entry-date' datetime='2009-05-01T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2014/05/cli-for-finding-drm-free-audiobooks/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2014/05/cli-for-finding-drm-free-audiobooks/">Comments</a>
+           | <a href="/2009/05/ubuntu-now-boots-in-10-seconds/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently acquired an appreciation for audiobooks.  I listen to multiple
-audiobooks every month and I prefer DRM-free audiobooks so that I can listen
-through my favorite audiobook reader on each of my devices.</p>
+  <div class="entry-content"><p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
 
-<p><a href="http://www.downpour.com/">Downpour</a> and <a href="http://www.emusic.com/">eMusic</a> are the only services I know that provide a large
-selection of DRM-free audiobooks.  Unfortunately not all audiobooks are
-available on either of these sites, so I often end up searching both sites for
-each book to discover what versions (if any) are available from each.  I got
-sick of searching both websites all the time, so I just created a Python script
-to do that work for me.</p>
+<p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
 
-<div><script src='https://gist.github.com/21f307b975027be5162d.js'></script>
-<noscript><pre><code>#!/usr/bin/env python
-&quot;&quot;&quot;
-Search downpour.com and emusic.com for DRM-free audiobooks
-
-Usage::
-
-    ./find_audiobooks.py &lt;title&gt;...
-
-File released to the public domain under CC0 license:
-http://creativecommons.org/publicdomain/zero/1.0/deed
-
-Requires purl and beautifulsoup4::
-
-    $ pip install purl beautifulsoup4
-
-&quot;&quot;&quot;
-from __future__ import unicode_literals
-import sys
-from itertools import chain, izip_longest
-import urllib2
-
-from bs4 import BeautifulSoup
-from purl import URL
-
-
-def unescape(text):
-    &quot;&quot;&quot;Return string without smart apostrophes&quot;&quot;&quot;
-    return text.replace(&#39;\u2019&#39;, &quot;&#39;&quot;)
-
-
-def get_downpour_url(book_name):
-    &quot;&quot;&quot;Return search URL for downpour.com&quot;&quot;&quot;
-    base = URL(&quot;http://www.downpour.com/catalogsearch/result/&quot;)
-    return base.query_param(&#39;q&#39;, book_name).as_string()
-
-
-def get_emusic_url(book_name):
-    &quot;&quot;&quot;Return search URL for emusic.com&quot;&quot;&quot;
-    base_url = URL(&quot;http://www.emusic.com/search/book/&quot;)
-    return base_url.query_param(&#39;s&#39;, book_name).as_string()
-
-
-def search_downpour(book_name):
-    &quot;&quot;&quot;Search Downpour and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_downpour_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;item&quot;})
-    results = []
-    for book in books:
-        header = book.find(attrs={&#39;class&#39;: &quot;product-name&quot;})
-        link_tag = header.find(&#39;a&#39;)
-        title = &#39; &#39;.join(unescape(x)
-                         for x in link_tag.stripped_strings)
-        link = link_tag[&#39;href&#39;]
-        for node in book.find_all(attrs={&#39;class&#39;: &#39;author&#39;}):
-            author_text = node.text
-            if author_text.startswith(&#39;By&#39;):
-                author = author_text[2:].strip()
-        results.append({
-            &#39;title&#39;: title,
-            &#39;link&#39;: link,
-            &#39;author&#39;: author,
-        })
-    return results
-
-
-def search_emusic(book_name):
-    &quot;&quot;&quot;Search eMusic and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_emusic_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;bundle&quot;})
-    results = []
-    for book in books:
-        link_tag = book.find(&#39;h4&#39;).find(&#39;a&#39;)
-        author_tag = book.find(&#39;h5&#39;)
-        results.append({
-            &#39;title&#39;: link_tag.text,
-            &#39;link&#39;: link_tag[&#39;href&#39;],
-            &#39;author&#39;: author_tag.text,
-        })
-    return results
-
-
-def print_result(result):
-    &quot;&quot;&quot;Print title, author, and link for audiobook result&quot;&quot;&quot;
-    print &quot;Title: {}&quot;.format(result[&#39;title&#39;])
-    print &quot;Author: {}&quot;.format(result[&#39;author&#39;])
-    print &quot;Link: {}&quot;.format(result[&#39;link&#39;])
-    print
-
-
-def merge_lists(*lists):
-    &quot;&quot;&quot;Return merge of lists by alternating elements of each&quot;&quot;&quot;
-    combined_lists = chain.from_iterable(izip_longest(*lists))
-    return list(filter(bool, combined_lists))
-
-
-def main(*args):
-    &quot;&quot;&quot;Search audiobook sites and return search results&quot;&quot;&quot;
-    for book_name in args:
-        results1 = search_downpour(book_name)
-        results2 = search_emusic(book_name)
-        results = merge_lists(results1[:3], results2[:3])
-        for result in results:
-            print_result(result)
-
-
-if __name__ == &quot;__main__&quot;:
-    main(*sys.argv[1:])
-</code></pre></noscript></div>
-
-
-<h3>Future Improvements</h3>
-
-<p>Some ideas for future improvements:</p>
-
-<ul>
-<li>Add <a href="http://www.audible.com/">Audible</a> results when the book cannot be found in a DRM-free format</li>
-<li>Rewrite the script in JavaScript and create a Chrome extension out of it</li>
-<li>Use <a href="https://github.com/kennethreitz/clint">clint</a> to colorize the command-line output</li>
-</ul>
-
+<p>The main reason the boot time is so fast is due to my solid state drive.  That is how I got my boot down to 15 seconds before.  However, 7 seconds is a ridiculously fast boot time in my opinion.  Especially since it seems like it takes only about 3 seconds until my login manager is loaded and waiting for me.</p>
 </div>
   
   <footer>
@@ -254,11 +124,9 @@ if __name__ == &quot;__main__&quot;:
   
   <div class="pagination">
     
-      <a class="prev" href="/page35">&larr; Older</a>
-    
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/page33">Newer &rarr;</a>
+    <a class="next" href="/page52">Newer &rarr;</a>
     
   </div>
 </div>

@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that Python programmers underutilize multiple &hellip;">
+  <meta name="description" content="Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages. It &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Multiple assignment and tuple unpacking improve Python code readability</a></h1>
+      <h1 class="entry-title"><a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a></h1>
     
     
       <p class="meta">
@@ -98,98 +98,283 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2018-03-07T16:30:00-08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>4:30 pm</span></time>
+<time class='entry-date' datetime='2018-04-04T08:00:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2018</span></span> <span class='time'>8:00 am</span></time>
         
-           | <a href="/2018/03/tuple-unpacking-improves-python-code-readability/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">Comments</a>
+           | <a href="/2018/04/keyword-arguments-in-python/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2018/04/keyword-arguments-in-python/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
+  <div class="entry-content"><p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
 
-<p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
-This feature often seems simple after you&rsquo;ve learned about it, but <strong>it can be tricky to recall multiple assignment when you need it most</strong>.</p>
+<p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
 
-<p>In this article we&rsquo;ll see what multiple assignment is, we&rsquo;ll take a look at common uses of multiple assignment, and then we&rsquo;ll look at a few uses for multiple assignment that are often overlooked.</p>
+<p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
 
-<p>Note that in this article I will be using <a href="https://cito.github.io/blog/f-strings/">f-strings</a> which are a Python 3.6+ feature.
-If you&rsquo;re on an older version of Python, you&rsquo;ll need to mentally translate those to use the string <code>format</code> method.</p>
+<h2>What are keyword arguments?</h2>
 
-<h2>How multiple assignment works</h2>
+<p>Let&rsquo;s take a look at what keyword arguments (also called &ldquo;named arguments&rdquo;) are.</p>
 
-<p>I&rsquo;ll be using the words <strong>multiple assignment</strong>, <strong>tuple unpacking</strong>, and <strong>iterable unpacking</strong> interchangeably in this article.
-They&rsquo;re all just different words for the same thing.</p>
-
-<p>Python&rsquo;s multiple assignment looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;re setting <code>x</code> to <code>10</code> and <code>y</code> to <code>20</code>.</p>
-
-<p>What&rsquo;s happening at a lower level is that we&rsquo;re creating a tuple of <code>10, 20</code> and then looping over that tuple and taking each of the two items we get from looping and assigning them to <code>x</code> and <code>y</code> in order.</p>
-
-<p>This syntax might make that a bit more clear:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Parenthesis are optional around tuples in Python and they&rsquo;re also optional in multiple assignment (which uses a tuple-like syntax).
-All of these are equivalent:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Multiple assignment is often called &ldquo;tuple unpacking&rdquo; because it&rsquo;s frequently used with tuples.
-But we can use multiple assignment with any iterable, not just tuples.
-Here we&rsquo;re using it with a list:</p>
+<p>First let&rsquo;s take this Python function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">20</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">quadratic</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">x1</span> <span class="o">=</span> <span class="o">-</span><span class="n">b</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">x2</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And with a string:</p>
+<p>When we call this function, we can pass each of our three arguments in two different ways.</p>
+
+<p>We can pass our arguments as positional arguments like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or we can pass our arguments as keyword arguments like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The order of these arguments matters when they&rsquo;re passed positionally:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-0.5, -1.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But it doesn&rsquo;t matter when they&rsquo;re passed by their name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we use keyword/named arguments, it&rsquo;s the name that matters, not the position:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-0.5, -1.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So unlike many other programming languages, Python knows the names of the arguments our function accepts.</p>
+
+<p>If we ask for help on our function Python will tell us our three arguments by name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">quadratic</span><span class="p">)</span>
+</span><span class='line'><span class="go">Help on function quadratic in module __main__:</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">quadratic(a, b, c)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that functions can be called with a mix of positional and named arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">quadratic</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">93</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">62</span><span class="p">)</span>
+</span><span class='line'><span class="go">(-1.0, -2.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That can come in handy, but with the particular function we&rsquo;ve written here it&rsquo;s most clear to use all positional arguments or all keyword arguments.</p>
+
+<h2>Why use keyword arguments?</h2>
+
+<p>When calling functions in Python, you&rsquo;ll often have to choose between using keyword arguments or positional arguments.  Keyword arguments can often be used to make function calls more explicit.</p>
+
+<p>Take this code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This takes a file object <code>output_file</code> and <code>contents</code> string and writes a gzipped version of the string to the output file.</p>
+
+<p>This code does the same thing but it uses keyword arguments instead of positional arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that using this keyword argument call style made it more obvious what each of these three arguments represent.</p>
+
+<p>We were also able to leave off an argument here.  The first argument that we left off represents a <code>filename</code> and already has a default value of <code>None</code>.  We don&rsquo;t need a <code>filename</code> here because we&rsquo;re supposed to pass either a file object or a filename to <code>GzipFile</code>, not both.</p>
+
+<p>We&rsquo;re actually able to leave another argument off though.</p>
+
+<p>Here&rsquo;s the same code again, but the compress level has been left at its default value of <code>9</code> this time:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">write_gzip_file</span><span class="p">(</span><span class="n">output_file</span><span class="p">,</span> <span class="n">contents</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">with</span> <span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">output_file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;wt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">gzip_out</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">gzip_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Because we used named arguments, we were able to leave out two arguments and rearrange the remaining 2 arguments in a sensible order (the file object is more important than the &ldquo;wt&rdquo; access mode).</p>
+
+<p>When we use keyword arguments:</p>
+
+<ol>
+<li>We can often leave out arguments that have default values</li>
+<li>We can rearrange arguments in a way that makes them most readable</li>
+<li>We call arguments by their names to make it more clear what they represent</li>
+</ol>
+
+
+<h2>Where you see keyword arguments</h2>
+
+<p>You&rsquo;ll likely see keyword arguments quite a bit in Python.</p>
+
+<p>Python has a number of functions that take an unlimited number of positional arguments.  These functions sometimes have arguments that can be provided to customize their functionality.  Those arguments must be provided as named arguments to distinguish them from the unlimited positional arguments.</p>
+
+<p>The built-in <code>print</code> function accepts the optional <code>sep</code>, <code>end</code>, <code>file</code>, and <code>flush</code> attributes as keyword-only arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s">&#39;comma&#39;</span><span class="p">,</span> <span class="s">&#39;separated&#39;</span><span class="p">,</span> <span class="s">&#39;words&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">comma, separated, words</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>itertools.zip_longest</code> function also accepts an optional <code>fillvalue</code> attribute (which defaults to <code>None</code>) exclusively as a keyword argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">zip_longest</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">fillvalue</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="go">[(1, 7, 4), (2, 8, 5), (0, 9, 0)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In fact, some functions in Python force arguments to be named even when they <em>could</em> have been unambiguously specified positionally.</p>
+
+<p>In Python 2, the <code>sorted</code> function accepted all its arguments as either positional or keyword arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But Python 3&rsquo;s <code>sorted</code> function requires all arguments after the provided iterable to be specified as keyword arguments:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s">&#39;hi&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">&#39;h&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">&#39;i&#39;</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">must use keyword argument for key function</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="go">[8, 7, 4, 2, 1]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Anything that can be looped over can be &ldquo;unpacked&rdquo; with tuple unpacking / multiple assignment.</p>
+<p>Keyword arguments come up quite a bit in Python&rsquo;s built-in functions as well as in the standard library and third party libraries.</p>
 
-<p>Here&rsquo;s another example to demonstrate that multiple assignment works with any number of items and that it works with variables as well as objects we&rsquo;ve just created:</p>
+<h2>Requiring your arguments be named</h2>
+
+<p>You can create a function that accepts any number of positional arguments as well as some keyword-only arguments by using the <code>*</code> operator to capture all the positional arguments and then specify optional keyword-only arguments after the <code>*</code> capture.</p>
+
+<p>Here&rsquo;s an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">initial</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">total</span> <span class="o">*=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">total</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: If you haven&rsquo;t seen that <code>*</code> syntax before, <code>*numbers</code> captures all positional arguments given to the <code>product</code> function into a tuple which the <code>numbers</code> variable points to.</p>
+
+<p>The <code>initial</code> argument in the above function must be specified as a keyword argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="go">16</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="go">16</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">120</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that while <code>initial</code> has a default value, you can also specify <em>required</em> keyword-only arguments using this syntax:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -198,332 +383,17 @@ Here we&rsquo;re using it with a list:</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">point</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">point</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="go">10 20 30</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="go">30 20 10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">,</span> <span class="n">joiner</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">iterables</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'>    <span class="k">yield from</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">iterable</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">joiner</span>
+</span><span class='line'>        <span class="k">yield from</span> <span class="n">iterable</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Note that on that last line we&rsquo;re actually swapping variable names, which is something multiple assignment allows us to do easily.</p>
-
-<p>Alright, let&rsquo;s talk about how multiple assignment can be used.</p>
-
-<h2>Unpacking in a for loop</h2>
-
-<p>You&rsquo;ll commonly see multiple assignment used in <code>for</code> loops.</p>
-
-<p>Let&rsquo;s take a dictionary:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">person_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;company&#39;</span><span class="p">:</span> <span class="s">&quot;Truthful Technology LLC&quot;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Instead of looping over our dictionary like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {item[0]} has value {item[1]}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You&rsquo;ll often see Python programmers use multiple assignment by writing this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you write the <code>for X in Y</code> line of a for loop, you&rsquo;re telling Python that it should do an assignment to <code>X</code> for each iteration of your loop.
-Just like in an assignment using the <code>=</code> operator, we can use multiple assignment here.</p>
-
-<p>This:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Is essentially the same as this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">item</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;re just not doing an unnecessary extra assignment in the first example.</p>
-
-<p>So multiple assignment is great for unpacking dictionary items into key-value pairs, but it&rsquo;s helpful in many other places too.</p>
-
-<p>It&rsquo;s great when paired with the built-in <code>enumerate</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_file</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Line {i}: {line}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And the <code>zip</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">ratios</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;It&#39;s {ratio*100}% {color}.&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">prices</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{product} is {color} and costs ${price:.2f}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re unfamiliar with <code>enumerate</code> or <code>zip</code>, see my article on <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes in Python</a>.</p>
-
-<p>Newer Pythonistas often see multiple assignment in the context of <code>for</code> loops and sometimes assume it&rsquo;s tied to loops.  Multiple assignment works for any assignment though, not just loop assignments.</p>
-
-<h2>An alternative to hard coded indexes</h2>
-
-<p>It&rsquo;s not uncommon to see hard coded indexes (e.g. <code>point[0]</code>, <code>items[1]</code>, <code>vals[-1]</code>) in code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;The first item is {items[0]} and the last item is {items[-1]}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you see Python code that uses hard coded indexes there&rsquo;s often a way to <strong>use multiple assignment to make your code more readable</strong>.</p>
-
-<p>Here&rsquo;s some code that has three hard coded indexes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">reformat_date</span><span class="p">(</span><span class="n">mdy_date_string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Reformat MM/DD/YYYY string into YYYY-MM-DD string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">date</span> <span class="o">=</span> <span class="n">mdy_date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{date[2]}-{date[0]}-{date[1]}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can make this code much more readable by using multiple assignment to assign separate month, day, and year variables:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">reformat_date</span><span class="p">(</span><span class="n">mdy_date_string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Reformat MM/DD/YYYY string into YYYY-MM-DD string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">mdy_date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{year}-{month}-{day}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whenever you see hard coded indexes in your code, stop to consider whether you could use multiple assignment to make your code more readable.</p>
-
-<h2>Multiple assignment is very strict</h2>
-
-<p>Multiple assignment is actually fairly strict when it comes to unpacking the iterable we give to it.</p>
-
-<p>If we try to unpack a larger iterable into a smaller number of variables, we&rsquo;ll get an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">too many values to unpack (expected 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If we try to unpack a smaller iterable into a larger number of variables, we&rsquo;ll also get an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">not enough values to unpack (expected 3, got 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This strictness is pretty great.
-If we&rsquo;re working with an item that has a different size than we expected, the multiple assignment will fail loudly and we&rsquo;ll hopefully now know about a bug in our program that we weren&rsquo;t yet aware of.</p>
-
-<p>Let&rsquo;s look at an example.
-Imagine that we have a short command line program that parses command-line arguments in a rudimentary way, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">old_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Copying {new_file} to {old_file}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Our program is supposed to accept 2 arguments, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>my_program.py file1.txt file2.txt
-</span><span class='line'>Copying file1.txt to file2.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But if someone called our program with three arguments, they will not see an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>my_program.py file1.txt file2.txt file3.txt
-</span><span class='line'>Copying file1.txt to file2.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s no error because we&rsquo;re not validating that we&rsquo;ve received exactly 2 arguments.</p>
-
-<p>If we use multiple assignment instead of hard coded indexes, the assignment will verify that we receive exactly the expected number of arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">_</span><span class="p">,</span> <span class="n">new_file</span><span class="p">,</span> <span class="n">old_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Copying {new_file} to {old_file}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Note</strong>: we&rsquo;re using the variable name <code>_</code> to note that we don&rsquo;t care about <code>sys.argv[0]</code> (the name of our program).
-Using <code>_</code> for variables you don&rsquo;t care about is just a convention.</p>
-
-<h2>An alternative to slicing</h2>
-
-<p>So multiple assignment can be used for avoiding hard coded indexes and it can be used to ensure we&rsquo;re strict about the size of the tuples/iterables we&rsquo;re working with.</p>
-
-<p>Multiple assignment can be used to replace hard coded slices too!</p>
-
-<p>Slicing is a handy way to grab a specific portion of the items in lists and other sequences.</p>
-
-<p>Here are some slices that are &ldquo;hard coded&rdquo; in that they only use numeric indexes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_after_first</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-</span><span class='line'><span class="n">all_but_last_two</span> <span class="o">=</span> <span class="n">items</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="n">items_with_ends_removed</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whenever you see slices that don&rsquo;t use any variables in their slice indexes, you can often use multiple assignment instead.
-To do this we have to talk about a feature that I haven&rsquo;t mentioned yet: the <code>*</code> operator.</p>
-
-<p>In Python 3.0, the <code>*</code> operator was added to the multiple assignment syntax, allowing us to capture remaining items after an unpacking into a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">numbers</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rest</span>
-</span><span class='line'><span class="go">[2, 3, 4, 5, 6]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>*</code> operator allows us to replace hard coded slices near the ends of sequences.</p>
-
-<p>These two lines are equivalent:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">beginning</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">*</span><span class="n">beginning</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">numbers</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>These two lines are equivalent also:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">head</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">middle</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">numbers</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the <code>*</code> operator and multiple assignment you can replace things like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With more descriptive code, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">program_name</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
-</span><span class='line'><span class="n">main</span><span class="p">(</span><span class="n">program_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So if you see hard coded slice indexes in your code, consider whether you could use multiple assignment to clarify what those slices really represent.</p>
-
-<h2>Deep unpacking</h2>
-
-<p>This next feature is something that long-time Python programmers often overlook.
-It doesn&rsquo;t come up quite as often as the other uses for multiple assignment that I&rsquo;ve discussed, but it can be very handy to know about when you do need it.</p>
-
-<p>We&rsquo;ve seen multiple assignment for unpacking tuples and other iterables.
-We haven&rsquo;t yet seen that this is can be done <em>deeply</em>.</p>
-
-<p>I&rsquo;d say that the following multiple assignment is <em>shallow</em> because it unpacks one level deep:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span>
-</span><span class='line'><span class="go">&#39;red&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">point</span>
-</span><span class='line'><span class="go">(1, 2, 3)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And I&rsquo;d say that this multiple assignment is <em>deep</em> because it unpacks the previous <code>point</code> tuple further into <code>x</code>, <code>y</code>, and <code>z</code> variables:</p>
+<p>That <code>joiner</code> variable doesn&rsquo;t have a default value, so it must be specified:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -532,239 +402,247 @@ We haven&rsquo;t yet seen that this is can be done <em>deeply</em>.</p>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span>
-</span><span class='line'><span class="go">&#39;red&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">2</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 2, 3, 0, 4, 5, 0, 6, 7]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">joiner</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 2, 3, &#39;-&#39;, 4, 5, &#39;-&#39;, 6, 7]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">join</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]))</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">join() missing 1 required keyword-only argument: &#39;joiner&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If it seems confusing what&rsquo;s going on above, maybe using parenthesis consistently on both sides of this assignment will help clarify things:</p>
+<p>Note that this syntax of putting arguments after the <code>*</code> only works in Python 3.  There&rsquo;s no syntactic way in Python 2 to require an argument to be named.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
+<h2>Keyword-only arguments without positional arguments</h2>
 
+<p>What if you want to accept keyword-only arguments without also accepting unlimited positional arguments?</p>
 
-<p>We&rsquo;re unpacking one level deep to get two objects, but then we take the second object and unpack it also to get 3 more objects.
-Then we assign our first object and our thrice-unpacked second object to our new variables (<code>color</code>, <code>x</code>, <code>y</code>, and <code>z</code>).</p>
+<p>If you want to accept keyword-only arguments and you&rsquo;re not using a <code>*</code> to accept any number of positional arguments, you can use a <code>*</code> without anything after it.</p>
 
-<p>Take these two lists:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">start_points</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
-</span><span class='line'><span class="n">end_points</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here&rsquo;s an example of code that works with these lists by using shallow unpacking:</p>
+<p>For example here&rsquo;s a modified version of Django&rsquo;s <code>django.shortcuts.render</code> function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start_points</span><span class="p">,</span> <span class="n">end_points</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Point {start[0]},{start[1]} was negated.&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">content</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">render_to_string</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">using</span><span class="o">=</span><span class="n">using</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">content_type</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And here&rsquo;s the same thing with deeper unpacking:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start_points</span><span class="p">,</span> <span class="n">end_points</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">x1</span> <span class="o">==</span> <span class="o">-</span><span class="n">x2</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">==</span> <span class="o">-</span><span class="n">y2</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Point {x1},{y1} was negated.&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that in this second case, it&rsquo;s much more clear what type of objects we&rsquo;re working with.
-The deep unpacking makes it apparent that we&rsquo;re receiving two 2-itemed tuples each time we loop.</p>
-
-<p>Deep unpacking often comes up when nesting looping utilities that each provide multiple items.
-For example, you may see deep multiple assignments when using <code>enumerate</code> and <code>zip</code> together:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">items</span><span class="p">))):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">first</span> <span class="o">!=</span> <span class="n">last</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Item {i} doesn&#39;t match: {first} != {last}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I said before that multiple assignment is strict about the size of our iterables as we unpack them.
-With deep unpacking we can also be <strong>strict about the shape of our iterables</strong>.</p>
-
-<p>This works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this buggy code works too:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whereas this works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">points</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">==</span> <span class="o">-</span><span class="n">x2</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">==</span> <span class="o">-</span><span class="n">y2</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this does not:</p>
+<p>Unlike Django&rsquo;s current implementation of <code>render</code>, this version disallows calling <code>render</code> by specifying every argument positionally.  The <code>content_type</code>, <code>status</code>, and <code>using</code> arguments must be specified by their <code>name</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">points</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;HttpResponse status_code=500, &quot;text/html; charset=utf-8&quot;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;500.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="n">error</span><span class="p">},</span> <span class="mi">500</span><span class="p">)</span>
 </span><span class='line'><span class="gt">Traceback (most recent call last):</span>
 </span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">too many values to unpack (expected 2)</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">render() takes from 2 to 3 positional arguments but 4 were given</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>With multiple assignment we&rsquo;re assigning variables while also making particular assertions about the size and shape of our iterables.
-Multiple assignment will help you clarify your code to both humans (for <strong>better code readability</strong>) and to computers (for <strong>improved code correctness</strong>).</p>
-
-<h2>Using a list-like syntax</h2>
-
-<p>I noted before that multiple assignment uses a tuple-like syntax, but it works on any iterable.
-That tuple-like syntax is the reason it&rsquo;s commonly called &ldquo;tuple unpacking&rdquo; even though it might be more clear to say &ldquo;iterable unpacking&rdquo;.</p>
-
-<p>I didn&rsquo;t mention before that multiple assignment also works with <strong>a list-like syntax</strong>.</p>
-
-<p>Here&rsquo;s a multiple assignment with a list-like syntax:</p>
+<p>Just like with unlimited positional arguments, these keyword arguments can be required.  Here&rsquo;s a function with four required keyword-only arguments:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">1</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">choice</span><span class="p">,</span> <span class="n">shuffle</span>
+</span><span class='line'><span class="n">UPPERCASE</span> <span class="o">=</span> <span class="s">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+</span><span class='line'><span class="n">LOWERCASE</span> <span class="o">=</span> <span class="n">UPPERCASE</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</span><span class='line'><span class="n">DIGITS</span> <span class="o">=</span> <span class="s">&quot;0123456789&quot;</span>
+</span><span class='line'><span class="n">ALL</span> <span class="o">=</span> <span class="n">UPPERCASE</span> <span class="o">+</span> <span class="n">LOWERCASE</span> <span class="o">+</span> <span class="n">DIGITS</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">random_password</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">digits</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">UPPERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">upper</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">LOWERCASE</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lower</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">DIGITS</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">digits</span><span class="p">)),</span>
+</span><span class='line'>        <span class="o">*</span><span class="p">(</span><span class="n">choice</span><span class="p">(</span><span class="n">ALL</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="o">-</span><span class="n">upper</span><span class="o">-</span><span class="n">lower</span><span class="o">-</span><span class="n">digits</span><span class="p">)),</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'>    <span class="n">shuffle</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This might seem really strange. What&rsquo;s the point of allowing both list-like and tuple-like syntaxes?</p>
-
-<p>I use this feature rarely, but I find it helpful for <strong>code clarity</strong> in specific circumstances.</p>
-
-<p>Let&rsquo;s say I have code that used to look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And our well-intentioned coworker has decided to use deep multiple assignment to refactor our code to this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">),</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>See that trailing comma on the left-hand side of the assignment?
-It&rsquo;s easy to miss and it makes this code look sort of weird.
-What is that comma even doing in this code?</p>
-
-<p>That trailing comma is there to make a single item tuple.
-We&rsquo;re doing deep unpacking here.</p>
-
-<p>Here&rsquo;s another way we could write the same code:</p>
+<p>This function requires all of its arguments to be specified using their name:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">((</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">),)</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;oNA7rYWI&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;bjonpuM6&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">TypeError</span>: <span class="n">random_password() takes 0 positional arguments but 4 were given</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This might make that deep unpacking a little more obvious but I&rsquo;d prefer to see this instead:</p>
+<p>Requiring arguments to be named can make calls to our function much clearer.</p>
+
+<p>The purpose of this function call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">digits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Is much more obvious than this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">password</span> <span class="o">=</span> <span class="n">random_password</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again note that this syntax also only works in Python 3.</p>
+
+<h2>Capturing arbitrary keyword arguments</h2>
+
+<p>What if you want to write a function that captures an arbitrary number of keyword arguments?</p>
+
+<p>For example the string format method accepts any keyword argument you give it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;My name is {name} and I like {color}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;My name is Trey and I like purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>How can you write such a function?</p>
+
+<p>Python allows functions to capture any keyword arguments provided to them using the <code>**</code> operator when defining the function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">[(</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return a string of comma-separated key-value pairs.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span><span class='line'>        <span class="n">f</span><span class="s">&quot;{param}: {value}&quot;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The list-syntax in our assignment makes it more clear that we&rsquo;re unpacking a one-item iterable and then unpacking that single item into <code>value</code> and <code>times_seen</code> variables.</p>
+<p>That <code>**</code> operator will allow our <code>format_attributes</code> function to accept any number of keyword arguments.  The given arguments will be stored in a dictionary called <code>attributes</code>.</p>
 
-<p>When I see this, I also think <em>I bet we&rsquo;re unpacking a single-item list</em>.
-And that is in fact what we&rsquo;re doing.
-We&rsquo;re using a <a href="https://docs.python.org/3/library/collections.html#collections.Counter">Counter</a> object from the collections module here.
-The <code>most_common</code> method on <code>Counter</code> objects allows us to limit the length of the list returned to us.
-We&rsquo;re limiting the list we&rsquo;re getting back to just a single item.</p>
-
-<p>When you&rsquo;re unpacking structures that often hold lots of values (like lists) and structures that often hold a very specific number of values (like tuples) you may decide that your code appears more <em>semantically accurate</em> if you use a list-like syntax when unpacking those list-like structures.</p>
-
-<p>If you&rsquo;d like you might even decide to adopt a convention of always using a list-like syntax when unpacking list-like structures (frequently the case when using <code>*</code> in multiple assignment):</p>
+<p>Here&rsquo;s an example use of our function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I don&rsquo;t usually use this convention myself, mostly because I&rsquo;m just not in the habit of using it.
-But if you find it helpful, you might consider using this convention in your own code.</p>
+<h2>Calling functions with arbitrary arguments</h2>
 
-<p>When using multiple assignment in your code, consider when and where a list-like syntax might make your code more descriptive and more clear.
-This can sometimes improve readability.</p>
+<p>Just as you can define functions that take arbitrary keyword arguments, you can also call functions with arbitrary keyword arguments.</p>
 
-<h2>Don&rsquo;t forget about multiple assignment</h2>
+<p>By this I mean that you can pass keyword arguments into a function based on items in a dictionary.</p>
 
-<p>Multiple assignment can improve both the readability of your code and the correctness of your code.
-It can make your code <strong>more descriptive</strong> while also making implicit assertions about the <strong>size and shape</strong> of the iterables you&rsquo;re unpacking.</p>
+<p>Here we&rsquo;re manually taking every key/value pair from a dictionary and passing them in as keyword arguments:</p>
 
-<p>The use for multiple assignment that I often see forgotten is its ability to <strong>replace hard coded indexes</strong>, including <strong>replacing hard coded slices</strong> (using the <code>*</code> syntax).
-It&rsquo;s also common to overlook the fact that multiple assignment works <em>deeply</em> and can be used with both a <em>tuple-like</em> syntax and a <em>list-like</em> syntax.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">website</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;website&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="s">&#39;color&#39;</span><span class="p">])</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
-Please feel free to use this article as your personal reference guide to multiple assignment.</p>
 
-<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.
-To get practice writing some readable code using tuple unpacking, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.
-The first exercise I&rsquo;ll send you next Monday will benefit from using tuple unpacking.
-Sign up now to <a href="https://www.pythonmorsels.com/">level up your Python skills each week</a>.</p>
+<p>This approach of hard-coding the keyword arguments in our function call requires that we know every key in the dictionary we&rsquo;re using at the time our code is written.  This won&rsquo;t work if we have a dictionary with unknown keys.</p>
+
+<p>We can pass arbitrary keyword arguments to our function using the <code>**</code> operator to unpack our dictionary items into keyword arguments in our function call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="o">**</span><span class="n">items</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This ability to pass arbitrary keyword arguments into functions and to accept arbitrary keyword arguments inside functions (as we did before) is seen frequently when using inheritance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">my_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Do something interesting here&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">my_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c"># Call parent method with all given arguments</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: We&rsquo;re also using the <code>*</code> operator here for the same kind of capturing and unpacking of positional arguments.</p>
+
+<h2>Order matters</h2>
+
+<p>Since Python 3.6, functions always preserve the order of the keyword arguments passed to them (see <a href="https://www.python.org/dev/peps/pep-0468/">PEP 468</a>).  This means that when <code>**</code> is used to capture keyword arguments, the resulting dictionary will have keys in the same order the arguments were passed.</p>
+
+<p>So since Python 3.6, you&rsquo;ll <em>never</em> see something like this happen:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;website: http://treyhunner.com, color: purple, name: Trey&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, with Python 3.6+, arguments will always maintain the order they were passed in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">format_attributes</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="n">website</span><span class="o">=</span><span class="s">&quot;http://treyhunner.com&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;name: Trey, website: http://treyhunner.com, color: purple&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Embrace keyword arguments in Python</h2>
+
+<p>An arguments <em>position</em> often doesn&rsquo;t convey as much meaning as its <em>name</em>.  So when calling functions, consider naming arguments that you pass in if it might make their meaning clearer.</p>
+
+<p>When defining a new function, stop to think about which arguments should always be specified as keyword arguments when calling your function.  Consider using the <code>*</code> operator to require those arguments be specified as keyword arguments.</p>
+
+<p>And remember that you can accept arbitrary keyword arguments to the functions you define and pass arbitrary keyword arguments to the functions you call by using the <code>**</code> operator.</p>
+
+<p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
+
+<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.</p>
 </div>
   
   <footer>

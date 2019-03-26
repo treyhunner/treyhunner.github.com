@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-21T13:00:09-07:00</updated>
+  <updated>2019-03-26T12:57:57-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,428 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Overusing list comprehensions and generator expressions in Python]]></title>
+    <link href="http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
+    <updated>2019-03-26T13:30:00-07:00</updated>
+    <id>http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
+    <content type="html"><![CDATA[<p>List comprehensions are one of my favorite features in Python.
+I love list comprehensions so much that I&rsquo;ve written an <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">article</a> about them, done <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">a talk</a> about them, and held a <a href="https://youtu.be/_6U1XoxyyBY" title="Using List Comprehensions and Generator Expressions For Data Processing">3 hour comprehensions tutorial</a> at PyCon 2018.</p>
+
+<p>While I love list comprehensions, I&rsquo;ve found that once new Pythonistas start to really appreciate comprehensions they tend to use them everywhere.
+<strong>Comprehensions are lovely, but they can easily be overused</strong>!</p>
+
+<p>This article is all about cases when comprehensions aren&rsquo;t the best tool for the job, at least in terms of readability.
+We&rsquo;re going to walk through a number of cases where there&rsquo;s a more readable alternative to comprehensions and we&rsquo;ll also see some not-so-obvious cases where comprehensions aren&rsquo;t needed at all.</p>
+
+<p>This article isn&rsquo;t meant to scare you off from comprehensions if you&rsquo;re not already a fan; it&rsquo;s meant to encourage moderation for those of us (myself included) who need it.</p>
+
+<p><strong>Note</strong>: In this article I&rsquo;ll be using the term &ldquo;comprehension&rdquo; to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
+If you&rsquo;re unfamiliar with comprehensions, I recommend reading <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">this article</a> or watching <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">this talk</a> (the talk dives into generator expressions a bit more deeply).</p>
+
+<h2>Writing comprehensions with poor spacing</h2>
+
+<p>Critics of list comprehensions often say they&rsquo;re hard to read.
+And they&rsquo;re right, many comprehensions <em>are</em> hard to read.
+<strong>Sometimes all a comprehension needs to be more readable is better spacing</strong>.</p>
+
+<p>Take the comprehension in this function:</p>
+
+<pre><code class="python">def get_factors(dividend):
+    """Return a list of all factors of the given number."""
+    return [n for n in range(1, dividend+1) if dividend % n == 0]
+</code></pre>
+
+<p>We could make that comprehension more readable by adding some well-placed line breaks:</p>
+
+<pre><code class="python">def get_factors(dividend):
+    """Return a list of all factors of the given number."""
+    return [
+        n
+        for n in range(1, dividend+1)
+        if dividend % n == 0
+    ]
+</code></pre>
+
+<p>Less code can mean more readable code, but not always.
+<strong>Whitespace is your friend, especially when you&rsquo;re writing comprehensions</strong>.</p>
+
+<p>In general I prefer to write most of my comprehensions <strong>spaced out over multiple lines of code</strong> using the indentation style above.
+I do write one-line comprehensions sometimes, but I don&rsquo;t default to them.</p>
+
+<h2>Writing ugly comprehensions</h2>
+
+<p>Some loops technically <em>can</em> be written as comprehensions but they have so much logic in them they probably <em>shouldn&rsquo;t</em> be.</p>
+
+<p>Take this comprehension:</p>
+
+<pre><code class="python">fizzbuzz = [
+    f'fizzbuzz {n}' if n % 3 == 0 and n % 5 == 0
+    else f'fizz {n}' if n % 3 == 0
+    else f'buzz {n}' if n % 5 == 0
+    else n
+    for n in range(100)
+]
+</code></pre>
+
+<p>This comprehension is equivalent to this <code>for</code> loop:</p>
+
+<pre><code class="python">fizzbuzz = []
+for n in range(100):
+    fizzbuzz.append(
+        f'fizzbuzz {n}' if n % 3 == 0 and n % 5 == 0
+        else f'fizz {n}' if n % 3 == 0
+        else f'buzz {n}' if n % 5 == 0
+        else n
+    )
+</code></pre>
+
+<p>Both the comprehension and the <code>for</code> loop use three nested <a href="https://docs.python.org/3/faq/programming.html#is-there-an-equivalent-of-c-s-ternary-operator">inline if statements</a> (Python&rsquo;s <a href="https://en.wikipedia.org/wiki/%3F:">ternary operator</a>).</p>
+
+<p>Here&rsquo;s a more readable way to write this code, using an <code>if-elif-else</code> construct:</p>
+
+<pre><code class="python">fizzbuzz = []
+for n in range(100):
+    if n % 3 == 0 and n % 5 == 0:
+        fizzbuzz.append(f'fizzbuzz {n}')
+    elif n % 3 == 0:
+        fizzbuzz.append(f'fizz {n}')
+    elif n % 5 == 0:
+        fizzbuzz.append(f'buzz {n}')
+    else:
+        fizzbuzz.append(n)
+</code></pre>
+
+<p>Just because there <em>is</em> a way to write your code as a comprehension, <strong>that doesn&rsquo;t mean that you <em>should</em> write your code as a comprehension</strong>.</p>
+
+<p>Be careful using any amount of complex logic in comprehensions, even a single <a href="https://docs.python.org/3/faq/programming.html#is-there-an-equivalent-of-c-s-ternary-operator">inline if</a>:</p>
+
+<pre><code class="python">number_things = [
+    n // 2 if n % 2 == 0 else n * 3
+    for n in numbers
+]
+</code></pre>
+
+<p>If you really prefer to use a comprehension in case like this, at least give some thought to <strong>whether whitespace or parenthesis could make things more readable</strong>:</p>
+
+<pre><code class="python">number_things = [
+    (n // 2 if n % 2 == 0 else n * 3)
+    for n in numbers
+]
+</code></pre>
+
+<p>And consider whether breaking some of your logic out into a separate function might improve readability as well (it may not in this somewhat silly example).</p>
+
+<pre><code class="python">number_things = [
+    even_odd_number_switch(n)
+    for n in numbers
+]
+</code></pre>
+
+<p>Whether a separate function makes things more readable will depend on how important that operation is, how large it is, and how well the function name conveys the operation.</p>
+
+<h2>Loops disguised as comprehensions</h2>
+
+<p>Sometimes you&rsquo;ll encounter code that uses a comprehension syntax but breaks the spirit of what comprehensions are used for.</p>
+
+<p>For example, this code looks like a comprehension:</p>
+
+<pre><code class="python">[print(n) for n in range(1, 11)]
+</code></pre>
+
+<p>But it doesn&rsquo;t <em>act</em> like a comprehension.
+We&rsquo;re using a comprehension for a purpose it wasn&rsquo;t intended for.</p>
+
+<p>If we execute this comprehension in the Python shell you&rsquo;ll see what I mean:</p>
+
+<pre><code class="python">&gt;&gt;&gt; [print(n) for n in range(1, 11)]
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+[None, None, None, None, None, None, None, None, None, None]
+</code></pre>
+
+<p>We wanted to print out all the numbers from 1 to 10 and that&rsquo;s what we did.
+But this comprehension statement also returned a list of <code>None</code> values to us, which we promptly discarded.</p>
+
+<p><strong>Comprehensions build up lists: that&rsquo;s what they&rsquo;re for</strong>.
+We built up a list of the return values from the <code>print</code> function and the <code>print</code> function returns <code>None</code>.</p>
+
+<p>But we didn&rsquo;t care about the list our comprehension built up: we only cared about its side effect.</p>
+
+<p>We could have instead written that code like this:</p>
+
+<pre><code class="python">for n in range(1, 11):
+    print(n)
+</code></pre>
+
+<p>List comprehensions are for <strong>looping over an iterable and building up new lists</strong>, while <code>for</code> loops are for <strong>looping over an iterable to do pretty much any operation you&rsquo;d like</strong>.</p>
+
+<p>When I see a list comprehension in code <strong>I immediately assume that we&rsquo;re building up a new list</strong> (because that&rsquo;s what they&rsquo;re for).
+If you use a comprehension for <strong>a purpose outside of building up a new list</strong>, it&rsquo;ll confuse others who read your code.</p>
+
+<p>If you don&rsquo;t care about building up a new list, don&rsquo;t use a comprehension.</p>
+
+<h2>Using comprehensions when a more specific tool exists</h2>
+
+<p>For many problems, a more specific tool makes more sense than a general purpose <code>for</code> loop.
+<strong>But comprehensions aren&rsquo;t always the best special-purpose tool for the job at hand.</strong></p>
+
+<p>I have both seen and written quite a bit of code that looks like this:</p>
+
+<pre><code class="python">import csv
+
+with open('populations.csv') as csv_file:
+    lines = [
+        row
+        for row in csv.reader(csv_file)
+    ]
+</code></pre>
+
+<p>That comprehension is sort of an <em>identity</em> comprehension.
+Its only purpose is to loop over the given iterable (<code>csv.reader(csv_file)</code>) and create a list out of it.</p>
+
+<p>But in Python, we have an more specialized tool for this task: the <code>list</code> constructor.
+Python&rsquo;s <code>list</code> constructor can do all the looping and list creation work for us:</p>
+
+<pre><code class="python">import csv
+
+with open('populations.csv') as csv_file:
+    lines = list(csv.reader(csv_file))
+</code></pre>
+
+<p>Comprehensions are a special-purpose tool for looping over an iterable to build up a new list while modifying each element along the way and/or filtering elements down.
+The <code>list</code> constructor is a special-purpose tool for looping over an iterable to build up a new list, without changing anything at all.</p>
+
+<p>If you don&rsquo;t need to filter your elements down or map them into new elements while building up your new list, <strong>you don&rsquo;t need a comprehension: you need the <code>list</code> constructor</strong>.</p>
+
+<p>This comprehension converts each of the <code>row</code> tuples we get from looping over <code>zip</code> into lists:</p>
+
+<pre><code class="python">def transpose(matrix):
+    """Return a transposed version of given list of lists."""
+    return [
+        [n for n in row]
+        for row in zip(*matrix)
+    ]
+</code></pre>
+
+<p>We could use the <code>list</code> constructor for that too:</p>
+
+<pre><code class="python">def transpose(matrix):
+    """Return a transposed version of given list of lists."""
+    return [
+        list(row)
+        for row in zip(*matrix)
+    ]
+</code></pre>
+
+<p>Whenever you see a comprehension like this:</p>
+
+<pre><code class="python">my_list = [x for x in some_iterable]
+</code></pre>
+
+<p>You could write this instead:</p>
+
+<pre><code class="python">my_list = list(some_iterable)
+</code></pre>
+
+<p>The same applies for <code>dict</code> and <code>set</code> comprehensions.</p>
+
+<p>This is also something I&rsquo;ve written quite a bit in the past:</p>
+
+<pre><code class="python">states = [
+    ('AL', 'Alabama'),
+    ('AK', 'Alaska'),
+    ('AZ', 'Arizona'),
+    ('AR', 'Arkansas'),
+    ('CA', 'California'),
+    # ...
+]
+
+abbreviations_to_names = {
+    abbreviation: name
+    for abbreviation, name in states
+}
+</code></pre>
+
+<p>Here we&rsquo;re looping over a list of two-item tuples and making a dictionary out of them.</p>
+
+<p>This task is exactly what the <code>dict</code> constructor was made for:</p>
+
+<pre><code class="python">abbreviations_to_names = dict(states)
+</code></pre>
+
+<p>The built-in <code>list</code> and <code>dict</code> constructors aren&rsquo;t the only comprehension-replacing tools.
+The standard library and third-party libraries also include tools that are sometimes better suited for your looping needs than a comprehension.</p>
+
+<p>Here&rsquo;s a generator expression that sums up an iterable-of-iterables-of-numbers:</p>
+
+<pre><code class="python">def sum_all(number_lists):
+    """Return the sum of all numbers in the given list-of-lists."""
+    return sum(
+        n
+        for numbers in number_lists
+        for n in numbers
+    )
+</code></pre>
+
+<p>And here&rsquo;s the same thing using <code>itertools.chain</code>:</p>
+
+<pre><code class="python">from itertools import chain
+
+def sum_all(number_lists):
+    """Return the sum of all numbers in the given list-of-lists."""
+    return sum(chain.from_iterable(number_lists))
+</code></pre>
+
+<p>When you should use a comprehension and when you should use the alternative isn&rsquo;t always straightforward.</p>
+
+<p>I&rsquo;m often torn on whether to use <code>itertools.chain</code> or a comprehension.
+I usually write my code both ways and then go with the one that seems clearer.</p>
+
+<p>Readability is fairly problem-specific with many programming constructs, comprehensions included.</p>
+
+<h2>Needless work</h2>
+
+<p>Sometimes you&rsquo;ll see comprehensions that shouldn&rsquo;t be replaced by another construct but should instead be <strong>removed entirely</strong>, leaving only the iterable they loop over.</p>
+
+<p>Here we&rsquo;re opening up a file of words and counting the number of times each occurs:</p>
+
+<pre><code class="python">from collections import Counter
+
+word_counts = Counter(
+    word
+    for word in open('word_list.txt').read().splitlines()
+)
+</code></pre>
+
+<p>We&rsquo;re using a generator expression here, but we don&rsquo;t need to be.
+This works just as well:</p>
+
+<pre><code class="python">from collections import Counter
+
+word_counts = Counter(open('word_list.txt').read().splitlines())
+</code></pre>
+
+<p>We were looping over a list to convert it to a generator before passing it to the <code>Counter</code> class.
+That was needless work!
+The <code>Counter</code> class accepts <strong>any iterable: it doesn&rsquo;t care whether they&rsquo;re lists, generators, tuples, or something else</strong>.</p>
+
+<p>Here&rsquo;s another needless comprehension:</p>
+
+<pre><code class="python">with open('word_list.txt') as words_file:
+    lines = [line for line in words_file]
+    for line in lines:
+        if 'z' in line:
+            print('z word', line, end='')
+</code></pre>
+
+<p>We&rsquo;re looping over <code>words_file</code>, converting it to a list of <code>lines</code>, and then looping over <code>lines</code> just once.
+That conversion to a list was unnecessary.</p>
+
+<p>We could just loop over <code>words_file</code> directly instead:</p>
+
+<pre><code class="python">with open('word_list.txt') as words_file:
+    for line in words_file:
+        if 'z' in line:
+            print('z word', line, end='')
+</code></pre>
+
+<p>There&rsquo;s no reason to convert an iterable to a list if all we&rsquo;re going to do is loop over it once.</p>
+
+<p>In Python we often care less about <strong>whether something is a list</strong> and more about <strong>whether it&rsquo;s an iterable</strong>.</p>
+
+<p>Be careful not to create new iterables when you don&rsquo;t need to: <strong>if you&rsquo;re only going to loop over an iterable once, just use the iterable you already have</strong>.</p>
+
+<h2>When would I use a comprehensions?</h2>
+
+<p>So when would you actually use a comprehension?</p>
+
+<p>The simple but imprecise answer is whenever you can write your code in the below <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">comprehension copy-pasteable format</a> and there isn&rsquo;t another tool you&rsquo;d rather use for shortening your code, you should consider using a list comprehension.</p>
+
+<pre><code class="python">new_things = []
+for ITEM in old_things:
+    if condition_based_on(ITEM):
+        new_things.append(some_operation_on(ITEM))
+</code></pre>
+
+<p>That loop can be rewritten as this comprehension:</p>
+
+<pre><code class="python">new_things = [
+    some_operation_on(ITEM)
+    for ITEM in old_things
+    if condition_based_on(ITEM)
+]
+</code></pre>
+
+<p>The complex answer is whenever comprehensions make sense, you should consider them.
+That&rsquo;s not really an answer, but there is no one answer to the question &ldquo;when should I use a comprehension&rdquo;?</p>
+
+<p>For example here&rsquo;s a <code>for</code> loop which doesn&rsquo;t really look like it could be rewritten using a comprehension:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    for n in range(2, candidate):
+        if candidate % n == 0:
+            return False
+    return True
+</code></pre>
+
+<p>But there is in fact another way to write this loop using a generator expression, if we know how to use the built-in <code>all</code> function:</p>
+
+<pre><code class="python">def is_prime(candidate):
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
+    )
+</code></pre>
+
+<p>I wrote <a href="http://localhost:9000/2016/11/check-whether-all-items-match-a-condition-in-python/">a whole article on the <code>any</code> and <code>all</code> functions</a> and how they pair so nicely with generator expressions.
+But <code>any</code> and <code>all</code> aren&rsquo;t alone in their affinity for generator expressions.</p>
+
+<p>We have a similar situation with this code:</p>
+
+<pre><code class="python">def sum_of_squares(numbers):
+    total = 0
+    for n in numbers:
+        total += n**2
+    return total
+</code></pre>
+
+<p>There&rsquo;s no <code>append</code> there and no new iterable being built up.
+But if we create a generator of squares, we could pass them to the built-in <code>sum</code> function to get the same result:</p>
+
+<pre><code class="python">def sum_of_squares(numbers):
+    return sum(n**2 for n in numbers)
+</code></pre>
+
+<p>So in addition to the &ldquo;can I copy-paste my way from a loop to a comprehension&rdquo; check, there&rsquo;s another, fuzzier, check to consider: could your code be enhanced by a generator expression combined with an iterable-accepting function or class?</p>
+
+<p>Any function or class that <strong>accepts an iterable as an argument</strong> <em>might</em> be a good candidate for <strong>combining with a generator expression</strong>.</p>
+
+<h2>Use list comprehensions thoughtfully</h2>
+
+<p>List comprehensions can make your code more readable (if you don&rsquo;t believe me, see the examples in my <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">Comprehensible Comprehensions</a> talk), but they can definitely be abused.</p>
+
+<p>List comprehensions are a special-purpose tool for solving a specific problem.
+The <code>list</code> and <code>dict</code> constructors are <strong>even more special-purpose tools</strong> for solving even more specific problems.</p>
+
+<p>Loops are <strong>a more general purpose tool</strong> for times when you have a problem that doesn&rsquo;t fit within the realm of comprehensions or another special-purpose looping tool.</p>
+
+<p>Functions like <code>any</code>, <code>all</code>, and <code>sum</code>, and classes like <code>Counter</code> and <code>chain</code> are iterable-accepting tools that <strong>pair very nicely with comprehensions</strong> and sometimes <strong>replace the need for comprehensions entirely</strong>.</p>
+
+<p>Remember that comprehensions are for a single purpose: <strong>creating a new iterable from an old iterable</strong>, while tweaking values slightly along the way and/or for filtering out values that don&rsquo;t match a certain condition.
+Comprehensions are a lovely tool, but <strong>they&rsquo;re not your only tool</strong>.
+Don&rsquo;t forget the <code>list</code> and <code>dict</code> constructors and always consider <code>for</code> loops when your comprehensions get out of hand.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Unique sentinel values, identity checks, and when to use object() instead of None]]></title>
@@ -1758,64 +2180,6 @@ Most of my code that works with files now defaults to using <code>pathlib</code>
 <strong>If you can use <code>pathlib</code>, you should</strong>.</p>
 
 <p>If you&rsquo;d like to continue reading about pathlib, check out my follow-up article called <a href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/">No really, pathlib is great</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Cyber Monday Sales]]></title>
-    <link href="http://treyhunner.com/2018/11/python-cyber-monday-sales/"/>
-    <updated>2018-11-26T07:45:00-08:00</updated>
-    <id>http://treyhunner.com/2018/11/python-cyber-monday-sales</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels weekly skill-building</h3>
-
-<p>This is my weekly Python skill-building service.</p>
-
-<p>I&rsquo;m offering 52 weeks of <a href="https://www.pythonmorsels.com/">Python Morsels</a> for 50% off.</p>
-
-<p>You can find <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">more details on this sale here</a>.</p>
-
-<h3>Talk Python Course Bundle</h3>
-
-<p>Michael Kennedy of <a href="https://training.talkpython.fm/courses/bundle/black-friday-2018">Talk Python</a> is offering a 4 course bundle for a number of Python courses.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses</h3>
-
-<p>Reuven Lerner is also offering a <a href="http://blog.lerner.co.il/last-chance-to-save-40-on-python-and-git-courses/">40% off sale on his courses</a>.
-Reuven has courses on Python, Git, and regular expressions.</p>
-
-<h3>PyBites Code Challenges</h3>
-
-<p>Bob and Julian of PyBites are offering a 50% off sale on their <a href="https://gumroad.com/l/ZFrD/black-friday">Code Challenges</a>.
-These are a different variety of code challenges than Python Morsels.
-You could sign up for both and <a href="https://www.pythonmorsels.com/">Python Morsels</a> if you wanted extra learning every week.</p>
-
-<h3>Hello Web Books</h3>
-
-<p>Tracy Osborn is running a 50% off sale on her <a href="https://hellowebbooks.com/order/">Hello Web Books</a>, which include books on Python and Django for beginners to web programming and books on design for beginners to web design.
-You&rsquo;ll need to enter coupon code BLACKFRIDAY2018 to get these deals.</p>
-
-<h3>The pytest book</h3>
-
-<p>Brian Okken&rsquo;s <a href="https://pragprog.com/book/bopytest/python-testing-with-pytest">Python Testing with pytest</a> is on sale today (along with other Pragmatic Bookshelf books) for 40% off with coupon code turkeysale2018.</p>
-
-<h3>More Python Books</h3>
-
-<p>A number of Python book publishers, such as <a href="https://nostarch.com/catalog/python">No Starch</a>, are running big sales on their books.
-I took a look at their sale, but haven&rsquo;t gone searching for more of them.</p>
-
-<h3>Other Cyber Monday deals?</h3>
-
-<p>If you have questions about the <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">Python Morsels sale</a>, <a href="mailto:tr%65y%40&amp;#116;%72%75&amp;#116;%68%66u&amp;#108;&amp;#46;&amp;#116;&amp;#101;c%68&amp;#110;%6flo%67%79">email me</a>.</p>
-
-<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
-
-<p>So go check them out!</p>
-
-<p>Did I miss a deal that you know about?
-Link to it in the comments!</p>
 ]]></content>
   </entry>
   
