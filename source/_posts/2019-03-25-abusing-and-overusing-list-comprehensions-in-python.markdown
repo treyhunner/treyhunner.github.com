@@ -178,7 +178,7 @@ for n in range(1, 11):
     print(n)
 ```
 
-List comprehensions are for **loop over an iterable and building up new lists**, while `for` loops **loop over an iterable to do pretty much any operation you'd like**.
+List comprehensions are for **looping over an iterable and building up new lists**, while `for` loops are for **looping over an iterable to do pretty much any operation you'd like**.
 
 When I see a list comprehension in code **I immediately assume that we're building up a new list** (because that's what they're for).
 If you use a comprehension for **a purpose outside of building up a new list**, it'll confuse others who read your code.
