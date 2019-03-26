@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Overusing list comprehensions and generator expressions in Python"
-date: 2019-03-26 13:00:00 -0700
+date: 2019-03-26 13:30:00 -0700
 comments: true
 categories: python readability
 ---
