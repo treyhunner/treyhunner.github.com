@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Overusing list comprehensions and generator expressions in Python"
-date: 2019-03-26 12:00:00 -0700
+date: 2019-03-26 13:00:00 -0700
 comments: true
-categories: python
+categories: python readability
 ---
 
 List comprehensions are one of my favorite features in Python.
@@ -12,7 +12,7 @@ I love list comprehensions so much that I've written an [article][] about them, 
 While I love list comprehensions, I've found that once new Pythonistas start to really appreciate comprehensions they tend to use them everywhere.
 **Comprehensions are lovely, but they can easily be overused**!
 
-This article is all about cases when comprehensions aren't the best tool for the job, in readability terms at least.
+This article is all about cases when comprehensions aren't the best tool for the job, at least in terms of readability.
 We're going to walk through a number of cases where there's a more readable alternative to comprehensions and we'll also see some not-so-obvious cases where comprehensions aren't needed at all.
 
 This article isn't meant to scare you off from comprehensions if you're not already a fan; it's meant to encourage moderation for those of us (myself included) who need it.
@@ -458,7 +458,7 @@ Loops are **a more general purpose tool** for times when you have a problem that
 Functions like `any`, `all`, and `sum`, and classes like `Counter` and `chain` are iterable-accepting tools that **pair very nicely with comprehensions** and sometimes **replace the need for comprehensions entirely**.
 
 Remember that comprehensions are for a single purpose: **creating a new iterable from an old iterable**, while tweaking values slightly along the way and/or for filtering out values that don't match a certain condition.
-Comprehensions are a lovely tool, but **they're not you're only tool**.
+Comprehensions are a lovely tool, but **they're not your only tool**.
 Don't forget the `list` and `dict` constructors and always consider `for` loops when your comprehensions get out of hand.
 
 
