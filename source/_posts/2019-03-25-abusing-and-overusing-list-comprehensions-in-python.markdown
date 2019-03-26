@@ -1,36 +1,32 @@
 ---
 layout: post
-title: "Abusing and overusing list comprehensions in Python"
+title: "Overusing list comprehensions and generator expressions in Python"
 date: 2019-03-26 12:00:00 -0700
 comments: true
 categories: python
 ---
 
 List comprehensions are one of my favorite features in Python.
-I love list comprehensions so much that I've written an [article][] about them, done [a talk][talk] about them, and did a [3 hour tutorial on comprehensions][tutorial] at PyCon 2018.
+I love list comprehensions so much that I've written an [article][] about them, done [a talk][talk] about them, and held a [3 hour comprehensions tutorial][tutorial] at PyCon 2018.
 
 While I love list comprehensions, I've found that once new Pythonistas start to really appreciate comprehensions they tend to use them everywhere.
+**Comprehensions are lovely, but they can easily be overused**!
 
-Comprehensions are lovely, but they can easily be overused.
+This article is all about cases when comprehensions aren't the best tool for the job, in readability terms at least.
+We're going to walk through a number of cases where there's a more readable alternative to comprehensions and we'll also see some not-so-obvious cases where comprehensions aren't needed at all.
 
-In this article I'll be using the term "comprehension" to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
+This article isn't meant to scare you off from comprehensions if you're not already a fan; it's meant to encourage moderation for those of us (myself included) who need it.
+
+**Note**: In this article I'll be using the term "comprehension" to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you're unfamiliar with comprehensions, I recommend reading [this article][article] or watching [this talk][talk] (the talk dives into generator expressions a bit more deeply).
 
-Sometimes there's an alternative to a comprehension that's much more readable.
-I'd like to discuss a few cases where comprehensions *aren't* the best tool for the job, in readability terms.
-
-I'll also show a couple cases where comprehensions simply aren't needed at all.
-
-If you're not already a fan of comprehensions, [please read up on them first][article].
-This article isn't meant to scare you off, it's meant to encourage moderation for those of us (myself included) who needed.
 
 
 ## Writing comprehensions with poor spacing
 
 Critics of list comprehensions often say they're hard to read.
 And they're right, many comprehensions *are* hard to read.
-
-Sometimes all a comprehension needs to be more readable is better spacing.
+**Sometimes all a comprehension needs to be more readable is better spacing**.
 
 Take the comprehension in this function:
 
@@ -40,7 +36,7 @@ def get_factors(dividend):
     return [n for n in range(1, dividend+1) if dividend % n == 0]
 ```
 
-We could make that comprehension quite a bit more readable by adding some well-placed line breaks:
+We could make that comprehension more readable by adding some well-placed line breaks:
 
 ```python
 def get_factors(dividend):
@@ -52,10 +48,10 @@ def get_factors(dividend):
     ]
 ```
 
-Less code sometimes means more readable code, but not always.
-Whitespace is your friend, especially when you're writing comprehensions.
+Less code can mean more readable code, but not always.
+**Whitespace is your friend, especially when you're writing comprehensions**.
 
-In general I prefer to write most of my comprehensions and generator expressions over multiple lines of code using the indentation style above.
+In general I prefer to write most of my comprehensions **spaced out over multiple lines of code** using the indentation style above.
 I do write one-line comprehensions sometimes, but I don't default to them.
 
 
@@ -88,8 +84,9 @@ for n in range(100):
     )
 ```
 
-Both the comprehension and the `for` loop using three nested [inline if statements][inline if] (Python's equivalent of a [ternary operator][]).
-A more readable way to write this code would be to use an `if-elif-else` construct:
+Both the comprehension and the `for` loop use three nested [inline if statements][inline if] (Python's [ternary operator][]).
+
+Here's a more readable way to write this code, using an `if-elif-else` construct:
 
 ```python
 fizzbuzz = []
@@ -104,9 +101,9 @@ for n in range(100):
         fizzbuzz.append(n)
 ```
 
-Just because there *is* a way to write your code as a comprehension, **that doesn't mean that you should write your code as a comprehension**.
+Just because there *is* a way to write your code as a comprehension, **that doesn't mean that you *should* write your code as a comprehension**.
 
-I would argue that you should be careful using any amount of complex logic in comprehensions, even a single small "inline if" statement:
+Be careful using any amount of complex logic in comprehensions, even a single [inline if][]:
 
 ```python
 number_things = [
@@ -115,7 +112,7 @@ number_things = [
 ]
 ```
 
-If you really prefer to use a comprehension in this case, at least give some thought to whether whitespace or parenthesis could make things more readable:
+If you really prefer to use a comprehension in case like this, at least give some thought to **whether whitespace or parenthesis could make things more readable**:
 
 ```python
 number_things = [
@@ -124,7 +121,7 @@ number_things = [
 ]
 ```
 
-And consider whether breaking some of your logic out into a separate function might improve readability as well.
+And consider whether breaking some of your logic out into a separate function might improve readability as well (it may not in this somewhat silly example).
 
 ```python
 number_things = [
@@ -138,7 +135,9 @@ Whether a separate function makes things more readable will depend on how import
 
 ## Loops disguised as comprehensions
 
-This code looks like a comprehension:
+Sometimes you'll encounter code that uses a comprehension syntax but breaks the spirit of what comprehensions are used for.
+
+For example, this code looks like a comprehension:
 
 ```python
 [print(n) for n in range(1, 11)]
@@ -167,10 +166,10 @@ If we execute this comprehension in the Python shell you'll see what I mean:
 We wanted to print out all the numbers from 1 to 10 and that's what we did.
 But this comprehension statement also returned a list of `None` values to us, which we promptly discarded.
 
-We got a list of `None` values because comprehensions build up lists.
+**Comprehensions build up lists: that's what they're for**.
 We built up a list of the return values from the `print` function and the `print` function returns `None`.
 
-We don't care about the list this comprehension built up: we care about its side effect.
+But we didn't care about the list our comprehension built up: we only cared about its side effect.
 
 We could have instead written that code like this:
 
@@ -179,30 +178,18 @@ for n in range(1, 11):
     print(n)
 ```
 
-List comprehensions are for for the specific purpose of looping over an iterable and building up new lists.
-But `for` loops are for the more general purpose of looping over an iterable and doing any operation you'd like.
+List comprehensions are for **loop over an iterable and building up new lists**, while `for` loops **loop over an iterable to do pretty much any operation you'd like**.
 
-When I see a list comprehension in code **I immediately assume that we're building up a new list because that's what comprehensions are for**.
-If you use a comprehension for a purpose outside of building up a new list, it'll confuse others who read your code.
+When I see a list comprehension in code **I immediately assume that we're building up a new list** (because that's what they're for).
+If you use a comprehension for **a purpose outside of building up a new list**, it'll confuse others who read your code.
 
 If you don't care about building up a new list, don't use a comprehension.
 
-You can do very weird things with comprehensions:
-
-```python
->>> new_list = []
->>> [new_list.append(n**2) for n in range(10)]
-[None, None, None, None, None, None, None, None, None, None]
->>> new_list
-[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
-```
-
-But that doesn't mean you should.
-
-If you don't care about the list that's coming out of your comprehension, don't use a comprehension: use a `for` loop.
-
 
 ## Using comprehensions when a more specific tool exists
+
+For many problems, a more specific tool makes more sense than a general purpose `for` loop.
+**But comprehensions aren't always the best special-purpose tool for the job at hand.**
 
 I have both seen and written quite a bit of code that looks like this:
 
@@ -217,10 +204,10 @@ with open('populations.csv') as csv_file:
 ```
 
 That comprehension is sort of an *identity* comprehension.
-Its only purpose is to loop over the given iterable `csv.reader(csv_file)` and create a list out of it.
+Its only purpose is to loop over the given iterable (`csv.reader(csv_file)`) and create a list out of it.
 
-But in Python, we have a more special-purposed tool for this task.
-The `list` constructor will do that for us:
+But in Python, we have an more specialized tool for this task: the `list` constructor.
+Python's `list` constructor can do all the looping and list creation work for us:
 
 ```python
 import csv
@@ -230,9 +217,9 @@ with open('populations.csv') as csv_file:
 ```
 
 Comprehensions are a special-purpose tool for looping over an iterable to build up a new list while modifying each element along the way and/or filtering elements down.
-The `list` constructor is a special-purpose tool for looping over an iterable to build up a new list from it, without changing anything at all.
+The `list` constructor is a special-purpose tool for looping over an iterable to build up a new list, without changing anything at all.
 
-If you don't need to filter your elements down or map them into new elements while building up your new list, you don't need a comprehension: you need the `list` constructor.
+If you don't need to filter your elements down or map them into new elements while building up your new list, **you don't need a comprehension: you need the `list` constructor**.
 
 This comprehension converts each of the `row` tuples we get from looping over `zip` into lists:
 
@@ -290,17 +277,16 @@ abbreviations_to_names = {
 
 Here we're looping over a list of two-item tuples and making a dictionary out of them.
 
-The `dict` constructor does exactly that:
+This task is exactly what the `dict` constructor was made for:
 
 ```python
 abbreviations_to_names = dict(states)
 ```
 
 The built-in `list` and `dict` constructors aren't the only comprehension-replacing tools.
+The standard library and third-party libraries also include tools that are sometimes better suited for your looping needs than a comprehension.
 
-The standard library and third-party libraries sometimes include tools that might be better suited for your needs than a comprehension.
-
-Here's a generator expression that sums up a iterable-of-iterables-of-numbers:
+Here's a generator expression that sums up an iterable-of-iterables-of-numbers:
 
 ```python
 def sum_all(number_lists):
@@ -324,26 +310,15 @@ def sum_all(number_lists):
 
 When you should use a comprehension and when you should use the alternative isn't always straightforward.
 
-But in many cases you don't.
-
 I'm often torn on whether to use `itertools.chain` or a comprehension.
 I usually write my code both ways and then go with the one that seems clearer.
 
-Readability seems to be fairly problem-specific with many programming constructs, comprehensions included.
+Readability is fairly problem-specific with many programming constructs, comprehensions included.
 
 
 ## Needless work
 
-Sometimes you'll see comprehensions or generator expressions that shouldn't be replaced by another construct but removed entirely, leaving only the iterable they loop over.
-
-```python
-from collections import Counter
-
-word_counts = Counter(
-    word
-    for word in open('word_list.txt').read().splitlines()
-)
-```
+Sometimes you'll see comprehensions that shouldn't be replaced by another construct but should instead be **removed entirely**, leaving only the iterable they loop over.
 
 Here we're opening up a file of words and counting the number of times each occurs:
 
@@ -367,7 +342,7 @@ word_counts = Counter(open('word_list.txt').read().splitlines())
 
 We were looping over a list to convert it to a generator before passing it to the `Counter` class.
 That was needless work!
-The `Counter` class accepts any iterables: it doesn't care whether they're lists, generators, tuples, or something else.
+The `Counter` class accepts **any iterable: it doesn't care whether they're lists, generators, tuples, or something else**.
 
 Here's another needless comprehension:
 
@@ -379,8 +354,8 @@ with open('word_list.txt') as words_file:
             print('z word', line, end='')
 ```
 
-We're looping over `words_file`, which means `words_file` is an iterable.
-We're converting `words_file` to a list of `lines`, but we're only looping over `lines` once.
+We're looping over `words_file`, converting it to a list of `lines`, and then looping over `lines` just once.
+That conversion to a list was unnecessary.
 
 We could just loop over `words_file` directly instead:
 
@@ -391,22 +366,19 @@ with open('word_list.txt') as words_file:
             print('z word', line, end='')
 ```
 
-There's no reason to convert that iterable to a list if we're only going to loop over it once.
+There's no reason to convert an iterable to a list if all we're going to do is loop over it once.
+
 
 In Python we often care less about **whether something is a list** and more about **whether it's an iterable**.
 
-If you're passing something to the list constructor, it's an iterable.
-If you're looping over something in a list comprehension, it's an iterable.
-Iterables can be looped over.
-
-If you only need to consume an iterable once, you probably don't need to create a list from it: just loop over it instead!
+Be careful not to create new iterables when you don't need to: **if you're only going to loop over an iterable once, just use the iterable you already have**.
 
 
 ## When would I use a comprehensions?
 
 So when would you actually use a comprehension?
 
-The simple but imprecise answer is whenever you can write your code in the below format and there isn't another tool you'd rather use for shortening your code, you should consider using a list comprehension.
+The simple but imprecise answer is whenever you can write your code in the below [comprehension copy-pasteable format][article] and there isn't another tool you'd rather use for shortening your code, you should consider using a list comprehension.
 
 ```python
 new_things = []
@@ -428,7 +400,7 @@ new_things = [
 The complex answer is whenever comprehensions make sense, you should consider them.
 That's not really an answer, but there is no one answer to the question "when should I use a comprehension"?
 
-Here's a `for` loop which doesn't look like it could be [copy-pasted into a comprehension or a generator expression][article]:
+For example here's a `for` loop which doesn't really look like it could be rewritten using a comprehension:
 
 ```python
 def is_prime(candidate):
@@ -448,8 +420,8 @@ def is_prime(candidate):
     )
 ```
 
-I wrote [a whole article on the `any` and `all` functions and how they pair so nicely with generator expressions][any-all].
-But the `any` and `all` functions aren't alone in their affinity for generator expressions.
+I wrote [a whole article on the `any` and `all` functions][any-all] and how they pair so nicely with generator expressions.
+But `any` and `all` aren't alone in their affinity for generator expressions.
 
 We have a similar situation with this code:
 
@@ -469,24 +441,25 @@ def sum_of_squares(numbers):
     return sum(n**2 for n in numbers)
 ```
 
-So in addition to the "can I copy-paste my way from a loop to a comprehension" check, there's another, fuzzier rule to consider:
+So in addition to the "can I copy-paste my way from a loop to a comprehension" check, there's another, fuzzier, check to consider: could your code be enhanced by a generator expression combined with an iterable-accepting function or class?
 
-> Any function or class that **accepts an iterable as an argument** *might* be a good candidate for **combining with a generator expression**.
+Any function or class that **accepts an iterable as an argument** *might* be a good candidate for **combining with a generator expression**.
 
 
 ## Use list comprehensions thoughtfully
 
+List comprehensions can make your code more readable (if you don't believe me, see the examples in my [Comprehensible Comprehensions][talk] talk), but they can definitely be abused.
+
 List comprehensions are a special-purpose tool for solving a specific problem.
-The `list` and `dict` constructors are an even more special-purpose tools for solving an even more specific problems.
+The `list` and `dict` constructors are **even more special-purpose tools** for solving even more specific problems.
 
-Loops are a more general purpose tool for times when you have a problem that doesn't fit within the realm of comprehensions or another special-purpose looping tool.
+Loops are **a more general purpose tool** for times when you have a problem that doesn't fit within the realm of comprehensions or another special-purpose looping tool.
 
-List comprehensions can make your code more readable (if you don't believe me, see the examples in my [Comprehensible Comprehensions][talk] talk).
-List comprehensions are easy to abuse though.
+Functions like `any`, `all`, and `sum`, and classes like `Counter` and `chain` are iterable-accepting tools that **pair very nicely with comprehensions** and sometimes **replace the need for comprehensions entirely**.
 
-Remember that comprehensions are for a single purpose: creating a new iterable from an old iterable, while tweaking values slightly along the way and possible for filtering out values that don't match a certain condition.
+Remember that comprehensions are for a single purpose: **creating a new iterable from an old iterable**, while tweaking values slightly along the way and/or for filtering out values that don't match a certain condition.
 Comprehensions are a lovely tool, but **they're not you're only tool**.
-Remember the `list` and `dict` constructors when you need them and remember `for` loops when your comprehensions get out of hand.
+Don't forget the `list` and `dict` constructors and always consider `for` loops when your comprehensions get out of hand.
 
 
 [article]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/ "List Comprehensions: Explain Visually"
