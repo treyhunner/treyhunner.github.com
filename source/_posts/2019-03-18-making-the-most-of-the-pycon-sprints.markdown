@@ -40,7 +40,7 @@ The sprints are a great place for a first-time open source contributor.
 Making a contribution to an open source project **while sitting next to the maintainer** is a unique experience.
 If you contribute to open source at home or at work, you're unlikely to have a project maintainer maintainer nearby.
 
-If you're a junior programming or you don't code for a living **you might be afraid of your inexperience**: maybe you're pretty new to coding in general and you don't understand git, testing, version control, and GitHub.
+If you're a junior programmer or you don't code for a living **you might be afraid of your inexperience**: maybe you're pretty new to coding in general and you don't understand git, testing, version control, and GitHub.
 But there's very likely a project for *you* to contribute to.
 The sprints include sprint coordinators who can help **point you to projects they've heard are particularly beginner-friendly** or who have quite a bit of **low-hanging fruit in their issue tracker for newcomers to dig into**.
 
@@ -61,11 +61,11 @@ I've attended at least one day of sprints at PyCon US for each of the last 5 yea
 - Some **high level conversation** about an intriguing feature, topic, or idea
 - Some **low level conversation** about how pieces of a project work (conversations about the inner-workings of a project are so much easier to have in-person)
 - Some **writing time**.  Sometimes this is writing code.  Sometimes this is writing text copy for documentation or marketing material.  Sometimes it's my own writing time for a talk or article I'm working on.
-- Some **rubber duck time**.  I often wander around asking people what they're working on and sometimes act as their [rubber duck][].  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own person project or an open source project I'm contributing to).
+- Some **rubber duck time**.  I often wander around asking people what they're working on and sometimes act as their [rubber duck][].  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I'm contributing to).
 - Plenty of **personal break time**.  I very often take mental breaks during sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.
 
 Sprints are an intense experience for some people, but they don't have to be.
-Sprints are what you make them: some people prefer many hours of furious coding with their headphones in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**.
+Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**.
 
 My sprints are often more relaxed than the conference and many of the best conversations I have during PyCon come out of the sprints.
 
@@ -333,7 +333,7 @@ If you're still uncertain about whether you should attend a sprint, please talk 
 I've found that most PyCon attendees are more than happy to talk about their perspective on the various parts of the conference they've partaken in.
 
 If you can't afford to stay for the sprints, I completely understand.
-Most PyCon attendees will not being staying for the sprints.
+Most PyCon attendees will not be staying for the sprints.
 But if you're lucky enough to have the time and resources to stay, I'd suggest giving it a try.
 
 If you can afford to schedule some extra time to attend a day or two of sprints and then decide that the sprints aren't for you, that time could always be spent exploring the city you're in, working, or doing something else that makes you feel whole.
