@@ -206,7 +206,7 @@ with open('populations.csv') as csv_file:
 That comprehension is sort of an *identity* comprehension.
 Its only purpose is to loop over the given iterable (`csv.reader(csv_file)`) and create a list out of it.
 
-But in Python, we have an more specialized tool for this task: the `list` constructor.
+But in Python, we have a more specialized tool for this task: the `list` constructor.
 Python's `list` constructor can do all the looping and list creation work for us:
 
 ```python
