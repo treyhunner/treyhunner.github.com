@@ -467,4 +467,4 @@ Don't forget the `list` and `dict` constructors and always consider `for` loops 
 [tutorial]: https://youtu.be/_6U1XoxyyBY "Using List Comprehensions and Generator Expressions For Data Processing"
 [inline if]: https://docs.python.org/3/faq/programming.html#is-there-an-equivalent-of-c-s-ternary-operator
 [ternary operator]: https://en.wikipedia.org/wiki/%3F:
-[any-all]: http://localhost:9000/2016/11/check-whether-all-items-match-a-condition-in-python/
+[any-all]: https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/
