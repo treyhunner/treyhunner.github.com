@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-27T05:58:31-07:00</updated>
+  <updated>2019-03-28T09:00:31-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -282,7 +282,7 @@ If you use a comprehension for <strong>a purpose outside of building up a new li
 <p>That comprehension is sort of an <em>identity</em> comprehension.
 Its only purpose is to loop over the given iterable (<code>csv.reader(csv_file)</code>) and create a list out of it.</p>
 
-<p>But in Python, we have an more specialized tool for this task: the <code>list</code> constructor.
+<p>But in Python, we have a more specialized tool for this task: the <code>list</code> constructor.
 Python&rsquo;s <code>list</code> constructor can do all the looping and list creation work for us:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -574,7 +574,7 @@ That&rsquo;s not really an answer, but there is no one answer to the question &l
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I wrote <a href="http://localhost:9000/2016/11/check-whether-all-items-match-a-condition-in-python/">a whole article on the <code>any</code> and <code>all</code> functions</a> and how they pair so nicely with generator expressions.
+<p>I wrote <a href="https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">a whole article on the <code>any</code> and <code>all</code> functions</a> and how they pair so nicely with generator expressions.
 But <code>any</code> and <code>all</code> aren&rsquo;t alone in their affinity for generator expressions.</p>
 
 <p>We have a similar situation with this code:</p>
