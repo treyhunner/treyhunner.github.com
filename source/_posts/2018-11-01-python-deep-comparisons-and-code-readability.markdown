@@ -301,7 +301,7 @@ def __lt__(self, other):
 ```
 
 This `__lt__` method implements the `<` operator on [its class][person], returning `True` if `self` is less than `other`.
-Storing and comparing `first_name` and `last_name` attributes this way is [an anti-pattern][names] but we'll to ignore that fact for this example.
+Storing and comparing `first_name` and `last_name` attributes this way is [an anti-pattern][names] but we'll ignore that fact for this example.
 
 That `__lt__` method above gives precedence to the `last_name`: the `first_name` is only checked if the `last_name` attribute of these two objects happens to be equal.
 
