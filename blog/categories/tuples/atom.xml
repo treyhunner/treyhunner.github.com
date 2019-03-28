@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tuples | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-28T09:00:31-07:00</updated>
+  <updated>2019-03-28T09:00:48-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -292,7 +292,7 @@ And in this case those values, the lists, need to be traversed even deeper becau
 </code></pre>
 
 <p>This <code>__lt__</code> method implements the <code>&lt;</code> operator on <a href="https://pastebin.com/raw/u8uGDArq">its class</a>, returning <code>True</code> if <code>self</code> is less than <code>other</code>.
-Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll to ignore that fact for this example.</p>
+Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll ignore that fact for this example.</p>
 
 <p>That <code>__lt__</code> method above gives precedence to the <code>last_name</code>: the <code>first_name</code> is only checked if the <code>last_name</code> attribute of these two objects happens to be equal.</p>
 
