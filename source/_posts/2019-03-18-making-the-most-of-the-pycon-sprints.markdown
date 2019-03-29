@@ -186,6 +186,22 @@ Sometimes people even start a project *at the sprints* because it's easier to ge
 If you join a newer or smaller project at the sprints (or start your own), you'll often be able to find a whole bunch of low-hanging fruit that hasn't been done only because no one has had the time to work on it yet.
 
 
+### Attend the intro to the sprints the night before
+
+Some projects list themselves on the [PyCon sprints page][the sprints] to note that they'll be attending the sprints.
+Many projects don't get themselves on that page and instead just announce their project during **the sprint pitches after** the main conference closing, on the last day of talks (Sunday).
+Just after the main conference closing, dozens of project maintainers will walk up on the big stage to give an elevator pitch for the project they're sprinting on, with each pitch taking about a minute.
+
+During the sprint pitches, each project maintainer will often talk about what their project is and what kind of help they're most in need of (fitting as much as they can in the very few seconds they have).
+You certainly don't have to attend the sprint pitches, but doing so will increase your chances of hearing about **a project that you'd actually really like to work on** (sometimes that might even be a project that only decided to sprint hours earlier).
+
+Another thing to pay attention to on the last day of talks is the hands-on **Intro to Sprinting tutorial** on Sunday evening.
+The Intro to Sprinting tutorial is open to walk-ins (first-come, first-served) and is also after the main conference closing so you won't need to miss any talks.
+
+Last year the Intro to Sprinting tutorial room filled up pretty quickly, so rest assured you won't be alone.
+And do try to get the Intro to Sprinting in your calendar (once the room and time are announced) and show up on-time if you can.
+
+
 ### Try to prepare yourself for the setup time
 
 Getting started on a new project can take a lot of time, so try to prepare yourself and your development environment as much as you can early on.
@@ -200,6 +216,8 @@ If you show up to sprints early, you might be able to pick a project and get tha
 If you're feeling extra ambitious, **you could even get a head start and prepare your machine the night before the sprints**.
 I've never done this because I'm rarely feeling ambitious, but I know some folks do this to make sure they can get in a little more quality sprinting time on the first day.
 
+By the way, if you happen to show up early on the first day and you're having setup problems, the folks at the sprint coordinators will have a help desk setup on the first day of the sprints.
+
 Another way to prepare yourself for setup time is to stay longer.
 If you're staying for 2 or 3 days of sprints, you can take it easy and spend more time on setup and getting your footing during the first day.
 That way you'll feel **more confident and more independent on the second day**.
@@ -213,6 +231,9 @@ Oh and another way to prepare yourself: remember your laptop and your laptop cha
 If the maintainer of the project your sprinting on is in the room they're likely there because **they want to help you contribute to their project**.
 On day 1 of sprints, project maintainers tend to prioritize helping you over writing their own code.
 **Please don't forget to ask for help when you need it**.
+
+Also if you're stuck on laptop setup issues, the PyCon sprint coordinators will be hosting **a help desk during the first day of sprints** (on Monday).
+The help desk is a great place to get yourself unstuck when you have a general issue that could use another set of eyes.
 
 If you're at the sprints to learn, you do want to struggle *some*.
 Struggling is a great way to learn, but don't let yourself flounder for too long on issues that aren't your area of expertise.
@@ -321,6 +342,17 @@ I'd recommend looking at [the many other contributor-friendly projects][friendly
 The PyCon sprints page also recommends this [in-person events handbook][] made by the OpenHatch folks.
 Take a look at it!
 And if you can, **ask questions of other project maintainers you admire who will also be sprinting**: how do they ensure newcomers feel appreciated, how do they help folks feel accomplished, what do they do to get their project and their minds ready?
+
+
+## Take note of the key events
+
+Put the events you'll be attending for the PyCon 2019 sprints in your calendar!
+
+The sprint pitches are the closing night just after the closing of the main conference.
+The Intro to Sprints tutorial usually starts just after that.
+And during the first day of sprints the next day, the sprint help desk will be available to help you get some extra help on day 1.
+
+Also remember the mentored sprints (if you've gone through the application process already) which are designed for underrepresented groups and are on Saturday during the talks.
 
 
 ## Ask others what they think of the sprints
