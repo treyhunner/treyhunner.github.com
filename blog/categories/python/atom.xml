@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-28T09:00:48-07:00</updated>
+  <updated>2019-03-28T17:25:55-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -29,7 +29,7 @@ We&rsquo;re going to walk through a number of cases where there&rsquo;s a more r
 
 <p>This article isn&rsquo;t meant to scare you off from comprehensions if you&rsquo;re not already a fan; it&rsquo;s meant to encourage moderation for those of us (myself included) who need it.</p>
 
-<p><strong>Note</strong>: In this article I&rsquo;ll be using the term &ldquo;comprehension&rdquo; to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
+<p><strong>Note</strong>: In this article, I&rsquo;ll be using the term &ldquo;comprehension&rdquo; to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you&rsquo;re unfamiliar with comprehensions, I recommend reading <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">this article</a> or watching <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">this talk</a> (the talk dives into generator expressions a bit more deeply).</p>
 
 <h2>Writing comprehensions with poor spacing</h2>
@@ -59,7 +59,7 @@ And they&rsquo;re right, many comprehensions <em>are</em> hard to read.
 <p>Less code can mean more readable code, but not always.
 <strong>Whitespace is your friend, especially when you&rsquo;re writing comprehensions</strong>.</p>
 
-<p>In general I prefer to write most of my comprehensions <strong>spaced out over multiple lines of code</strong> using the indentation style above.
+<p>In general, I prefer to write most of my comprehensions <strong>spaced out over multiple lines of code</strong> using the indentation style above.
 I do write one-line comprehensions sometimes, but I don&rsquo;t default to them.</p>
 
 <h2>Writing ugly comprehensions</h2>
@@ -115,7 +115,7 @@ for n in range(100):
 ]
 </code></pre>
 
-<p>If you really prefer to use a comprehension in case like this, at least give some thought to <strong>whether whitespace or parenthesis could make things more readable</strong>:</p>
+<p>If you really prefer to use a comprehension in cases like this, at least give some thought to <strong>whether whitespace or parenthesis could make things more readable</strong>:</p>
 
 <pre><code class="python">number_things = [
     (n // 2 if n % 2 == 0 else n * 3)
@@ -305,7 +305,7 @@ I usually write my code both ways and then go with the one that seems clearer.</
 
 <p>Sometimes you&rsquo;ll see comprehensions that shouldn&rsquo;t be replaced by another construct but should instead be <strong>removed entirely</strong>, leaving only the iterable they loop over.</p>
 
-<p>Here we&rsquo;re opening up a file of words and counting the number of times each occurs:</p>
+<p>Here we&rsquo;re opening up a file of words (with one word per line), storing file in memory, and counting the number of times each occurs:</p>
 
 <pre><code class="python">from collections import Counter
 
@@ -349,11 +349,11 @@ That conversion to a list was unnecessary.</p>
 
 <p>There&rsquo;s no reason to convert an iterable to a list if all we&rsquo;re going to do is loop over it once.</p>
 
-<p>In Python we often care less about <strong>whether something is a list</strong> and more about <strong>whether it&rsquo;s an iterable</strong>.</p>
+<p>In Python, we often care less about <strong>whether something is a list</strong> and more about <strong>whether it&rsquo;s an iterable</strong>.</p>
 
 <p>Be careful not to create new iterables when you don&rsquo;t need to: <strong>if you&rsquo;re only going to loop over an iterable once, just use the iterable you already have</strong>.</p>
 
-<h2>When would I use a comprehensions?</h2>
+<h2>When would I use a comprehension?</h2>
 
 <p>So when would you actually use a comprehension?</p>
 
