@@ -17,7 +17,7 @@ We're going to walk through a number of cases where there's a more readable alte
 
 This article isn't meant to scare you off from comprehensions if you're not already a fan; it's meant to encourage moderation for those of us (myself included) who need it.
 
-**Note**: In this article I'll be using the term "comprehension" to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
+**Note**: In this article, I'll be using the term "comprehension" to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you're unfamiliar with comprehensions, I recommend reading [this article][article] or watching [this talk][talk] (the talk dives into generator expressions a bit more deeply).
 
 
@@ -51,7 +51,7 @@ def get_factors(dividend):
 Less code can mean more readable code, but not always.
 **Whitespace is your friend, especially when you're writing comprehensions**.
 
-In general I prefer to write most of my comprehensions **spaced out over multiple lines of code** using the indentation style above.
+In general, I prefer to write most of my comprehensions **spaced out over multiple lines of code** using the indentation style above.
 I do write one-line comprehensions sometimes, but I don't default to them.
 
 
@@ -112,7 +112,7 @@ number_things = [
 ]
 ```
 
-If you really prefer to use a comprehension in case like this, at least give some thought to **whether whitespace or parenthesis could make things more readable**:
+If you really prefer to use a comprehension in cases like this, at least give some thought to **whether whitespace or parenthesis could make things more readable**:
 
 ```python
 number_things = [
@@ -320,7 +320,7 @@ Readability is fairly problem-specific with many programming constructs, compreh
 
 Sometimes you'll see comprehensions that shouldn't be replaced by another construct but should instead be **removed entirely**, leaving only the iterable they loop over.
 
-Here we're opening up a file of words and counting the number of times each occurs:
+Here we're opening up a file of words (with one word per line), storing file in memory, and counting the number of times each occurs:
 
 ```python
 from collections import Counter
@@ -369,12 +369,12 @@ with open('word_list.txt') as words_file:
 There's no reason to convert an iterable to a list if all we're going to do is loop over it once.
 
 
-In Python we often care less about **whether something is a list** and more about **whether it's an iterable**.
+In Python, we often care less about **whether something is a list** and more about **whether it's an iterable**.
 
 Be careful not to create new iterables when you don't need to: **if you're only going to loop over an iterable once, just use the iterable you already have**.
 
 
-## When would I use a comprehensions?
+## When would I use a comprehension?
 
 So when would you actually use a comprehension?
 
@@ -414,9 +414,9 @@ But there is in fact another way to write this loop using a generator expression
 
 ```python
 def is_prime(candidate):
-	return all(
-		candidate % n != 0
-		for n in range(2, candidate)
+    return all(
+        candidate % n != 0
+        for n in range(2, candidate)
     )
 ```
 
