@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-28T17:25:55-07:00</updated>
+  <updated>2019-03-31T13:25:09-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -833,7 +833,7 @@ elif d1[0] &lt; d2[0]:
     greater = d2
 elif d1[1] &gt; d2[1]:
     greater = d1
-elif d1[1] &gt; d2[1]:
+elif d1[1] &lt; d2[1]:
     greater = d2
 elif d1[2] &gt; d2[2]:
     greater = d1
