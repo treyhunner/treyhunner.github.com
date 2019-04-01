@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-03-31T13:25:09-07:00</updated>
+  <updated>2019-03-31T13:25:33-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -8588,7 +8588,7 @@ The first few exercises include an excuse to create your own Python iterator.</p
 
 <p><strong>Quick note</strong>: <code>any(item == 'something' for item in iterable)</code> is the same as <code>'something' in iterable</code>.  Don&rsquo;t use <code>all</code>/<code>any</code> for checking containment, use <code>in</code>.</p>
 
-<h2>Conclusion: code style is a process</h2>
+<h2>Code style is a process</h2>
 
 <p>As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it&rsquo;s a process.</p>
 
