@@ -9,20 +9,15 @@ categories: python pycon
 I wrote a blog post last year, [How to have a great first PyCon][], in which I gave quite a few tips for **making the most of your time at PyCon** (if you're a first time PyCon attendee, [go read it][How to have a great first PyCon]).
 One thing I didn't mention *at all* in that article on PyCon was [the sprints][].
 
-I didn't mention the sprints not because I don't like them (I actually love the sprints and I usually attend at least the first two days of sprints every year), but because **first-time PyCon attendees often don't stay for the sprints**.
-This is partly because the sprints can be very intimidating for first-time PyCon attendees.
-The fear that **the sprints aren't for me** is a very real one.
+This year, I wanted to focus a post on the sprints because I love them and I want to encourage first-time PyCon attendees to stay for the sprints. Even if you feel intimidated. Even if you experience the very real fear **"the sprints aren't for me".**
 
-This year PyCon has a new [mentored sprints][] hatchery track for underrepresented beginners, to fight against that fear a bit.
-The applications for have closed for PyCon 2019, but that's something to keep an eye on for future PyCons.
+This year PyCon has multiple options to help even total beginners be successful including their annual "Introduction to Sprinting Workshop" on Sunday AND brand-new this year: [mentored sprints][] a hatchery track for underrepresented beginners, to fight against that fear a bit.
+The mentored sprints application has closed for PyCon 2019, but that's something to keep an eye on for future PyCons.
 
-I'd like to address these fears because I wish more people would stay for the PyCon sprints.
+In this post I'm going to share some advice for **how to get the most out of the PyCon sprints** and I hope to **address the fears that folks often feel**. I'm hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.
+
 The sprints are a very different experience from the talk days at PyCon and **they're hard to compare to the rest of PyCon**.
-Some people like the talks better, but I've also talked to first time sprints who said **the sprints were their favorite part of the conference**.
-
-In this post I'm going to share some advice for **how to get the most out of the PyCon sprints**.
-I'm hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.
-
+Some people like the talks better, but I've also talked to first time sprinters who said **the sprints were their favorite part of the conference**.
 
 ## Your fears going into the sprints
 
@@ -38,23 +33,22 @@ I **don't write code for a living** and I'm afraid I won't be able to get anythi
 
 The sprints are a great place for a first-time open source contributor.
 Making a contribution to an open source project **while sitting next to the maintainer** is a unique experience.
-If you contribute to open source at home or at work, you're unlikely to have a project maintainer maintainer nearby.
+If you contribute to open source at home or at work, you're unlikely to have a project maintainer nearby.
 
 If you're a junior programmer or you don't code for a living **you might be afraid of your inexperience**: maybe you're pretty new to coding in general and you don't understand git, testing, version control, and GitHub.
-But there's very likely a project for *you* to contribute to.
-The sprints include sprint coordinators who can help **point you to projects they've heard are particularly beginner-friendly** or who have quite a bit of **low-hanging fruit in their issue tracker for newcomers to dig into**.
+But there's very likely a project OR a part of a project for *you* to contribute to.
+The sprints include sprint coordinators who can help:
+* **point you to projects they've heard are particularly beginner-friendly** or 
+* projects that have quite a bit of **low-hanging fruit in their issue tracker for newcomers to dig into** (something as simple as helping to update the documentation is a great benefit to maintainers and doesn't require significant coding skill).
 
 
 ### It'll be too fast-paced for me
 
-Sprints involve smart people coding for many hours on end, racing against the clock.
-**False**.
-From my experience, sprints usually aren't like that at all.
+**Myth:** Sprints involve smart people coding for many hours on end, racing against the clock. **False**. From my experience, sprints usually aren't like that at all.
 
-There are some very smart people at the sprints, but everyone at the sprints is new to *something* and there are many newcomers (and [mediocre programmers][]) at the sprints as well.
+There are some very smart people at the sprints but you will find there are many folks **just like you** (everyone at the sprints is new to *something* and of course, there are [mediocre programmers][] at the sprints as well).
 
-Some sprinters sit for many hours writing code, but the "pace" of the sprints is really up to you.
-From my own experience, the name "sprints" is kind of a misnomer: **I never find myself *sprinting* while at the sprints**.
+The "pace" of the sprints is really up to you. From my own experience, the name "sprints" is kind of a misnomer: **I never find myself *sprinting* while at the sprints**.
 
 I've attended at least one day of sprints at PyCon US for each of the last 5 years and my sprint experience has almost always consisted of:
 
@@ -64,45 +58,38 @@ I've attended at least one day of sprints at PyCon US for each of the last 5 yea
 - Some **rubber duck time**.  I often wander around asking people what they're working on and sometimes act as their [rubber duck][].  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I'm contributing to).
 - Plenty of **personal break time**.  I very often take mental breaks during sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.
 
-Sprints are an intense experience for some people, but they don't have to be.
-Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**.
+Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**. Sprints are an intense experience for some people, but they don't have to be.
 
 My sprints are often more relaxed than the conference and many of the best conversations I have during PyCon come out of the sprints.
 
 
 ### I won't be able to get enough done while I'm there
 
-So I have one day to work on a project that I don't really understand; what can I really get done in that time?
+If you're only planning to be at the sprints for one day, many folks worry: **"can you really expect to get up to speed quickly enough to accomplish something meaningful"**?
 
-If you're only planning to be at the sprints for one day, **can you really expect to get up to speed quickly enough to accomplish something meaningful**?
-
-This fear is very real for all sprint attendees.
-If you're just getting started on contributing to a new (to you) code base, **you may not have a pull request merged by the end of the day**.
+This fear is real for all sprint attendees.
+If you're just getting started on contributing to a new (to you) code base, **you may not be able to submit a viable change (a pull request) by the end of the day**.
 
 This fear is about framing: **what is your goal at the sprints**?
 
-If your goal is to get a pull request merged into an open source project by the end of the day, find something minor that needs fixing in the documentation, website styling, or something else that the project maintainer agrees needs fixing.
-You can probably **get a minor change merged** if you get an early start and pick a small issue.
+If your goal is to get a pull request merged into an open source project by the end of the day, I suggest that you find something minor that needs fixing in the documentation, website styling, or something else that the project maintainer agrees needs fixing.
+It is much easier to **get a minor change merged** if you get an early start and pick a small issue.
 
-But if your goal is to make a more substantial improvement to a project you probably won't get much code merged (if any) by the end of the day.
-For bigger changes, you'll likely **start your work at the sprints and continue it at home**, with help from project maintainers coming in the form of pull request comments and/or emails.
+But if your goal is to make a more substantial improvement to a project, then history suggests that you probably won't get much code merged (if any) by the end of the day.
+For bigger changes, you'll likely **start your work at the sprints and continue it at home**, often with help from the project maintainer(s) you meet at the sprints (via comments on your pull requests and/or emails).
 
 
 ## What to expect from the sprints
 
-So **you are experienced enough** to attend the sprints and **the sprints aren't often very face-paced**.
-And while you may not make a big contribution in a single day, **that doesn't mean you've wasted your day** by sprinting on something smaller or sprinting on just the start of something bigger.
-
-But what can you really expect while attending the sprints?
 What is sprinting really like?
 
 
 ### Some projects are easier to sprint on than others
 
 Different projects sprint in different ways.
-Many projects go out of their way to welcome contributions from newcomers, some projects may struggle a little in welcoming newcomers, and a few projects might hold a sprint that's focused entirely on engaging existing contributors (you're unlikely to stumble upon those though).
+Many projects **go out of their way to welcome contributions from newcomers**, some projects may struggle a little in welcoming newcomers, and a few projects might hold a sprint that's focused entirely on engaging existing contributors (i.e. the maintainers may take advantage of the fact that they are in the same room to really dive into a tricky problem... but you're unlikely to stumble upon those though).
 
-If you're not sure what project you'd like to sprint on during first day at the sprints, **I recommend picking a project to sprint on that seems particularly newcomer friendly**.
+If you're not sure what project you'd like to sprint on during first day at the sprints, **I recommend picking a project to sprint on that seems particularly newcomer friendly**. The [Pycon Sprints page]() has several projects that plan on sprinting and Sunday, after the last conference talk, all the sprinting projects have a chance to come on stage and tell you who they are and how you can help!
 Alternatively (or additionally), if you've identified a project that particularly suits your interests, **talk to the maintainers** and see if they think (and you think) their project would be a good fit for you.
 
 Keep in mind that **newer projects and smaller projects often have more to be done**.
@@ -385,3 +372,4 @@ Whatever you decide, have a lovely PyCon! 💖
 [python chat]: https://www.pythonchat.com/
 [the sprints]: https://us.pycon.org/2019/community/sprints/
 [mentored sprints]: https://us.pycon.org/2019/hatchery/mentoredsprints/
+[Pycon Sprints page]: https://us.pycon.org/2019/community/sprints/
