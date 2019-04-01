@@ -314,7 +314,7 @@ Python's `any` and `all` functions were *made* for use with generator expression
 **Quick note**: `any(item == 'something' for item in iterable)` is the same as `'something' in iterable`.  Don't use `all`/`any` for checking containment, use `in`.
 
 
-## Conclusion: code style is a process
+## Code style is a process
 
 As you discover new Python idioms and new language features are invented, your code style will evolve.  Your preferred code style may never stop evolving.  Code style is not concrete: it's a process.
 
