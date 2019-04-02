@@ -9,9 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently migrated multiple Subversion repositories to Git. I found
-this blog post very helpful during the process. Here are
-some tips I found &hellip;">
+  <meta name="description" content="I often have indentation issues when coding because I work with many open
+source (and closed source) projects that have different identation styles. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/11/migrating-from-subversion-to-git/">Migrating from Subversion to Git</a></h1>
+      <h1 class="entry-title"><a href="/2012/02/editorconfig/">Maintaining consistent coding conventions with EditorConfig</a></h1>
     
     
       <p class="meta">
@@ -100,83 +99,77 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2011-11-17T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2012-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2011/11/migrating-from-subversion-to-git/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/">Comments</a>
+           | <a href="/2012/02/editorconfig/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2012/02/editorconfig/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently migrated multiple Subversion repositories to Git.  I found
-<a href="http://blog.woobling.org/2009/06/git-svn-abandon.html" title="Migrating from Subversion to Git">this blog post</a> very helpful during the process.  Here are
-some tips I found helpful that were not mentioned in that post.</p>
+  <div class="entry-content"><p>I often have indentation issues when coding because I work with many open
+source (and closed source) projects that have different identation styles.  For
+example, my <a href="https://github.com/treyhunner/jquery-formrestrict">jQuery formrestrict</a> uses 4 spaces for indentation,
+<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> uses 2 spaces, and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a> uses hard tabs.
+I don&rsquo;t want to change my text editor&rsquo;s indentation settings every time I open
+one of these files and using a plugin to auto-detect indentation is only a
+partial solution.  To solve this problem I started a project I call
+EditorConfig.</p>
 
-<h3>Generating an authors file</h3>
+<p><a href="http://editorconfig.org">EditorConfig</a> defines coding conventions for groups of files and instructs
+text editors to adhere to these conventions.  To solve my problem, I just
+create a file called <code>.editorconfig</code> that sets indentation for my files and
+with my EditorConfig plugin installed Vim takes care of the rest.  Here&rsquo;s an
+example <code>.editorconfig</code> file I could add to my project that uses
+<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a>:</p>
 
-<p>Subversion denotes authors by usernames while Git uses name and email.  An
-authors file can be used to map subversion usernames to Git authors when
-creating the Git repository, like so:</p>
+<figure class='code'><figcaption><span>.editorconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[*.js]</span>
+</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
+</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">[jquery.expander.js]</span>
+</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
+</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">[jquery.pagination.js]</span>
+</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">tab</span>
+</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>git-svn clone --stdlayout --authors-file=authors.txt http://your/svn/repo/url
-</code></pre>
 
-<p>The trickest part about <a href="http://triptico.com/notes/8d4510bb.html">making an authors file</a> was finding
-all the authors.  I found this command useful for finding usernames of all
-Subversion committers:</p>
+<p>With this <code>.editorconfig</code> file, all JavaScript files use 4 spaces for
+indentation except for <code>jquery.expander.js</code> which uses 2 spaces and
+<code>jquery.pagination.js</code> which uses hard tabs with a column width of 4.  If I put
+my <code>.editorconfig</code> file under version control, other developers working on my
+project can see the coding conventions I defined and if their text editor has
+an EditorConfig plugin installed their editor will automatically use the
+correct indentation as well.</p>
 
-<pre><code>svn log | awk '($0 ~ /^r/) {print $3}' | sort -u
-</code></pre>
+<p>Example EditorConfig files can be seen in my own projects (such as
+<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">in my dotfiles repo</a>) and in the
+<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">various EditorConfig plugin codebases</a>.  More
+information on EditorConfig can be found at the
+<a href="http://editorconfig.org">EditorConfig website</a>.</p>
 
-<p>A similar method of creating an authors file is
-<a href="http://technicalpickles.com/posts/creating-a-svn-authorsfile-when-migrating-from-subversion-to-git/">presented here</a>.</p>
-
-<h3>Removing git-svn-id messages</h3>
-
-<p>When migrating from Subversion, every commit messages has a <code>git-svn-id</code> line
-appended to it like this one:</p>
-
-<blockquote><p>git-svn-id: <a href="http://svn/repo/url/trunk@9837">http://svn/repo/url/trunk@9837</a> 1eab27b1-3bc6-4acd-4026-59d9a2a3569e</p></blockquote>
-
-<p>If you are planning on migrating away from your old Subversion repository
-entirely, there&rsquo;s no need to keep these.  The following command (taken from the
-<a href="http://linux.die.net/man/1/git-filter-branch">git filter-branch man page</a>) removes these <code>git-svn-id</code>
-lines from all commit messages in the current branch:</p>
-
-<pre><code>git filter-branch -f --msg-filter 'sed -e "/git-svn-id:/d"'
-</code></pre>
-
-<h3>Removing empty commit messages</h3>
-
-<p>Subversion allows empty commit messages, but Git does not.  Any empty commit
-messages in your newly migrated git repository should be replaced so commands
-like <code>git rebase</code> will work on these commits.</p>
-
-<p>This command will replace all empty commit messages with <nobr>
-&ldquo;&lt;empty commit message&gt;&rdquo;</nobr>:</p>
-
-<pre><code>git filter-branch -f --msg-filter '
-read msg
-if [ -n "$msg" ] ; then
-    echo "$msg"
-else
-    echo "&lt;empty commit message&gt;"
-fi'
-</code></pre>
-
-<h3>Poking around</h3>
-
-<p>After you&rsquo;ve cleaned up your new <em>master</em> branch, you should cleanup other
-branches you plan to keep.  Just <code>git checkout</code> each branch and repeat the same
-steps.  To find the remote subversion branches available for checkout use
-<code>git branch -a</code>.</p>
-
-<p>Migrating between version control systems may be a good time to permanently
-cleanup commit history with a <code>git rebase</code> or eliminate large files
-that were never used with a <code>git filter-branch</code>.  Just remember to make backups of
-previous working versions of branches before changing them, just in case.</p>
+<p>EditorConfig plugins are <a href="http://editorconfig.org/#download">available for 6 different editors</a>
+now.  If you like the idea, <a href="http://editorconfig.org">try out EditorConfig</a> for your
+favorite editor and <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">tell us what you think</a>.  If you don&rsquo;t like
+the idea or have a problem with EditorConfig please <a href="https://github.com/editorconfig/editorconfig/issues">submit an issue</a>,
+add a thread to <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">the mailing list</a>, or send me an email voicing
+your concern.</p>
 </div>
   
   <footer>

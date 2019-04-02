@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently inherited a codebase that used the jQuery AlphaNumeric plugin extensively. This plugin can be used to restrict users from entering certain &hellip;">
+  <meta name="description" content="Uniquely identifiable URLs are necessary for many web applications. For example, a website that provides book reviews may identify the URL of a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +89,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2010/10/replacement-for-jquery-alphanumeric-plugin/">Replacement for jQuery AlphaNumeric plugin</a></h1>
+      <h1 class="entry-title"><a href="/2010/12/encrypted-private-keys-in-django/">Encrypted private keys in Django</a></h1>
     
     
       <p class="meta">
@@ -98,41 +98,113 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2010-10-18T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2010-12-11T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2010</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2010/10/replacement-for-jquery-alphanumeric-plugin/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2010/10/replacement-for-jquery-alphanumeric-plugin/">Comments</a>
+           | <a href="/2010/12/encrypted-private-keys-in-django/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2010/12/encrypted-private-keys-in-django/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I recently inherited a codebase that used the <a href="http://plugins.jquery.com/project/aphanumeric">jQuery AlphaNumeric plugin</a> extensively.  This plugin can be used to restrict users from entering certain characters into a form field.   The functions included for this plugin (<strong>alphanumeric</strong>, <strong>alpha</strong>, and <strong>numeric</strong>) claim to allow only alphabetic and/or numeric characters to be entered in the form field being acted on.</p>
+  <div class="entry-content"><p>Uniquely identifiable URLs are necessary for many web applications.  For example, a website that provides book reviews may identify the URL of a specific book like this: <strong>www.example.com/books/8839/</strong>.  The easiest way to identify entities in Django is to use the unique primary key of each object, which by default is an auto-incremented positive integer.</p>
 
-<p>Unfortunately, this plugin is ineffectual.  I have witnessed unexpected behaviors of varying significance associated with this plugin:</p>
+<p>Revealing the primary key of an entity is often not desirable.  An astute visitor of the website mentioned above may be able to guess information from the URL such as how many book reviews are available on the website or how old specific reviews are.</p>
+
+<p>The code snippet below demonstrates one way to use a unique but cryptic identifier for an object without needing to change the way primary keys are generated.  There are two notable extensions to the basic Django Model in the below code:</p>
 
 <ol>
-<li>Forbidden characters can be input by pasting with CTRL+V in Chrome</li>
-<li>Forbidden characters can be input by selecting Edit-&gt;Paste in Firefox and IE</li>
-<li>Forbidden characters can be input by middle-click pasting in Linux</li>
-<li>The arrow keys, Home button, End button, and Delete button do not work in input fields using this plugin&rsquo;s functions in Firefox</li>
-<li>The context menu is disabled (right clicking on an input field does nothing)</li>
-<li>And most importantly, instead of using a list of allowed characters, a list of disallowed characters is used so these are the only characters that are actually forbidden:
-
-<blockquote><p>!@#$%^&amp;*()+=[]&lsquo;;,/{}|&ldquo;:?~`.-</p></blockquote></li>
+<li>The encrypted_pk and encrypted_id model properties return an AES-encrypted version of the primary key as a 13 character base-36 string.</li>
+<li>The get method of the default manager can be queried with an encrypted primary key by using the keyword argument encrypted_pk.</li>
 </ol>
 
 
-<p>The code is so brief that patching the current plugin would be pointless, so instead I wrote <a href="http://github.com/treyhunner/jquery-formrestrict">a replacement</a> that acts similar enough that I did not have to change any of our pre-existing code that depended on the AlphaNumeric plugin.</p>
+<p>Feel free to use this code however you want.</p>
 
-<p>First I created <strong>restrict</strong>, a very basic modifier function that takes a sanitizer function as an argument.  The sanitizer function should manipulate the string to be valid input (if it was not already) and return the valid version of this input.  The <strong>restrict</strong> function is triggered whenever the input field is altered and will immediately replace the text in the field with sanitized text.</p>
+<div><script src='https://gist.github.com/735861.js'></script>
+<noscript><pre><code># This code is under the MIT license.
+# Inspired by this StackOverflow question:
+http://stackoverflow.com/questions/3295405/creating-django-objects-with-a-random-primary-key
 
-<p>Most of the restricts I would want to use on an input field can be represented by a regular expression, so I created the <strong>regexRestrict</strong> function that takes a regular expression as input and uses <strong>restrict</strong> to replace matches to this regular expression found in the string.</p>
+import struct
+from Crypto.Cipher import DES
+from django.db import models
 
-<p>The <strong>restrict</strong> and <strong>regexRestrict</strong> functions provide every feature that the AlphaNumeric plugin promises, but they don&rsquo;t use the same syntax as the AlphaNumeric plugin.  To be able to drop this plugin into a codebase that currently uses the AlphaNumeric plugin, we&rsquo;d need an equivalent to the <strong>alphanumeric</strong>, <strong>alpha</strong>, and <strong>numeric</strong> functions with all of their <a href="http://itgroup.com.ph/alphanumeric/">stated features</a>.  To allow the code that relied on the AlphaNumeric plugin to continue functioning, I created replacements for all three of these functions.  These functions take the same inputs as their AlphaNumeric plugin equivalents.</p>
 
-<p>The restrict and regexRestrict functions and the alphanumeric plugin replacement that uses these functions can be <a href="http://github.com/treyhunner/jquery-formrestrict">found on github</a>.</p>
+def base36encode(number):
+    &quot;&quot;&quot;Encode number to string of alphanumeric characters (0 to z). (Code taken from Wikipedia).&quot;&quot;&quot;
+    if not isinstance(number, (int, long)):
+        raise TypeError(&#39;number must be an integer&#39;)
+    if number &lt; 0:
+        raise ValueError(&#39;number must be positive&#39;)
+
+    alphabet = &#39;0123456789abcdefghijklmnopqrstuvwxyz&#39;
+    base36 = &#39;&#39;
+    while number:
+        number, i = divmod(number, 36)
+        base36 = alphabet[i] + base36
+
+    return base36 or alphabet[0]
+
+
+def base36decode(numstr):
+    &quot;&quot;&quot;Convert a base-36 string (made of alphanumeric characters) to its numeric value.&quot;&quot;&quot;
+    return int(numstr,36)
+
+
+class EncryptedPKModelManager(models.Manager):
+    &quot;&quot;&quot;This manager allows models to be identified based on their encrypted_pk value.&quot;&quot;&quot;
+    def get(self, *args, **kwargs):
+        encrypted_pk = kwargs.pop(&#39;encrypted_pk&#39;, None)
+        if encrypted_pk:
+            # If found, decrypt encrypted_pk argument and set pk argument to the appropriate value
+            kwargs[&#39;pk&#39;] = struct.unpack(&#39;&lt;Q&#39;, self.model.encryption_obj.decrypt(
+                struct.pack(&#39;&lt;Q&#39;, base36decode(encrypted_pk))
+            ))[0]
+        return super(EncryptedPKModelManager, self).get(*args, **kwargs)
+
+
+class EncryptedPKModel(models.Model):
+    &quot;&quot;&quot;Adds encrypted_pk property to children which returns the encrypted value of the primary key.&quot;&quot;&quot;
+    encryption_obj = DES.new(&#39;8charkey&#39;) # This 8 character secret key should be changed!
+
+    def __init__(self, *args, **kwargs):
+        super(EncryptedPKModel, self).__init__(*args, **kwargs)
+        setattr(
+            self.__class__,
+            &quot;encrypted_%s&quot; % (self._meta.pk.name,),
+            property(self.__class__._encrypted_pk)
+        )
+
+    def _encrypted_pk(self):
+        return base36encode(struct.unpack(&#39;&lt;Q&#39;, self.encryption_obj.encrypt(
+            str(struct.pack(&#39;&lt;Q&#39;, self.pk))
+        ))[0])
+
+    encrypted_pk = property(_encrypted_pk)
+
+    class Meta:
+        abstract = True
+
+
+class ExampleModelManager(EncryptedPKModelManager):
+    pass
+
+
+class ExampleModel(EncryptedPKModel):
+    objects = ExampleModelManager()
+    example_field = models.CharField(max_length=32)
+
+
+# Example usage:
+# example_instance = ExampleModel.objects.get(pk=1)
+# url_pk = example_instance.encrypted_pk
+# ExampleModel.objects.get(encrypted_pk=url_pk)
+</code></pre></noscript></div>
+
+
+
 </div>
   
   <footer>
