@@ -64,7 +64,7 @@ I've attended at least one day of sprints at PyCon US for each of the last 5 yea
 - Some **low level conversation** about how pieces of a project work (conversations about the inner-workings of a project are so much easier to have in-person)
 - Some **writing time**.  Sometimes this is writing code.  Sometimes this is writing text copy for documentation or marketing material.  Sometimes it's my own writing time for a talk or article I'm working on.
 - Some **rubber duck time**.  I often wander around asking people what they're working on and sometimes act as their [rubber duck][].  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I'm contributing to).
-- Plenty of **personal break time**.  I very often take mental breaks during sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.
+- Plenty of **personal break time**.  I very often take mental breaks during the sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.
 
 Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like **coworking with new friends in a coffee shop**. Sprints are an intense experience for some people, but they don't have to be intense for you.
 
@@ -115,8 +115,8 @@ During the sprints, project maintainers are there to help you.
 Project maintainers can quietly write code at home, but it's hard for them to encourage *you* to quietly write code at home.
 So **many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints**.
 
-The maintainers of projects are usually focused on **enabling your contributions during sprints** because they want your help.
-If you contribute to a project during sprints, it's more likely you'll decide to contribute to the project again *after* the sprints.
+The maintainers of projects are usually focused on **enabling your contributions during the sprints** because they want your help.
+If you contribute to a project during the sprints, it's more likely you'll decide to contribute to the project again *after* the sprints.
 That would be great for the maintainers (they're getting your help) and might be quite fun for you too.
 
 You might be thinking "surely, the maintainers can't be there entirely to help me".
@@ -139,7 +139,7 @@ For some people the sprints really are a sprint, but for most of us **the sprint
 
 ### Contributing at the sprints is often easier than online
 
-**Contributing to open source projects at the sprints is usually easier than contributing in-person**.
+**Contributing to open source projects at the sprints is usually easier than contributing online**.
 The ease of in-person communication often makes the experience less intimidating.
 
 It's easier to express oneself and empathize during face-to-face communication than over text-based communication.
@@ -147,7 +147,7 @@ Emoji are great, but they're not a substitute for body language and tone of voic
 
 It feels less awkward to chat with a project maintainer about your goals and your skill level in-person than via a GitHub pull request.
 
-Little bits of seemingly meaningless conversation happen while folks sit next to each for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
+Little bits of seemingly meaningless conversation happen while folks sit next to each other for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
 That kind of natural conversation brings people closer together and makes us feel more comfortable communicating later, whether in-person or online.
 
 Continued communication online is also often easier *after* face-to-face communication.
@@ -259,7 +259,7 @@ Text-based communication is hard, so **seize your face-to-face communication whi
 If you do decide to contribute more after the sprints are over, **that in-person empathy can help you continue to empathize remotely as well**.
 
 Some other places you may want to use empathy: empathizing with users of your code/documentation/design (someone is going to use your work) and the other sprinters in the room with you.
-It's often nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.
+It's nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.
 
 If you bring snacks, candy, donuts, or a small power strip to expand one power strip port into multiple, **your kindness might give you happy neighbors at the sprints**.
 
