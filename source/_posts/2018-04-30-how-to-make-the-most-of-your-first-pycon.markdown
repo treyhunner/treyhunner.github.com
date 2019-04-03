@@ -6,6 +6,9 @@ comments: true
 categories: python favorite
 ---
 
+**Update (2019)**: I originally left the sprints out of this article completely!
+To remedy that, I've recently published another article [all about the PyCon sprints][sprints] and why you should consider attending them.
+
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
 Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming relations with other PyCon attendees.
 But you're (naturally) not an expert conference-goer.
@@ -198,7 +201,7 @@ If you're not completely opposed to it, **I recommend getting a Twitter account 
 You don't have to use Twitter all the time to get value from it, you could just use it as a modern day [rolodex][] of sorts.
 Twitter isn't the only way people stay in touch, but it's an extremely easy passive way to stay in touch.
 
-If you do get a Twitter account, I recommend adding a saved search for "pycon2018 OR pycon" to your Twitter app or to [TweetDeck][] (if you use it) to **follow a bit of the random PyCon-related Twitter chatter during the conference** and to like/reply/interact with others online.
+If you do get a Twitter account, I recommend adding a saved search for "pycon2019 OR pycon" to your Twitter app or to [TweetDeck][] (if you use it) to **follow a bit of the random PyCon-related Twitter chatter during the conference** and to like/reply/interact with others online.
 
 Sometimes **people on Twitter will ask if anyone would like to join them for dinner** and you might decide to reply and say you'd like to join.
 Sometimes you'll recognize the face or name of someone you met over breakfast or someone you recognize from another part of the internet.
@@ -377,14 +380,14 @@ I hope you have a lovely PyCon!
 
 
 [weekly python chat]: http://weeklypython.chat
-[open spaces]: https://us.pycon.org/2018/events/open-spaces/
-[newcomer orientation]: https://us.pycon.org/2018/events/newcomer_orientation/
-[speed networking]: https://us.pycon.org/2018/events/speed_networking/
+[open spaces]: https://us.pycon.org/2019/events/open-spaces/
+[newcomer orientation]: https://us.pycon.org/2019/events/newcomer_orientation/
+[speed networking]: https://us.pycon.org/2019/events/speed_networking/
 [hallway track]: http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/
 [pycon list]: https://twitter.com/treyhunner/lists/pycon-2017/members
 [rolodex]: https://en.wikipedia.org/wiki/Rolodex
 [tweetdeck]: https://tweetdeck.twitter.com
-[code of conduct]: https://us.pycon.org/2018/about/code-of-conduct/
+[code of conduct]: https://us.pycon.org/2019/about/code-of-conduct/
 [cabo 1]: https://twitter.com/treyhunner/status/573027732902133760
 [cabo 2]: https://twitter.com/treyhunner/status/587086868396822528
 [cabo 3]: https://twitter.com/algosuna/status/641421944005378048
@@ -393,16 +396,17 @@ I hope you have a lovely PyCon!
 [cabo 6]: https://twitter.com/treyhunner/status/897971022334382080
 [cabo]: http://treyhunner.com/2015/06/cabo-card-game/
 [how to attend a conference]: http://swombat.com/2011/2/25/kevin-mcdonagh-how-to-attend-a-conference
-[volunteering]: https://us.pycon.org/2018/about/volunteers/
-[swag bag stuffing]: https://us.pycon.org/2018/about/volunteers/#swag
-[hand out swag bags]: https://us.pycon.org/2018/about/volunteers/#swag_dist
-[tutorial support]: https://us.pycon.org/2018/about/volunteers/#tutorials
-[reg desk]: https://us.pycon.org/2018/about/volunteers/#registration
-[at djangocon 2015]: https://us.pycon.org/2018/about/volunteers/#registration
+[volunteering]: https://us.pycon.org/2019/about/volunteers/
+[swag bag stuffing]: https://us.pycon.org/2019/about/volunteers/#swag
+[hand out swag bags]: https://us.pycon.org/2019/about/volunteers/#swag_dist
+[tutorial support]: https://us.pycon.org/2019/about/volunteers/#tutorials
+[reg desk]: https://us.pycon.org/2019/about/volunteers/#registration
+[at djangocon 2015]: https://youtu.be/Peo-n4spSRA?t=9m59s
 [beginner's guide to pycon 2015]: https://www.pydanny.com/beginners-guide-pycon-2014.html
 [how to do pycon]: https://automatetheboringstuff.com/how-to-do-pycon.html
 [asking a question]: https://kev.inburke.com/kevin/how-not-to-ask-questions-at-conference/
 [asking a question 2]: https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/
 [pacman]: http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/
-[lightning talk board]: https://us.pycon.org/2018/events/lightning/talks/
+[lightning talk board]: https://us.pycon.org/2019/events/lightning/talks/
 [creating your own open space]: https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html
+[sprints]: https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/
