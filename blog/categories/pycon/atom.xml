@@ -4,7 +4,7 @@
   <title><![CDATA[Category: pycon | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-02T09:37:01-07:00</updated>
+  <updated>2019-04-03T10:15:45-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -49,7 +49,7 @@ I <strong>don&rsquo;t write code for a living</strong> and I&rsquo;m afraid I wo
 
 <p>The sprints are a great place for a first-time open source contributor.
 Making a contribution to an open source project <strong>while sitting next to the maintainer</strong> is a unique experience.
-If you contribute to open source at home or at work, you&rsquo;re unlikely to have a project maintainer maintainer nearby.</p>
+If you contribute to open source at home or at work, you&rsquo;re unlikely to have a project maintainer nearby.</p>
 
 <p>If you&rsquo;re a junior programmer or you don&rsquo;t code for a living <strong>you might be afraid of your inexperience</strong>: maybe you&rsquo;re pretty new to coding in general and you don&rsquo;t understand git, testing, version control, and GitHub.
 But there&rsquo;s very likely a project for <em>you</em> to contribute to.
@@ -96,7 +96,7 @@ The name &ldquo;sprints&rdquo; is kind of a misnomer: <strong>I never find mysel
 It&rsquo;s much easier to <strong>get a minor change merged</strong> if you get an early start and pick a small issue.</p>
 
 <p>But if your goal is to make a more substantial improvement to a project, then you probably won&rsquo;t get much code merged (if any) by the end of the day.
-For bigger changes, you&rsquo;ll likely <strong>start your work at the sprints and continue it at home</strong>, often with help from the project maintainers (often via comments on pull request and/or emails).</p>
+For bigger changes, you&rsquo;ll likely <strong>start your work at the sprints and continue it at home</strong>, often with help from the project maintainers (via comments on pull request and/or emails).</p>
 
 <h2>What to expect from the sprints</h2>
 
@@ -113,7 +113,7 @@ The <a href="https://us.pycon.org/2019/community/sprints/">Pycon Sprints page</a
 Alternatively (or additionally), if you&rsquo;ve identified a project that particularly suits your interests, <strong>talk to the maintainers</strong> and see if they think (and you think) their project would be a good fit for you.</p>
 
 <p>Keep in mind that <strong>newer projects and smaller projects often have more to be done</strong>.
-Big and stable projects like CPython and Django are fairly stable and it can be quite challenging to find a small bug or low-hanging feature request that needs fixing, but newer projects and smaller projects often need more help.</p>
+It can be quite challenging to find issues that need fixing in big and stable projects like CPython and Django, but newer or smaller projects often need more help.</p>
 
 <p>It&rsquo;s also usually more fun to be <strong>a big fish in a small pond</strong> rather than a small fish in a big pond.
 It might take you the same amount of effort to make a small improvement to a big project as it takes to make a big change to a small project.</p>
@@ -130,10 +130,10 @@ That would be great for the maintainers (they&rsquo;re getting your help) and mi
 
 <p>You might be thinking &ldquo;surely, the maintainers can&rsquo;t be there entirely to help me&rdquo;.
 And you&rsquo;re right: a number of maintainers do contribute code to their own projects during the sprints.
-Generally the amount of code maintainers commit to their projects often increases as the sprints stretch on.
+Generally the amount of code maintainers commit to their projects increases as the sprints stretch on.
 There are far fewer people on the third and fourth days of sprints than on the first and second days.
 If a maintainer stays for all four days of the sprints, they&rsquo;re much more likely to commit code to their own project as the number of sprinters working on their project dwindles and as those still working start to need a bit less help than they did on the first day.
-<strong>During the first couple days of the sprints, the maintainers are often there primarily to help you</strong>.</p>
+<strong>During the first couple days of the sprints, most maintainers are there primarily to help you</strong>.</p>
 
 <h3>The sprints can be more relaxing than the talks</h3>
 
@@ -187,7 +187,7 @@ Being the &ldquo;front-end dev among Pythonistas&rdquo; or the &ldquo;UX person 
 
 <p>Also keep in mind that there are often small projects that you can make big contributions to at the sprints simply because they&rsquo;re in great need.
 Sometimes people even start a project <em>at the sprints</em> because it&rsquo;s easier to get help from others when <strong>you&rsquo;re in a room full of folks who might know a few things about the technology you&rsquo;re using</strong>.
-If you join a newer or smaller project at the sprints (or start your own), you&rsquo;ll often be able to find a whole bunch of low-hanging fruit that hasn&rsquo;t been done only because no one has had the time to work on it yet.</p>
+If you join a newer or smaller project at the sprints (or start your own), you&rsquo;ll often be able to find a whole bunch of low-hanging fruit that hasn&rsquo;t been taken care of only because no one has had the time to work on it yet.</p>
 
 <h3>Attend the intro to the sprints the night before</h3>
 
@@ -344,7 +344,7 @@ And if you can, <strong>ask questions of other project maintainers you admire wh
 
 <p>Put the events you&rsquo;ll be attending for the PyCon 2019 sprints in your calendar!</p>
 
-<p>The sprint pitches are the closing night just after the closing of the main conference.
+<p>The sprint pitches are on the last talk day at PyCon, just after the closing of the main conference.
 The Intro to Sprints tutorial usually starts just after that.
 And during the first day of sprints the next day, the sprint help desk will be available to help you get some extra help on day 1.</p>
 
