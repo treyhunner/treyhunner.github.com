@@ -4,7 +4,7 @@
   <title><![CDATA[Category: pycon | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-03T10:15:45-07:00</updated>
+  <updated>2019-04-03T14:31:50-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -74,7 +74,7 @@ The name &ldquo;sprints&rdquo; is kind of a misnomer: <strong>I never find mysel
 <li>Some <strong>low level conversation</strong> about how pieces of a project work (conversations about the inner-workings of a project are so much easier to have in-person)</li>
 <li>Some <strong>writing time</strong>.  Sometimes this is writing code.  Sometimes this is writing text copy for documentation or marketing material.  Sometimes it&rsquo;s my own writing time for a talk or article I&rsquo;m working on.</li>
 <li>Some <strong>rubber duck time</strong>.  I often wander around asking people what they&rsquo;re working on and sometimes act as their <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a>.  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I&rsquo;m contributing to).</li>
-<li>Plenty of <strong>personal break time</strong>.  I very often take mental breaks during sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.</li>
+<li>Plenty of <strong>personal break time</strong>.  I very often take mental breaks during the sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.</li>
 </ul>
 
 
@@ -124,8 +124,8 @@ It might take you the same amount of effort to make a small improvement to a big
 Project maintainers can quietly write code at home, but it&rsquo;s hard for them to encourage <em>you</em> to quietly write code at home.
 So <strong>many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints</strong>.</p>
 
-<p>The maintainers of projects are usually focused on <strong>enabling your contributions during sprints</strong> because they want your help.
-If you contribute to a project during sprints, it&rsquo;s more likely you&rsquo;ll decide to contribute to the project again <em>after</em> the sprints.
+<p>The maintainers of projects are usually focused on <strong>enabling your contributions during the sprints</strong> because they want your help.
+If you contribute to a project during the sprints, it&rsquo;s more likely you&rsquo;ll decide to contribute to the project again <em>after</em> the sprints.
 That would be great for the maintainers (they&rsquo;re getting your help) and might be quite fun for you too.</p>
 
 <p>You might be thinking &ldquo;surely, the maintainers can&rsquo;t be there entirely to help me&rdquo;.
@@ -147,7 +147,7 @@ And even if you&rsquo;re <em>not</em> working on the same thing as someone else,
 
 <h3>Contributing at the sprints is often easier than online</h3>
 
-<p><strong>Contributing to open source projects at the sprints is usually easier than contributing in-person</strong>.
+<p><strong>Contributing to open source projects at the sprints is usually easier than contributing online</strong>.
 The ease of in-person communication often makes the experience less intimidating.</p>
 
 <p>It&rsquo;s easier to express oneself and empathize during face-to-face communication than over text-based communication.
@@ -155,7 +155,7 @@ Emoji are great, but they&rsquo;re not a substitute for body language and tone o
 
 <p>It feels less awkward to chat with a project maintainer about your goals and your skill level in-person than via a GitHub pull request.</p>
 
-<p>Little bits of seemingly meaningless conversation happen while folks sit next to each for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
+<p>Little bits of seemingly meaningless conversation happen while folks sit next to each other for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
 That kind of natural conversation brings people closer together and makes us feel more comfortable communicating later, whether in-person or online.</p>
 
 <p>Continued communication online is also often easier <em>after</em> face-to-face communication.
@@ -261,7 +261,7 @@ Balancing multiple goals which sometimes compete with each other can be a challe
 If you do decide to contribute more after the sprints are over, <strong>that in-person empathy can help you continue to empathize remotely as well</strong>.</p>
 
 <p>Some other places you may want to use empathy: empathizing with users of your code/documentation/design (someone is going to use your work) and the other sprinters in the room with you.
-It&rsquo;s often nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.</p>
+It&rsquo;s nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.</p>
 
 <p>If you bring snacks, candy, donuts, or a small power strip to expand one power strip port into multiple, <strong>your kindness might give you happy neighbors at the sprints</strong>.</p>
 
