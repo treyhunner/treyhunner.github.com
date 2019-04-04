@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Why you shouldn't inherit from dict and list in Python"
-date: 2019-03-28 06:10:34 -0700
+title: "The problem with inheriting from dict and list in Python"
+date: 2019-04-08 08:00:00 -0700
 comments: true
 categories: python
 ---
@@ -10,7 +10,13 @@ I've created dozens of [Python Morsels][] since I started it last year.
 At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.
 
 Since each Python Morsels solutions email involves a walk-through of many ways to solve the same problem, I've solved each of these in many ways.
-I've solved these manually with `__dunder__` methods, I've solved them the abstract base classes in [`collections.abc`][], I've solved them with [`collections.UserDict`][] and [`collections.UserList`][], and I've solved them by inheriting from `list`, `dict`, and `set` directly.
+
+I've solved these:
+
+- manually with `__dunder__` methods
+- with the abstract base classes in [collections.abc][]
+- with [collections.UserDict][UserDict] and [collections.UserList][UserList]
+- by inheriting from `list`, `dict`, and `set` directly
 
 While creating and solving many exercises involving custom collections, I've realized that inheriting from `list`, `dict`, and `set` is often subtlety painful.
 I'm writing this article to explain why I often don't recommend inheriting from the built-in `list`, `dict`, and `set` classes in Python.
@@ -265,27 +271,62 @@ And who knows whether we're done?
 Every time we customize a bit of core functionality on a `list` or `dict` subclass, we'll need to make sure we customize other methods that also include exactly the same functionality (but which don't delegate to the method we overrode).
 
 
+## Why did the Python developers do this?
+
+From my understanding, the built-in `list`, `dict`, and `set` types have in-lined a lot of code for performance.
+Essentially, they've copy-pasted the same code between many different functions to avoid extra function calls and make things a tiny bit faster.
+
+I haven't found a reference online that explains why this decision was made and what the consequences of the alternatives to this choice were.
+But I mostly trust that this was done for my benefit as a Python developer.
+If `dict` and `list` weren't faster this way, why would the core developers have chosen this odd implementation?
+
+
 ## What's the alternative to inheriting from list and dict?
 
-So what's a better way to do this?
-How can we make a `list`-like object or a `dict`-like object that *doesn't* inherit from `list` or `dict`?
+So inheriting from `list` to make a custom list was painful and inheriting from `dict` to create a custom dictionary was painful.
+What's the alternative?
 
-There are a few answers to this question:
+How can we create a custom dictionary-like object that *doesn't* inherit from the built-in `dict`?
 
-1. Manually create all the methods we need: we'll need to re-implement *all* methods, so this might be very tedious
-2. Inherit from an abstract base class that implements *some* of these higher-level methods for us: implementing `append` should give us `extend` for free
-3. Inherit from a full re-implementation of `list` or `dict` that is more extensible and more easily customizable
+There are a few ways to create custom dictionaries:
 
-We're not going to re-implement everything ourselves.
-We'll take a look at the other two approaches though.
+1. Fully embrace duck typing: figure out everything we need for our data structure to be `dict`-like and create a completely custom class (that walks and quacks like a `dict`)
+2. Inherit from a helper class that'll point us in the right direction and tell us which methods our object needs to be `dict`-like
+3. Find a more extensible re-implementation of `dict` and inherit from it instead
+
+We're going to skip over the first approach: reimplementing everything from scratch will take a while and Python has some helpers that'll make things easier.
+We're going to take a look at those helpers, first the ones that point us in the right direction (2 above) and then the ones that act as full `dict`-replacements (3 above).
 
 
-## Abstract base classes
+### Abstract base classes: they'll help you quack like a duck
 
-We'll take a look at the abstract base class approach first.
+Python's [collections.abc][] module includes **abstract base classes** that can help us implement some of the common protocols (*interfaces* as Java calls them) seen in Python.
 
-Here's a re-implementation of `TwoWayDict` using the `MutableMapping` abstract base class.
+We're trying to make a dictionary-like object.
+Dictionaries are **mutable mappings**.
+A dictionary-like object is a mapping.
+That word "mapping" comes from "hash map", which is what many other programming languages call this kind of data structure.
 
+So we want to make a mutable mapping.
+The `collections.abc` module provides an abstract base class for that: `MutableMapping`!
+
+If we inherit from this abstract base class, we'll see that we're required to implement certain methods for it to work:
+
+```python
+>>> from collections.abc import MutableMapping
+>>> class TwoWayDict(MutableMapping):
+...     pass
+...
+>>> d = TwoWayDict()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Can't instantiate abstract class TwoWayDict with abstract methods __delitem__, __getitem__, __iter__, __len__, __setitem__
+```
+
+The `MutableMapping` class requires us to say how getting, deleting, and setting items works, how iterating works, and how we get the length of our dictionary.
+But once we do that, we'll get the `pop`, `clear`, `update`, and `setdefault` methods for free!
+
+Here's a re-implementation of `TwoWayDict` using the `MutableMapping` abstract base class:
 
 ```python
 from collections.abc import MutableMapping
@@ -316,60 +357,26 @@ class TwoWayDict(MutableMapping):
         return repr(self.mapping)
 ```
 
-The `MutableMapping` class requires us to implement `__getitem__`, `__delitem__`, `__setitem__`, `__iter__`, and `__len__`.
-
-That might seem like quite a bit, but we get very reasonable default implementations of `update`, `pop`, `setdefault`, and `clear` for free.
-
 Unlike `dict`, these `update` and `setdefault` methods will call our `__setitem__` method and the `pop` and `clear` methods will call our `__delitem__` method.
 
-We could do the same thing with our `HoleList` class, inheriting from `MutableSequence` instead of `MutableMapping`:
+Abstract base classes might make you think we're leaving the wonderful land of Python duck typing behind for some sort of strongly-typed [OOP][] land.
+But abstract base classes actually enhance duck typing.
+**Inheriting from abstract base classes helps us be better ducks**.
+We don't have to worry about whether we've implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify an essential behavior.
 
-```python
-from collections.abc import MutableSequence
-
-
-class HoleList(MutableSequence):
-
-    EMPTY = object()
-
-    def __init__(self, iterable):
-        self.data = list(iterable)
-
-    def __getitem__(self, index):
-        return self.data[index]
-
-    def __setitem__(self, index, value):
-        self.data[index] = value
-
-    def __delitem__(self, index):
-        self.data[index] = self.EMPTY
-
-    def __len__(self):
-        return len(self.data)
-
-    def insert(self, index, value):
-        return self.data.insert(index, value)
-
-    def __iter__(self):
-        return (
-            item
-            for item in self.data
-            if item is not self.EMPTY
-        )
-
-    def __eq__(self, other):
-        if isinstance(other, HoleList):
-            return all(
-                x == y
-                for x, y in zip(self, other)
-            )
-        return super().__eq__(other)
-```
-
-The `MutableSequence` class requires us to implement `__getitem__`, `__setitem__`, `__delitem__`, `__len__`, and `insert` and gives us `append`, `reverse`, `extend`, `pop`, `remove`, and `__iadd__` for free.
+The `HoleList` class we made before would need to inherit from the `MutableSequence` abstract base class.
+A custom set-like class would probably inherit from the `MutableSet` abstract base class.
 
 
-## Nice wrappers around list and dict
+### UserList/UserDict: lists and dictionaries that are actually extensible
+
+When using the collection ABCs, `Mapping`, `Sequence`, `Set` (and their mutable children) you'll often find yourself creating a wrapper around an existing data structure.
+If you're implementing a dictionary-like object, using a dictionary under the hood makes things easier: the same applies for lists and sets.
+
+Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which wrap around `list` and `dict` objects.
+These two classes live in the [collections][] module as [UserList][] and [UserDict][].
+
+Here's a re-implementation of `TwoWayDict` that inherits from `UserDict`:
 
 ```python
 from collections import UserDict
@@ -389,8 +396,128 @@ class TwoWayDict(UserDict):
         super().__setitem__(value, key)
 ```
 
+You may notice something interesting about the above code.
+
+That code looks extremely similar to the code we originally wrote (the first version that had lots of bugs) when attempting to inherit from `dict`:
+
+```python
+class TwoWayDict(dict):
+    def __delitem__(self, key):
+        value = super().pop(key)
+        super().pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        super().__setitem__(key, value)
+        super().__setitem__(value, key)
+```
+
+The `__setitem__` method is identical, but the `__delitem__` method has some small differences.
+
+It might seem from these two code blocks that `UserDict` is like `dict` but better.
+That's not quite right though.
+
+The `UserDict` class implements the *interface* that dictionaries are supposed to have, but it wraps around an actual `dict` object under-the-hood.
+
+Here's another way we could have written the above `UserDict` code, without any `super` calls:
+
+```python
+from collections import UserDict
+
+
+class TwoWayDict(UserDict):
+    def __delitem__(self, key):
+        value = self.data.pop(key)
+        self.data.pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        self.data[key] = value
+        self.data[value] = key
+```
+
+Both of these methods reference `self.data`, which we didn't define.
+
+The `UserDict` class initializer makes a dictionary which it stores in `self.data`.
+All of the methods on this dictionary-like `UserDict` class wrap around this `self.data` dictionary.
+If we want to customize one of these methods, we just override it and change what it does.
+
+
+### So should I use abstract base classes or UserDict and UserList?
+
+The `UserList` and `UserDict` classes were originally created long before the abstract base classes in `collections.abc`.
+`UserList` and `UserDict` have been around (in some form at least) since before Python 2.0 was even released, but the `collections.abc` abstract base classes have only been around since Python 2.6.
+
+The `UserList` and `UserDict` classes are when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.
+
+The abstract base classes in `collections.abc` are useful when you want something that's a *sequence* or a *mapping* but is different enough from a list or a dictionary that you really should be making your own custom class.
+
+
+## Does inheriting from list and dict ever make sense?
+
+Inheriting from `list` and `dict` isn't always bad.
+
+For example, here's a perfectly functional version of a `DefaultDict` (which acts a little differently from `collections.defaultdict`):
+
+```python
+class DefaultDict(dict):
+    def __init__(self, *args, default=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default = default
+    def __missing__(self, key):
+        return self.default
+```
+
+This `DefaultDict` uses the `__missing__` method to act as you'd expect:
+
+```python
+>>> d = DefaultDict({'a': 8})
+>>> d['a']
+8
+>>> d['b']
+>>> d
+{'a': 8}
+>>> e = DefaultDict({'a': 8}, default=4)
+>>> e['a']
+8
+>>> e['b']
+4
+>>> e
+{'a': 8}
+```
+
+There's no problem with inheriting from `dict` here because we're not overriding functionality that lives in many different places.
+
+If your change changing functionality that's limited to a single method or adding your own custom method, it's probably worth inheriting from `list` or `dict` directly.
+But if your change will require duplicating the same functionality in multiple places (as is often the case), consider reaching for one of the alternatives.
+
+
+## When making a custom list or dictionary, remember you have options
+
+When creating your own set-like, list-like, or dictionary-like object, think carefully about how you need your object to work.
+
+If you need to change some core functionality, inheriting from `list`, `dict`, or `set` will be painful and I'd recommend against it.
+
+If you're making a variation of `list` or `dict` and need to customize just a little bit of core functionality, consider inheriting from `collections.UserList` or `collections.UserDict`.
+
+In general, if you're making something custom, you'll often want to reach for the abstract base classes in `collections.abc`.
+For example if you're making a slightly more custom sequence or mapping (think `collections.deque`, `range`, and maybe `collections.Counter`) you'll want `MutableSequnce` or `MutableMapping`.
+And if you're making a custom set-like object, your only options are `collections.abc.Set` or `collections.abc.MutableSet` (there is no `UserSet`).
+
+We don't need to create our own data structures very often in Python.
+When you do need to create your own custom collections, wrapping around a data structure is a great idea.
+Remember the `collections` and `collections.abc` modules when you need them!
+
+
+
 [python morsels]: https://www.pythonmorsels.com/
-[`collections.abc`]: TODO
-[`collections.UserDict`]: TODO
-[`collections.UserList`]: TODO
-[solid]: TODO
+[collections.abc]: https://docs.python.org/3/library/collections.abc.html
+[UserDict]: https://docs.python.org/3/library/collections.html#collections.UserDict
+[UserList]: https://docs.python.org/3/library/collections.html#collections.UserList
+[solid]: https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)
+[oop]: https://en.wikipedia.org/wiki/Object-oriented_programming
+[collections]: https://docs.python.org/3/library/collections.html
