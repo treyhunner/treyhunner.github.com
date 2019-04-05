@@ -18,9 +18,10 @@ I've solved these:
 - with [collections.UserDict][UserDict] and [collections.UserList][UserList]
 - by inheriting from `list`, `dict`, and `set` directly
 
-While creating and solving many exercises involving custom collections, I've realized that inheriting from `list`, `dict`, and `set` is often subtlety painful.
-I'm writing this article to explain why I often don't recommend inheriting from the built-in `list`, `dict`, and `set` classes in Python.
-My examples will focus on `list` and `dict` since those are likely more commonly sub-classed.
+While creating and solving many exercises involving custom collections, I've realized that inheriting from `list`, `dict`, and `set` is often subtly painful.
+I'm writing this article to explain why I often don't recommend inheriting from these built-in classes in Python.
+
+My examples will focus on `dict` and `list` since those are likely more commonly sub-classed.
 
 
 ## Making a custom dictionary
@@ -189,6 +190,8 @@ class HoleList(list):
             )
         return super().__eq__(other)
 ```
+
+Unrelated Aside: if you're curious about that `object()` thing, I explain why it's useful in [my article about sentinel values in Python][sentinel values].
 
 If we make two `HoleList` objects and delete items from them such that they have the same non-hole items:
 
@@ -373,7 +376,7 @@ A custom set-like class would probably inherit from the `MutableSet` abstract ba
 When using the collection ABCs, `Mapping`, `Sequence`, `Set` (and their mutable children) you'll often find yourself creating a wrapper around an existing data structure.
 If you're implementing a dictionary-like object, using a dictionary under the hood makes things easier: the same applies for lists and sets.
 
-Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which wrap around `list` and `dict` objects.
+Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which **wrap around `list` and `dict` objects**.
 These two classes live in the [collections][] module as [UserList][] and [UserDict][].
 
 Here's a re-implementation of `TwoWayDict` that inherits from `UserDict`:
@@ -446,6 +449,11 @@ The `UserDict` class initializer makes a dictionary which it stores in `self.dat
 All of the methods on this dictionary-like `UserDict` class wrap around this `self.data` dictionary.
 If we want to customize one of these methods, we just override it and change what it does.
 
+You can think of `UserDict` and `UserList` as **wrapper classes**.
+When we inherit from these classes, we're wrapping around a `data` attribute which we proxy all our method lookups to.
+
+In fancy OOP speak, we might consider `UserDict` and `UserList` to be [adapter classes][].
+
 
 ### So should I use abstract base classes or UserDict and UserList?
 
@@ -492,7 +500,7 @@ This `DefaultDict` uses the `__missing__` method to act as you'd expect:
 
 There's no problem with inheriting from `dict` here because we're not overriding functionality that lives in many different places.
 
-If your change changing functionality that's limited to a single method or adding your own custom method, it's probably worth inheriting from `list` or `dict` directly.
+If you're changing functionality that's limited to a single method or adding your own custom method, it's probably worth inheriting from `list` or `dict` directly.
 But if your change will require duplicating the same functionality in multiple places (as is often the case), consider reaching for one of the alternatives.
 
 
@@ -521,3 +529,5 @@ Remember the `collections` and `collections.abc` modules when you need them!
 [solid]: https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)
 [oop]: https://en.wikipedia.org/wiki/Object-oriented_programming
 [collections]: https://docs.python.org/3/library/collections.html
+[sentinel values]: https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/
+[adapter classes]: https://en.wikipedia.org/wiki/Adapter_pattern
