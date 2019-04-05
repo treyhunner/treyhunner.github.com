@@ -199,16 +199,26 @@ So you've just read an article on something new, but you haven't learned yet.
 Write some code that uses `enumerate` and `zip` later today and then quiz yourself tomorrow on the different ways of looping in Python.
 You have to practice these skills if you want to actually remember them.
 
-If you'd like to **get hands-on experience practicing Python** every week, **[sign up for Python Morsels][python morsels]**, my Python skill-building service.
-Quite a few of the exercises I send through [Python Morsels][] encourage practice with `enumerate`, `zip` `range`, and other Python looping techniques.
+If you'd like to **get hands-on experience practicing Python** every week, I have a Python skill-building service you should consider joining.
+If you sign up for Python Morsels I'll give you a **Python looping exercise that right now** and then I'll send you **one new Python exercise every week** after that.
 
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="zip">
+  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
+
+Fill out the form above to **sign up for Python Morsels** and **get some practice with the `zip` function**.
 Sign up for [Python Morsels][] to start leveling up your Python skills every week.
+
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
 [foreach]: https://en.wikipedia.org/wiki/Foreach_loop
 [loop like a native]: http://nedbatchelder.com/text/iter.html
 [itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
-[Steven Kryskalla]: http://lost-theory.org/
-[Diane Chen]: http://purplediane.github.io/
-[chat]: https://www.crowdcast.io/e/operator-overloading
 [python morsels]: https://www.pythonmorsels.com/
