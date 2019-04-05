@@ -213,8 +213,7 @@ You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy
 
 </form>
 
-Fill out the form above to **sign up for Python Morsels** and **get some practice with the `zip` function**.
-Sign up for [Python Morsels][] to start leveling up your Python skills every week.
+Fill out the form above to **sign up for [Python Morsels][]**, **get some practice with the `zip` function**, and start leveling-up your Python skills every week.
 
 
 [anti-patterns]: https://en.wikipedia.org/wiki/Anti-pattern
