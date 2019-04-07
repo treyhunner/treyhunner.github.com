@@ -46,6 +46,8 @@ class TwoWayDict(dict):
             del self[value]
         super().__setitem__(key, value)
         super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
 ```
 
 Here we're ensuring that:
@@ -58,26 +60,26 @@ Setting and deleting items from this bi-directional dictionary seems to work as 
 
 ```python
 >>> d = TwoWayDict()
->>> d[4] = 3
->>> d
-{4: 3, 3: 4}
 >>> d[3] = 8
 >>> d
-{3: 8, 8: 3}
+TwoWayDict({3: 8, 8: 3})
 >>> d[7] = 6
 >>> d
-{3: 8, 8: 3, 7: 6, 6: 7}
+TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
+
 ```
 
 But calling the `update` method on this dictionary leads to odd behavior:
 
 ```python
 >>> d
-{3: 8, 8: 3, 7: 6, 6: 7}
+TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
 >>> d.update({9: 7, 8: 2})
 >>> d
-{3: 8, 8: 2, 7: 6, 6: 7, 9: 7}
+TwoWayDict({3: 8, 8: 2, 7: 6, 6: 7, 9: 7})
 ```
+
+Adding `9: 7` should have removed `7: 6` and `6: 7` and adding `8: 2` should have removed `3: 8` and `8: 3`.
 
 We could fix this with a custom `update` method:
 
@@ -94,7 +96,7 @@ But calling the initializer doesn't work either:
 ```python
 >>> d = TwoWayDict({9: 7, 8: 2})
 >>> d
-{9: 7, 8: 2}
+TwoWayDict({9: 7, 8: 2})
 ```
 
 So we'll make a custom initializer that calls `update`:
@@ -110,11 +112,11 @@ But `pop` doesn't work:
 >>> d = TwoWayDict()
 >>> d[9] = 7
 >>> d
-{9: 7, 7: 9}
+TwoWayDict({9: 7, 7: 9})
 >>> d.pop(9)
 7
 >>> d
-{7: 9}
+TwoWayDict({7: 9}
 ```
 
 And neither does `setdefault`:
@@ -124,7 +126,7 @@ And neither does `setdefault`:
 >>> d.setdefault(4, 2)
 2
 >>> d
-{4: 2}
+TwoWayDict({4: 2})
 ```
 
 The problem is the `pop` method doesn't actually call `__delitem__` and the `setdefault` method doesn't actually call `__setitem__`.
@@ -139,7 +141,9 @@ class TwoWayDict(dict):
     # ...
     def pop(self, key, default=DEFAULT):
         if key in self or default is DEFAULT:
-            return self[key]
+            value = self[key]
+            del self[key]
+            return value
         else:
             return default
     def setdefault(self, key, value):
@@ -152,8 +156,6 @@ When inheriting from `dict` to create a custom dictionary, we'd expect `update` 
 But they don't!
 
 Likewise, `get` and `pop` don't call `__getitem__`, as you might expect they would.
-
-I'm not an aficionado of object-oriented programming, but the `dict` class seems to be violating at least one of the [SOLID][] principles (maybe the open-close principle?).
 
 
 ## Lists and sets have the same problem
@@ -170,16 +172,16 @@ This class is a bit nonsensical (no it's not a Python Morsels exercise fortunate
 ```python
 class HoleList(list):
 
-    EMPTY = object()
+    HOLE = object()
 
     def __delitem__(self, index):
-        self[index] = self.EMPTY
+        self[index] = self.HOLE
 
     def __iter__(self):
         return (
             item
-            for item in self
-            if item is not self.EMPTY
+            for item in super().__iter__()
+            if item is not self.HOLE
         )
 
     def __eq__(self, other):
@@ -189,6 +191,9 @@ class HoleList(list):
                 for x, y in zip(self, other)
             )
         return super().__eq__(other)
+
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
 ```
 
 Unrelated Aside: if you're curious about that `object()` thing, I explain why it's useful in [my article about sentinel values in Python][sentinel values].
@@ -212,9 +217,9 @@ True
 >>> list(x), list(y)
 ([1, 3], [1, 3])
 >>> x
-[<object object at 0x7fed214640f0>, 1, 3, <object object at 0x7fed214640f0>]
+HoleList([<object object at 0x7f56bdf38120>, 1, 3, <object object at 0x7f56bdf38120>])
 >>> y
-[1, <object object at 0x7fed214640f0>, 3, <object object at 0x7fed214640f0>]
+HoleList([1, <object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
 ```
 
 But if we then ask them whether they're *not equal* we'll see that they're both *equal* and *not equal*:
@@ -227,9 +232,9 @@ True
 >>> list(x), list(y)
 ([1, 3], [1, 3])
 >>> x
-[<object object at 0x7fed214640f0>, 1, 3, <object object at 0x7fed214640f0>]
+HoleList([<object object at 0x7f56bdf38120>, 1, 3, <object object at 0x7f56bdf38120>])
 >>> y
-[1, <object object at 0x7fed214640f0>, 3, <object object at 0x7fed214640f0>]
+HoleList([1, <object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
 ```
 
 Normally in Python 3, overriding `__eq__` would customize the behavior of both equality (`==`) and inequality (`!=`) checks.
@@ -246,14 +251,14 @@ Also like dictionaries, the `remove` and `pop` methods on lists don't call `__de
 
 ```python
 >>> y
-[1, <object object at 0x7fed214640f0>, 3, <object object at 0x7fed214640f0>]
+HoleList([1, <object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
 >>> y.remove(1)
 >>> y
-[<object object at 0x7fed214640f0>, 3, <object object at 0x7fed214640f0>]
+HoleList([<object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
 >>> y.pop(0)
-<object object at 0x7fed214640f0>
+<object object at 0x7f56bdf38120>
 >>> y
-[3, <object object at 0x7fed214640f0>]
+HoleList([3, <object object at 0x7f56bdf38120>])
 ```
 
 We could again fix these issues by re-implementing the `remove` and `pop` methods:
@@ -357,7 +362,7 @@ class TwoWayDict(MutableMapping):
     def __len__(self):
         return len(self.mapping)
     def __repr__(self):
-        return repr(self.mapping)
+        return f"{type(self).__name__}({self.mapping})"
 ```
 
 Unlike `dict`, these `update` and `setdefault` methods will call our `__setitem__` method and the `pop` and `clear` methods will call our `__delitem__` method.
@@ -397,6 +402,8 @@ class TwoWayDict(UserDict):
             del self[value]
         super().__setitem__(key, value)
         super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({self.data})"
 ```
 
 You may notice something interesting about the above code.
@@ -415,12 +422,14 @@ class TwoWayDict(dict):
             del self[value]
         super().__setitem__(key, value)
         super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
 ```
 
 The `__setitem__` method is identical, but the `__delitem__` method has some small differences.
 
-It might seem from these two code blocks that `UserDict` is like `dict` but better.
-That's not quite right though.
+It might seem from these two code blocks that `UserDict` just a better `dict`.
+That's not quite right though: `UserDict` isn't a `dict` replacement so much as a `dict` wrapper.
 
 The `UserDict` class implements the *interface* that dictionaries are supposed to have, but it wraps around an actual `dict` object under-the-hood.
 
@@ -447,7 +456,8 @@ Both of these methods reference `self.data`, which we didn't define.
 
 The `UserDict` class initializer makes a dictionary which it stores in `self.data`.
 All of the methods on this dictionary-like `UserDict` class wrap around this `self.data` dictionary.
-If we want to customize one of these methods, we just override it and change what it does.
+`UserList` works the same way, except its `data` attribute wraps around a `list` object.
+If we want to customize one of the `dict` or `list` methods or these classes, we can just override it and change what it does.
 
 You can think of `UserDict` and `UserList` as **wrapper classes**.
 When we inherit from these classes, we're wrapping around a `data` attribute which we proxy all our method lookups to.
@@ -519,7 +529,6 @@ And if you're making a custom set-like object, your only options are `collection
 We don't need to create our own data structures very often in Python.
 When you do need to create your own custom collections, wrapping around a data structure is a great idea.
 Remember the `collections` and `collections.abc` modules when you need them!
-
 
 
 [python morsels]: https://www.pythonmorsels.com/
