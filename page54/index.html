@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently. My laptop has a solid-state drive and I had tweaked the boot process previously so &hellip;">
+  <meta name="description" content="In most window managers (WMs) that allow for multiple workspaces, additional monitors simply increase the size of each workspace. Since January I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,6 +30,7 @@
 
 <link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
@@ -89,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2009/05/ubuntu-now-boots-in-10-seconds/">Ubuntu Now Boots in 10 Seconds</a></h1>
+      <h1 class="entry-title"><a href="/2009/06/multiple-monitors-with-multiple-workspaces/">Multiple Monitors with Multiple Workspaces</a></h1>
     
     
       <p class="meta">
@@ -98,21 +99,45 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2009-05-01T00:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2009</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2009-06-15T00:00:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2009</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2009/05/ubuntu-now-boots-in-10-seconds/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/">Comments</a>
+           | <a href="/2009/06/multiple-monitors-with-multiple-workspaces/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
+  <div class="entry-content"><p>In most window managers (WMs) that allow for multiple workspaces, additional monitors simply increase the size of each workspace. Since January I have been using a window manager that handles multiple monitors very differently, <a href="http://www.xmonad.org/">xmonad</a>.  Instead of increasing the workspace size to fit onto two monitors, each monitor displays a separate workspace, so the number of visible workspaces is increased.</p>
 
-<p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
+<p><em>Paradigm difference between these two WM styles:</em></p>
 
-<p>The main reason the boot time is so fast is due to my solid state drive.  That is how I got my boot down to 15 seconds before.  However, 7 seconds is a ridiculously fast boot time in my opinion.  Especially since it seems like it takes only about 3 seconds until my login manager is loaded and waiting for me.</p>
+<ol>
+<li>Each additional monitor extends the workspace size
+
+<ul>
+<li>One large workspace is visible at a time (ex: workspace 1 spans across all monitors)</li>
+<li>When the workspace changes, both monitors change</li>
+<li>When removing a monitor, workspaces must shrink in size, bunching windows together</li>
+</ul>
+</li>
+<li>Each additional monitor allows another workspace to be visible
+
+<ul>
+<li>Each monitor displays one workspace at a time (ex: monitor 1 currently showing workspace 3 and monitor 2 currently showing workspace 1)</li>
+<li>When the workspace on one monitor changes the workspace on the other monitor does not need to change</li>
+<li>When removing a monitor, one less workspace will be displayed</li>
+</ul>
+</li>
+</ol>
+
+
+<p>There are many times when I want to be able to keep one monitor static while changing the other monitor.  For example I may want a video to stay on one monitor while I work on the other monitor.  In most window managers this restricts me to one workspace because changing workspaces would change both monitors.  In xmonad, the workspace that contains the video can be placed on one monitor and the visible workspace on the other monitor can changed freely without interfering with the first monitor.</p>
+
+<p>Since using xmonad, I have found &ldquo;1 workspace per monitor&rdquo; window management much more productive and comfortable.  I wish more window managers would at least make this kind of workspace/monitor handling an option.  I have had problems with xmonad recently and I have been trying to switch back to a more popular window manager with free-floating windows like Gnome, KDE, Xfce, or Openbox.</p>
+
+<p>So far my biggest problem with switching to other window managers has been the lack of &ldquo;1 workspace per monitor&rdquo; support.  Xmonad has greatly increased my productivity with two monitors and it&rsquo;s hard for me to switch away from it for this reason.  Hopefully I will find out how to effectively emulate this behavior in other window managers.</p>
 </div>
   
   <footer>
@@ -123,6 +148,8 @@ ga('send', 'pageview');
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/page55">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

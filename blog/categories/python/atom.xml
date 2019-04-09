@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-05T13:06:46-07:00</updated>
+  <updated>2019-04-09T06:47:04-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,547 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
+    <link href="http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
+    <updated>2019-04-09T07:00:00-07:00</updated>
+    <id>http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of [Python Morsels][] since I started it last year.
+At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
+
+<p>Since each Python Morsels solutions email involves a walk-through of many ways to solve the same problem, I&rsquo;ve solved each of these in many ways.</p>
+
+<p>I&rsquo;ve solved these:</p>
+
+<ul>
+<li>manually with <code>__dunder__</code> methods</li>
+<li>with the abstract base classes in [collections.abc][]</li>
+<li>with [collections.UserDict][UserDict] and [collections.UserList][UserList]</li>
+<li>by inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> directly</li>
+</ul>
+
+
+<p>While creating and solving many exercises involving custom collections, I&rsquo;ve realized that inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> is often subtly painful.
+I&rsquo;m writing this article to explain why I often don&rsquo;t recommend inheriting from these built-in classes in Python.</p>
+
+<p>My examples will focus on <code>dict</code> and <code>list</code> since those are likely more commonly sub-classed.</p>
+
+<h2>Making a custom dictionary</h2>
+
+<p>We&rsquo;d like to make a dictionary that&rsquo;s bi-directional.
+When a key-value pair is added, the key maps to the value but the value also maps to the key.</p>
+
+<p>There will always be an even number of elements in this dictionary.
+And if <code>d[k] == v</code> is <code>True</code> then <code>d[v] == k</code> will always be <code>True</code> also.</p>
+
+<p>We could try to implement this by customizing deletion and setting of key-value pairs.</p>
+
+<pre><code class="python">class TwoWayDict(dict):
+    def __delitem__(self, key):
+        value = super().pop(key)
+        super().pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        super().__setitem__(key, value)
+        super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
+</code></pre>
+
+<p>Here we&rsquo;re ensuring that:</p>
+
+<ul>
+<li>deleting keys will delete their corresponding values as well</li>
+<li>whenever we set a new value for <code>k</code> that any existing value will be removed properly</li>
+<li>whenever we set a key-value pair, that the corresponding value-key pair will be set too</li>
+</ul>
+
+
+<p>Setting and deleting items from this bi-directional dictionary seems to work as we&rsquo;d expect:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
+&gt;&gt;&gt; d[3] = 8
+&gt;&gt;&gt; d
+TwoWayDict({3: 8, 8: 3})
+&gt;&gt;&gt; d[7] = 6
+&gt;&gt;&gt; d
+TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
+</code></pre>
+
+<p>But calling the <code>update</code> method on this dictionary leads to odd behavior:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d
+TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
+&gt;&gt;&gt; d.update({9: 7, 8: 2})
+&gt;&gt;&gt; d
+TwoWayDict({3: 8, 8: 2, 7: 6, 6: 7, 9: 7})
+</code></pre>
+
+<p>Adding <code>9: 7</code> should have removed <code>7: 6</code> and <code>6: 7</code> and adding <code>8: 2</code> should have removed <code>3: 8</code> and <code>8: 3</code>.</p>
+
+<p>We could fix this with a custom <code>update</code> method:</p>
+
+<pre><code class="python">    def update(self, items):
+        if isinstance(items, dict):
+            items = items.items()
+        for key, value in items:
+            self[key] = value
+</code></pre>
+
+<p>But calling the initializer doesn&rsquo;t work either:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict({9: 7, 8: 2})
+&gt;&gt;&gt; d
+TwoWayDict({9: 7, 8: 2})
+</code></pre>
+
+<p>So we&rsquo;ll make a custom initializer that calls <code>update</code>:</p>
+
+<pre><code class="python">    def __init__(self, items=()):
+        self.update(items)
+</code></pre>
+
+<p>But <code>pop</code> doesn&rsquo;t work:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
+&gt;&gt;&gt; d[9] = 7
+&gt;&gt;&gt; d
+TwoWayDict({9: 7, 7: 9})
+&gt;&gt;&gt; d.pop(9)
+7
+&gt;&gt;&gt; d
+TwoWayDict({7: 9}
+</code></pre>
+
+<p>And neither does <code>setdefault</code>:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
+&gt;&gt;&gt; d.setdefault(4, 2)
+2
+&gt;&gt;&gt; d
+TwoWayDict({4: 2})
+</code></pre>
+
+<p>The problem is the <code>pop</code> method doesn&rsquo;t actually call <code>__delitem__</code> and the <code>setdefault</code> method doesn&rsquo;t actually call <code>__setitem__</code>.</p>
+
+<p>If we wanted to fix this problem, we have to completely re-implement <code>pop</code> and <code>setdefault</code>:</p>
+
+<pre><code class="python">DEFAULT = object()
+
+class TwoWayDict(dict):
+    # ...
+    def pop(self, key, default=DEFAULT):
+        if key in self or default is DEFAULT:
+            value = self[key]
+            del self[key]
+            return value
+        else:
+            return default
+    def setdefault(self, key, value):
+        if key not in self:
+            self[key] = value
+</code></pre>
+
+<p>This is all very tedious though.
+When inheriting from <code>dict</code> to create a custom dictionary, we&rsquo;d expect <code>update</code> and <code>__init__</code> would call <code>__setitem__</code> and <code>pop</code> and <code>setdefault</code> would call <code>__delitem__</code>.
+But they don&rsquo;t!</p>
+
+<p>Likewise, <code>get</code> and <code>pop</code> don&rsquo;t call <code>__getitem__</code>, as you might expect they would.</p>
+
+<h2>Lists and sets have the same problem</h2>
+
+<p>The <code>list</code> and <code>set</code> classes have similar problems to the <code>dict</code> class.
+Let&rsquo;s take a look at an example.</p>
+
+<p>We&rsquo;ll make a custom list that inherits from the <code>list</code> constructor and overrides the behavior of <code>__delitem__</code>, <code>__iter__</code>, and <code>__eq__</code>.
+This list will customize <code>__delitem__</code> to not actually <em>delete</em> an item but to instead leave a &ldquo;hole&rdquo; where that item used to be.
+The <code>__iter__</code> and <code>__eq__</code> methods will skip over this hole when comparing two <code>HoleList</code> classes as &ldquo;equal&rdquo;.</p>
+
+<p>This class is a bit nonsensical (no it&rsquo;s not a Python Morsels exercise fortunately), but we&rsquo;re focused less on the class itself and more on the issue with inheriting from <code>list</code>:</p>
+
+<pre><code class="python">class HoleList(list):
+
+    HOLE = object()
+
+    def __delitem__(self, index):
+        self[index] = self.HOLE
+
+    def __iter__(self):
+        return (
+            item
+            for item in super().__iter__()
+            if item is not self.HOLE
+        )
+
+    def __eq__(self, other):
+        if isinstance(other, HoleList):
+            return all(
+                x == y
+                for x, y in zip(self, other)
+            )
+        return super().__eq__(other)
+
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
+</code></pre>
+
+<p>Unrelated Aside: if you&rsquo;re curious about that <code>object()</code> thing, I explain why it&rsquo;s useful in [my article about sentinel values in Python][sentinel values].</p>
+
+<p>If we make two <code>HoleList</code> objects and delete items from them such that they have the same non-hole items:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x = HoleList([2, 1, 3, 4])
+&gt;&gt;&gt; y = HoleList([1, 2, 3, 5])
+&gt;&gt;&gt; del x[0]
+&gt;&gt;&gt; del y[1]
+&gt;&gt;&gt; del x[-1]
+&gt;&gt;&gt; del y[-1]
+</code></pre>
+
+<p>We&rsquo;ll see that they&rsquo;re equal:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x == y
+True
+&gt;&gt;&gt; list(x), list(y)
+([1, 3], [1, 3])
+&gt;&gt;&gt; x
+HoleList([&lt;object object at 0x7f56bdf38120&gt;, 1, 3, &lt;object object at 0x7f56bdf38120&gt;])
+&gt;&gt;&gt; y
+HoleList([1, &lt;object object at 0x7f56bdf38120&gt;, 3, &lt;object object at 0x7f56bdf38120&gt;])
+</code></pre>
+
+<p>But if we then ask them whether they&rsquo;re <em>not equal</em> we&rsquo;ll see that they&rsquo;re both <em>equal</em> and <em>not equal</em>:</p>
+
+<pre><code class="python">&gt;&gt;&gt; x == y
+True
+&gt;&gt;&gt; x != y
+True
+&gt;&gt;&gt; list(x), list(y)
+([1, 3], [1, 3])
+&gt;&gt;&gt; x
+HoleList([&lt;object object at 0x7f56bdf38120&gt;, 1, 3, &lt;object object at 0x7f56bdf38120&gt;])
+&gt;&gt;&gt; y
+HoleList([1, &lt;object object at 0x7f56bdf38120&gt;, 3, &lt;object object at 0x7f56bdf38120&gt;])
+</code></pre>
+
+<p>Normally in Python 3, overriding <code>__eq__</code> would customize the behavior of both equality (<code>==</code>) and inequality (<code>!=</code>) checks.
+But not for <code>list</code> or <code>dict</code>: they define both <code>__eq__</code> and <code>__ne__</code> methods which means we need to override both.</p>
+
+<pre><code class="python">    def __ne__(self, other):
+        return not (self == other)
+</code></pre>
+
+<p>Dictionaries suffer from this same problem: <code>__ne__</code> exists which means we need to be careful to override both <code>__eq__</code> and <code>__ne__</code> when inheriting from them.</p>
+
+<p>Also like dictionaries, the <code>remove</code> and <code>pop</code> methods on lists don&rsquo;t call <code>__delitem__</code>:</p>
+
+<p>&#8220;`python</p>
+
+<blockquote><blockquote><blockquote><p>y
+HoleList([1, <object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
+y.remove(1)
+y
+HoleList([<object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
+y.pop(0)</p></blockquote></blockquote></blockquote>
+
+<p><object object at 0x7f56bdf38120></p>
+
+<blockquote><blockquote><blockquote><p>y
+HoleList([3, <object object at 0x7f56bdf38120>])
+&#8220;`</p></blockquote></blockquote></blockquote>
+
+<p>We could again fix these issues by re-implementing the <code>remove</code> and <code>pop</code> methods:</p>
+
+<pre><code class="python">    def remove(self, value):
+        index = self.index(value)
+        del self[index]
+    def pop(self, index=-1):
+        value = self[index]
+        del self[index]
+        return value
+</code></pre>
+
+<p>But this is a pain.
+And who knows whether we&rsquo;re done?</p>
+
+<p>Every time we customize a bit of core functionality on a <code>list</code> or <code>dict</code> subclass, we&rsquo;ll need to make sure we customize other methods that also include exactly the same functionality (but which don&rsquo;t delegate to the method we overrode).</p>
+
+<h2>Why did the Python developers do this?</h2>
+
+<p>From my understanding, the built-in <code>list</code>, <code>dict</code>, and <code>set</code> types have in-lined a lot of code for performance.
+Essentially, they&rsquo;ve copy-pasted the same code between many different functions to avoid extra function calls and make things a tiny bit faster.</p>
+
+<p>I haven&rsquo;t found a reference online that explains why this decision was made and what the consequences of the alternatives to this choice were.
+But I mostly trust that this was done for my benefit as a Python developer.
+If <code>dict</code> and <code>list</code> weren&rsquo;t faster this way, why would the core developers have chosen this odd implementation?</p>
+
+<h2>What&rsquo;s the alternative to inheriting from list and dict?</h2>
+
+<p>So inheriting from <code>list</code> to make a custom list was painful and inheriting from <code>dict</code> to create a custom dictionary was painful.
+What&rsquo;s the alternative?</p>
+
+<p>How can we create a custom dictionary-like object that <em>doesn&rsquo;t</em> inherit from the built-in <code>dict</code>?</p>
+
+<p>There are a few ways to create custom dictionaries:</p>
+
+<ol>
+<li>Fully embrace duck typing: figure out everything we need for our data structure to be <code>dict</code>-like and create a completely custom class (that walks and quacks like a <code>dict</code>)</li>
+<li>Inherit from a helper class that&rsquo;ll point us in the right direction and tell us which methods our object needs to be <code>dict</code>-like</li>
+<li>Find a more extensible re-implementation of <code>dict</code> and inherit from it instead</li>
+</ol>
+
+
+<p>We&rsquo;re going to skip over the first approach: reimplementing everything from scratch will take a while and Python has some helpers that&rsquo;ll make things easier.
+We&rsquo;re going to take a look at those helpers, first the ones that point us in the right direction (2 above) and then the ones that act as full <code>dict</code>-replacements (3 above).</p>
+
+<h3>Abstract base classes: they&rsquo;ll help you quack like a duck</h3>
+
+<p>Python&rsquo;s [collections.abc][] module includes <strong>abstract base classes</strong> that can help us implement some of the common protocols (<em>interfaces</em> as Java calls them) seen in Python.</p>
+
+<p>We&rsquo;re trying to make a dictionary-like object.
+Dictionaries are <strong>mutable mappings</strong>.
+A dictionary-like object is a mapping.
+That word &ldquo;mapping&rdquo; comes from &ldquo;hash map&rdquo;, which is what many other programming languages call this kind of data structure.</p>
+
+<p>So we want to make a mutable mapping.
+The <code>collections.abc</code> module provides an abstract base class for that: <code>MutableMapping</code>!</p>
+
+<p>If we inherit from this abstract base class, we&rsquo;ll see that we&rsquo;re required to implement certain methods for it to work:</p>
+
+<pre><code class="python">&gt;&gt;&gt; from collections.abc import MutableMapping
+&gt;&gt;&gt; class TwoWayDict(MutableMapping):
+...     pass
+...
+&gt;&gt;&gt; d = TwoWayDict()
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+TypeError: Can't instantiate abstract class TwoWayDict with abstract methods __delitem__, __getitem__, __iter__, __len__, __setitem__
+</code></pre>
+
+<p>The <code>MutableMapping</code> class requires us to say how getting, deleting, and setting items works, how iterating works, and how we get the length of our dictionary.
+But once we do that, we&rsquo;ll get the <code>pop</code>, <code>clear</code>, <code>update</code>, and <code>setdefault</code> methods for free!</p>
+
+<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> using the <code>MutableMapping</code> abstract base class:</p>
+
+<pre><code class="python">from collections.abc import MutableMapping
+
+
+class TwoWayDict(MutableMapping):
+    def __init__(self, data=()):
+        self.mapping = {}
+        self.update(data)
+    def __getitem__(self, key):
+        return self.mapping[key]
+    def __delitem__(self, key):
+        value = self[key]
+        del self.mapping[key]
+        self.pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        self.mapping[key] = value
+        self.mapping[value] = key
+    def __iter__(self):
+        return iter(self.mapping)
+    def __len__(self):
+        return len(self.mapping)
+    def __repr__(self):
+        return f"{type(self).__name__}({self.mapping})"
+</code></pre>
+
+<p>Unlike <code>dict</code>, these <code>update</code> and <code>setdefault</code> methods will call our <code>__setitem__</code> method and the <code>pop</code> and <code>clear</code> methods will call our <code>__delitem__</code> method.</p>
+
+<p>Abstract base classes might make you think we&rsquo;re leaving the wonderful land of Python duck typing behind for some sort of strongly-typed [OOP][] land.
+But abstract base classes actually enhance duck typing.
+<strong>Inheriting from abstract base classes helps us be better ducks</strong>.
+We don&rsquo;t have to worry about whether we&rsquo;ve implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify an essential behavior.</p>
+
+<p>The <code>HoleList</code> class we made before would need to inherit from the <code>MutableSequence</code> abstract base class.
+A custom set-like class would probably inherit from the <code>MutableSet</code> abstract base class.</p>
+
+<h3>UserList/UserDict: lists and dictionaries that are actually extensible</h3>
+
+<p>When using the collection ABCs, <code>Mapping</code>, <code>Sequence</code>, <code>Set</code> (and their mutable children) you&rsquo;ll often find yourself creating a wrapper around an existing data structure.
+If you&rsquo;re implementing a dictionary-like object, using a dictionary under the hood makes things easier: the same applies for lists and sets.</p>
+
+<p>Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which <strong>wrap around <code>list</code> and <code>dict</code> objects</strong>.
+These two classes live in the [collections][] module as [UserList][] and [UserDict][].</p>
+
+<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> that inherits from <code>UserDict</code>:</p>
+
+<pre><code class="python">from collections import UserDict
+
+
+class TwoWayDict(UserDict):
+    def __delitem__(self, key):
+        value = self[key]
+        super().__delitem__(key)
+        self.pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        super().__setitem__(key, value)
+        super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({self.data})"
+</code></pre>
+
+<p>You may notice something interesting about the above code.</p>
+
+<p>That code looks extremely similar to the code we originally wrote (the first version that had lots of bugs) when attempting to inherit from <code>dict</code>:</p>
+
+<pre><code class="python">class TwoWayDict(dict):
+    def __delitem__(self, key):
+        value = super().pop(key)
+        super().pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        super().__setitem__(key, value)
+        super().__setitem__(value, key)
+    def __repr__(self):
+        return f"{type(self).__name__}({super().__repr__()})"
+</code></pre>
+
+<p>The <code>__setitem__</code> method is identical, but the <code>__delitem__</code> method has some small differences.</p>
+
+<p>It might seem from these two code blocks that <code>UserDict</code> just a better <code>dict</code>.
+That&rsquo;s not quite right though: <code>UserDict</code> isn&rsquo;t a <code>dict</code> replacement so much as a <code>dict</code> wrapper.</p>
+
+<p>The <code>UserDict</code> class implements the <em>interface</em> that dictionaries are supposed to have, but it wraps around an actual <code>dict</code> object under-the-hood.</p>
+
+<p>Here&rsquo;s another way we could have written the above <code>UserDict</code> code, without any <code>super</code> calls:</p>
+
+<pre><code class="python">from collections import UserDict
+
+
+class TwoWayDict(UserDict):
+    def __delitem__(self, key):
+        value = self.data.pop(key)
+        self.data.pop(value, None)
+    def __setitem__(self, key, value):
+        if key in self:
+            del self[self[key]]
+        if value in self:
+            del self[value]
+        self.data[key] = value
+        self.data[value] = key
+</code></pre>
+
+<p>Both of these methods reference <code>self.data</code>, which we didn&rsquo;t define.</p>
+
+<p>The <code>UserDict</code> class initializer makes a dictionary which it stores in <code>self.data</code>.
+All of the methods on this dictionary-like <code>UserDict</code> class wrap around this <code>self.data</code> dictionary.
+<code>UserList</code> works the same way, except its <code>data</code> attribute wraps around a <code>list</code> object.
+If we want to customize one of the <code>dict</code> or <code>list</code> methods or these classes, we can just override it and change what it does.</p>
+
+<p>You can think of <code>UserDict</code> and <code>UserList</code> as <strong>wrapper classes</strong>.
+When we inherit from these classes, we&rsquo;re wrapping around a <code>data</code> attribute which we proxy all our method lookups to.</p>
+
+<p>In fancy OOP speak, we might consider <code>UserDict</code> and <code>UserList</code> to be [adapter classes][].</p>
+
+<h3>So should I use abstract base classes or UserDict and UserList?</h3>
+
+<p>The <code>UserList</code> and <code>UserDict</code> classes were originally created long before the abstract base classes in <code>collections.abc</code>.
+<code>UserList</code> and <code>UserDict</code> have been around (in some form at least) since before Python 2.0 was even released, but the <code>collections.abc</code> abstract base classes have only been around since Python 2.6.</p>
+
+<p>The <code>UserList</code> and <code>UserDict</code> classes are when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.</p>
+
+<p>The abstract base classes in <code>collections.abc</code> are useful when you want something that&rsquo;s a <em>sequence</em> or a <em>mapping</em> but is different enough from a list or a dictionary that you really should be making your own custom class.</p>
+
+<h2>Does inheriting from list and dict ever make sense?</h2>
+
+<p>Inheriting from <code>list</code> and <code>dict</code> isn&rsquo;t always bad.</p>
+
+<p>For example, here&rsquo;s a perfectly functional version of a <code>DefaultDict</code> (which acts a little differently from <code>collections.defaultdict</code>):</p>
+
+<pre><code class="python">class DefaultDict(dict):
+    def __init__(self, *args, default=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default = default
+    def __missing__(self, key):
+        return self.default
+</code></pre>
+
+<p>This <code>DefaultDict</code> uses the <code>__missing__</code> method to act as you&rsquo;d expect:</p>
+
+<pre><code class="python">&gt;&gt;&gt; d = DefaultDict({'a': 8})
+&gt;&gt;&gt; d['a']
+8
+&gt;&gt;&gt; d['b']
+&gt;&gt;&gt; d
+{'a': 8}
+&gt;&gt;&gt; e = DefaultDict({'a': 8}, default=4)
+&gt;&gt;&gt; e['a']
+8
+&gt;&gt;&gt; e['b']
+4
+&gt;&gt;&gt; e
+{'a': 8}
+</code></pre>
+
+<p>There&rsquo;s no problem with inheriting from <code>dict</code> here because we&rsquo;re not overriding functionality that lives in many different places.</p>
+
+<p>If you&rsquo;re changing functionality that&rsquo;s limited to a single method or adding your own custom method, it&rsquo;s probably worth inheriting from <code>list</code> or <code>dict</code> directly.
+But if your change will require duplicating the same functionality in multiple places (as is often the case), consider reaching for one of the alternatives.</p>
+
+<h2>When making a custom list or dictionary, remember you have options</h2>
+
+<p>When creating your own set-like, list-like, or dictionary-like object, think carefully about how you need your object to work.</p>
+
+<p>If you need to change some core functionality, inheriting from <code>list</code>, <code>dict</code>, or <code>set</code> will be painful and I&rsquo;d recommend against it.</p>
+
+<p>If you&rsquo;re making a variation of <code>list</code> or <code>dict</code> and need to customize just a little bit of core functionality, consider inheriting from <code>collections.UserList</code> or <code>collections.UserDict</code>.</p>
+
+<p>In general, if you&rsquo;re making something custom, you&rsquo;ll often want to reach for the abstract base classes in <code>collections.abc</code>.
+For example if you&rsquo;re making a slightly more custom sequence or mapping (think <code>collections.deque</code>, <code>range</code>, and maybe <code>collections.Counter</code>) you&rsquo;ll want <code>MutableSequnce</code> or <code>MutableMapping</code>.
+And if you&rsquo;re making a custom set-like object, your only options are <code>collections.abc.Set</code> or <code>collections.abc.MutableSet</code> (there is no <code>UserSet</code>).</p>
+
+<p>We don&rsquo;t need to create our own data structures very often in Python.
+When you do need to create your own custom collections, wrapping around a data structure is a great idea.
+Remember the <code>collections</code> and <code>collections.abc</code> modules when you need them!</p>
+
+<h2>You don&rsquo;t learn by putting information into your head</h2>
+
+<p>You don&rsquo;t learn by putting information into your head, you learn by trying to retrieve information <em>from</em> your head.
+This knowledge about inheriting from <code>list</code> and <code>dict</code> and the <code>collections.abc</code> classes and <code>collections.UserList</code> and <code>collections.UserDict</code> isn&rsquo;t going to stick unless you try to apply it!</p>
+
+<p>If you use the below form to sign up for Python Morsels, the first exercise you see when you sign up will involve creating your own custom mapping or sequence (it&rsquo;ll be a surprise which one).
+After that first exercise, I&rsquo;ll send you one exercise every week for the next month.
+By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, though you can change your skill level after you sign up.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+    <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+    <input type="hidden" name="exercise_track" value="custom collection">
+    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+    <br>
+    <small>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    </small>
+</form></p>
+
+<p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
+
+<p>[python morsels]: <a href="https://www.pythonmorsels.com/">https://www.pythonmorsels.com/</a>
+[collections.abc]: <a href="https://docs.python.org/3/library/collections.abc.html">https://docs.python.org/3/library/collections.abc.html</a>
+[UserDict]: <a href="https://docs.python.org/3/library/collections.html#collections.UserDict">https://docs.python.org/3/library/collections.html#collections.UserDict</a>
+[UserList]: <a href="https://docs.python.org/3/library/collections.html#collections.UserList">https://docs.python.org/3/library/collections.html#collections.UserList</a>
+[solid]: <a href="https://en.wikipedia.org/wiki/SOLID_">https://en.wikipedia.org/wiki/SOLID_</a>(object-oriented_design)
+[oop]: <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">https://en.wikipedia.org/wiki/Object-oriented_programming</a>
+[collections]: <a href="https://docs.python.org/3/library/collections.html">https://docs.python.org/3/library/collections.html</a>
+[sentinel values]: <a href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/">https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/</a>
+[adapter classes]: <a href="https://en.wikipedia.org/wiki/Adapter_pattern">https://en.wikipedia.org/wiki/Adapter_pattern</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
@@ -1838,424 +2379,6 @@ False
 
 <p><strong>Python&rsquo;s support for lexicographical ordering and deep comparisons is often overlooked by folks moving from other programming languages</strong>.
 Remember these features: you may not need them today, but they&rsquo;ll almost certainly come in handy at some point.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[No really, pathlib is great]]></title>
-    <link href="http://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
-    <updated>2019-01-15T11:20:00-08:00</updated>
-    <id>http://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
-    <content type="html"><![CDATA[<p>I recently <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">published an article about Python&rsquo;s pathlib module</a> and how I think everyone should be using it.</p>
-
-<p>I won some <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> converts, but some folks also brought up concerns.
-Some folks noted that I seemed to be comparing <code>pathlib</code> to <code>os.path</code> in a disingenuous way.
-Some people were also concerned that <code>pathlib</code> will take a very long time to be widely adopted because <code>os.path</code> is so entrenched in the Python community.
-And there were also concerns expressed about performance.</p>
-
-<p>In this article I&rsquo;d like to acknowledge and address these concerns.
-This will be both a defense of <code>pathlib</code> and a sort of love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
-
-<h2>Comparing pathlib and os.path the right way</h2>
-
-<p>In my last article I compared this code which uses <code>os</code> and <code>os.path</code>:</p>
-
-<pre><code class="python">import os
-import os.path
-
-os.makedirs(os.path.join('src', '__pypackages__'), exist_ok=True)
-os.rename('.editorconfig', os.path.join('src', '.editorconfig'))
-</code></pre>
-
-<p>To this code with uses <code>pathlib.Path</code>:</p>
-
-<pre><code class="python">from pathlib import Path
-
-Path('src/__pypackages__').mkdir(parents=True, exist_ok=True)
-Path('.editorconfig').rename('src/.editorconfig')
-</code></pre>
-
-<p>This might seem like an unfair comparison because I used <code>os.path.join</code> in the first example to ensure the correct path separator is used on all platforms but I didn&rsquo;t do that in the second example.
-But this is in fact a fair comparison because <strong>the Path class normalizes path separators automatically</strong>.</p>
-
-<p>We can prove this by looking at the string representation of this <code>Path</code> object on Windows:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; str(Path('src/__pypackages__'))
-'src\\__pypackages__'
-</code></pre>
-
-<p>No matter whether we use the <code>joinpath</code> method, a <code>/</code> in a path string, the <code>/</code> operator (which is a neat feature of <code>Path</code> objects), or separate arguments to the <code>Path</code> constructor, we get the same representation in all cases:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; Path('src', '.editorconfig')
-WindowsPath('src/.editorconfig')
-&gt;&gt;&gt; Path('src') / '.editorconfig'
-WindowsPath('src/.editorconfig')
-&gt;&gt;&gt; Path('src').joinpath('.editorconfig')
-WindowsPath('src/.editorconfig')
-&gt;&gt;&gt; Path('src/.editorconfig')
-WindowsPath('src/.editorconfig')
-</code></pre>
-
-<p>That last expression caused some confusion from folks who assumed <code>pathlib</code> wouldn&rsquo;t be smart enough to convert that <code>/</code> into a <code>\</code> in the path string.
-Fortunately, it is!</p>
-
-<p>With <code>Path</code> objects, you never have to worry about backslashes vs forward slashes again: specify all paths using forward slashes and you&rsquo;ll get what you&rsquo;d expect on all platforms.</p>
-
-<h2>Normalizing file paths shouldn&rsquo;t be your concern</h2>
-
-<p>If you&rsquo;re developing on Linux or Mac, it&rsquo;s very easy to add bugs to your code that only affect Windows users.
-Unless you&rsquo;re careful to use <code>os.path.join</code> to build your paths up or <code>os.path.normcase</code> to convert forward slashes to backslashes as appropriate, <strong>you may be writing code that breaks on Windows</strong>.</p>
-
-<p>This is a Windows bug waiting to happen (we&rsquo;ll get mixed backslashes and forward slashes here):</p>
-
-<pre><code class="python">import sys
-import os.path
-directory = '.' if not sys.argv[1:] else sys.argv[1]
-new_file = os.path.join(directory, 'new_package/__init__.py')
-</code></pre>
-
-<p>This just works on all systems:</p>
-
-<pre><code class="python">import sys
-from pathlib import Path
-directory = '.' if not sys.argv[1:] else sys.argv[1]
-new_file = Path(directory, 'new_package/__init__.py')
-</code></pre>
-
-<p>It used to be the responsibility of you the Python programmer to carefully join and normalize your paths, just as it used to be your responsibility in Python 2 land to use unicode whenever it was more appropriate than bytes.
-This is the case no more.
-The <code>pathlib.Path</code> class is careful to fix path separator issues before they even occur.</p>
-
-<p>I don&rsquo;t use Windows.
-I don&rsquo;t own a Windows machine.
-But a ton of the developers who use my code likely use Windows and I don&rsquo;t want my code to break on their machines.</p>
-
-<p><strong>If there&rsquo;s a chance that your Python code will ever run on a Windows machine, you really need <code>pathlib</code></strong>.</p>
-
-<p><strong>Don&rsquo;t stress about path normalization</strong>: just use <code>pathlib.Path</code> whenever you need to represent a file path.</p>
-
-<h2>pathlib seems great, but I depend on code that doesn&rsquo;t use it!</h2>
-
-<p>You have lots of code that works with path strings.
-Why would you switch to using <code>pathlib</code> when it means you&rsquo;d need to rewrite all this code?</p>
-
-<p>Let&rsquo;s say you have a function like this:</p>
-
-<pre><code class="python">import os
-import os.path
-
-def make_editorconfig(dir_path):
-    """Create .editorconfig file in given directory and return filename."""
-    filename = os.path.join(dir_path, '.editorconfig')
-    if not os.path.exists(filename):
-        os.makedirs(dir_path, exist_ok=True)
-        open(filename, mode='wt').write('')
-    return filename
-</code></pre>
-
-<p>This function accepts a directory to create a <code>.editorconfig</code> file in, like this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; import os.path
-&gt;&gt;&gt; make_editorconfig(os.path.join('src', 'my_package'))
-'src/my_package/.editorconfig'
-</code></pre>
-
-<p>But our code also works with a <code>Path</code> object:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from pathlib import Path
-&gt;&gt;&gt; make_editorconfig(Path('src/my_package'))
-'src/my_package/.editorconfig'
-</code></pre>
-
-<p>But&hellip; how??</p>
-
-<p>Well <code>os.path.join</code> accepts <code>Path</code> objects (as of Python 3.6).
-And <code>os.makedirs</code> accepts <code>Path</code> objects too.</p>
-
-<p>In fact the built-in <code>open</code> function accepts <code>Path</code> objects and <code>shutil</code> does and anything in the standard library that previously accepted a path string is now expected to work with both <code>Path</code> objects and path strings.</p>
-
-<p>This is all thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, which called for an <code>os.PathLike</code> abstract base class and declared that Python utilities that work with file paths should now accept either path strings or path-like objects.</p>
-
-<h2>But my favorite third-party library X has a better Path object!</h2>
-
-<p>You might already be using a third-party library that has a <code>Path</code> object which works differently than pathlib&rsquo;s Path objects.
-Maybe you even like it better.</p>
-
-<p>For example <a href="https://github.com/joke2k/django-environ">django-environ</a>, <a href="https://github.com/jaraco/path.py">path.py</a>, <a href="https://github.com/tomerfiliba/plumbum">plumbum</a>, and <a href="https://github.com/saulpw/visidata">visidata</a> all have their own custom <code>Path</code> objects that represent file paths.
-Some of these <code>pathlib</code> alternatives predate <code>pathlib</code> and chose to inherit from <code>str</code> so they could be passed to functions that expected path strings.
-Thanks to PEP 519 both <code>pathlib</code> and its third-party alternatives can play nicely without needing to resort to the hack of inheriting from <code>str</code>.</p>
-
-<p>Let&rsquo;s say you don&rsquo;t like <code>pathlib</code> because <code>Path</code> objects are immutable and you very much prefer using mutable <code>Path</code> objects.
-Well thanks to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>, you can create your own even-better-because-it-is-mutable <code>Path</code> and also has a <code>__fspath__</code>.
-You don&rsquo;t <em>need</em> to use <code>pathlib</code> to benefit from it.</p>
-
-<p>Any homegrown <code>Path</code> object you make or find in a third party library now has the ability to work natively with the Python built-ins and standard library modules that expect Path objects.
-<strong>Even if you don&rsquo;t like <code>pathlib</code>, its existence a big win for third-party <code>Path</code> objects as well</strong>.</p>
-
-<h2>But Path objects and path strings don&rsquo;t mix, do they?</h2>
-
-<p>You might be thinking: this is really wonderful, but won&rsquo;t this sometimes-a-string and sometimes-a-path-object situation add confusion to my code?</p>
-
-<p>The answer is yes, somewhat.
-But I&rsquo;ve found that it&rsquo;s pretty easy to work around.</p>
-
-<p>PEP 519 added a couple other things along with path-like objects: one is a way to convert all path-like objects to path strings and the other is a way to convert all path-like objects to <code>Path</code> objects.</p>
-
-<p>Given either a path string or a <code>Path</code> object (or anything with a <code>__fspath__</code> method):</p>
-
-<pre><code class="python">from pathlib import Path
-import os.path
-p1 = os.path.join('src', 'my_package')
-p2 = Path('src/my_package')
-</code></pre>
-
-<p>The <code>os.fspath</code> function will now normalize both of these types of paths to strings:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from os import fspath
-&gt;&gt;&gt; fspath(p1), fspath(p2)
-('src/my_package', 'src/my_package')
-</code></pre>
-
-<p>And the <code>Path</code> class will now accept both of these types of paths and convert them to <code>Path</code> objects:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; Path(p1), Path(p2)
-(PosixPath('src/my_package'), PosixPath('src/my_package'))
-</code></pre>
-
-<p>That means you could convert the output of the <code>make_editorconfig</code> function back into a <code>Path</code> object if you wanted to:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from pathlib import Path
-&gt;&gt;&gt; Path(make_editorconfig(Path('src/my_package')))
-PosixPath('src/my_package/.editorconfig')
-</code></pre>
-
-<p>Though of course a better long-term approach would be to rewrite the <code>make_editorconfig</code> function to use <code>pathlib</code> instead.</p>
-
-<h2>pathlib is too slow</h2>
-
-<p>I&rsquo;ve heard this concern come up a few times: <code>pathlib</code> is just too slow.</p>
-
-<p>It&rsquo;s true that <code>pathlib</code> can be slow.
-Creating thousands of <code>Path</code> objects can make a noticeable impact on your code.</p>
-
-<p>I decided to test the performance difference between <code>pathlib</code> and the alternative on my own machine using two different programs that both look for all <code>.py</code> files below the current directory.</p>
-
-<p>Here&rsquo;s the <code>os.walk</code> version:</p>
-
-<pre><code class="python">from os import getcwd, walk
-
-
-extension = '.py'
-count = 0
-for root, directories, filenames in walk(getcwd()):
-    for filename in filenames:
-        if filename.endswith(extension):
-            count += 1
-print(f"{count} Python files found")
-</code></pre>
-
-<p>Here&rsquo;s the <code>Path.rglob</code> version:</p>
-
-<pre><code class="python">from pathlib import Path
-
-
-extension = '.py'
-count = 0
-for filename in Path.cwd().rglob(f'*{extension}'):
-    count += 1
-print(f"{count} Python files found")
-</code></pre>
-
-<p>Testing runtimes for programs that rely on filesystem accesses is tricky because runtimes vary greatly, so I reran each script 10 times and compared the best runtime of each.</p>
-
-<p>Both scripts found 97,507 Python files in the directory I ran them in.
-The first one finished in 1.914 seconds (best out of 10 runs).
-The second one finished in 3.430 seconds (best out of 10 runs).</p>
-
-<p>When I set <code>extension = ''</code> these find about 600,000 files and the differences spread a little further apart.
-The first runs in 1.888 seconds and the second in 7.485 seconds.</p>
-
-<p>So the <code>pathlib</code> version of this program <strong>ran twice as slow</strong> for <code>.py</code> files and <strong>four times as slow</strong> for every file in my home directory.
-<strong>The <code>pathlib</code> code was indeed slower</strong>, much slower percentage-wise.</p>
-
-<p>But in my case, this speed difference doesn&rsquo;t matter much.
-I searched for every file in my home directory and lost 6 seconds to the slower version of my code.
-If I needed to scale this code to search 10 million files, I&rsquo;d probably want to rewrite it.
-But that&rsquo;s a problem I can get to if I experience it.</p>
-
-<p>If you have a tight loop that could use some optimizing and <code>pathlib.Path</code> is one of the bottlenecks that&rsquo;s slowing that loop down, abandon <code>pathlib</code> in that part of your code.
-But <strong>don&rsquo;t optimize parts of your code that aren&rsquo;t bottlenecks</strong>: it&rsquo;s a waste of time and often results in less readable code for little gain.</p>
-
-<h2>Improving readability with pathlib</h2>
-
-<p>I&rsquo;d like to wrap up these thoughts by ending with some <code>pathlib</code> refactorings.
-I&rsquo;ve taken a couple small examples of code that work with files and refactored these examples to use <code>pathlib</code> instead.
-I&rsquo;ll mostly leave these code blocks without comment and let you be the judge of which versions you like best.</p>
-
-<p>Here&rsquo;s the <code>make_editorconfig</code> function we saw earlier:</p>
-
-<pre><code class="python">import os
-import os.path
-
-
-def make_editorconfig(dir_path):
-    """Create .editorconfig file in given directory and return filename."""
-    filename = os.path.join(dir_path, '.editorconfig')
-    if not os.path.exists(filename):
-        os.makedirs(dir_path, exist_ok=True)
-        open(filename, mode='wt').write('')
-    return filename
-</code></pre>
-
-<p>And here&rsquo;s the same function using <code>pathlib.Path</code> instead:</p>
-
-<pre><code class="python">from pathlib import Path
-
-
-def make_editorconfig(dir_path):
-    """Create .editorconfig file in given directory and return filepath."""
-    path = Path(dir_path, '.editorconfig')
-    if not path.exists():
-        path.parent.mkdir(exist_ok=True, parent=True)
-        path.touch()
-    return path
-</code></pre>
-
-<p>Here&rsquo;s a command-line program that accepts a string representing a directory and prints the contents of the <code>.gitignore</code> file in that directory if one exists:</p>
-
-<pre><code class="python">import os.path
-import sys
-
-
-directory = sys.argv[1]
-ignore_filename = os.path.join(directory, '.gitignore')
-if os.path.isfile(ignore_filename):
-    with open(ignore_filename, mode='rt') as ignore_file:
-        print(ignore_file.read(), end='')
-</code></pre>
-
-<p>This is the same code using <code>pathlib.Path</code>:</p>
-
-<pre><code class="python">from pathlib import Path
-import sys
-
-
-directory = Path(sys.argv[1])
-ignore_path = directory / '.gitignore'
-if ignore_path.is_file():
-    print(ignore_path.read_text(), end='')
-</code></pre>
-
-<p>And here&rsquo;s some code that prints all groups of files in and below the current directory which are duplicates:</p>
-
-<pre><code class="python">from collections import defaultdict
-from hashlib import md5
-from os import getcwd, walk
-import os.path
-
-
-def find_files(filepath):
-    for root, directories, filenames in walk(filepath):
-        for filename in filenames:
-            yield os.path.join(root, filename)
-
-
-file_hashes = defaultdict(list)
-for path in find_files(getcwd()):
-    with open(path, mode='rb') as my_file:
-        file_hash = md5(my_file.read()).hexdigest()
-        file_hashes[file_hash].append(path)
-
-for paths in file_hashes.values():
-    if len(paths) &gt; 1:
-        print("Duplicate files found:")
-        print(*paths, sep='\n')
-</code></pre>
-
-<p>This is the same code that uses <code>pathlib.Path</code> instead:</p>
-
-<pre><code class="python">from collections import defaultdict
-from hashlib import md5
-from pathlib import Path
-
-
-def find_files(filepath):
-    for path in Path(filepath).rglob('*'):
-        if path.is_file():
-            yield path
-
-
-file_hashes = defaultdict(list)
-for path in find_files(Path.cwd()):
-    file_hash = md5(path.read_bytes()).hexdigest()
-    file_hashes[file_hash].append(path)
-
-for paths in file_hashes.values():
-    if len(paths) &gt; 1:
-        print("Duplicate files found:")
-        print(*paths, sep='\n')
-</code></pre>
-
-<p>The changes here are subtle, but I think they add up.
-I prefer this <code>pathlib</code>-refactored version.</p>
-
-<h2>Start using pathlib.Path objects</h2>
-
-<p>Let&rsquo;s recap.</p>
-
-<p>The <code>/</code> separators in <code>pathlib.Path</code> strings are automatically converted to the correct path separator based on the operating system you&rsquo;re on.
-This is a huge feature that can make for code that is <strong>more readable and more certain to be free of path-related bugs</strong>.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; path1 = Path('dir', 'file')
-&gt;&gt;&gt; path2 = Path('dir') / 'file'
-&gt;&gt;&gt; path3 = Path('dir/file')
-&gt;&gt;&gt; path3
-WindowsPath('dir/file')
-&gt;&gt;&gt; path1 == path2 == path3
-True
-</code></pre>
-
-<p>The Python standard library and built-ins (like <code>open</code>) also accept <code>pathlib.Path</code> objects now.
-This means <strong>you can start using pathlib, even if your dependencies don&rsquo;t</strong>!</p>
-
-<pre><code class="python">from shutil import move
-
-def rename_and_redirect(old_filename, new_filename):
-    move(old, new)
-    with open(old, mode='wt') as f:
-        f.write(f'This file has moved to {new}')
-</code></pre>
-
-<pre><code class="pycon">&gt;&gt;&gt; from pathlib import Path
-&gt;&gt;&gt; old, new = Path('old.txt'), Path('new.txt')
-&gt;&gt;&gt; rename_and_redirect(old, new)
-&gt;&gt;&gt; old.read_text()
-'This file has moved to new.txt'
-</code></pre>
-
-<p>And if you don&rsquo;t like <code>pathlib</code>, you can use a third-party library that provides the same path-like interface.
-This is great because <strong>even if you&rsquo;re not a fan of <code>pathlib</code> you&rsquo;ll still benefit from the new changes detailed in PEP 519</strong>.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from plumbum import Path
-&gt;&gt;&gt; my_path = Path('old.txt')
-&gt;&gt;&gt; with open(my_path) as f:
-...     print(f.read())
-...
-This file has moved to new.txt
-</code></pre>
-
-<p>While <code>pathlib</code> is sometimes slower than the alternative(s), the cases where this matters are somewhat rare (in my experience at least) and <strong>you can always jump back to using path strings for parts of your code that are particularly performance sensitive</strong>.</p>
-
-<p>And in general, <code>pathlib</code> makes for more readable code.
-Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</p>
-
-<pre><code class="python">from pathlib import Path
-gitignore = Path('.gitignore')
-if gitignore.is_file():
-    print(gitignore.read_text(), end='')
-</code></pre>
-
-<p>The <code>pathlib</code> module is lovely: start using it!</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,9 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="May 2013 Update: django-simple-history is back Recently I had a need to store a snapshot of every state of particular model instance in a Django &hellip;">
+  <meta name="description" content="I recently migrated multiple Subversion repositories to Git. I found
+this blog post very helpful during the process. Here are
+some tips I found &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,6 +32,7 @@
 
 <link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
@@ -89,7 +92,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/09/django-and-model-history/">Django and model history</a></h1>
+      <h1 class="entry-title"><a href="/2011/11/migrating-from-subversion-to-git/">Migrating from Subversion to Git</a></h1>
     
     
       <p class="meta">
@@ -98,37 +101,83 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2011-09-29T00:00:00-07:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2011-11-17T00:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2011</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2011/09/django-and-model-history/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2011/09/django-and-model-history/">Comments</a>
+           | <a href="/2011/11/migrating-from-subversion-to-git/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><strong>May 2013 Update:</strong> <a href="http://treyhunner.com/2013/05/django-simple-history/">django-simple-history is back</a></p>
+  <div class="entry-content"><p>I recently migrated multiple Subversion repositories to Git.  I found
+<a href="http://blog.woobling.org/2009/06/git-svn-abandon.html" title="Migrating from Subversion to Git">this blog post</a> very helpful during the process.  Here are
+some tips I found helpful that were not mentioned in that post.</p>
 
-<p>Recently I had a need to store a snapshot of every state of particular model instance in a Django application.  I basically needed version control for the rows in my database tables.  When searching for applications that provided this feature, which I call <strong>model history</strong>, I found <a href="http://djangopackages.com/grids/g/model-audit/">many different approaches</a> but few good comparisons of them.  In an attempt to fill that void, I&rsquo;m going to detail some of my findings here.</p>
+<h3>Generating an authors file</h3>
 
-<h3>django-reversion</h3>
+<p>Subversion denotes authors by usernames while Git uses name and email.  An
+authors file can be used to map subversion usernames to Git authors when
+creating the Git repository, like so:</p>
 
-<p>The <a href="https://github.com/etianen/django-reversion">django-reversion</a> application was started in 2008 by Dave Hall.  Reversion uses only one table to store data for all version-tracked models.  Each version of a model adds a new row to this table, using a JSON object representing the model state.  Models can be reverted to previous versions from the admin interface.  This single-table version structure makes django-reversion very easy to install and to uninstall, but it also creates <a href="http://groups.google.com/group/django-reversion/browse_thread/thread/922b4e42d9577e0b">problems when model fields are changed</a>.</p>
+<pre><code>git-svn clone --stdlayout --authors-file=authors.txt http://your/svn/repo/url
+</code></pre>
 
-<h3>django-revisions</h3>
+<p>The trickest part about <a href="http://triptico.com/notes/8d4510bb.html">making an authors file</a> was finding
+all the authors.  I found this command useful for finding usernames of all
+Subversion committers:</p>
 
-<p>The <a href="https://github.com/stdbrouw/django-revisions">django-revisions</a> application was created by Stijn Debrouwere in 2010 because the existing Django model history applications at the time were abandoned or suffered from fundamental design problems.  Revisions uses a model history method called same-table versioning (<a href="http://stdbrouw.github.com/django-revisions/design.html">design details outlined here</a>).  Same-table versioning adds a few fields to each version-tracked model which allows it to record the most recent version of each model as well as old versions in the original model table.  Model changes are simplified because they change all versions at once and no new tables need to be added to use revisions (just new fields on existing tables).  The only problem I found with revisions was that it does not currently support database-level uniqueness constraints.  Adding <code>unique=True</code> to a model field or a <code>unique_together</code> Meta attribute will result in an error.  Currently uniqueness constraints must be specified in a separate way for Revisions to honor them when saving models.</p>
+<pre><code>svn log | awk '($0 ~ /^r/) {print $3}' | sort -u
+</code></pre>
 
-<h3>django-simple-history</h3>
+<p>A similar method of creating an authors file is
+<a href="http://technicalpickles.com/posts/creating-a-svn-authorsfile-when-migrating-from-subversion-to-git/">presented here</a>.</p>
 
-<p>The <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a> application was based on code originally written by Marty Alchin, author of Pro Django.  Marty Alchin posted <a href="https://code.djangoproject.com/wiki/AuditTrail">AuditTrail</a> on the Django trac wiki in 2007 and later revised and republished the code in his book Pro Django in 2008, renaming it to HistoricalRecords.  Corey Bertram created django-simple-history from this code and put it online in 2010.</p>
+<h3>Removing git-svn-id messages</h3>
 
-<p>Simple History works by creating a separate &ldquo;historical&rdquo; model for each model that requires an audit trail and storing a snapshot of each changed model instance in that historical model.  For example, a Book model would have a HistoricalBook created from it that would store a new HistoricalBook instance every time a Book instance was changed.  Collisions are avoided by disabling uniqueness constraints and model schema changes are accepted by automatically changing historical models as well.  This method comes at the cost of creating an extra table in the database for each model that needs history.</p>
+<p>When migrating from Subversion, every commit messages has a <code>git-svn-id</code> line
+appended to it like this one:</p>
 
-<h3>My conclusions</h3>
+<blockquote><p>git-svn-id: <a href="http://svn/repo/url/trunk@9837">http://svn/repo/url/trunk@9837</a> 1eab27b1-3bc6-4acd-4026-59d9a2a3569e</p></blockquote>
 
-<p>When testing these three applications myself, I immediately eliminated django-reversion because I needed to allow easy model schema changes for my project.  I found that both django-revisions and django-simple-history worked well with schema migrations through <a href="http://south.aeracode.org/docs/about.html">South</a> (which I use on everything).  Django-revisions worked better for data migrations in South (due to only needing to change one model), but the uniqueness constraint problems with django-revisions would have been problematic for some of my models.  So eventually I settled on <a href="https://bitbucket.org/q/django-simple-history/">django-simple-history</a>.</p>
+<p>If you are planning on migrating away from your old Subversion repository
+entirely, there&rsquo;s no need to keep these.  The following command (taken from the
+<a href="http://linux.die.net/man/1/git-filter-branch">git filter-branch man page</a>) removes these <code>git-svn-id</code>
+lines from all commit messages in the current branch:</p>
+
+<pre><code>git filter-branch -f --msg-filter 'sed -e "/git-svn-id:/d"'
+</code></pre>
+
+<h3>Removing empty commit messages</h3>
+
+<p>Subversion allows empty commit messages, but Git does not.  Any empty commit
+messages in your newly migrated git repository should be replaced so commands
+like <code>git rebase</code> will work on these commits.</p>
+
+<p>This command will replace all empty commit messages with <nobr>
+&ldquo;&lt;empty commit message&gt;&rdquo;</nobr>:</p>
+
+<pre><code>git filter-branch -f --msg-filter '
+read msg
+if [ -n "$msg" ] ; then
+    echo "$msg"
+else
+    echo "&lt;empty commit message&gt;"
+fi'
+</code></pre>
+
+<h3>Poking around</h3>
+
+<p>After you&rsquo;ve cleaned up your new <em>master</em> branch, you should cleanup other
+branches you plan to keep.  Just <code>git checkout</code> each branch and repeat the same
+steps.  To find the remote subversion branches available for checkout use
+<code>git branch -a</code>.</p>
+
+<p>Migrating between version control systems may be a good time to permanently
+cleanup commit history with a <code>git rebase</code> or eliminate large files
+that were never used with a <code>git filter-branch</code>.  Just remember to make backups of
+previous working versions of branches before changing them, just in case.</p>
 </div>
   
   <footer>

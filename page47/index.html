@@ -9,8 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I often have indentation issues when coding because I work with many open
-source (and closed source) projects that have different identation styles. &hellip;">
+  <meta name="description" content="I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
+few months (nearly since the time I switched from screen to tmux &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,6 +31,7 @@ source (and closed source) projects that have different identation styles. &hell
 
 <link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
@@ -90,7 +91,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/02/editorconfig/">Maintaining consistent coding conventions with EditorConfig</a></h1>
+      <h1 class="entry-title"><a href="/2012/12/tmuxstart/">tmuxstart</a></h1>
     
     
       <p class="meta">
@@ -99,77 +100,89 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2012-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2012-12-15T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2012/02/editorconfig/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2012/02/editorconfig/">Comments</a>
+           | <a href="/2012/12/tmuxstart/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2012/12/tmuxstart/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I often have indentation issues when coding because I work with many open
-source (and closed source) projects that have different identation styles.  For
-example, my <a href="https://github.com/treyhunner/jquery-formrestrict">jQuery formrestrict</a> uses 4 spaces for indentation,
-<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> uses 2 spaces, and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a> uses hard tabs.
-I don&rsquo;t want to change my text editor&rsquo;s indentation settings every time I open
-one of these files and using a plugin to auto-detect indentation is only a
-partial solution.  To solve this problem I started a project I call
-EditorConfig.</p>
+  <div class="entry-content"><p>I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
+few months (nearly since the time I switched from screen to tmux).</p>
 
-<p><a href="http://editorconfig.org">EditorConfig</a> defines coding conventions for groups of files and instructs
-text editors to adhere to these conventions.  To solve my problem, I just
-create a file called <code>.editorconfig</code> that sets indentation for my files and
-with my EditorConfig plugin installed Vim takes care of the rest.  Here&rsquo;s an
-example <code>.editorconfig</code> file I could add to my project that uses
-<a href="https://github.com/kswedberg/jquery-expander">jQuery expander</a> and <a href="https://github.com/gbirke/jquery_pagination">jQuery pagination</a>:</p>
+<h3>A tmuxinator alternative</h3>
 
-<figure class='code'><figcaption><span>.editorconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>I use a separate session for each project I work on and I wanted a way to
+easily connect to project sessions with the same default windows and
+environment variables each time.  I tried using <a href="https://github.com/aziz/tmuxinator">tmuxinator</a>, but I found it
+to be too complicated for my needs.  I had trouble working within the
+limitations of the yaml files and I found the installation to be overly
+complicated (especially when working on a new server that didn&rsquo;t have ruby
+installed).  After I realized how simple it would be to solve my own problem I
+made the tmuxstart script.</p>
+
+<h3>Now available on Github</h3>
+
+<p>While updating my <a href="https://github.com/treyhunner/dotfiles">dotfiles</a> repository I realized I hadn&rsquo;t yet incorporated
+my tmuxstart workflow into my <code>.tmux.conf</code> file.  Yesterday I decided to make
+README and LICENSE files for my script and put it under version control.  I
+also added some helper functions to make the script even easier to use.  It&rsquo;s
+now available in my <a href="https://github.com/treyhunner/tmuxstart">tmuxstart</a> repository on Github.</p>
+
+<h3>Example usage</h3>
+
+<p>Below is an example of how to use tmuxstart.</p>
+
+<ol>
+<li>Add the following line to your <code>~/.tmux.conf</code> file:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>bind S command-prompt -p "Make/attach session:" "new-window 'tmuxstart \'%%\''"</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Create a <code>~/.tmuxstart</code> directory:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/.tmuxstart</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Create a file <code>~/.tmuxstart/main</code> with the following contents:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[*.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">[jquery.expander.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">space</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">2</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">[jquery.pagination.js]</span>
-</span><span class='line'><span class="na">indent_style</span> <span class="o">=</span> <span class="s">tab</span>
-</span><span class='line'><span class="na">indent_size</span> <span class="o">=</span> <span class="s">4</span>
-</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>new_session htop
+</span><span class='line'>new_window</span></code></pre></td></tr></table></div></figure>
 
 
-<p>With this <code>.editorconfig</code> file, all JavaScript files use 4 spaces for
-indentation except for <code>jquery.expander.js</code> which uses 2 spaces and
-<code>jquery.pagination.js</code> which uses hard tabs with a column width of 4.  If I put
-my <code>.editorconfig</code> file under version control, other developers working on my
-project can see the coding conventions I defined and if their text editor has
-an EditorConfig plugin installed their editor will automatically use the
-correct indentation as well.</p>
+<p>Now you can create a tmux session called &ldquo;main&rdquo; with <a href="http://htop.sourceforge.net/">htop</a> in the first
+window and a shell in the second window by executing:</p>
 
-<p>Example EditorConfig files can be seen in my own projects (such as
-<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">in my dotfiles repo</a>) and in the
-<a href="https://github.com/treyhunner/dotfiles/blob/master/.editorconfig">various EditorConfig plugin codebases</a>.  More
-information on EditorConfig can be found at the
-<a href="http://editorconfig.org">EditorConfig website</a>.</p>
+<pre><code>tmuxstart main
+</code></pre>
 
-<p>EditorConfig plugins are <a href="http://editorconfig.org/#download">available for 6 different editors</a>
-now.  If you like the idea, <a href="http://editorconfig.org">try out EditorConfig</a> for your
-favorite editor and <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">tell us what you think</a>.  If you don&rsquo;t like
-the idea or have a problem with EditorConfig please <a href="https://github.com/editorconfig/editorconfig/issues">submit an issue</a>,
-add a thread to <a href="https://groups.google.com/forum/?fromgroups#!forum/editorconfig">the mailing list</a>, or send me an email voicing
-your concern.</p>
+<p>Or from an existing tmux server type <code>&lt;PREFIX&gt; S</code> (<code>&lt;PREFIX&gt;</code> is Ctrl-B by
+default), type <code>main</code> and hit Enter.</p>
+
+<p>When using either of these methods if a session called &ldquo;main&rdquo; already exists
+the existing session will be used instead.</p>
+
+<h3>How I use this</h3>
+
+<p>I have a separate tmuxstart session file for each of my Django projects and
+some of my open source projects also.  I use a &ldquo;main&rdquo; session file similar to
+the one above and I have Gnome Terminal set to start with the custom command
+&ldquo;tmuxstart main&rdquo; instead of a shell.</p>
 </div>
   
   <footer>

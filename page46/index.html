@@ -9,8 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
-few months (nearly since the time I switched from screen to tmux &hellip;">
+  <meta name="description" content="I&rsquo;ve used multiple websites to generate random names for my test data when
+running manual or automated QA tests. Since discovering DuckDuckGo& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,6 +31,7 @@ few months (nearly since the time I switched from screen to tmux &hellip;">
 
 <link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
@@ -90,7 +91,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/12/tmuxstart/">tmuxstart</a></h1>
+      <h1 class="entry-title"><a href="/2013/02/random-name-generator/">Random name generator in Python</a></h1>
     
     
       <p class="meta">
@@ -99,89 +100,66 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2012-12-15T00:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2012</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2013-02-17T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2012/12/tmuxstart/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2012/12/tmuxstart/">Comments</a>
+           | <a href="/2013/02/random-name-generator/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2013/02/random-name-generator/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
-few months (nearly since the time I switched from screen to tmux).</p>
+  <div class="entry-content"><p>I&rsquo;ve used multiple websites to generate random names for my test data when
+running manual or automated QA tests.</p>
 
-<h3>A tmuxinator alternative</h3>
+<p>Since discovering DuckDuckGo&rsquo;s <a href="https://duckduckgo.com/?q=random+word">random word</a> generation, I&rsquo;ve
+<a href="https://duckduckhack.uservoice.com/forums/5168-ideas-for-duckduckgo-instant-answer-plugins/suggestions/2850418-random-name">hoped</a> that someone would make a DuckDuckGo plugin to generate
+random names also.</p>
 
-<p>I use a separate session for each project I work on and I wanted a way to
-easily connect to project sessions with the same default windows and
-environment variables each time.  I tried using <a href="https://github.com/aziz/tmuxinator">tmuxinator</a>, but I found it
-to be too complicated for my needs.  I had trouble working within the
-limitations of the yaml files and I found the installation to be overly
-complicated (especially when working on a new server that didn&rsquo;t have ruby
-installed).  After I realized how simple it would be to solve my own problem I
-made the tmuxstart script.</p>
+<p>I didn&rsquo;t want to write my own DuckDuckGo plugin yet so I made a Python-powered
+command line tool instead using <a href="https://www.census.gov/genealogy/www/data/1990surnames/index.html">1990 Census data</a>.</p>
 
-<h3>Now available on Github</h3>
+<p>The program is called <code>names</code> and can be found on <a href="https://github.com/treyhunner/names">Github</a> and <a href="http://pypi.python.org/pypi/names/0.1">PyPI</a>.</p>
 
-<p>While updating my <a href="https://github.com/treyhunner/dotfiles">dotfiles</a> repository I realized I hadn&rsquo;t yet incorporated
-my tmuxstart workflow into my <code>.tmux.conf</code> file.  Yesterday I decided to make
-README and LICENSE files for my script and put it under version control.  I
-also added some helper functions to make the script even easier to use.  It&rsquo;s
-now available in my <a href="https://github.com/treyhunner/tmuxstart">tmuxstart</a> repository on Github.</p>
+<h3>It&rsquo;s really simple</h3>
 
-<h3>Example usage</h3>
+<p>It&rsquo;s basically just one file currently that&rsquo;s <a href="https://github.com/treyhunner/names/blob/f99542dc21f48aa82da4406f8ce408e92639430d/names/__init__.py">about 40 lines long</a>.
+There is only one feature available from the command line currently: generate a
+single random full name.  There&rsquo;s a few more features if importing as a Python
+package: generate random last name or generate random first name (with or
+without specifying gender), generate random full name (also without or without
+gender).</p>
 
-<p>Below is an example of how to use tmuxstart.</p>
+<p>The random name picker relies on the cumulative frequencies listed in the
+included Census data files.  Here&rsquo;s the steps that are taken:
+1. A random floating point number is chosen between 0.0 and 90.0
+2. Name file lines are iterated through until a cumulative frequency is found
+that is less than the randomly generated number
+3. The name on that line is chosen and returned (or printed out)</p>
 
-<ol>
-<li>Add the following line to your <code>~/.tmux.conf</code> file:</li>
-</ol>
+<h3>Examples</h3>
 
+<p>Here&rsquo;s how you use it from the command line:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>bind S command-prompt -p "Make/attach session:" "new-window 'tmuxstart \'%%\''"</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Create a <code>~/.tmuxstart</code> directory:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir ~/.tmuxstart</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Create a file <code>~/.tmuxstart/main</code> with the following contents:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>new_session htop
-</span><span class='line'>new_window</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you can create a tmux session called &ldquo;main&rdquo; with <a href="http://htop.sourceforge.net/">htop</a> in the first
-window and a shell in the second window by executing:</p>
-
-<pre><code>tmuxstart main
+<pre><code>$ names
+Kara Lopes
 </code></pre>
 
-<p>Or from an existing tmux server type <code>&lt;PREFIX&gt; S</code> (<code>&lt;PREFIX&gt;</code> is Ctrl-B by
-default), type <code>main</code> and hit Enter.</p>
+<p>Here&rsquo;s how you use it as a Python package:</p>
 
-<p>When using either of these methods if a session called &ldquo;main&rdquo; already exists
-the existing session will be used instead.</p>
-
-<h3>How I use this</h3>
-
-<p>I have a separate tmuxstart session file for each of my Django projects and
-some of my open source projects also.  I use a &ldquo;main&rdquo; session file similar to
-the one above and I have Gnome Terminal set to start with the custom command
-&ldquo;tmuxstart main&rdquo; instead of a shell.</p>
+<pre><code>&gt;&gt;&gt; import names
+&gt;&gt;&gt; names.get_full_name()
+u'Patricia Halford'
+&gt;&gt;&gt; names.get_full_name(gender='male')
+u'Patrick Keating'
+&gt;&gt;&gt; names.get_first_name()
+'Bernard'
+&gt;&gt;&gt; names.get_first_name(gender='female')
+'Christina'
+&gt;&gt;&gt; names.get_last_name()
+'Szczepanek'
+</code></pre>
 </div>
   
   <footer>

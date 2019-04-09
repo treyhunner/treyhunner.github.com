@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I write a lot of unit tests. Unfortunately, my code often requires monkey patching to be properly unit tested. I frequently use the patch function &hellip;">
+  <meta name="description" content="I rarely read books. I tend to lose my place after putting books down for too long and I&rsquo;m generally a slow and easily-distracted reader. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -30,6 +30,7 @@
 
 <link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 
   
@@ -89,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2014/10/the-many-flavors-of-mock-dot-patch/">The many flavors of mock.patch</a></h1>
+      <h1 class="entry-title"><a href="/2014/12/top-6-books-of-2014/">Top 6 Audiobooks of 2014</a></h1>
     
     
       <p class="meta">
@@ -98,156 +99,112 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2014-10-13T21:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:00 pm</span></time>
+<time class='entry-date' datetime='2014-12-20T12:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 pm</span></time>
         
-           | <a href="/2014/10/the-many-flavors-of-mock-dot-patch/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2014/10/the-many-flavors-of-mock-dot-patch/">Comments</a>
+           | <a href="/2014/12/top-6-books-of-2014/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2014/12/top-6-books-of-2014/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I write a lot of unit tests.  Unfortunately, my code often requires monkey patching to be properly unit tested.  I frequently use the <code>patch</code> function from <a href="http://www.voidspace.org.uk/">Michael Foord&rsquo;s</a> <a href="https://pypi.python.org/pypi/mock/">mock</a> library (now available in Python 3.4 as <a href="https://docs.python.org/3.4/library/unittest.mock.html#module-unittest.mock">unittest.mock</a>) to monkey patch my code.</p>
+  <div class="entry-content"><p>I rarely read books.  I tend to lose my place after putting books down for too long and I&rsquo;m generally a slow and easily-distracted reader.</p>
 
-<p>While chatting with other users of <code>patch</code>, I realized that everyone seems to have their own favorite way to use it.  In this post I will discuss the ways I use patch.</p>
+<p>I discovered audiobooks this year and it has reintroduced me to long-form books, both fiction and non-fiction.  I have listened to about one book a week for the last 9 months.</p>
 
-<h3>Decorator</h3>
+<h2>&ldquo;Just Mercy&rdquo; by Bryan Stevenson</h2>
 
-<p>patch can be used as a method decorator:</p>
+<h4>Content</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">MyModelTest</span><span class="p">:</span>
-</span><span class='line'>    <span class="nd">@patch</span><span class="p">(</span><span class="s">&#39;mylib.utils.other_func&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">test_some_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_func</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="k">assert</span> <span class="n">some_func</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>In this book, Bryan Stevenson retells stories about the founding of the Equal Justice Initiative as well as some of the cases he worked on, focusing primarily on the case of Walter McMillian.  This book was engrossing, hope-filled, and crushing at times.  I had given little thought to the inner-workings of our justice system before reading this book.</p>
 
+<h4>Narration</h4>
 
-<p>or as a class decorator:</p>
+<p>I really enjoyed Bryan Stevenson&rsquo;s self-narration.  He isn&rsquo;t a particularly animated orator, but he tells a story well and I never caught myself dozing off.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@patch</span><span class="p">(</span><span class="s">&#39;mylib.utils.other_func&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">MyModelTest</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">test_some_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_func</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="k">assert</span> <span class="n">some_func</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<h4>Links</h4>
 
+<p><a href="http://www.downpour.com/catalog/product/view/id/163963">Downpour (DRM-free) link</a>
+<a href="http://www.audible.com/pd/Bios-Memoirs/Just-Mercy-Audiobook/B00O4FH8E8/ref=a_search_c4_1_1_srTtl?qid=1418343414&amp;sr=1-1">Audible link</a></p>
 
-<p>I use patch as a decorator when I have a function I want patched during my whole test.  I tend not to use patch as a class decorator and I&rsquo;ll explain why below.</p>
+<h2>&ldquo;Little Brother&rdquo; by Cory Doctorow</h2>
 
-<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L79">Decorator example</a></p>
+<h4>Content</h4>
 
-<h3>Context Manager</h3>
+<p>This reads like a modern 1984.  The science fiction was minimal and the reactions of the public and the government felt fairly believable.</p>
 
-<p>patch can be used as a context manager:</p>
+<p>This is the first book in the Little Brother trilogy.  I enjoyed the first book the most.  The last book didn&rsquo;t serve much purpose except to wrap up the series.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">MyModelTest</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">test_some_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s">&#39;mylib.utils.other_func&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">other_func</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">assert</span> <span class="n">some_func</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="n">other_func</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<h4>Narration</h4>
 
+<p>I enjoyed Kirby Heyborne&rsquo;s narration and character voices.  In comparison, Wil Wheaton&rsquo;s reading of Homeland (book 2 of the trilogy) was animated, but he pronounced some names strangely.  I liked Cory Doctorow&rsquo;s reading of Lawful Interception (book 3) the most out of the three books in the series.</p>
 
-<p>I prefer to use patch as a context manager when I want to patch a function for only part of a test.  I do not use patch as a context manager when I want a function patched for an entire test.</p>
+<h4>Links</h4>
 
-<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L46">Context manager example</a></p>
+<p><a href="http://craphound.com/?p=4199">Purchase link on Doctorow&rsquo;s website</a>
+<a href="http://www.downpour.com/little-brother-1">Downpour link</a></p>
 
-<h3>Manually using start and stop</h3>
+<h2>&ldquo;Lesterland&rdquo; by Lawrence Lessig</h2>
 
-<p>patch can also be used to manually patch/unpatch using <code>start</code> and <code>stop</code> methods:</p>
+<h4>Content</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">mock</span> <span class="kn">import</span> <span class="n">patch</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">MyModelTest</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">other_func_patch</span> <span class="o">=</span> <span class="n">patch</span><span class="p">(</span><span class="s">&#39;mylib.utils.other_func&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">other_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">other_func_patch</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">other_func</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">other_func_patch</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">test_some_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">assert</span> <span class="n">some_func</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;MY STRING&quot;</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">other_func</span><span class="o">.</span><span class="n">assert_called_once_with</span><span class="p">(</span><span class="s">&quot;my string&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Lawrence Lessig explains a core problem in our democratic republic: the way we fund political campaigns.  For a summary of the book, check out his <a href="http://www.ted.com/talks/lawrence_lessig_we_the_people_and_the_republic_we_must_reclaim">TED talk</a> on the same topic.</p>
 
+<h4>Narration</h4>
 
-<p>I prefer to use patch using start/stop when I need a function to be patched for every function in a test class.</p>
+<p>I enjoyed Lawrence Lessig&rsquo;s self-narration.  It was like listening to an extended version of his <a href="http://www.ted.com/talks/lawrence_lessig_we_the_people_and_the_republic_we_must_reclaim">TED talk</a>.</p>
 
-<p>This is probably the most common way I use patch in my tests.  I often group my tests into test classes where each method is focused around testing the same function.  Therefore I will usually want the same functions/objects patched for every test method.</p>
+<h4>Links</h4>
 
-<p>I noted above that I prefer not to use class decorators to solve this problem.  Instead, I prefer to use test class attributes to store references to patched functions instead of accepting patch arguments on every test method with decorators.  I find this more <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>.</p>
+<p><a href="https://archive.org/details/Lesterland">Free download link</a>
+<a href="http://lesterland.lessig.org/">The USA is Lesterland website</a></p>
 
-<p><strong>Warning:</strong> One of the primary benefits of the decorator/context manager forms of patch is that they handle clean up for you.  Whenever you call <code>start</code> to setup your patch object, <em>always</em> remember to call <code>stop</code> to clean it up.  Otherwise you&rsquo;ll have a monkey patched function/object for the rest of your running program.</p>
+<h2>&ldquo;The Martian&rdquo; by Andy Weir</h2>
 
-<p><a href="https://github.com/treyhunner/pep438/blob/cdb57e2cb1c3053255a0caf2a5ebb64672da661c/test_pep438.py#L128">start and stop example</a></p>
+<h4>Content</h4>
 
-<h3>Summary</h3>
+<p>Astronaut Mark Watney struggles to survive on Mars after a dust storm nearly kills him and causes his crew to evacuate after they assume he died.  Watney&rsquo;s ingenuity, luck, and sense of humor made this an enjoyable read.  The science sounded mostly plausible also.</p>
 
-<p>Patch can be used:</p>
+<h4>Narration</h4>
 
-<ol>
-<li>as a method or class decorator</li>
-<li>as a context manager</li>
-<li>using start and stop methods</li>
-</ol>
+<p>I enjoyed R. C. Brady&rsquo;s narration of Mark Watney&rsquo;s dark humor.</p>
 
+<h4>Links</h4>
 
-<p>I prefer my tests to be readable, <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>, and easy to modify.  I tend to use start/stop methods for that reason, but I also frequently use patch method decorators and sometimes use patch context managers.  It&rsquo;s useful to know the different flavors of <code>patch</code> because your favorite flavor may not always be the most suitable one for the problem at hand.</p>
+<p><a href="http://www.audible.com/pd/Sci-Fi-Fantasy/The-Martian-Audiobook/B00B5HZGUG/">Audible link</a></p>
 
-<p>Did I miss a flavor?  Want to let me know which flavor you prefer and why?  Please comment below.</p>
+<h2>&ldquo;A Short History of Nearly Everything&rdquo; by Bill Bryson</h2>
+
+<h4>Content</h4>
+
+<p>This book crams in a lot of facts as well as historical context.  It does meander quite a bit, but I really enjoyed it.</p>
+
+<h4>Narration</h4>
+
+<p>Richard Matthew has a very soothing voice.  I really enjoyed listening to this book while on vacation and while falling asleep.</p>
+
+<p>There is also an abridged version of this book read by the author.  I haven&rsquo;t listened to the abridged version, but I did enjoy the author&rsquo;s reading of &ldquo;At Home&rdquo;.  Bill Bryson reads well, but his voice isn&rsquo;t nearly as soothing as Richard Matthew&rsquo;s.</p>
+
+<h4>Links</h4>
+
+<p><a href="http://www.downpour.com/a-short-history-of-nearly-everything-1">Downpour link</a>
+<a href="http://www.audible.com/pd/History/A-Short-History-of-Nearly-Everything-Audiobook/B002V0KFPW/">Audible link</a></p>
+
+<h2>&ldquo;You Are Not So Smart&rdquo; by David McRaney</h2>
+
+<h4>Content</h4>
+
+<p>This book is packed with common self-delusions.  Unfortunately, most delusions do not come with solutions attached, but sometimes just knowing about a delusion can help make your world view slightly more realistic.</p>
+
+<h4>Narration</h4>
+
+<p>Don Hagen&rsquo;s narration is fairly dry, but it works well with the tone of the book.</p>
+
+<h3>Links</h3>
+
+<p><a href="http://www.downpour.com/you-are-not-so-smart-1">Downpour link</a>
+<a href="http://www.audible.com/pd/Nonfiction/You-Are-Not-So-Smart-Audiobook/B006K4GN56/">Audible link</a></p>
 </div>
   
   <footer>
