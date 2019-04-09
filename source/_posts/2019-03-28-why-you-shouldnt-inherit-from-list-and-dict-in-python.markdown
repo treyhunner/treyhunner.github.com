@@ -53,7 +53,7 @@ class TwoWayDict(dict):
 Here we're ensuring that:
 
 - deleting keys will delete their corresponding values as well
-- whenever we set a new value for `k` that any existing value will be removed properly
+- whenever we set a new value for `k`, that any existing value will be removed properly
 - whenever we set a key-value pair, that the corresponding value-key pair will be set too
 
 Setting and deleting items from this bi-directional dictionary seems to work as we'd expect:
@@ -298,7 +298,7 @@ How can we create a custom dictionary-like object that *doesn't* inherit from th
 
 There are a few ways to create custom dictionaries:
 
-1. Fully embrace duck typing: figure out everything we need for our data structure to be `dict`-like and create a completely custom class (that walks and quacks like a `dict`)
+1. Fully embrace duck typing: figure out everything you need for your data structure to be `dict`-like and create a completely custom class (that walks and quacks like a `dict`)
 2. Inherit from a helper class that'll point us in the right direction and tell us which methods our object needs to be `dict`-like
 3. Find a more extensible re-implementation of `dict` and inherit from it instead
 
@@ -370,7 +370,7 @@ Unlike `dict`, these `update` and `setdefault` methods will call our `__setitem_
 Abstract base classes might make you think we're leaving the wonderful land of Python duck typing behind for some sort of strongly-typed [OOP][] land.
 But abstract base classes actually enhance duck typing.
 **Inheriting from abstract base classes helps us be better ducks**.
-We don't have to worry about whether we've implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify an essential behavior.
+We don't have to worry about whether we've implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify some essential behavior.
 
 The `HoleList` class we made before would need to inherit from the `MutableSequence` abstract base class.
 A custom set-like class would probably inherit from the `MutableSet` abstract base class.
@@ -457,7 +457,7 @@ Both of these methods reference `self.data`, which we didn't define.
 The `UserDict` class initializer makes a dictionary which it stores in `self.data`.
 All of the methods on this dictionary-like `UserDict` class wrap around this `self.data` dictionary.
 `UserList` works the same way, except its `data` attribute wraps around a `list` object.
-If we want to customize one of the `dict` or `list` methods or these classes, we can just override it and change what it does.
+If we want to customize one of the `dict` or `list` methods of these classes, we can just override it and change what it does.
 
 You can think of `UserDict` and `UserList` as **wrapper classes**.
 When we inherit from these classes, we're wrapping around a `data` attribute which we proxy all our method lookups to.
@@ -470,7 +470,7 @@ In fancy OOP speak, we might consider `UserDict` and `UserList` to be [adapter c
 The `UserList` and `UserDict` classes were originally created long before the abstract base classes in `collections.abc`.
 `UserList` and `UserDict` have been around (in some form at least) since before Python 2.0 was even released, but the `collections.abc` abstract base classes have only been around since Python 2.6.
 
-The `UserList` and `UserDict` classes are when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.
+The `UserList` and `UserDict` classes are for when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.
 
 The abstract base classes in `collections.abc` are useful when you want something that's a *sequence* or a *mapping* but is different enough from a list or a dictionary that you really should be making your own custom class.
 
@@ -523,7 +523,7 @@ If you need to change some core functionality, inheriting from `list`, `dict`, o
 If you're making a variation of `list` or `dict` and need to customize just a little bit of core functionality, consider inheriting from `collections.UserList` or `collections.UserDict`.
 
 In general, if you're making something custom, you'll often want to reach for the abstract base classes in `collections.abc`.
-For example if you're making a slightly more custom sequence or mapping (think `collections.deque`, `range`, and maybe `collections.Counter`) you'll want `MutableSequnce` or `MutableMapping`.
+For example if you're making a slightly more custom sequence or mapping (think `collections.deque`, `range`, and maybe `collections.Counter`) you'll want `MutableSequence` or `MutableMapping`.
 And if you're making a custom set-like object, your only options are `collections.abc.Set` or `collections.abc.MutableSet` (there is no `UserSet`).
 
 We don't need to create our own data structures very often in Python.
