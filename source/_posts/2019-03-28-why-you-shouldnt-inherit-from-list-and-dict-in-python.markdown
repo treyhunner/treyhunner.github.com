@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The problem with inheriting from dict and list in Python"
-date: 2019-04-08 08:00:00 -0700
+date: 2019-04-09 07:00:00 -0700
 comments: true
 categories: python
 ---
@@ -529,6 +529,28 @@ And if you're making a custom set-like object, your only options are `collection
 We don't need to create our own data structures very often in Python.
 When you do need to create your own custom collections, wrapping around a data structure is a great idea.
 Remember the `collections` and `collections.abc` modules when you need them!
+
+
+## You don't learn by putting information into your head
+
+You don't learn by putting information into your head, you learn by trying to retrieve information *from* your head.
+This knowledge about inheriting from `list` and `dict` and the `collections.abc` classes and `collections.UserList` and `collections.UserDict` isn't going to stick unless you try to apply it!
+
+If you use the below form to sign up for Python Morsels, the first exercise you see when you sign up will involve creating your own custom mapping or sequence (it'll be a surprise which one).
+After that first exercise, I'll send you one exercise every week for the next month.
+By default they'll be **intermediate-level** exercises, though you can change your skill level after you sign up.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+    <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+    <input type="hidden" name="exercise_track" value="custom collection">
+    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+    <br>
+    <small>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    </small>
+</form>
+
+If you'd rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.
 
 
 [python morsels]: https://www.pythonmorsels.com/
