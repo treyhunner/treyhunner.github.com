@@ -392,24 +392,25 @@ Pretty much anywhere a "callable" is accepted in Python, a function, a class, or
 ## Think in terms of "callables" not "classes" or "functions"
 
 In the [Python Morsels][] exercises I send out every week, I often ask learners to make a "callable".
-
 Often I'll say something like "this week I'd like you to make a callable which returns an iterator which...".
-This is because I want [an iterator][] back, but I really don't care whether their callable is a **generator function**, an **iterator class**, or a **function that returns a generator expression**.
+
+I say "callable" because I want [an iterator][] back, but I really don't care whether the callable they create is a **generator function**, an **iterator class**, or a **function that returns a generator expression**.
 All of these things are *callables* which return the right type that I'm testing for (an iterator).
 
-The distinction between a class and a function is only rarely important in Python.
-When we *call* classes we get instances of that class back.
-When we *call* functions we get the return value of that function back.
-
-We practice duck typing in Python: if it looks like a duck and quacks like a duck, it's a duck.
+We practice duck typing in Python: **if it looks like a duck and quacks like a duck, it's a duck**.
 Because of duck typing we tend to use general terms to describe specific things: lists are sequences, iterators are generators, dictionaries are mappings, and functions are callables.
 
 If something looks like a callable and quacks (or rather, calls) like a callable, it's a callable.
 
-When talking about passing functions or class objects around, try to think in terms of *callable*.
-What happens when you *call* something is often more important than *what that thing actually is*.
+Callables accept arguments and return something useful to the caller.
+When we *call* classes we get instances of that class back.
+When we *call* functions we get the return value of that function back.
+The distinction between a class and a function is **rarely important from the perspective of the caller**.
 
-More importantly though, if someone mislabels a function as a class or a class as a function, don't correct them unless the distinction is actually relevant for the situation at hand.
+When talking about passing functions or class objects around, try to think in terms of *callable*.
+**What happens when you call something** is often more important than **what that thing actually is**.
+
+More importantly though, if someone mislabels a function as a class or a class as a function, **don't correct them unless the distinction is actually relevant**.
 A function is a callable and a class is a callable: the distinction between these two can often be overlooked.
 
 
