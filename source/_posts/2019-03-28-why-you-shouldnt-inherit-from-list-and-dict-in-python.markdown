@@ -543,6 +543,7 @@ By default they'll be **intermediate-level** exercises, though you can change yo
 <form method="post" action="https://www.pythonmorsels.com/signup/">
     <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
     <input type="hidden" name="exercise_track" value="custom collection">
+    <input type="hidden" name="form_id" value="inheriting from builtins">
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
     <br>
     <small>

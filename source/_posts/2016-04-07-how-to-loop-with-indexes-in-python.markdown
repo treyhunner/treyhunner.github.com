@@ -205,6 +205,7 @@ If you sign up for Python Morsels I'll give you a **Python looping exercise that
 <form method="post" action="https://www.pythonmorsels.com/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="zip">
+  <input type="hidden" name="form_id" value="looping with indexes">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
 <br>
 <small>
