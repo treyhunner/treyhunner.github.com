@@ -9,9 +9,8 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Comparing things in Python.
-That sounds like something that almost doesn&rsquo;t even need to be taught.
-But I&rsquo;ve found that Python&rsquo;s &hellip;">
+  <meta name="description" content="Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
+Sometimes this unique object &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +91,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2019/03/python-deep-comparisons-and-code-readability/">Tuple ordering and deep comparisons in Python</a></h1>
+      <h1 class="entry-title"><a href="/2019/03/unique-and-sentinel-values-in-python/">Unique sentinel values, identity checks, and when to use object() instead of None</a></h1>
     
     
       <p class="meta">
@@ -101,217 +100,28 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2019-03-13T07:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>7:30 am</span></time>
+<time class='entry-date' datetime='2019-03-20T07:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>7:30 am</span></time>
         
-           | <a href="/2019/03/python-deep-comparisons-and-code-readability/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/">Comments</a>
+           | <a href="/2019/03/unique-and-sentinel-values-in-python/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Comparing things in Python.
-That sounds like something that almost doesn&rsquo;t even need to be taught.
-But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
+  <div class="entry-content"><p>Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
+Sometimes this unique object represents a <strong>stop value</strong> or a <strong>skip value</strong> and sometimes it&rsquo;s an <strong>initial value</strong>.
+But in each of these cases you want your object to stand out from the other objects you&rsquo;re working with.</p>
 
-<p>Let&rsquo;s review how Python&rsquo;s comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.</p>
+<p>When you need a unique value (a <strong>sentinel value</strong> maybe) <code>None</code> is often the value to reach for.
+But sometimes <code>None</code> isn&rsquo;t enough: sometimes <code>None</code> is ambiguous.</p>
 
-<h2>Python&rsquo;s comparison operators</h2>
+<p>In this article we&rsquo;ll talk about when <code>None</code> isn&rsquo;t enough, I&rsquo;ll show you how I create unique values when <code>None</code> doesn&rsquo;t cut it, and we&rsquo;ll see a few different uses for this technique.</p>
 
-<p>By &ldquo;comparison operators&rdquo; I mean the equality operators (<code>==</code> and <code>!=</code>) and the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</p>
+<h2>Initial values and default values</h2>
 
-<p>We can use these operators to compare numbers, as you&rsquo;d expect:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">4</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">4</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">&lt;</span> <span class="mi">4</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">3</span> <span class="o">&gt;</span> <span class="mi">4</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But we can also use these operators to compare strings:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">==</span> <span class="s">&quot;pickle&quot;</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">!=</span> <span class="s">&quot;pickle&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;pickle&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pear&quot;</span> <span class="o">&gt;</span> <span class="s">&quot;pickle&quot;</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And even tuples:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">installed</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">==</span> <span class="n">installed</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="n">installed</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">target</span> <span class="o">&gt;</span> <span class="n">installed</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Many programming languages don&rsquo;t have an equivalent to Python&rsquo;s very flexible comparison operators.</p>
-
-<p>We&rsquo;ll take a look at how these operators work on tuples and more complex objects in a moment, but we&rsquo;ll start with something simpler: string comparisons.</p>
-
-<h2>String comparisons in Python</h2>
-
-<p>Equality and inequality with strings is fairly simple.
-If two strings have exactly the same characters, they&rsquo;re equal:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;hello&quot;</span> <span class="o">==</span> <span class="s">&quot;hello&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;hello&quot;</span> <span class="o">==</span> <span class="s">&quot;hella&quot;</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that I&rsquo;m glossing over a very big exception: unicode characters.
-There are often multiple ways to represent the same text and those different representations must be <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize">normalized</a> before they&rsquo;re seen as equal.
-For simplicity, we&rsquo;re going to stick to ASCII characters in this article.</p>
-
-<p>Ordering of strings is where things get a bit interesting in Python:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pickle&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;python&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The string <code>"pickle"</code> is <em>less than</em> the string <code>"python"</code> because we&rsquo;re ordering alphabetically&hellip; sort of.
-Capitalization matters:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;pickle&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;Python&quot;</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The string <code>"Python"</code> is less than <code>"pickle"</code> because <code>P</code> is less than <code>p</code>.</p>
-
-<p>We&rsquo;re not actually ordering alphabetically here so much as <strong>ASCII-betically</strong> (unicode-betically really since we&rsquo;re in Python 3).
-These strings are being ordered by the ASCII values of their characters (<code>p</code> is 112 in <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters">ASCII</a> and <code>P</code> is 80).</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="mi">112</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="s">&quot;P&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="mi">80</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="s">&quot;P&quot;</span> <span class="o">&lt;</span> <span class="s">&quot;p&quot;</span>
-</span><span class='line'><span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Technically Python compares the Unicode code point (which is what <a href="https://docs.python.org/3/library/functions.html#ord">ord</a> does) for these characters and that happens to be the same as the ASCII value for ASCII characters.</p>
-
-<p>The rules for ordering strings are:</p>
-
-<ol>
-<li>Compare the n-th characters of each string (starting with the first character, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next character</li>
-<li>For two unequal characters, take the character that has the lower code point and declare its string &ldquo;less than&rdquo; the other</li>
-<li>If all characters are equal, the strings are equal</li>
-<li>If one string runs out of characters during step 1 (one string is a &ldquo;prefix&rdquo; of the other), the shorter string is &ldquo;less than&rdquo; the longer one</li>
-</ol>
-
-
-<p>The ordering algorithm Python uses for strings might seem complicated, but it&rsquo;s <strong>very similar to the ordering algorithm used in dictionaries</strong>; not Python dictionaries but <a href="https://en.wikipedia.org/wiki/Dictionary">physical dictionaries</a> (those things we used before the Internet existed).
-We give precedence to the first characters when ordering words in dictionaries and if one word is a prefix of another, it comes first.</p>
-
-<h2>Tuple comparisons</h2>
-
-<p>We can ask tuples if they&rsquo;re equal, just as we can ask strings if they&rsquo;re equal:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But we can also compare tuples using the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn&rsquo;t often feel quite as intuitive at first.
-But you&rsquo;re actually somewhat familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
-
-<p>The rules for ordering tuples (which are essentially the same as ordering strings):</p>
-
-<ol>
-<li>Compare the n-th items of each tuple (starting with the first, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next item</li>
-<li>For two unequal items, the item that is &ldquo;less than&rdquo; makes the tuple that contains it also &ldquo;less than&rdquo; the other tuple</li>
-<li>If all items are equal, the tuples are equal</li>
-<li>If one tuple runs out of items during step 1 (one tuple is a &ldquo;prefix&rdquo; of the other), the shorter tuple is &ldquo;less than&rdquo; the longer one</li>
-</ol>
-
-
-<p>In Python, this algorithm might look sort of like this:</p>
+<p>Let&rsquo;s re-implement a version of Python&rsquo;s built-in <code>min</code> function.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -322,167 +132,25 @@ But you&rsquo;re actually somewhat familiar with tuple ordering already because 
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">continue</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tuple1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tuple2</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>  <span class="c"># There were more items in the second tuple</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
 </span><span class='line'>    <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>  <span class="c"># The first tuple had more items or they are equal</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Note that we&rsquo;d never write code like this because Python is doing all this work for us already.
-That whole function is the same as using the <code>&lt;</code> operator:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">less_than</span><span class="p">(</span><span class="n">tuple1</span><span class="p">,</span> <span class="n">tuple2</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">tuple1</span> <span class="o">&lt;</span> <span class="n">tuple2</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Lexicographical ordering</h2>
-
-<p>This <strong>alphabetical-like style of ordering</strong> that gives precedence to the first items in an iterable is called <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical ordering</a>.
-You don&rsquo;t need to know that phrase, but if you ever need to describe <em>the way ordering works in Python</em>, <strong>lexicographical</strong> is the word to use.</p>
-
-<p>Strings and tuples are ordered lexicographically, as we&rsquo;ve seen, but so are lists:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In fact, most <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a> in Python <a href="https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types">should be ordered lexicographically</a> (<code>range</code> objects are an exception to this as they can&rsquo;t be ordered at all).</p>
-
-<p>But not every collection in Python relies on lexicographical ordering.</p>
-
-<h2>Dictionary and set comparisons</h2>
-
-<p>Many objects in Python work with equality but don&rsquo;t work with ordering at all.</p>
-
-<p>For example dictionaries compare &ldquo;equal&rdquo; when they have all the same keys and values:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span><span class="p">[</span><span class="s">&#39;python_version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
-</span><span class='line'><span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <strong>dictionaries can&rsquo;t be ordered</strong> using the <code>&lt;</code> or <code>&gt;</code> operators:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">&lt;</span> <span class="n">actual</span>
-</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;&lt;&#39;</span> <span class="ow">not</span> <span class="n">supported</span> <span class="n">between</span> <span class="n">instances</span> <span class="n">of</span> <span class="s">&#39;dict&#39;</span> <span class="ow">and</span> <span class="s">&#39;dict&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sets are similar, except that sets <em>do</em> work with ordering operators&hellip; they just don&rsquo;t use those operators for ordering:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span> <span class="o">&lt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="o">&lt;</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">}</span>
-</span><span class='line'><span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sets overload these operators to answer questions about <strong>whether one set is a subset or superset of another</strong> (<a href="https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset">see sets in the documentation</a>).</p>
-
-<h2>Deep equality</h2>
-
-<p>Comparisons between two data structures in Python tend to be <strong>deep comparisons</strong>.
-Whether we&rsquo;re comparing lists, tuples, sets, or dictionaries, when we ask whether two of these objects are &ldquo;equal&rdquo; Python will recurse through each sub-object and ask whether each is &ldquo;equal&rdquo;.</p>
-
-<p>So given a dictionary that maps tuples to lists of tuples:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">previous_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Asking whether these two dictionaries are equal is equivalent to asking whether each key-value pair is equal, recursively:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">==</span> <span class="n">previous_portals</span>
-</span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-</span><span class='line'><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">==</span> <span class="n">previous_portals</span>
-</span><span class='line'><span class="bp">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The dictionaries ask each of their keys &ldquo;are you in the other dictionary&rdquo; and then asks each of the corresponding values for those keys &ldquo;are you equal to the other value&rdquo;.
-But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
-And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.</p>
-
-<p><strong>We don&rsquo;t have to worry about any of this though</strong>: Python just does these deep comparisons for us automatically.</p>
-
-<p>While you don&rsquo;t need to worry about how deep comparisons work, the fact that Python&rsquo;s comparisons <em>are</em> deep can be pretty handy to know.</p>
-
-<p>For example if we have <a href="https://pastebin.com/raw/yspKmfyj">a class</a> with <code>x</code>, <code>y</code>, and <code>z</code> attributes we&rsquo;d like to compare in our <code>__eq__</code> method, instead of this long boolean expression:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We could bundle these values into 3-item tuples and compare them that way instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I find this more readable, mostly because <strong>we&rsquo;ve added symmetry to our code</strong>: we have one <code>==</code> expression with the same kind of object on each side of it.</p>
-
-<h2>Deep ordering</h2>
-
-<p>This &ldquo;deep comparison&rdquo; works for equality, but it also works for ordering.</p>
-
-<p>The use case for deep ordering isn&rsquo;t as obvious as for deep equality, but identifying places where deep ordering is handy can help you drastically improve the readability of your code.</p>
-
-<p>Take this example method:</p>
+<p>This <code>min</code> function, like the built-in one, returns the minimum value in the given iterable or raises an exception when an empty iterable is given unless a default value is specified (in which case the default is returned).</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -493,147 +161,31 @@ And in this case those values, the lists, need to be traversed even deeper becau
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>
-</span><span class='line'>    <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>
-</span><span class='line'>    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">True</span>
-</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <code>__lt__</code> method implements the <code>&lt;</code> operator on <a href="https://pastebin.com/raw/u8uGDArq">its class</a>, returning <code>True</code> if <code>self</code> is less than <code>other</code>.
-Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll ignore that fact for this example.</p>
-
-<p>That <code>__lt__</code> method above gives precedence to the <code>last_name</code>: the <code>first_name</code> is only checked if the <code>last_name</code> attribute of these two objects happens to be equal.</p>
-
-<p>If we wanted to collapse this logic some, we could rewrite our code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="ow">or</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">last_name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span>
-</span><span class='line'>    <span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or&hellip; we could rely on the deep ordering of tuples instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;re ordering our tuples lexicographically (by their first item first).
-Our tuples happen to contain strings, which are also ordered lexicographically (by their first character first).
-So we&rsquo;re <strong>deeply ordering</strong> these objects.</p>
-
-<h2>Sorting by multiple attributes at once</h2>
-
-<p>Knowing about lexicographical ordering and deep ordering of Python sequences can be quite useful when sorting Python objects.
-From Python&rsquo;s perspective, <strong>sorting is really just ordering over and over</strong>.</p>
-
-<p>Python&rsquo;s built-in <code>sorted</code> function accepts a <code>key</code> function which can return a corresponding key object to sort each of these items by.</p>
-
-<p>Here we&rsquo;re specifying a <code>key</code> function that accepts a word and returns a tuple of two things: the length of the word and the case-normalized word:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">length_and_word</span><span class="p">(</span><span class="n">word</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">),</span> <span class="n">word</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'><span class="o">...</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">length_and_word</span><span class="p">)</span>
-</span><span class='line'><span class="p">[</span><span class="s">&#39;jujube&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the key function above we&rsquo;re able to sort fruits first by their length and <em>then</em> by their case-normalized equivalent.
-So &ldquo;jujube&rdquo; comes first because it&rsquo;s 6 letters (like <code>longan</code> and <code>Loquat</code>) but it&rsquo;s also alphabetically before <code>longan</code> and <code>Loquat</code>.</p>
-
-<p>If we just sorted by length we would have had a different ordering:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
-</span><span class='line'><span class="p">[</span><span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">,</span> <span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Slight aside</strong>: deep comparisons actually predate the <code>sorted</code> function&rsquo;s <code>key</code> argument in Python.
-Before there was a key function Python developers would create lists of tuples, sort the lists of tuples, and then grab the actual value they cared about out of that list (which is <a href="https://docs.python.org/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate">discussed in the docs</a>).</p>
-
-<p>The <code>sorted</code> function isn&rsquo;t the only place where tuple ordering can come in handy.
-Any place where you see a <code>key</code> function might be a candidates for relying on tuple ordering.
-For example the <code>min</code> and <code>max</code> functions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">)</span>
-</span><span class='line'><span class="s">&#39;Cherimoya&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">)</span>
-</span><span class='line'><span class="s">&#39;Loquat&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Anywhere Python does an ordering operation might be a place you could rely on the deep ordering of Python&rsquo;s data structures.</p>
-
-<h2>Deep hashability (and unhashability)</h2>
-
-<p>Python has both deep equality and deep orderability.
-But Python&rsquo;s deep comparisons don&rsquo;t stop there: there&rsquo;s also deep hashability.</p>
-
-<p>This is something that mostly comes up with tuples.
-Tuples can be used as a key in a dictionary (as we saw earlier), and they can be used in sets:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">current_portals</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this only works for tuples that contain immutable values:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span> <span class="o">=</span> <span class="p">{([</span><span class="s">&quot;dress&quot;</span><span class="p">,</span> <span class="s">&quot;truck&quot;</span><span class="p">],</span> <span class="s">&quot;yellow&quot;</span><span class="p">),</span> <span class="p">([</span><span class="s">&quot;ball&quot;</span><span class="p">,</span> <span class="s">&quot;plane&quot;</span><span class="p">],</span> <span class="s">&quot;purple&quot;</span><span class="p">)}</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="mi">9</span><span class="p">])</span>
+</span><span class='line'><span class="mi">9</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([])</span>
 </span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
 </span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="n">unhashable</span> <span class="nb">type</span><span class="p">:</span> <span class="s">&#39;list&#39;</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">12</span><span class="p">,</span> <span class="ow">in</span> <span class="nb">min</span>
+</span><span class='line'><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Empty</span> <span class="n">iterable</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'><span class="mi">9</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'><span class="mi">3</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Tuples with lists in them aren&rsquo;t hashable because lists aren&rsquo;t hashable: each object inside a tuple must be hashable for the tuple itself to be hashable.</p>
+<p>This behavior is somewhat similar to the built-in <code>min</code> function, except <strong>our code is buggy</strong>!</p>
 
-<p>So while tuples containing lists aren&rsquo;t hashable, tuples containing tuples <em>are</em> hashable:</p>
+<p>There are two bugs here.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span> <span class="o">=</span> <span class="p">{((</span><span class="s">&quot;dress&quot;</span><span class="p">,</span> <span class="s">&quot;truck&quot;</span><span class="p">),</span> <span class="s">&quot;yellow&quot;</span><span class="p">),</span> <span class="p">((</span><span class="s">&quot;ball&quot;</span><span class="p">,</span> <span class="s">&quot;plane&quot;</span><span class="p">),</span> <span class="s">&quot;purple&quot;</span><span class="p">)}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">things</span>
-</span><span class='line'><span class="p">{((</span><span class="s">&#39;dress&#39;</span><span class="p">,</span> <span class="s">&#39;truck&#39;</span><span class="p">),</span> <span class="s">&#39;yellow&#39;</span><span class="p">),</span> <span class="p">((</span><span class="s">&#39;ball&#39;</span><span class="p">,</span> <span class="s">&#39;plane&#39;</span><span class="p">),</span> <span class="s">&#39;purple&#39;</span><span class="p">)}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Tuples compute their hash values by delegating to the hash values of the items they contain:</p>
+<p>First, an iterable containing a single <code>None</code> value will be treated as if it was an empty iterable:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -641,23 +193,140 @@ Tuples can be used as a key in a dictionary (as we saw earlier), and they can be
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span><span class='line'><span class="mi">3713081631934410656</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">hash</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</span><span class='line'><span class="bp">True</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="mi">0</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">])</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="nb">min</span>
+</span><span class='line'><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Empty</span> <span class="n">iterable</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>While hashability is a big subject, this is really all I&rsquo;m going to say about it.
-You don&rsquo;t really need to know how hashing works in Python so if you found this section confusing, that&rsquo;s okay!</p>
+<p>Second, if we specify our <code>default</code> value as <code>None</code> this <code>min</code> function won&rsquo;t accept it:</p>
 
-<p>The takeaway here is that Python supports <strong>deep hashability</strong> which is <strong>the reason we can use tuples as dictionary keys</strong> and the reason we can use tuples in sets.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">12</span><span class="p">,</span> <span class="ow">in</span> <span class="nb">min</span>
+</span><span class='line'><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Empty</span> <span class="n">iterable</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h2>Deep comparisons are a tool to remember</h2>
 
-<p>When you have code that compares two objects based on subparts in a particular order:</p>
+<p>Why is this happening?</p>
+
+<p>It&rsquo;s all about <code>None</code>.</p>
+
+<h2>Why is <code>None</code> a problem?</h2>
+
+<p>The first bug in our code is related to the initial value for <code>minimum</code> and the second is related to the default value for our <code>default</code> argument.
+In both cases, <strong>we&rsquo;re using <code>None</code> to represent an <em>unspecified</em> or <em>un-initialized</em> value</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using <code>None</code> is a problem in both cases because <code>None</code> is both a valid value for <code>default</code> and a valid value in our iterable.</p>
+
+<p>Python&rsquo;s <code>None</code> value is useful for representing emptiness, but it isn&rsquo;t magical, at least not any more magical than any other valid value.</p>
+
+<p>If we need a truly unique value for our default state, we need to invent our own.</p>
+
+<p>When <code>None</code> isn&rsquo;t a valid input for your function, it&rsquo;s perfectly fine to use it to represent a unique default or initial state.
+But <code>None</code> is often valid data, which means <strong><code>None</code> is sometimes a poor choice for a unique initial state</strong>.</p>
+
+<p>We&rsquo;ll fix both of our bugs by using <code>object()</code>: a somewhat common convention for creating a truly unique value in Python.</p>
+
+<p>First we&rsquo;ll set <code>minimum</code> to a unique object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">initial</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="n">initial</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="n">initial</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">initial</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>initial</code> variable holds our unique value so we can check for its presence later.</p>
+
+<p>This fixes the first bug:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([])</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">13</span><span class="p">,</span> <span class="ow">in</span> <span class="nb">min</span>
+</span><span class='line'><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Empty</span> <span class="n">iterable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But not the second.</p>
+
+<p>To fix the second bug we need to use a different default value for our <code>default</code> argument (other than <code>None</code>).</p>
+
+<p>To do this, we&rsquo;ll make a global &ldquo;constant&rdquo; (by convention) variable, <code>INITIAL</code>, outside our function:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -673,24 +342,26 @@ You don&rsquo;t really need to know how hashing works in Python so if you found 
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="k">if</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
-</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
-</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
-</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
-</span><span class='line'><span class="k">elif</span> <span class="n">d1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d2</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INITIAL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">INITIAL</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="n">INITIAL</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="n">INITIAL</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>You could probably rely on tuple ordering instead:</p>
+<p>Now our code works exactly how we&rsquo;d hope it would:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -698,56 +369,640 @@ You don&rsquo;t really need to know how hashing works in Python so if you found 
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="k">if</span> <span class="n">d1</span> <span class="o">&lt;</span> <span class="n">d2</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d1</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">greater</span> <span class="o">=</span> <span class="n">d2</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="bp">None</span><span class="p">])</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="s">&#39;&#39;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="mi">3</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([])</span>
+</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">12</span><span class="p">,</span> <span class="ow">in</span> <span class="nb">min</span>
+</span><span class='line'><span class="ne">ValueError</span><span class="p">:</span> <span class="n">Empty</span> <span class="n">iterable</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If you are comparing many different things as equal:</p>
+<p>That&rsquo;s lovely&hellip; but what is this magical <code>object()</code> thing?
+Why does it work, how does it work, and when should we use it?</p>
+
+<h2>What is <code>object()</code>?</h2>
+
+<p>Every class in Python has a base class of <code>object</code> (in Python 3 that is&hellip; things were a bit weirder in Python 2).</p>
+
+<p>So <code>object</code> is a class:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">d1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">d2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">object</span>
+</span><span class='line'><span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">object</span><span class="s">&#39;&gt;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">type</span><span class="s">&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we call <code>object</code> we&rsquo;re creating an &ldquo;instance&rdquo; of the object class, just as calling any other class (when given the correct arguments) will create instances of them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">set</span><span class="p">()</span>
+</span><span class='line'><span class="nb">set</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">bytearray</span><span class="p">()</span>
+</span><span class='line'><span class="nb">bytearray</span><span class="p">(</span><span class="n">b</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">frozenset</span><span class="p">()</span>
+</span><span class='line'><span class="nb">frozenset</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we&rsquo;re creating an instance of <code>object</code>.
+But&hellip; why?</p>
+
+<p>Well, an instance of <code>object</code> shouldn&rsquo;t be seen as equal to any other object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">4</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="bp">None</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="p">[]</span>
 </span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>You could probably rely on deep equality instead:</p>
+<p>Except itself:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1999</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d1</span> <span class="o">==</span> <span class="n">d2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">z</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python&rsquo;s <code>None</code> is similar, except that <em>anyone</em> can get access to this unique <code>None</code> object anywhere in their code by just typing <code>None</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
 </span><span class='line'><span class="bp">False</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>And if you need to use a dictionary that has a key made up of multiple parts, if those parts are each hashable, you could probably use a tuple:</p>
+<p>We needed a placeholder value in our code.
+<code>None</code> is a lovely placeholder as long as <strong>we don&rsquo;t need to worry about distinguishing between <em>our</em> <code>None</code> and <em>their</em> <code>None</code></strong>.</p>
+
+<p>If <code>None</code> is valid <em>data</em>, it&rsquo;s no longer just a placeholder.
+At that point, we need to start reaching for <code>object()</code> instead.</p>
+
+<h2>Equality vs identity</h2>
+
+<p>I noted that <code>object()</code> isn&rsquo;t <em>equal</em> to anything else.
+But we weren&rsquo;t actually checking for equality (using <code>==</code> or <code>!=</code>) in our function:</p>
+
+<p>Instead of <code>==</code> and <code>!=</code>, we used <code>is</code> and <code>is not</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;red&#39;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">points</span>
-</span><span class='line'><span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INITIAL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">INITIAL</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="n">INITIAL</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="n">INITIAL</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>Python&rsquo;s support for lexicographical ordering and deep comparisons is often overlooked by folks moving from other programming languages</strong>.
-Remember these features: you may not need them today, but they&rsquo;ll almost certainly come in handy at some point.</p>
+<p>While <code>==</code> and <code>!=</code> are equality operators, <code>is</code> and <code>is not</code> are <strong>identity operators</strong>.</p>
+
+<p>Python&rsquo;s <code>is</code> operator asks about the <strong>identity</strong> of an object: are the two objects on either side of the <code>is</code> operator actually the same exact object.</p>
+
+<p>We&rsquo;re not just asking <em>are they equal</em>, but are they stored in <em>the same place in memory</em> and in fact refer to the same exact object.</p>
+
+<p>Two of the variables below (<code>x</code> and <code>z</code>) point to the same object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So while <code>y</code> has a unique ID in memory, <code>x</code> and <code>z</code> do not:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span class='line'><span class="mi">140079600030400</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="mi">140079561403808</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="mi">140079600030400</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Which means <code>x</code> is <em>identical</em> to <code>z</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">z</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default, Python&rsquo;s <code>==</code> operator delegates to <code>is</code>.
+Meaning unless two variables point to the exact some object in memory, <code>==</code> will return <code>False</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">z</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is true <em>by default</em>&hellip; but many objects in Python overload the <code>==</code> operator to do much more useful things when we ask about equality.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="mi">0</span> <span class="o">==</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="p">{}</span> <span class="o">==</span> <span class="p">{}</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each object can <strong>customize the behavior of <code>==</code></strong> to answer whatever question they&rsquo;d like.</p>
+
+<p>Which means someone could make a class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">AlwaysEqual</span><span class="p">:</span>
+</span><span class='line'><span class="o">...</span>     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+</span><span class='line'><span class="o">...</span>         <span class="k">return</span> <span class="bp">True</span>
+</span><span class='line'><span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And suddenly our assumption about <code>==</code> with <code>object()</code> (or any other value) will fail us:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">AlwaysEqual</span><span class="p">()</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Use identity to compare unique objects</h2>
+
+<p>The <code>is</code> operator, unlike <code>==</code>, is not overloadable.
+<strong>Unlike with <code>==</code>, there&rsquo;s no way to control or change what happens when you say <code>x is y</code>.</strong></p>
+
+<p>There&rsquo;s a <code>__eq__</code> method, but there&rsquo;s no such thing as a <code>__is__</code> method.
+Which means the <code>is</code> operator will never lie to you: it will always tell you whether two objects are one in the same.</p>
+
+<p>If we use <code>is</code> instead of <code>==</code>, we could actually use any unique object to represent our unique <code>INITIAL</code> value.</p>
+
+<p>Even an empty list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INITIAL</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">INITIAL</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Imperfect re-implementation of Python&#39;s built-in min function.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">minimum</span> <span class="o">=</span> <span class="n">INITIAL</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="n">INITIAL</span> <span class="ow">or</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">minimum</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">minimum</span> <span class="o">=</span> <span class="n">item</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">minimum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">minimum</span>
+</span><span class='line'>    <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">INITIAL</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">default</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Empty iterable&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An empty list might seem problematic in the same way as <code>None</code> was: but they&rsquo;re actually quite different.</p>
+
+<p>We don&rsquo;t have any of the same issues as we did with <code>None</code> before:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([[]],</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([[]])</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">min</span><span class="p">([],</span> <span class="n">default</span><span class="o">=</span><span class="p">[])</span>
+</span><span class='line'><span class="p">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason is that <code>None</code> is a <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singleton value</a>.
+That means that whenever you say <code>None</code> in your Python code, you&rsquo;re referencing the exact same <code>None</code> object every time.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">None</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">94548887510464</span><span class="p">,</span> <span class="mi">94548887510464</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Whereas every empty list we make creates a brand new list object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="mi">140079561624776</span><span class="p">,</span> <span class="mi">140079598927432</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So while two independent empty lists may be <em>equal</em>, they aren&rsquo;t the same object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The objects that those <code>x</code> and <code>y</code> variables point to have <strong>the same value</strong> but are <strong>not actually the same object</strong>.</p>
+
+<h2>None is a placeholder value</h2>
+
+<p>Python&rsquo;s <code>None</code> is lovely.
+<code>None</code> is a universal placeholder value.
+Need a placeholder?
+Great!
+Python has a great placeholder value and it&rsquo;s called <code>None</code>!</p>
+
+<p>There are lots of places where Python itself actually uses <code>None</code> as a placeholder value also.</p>
+
+<p>If you pass no arguments to the string <code>split</code> method, that&rsquo;s the same as passing a separator value of <code>None</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;hello world&quot;</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;world&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;world&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you pass in a <code>key</code> function of <code>None</code> to the <code>sorted</code> builtin, that&rsquo;s the same as passing in no <code>key</code> function at all:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span class='line'><span class="p">[</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python loves using <code>None</code> as a placeholder because it&rsquo;s often a pretty great placeholder value.</p>
+
+<p>The issue with <code>None</code> only appears <strong>if someone else could reasonably be using <code>None</code> as a non-placeholder input to our function</strong>.
+This is often the case when the caller of a function has a placeholder values (often <code>None</code>) in their inputs and the author of that function (that&rsquo;s us) needs a separate unique placeholder.</p>
+
+<p>Using <code>None</code> to represent two different things at once is like having two identical-looking bookmarks in the same book: it&rsquo;s confusing!</p>
+
+<h2>Creating unique non-None placeholders: why <code>object()</code>?</h2>
+
+<p>When we made that <code>INITIAL</code> value before, we were sort of inventing our own <code>None</code>-like object: an object that we could uniquely reference by using the <code>is</code> operator.</p>
+
+<p>That <code>INITIAL</code> object we made should be completely unique: it shouldn&rsquo;t ever be seen in any arbitrary input that may be given to our function (unless someone made the strange decision to import <code>INITIAL</code> and reference it specifically).</p>
+
+<p>Why <code>object()</code> though?
+After all we could have used any unique object by creating an instance of pretty much any class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">INITIAL</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">INITIAL</span> <span class="o">==</span> <span class="p">[]</span>
+</span><span class='line'><span class="bp">True</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">INITIAL</span> <span class="ow">is</span> <span class="p">[]</span>
+</span><span class='line'><span class="bp">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Though it might have been even more clear to create our own class just for this purpose:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">DummyClass</span><span class="p">:</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Class that just creates unique objects.&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">INITIAL</span> <span class="o">=</span> <span class="n">DummyClass</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I&rsquo;d argue that <code>object()</code> is the &ldquo;right&rdquo; thing to use here.</p>
+
+<p>Everyone knows what <code>[]</code> means, but <code>object()</code> is mysterious, which is actually the reason I think it&rsquo;s a good choice in this case.</p>
+
+<p>When we see an empty list we expect that list to be used <em>as a list</em> and when we see a class instance, we expect that class to <em>do something</em>.
+But we don&rsquo;t actually want this object to <em>do</em> anything: <strong>we only care about the uniqueness of this new object</strong>.</p>
+
+<p>We could have done this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">INITIAL</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;completely unique value&#39;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I find using <code>object()</code> less confusing than this because it&rsquo;s clear: readers won&rsquo;t have a chance to be confused by the listy-ness of a list.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">INITIAL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>  <span class="c"># completely unique value</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also if a confused developer Googles &ldquo;what is <code>object()</code> in Python?&rdquo; they might end up with <a href="https://stackoverflow.com/questions/28306371/what-is-object-good-for">some sort of explanation</a>.</p>
+
+<h2>Other cases for non-None placeholders</h2>
+
+<p>There&rsquo;s a word I&rsquo;ve been avoiding using up to this point.
+I&rsquo;ve only been avoiding it because I think I typically misuse it (or rather overuse it).
+The word is <a href="https://en.wikipedia.org/wiki/Sentinel_value">sentinel value</a>.</p>
+
+<p>I suspect I overuse this word because I use it to mean any unique placeholder value, such as the <code>INITIAL</code> object we made before.
+But most definitions I&rsquo;ve seen use &ldquo;sentinel value&rdquo; to specifically mean a value which indicates the end of a list, a loop, or an algorithm.</p>
+
+<p>Sentinel values are a thing that, when seen, indicate that something has finished.
+I think of this as a <strong>stop value</strong>: when you see a sentinel value it&rsquo;s a signal that the loop or algorithm that you&rsquo;re in should terminate.</p>
+
+<p>Before we weren&rsquo;t using a stop value so much as an <strong>initial value</strong>.</p>
+
+<p>Here&rsquo;s an example of a stop value; a true sentinel value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SENTINEL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">strict_zip</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Variation of ``zip`` which requires equal-length iterables.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">zip_longest</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">SENTINEL</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">SENTINEL</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Given iterables must have the same length.&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">values</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re using the unique <code>SENTINEL</code> value above to signal that we need to stop looping and raise an exception.
+The presence of this value indicates that one of our iterables was a different length than the others and we need to handle this error case.</p>
+
+<h2>Rely on identity checks for unique values</h2>
+
+<p>Note that we&rsquo;re implicitly relying on <code>==</code> above because we&rsquo;re saying <code>if SENTINEL in values</code> which actually loops over <code>values</code> looking for a value that is equal to <code>SENTINEL</code>.</p>
+
+<p>If we wanted to be more strict (and possibly more efficient) we could rely on <code>is</code>, but we&rsquo;d need to do some looping ourselves.
+Fortunately Python&rsquo;s <code>any</code> function and a generator expression would make that a bit easier:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">zip_longest</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">SENTINEL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">strict_zip</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Variation of ``zip`` which requires equal-length iterables.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">zip_longest</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">,</span> <span class="n">fillvalue</span><span class="o">=</span><span class="n">SENTINEL</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="n">SENTINEL</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
+</span><span class='line'>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Given iterables must have the same length.&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">values</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m fine with either of these functions.  The first is a bit more readable even though this one is arguably a bit more correct.</p>
+
+<p>Identity checks are often faster than equality checks (<code>==</code> has to call the <code>__eq__</code> method, but <code>is</code> does a straight memory ID check).
+But identity checks are also a bit more <em>correct</em>: if it&rsquo;s uniqueness we care about, <strong>a unique memory location is the ultimate uniqueness check</strong>.</p>
+
+<p>When writing code that uses <strong>a unique object</strong>, it&rsquo;s wise to <strong>rely on identity rather than equality</strong> if you can.</p>
+
+<h2>This is what <code>is</code> was made for</h2>
+
+<p>If we care about <em>equality</em> (the value of an object) we use <code>==</code>, if we care about <em>identity</em> (the memory location) we use <code>is</code>.</p>
+
+<p>If you search my Python code for <code>is</code> you&rsquo;ll pretty much only find the following things:</p>
+
+<ol>
+<li><code>x is None</code> (this is the most common thing you&rsquo;ll see)</li>
+<li><code>x is True</code> or <code>x is False</code> (sometimes my tests get picky about <code>True</code> vs truthiness)</li>
+<li><code>iter(x) is x</code> (<a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">iterators</a> are a different Python rabbit hole)</li>
+<li><code>x is some_unique_object</code></li>
+</ol>
+
+
+<p>Those first two are checking for a <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> value (as <a href="https://pep8.org/#programming-recommendations">recommended by PEP 8</a>).
+The third one is checking if we&rsquo;ve seen <strong>the same object twice</strong> (an iterator in this case).
+And the fourth one is checking for the presence of these unique values we&rsquo;ve been discussing.</p>
+
+<p>The <code>is</code> operator checks whether two objects are exactly the same object in memory.
+<strong>You never want to use the <code>is</code> operator <em>except</em> for true identity checks</strong>: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">singletons</a> (like <code>None</code>, <code>True</code>, and <code>False</code>), checking for the same object again, and checking for our own unique values (sentinels, as I usually call them).</p>
+
+<h2>So when would we use <code>object()</code>?</h2>
+
+<p>Oftentimes <code>None</code> is both the easy answer and the right answer for a unique placeholder value in Python, but sometimes you just need to invent your own unique placeholder value.
+In those cases <code>object()</code> is a great tool to have in your Python toolbox.</p>
+
+<p>When would we actually use <code>object()</code> for a uniqueness check in our own code?</p>
+
+<p>I can think of a few cases:</p>
+
+<ol>
+<li><strong>Unique initial values</strong>: a starting value that should be distinguished from values seen later (<code>default</code> and <code>initial</code> in our <code>min</code> function)</li>
+<li><strong>Unique stop values</strong>: a value whose presence tells us to stop looping/processing (a true sentinel value, as in <code>strict_zip</code>)</li>
+<li><strong>Unique skip values</strong>: a value whose presence should be treated as an empty value to be skipped over (we didn&rsquo;t see this, but it comes up with utilities like <code>itertools.zip_longest</code> sometimes)</li>
+</ol>
+
+
+<p>I hope this meandering through unique values has given you something (some non-<code>None</code> things) to think about.</p>
+
+<p>May your <code>None</code> values be unambiguous and your identity checks be truly unique.</p>
 </div>
   
   <footer>
@@ -796,6 +1051,7 @@ Remember these features: you may not need them today, but they&rsquo;ll almost c
     Sign up below for <strong>four free exercises</strong>!
     <form method="post" action="https://www.pythonmorsels.com/signup/">
       <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <input type="hidden" name="form_id" value="sidebar">
       <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
     </p>

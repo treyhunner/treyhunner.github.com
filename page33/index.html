@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I rarely read books. I tend to lose my place after putting books down for too long and I&rsquo;m generally a slow and easily-distracted reader. I &hellip;">
+  <meta name="description" content="ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers. So, with ECMAScript 6 nearing standardization, let& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,7 +90,7 @@ ga('send', 'pageview');
       
   <header>
     
-      <h1 class="entry-title"><a href="/2014/12/top-6-books-of-2014/">Top 6 Audiobooks of 2014</a></h1>
+      <h1 class="entry-title"><a href="/2015/02/ecmascript-5-the-future-is-now/">ECMAScript 5: The Future is Now</a></h1>
     
     
       <p class="meta">
@@ -99,112 +99,121 @@ ga('send', 'pageview');
 
 
 
-<time class='entry-date' datetime='2014-12-20T12:00:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:00 pm</span></time>
+<time class='entry-date' datetime='2015-02-09T00:00:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:00 am</span></time>
         
-           | <a href="/2014/12/top-6-books-of-2014/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2014/12/top-6-books-of-2014/">Comments</a>
+           | <a href="/2015/02/ecmascript-5-the-future-is-now/#disqus_thread"
+             data-disqus-identifier="http://treyhunner.com/2015/02/ecmascript-5-the-future-is-now/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I rarely read books.  I tend to lose my place after putting books down for too long and I&rsquo;m generally a slow and easily-distracted reader.</p>
+  <div class="entry-content"><p>ECMAScript 5 was finalized over five years ago and it is well supported in all modern browsers.  So, with ECMAScript 6 nearing standardization, let&rsquo;s talk about ECMAScript 5.</p>
 
-<p>I discovered audiobooks this year and it has reintroduced me to long-form books, both fiction and non-fiction.  I have listened to about one book a week for the last 9 months.</p>
+<p>Do you know what features were added in ECMAScript 5?</p>
 
-<h2>&ldquo;Just Mercy&rdquo; by Bryan Stevenson</h2>
+<p>Do your target browsers support ECMAScript 5 yet?</p>
 
-<h4>Content</h4>
+<p><aside>
+    <dfn>ECMAScript</dfn> is a scripting language standardized by <abbr title="European Computer Manufacturers Association">Ecma</abbr> International and is the core specification of the JavaScript language.
+</aside></p>
 
-<p>In this book, Bryan Stevenson retells stories about the founding of the Equal Justice Initiative as well as some of the cases he worked on, focusing primarily on the case of Walter McMillian.  This book was engrossing, hope-filled, and crushing at times.  I had given little thought to the inner-workings of our justice system before reading this book.</p>
+<h2>Arrays</h2>
 
-<h4>Narration</h4>
+<p><a href="http://underscorejs.org/">Underscore.js</a> is a popular JavaScript library containing &ldquo;a whole mess of useful functional programming helpers&rdquo;.  Most of these helpers work on arrays and other enumerable objects (collections, as Underscore calls them).</p>
 
-<p>I really enjoyed Bryan Stevenson&rsquo;s self-narration.  He isn&rsquo;t a particularly animated orator, but he tells a story well and I never caught myself dozing off.</p>
+<p>The ECMAScript 5 spec includes a handful of these functional programming helpers as methods on native JavaScript Array objects.</p>
 
-<h4>Links</h4>
+<ul>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"><code>indexOf</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"><code>lastIndexOf</code></a></strong>, like <a href="http://underscorejs.org/#indexOf"><code>_.indexOf</code></a> and <a href="http://underscorejs.org/#lastIndexOf"><code>_.lastIndexOf</code></a>, return the index (or last index) at which a value can be found in the array</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every"><code>every</code></a></strong>, like <a href="http://underscorejs.org/#every"><code>_.every</code></a>, returns true if <strong>all</strong> the values in the array pass the test implemented by the provided function</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some"><code>some</code></a></strong>, like <a href="http://underscorejs.org/#some"><code>_.some</code></a>, returns true if <strong>any</strong> of the values in the array pass the test implemented by the provided function</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><code>forEach</code></a></strong>, like <a href="http://underscorejs.org/#each"><code>_.each</code></a>, executes a provided function once for each array item</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><code>map</code></a></strong>, like <a href="http://underscorejs.org/#map"><code>_.map</code></a>, returns a new array with the results of calling a provided function on each item of the array</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter"><code>filter</code></a></strong>, like <a href="http://underscorejs.org/#filter"><code>_.filter</code></a>, returns a new array with all array items that pass the given test function included.</p></li>
+<li><p><strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"><code>reduce</code></a></strong> and <strong><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight"><code>reduceRight</code></a></strong>, like <a href="http://underscorejs.org/#reduce"><code>_.reduce</code></a> and <a href="http://underscorejs.org/#reduceRight"><code>_.reduceRight</code></a>, reduce a list of values into a single value using an accumulator function (either left-to-right or right-to-left)</p></li>
+</ul>
 
-<p><a href="http://www.downpour.com/catalog/product/view/id/163963">Downpour (DRM-free) link</a>
-<a href="http://www.audible.com/pd/Bios-Memoirs/Just-Mercy-Audiobook/B00O4FH8E8/ref=a_search_c4_1_1_srTtl?qid=1418343414&amp;sr=1-1">Audible link</a></p>
 
-<h2>&ldquo;Little Brother&rdquo; by Cory Doctorow</h2>
+<h2>Miscellaneous</h2>
 
-<h4>Content</h4>
+<p>Here are a variety of other features that were added to ECMAScript 5, in addition to array helper functions:</p>
 
-<p>This reads like a modern 1984.  The science fiction was minimal and the reactions of the public and the government felt fairly believable.</p>
+<ul>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys"><code>Object.keys</code></a>, like <a href="http://underscorejs.org/#keys"><code>_.keys</code></a>, returns an array of a given object&rsquo;s enumerable properties</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"><code>Array.isArray</code></a>, like <a href="http://underscorejs.org/#isArray"><code>_.isArray</code></a>, returns <code>true</code> if a given object is an array</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now"><code>Date.now</code></a>, like <a href="http://underscorejs.org/#now"><code>_.now</code></a> returns the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify"><code>JSON.stringify</code></a> converts JavaScript objects to JSON strings and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"><code>JSON.parse</code></a> converts JSON strings to JavaScript objects.</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>Function.prototype.bind</code></a>, like <a href="http://underscorejs.org/#bind"><code>_.bind</code></a>, returns a function that when called has its <code>this</code> keyword argument set to the provided value</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim"><code>String.prototype.trim</code></a>, returns a copy of the string with whitespace removed from the beginning and end of the string</p></li>
+<li><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt"><code>parseInt</code></a> no longer treats strings starting with <code>0</code> as octal values</p></li>
+<li><p>Strict mode, Object.create, Object.seal, Object.freeze, getters/setters, and more were also added in ECMAScript 5</p></li>
+</ul>
 
-<p>This is the first book in the Little Brother trilogy.  I enjoyed the first book the most.  The last book didn&rsquo;t serve much purpose except to wrap up the series.</p>
 
-<h4>Narration</h4>
+<h2>Underscore.js vs Native</h2>
 
-<p>I enjoyed Kirby Heyborne&rsquo;s narration and character voices.  In comparison, Wil Wheaton&rsquo;s reading of Homeland (book 2 of the trilogy) was animated, but he pronounced some names strangely.  I liked Cory Doctorow&rsquo;s reading of Lawful Interception (book 3) the most out of the three books in the series.</p>
+<p>I try to use native array methods instead of their Underscore.js equivalents whenever possible.  However, these native array methods don&rsquo;t work in all cases.</p>
 
-<h4>Links</h4>
+<h3>Not all enumerables are arrays</h3>
 
-<p><a href="http://craphound.com/?p=4199">Purchase link on Doctorow&rsquo;s website</a>
-<a href="http://www.downpour.com/little-brother-1">Downpour link</a></p>
+<p>Here&rsquo;s two enumerable objects which are not arrays:</p>
 
-<h2>&ldquo;Lesterland&rdquo; by Lawrence Lessig</h2>
+<ol>
+<li>NodeList objects in the browser</li>
+<li>File buffers in Node.js</li>
+</ol>
 
-<h4>Content</h4>
 
-<p>Lawrence Lessig explains a core problem in our democratic republic: the way we fund political campaigns.  For a summary of the book, check out his <a href="http://www.ted.com/talks/lawrence_lessig_we_the_people_and_the_republic_we_must_reclaim">TED talk</a> on the same topic.</p>
+<p>You cannot use array methods like <code>forEach</code> on these enumerables, but you can the Underscore.js equivalents like <code>_.each</code>.</p>
 
-<h4>Narration</h4>
+<h3>So why not use Underscore for everything?</h3>
 
-<p>I enjoyed Lawrence Lessig&rsquo;s self-narration.  It was like listening to an extended version of his <a href="http://www.ted.com/talks/lawrence_lessig_we_the_people_and_the_republic_we_must_reclaim">TED talk</a>.</p>
+<h4>Native methods are more understandable</h4>
 
-<h4>Links</h4>
+<p>Web developers know JavaScript.  Web developers may not Underscore or your Underscore-like library of choice.  Don&rsquo;t stray far from vanilla JavaScript when you don&rsquo;t need to.</p>
 
-<p><a href="https://archive.org/details/Lesterland">Free download link</a>
-<a href="http://lesterland.lessig.org/">The USA is Lesterland website</a></p>
+<h4>Underscore is less portable</h4>
 
-<h2>&ldquo;The Martian&rdquo; by Andy Weir</h2>
+<p>Underscore doesn&rsquo;t come bundled with your rendering engine.</p>
 
-<h4>Content</h4>
+<h4>Native methods are future-proof</h4>
 
-<p>Astronaut Mark Watney struggles to survive on Mars after a dust storm nearly kills him and causes his crew to evacuate after they assume he died.  Watney&rsquo;s ingenuity, luck, and sense of humor made this an enjoyable read.  The science sounded mostly plausible also.</p>
+<p>Underscore is cool today, but <a href="https://github.com/lodash/lodash">lodash</a> might be cooler tomorrow.  Or maybe you&rsquo;d prefer to use <a href="https://github.com/cmstead/JFP">JFP</a>.</p>
 
-<h4>Narration</h4>
+<h4>Native methods can be faster</h4>
 
-<p>I enjoyed R. C. Brady&rsquo;s narration of Mark Watney&rsquo;s dark humor.</p>
+<p>As browser engines improve their optimization of native code, your code improves in speed.  Underscore&rsquo;s equivalents of these methods cannot be further optimized at the low-level as their native equivalents.</p>
 
-<h4>Links</h4>
+<p>This claim as a theoretical one.  Here&rsquo;s some jsPerf links to test the real performance difference:</p>
 
-<p><a href="http://www.audible.com/pd/Sci-Fi-Fantasy/The-Martian-Audiobook/B00B5HZGUG/">Audible link</a></p>
+<ul>
+<li><a href="http://jsperf.com/array-prototype-indexof-vs-indexof">indexOf</a> and <a href="http://jsperf.com/array-prototype-lastindexof-vs-lastindexof">lastIndexOf</a></li>
+<li><a href="http://jsperf.com/array-prototype-every-vs-every">every</a></li>
+<li><a href="http://jsperf.com/array-prototype-some-vs-some2">some</a></li>
+<li><a href="http://jsperf.com/array-prototype-foreach-vs-each">forEach</a></li>
+<li><a href="http://jsperf.com/array-prototype-map-vs-map">map</a></li>
+<li><a href="http://jsperf.com/array-prototype-filter-vs-filter">filter</a></li>
+<li><a href="http://jsperf.com/array-prototype-reduce-vs-reduce">reduce</a> and <a href="http://jsperf.com/array-prototype-reduceright-vs-reduceright">reduceRight</a></li>
+</ul>
 
-<h2>&ldquo;A Short History of Nearly Everything&rdquo; by Bill Bryson</h2>
 
-<h4>Content</h4>
+<h2>What browsers support ECMAScript 5?</h2>
 
-<p>This book crams in a lot of facts as well as historical context.  It does meander quite a bit, but I really enjoyed it.</p>
+<p>ECMAScript 5 is fully supported in Internet Explorer 10 and nearly fully supported in IE9.  Modern versions of Chrome and Firefox also fully support ECMAScript 5.</p>
 
-<h4>Narration</h4>
+<h4>What if you need to support IE7 or IE8?</h4>
 
-<p>Richard Matthew has a very soothing voice.  I really enjoyed listening to this book while on vacation and while falling asleep.</p>
+<p>Fortunately, all of the array methods discussed above and some of the other ECMAScript 5 features can be <a href="https://remysharp.com/2010/10/08/what-is-a-polyfill">polyfilled</a> using <a href="https://github.com/es-shims/es5-shim">es5-shim</a>.</p>
 
-<p>There is also an abridged version of this book read by the author.  I haven&rsquo;t listened to the abridged version, but I did enjoy the author&rsquo;s reading of &ldquo;At Home&rdquo;.  Bill Bryson reads well, but his voice isn&rsquo;t nearly as soothing as Richard Matthew&rsquo;s.</p>
+<h4>ECMAScript 5 all the things!</h4>
 
-<h4>Links</h4>
+<p>With these pollyfills in place, you should be able to use the majority of ECMAScript 5 features everywhere.  Go forth and ES5-ify your code!</p>
 
-<p><a href="http://www.downpour.com/a-short-history-of-nearly-everything-1">Downpour link</a>
-<a href="http://www.audible.com/pd/History/A-Short-History-of-Nearly-Everything-Audiobook/B002V0KFPW/">Audible link</a></p>
-
-<h2>&ldquo;You Are Not So Smart&rdquo; by David McRaney</h2>
-
-<h4>Content</h4>
-
-<p>This book is packed with common self-delusions.  Unfortunately, most delusions do not come with solutions attached, but sometimes just knowing about a delusion can help make your world view slightly more realistic.</p>
-
-<h4>Narration</h4>
-
-<p>Don Hagen&rsquo;s narration is fairly dry, but it works well with the tone of the book.</p>
-
-<h3>Links</h3>
-
-<p><a href="http://www.downpour.com/you-are-not-so-smart-1">Downpour link</a>
-<a href="http://www.audible.com/pd/Nonfiction/You-Are-Not-So-Smart-Audiobook/B006K4GN56/">Audible link</a></p>
+<p><aside>
+This blog post was based on my ECMAScript 5 talk.  You can view the slides at <a href="http://treyhunner.com/es5-talk/">http://treyhunner.com/es5-talk/</a>
+</aside></p>
 </div>
   
   <footer>
@@ -253,6 +262,7 @@ ga('send', 'pageview');
     Sign up below for <strong>four free exercises</strong>!
     <form method="post" action="https://www.pythonmorsels.com/signup/">
       <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <input type="hidden" name="form_id" value="sidebar">
       <button type="submit" class="subscribe-btn">Sign up</button>
     </form>
     </p>

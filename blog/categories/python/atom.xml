@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-09T13:40:40-07:00</updated>
+  <updated>2019-04-16T10:16:21-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,449 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
+    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <updated>2019-04-16T10:20:00-07:00</updated>
+    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
+Those terms are all technically misnomers.</p>
+
+<p>When I use terms like &ldquo;the <code>bool</code> function&rdquo; and &ldquo;the <code>str</code> function&rdquo; I&rsquo;m incorrectly implying that <code>bool</code> and <code>str</code> are functions.
+But these <strong>aren&rsquo;t functions: they&rsquo;re classes</strong>!</p>
+
+<p>I&rsquo;m going to explain why this confusion between classes and functions happens in Python and then explain <strong>why this distinction often doesn&rsquo;t matter</strong>.</p>
+
+<h2>Class or function?</h2>
+
+<p>When I&rsquo;m training a new group of Python developers, there&rsquo;s group activity we often do: the class or function game.</p>
+
+<p>In <strong>the class or function game</strong>, we take something that we &ldquo;call&rdquo; (using parenthesis: <code>()</code>) and we guess whether it&rsquo;s a class or a function.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>We can call <code>zip</code> with a couple iterables and we get another iterable back, so is <code>zip</code> a class or a function?</li>
+<li>When we call <code>len</code>, are we calling a class or a function?</li>
+<li>What about <code>int</code>: when we write <code>int('4')</code> are we calling a class or a function?</li>
+</ul>
+
+
+<p>Python&rsquo;s <code>zip</code>, <code>len</code>, and <code>int</code> are all often guessed to be functions, but <strong>only one of these is really a function</strong>:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; zip
+&lt;class 'zip'&gt;
+&gt;&gt;&gt; len
+&lt;built-in function len&gt;
+&gt;&gt;&gt; int
+&lt;class 'int'&gt;
+</code></pre>
+
+<p>While <code>len</code> is a function, <code>zip</code> and <code>int</code> are classes.</p>
+
+<p>The <code>reversed</code>, <code>enumerate</code>, <code>range</code>, and <code>filter</code> &ldquo;functions&rdquo; also aren&rsquo;t really functions:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; reversed
+&lt;class 'reversed'&gt;
+&gt;&gt;&gt; enumerate
+&lt;class 'enumerate'&gt;
+&gt;&gt;&gt; range
+&lt;class 'range'&gt;
+&gt;&gt;&gt; filter
+&lt;class 'filter'&gt;
+</code></pre>
+
+<p>After playing the class or function game, we always discuss <strong>callables</strong>, and then we discuss the fact that <strong>we often don&rsquo;t care whether something is a class or a function</strong>.</p>
+
+<h2>What&rsquo;s a callable?</h2>
+
+<p>A <strong>callable</strong> is anything you can <em>call</em>, using parenthesis, and possibly passing arguments.</p>
+
+<p>All three of these lines involve callables:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; something()
+&gt;&gt;&gt; x = AnotherThing()
+&gt;&gt;&gt; something_else(4, 8, *x)
+</code></pre>
+
+<p>We don&rsquo;t know what <code>something</code>, <code>AnotherThing</code>, and <code>something_else</code> do: but we <em>know</em> they&rsquo;re callables.</p>
+
+<p>We have a number of callables in Python:</p>
+
+<ul>
+<li>Functions are callables</li>
+<li>Classes are callables</li>
+<li>Methods (which are functions that hang off of classes) are callables</li>
+<li>Instances of classes can even be turned into callables</li>
+</ul>
+
+
+<p>Callables are a pretty important concept in Python.</p>
+
+<h2>Classes are callables</h2>
+
+<p>Functions are the most obvious callable in Python.
+Functions can be &ldquo;called&rdquo; in every programming language.
+A <em>class</em> being callable is a bit more unique though.</p>
+
+<p>In JavaScript we can make an &ldquo;instance&rdquo; of the <code>Date</code> class like this:</p>
+
+<pre><code class="javascript">&gt; new Date(2020, 1, 1, 0, 0)
+2020-02-01T08:00:00.000Z
+</code></pre>
+
+<p>In JavaScript the class instantiation syntax (the way we create an &ldquo;instance&rdquo; of a class) involves the <code>new</code> keyword.
+In Python we don&rsquo;t have a <code>new</code> keyword.</p>
+
+<p>In Python we can make an &ldquo;instance&rdquo; of the <code>datetime</code> class (from <code>datetime</code>) like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; datetime(2020, 1, 1, 0, 0)
+datetime.datetime(2020, 1, 1, 0, 0)
+</code></pre>
+
+<p>In Python, the syntax for <strong>instantiating a new class instance</strong> is the same as the syntax for <strong>calling a function</strong>.
+There&rsquo;s no <code>new</code> needed: we just call the class.</p>
+
+<p>When we <strong>call a function</strong>, we get its return value.
+When we <strong>call a class</strong>, we get an &ldquo;instance&rdquo; of that class.</p>
+
+<p><strong>We use the same syntax for constructing objects from classes and for calling functions</strong>: this fact is the main reason the word &ldquo;callable&rdquo; is such an important part of our Python vocabulary.</p>
+
+<h2>Disguising classes as functions</h2>
+
+<p>There are many classes-which-look-like-functions among the Python built-ins and in the Python standard library.</p>
+
+<p>I sometimes explain <strong>decorators</strong> (an intermediate-level Python concept) as &ldquo;functions which accept functions and return functions&rdquo;.</p>
+
+<p>But that&rsquo;s not an entirely accurate explanation.
+There are also <strong>class decorators</strong>: functions which accept classes and return classes.
+And there are also <strong>decorators which are implemented using classes</strong>: classes which accept functions and return objects.</p>
+
+<p>A better explanation of the term decorators might be &ldquo;callables which accept callables and return callables&rdquo; (still not entirely accurate, but good enough for our purposes).</p>
+
+<p>Python&rsquo;s <a href="https://docs.python.org/3/library/functions.html#property">property</a> decorator seems like a function:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; class Circle:
+...     def __init__(self, radius):
+...         self.radius = radius
+...     @property
+...     def diameter(self):
+...         return self.radius * 2
+...
+&gt;&gt;&gt; c = Circle(5)
+&gt;&gt;&gt; c.diameter
+10
+</code></pre>
+
+<p>But it&rsquo;s a class:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; property
+&lt;class 'property'&gt;
+</code></pre>
+
+<p>The <code>classmethod</code> and <code>staticmethod</code> decorators are <em>also</em> classes:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; classmethod
+&lt;class 'classmethod'&gt;
+&gt;&gt;&gt; staticmethod
+&lt;class 'staticmethod'&gt;
+</code></pre>
+
+<p>What about context managers, like <a href="https://docs.python.org/3.5/library/contextlib.html#contextlib.suppress">suppress</a> and <a href="https://docs.python.org/3/library/contextlib.html#contextlib.redirect_stdout">redirect_stdout</a> from the <code>contextlib</code> module?
+These both use the <a href="https://en.wikipedia.org/wiki/Snake_case">snake_case</a> naming convention, so they seem like functions:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from contextlib import suppress
+&gt;&gt;&gt; from io import StringIO
+&gt;&gt;&gt; with suppress(ValueError):
+...     int('hello')
+...
+&gt;&gt;&gt; with redirect_stdout(StringIO()) as fake_stdout:
+...     print('hello!')
+...
+&gt;&gt;&gt; fake_stdout.getvalue()
+'hello!\n'
+</code></pre>
+
+<p>But they&rsquo;re actually <strong>implemented using classes</strong>, despite the <code>snake_case</code> naming convention:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; suppress
+&lt;class 'contextlib.suppress'&gt;
+&gt;&gt;&gt; redirect_stdout
+&lt;class 'contextlib.redirect_stdout'&gt;
+</code></pre>
+
+<p>Decorators and context managers are just two places in Python where you&rsquo;ll often see callables which look like functions but aren&rsquo;t.
+Whether a <strong>callable</strong> is a class or a function is often <strong>just an implementation detail</strong>.</p>
+
+<p>It&rsquo;s not really a mistake to refer to <code>property</code> or <code>redirect_stdout</code> as a function because <strong>they may as well be functions</strong>.
+We can <strong>call</strong> them, and that&rsquo;s what we care about.</p>
+
+<h2>Callable objects</h2>
+
+<p>Python&rsquo;s &ldquo;call&rdquo; syntax, those <code>(...)</code> parenthesis, can <strong>create an class instance</strong> or <strong>call a function</strong>.
+But this &ldquo;call&rdquo; syntax can <strong>also be used to call an object</strong>.</p>
+
+<p>Technically, everything in Python &ldquo;is an object&rdquo;:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; isinstance(len, object)
+True
+&gt;&gt;&gt; isinstance(range, object)
+True
+&gt;&gt;&gt; isinstance(range(5), object)
+True
+</code></pre>
+
+<p>But we often use the term &ldquo;object&rdquo; to imply that we&rsquo;re working with an instance of a class (by <em>instance of a class</em> I mean &ldquo;the thing you get back when you call a class&rdquo;).</p>
+
+<p>There&rsquo;s a <a href="https://docs.python.org/3.5/library/functools.html#functools.partial">partial</a> function which lives in the <code>functools</code> module, which can &ldquo;partially evaluate&rdquo; a function by storing arguments to be used when calling the function later.
+This is often used to make Python look a bit more like a functional programming language:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from functools import partial
+&gt;&gt;&gt; just_numbers = partial(filter, str.isdigit)
+&gt;&gt;&gt; list(just_numbers(['4', 'hello', '50']))
+['4', '50']
+</code></pre>
+
+<p>I said above that Python has &ldquo;a <code>partial</code> function&rdquo;, which is both true and false.</p>
+
+<p>While the phrase &ldquo;a <code>partial</code> function&rdquo; makes sense, the <code>partial</code> callable <strong>isn&rsquo;t implemented using a function</strong>.</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; partial
+&lt;class '__main__.partial'&gt;
+</code></pre>
+
+<p>The Python core developers <em>could</em> have implemented <code>partial</code> as a function, like this:</p>
+
+<pre><code class="python">def partial(func, *args, **kwargs):
+    """Return "partially evaluated" version of given function/arguments."""
+    def wrapper(*more_args, **more_kwargs):
+        all_kwargs = {**kwargs, **more_kwargs}
+        return func(*args, *more_args, **all_kwargs)
+    return wrapper
+</code></pre>
+
+<p>But instead they chose to use a class, doing something more like this:</p>
+
+<pre><code class="python">class partial:
+    """Return "partially evaluated" version of given function/arguments."""
+    def __init__(self, func, *args, **kwargs):
+        self.func, self.args, self.kwargs = func, args, kwargs
+    def __call__(self, *more_args, **more_kwargs):
+        all_kwargs = {**self.kwargs, **more_kwargs}
+        return self.func(*self.args, *more_args, **all_kwargs)
+</code></pre>
+
+<p>That <code>__call__</code> method allows us to <em>call</em> <code>partial</code> objects.
+So the <code>partial</code> class makes a <strong>callable object</strong>.</p>
+
+<p>Adding a <code>__call__</code> method to any class will <strong>make instances of that class callable</strong>.
+In fact, checking for a <code>__call__</code> method is one way to ask the question &ldquo;is this object callable?&rdquo;</p>
+
+<p>All functions, classes, and callable objects have a <code>__call__</code> method:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; hasattr(open, '__call__')
+True
+&gt;&gt;&gt; hasattr(dict, '__call__')
+True
+&gt;&gt;&gt; hasattr({}, '__call__')
+False
+</code></pre>
+
+<p>Though a better way to check for callability than looking for a <code>__call__</code> is to use the built-in <code>callable</code> function:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; callable(len)
+True
+&gt;&gt;&gt; callable(list)
+True
+&gt;&gt;&gt; callable([])
+False
+</code></pre>
+
+<p>In Python, classes, functions, and instances of classes can all be used as &ldquo;callables&rdquo;.</p>
+
+<h2>The distinction between functions and classes often doesn&rsquo;t matter</h2>
+
+<p>The Python documentation has a page called <a href="https://docs.python.org/3/library/functions.html#built-in-funcs">Built-in Functions</a>.
+But this Built-in Functions page <strong>isn&rsquo;t actually for built-in functions</strong>: it&rsquo;s for built-in callables.</p>
+
+<p>Of the 69 &ldquo;built-in functions&rdquo; listed in the Python Built-In Functions page, <strong>only 42 are actually implemented as functions</strong>: 26 are classes and 1 (<code>help</code>) is an instance of a callable class.</p>
+
+<p>Of the 26 classes among those built-in &ldquo;functions&rdquo;, four <em>were</em> actually functions in Python 2 (the now-lazy <code>map</code>, <code>filter</code>, <code>range</code>, and <code>zip</code>) but have since become classes.</p>
+
+<p>The Python built-ins and the standard library are both full of maybe-functions-maybe-classes.</p>
+
+<h3>operator.itemgetter</h3>
+
+<p>The <code>operator</code> module has lots of callables:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from operator import getitem, itemgetter
+&gt;&gt;&gt; get_a_and_b = itemgetter('a', 'b')
+&gt;&gt;&gt; d = {'a': 1, 'b': 2, 'c': 3}
+&gt;&gt;&gt; get_a_and_b(d)
+(1, 2)
+&gt;&gt;&gt; getitem(d, 'a'), getitem(d, 'b')
+(1, 2)
+</code></pre>
+
+<p>Some of these callables (like <a href="https://docs.python.org/3.5/library/operator.html#operator.itemgetter">itemgetter</a> are <em>callable classes</em>) while others (like <code>getitem</code>) are functions:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; itemgetter
+&lt;class 'operator.itemgetter'&gt;
+&gt;&gt;&gt; get_a_and_b
+operator.itemgetter('a', 'b')
+&gt;&gt;&gt; getitem
+&lt;built-in function getitem&gt;
+</code></pre>
+
+<p>The <code>itemgetter</code> class <em>could</em> have been implemented as &ldquo;a function that returns a function&rdquo;.
+Instead it&rsquo;s a class which implements a <code>__call__</code> method, so its class instances are callable.</p>
+
+<h3>Iterators</h3>
+
+<p>Generator functions are functions which return iterators when called (<a href="https://youtu.be/V2PkkMS2Ack?t=858">generators are iterators</a>):</p>
+
+<pre><code class="python">def count(n=0):
+    """Generator that counts upward forever."""
+    while True:
+        yield n
+        n += 1
+</code></pre>
+
+<p>And <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator classes</a> are classes which return iterators when called:</p>
+
+<pre><code class="python">class count:
+    """Iterator that counts upward forever."""
+    def __init__(self, n=0):
+        self.n = n
+    def __iter__(self):
+        return self
+    def __next__(self):
+        n = self.n
+        self.n += 1
+        return n
+</code></pre>
+
+<p>Iterators can be defined using functions or using classes: whichever you choose is an implementation detail.</p>
+
+<h3>The sorted &ldquo;key function&rdquo;</h3>
+
+<p>The built-in <a href="https://docs.python.org/3.5/library/functions.html#sorted">sorted</a> function has an optional <code>key</code> argument, which is called to get &ldquo;comparison keys&rdquo; for sorting (<code>min</code> and <code>max</code> have a similar <code>key</code> argument).</p>
+
+<p>This <code>key</code> argument can be a function:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; def digit_count(s): return len(s.replace('_', ''))
+...
+&gt;&gt;&gt; numbers = ['400', '2_020', '800_000']
+&gt;&gt;&gt; sorted(numbers, key=digit_count)
+['400', '2_020', '800_000']
+</code></pre>
+
+<p>But it can also be a class:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = ['400', '2_020', '800_000']
+&gt;&gt;&gt; sorted(numbers, key=int)
+['400', '2_020', '800_000']
+</code></pre>
+
+<p>The Python documentation says &ldquo;key specifies a function of one argument&hellip;&rdquo;.
+That&rsquo;s not <em>technically</em> correct because key can be any callable, not just a function.
+But <strong>we often use the words &ldquo;function&rdquo; and &ldquo;callable&rdquo; interchangeably</strong> in Python, and that&rsquo;s okay.</p>
+
+<h3>The defaultdict &ldquo;factory function&rdquo;</h3>
+
+<p>The <a href="https://docs.python.org/3/library/collections.html#collections.defaultdict">defaultdict</a> class in the <code>collections</code> module accepts a &ldquo;factory&rdquo; callable, which is used to generate default values for missing dictionary items.</p>
+
+<p>Usually we use a class as a <code>defaultdict</code> factory:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from collections import defaultdict
+&gt;&gt;&gt; counts = defaultdict(int)
+&gt;&gt;&gt; counts['snakes']
+0
+&gt;&gt;&gt; things = defaultdict(list)
+&gt;&gt;&gt; things['newer'].append('Python 3')
+&gt;&gt;&gt; things['newer']
+['Python 3']
+</code></pre>
+
+<p>But <code>defaultdict</code> can also accept a function (or any other callable):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; import random
+&gt;&gt;&gt; colors = ['blue', 'yellow', 'purple', 'green']
+&gt;&gt;&gt; favorite_colors = defaultdict(lambda: random.choice(colors))
+&gt;&gt;&gt; favorite_colors['Kevin']
+'yellow'
+&gt;&gt;&gt; favorite_colors['Stacy']
+'green'
+&gt;&gt;&gt; probabilities = defaultdict(random.random)
+&gt;&gt;&gt; probabilities['having fun']
+0.6714530824158086
+&gt;&gt;&gt; probabilities['seeing a snake']
+0.07703364911089605
+</code></pre>
+
+<p>Pretty much anywhere a &ldquo;callable&rdquo; is accepted in Python, a function, a class, or some other callable object will work just fine.</p>
+
+<h2>Think in terms of &ldquo;callables&rdquo; not &ldquo;classes&rdquo; or &ldquo;functions&rdquo;</h2>
+
+<p>In the <a href="https://www.pythonmorsels.com/">Python Morsels</a> exercises I send out every week, I often ask learners to make a &ldquo;callable&rdquo;.
+Often I&rsquo;ll say something like &ldquo;this week I&rsquo;d like you to make a callable which returns an iterator&hellip;&rdquo;.</p>
+
+<p>I say &ldquo;callable&rdquo; because I want <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">an iterator</a> back, but I really don&rsquo;t care whether the callable created is a <strong>generator function</strong>, an <strong>iterator class</strong>, or a <strong>function that returns a generator expression</strong>.
+All of these things are <em>callables</em> which return the right type that I&rsquo;m testing for (an iterator).
+It&rsquo;s up to you, the implementor of this callable, to determine how you&rsquo;d like to define it.</p>
+
+<p>We practice <strong>duck typing</strong> in Python: <strong>if it looks like a duck and quacks like a duck, it&rsquo;s a duck</strong>.
+Because of duck typing we tend to use general terms to describe specific things: lists are sequences, iterators are generators, dictionaries are mappings, and functions are callables.</p>
+
+<p>If something looks like a callable and quacks (or rather, calls) like a callable, it&rsquo;s a callable.
+Likewise, if something looks like a function and quacks (calls) like a function, we can call it a function&hellip; <strong>even if it&rsquo;s actually implemented using a class or a callable object</strong>!</p>
+
+<p>Callables accept arguments and return something useful to the caller.
+When we <em>call</em> classes we get instances of that class back.
+When we <em>call</em> functions we get the return value of that function back.
+The distinction between a class and a function is <strong>rarely important from the perspective of the caller</strong>.</p>
+
+<p>When talking about passing functions or class objects around, try to think in terms of <em>callable</em>.
+<strong>What happens when you call something</strong> is often more important than <strong>what that thing actually is</strong>.</p>
+
+<p>More importantly though, if someone mislabels a function as a class or a class as a function, <strong>don&rsquo;t correct them unless the distinction is actually relevant</strong>.
+A function is a callable and a class is a callable: the distinction between these two can often be disregarded.</p>
+
+<h2>Want some practice with callables?</h2>
+
+<p>You don&rsquo;t learn by putting more information into your head.
+You learn through recall, that is trying to retrieve information for your head.</p>
+
+<p>If you&rsquo;d like to get some practice with the <code>__call__</code> method, if you&rsquo;d like to make your own iterable/iterator-returning callables, or if you just want to practice working with &ldquo;callables&rdquo;, I have a Python Morsels exercise for you.</p>
+
+<p>Python Morsels is a weekly Python skill-building service.
+I send one exercise every week and the first 5 are free.</p>
+
+<p>If you sign up for Python Morsels using the below form, I&rsquo;ll send you one callable-related exercise of your choosing (choose using the selection below).</p>
+
+<h4>Which Python exercise would you like right now?</h4>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+    <label><input type="radio" name="exercise_track" value="callables1"> Novice exercise with a bonus involving callables</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables2"> Making a callable which returns an iterable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables3"> Making an iterator-returning callable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables4">Advanced exercise with bonuses showing the downside of <code>__call__</code></label>
+    <br>
+    <br>
+    <input type="hidden" name="form_id" value="callables">
+    <input type="email" name="email" placeholder="Your email address" class="subscribe-email form-big" required>
+    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+    <br>
+    <small>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    </small>
+</form></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
@@ -533,6 +976,7 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
 <p><form method="post" action="https://www.pythonmorsels.com/signup/">
     <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
     <input type="hidden" name="exercise_track" value="custom collection">
+    <input type="hidden" name="form_id" value="inheriting from builtins">
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
     <br>
     <small>
@@ -1934,451 +2378,6 @@ In those cases <code>object()</code> is a great tool to have in your Python tool
 <p>I hope this meandering through unique values has given you something (some non-<code>None</code> things) to think about.</p>
 
 <p>May your <code>None</code> values be unambiguous and your identity checks be truly unique.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
-    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
-    <updated>2019-03-13T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
-    <content type="html"><![CDATA[<p>Comparing things in Python.
-That sounds like something that almost doesn&rsquo;t even need to be taught.
-But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
-
-<p>Let&rsquo;s review how Python&rsquo;s comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.</p>
-
-<h2>Python&rsquo;s comparison operators</h2>
-
-<p>By &ldquo;comparison operators&rdquo; I mean the equality operators (<code>==</code> and <code>!=</code>) and the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</p>
-
-<p>We can use these operators to compare numbers, as you&rsquo;d expect:</p>
-
-<pre><code class="python">&gt;&gt;&gt; 3 == 4
-False
-&gt;&gt;&gt; 3 != 4
-True
-&gt;&gt;&gt; 3 &lt; 4
-True
-&gt;&gt;&gt; 3 &gt; 4
-False
-</code></pre>
-
-<p>But we can also use these operators to compare strings:</p>
-
-<pre><code class="python">&gt;&gt;&gt; "pear" == "pickle"
-False
-&gt;&gt;&gt; "pear" != "pickle"
-True
-&gt;&gt;&gt; "pear" &lt; "pickle"
-True
-&gt;&gt;&gt; "pear" &gt; "pickle"
-False
-</code></pre>
-
-<p>And even tuples:</p>
-
-<pre><code class="python">&gt;&gt;&gt; target = (3, 6, 2)
-&gt;&gt;&gt; installed = (3, 7, 0)
-&gt;&gt;&gt; target == installed
-False
-&gt;&gt;&gt; target &lt;= installed
-True
-&gt;&gt;&gt; target &gt; installed
-False
-</code></pre>
-
-<p>Many programming languages don&rsquo;t have an equivalent to Python&rsquo;s very flexible comparison operators.</p>
-
-<p>We&rsquo;ll take a look at how these operators work on tuples and more complex objects in a moment, but we&rsquo;ll start with something simpler: string comparisons.</p>
-
-<h2>String comparisons in Python</h2>
-
-<p>Equality and inequality with strings is fairly simple.
-If two strings have exactly the same characters, they&rsquo;re equal:</p>
-
-<pre><code class="python">&gt;&gt;&gt; "hello" == "hello"
-True
-&gt;&gt;&gt; "hello" == "hella"
-False
-</code></pre>
-
-<p>Note that I&rsquo;m glossing over a very big exception: unicode characters.
-There are often multiple ways to represent the same text and those different representations must be <a href="https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize">normalized</a> before they&rsquo;re seen as equal.
-For simplicity, we&rsquo;re going to stick to ASCII characters in this article.</p>
-
-<p>Ordering of strings is where things get a bit interesting in Python:</p>
-
-<pre><code class="python">&gt;&gt;&gt; "pickle" &lt; "python"
-True
-</code></pre>
-
-<p>The string <code>"pickle"</code> is <em>less than</em> the string <code>"python"</code> because we&rsquo;re ordering alphabetically&hellip; sort of.
-Capitalization matters:</p>
-
-<pre><code class="python">&gt;&gt;&gt; "pickle" &lt; "Python"
-False
-</code></pre>
-
-<p>The string <code>"Python"</code> is less than <code>"pickle"</code> because <code>P</code> is less than <code>p</code>.</p>
-
-<p>We&rsquo;re not actually ordering alphabetically here so much as <strong>ASCII-betically</strong> (unicode-betically really since we&rsquo;re in Python 3).
-These strings are being ordered by the ASCII values of their characters (<code>p</code> is 112 in <a href="https://en.wikipedia.org/wiki/ASCII#Printable_characters">ASCII</a> and <code>P</code> is 80).</p>
-
-<pre><code class="python">&gt;&gt;&gt; ord("p")
-112
-&gt;&gt;&gt; ord("P")
-80
-&gt;&gt;&gt; "P" &lt; "p"
-True
-</code></pre>
-
-<p>Technically Python compares the Unicode code point (which is what <a href="https://docs.python.org/3/library/functions.html#ord">ord</a> does) for these characters and that happens to be the same as the ASCII value for ASCII characters.</p>
-
-<p>The rules for ordering strings are:</p>
-
-<ol>
-<li>Compare the n-th characters of each string (starting with the first character, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next character</li>
-<li>For two unequal characters, take the character that has the lower code point and declare its string &ldquo;less than&rdquo; the other</li>
-<li>If all characters are equal, the strings are equal</li>
-<li>If one string runs out of characters during step 1 (one string is a &ldquo;prefix&rdquo; of the other), the shorter string is &ldquo;less than&rdquo; the longer one</li>
-</ol>
-
-
-<p>The ordering algorithm Python uses for strings might seem complicated, but it&rsquo;s <strong>very similar to the ordering algorithm used in dictionaries</strong>; not Python dictionaries but <a href="https://en.wikipedia.org/wiki/Dictionary">physical dictionaries</a> (those things we used before the Internet existed).
-We give precedence to the first characters when ordering words in dictionaries and if one word is a prefix of another, it comes first.</p>
-
-<h2>Tuple comparisons</h2>
-
-<p>We can ask tuples if they&rsquo;re equal, just as we can ask strings if they&rsquo;re equal:</p>
-
-<pre><code class="python">&gt;&gt;&gt; (3, 6, 2) == (3, 6, 2)
-True
-&gt;&gt;&gt; (3, 6, 2) == (3, 7, 0)
-False
-</code></pre>
-
-<p>But we can also compare tuples using the ordering operators (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>):</p>
-
-<pre><code class="python">&gt;&gt;&gt; (3, 6, 2) &lt; (3, 6, 2)
-False
-&gt;&gt;&gt; (3, 6, 2) &lt;= (3, 6, 2)
-True
-&gt;&gt;&gt; (3, 6, 2) &lt; (3, 7, 0)
-True
-&gt;&gt;&gt; (3, 6, 2) &gt;= (3, 7, 0)
-False
-</code></pre>
-
-<p>String ordering might have been somewhat intuitive (most of us learned alphabetical ordering before Python), but tuple ordering doesn&rsquo;t often feel quite as intuitive at first.
-But you&rsquo;re actually somewhat familiar with tuple ordering already because <strong>tuple ordering uses the same algorithm as string ordering</strong>.</p>
-
-<p>The rules for ordering tuples (which are essentially the same as ordering strings):</p>
-
-<ol>
-<li>Compare the n-th items of each tuple (starting with the first, index <code>0</code>) using the <code>==</code> operator; if they&rsquo;re equal, repeat this step with the next item</li>
-<li>For two unequal items, the item that is &ldquo;less than&rdquo; makes the tuple that contains it also &ldquo;less than&rdquo; the other tuple</li>
-<li>If all items are equal, the tuples are equal</li>
-<li>If one tuple runs out of items during step 1 (one tuple is a &ldquo;prefix&rdquo; of the other), the shorter tuple is &ldquo;less than&rdquo; the longer one</li>
-</ol>
-
-
-<p>In Python, this algorithm might look sort of like this:</p>
-
-<pre><code class="python">def less_than(tuple1, tuple2):
-    for x, y in zip(tuple1, tuple2):
-        if x == y:
-            continue
-        return (x &lt; y)
-    if len(tuple1) &lt; len(tuple2):
-        return True  # There were more items in the second tuple
-    else:
-        return False  # The first tuple had more items or they are equal
-</code></pre>
-
-<p>Note that we&rsquo;d never write code like this because Python is doing all this work for us already.
-That whole function is the same as using the <code>&lt;</code> operator:</p>
-
-<pre><code class="python">def less_than(tuple1, tuple2):
-    return tuple1 &lt; tuple2
-</code></pre>
-
-<h2>Lexicographical ordering</h2>
-
-<p>This <strong>alphabetical-like style of ordering</strong> that gives precedence to the first items in an iterable is called <a href="https://en.wikipedia.org/wiki/Lexicographical_order">lexicographical ordering</a>.
-You don&rsquo;t need to know that phrase, but if you ever need to describe <em>the way ordering works in Python</em>, <strong>lexicographical</strong> is the word to use.</p>
-
-<p>Strings and tuples are ordered lexicographically, as we&rsquo;ve seen, but so are lists:</p>
-
-<pre><code class="python">&gt;&gt;&gt; [1, 2, 3] &lt; [1, 4]
-True
-&gt;&gt;&gt; [1, 2, 3] &lt; [1, 2, 2]
-False
-</code></pre>
-
-<p>In fact, most <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a> in Python <a href="https://docs.python.org/3/tutorial/datastructures.html#comparing-sequences-and-other-types">should be ordered lexicographically</a> (<code>range</code> objects are an exception to this as they can&rsquo;t be ordered at all).</p>
-
-<p>But not every collection in Python relies on lexicographical ordering.</p>
-
-<h2>Dictionary and set comparisons</h2>
-
-<p>Many objects in Python work with equality but don&rsquo;t work with ordering at all.</p>
-
-<p>For example dictionaries compare &ldquo;equal&rdquo; when they have all the same keys and values:</p>
-
-<pre><code class="python">&gt;&gt;&gt; expected = {'name': 'Trey', 'python_version': 3.7.0}
-&gt;&gt;&gt; actual = {'name': 'Trey', 'python_version': 2.7.0}
-&gt;&gt;&gt; expected == actual
-False
-&gt;&gt;&gt; actual['python_version'] = 3.7.0
-&gt;&gt;&gt; expected == actual
-True
-</code></pre>
-
-<p>But <strong>dictionaries can&rsquo;t be ordered</strong> using the <code>&lt;</code> or <code>&gt;</code> operators:</p>
-
-<pre><code class="python">&gt;&gt;&gt; expected &lt; actual
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: '&lt;' not supported between instances of 'dict' and 'dict'
-</code></pre>
-
-<p>Sets are similar, except that sets <em>do</em> work with ordering operators&hellip; they just don&rsquo;t use those operators for ordering:</p>
-
-<pre><code class="python">&gt;&gt;&gt; {1, 2} &lt; {1, 2, 3}
-True
-&gt;&gt;&gt; {1, 3} &lt; {1, 2, 4}
-False
-</code></pre>
-
-<p>Sets overload these operators to answer questions about <strong>whether one set is a subset or superset of another</strong> (<a href="https://docs.python.org/3.7/library/stdtypes.html#set-types-set-frozenset">see sets in the documentation</a>).</p>
-
-<h2>Deep equality</h2>
-
-<p>Comparisons between two data structures in Python tend to be <strong>deep comparisons</strong>.
-Whether we&rsquo;re comparing lists, tuples, sets, or dictionaries, when we ask whether two of these objects are &ldquo;equal&rdquo; Python will recurse through each sub-object and ask whether each is &ldquo;equal&rdquo;.</p>
-
-<p>So given a dictionary that maps tuples to lists of tuples:</p>
-
-<pre><code class="python">&gt;&gt;&gt; current_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2), (3, 4)]}
-&gt;&gt;&gt; previous_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2)]}
-</code></pre>
-
-<p>Asking whether these two dictionaries are equal is equivalent to asking whether each key-value pair is equal, recursively:</p>
-
-<pre><code class="python">&gt;&gt;&gt; current_portals == previous_portals
-False
-&gt;&gt;&gt; current_portals[2, 1].pop()
-(3, 4)
-&gt;&gt;&gt; current_portals == previous_portals
-True
-</code></pre>
-
-<p>The dictionaries ask each of their keys &ldquo;are you in the other dictionary&rdquo; and then asks each of the corresponding values for those keys &ldquo;are you equal to the other value&rdquo;.
-But each of these operations may (as in this case) require another level of depth: the keys are tuples which need to be traversed and the values are lists which need to be traversed.
-And in this case those values, the lists, need to be traversed even deeper because they contain more data structures: tuples.</p>
-
-<p><strong>We don&rsquo;t have to worry about any of this though</strong>: Python just does these deep comparisons for us automatically.</p>
-
-<p>While you don&rsquo;t need to worry about how deep comparisons work, the fact that Python&rsquo;s comparisons <em>are</em> deep can be pretty handy to know.</p>
-
-<p>For example if we have <a href="https://pastebin.com/raw/yspKmfyj">a class</a> with <code>x</code>, <code>y</code>, and <code>z</code> attributes we&rsquo;d like to compare in our <code>__eq__</code> method, instead of this long boolean expression:</p>
-
-<pre><code class="python">def __eq__(self, other):
-    return self.x == other.x and self.y == other.y and self.z == other.z
-</code></pre>
-
-<p>We could bundle these values into 3-item tuples and compare them that way instead:</p>
-
-<pre><code class="python">def __eq__(self, other):
-    return (self.x, self.y, self.z) == (other.x, other.y, other.z)
-</code></pre>
-
-<p>I find this more readable, mostly because <strong>we&rsquo;ve added symmetry to our code</strong>: we have one <code>==</code> expression with the same kind of object on each side of it.</p>
-
-<h2>Deep ordering</h2>
-
-<p>This &ldquo;deep comparison&rdquo; works for equality, but it also works for ordering.</p>
-
-<p>The use case for deep ordering isn&rsquo;t as obvious as for deep equality, but identifying places where deep ordering is handy can help you drastically improve the readability of your code.</p>
-
-<p>Take this example method:</p>
-
-<pre><code class="python">def __lt__(self, other):
-    if self.last_name &lt; other.last_name:
-        return True
-    elif other.last_name &lt; self.last_name:
-        return False
-    elif self.first_name &lt; other.first_name:
-        return True
-    else:
-        return False
-</code></pre>
-
-<p>This <code>__lt__</code> method implements the <code>&lt;</code> operator on <a href="https://pastebin.com/raw/u8uGDArq">its class</a>, returning <code>True</code> if <code>self</code> is less than <code>other</code>.
-Storing and comparing <code>first_name</code> and <code>last_name</code> attributes this way is <a href="https://www.youtube.com/watch?v=458KmAKq0bQ&amp;feature=youtu.be&amp;t=148">an anti-pattern</a> but we&rsquo;ll ignore that fact for this example.</p>
-
-<p>That <code>__lt__</code> method above gives precedence to the <code>last_name</code>: the <code>first_name</code> is only checked if the <code>last_name</code> attribute of these two objects happens to be equal.</p>
-
-<p>If we wanted to collapse this logic some, we could rewrite our code like this:</p>
-
-<pre><code class="python">def __lt__(self, other):
-    return (
-        self.last_name &lt; other.last_name or
-        self.last_name == other.last_name and self.first_name &lt; other.first_name
-    )
-</code></pre>
-
-<p>Or&hellip; we could rely on the deep ordering of tuples instead:</p>
-
-<pre><code class="python">def __lt__(self, other):
-    return (self.last_name, self.first_name) &lt; (other.last_name, other.first_name)
-</code></pre>
-
-<p>Here we&rsquo;re ordering our tuples lexicographically (by their first item first).
-Our tuples happen to contain strings, which are also ordered lexicographically (by their first character first).
-So we&rsquo;re <strong>deeply ordering</strong> these objects.</p>
-
-<h2>Sorting by multiple attributes at once</h2>
-
-<p>Knowing about lexicographical ordering and deep ordering of Python sequences can be quite useful when sorting Python objects.
-From Python&rsquo;s perspective, <strong>sorting is really just ordering over and over</strong>.</p>
-
-<p>Python&rsquo;s built-in <code>sorted</code> function accepts a <code>key</code> function which can return a corresponding key object to sort each of these items by.</p>
-
-<p>Here we&rsquo;re specifying a <code>key</code> function that accepts a word and returns a tuple of two things: the length of the word and the case-normalized word:</p>
-
-<pre><code class="python">&gt;&gt;&gt; fruits = ['kumquat', 'Cherimoya', 'Loquat', 'longan', 'jujube']
-&gt;&gt;&gt; def length_and_word(word): return (len(word), word.casefold())
-...
-&gt;&gt;&gt; sorted(fruits, key=length_and_word)
-['jujube', 'longan', 'Loquat', 'kumquat', 'Cherimoya']
-</code></pre>
-
-<p>With the key function above we&rsquo;re able to sort fruits first by their length and <em>then</em> by their case-normalized equivalent.
-So &ldquo;jujube&rdquo; comes first because it&rsquo;s 6 letters (like <code>longan</code> and <code>Loquat</code>) but it&rsquo;s also alphabetically before <code>longan</code> and <code>Loquat</code>.</p>
-
-<p>If we just sorted by length we would have had a different ordering:</p>
-
-<pre><code class="python">&gt;&gt;&gt; sorted(fruits, key=len)
-['Loquat', 'longan', 'jujube', 'kumquat', 'Cherimoya']
-</code></pre>
-
-<p><strong>Slight aside</strong>: deep comparisons actually predate the <code>sorted</code> function&rsquo;s <code>key</code> argument in Python.
-Before there was a key function Python developers would create lists of tuples, sort the lists of tuples, and then grab the actual value they cared about out of that list (which is <a href="https://docs.python.org/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate">discussed in the docs</a>).</p>
-
-<p>The <code>sorted</code> function isn&rsquo;t the only place where tuple ordering can come in handy.
-Any place where you see a <code>key</code> function might be a candidates for relying on tuple ordering.
-For example the <code>min</code> and <code>max</code> functions:</p>
-
-<pre><code>&gt;&gt;&gt; min(fruits, key=str.casefold)
-'Cherimoya'
-&gt;&gt;&gt; max(fruits, key=str.casefold)
-'Loquat'
-</code></pre>
-
-<p>Anywhere Python does an ordering operation might be a place you could rely on the deep ordering of Python&rsquo;s data structures.</p>
-
-<h2>Deep hashability (and unhashability)</h2>
-
-<p>Python has both deep equality and deep orderability.
-But Python&rsquo;s deep comparisons don&rsquo;t stop there: there&rsquo;s also deep hashability.</p>
-
-<p>This is something that mostly comes up with tuples.
-Tuples can be used as a key in a dictionary (as we saw earlier), and they can be used in sets:</p>
-
-<pre><code class="python">&gt;&gt;&gt; current_portals = {(1, 2): [(2, 1)], (2, 1): [(1, 2), (3, 4)]}
-&gt;&gt;&gt; points = {(1, 2), (2, 1), (3, 4)}
-</code></pre>
-
-<p>But this only works for tuples that contain immutable values:</p>
-
-<pre><code class="python">&gt;&gt;&gt; things = {(["dress", "truck"], "yellow"), (["ball", "plane"], "purple")}
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: unhashable type: 'list'
-</code></pre>
-
-<p>Tuples with lists in them aren&rsquo;t hashable because lists aren&rsquo;t hashable: each object inside a tuple must be hashable for the tuple itself to be hashable.</p>
-
-<p>So while tuples containing lists aren&rsquo;t hashable, tuples containing tuples <em>are</em> hashable:</p>
-
-<pre><code class="python">&gt;&gt;&gt; things = {(("dress", "truck"), "yellow"), (("ball", "plane"), "purple")}
-&gt;&gt;&gt; things
-{(('dress', 'truck'), 'yellow'), (('ball', 'plane'), 'purple')}
-</code></pre>
-
-<p>Tuples compute their hash values by delegating to the hash values of the items they contain:</p>
-
-<pre><code class="python">&gt;&gt;&gt; x = (1, 2)
-&gt;&gt;&gt; y = (1, 2)
-&gt;&gt;&gt; hash(x)
-3713081631934410656
-&gt;&gt;&gt; hash(x) == hash(y)
-True
-</code></pre>
-
-<p>While hashability is a big subject, this is really all I&rsquo;m going to say about it.
-You don&rsquo;t really need to know how hashing works in Python so if you found this section confusing, that&rsquo;s okay!</p>
-
-<p>The takeaway here is that Python supports <strong>deep hashability</strong> which is <strong>the reason we can use tuples as dictionary keys</strong> and the reason we can use tuples in sets.</p>
-
-<h2>Deep comparisons are a tool to remember</h2>
-
-<p>When you have code that compares two objects based on subparts in a particular order:</p>
-
-<pre><code class="python">d1 = (1999, 12, 31)
-d2 = (1999, 12, 1)
-if d1[0] &gt; d2[0]:
-    greater = d1
-elif d1[0] &lt; d2[0]:
-    greater = d2
-elif d1[1] &gt; d2[1]:
-    greater = d1
-elif d1[1] &lt; d2[1]:
-    greater = d2
-elif d1[2] &gt; d2[2]:
-    greater = d1
-else:
-    greater = d2
-</code></pre>
-
-<p>You could probably rely on tuple ordering instead:</p>
-
-<pre><code class="python">d1 = (1999, 12, 31)
-d2 = (1999, 12, 1)
-if d1 &lt; d2:
-    greater = d1
-else:
-    greater = d2
-</code></pre>
-
-<p>If you are comparing many different things as equal:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d1 = (1999, 12, 31)
-&gt;&gt;&gt; d2 = (1999, 12, 1)
-&gt;&gt;&gt; d1[0] == d2[0] and d1[1] == d2[1] and d1[2] == d2[2]
-False
-</code></pre>
-
-<p>You could probably rely on deep equality instead:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d1 = (1999, 12, 31)
-&gt;&gt;&gt; d2 = (1999, 12, 1)
-&gt;&gt;&gt; d1 == d2
-False
-</code></pre>
-
-<p>And if you need to use a dictionary that has a key made up of multiple parts, if those parts are each hashable, you could probably use a tuple:</p>
-
-<pre><code class="python">&gt;&gt;&gt; points = {}
-&gt;&gt;&gt; points[1, 2] = 'red'
-&gt;&gt;&gt; points
-{(1, 2): 'red'}
-</code></pre>
-
-<p><strong>Python&rsquo;s support for lexicographical ordering and deep comparisons is often overlooked by folks moving from other programming languages</strong>.
-Remember these features: you may not need them today, but they&rsquo;ll almost certainly come in handy at some point.</p>
 ]]></content>
   </entry>
   

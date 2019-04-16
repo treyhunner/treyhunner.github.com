@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-09T13:40:40-07:00</updated>
+  <updated>2019-04-16T10:16:21-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,618 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
+    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <updated>2019-04-16T10:20:00-07:00</updated>
+    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
+Those terms are all technically misnomers.</p>
+
+<p>When I use terms like &ldquo;the <code>bool</code> function&rdquo; and &ldquo;the <code>str</code> function&rdquo; I&rsquo;m incorrectly implying that <code>bool</code> and <code>str</code> are functions.
+But these <strong>aren&rsquo;t functions: they&rsquo;re classes</strong>!</p>
+
+<p>I&rsquo;m going to explain why this confusion between classes and functions happens in Python and then explain <strong>why this distinction often doesn&rsquo;t matter</strong>.</p>
+
+<h2>Class or function?</h2>
+
+<p>When I&rsquo;m training a new group of Python developers, there&rsquo;s group activity we often do: the class or function game.</p>
+
+<p>In <strong>the class or function game</strong>, we take something that we &ldquo;call&rdquo; (using parenthesis: <code>()</code>) and we guess whether it&rsquo;s a class or a function.</p>
+
+<p>For example:</p>
+
+<ul>
+<li>We can call <code>zip</code> with a couple iterables and we get another iterable back, so is <code>zip</code> a class or a function?</li>
+<li>When we call <code>len</code>, are we calling a class or a function?</li>
+<li>What about <code>int</code>: when we write <code>int('4')</code> are we calling a class or a function?</li>
+</ul>
+
+
+<p>Python&rsquo;s <code>zip</code>, <code>len</code>, and <code>int</code> are all often guessed to be functions, but <strong>only one of these is really a function</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">zip</span>
+</span><span class='line'><span class="go">&lt;class &#39;zip&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span>
+</span><span class='line'><span class="go">&lt;built-in function len&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span>
+</span><span class='line'><span class="go">&lt;class &#39;int&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While <code>len</code> is a function, <code>zip</code> and <code>int</code> are classes.</p>
+
+<p>The <code>reversed</code>, <code>enumerate</code>, <code>range</code>, and <code>filter</code> &ldquo;functions&rdquo; also aren&rsquo;t really functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">reversed</span>
+</span><span class='line'><span class="go">&lt;class &#39;reversed&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">enumerate</span>
+</span><span class='line'><span class="go">&lt;class &#39;enumerate&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span>
+</span><span class='line'><span class="go">&lt;class &#39;range&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span>
+</span><span class='line'><span class="go">&lt;class &#39;filter&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After playing the class or function game, we always discuss <strong>callables</strong>, and then we discuss the fact that <strong>we often don&rsquo;t care whether something is a class or a function</strong>.</p>
+
+<h2>What&rsquo;s a callable?</h2>
+
+<p>A <strong>callable</strong> is anything you can <em>call</em>, using parenthesis, and possibly passing arguments.</p>
+
+<p>All three of these lines involve callables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">something</span><span class="p">()</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">AnotherThing</span><span class="p">()</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">something_else</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We don&rsquo;t know what <code>something</code>, <code>AnotherThing</code>, and <code>something_else</code> do: but we <em>know</em> they&rsquo;re callables.</p>
+
+<p>We have a number of callables in Python:</p>
+
+<ul>
+<li>Functions are callables</li>
+<li>Classes are callables</li>
+<li>Methods (which are functions that hang off of classes) are callables</li>
+<li>Instances of classes can even be turned into callables</li>
+</ul>
+
+
+<p>Callables are a pretty important concept in Python.</p>
+
+<h2>Classes are callables</h2>
+
+<p>Functions are the most obvious callable in Python.
+Functions can be &ldquo;called&rdquo; in every programming language.
+A <em>class</em> being callable is a bit more unique though.</p>
+
+<p>In JavaScript we can make an &ldquo;instance&rdquo; of the <code>Date</code> class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="mi">2020</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">01</span><span class="nx">T08</span><span class="o">:</span><span class="mi">00</span><span class="o">:</span><span class="mf">00.000</span><span class="nx">Z</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In JavaScript the class instantiation syntax (the way we create an &ldquo;instance&rdquo; of a class) involves the <code>new</code> keyword.
+In Python we don&rsquo;t have a <code>new</code> keyword.</p>
+
+<p>In Python we can make an &ldquo;instance&rdquo; of the <code>datetime</code> class (from <code>datetime</code>) like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="go">datetime.datetime(2020, 1, 1, 0, 0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Python, the syntax for <strong>instantiating a new class instance</strong> is the same as the syntax for <strong>calling a function</strong>.
+There&rsquo;s no <code>new</code> needed: we just call the class.</p>
+
+<p>When we <strong>call a function</strong>, we get its return value.
+When we <strong>call a class</strong>, we get an &ldquo;instance&rdquo; of that class.</p>
+
+<p><strong>We use the same syntax for constructing objects from classes and for calling functions</strong>: this fact is the main reason the word &ldquo;callable&rdquo; is such an important part of our Python vocabulary.</p>
+
+<h2>Disguising classes as functions</h2>
+
+<p>There are many classes-which-look-like-functions among the Python built-ins and in the Python standard library.</p>
+
+<p>I sometimes explain <strong>decorators</strong> (an intermediate-level Python concept) as &ldquo;functions which accept functions and return functions&rdquo;.</p>
+
+<p>But that&rsquo;s not an entirely accurate explanation.
+There are also <strong>class decorators</strong>: functions which accept classes and return classes.
+And there are also <strong>decorators which are implemented using classes</strong>: classes which accept functions and return objects.</p>
+
+<p>A better explanation of the term decorators might be &ldquo;callables which accept callables and return callables&rdquo; (still not entirely accurate, but good enough for our purposes).</p>
+
+<p>Python&rsquo;s <a href="https://docs.python.org/3/library/functions.html#property">property</a> decorator seems like a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
+</span><span class='line'><span class="gp">... </span>    <span class="nd">@property</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">def</span> <span class="nf">diameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">diameter</span>
+</span><span class='line'><span class="go">10</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But it&rsquo;s a class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">property</span>
+</span><span class='line'><span class="go">&lt;class &#39;property&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>classmethod</code> and <code>staticmethod</code> decorators are <em>also</em> classes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">classmethod</span>
+</span><span class='line'><span class="go">&lt;class &#39;classmethod&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">staticmethod</span>
+</span><span class='line'><span class="go">&lt;class &#39;staticmethod&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What about context managers, like <a href="https://docs.python.org/3.5/library/contextlib.html#contextlib.suppress">suppress</a> and <a href="https://docs.python.org/3/library/contextlib.html#contextlib.redirect_stdout">redirect_stdout</a> from the <code>contextlib</code> module?
+These both use the <a href="https://en.wikipedia.org/wiki/Snake_case">snake_case</a> naming convention, so they seem like functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="nb">int</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">StringIO</span><span class="p">())</span> <span class="k">as</span> <span class="n">fake_stdout</span><span class="p">:</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;hello!&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fake_stdout</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+</span><span class='line'><span class="go">&#39;hello!\n&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But they&rsquo;re actually <strong>implemented using classes</strong>, despite the <code>snake_case</code> naming convention:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span>
+</span><span class='line'><span class="go">&lt;class &#39;contextlib.suppress&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_stdout</span>
+</span><span class='line'><span class="go">&lt;class &#39;contextlib.redirect_stdout&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Decorators and context managers are just two places in Python where you&rsquo;ll often see callables which look like functions but aren&rsquo;t.
+Whether a <strong>callable</strong> is a class or a function is often <strong>just an implementation detail</strong>.</p>
+
+<p>It&rsquo;s not really a mistake to refer to <code>property</code> or <code>redirect_stdout</code> as a function because <strong>they may as well be functions</strong>.
+We can <strong>call</strong> them, and that&rsquo;s what we care about.</p>
+
+<h2>Callable objects</h2>
+
+<p>Python&rsquo;s &ldquo;call&rdquo; syntax, those <code>(...)</code> parenthesis, can <strong>create an class instance</strong> or <strong>call a function</strong>.
+But this &ldquo;call&rdquo; syntax can <strong>also be used to call an object</strong>.</p>
+
+<p>Technically, everything in Python &ldquo;is an object&rdquo;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">object</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But we often use the term &ldquo;object&rdquo; to imply that we&rsquo;re working with an instance of a class (by <em>instance of a class</em> I mean &ldquo;the thing you get back when you call a class&rdquo;).</p>
+
+<p>There&rsquo;s a <a href="https://docs.python.org/3.5/library/functools.html#functools.partial">partial</a> function which lives in the <code>functools</code> module, which can &ldquo;partially evaluate&rdquo; a function by storing arguments to be used when calling the function later.
+This is often used to make Python look a bit more like a functional programming language:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">just_numbers</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">str</span><span class="o">.</span><span class="n">isdigit</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">just_numbers</span><span class="p">([</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;50&#39;</span><span class="p">]))</span>
+</span><span class='line'><span class="go">[&#39;4&#39;, &#39;50&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I said above that Python has &ldquo;a <code>partial</code> function&rdquo;, which is both true and false.</p>
+
+<p>While the phrase &ldquo;a <code>partial</code> function&rdquo; makes sense, the <code>partial</code> callable <strong>isn&rsquo;t implemented using a function</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">partial</span>
+</span><span class='line'><span class="go">&lt;class &#39;__main__.partial&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Python core developers <em>could</em> have implemented <code>partial</code> as a function, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return &quot;partially evaluated&quot; version of given function/arguments.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">all_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">all_kwargs</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">wrapper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But instead they chose to use a class, doing something more like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">partial</span><span class="p">:</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return &quot;partially evaluated&quot; version of given function/arguments.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">all_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">all_kwargs</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>__call__</code> method allows us to <em>call</em> <code>partial</code> objects.
+So the <code>partial</code> class makes a <strong>callable object</strong>.</p>
+
+<p>Adding a <code>__call__</code> method to any class will <strong>make instances of that class callable</strong>.
+In fact, checking for a <code>__call__</code> method is one way to ask the question &ldquo;is this object callable?&rdquo;</p>
+
+<p>All functions, classes, and callable objects have a <code>__call__</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">open</span><span class="p">,</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">({},</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Though a better way to check for callability than looking for a <code>__call__</code> is to use the built-in <code>callable</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">([])</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Python, classes, functions, and instances of classes can all be used as &ldquo;callables&rdquo;.</p>
+
+<h2>The distinction between functions and classes often doesn&rsquo;t matter</h2>
+
+<p>The Python documentation has a page called <a href="https://docs.python.org/3/library/functions.html#built-in-funcs">Built-in Functions</a>.
+But this Built-in Functions page <strong>isn&rsquo;t actually for built-in functions</strong>: it&rsquo;s for built-in callables.</p>
+
+<p>Of the 69 &ldquo;built-in functions&rdquo; listed in the Python Built-In Functions page, <strong>only 42 are actually implemented as functions</strong>: 26 are classes and 1 (<code>help</code>) is an instance of a callable class.</p>
+
+<p>Of the 26 classes among those built-in &ldquo;functions&rdquo;, four <em>were</em> actually functions in Python 2 (the now-lazy <code>map</code>, <code>filter</code>, <code>range</code>, and <code>zip</code>) but have since become classes.</p>
+
+<p>The Python built-ins and the standard library are both full of maybe-functions-maybe-classes.</p>
+
+<h3>operator.itemgetter</h3>
+
+<p>The <code>operator</code> module has lots of callables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">getitem</span><span class="p">,</span> <span class="n">itemgetter</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</span><span class='line'><span class="go">(1, 2)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">getitem</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">),</span> <span class="n">getitem</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">(1, 2)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some of these callables (like <a href="https://docs.python.org/3.5/library/operator.html#operator.itemgetter">itemgetter</a> are <em>callable classes</em>) while others (like <code>getitem</code>) are functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span>
+</span><span class='line'><span class="go">&lt;class &#39;operator.itemgetter&#39;&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span>
+</span><span class='line'><span class="go">operator.itemgetter(&#39;a&#39;, &#39;b&#39;)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">getitem</span>
+</span><span class='line'><span class="go">&lt;built-in function getitem&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>itemgetter</code> class <em>could</em> have been implemented as &ldquo;a function that returns a function&rdquo;.
+Instead it&rsquo;s a class which implements a <code>__call__</code> method, so its class instances are callable.</p>
+
+<h3>Iterators</h3>
+
+<p>Generator functions are functions which return iterators when called (<a href="https://youtu.be/V2PkkMS2Ack?t=858">generators are iterators</a>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Generator that counts upward forever.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">n</span>
+</span><span class='line'>        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator classes</a> are classes which return iterators when called:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">count</span><span class="p">:</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Iterator that counts upward forever.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">n</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Iterators can be defined using functions or using classes: whichever you choose is an implementation detail.</p>
+
+<h3>The sorted &ldquo;key function&rdquo;</h3>
+
+<p>The built-in <a href="https://docs.python.org/3.5/library/functions.html#sorted">sorted</a> function has an optional <code>key</code> argument, which is called to get &ldquo;comparison keys&rdquo; for sorting (<code>min</code> and <code>max</code> have a similar <code>key</code> argument).</p>
+
+<p>This <code>key</code> argument can be a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">digit_count</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;400&#39;</span><span class="p">,</span> <span class="s">&#39;2_020&#39;</span><span class="p">,</span> <span class="s">&#39;800_000&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">digit_count</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;400&#39;, &#39;2_020&#39;, &#39;800_000&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But it can also be a class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;400&#39;</span><span class="p">,</span> <span class="s">&#39;2_020&#39;</span><span class="p">,</span> <span class="s">&#39;800_000&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;400&#39;, &#39;2_020&#39;, &#39;800_000&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Python documentation says &ldquo;key specifies a function of one argument&hellip;&rdquo;.
+That&rsquo;s not <em>technically</em> correct because key can be any callable, not just a function.
+But <strong>we often use the words &ldquo;function&rdquo; and &ldquo;callable&rdquo; interchangeably</strong> in Python, and that&rsquo;s okay.</p>
+
+<h3>The defaultdict &ldquo;factory function&rdquo;</h3>
+
+<p>The <a href="https://docs.python.org/3/library/collections.html#collections.defaultdict">defaultdict</a> class in the <code>collections</code> module accepts a &ldquo;factory&rdquo; callable, which is used to generate default values for missing dictionary items.</p>
+
+<p>Usually we use a class as a <code>defaultdict</code> factory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span><span class="p">[</span><span class="s">&#39;snakes&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span><span class="p">[</span><span class="s">&#39;newer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Python 3&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span><span class="p">[</span><span class="s">&#39;newer&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">[&#39;Python 3&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But <code>defaultdict</code> can also accept a function (or any other callable):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">colors</span><span class="p">))</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span><span class="p">[</span><span class="s">&#39;Kevin&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">&#39;yellow&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span><span class="p">[</span><span class="s">&#39;Stacy&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">&#39;green&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span><span class="p">[</span><span class="s">&#39;having fun&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">0.6714530824158086</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span><span class="p">[</span><span class="s">&#39;seeing a snake&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">0.07703364911089605</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty much anywhere a &ldquo;callable&rdquo; is accepted in Python, a function, a class, or some other callable object will work just fine.</p>
+
+<h2>Think in terms of &ldquo;callables&rdquo; not &ldquo;classes&rdquo; or &ldquo;functions&rdquo;</h2>
+
+<p>In the <a href="https://www.pythonmorsels.com/">Python Morsels</a> exercises I send out every week, I often ask learners to make a &ldquo;callable&rdquo;.
+Often I&rsquo;ll say something like &ldquo;this week I&rsquo;d like you to make a callable which returns an iterator&hellip;&rdquo;.</p>
+
+<p>I say &ldquo;callable&rdquo; because I want <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">an iterator</a> back, but I really don&rsquo;t care whether the callable created is a <strong>generator function</strong>, an <strong>iterator class</strong>, or a <strong>function that returns a generator expression</strong>.
+All of these things are <em>callables</em> which return the right type that I&rsquo;m testing for (an iterator).
+It&rsquo;s up to you, the implementor of this callable, to determine how you&rsquo;d like to define it.</p>
+
+<p>We practice <strong>duck typing</strong> in Python: <strong>if it looks like a duck and quacks like a duck, it&rsquo;s a duck</strong>.
+Because of duck typing we tend to use general terms to describe specific things: lists are sequences, iterators are generators, dictionaries are mappings, and functions are callables.</p>
+
+<p>If something looks like a callable and quacks (or rather, calls) like a callable, it&rsquo;s a callable.
+Likewise, if something looks like a function and quacks (calls) like a function, we can call it a function&hellip; <strong>even if it&rsquo;s actually implemented using a class or a callable object</strong>!</p>
+
+<p>Callables accept arguments and return something useful to the caller.
+When we <em>call</em> classes we get instances of that class back.
+When we <em>call</em> functions we get the return value of that function back.
+The distinction between a class and a function is <strong>rarely important from the perspective of the caller</strong>.</p>
+
+<p>When talking about passing functions or class objects around, try to think in terms of <em>callable</em>.
+<strong>What happens when you call something</strong> is often more important than <strong>what that thing actually is</strong>.</p>
+
+<p>More importantly though, if someone mislabels a function as a class or a class as a function, <strong>don&rsquo;t correct them unless the distinction is actually relevant</strong>.
+A function is a callable and a class is a callable: the distinction between these two can often be disregarded.</p>
+
+<h2>Want some practice with callables?</h2>
+
+<p>You don&rsquo;t learn by putting more information into your head.
+You learn through recall, that is trying to retrieve information for your head.</p>
+
+<p>If you&rsquo;d like to get some practice with the <code>__call__</code> method, if you&rsquo;d like to make your own iterable/iterator-returning callables, or if you just want to practice working with &ldquo;callables&rdquo;, I have a Python Morsels exercise for you.</p>
+
+<p>Python Morsels is a weekly Python skill-building service.
+I send one exercise every week and the first 5 are free.</p>
+
+<p>If you sign up for Python Morsels using the below form, I&rsquo;ll send you one callable-related exercise of your choosing (choose using the selection below).</p>
+
+<h4>Which Python exercise would you like right now?</h4>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+    <label><input type="radio" name="exercise_track" value="callables1"> Novice exercise with a bonus involving callables</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables2"> Making a callable which returns an iterable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables3"> Making an iterator-returning callable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callables4">Advanced exercise with bonuses showing the downside of <code>__call__</code></label>
+    <br>
+    <br>
+    <input type="hidden" name="form_id" value="callables">
+    <input type="email" name="email" placeholder="Your email address" class="subscribe-email form-big" required>
+    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+    <br>
+    <small>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    </small>
+</form></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
@@ -777,6 +1389,7 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
 <p><form method="post" action="https://www.pythonmorsels.com/signup/">
     <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
     <input type="hidden" name="exercise_track" value="custom collection">
+    <input type="hidden" name="form_id" value="inheriting from builtins">
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
     <br>
     <small>
@@ -9135,274 +9748,6 @@ But a dream within a dream?
 <p>Now for this year&rsquo;s reading goal!  I&rsquo;m going to be a little less ambitious this year.  I plan to listen to more long audiobooks, so I&rsquo;ve lowered my reading goal drastically.  In 2017 <a href="https://www.goodreads.com/user_challenges/7102421">I plan to read 24 books</a>, all of them likely audiobooks.  Feel free to <a href="https://www.goodreads.com/user/show/29459515-trey-hunner">follow me on Goodreads</a> if you&rsquo;d like to keep up with my reading habits.</p>
 
 <p>What good audiobooks have you listened to?  Have any recommendations for me?  Please share them with me on Goodreads, tweet at me, email me, or comment below!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The Iterator Protocol: How "For Loops" Work in Python]]></title>
-    <link href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/"/>
-    <updated>2016-12-28T11:00:00-08:00</updated>
-    <id>http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work</id>
-    <content type="html"><![CDATA[<p>We&rsquo;re interviewing for a job and our interviewer has asked us to remove all <code>for</code> loops from a block of code.  They then mentioned something about iterators and cackled maniacally while rapping their fingers on the table.  We&rsquo;re nervous and frustrated about being assigned this ridiculous task, but we&rsquo;ll try our best.</p>
-
-<p>To understand how to loop without a <code>for</code> loop, we&rsquo;ll need to discover what makes <code>for</code> loops tick.</p>
-
-<p>We&rsquo;re about to learn how <code>for</code> loops work in Python.  Along the way we&rsquo;ll need to learn about iterables, iterators, and the iterator protocol.  Let&rsquo;s loop. ➿</p>
-
-<h2>Looping with indexes: a failed attempt</h2>
-
-<p>We might initially try to remove our <code>for</code> loops by using a traditional looping idiom from the world of C: <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes</a>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works on lists, but it fails on sets:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-</span><span class='line'><span class="gp">... </span>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">&#39;set&#39; object does not support indexing</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This approach only works on <a href="https://docs.python.org/3/glossary.html#term-sequence">sequences</a>, which are data types that have indexes from <code>0</code> to one less than their length.  Lists, strings, and tuples are sequences.  Dictionaries, sets, and many other <em>iterables</em> are not <em>sequences</em>.</p>
-
-<p>We&rsquo;ve been instructed to implement a looping construct that works on <em>all iterables</em>, not just sequences.</p>
-
-<h2>Iterables: what are they?</h2>
-
-<p>In the Python world, an <strong>iterable</strong> is any object that <strong>you can loop over with a for loop</strong>.</p>
-
-<p><a href="https://docs.python.org/3/glossary.html#term-iterable">Iterables</a> are not always indexable, they don&rsquo;t always have lengths, and they&rsquo;re not always finite.</p>
-
-<p>Here&rsquo;s an <em>infinite</em> iterable which provides every multiple of 5 as you loop over it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
-</span><span class='line'><span class="n">multiples_of_five</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When we were using <code>for</code> loops, we could have looped over the beginning of this iterable like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">multiples_of_five</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">break</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If we removed the <code>break</code> condition from that <code>for</code> loop, it would go on printing forever.</p>
-
-<p>So iterables can be infinitely long: which means that we can&rsquo;t always convert an iterable to a <code>list</code> (or any other sequence) before we loop over it.  We need to somehow ask our iterable for each item of our iterable individually, the same way our <code>for</code> loop works.</p>
-
-<h2>Iterables &amp; Iterators</h2>
-
-<p>Okay we&rsquo;ve defined <em>iterable</em>, but how do iterables actually work in Python?</p>
-
-<p>All <a href="https://docs.python.org/3/glossary.html#term-iterable">iterables</a> can be passed to the built-in <code>iter</code> function to get an <strong>iterator</strong> from them.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">([</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">])</span>
-</span><span class='line'><span class="go">&lt;list_iterator object at 0x7f227ad51128&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">({</span><span class="s">&#39;some&#39;</span><span class="p">,</span> <span class="s">&#39;set&#39;</span><span class="p">})</span>
-</span><span class='line'><span class="go">&lt;set_iterator object at 0x7f227ad32b40&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="s">&#39;some string&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;str_iterator object at 0x7f227ad51240&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s an interesting fact but&hellip; what&rsquo;s an <em>iterator</em>?</p>
-
-<p>Iterators have exactly one job: return the &ldquo;next&rdquo; item in our iterable.  They&rsquo;re sort of like <a href="https://en.wikipedia.org/wiki/Tally_counter">tally counters</a>, but they don&rsquo;t have a reset button and instead of giving the next number they give the next item in our iterable.</p>
-
-<p>You can get an iterator from <em>any</em> iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And iterators can be passed to <code>next</code> to get their next item:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;h&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="go">&#39;i&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">StopIteration</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So <a href="https://docs.python.org/3/glossary.html#term-iterator">iterators</a> can be passed to the built-in <code>next</code> function to get the next item from them and if there is no next item (because we reached the end), a <code>StopIteration</code> exception will be raised.</p>
-
-<h2>Iterators are also iterables</h2>
-
-<p>So calling <code>iter</code> on an <em>iterable</em> gives us an iterator.  And calling <code>next</code> on an <em>iterator</em> gives us the next item or raises a <code>StopIteration</code> exception if there aren&rsquo;t any more items.</p>
-
-<p>There&rsquo;s actually a bit more to it than that though.  You can pass iterators to the built-in <code>iter</code> function to get themselves back.  That means that iterators are also iterables.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="s">&#39;hi&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator2</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="ow">is</span> <span class="n">iterator2</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That fact leads to some interesting consequences that we don&rsquo;t have time to go into right now.  We&rsquo;ll save that discussion for a future learning adventure&hellip;</p>
-
-<h2>The Iterator Protocol</h2>
-
-<p>The <strong>iterator protocol</strong> is a fancy term meaning &ldquo;how iterables actually work in Python&rdquo;.</p>
-
-<p>Let&rsquo;s redefine iterables from Python&rsquo;s perspective.</p>
-
-<p>Iterables:</p>
-
-<ol>
-<li>Can be passed to the <code>iter</code> function to get an iterator for them.</li>
-<li>There is no 2.  That&rsquo;s <em>really</em> all that&rsquo;s needed to be an iterable.</li>
-</ol>
-
-
-<p>Iterators:</p>
-
-<ol>
-<li>Can be passed to the <code>next</code> function which gives their next item or raises <code>StopIteration</code></li>
-<li>Return themselves when passed to the <code>iter</code> function.</li>
-</ol>
-
-
-<p>The inverse of these statements should also hold true.  Which means:</p>
-
-<ol>
-<li>Anything that can be passed to <code>iter</code> without an error is an iterable.</li>
-<li>Anything that can be passed to <code>next</code> without an error (except for <code>StopIteration</code>) is an iterator.</li>
-<li>Anything that returns itself when passed to <code>iter</code> is an iterator.</li>
-</ol>
-
-
-<h2>Looping with iterators</h2>
-
-<p>With what we&rsquo;ve learned about iterables and iterators, we should now be able to recreate a <code>for</code> loop without actually using a <code>for</code> loop.</p>
-
-<p>This <code>while</code> loop manually loops over some <code>iterable</code>, printing out each item as it goes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">break</span>  <span class="c"># Iterator exhausted: stop the loop</span>
-</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can call this function with any iterable and it will loop over it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">print_each</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">})</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
-</span><span class='line'><span class="go">3</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above function is essentially the same as this one which uses a <code>for</code> loop:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">print_each</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <code>for</code> loop is automatically doing what we were doing manually: calling <code>iter</code> to get an iterator and then calling <code>next</code> over and over until a <code>StopIteration</code> exception is raised.</p>
-
-<p>The iterator protocol is used by <code>for</code> loops, tuple unpacking, and all built-in functions that work on generic iterables.  Using the iterator protocol (either manually or automatically) is the only universal way to loop over any iterable in Python.</p>
-
-<h2>For loops: more complex than they seem</h2>
-
-<p>We&rsquo;re now ready to complete the very silly task our interviewer assigned to us.  We&rsquo;ll remove all <code>for</code> loops from our code by manually using <code>iter</code> and <code>next</code> to loop over iterables.  What did we learn in exploring this task?</p>
-
-<p>Everything you can loop over is an <strong>iterable</strong>.  Looping over iterables works via getting an <strong>iterator</strong> from an iterable and then repeatedly asking the iterator for the next item.</p>
-
-<p>The way iterators and iterables work is called the <strong>iterator protocol</strong>.  List comprehensions, tuple unpacking, <code>for</code> loops, and all other forms of iteration rely on the iterator protocol.</p>
-
-<p>I&rsquo;ll explore iterators more in future articles.  For now know that iterators are hiding behind the scenes of all iteration in Python.</p>
-
-<h2>Even more on iterators</h2>
-
-<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to check out my <a href="https://youtu.be/V2PkkMS2Ack?t=25s">Loop Better talk</a> or my <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">article of the same name</a>.</p>
-
-<p>If you&rsquo;re interested in making your own iterators, I&rsquo;ve also written an article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator in Python</a>.</p>
-
-<p>If you want an excuse to practice making iterators, consider giving <a href="https://www.pythonmorsels.com/">Python Morsels</a> a try.
-The first few exercises include an excuse to create your own Python iterator.</p>
 ]]></content>
   </entry>
   
