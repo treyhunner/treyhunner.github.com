@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Is it a class or a function? It's a callable!"
-date: 2019-04-16 08:00:00 -0700
+date: 2019-04-16 10:00:00 -0700
 comments: true
 categories: python
 ---
@@ -434,6 +434,40 @@ When talking about passing functions or class objects around, try to think in te
 
 More importantly though, if someone mislabels a function as a class or a class as a function, **don't correct them unless the distinction is actually relevant**.
 A function is a callable and a class is a callable: the distinction between these two can often be disregarded.
+
+
+## Want some practice with callables?
+
+You don't learn by putting more information into your head.
+You learn through recall, that is trying to retrieve information for your head.
+
+If you'd like to get some practice with the `__call__` method, if you'd like to make your own iterable/iterator-returning callables, or if you just want to practice working with "callables", I have a Python Morsels exercise for you.
+
+Python Morsels is a weekly Python skill-building service.
+I send one exercise every week and the first 5 are free.
+
+If you sign up for Python Morsels using the below form, I'll send you one callable-related exercise of your choosing (choose using the selection below).
+
+#### Which Python exercise would you like right now?
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+    <label><input type="radio" name="exercise_track" value="callable1"> Novice exercise with a bonus involving callables</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callable2"> Making a callable which returns an iterable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callable3"> Making an iterator-returning callable</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="callable4">Advanced exercise with bonuses showing the downside of `__call__`</label>
+    <br>
+    <br>
+    <input type="hidden" name="form_id" value="callables">
+    <input type="email" name="email" placeholder="Your email address" class="subscribe-email form-big" required>
+    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+    <br>
+    <small>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    </small>
+</form>
 
 
 [built-in functions]: https://docs.python.org/3/library/functions.html#built-in-funcs
