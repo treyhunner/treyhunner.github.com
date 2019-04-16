@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Is it a class or a function? It's a callable!"
-date: 2019-04-16 10:00:00 -0700
+date: 2019-04-16 10:20:00 -0700
 comments: true
 categories: python
 ---
@@ -451,13 +451,13 @@ If you sign up for Python Morsels using the below form, I'll send you one callab
 #### Which Python exercise would you like right now?
 
 <form method="post" action="https://www.pythonmorsels.com/signup/">
-    <label><input type="radio" name="exercise_track" value="callable1"> Novice exercise with a bonus involving callables</label>
+    <label><input type="radio" name="exercise_track" value="callables1"> Novice exercise with a bonus involving callables</label>
     <br>
-    <label><input type="radio" name="exercise_track" value="callable2"> Making a callable which returns an iterable</label>
+    <label><input type="radio" name="exercise_track" value="callables2"> Making a callable which returns an iterable</label>
     <br>
-    <label><input type="radio" name="exercise_track" value="callable3"> Making an iterator-returning callable</label>
+    <label><input type="radio" name="exercise_track" value="callables3"> Making an iterator-returning callable</label>
     <br>
-    <label><input type="radio" name="exercise_track" value="callable4">Advanced exercise with bonuses showing the downside of `__call__`</label>
+    <label><input type="radio" name="exercise_track" value="callables4">Advanced exercise with bonuses showing the downside of `__call__`</label>
     <br>
     <br>
     <input type="hidden" name="form_id" value="callables">
