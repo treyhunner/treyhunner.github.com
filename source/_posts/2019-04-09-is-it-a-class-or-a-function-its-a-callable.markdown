@@ -183,13 +183,13 @@ But they're actually **implemented using classes**, despite the `snake_case` nam
 Decorators and context managers are just two places in Python where you'll often see callables which look like functions but aren't.
 Whether a **callable** is a class or a function is often **just an implementation detail**.
 
-It's not really a mistake to refer to `property` or `redirect_stdout` as a function because **they may as well be functions**.
+It's not really a mistake to refer to `property` or `redirect_stdout` as functions because **they may as well be functions**.
 We can **call** them, and that's what we care about.
 
 
 ## Callable objects
 
-Python's "call" syntax, those `(...)` parenthesis, can **create an class instance** or **call a function**.
+Python's "call" syntax, those `(...)` parenthesis, can **create a class instance** or **call a function**.
 But this "call" syntax can **also be used to call an object**.
 
 Technically, everything in Python "is an object":
@@ -429,7 +429,7 @@ When we *call* classes we get instances of that class back.
 When we *call* functions we get the return value of that function back.
 The distinction between a class and a function is **rarely important from the perspective of the caller**.
 
-When talking about passing functions or class objects around, try to think in terms of *callable*.
+When talking about passing functions or class objects around, try to think in terms of *callables*.
 **What happens when you call something** is often more important than **what that thing actually is**.
 
 More importantly though, if someone mislabels a function as a class or a class as a function, **don't correct them unless the distinction is actually relevant**.
