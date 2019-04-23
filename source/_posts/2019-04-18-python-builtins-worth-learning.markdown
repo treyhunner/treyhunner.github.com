@@ -487,8 +487,8 @@ The `enumerate` function is handy when you need indexes while looping, but `zip`
 If you're new to `zip`, I also talk about it in my [looping with indexes][] article.
 
 Both `enumerate` and `zip` return iterators to us.
-Iterators are the lazy iterables that [power `for` loops][].
-I have [a whole talk on iterators][loop better] as well as a somewhat advanced article on [how to make your own iterators][].
+Iterators are the lazy iterables that [power `for` loops][how for loops work].
+I have [a whole talk on iterators][loop better] as well as a somewhat advanced article on [how to make your own iterators][make iterators].
 
 
 ### reversed
@@ -612,6 +612,8 @@ The `sorted` function, like `min` and `max`, compares the items given to it by u
 
 TODO key function again
 
+TODO link https://medium.com/@DahlitzF/list-sort-vs-sorted-list-aab92c00e17
+
 
 ### any and all
 
@@ -692,73 +694,320 @@ Until then, don't worry about it.
 By the way, you might want to [look into pathlib][pathlib] (which is in the Python standard library) as an alternative to using `open`.
 I love the `pathlib` module so much I've considered teaching files in Python by mentioning `pathlib` first and the built-in `open` function later.
 
+
+### input
+
+The `input` function prompts the user for input, waits for them to hit the Enter key, and then returns the text they typed.
+
+Reading from [standard input][] (which is what the `input` function does) is one way to get inputs into your Python program, but there are so many other ways too!
+You could accept command-line arguments, read from a configuration file, read from a database, and much more.
+
+You'll learn this once you need to prompt the user of a command-line program for input.
+Until then, you won't need it.
+And if you've been writing Python for a while and don't know about this function, you may simply never need it.
+
+
+### repr
+
+Need the programmer-readable representation of an object?
+You need the `repr` function.
+
+For many objects, the `str` and `repr` representations are the same:
+
+```python
+>>> str(4), repr(4)
+('4', '4')
+>>> str([]), repr([])
+('[]', '[]')
+```
+
+But for some objects, they're different:
+
+```python
+>>> str('hello'), repr("hello")
+('hello', "'hello'")
+>>> from datetime import date
+>>> str(date(2020, 1, 1)), repr(date(2020, 1, 1))
+('2020-01-01', 'datetime.date(2020, 1, 1)')
+```
+
+The string representation we see at the Python REPL uses `repr`, while the `print` function relies on `str`:
+
+```python
+>>> date(2020, 1, 1)
+datetime.date(2020, 1, 1)
+>>> "hello!"
+'hello!'
+>>> print(date(2020, 1, 1))
+2020-01-01
+>>> print("hello!")
+hello!
+```
+
+You'll see `repr` used when logging, handling exceptions, and implementing dunder methods.
+
+
 ### super
 
-- super()... you'll use this naturally if you use class inheritance
-- issubclass(), isinstance(), getattr, setattr, hasattr, delattr
-- property, classmethod, staticmethod: you'll learn them when you need them
-- repr()
-- next() is ever more helpful!
-- input()... if you haven't learned it already, you probably won't need it
+If you create classes in Python, you'll likely need to use `super`.
+The `super` function is pretty much essential whenever you're inheriting from another Python class.
 
-- That's about half of the built-ins already!
+Many Python users rarely create classes.
+Creating classes isn't an *essential* part of Python, though many types of programming require it.
+For example, you can't really use the [Django][] web framework without creating classes.
+
+If you don't already know about `super`, you'll end up learning this if and when you need it.
+
+
+### property
+
+The `property` function is a decorator (and also a descriptor) and it'll likely seem somewhat magical when you first learn about it.
+
+This decorator allows us to create an attribute which will always seem to contain the return value of a particular function call.
+It's easiest to understand with an example.
+
+Here's a class that uses `property`:
+
+```python
+class Circle:
+    def __init__(self, radius=1):
+        self.radius = radius
+    @property
+    def diameter(self):
+        return self.radius * 2
+```
+
+Here's an access of that `diameter` attribute on a `Circle` object:
+
+```python
+>>> circle = Circle()
+>>> circle.diameter
+2
+>>> circle.radius = 5
+>>> circle.diameter
+10
+```
+
+If you're doing object-oriented Python programming (you're making classes a whole bunch), you'll likely want to learn about `property` at some point.
+We use properties instead of getter methods and setter methods.
+
+
+### issubclass and isinstance
+
+The `issubclass` function checks whether a class is a subclass of one or more other classes.
+
+```python
+>>> issubclass(int, bool)
+False
+>>> issubclass(bool, int)
+True
+>>> issubclass(bool, object)
+True
+```
+
+The `isinstance` function checks whether an object is an instance of one or more classes.
+
+```python
+>>> isinstance(True, str)
+False
+>>> isinstance(True, bool)
+True
+>>> isinstance(True, int)
+True
+>>> isinstance(True, object)
+True
+```
+
+You can think of `isinstance` as delegating to `issubclass`:
+
+```python
+>>> issubclass(type(True), str)
+False
+>>> issubclass(type(True), bool)
+True
+>>> issubclass(type(True), int)
+True
+>>> issubclass(type(True), object)
+True
+```
+
+If you're [overloading operators][] you might need to use `isinstance`, but in general we try to avoid strong type checking in Python so we don't see these much.
+
+In Python we usually prefer duck typing over type checking.
+These functions actually do a bit more than the strong type checking I noted above ([the behavior of both can be customized][subclasscheck]) so it's actually possible to practice a sort of `isinstance`-powered duck typing with abstract base classes like [collections.abc.Iterable][].
+But this isn't seen much either (partly because we tend to practice exception-handling and [EAFP][] a bit more than condition-checking and [LBYL][] in Python).
+
+The last two paragraphs were filled with confusing jargon that I may explain more thoroughly in a future serious of articles if there's enough interest.
+
+
+### hasattr, getattr, setattr, and delattr
+
+Need to work with an attribute on an object but the attribute name is dynamic?
+You need `hasattr`, `getattr`, `setattr`, and `delattr`.
+
+Say we have some `thing` object we want to check for a particular value on:
+
+```python
+>>> class Thing: pass
+...
+>>> thing = Thing()
+```
+
+The `hasattr` function allows us to check whether the object *has* a certain attribute:
+
+```python
+>>> hasattr(thing, 'x')
+False
+>>> thing.x = 4
+>>> hasattr(thing, 'x')
+True
+```
+
+The `getattr` function allows us to retrieve the value of that attribute:
+
+```python
+>>> getattr(thing, 'x')
+4
+```
+
+The `setattr` function allows for setting the value:
+
+```python
+>>> setattr(thing, 'x', 5)
+>>> thing.x
+5
+```
+
+And `delattr` deletes the attribute:
+
+```python
+>>> delattr(thing, 'x')
+>>> thing.x
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Thing' object has no attribute 'x'
+```
+
+These functions allow for a specific flavor of [metaprogramming][] and you likely won't see them often.
+
+
+### classmethod and staticmethod
+
+The `classmethod` and `staticmethod` decorators are somewhat magical in the same way the `property` decorator is somewhat magical.
+
+If you have a method that should be callable on either an instance or a class, you want the `classmethod` decorator.
+Factory methods (alternative constructors) are a common use case for this:
+
+TODO
+
+It's a bit harder to come up with a good use for `staticmethod`, since you can pretty much always use a module-level function instead of a static method.
+
+TODO
+
+I find that learning these causes folks to *think* they need them when they often don't.
+You can go looking for these if you really need them eventually.
+
+
+### next
+
+The `next` function returns the *next* item in an iterator.
+
+I've written about iterators before ([how for loops work][] and [how to make an iterator][]) but a very quick summary of iterators you'll likely run into includes:
+
+- `enumerate` objects
+- `zip` objects
+- the return value of the `reversed` function
+- files (the thing you get back from the `open` function)
+- `csv.reader` objects
+- generator expressions
+- generator functions
+
+You can think of `next` as a way to manually loop over an iterator to get a single item and then break.
+
+```python
+>>> numbers = [2, 1, 3, 4, 7, 11]
+>>> squares = (n**2 for n in numbers)
+>>> next(squares)
+4
+>>> for n in squares:
+...     break
+...
+>>> n
+1
+>>> next(squares)
+9
+```
+
 
 ## Maybe learn it eventually
 
-"The rest definitely aren't useless, but they can be a bit more special-purpose"
+We've already covered nearly half of the built-in functions.
 
-15
+The rest of Python's built-in functions definitely aren't useless, but they're a bit more special-purposed.
 
-- iter() can be very useful when you're making helper functions for looping lazily
-- callable()
-"Read up on iterators here..."
-- filter() / map() ... my recommendation is to use  generator expressions instead
-- for teaching and debugging: id(), locals(), globals()
-- Math stuff that could eventually come in handy
-  - round()... you'll look it up when you need it
-  - divmod(): for doing a // and a % at the same time
-  - bin() / oct() / hex()
-  - abs()
-- hash()
-- object(): useful for making sentinel values, if you ever need that
+For the sake of space, I'm going to dedicate at most one bullet point to each of the rest of the built-ins.
+
+- `iter`: get an iterator from an iterable: this function [powers `for` loops][how for loops work] and it can be very useful when you're making helper functions for looping lazily
+- `callable`: return `True` if the argument is a callable (I talked about this a bit in my article [functions and callables][])
+- `filter` and `map`: as I discuss in my article on [overusing lambda functions][], I recommend using generator expressions over the built-in `map` and `filter` functions
+- `id`, `locals`, and `globals`: these are great tools for teaching Python and you may have already seen them, but you won't see these much in real Python code
+- `round`: you'll look this up if you need to round a number
+- `divmod`: this function does a floor division (`//`) and a modulo operation (`%`) at the same time
+- `bin`, `oct`, and `hex`: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
+- `abs`: when you need the absolute value of a number, you'll look this up
+- `hash`: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
+- `object`: this function is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
+
+You're unlikely to need all the above built-ins, but if you write Python code for long enough you're likely to see nearly all of them.
 
 
 ## You likely don't need these
 
-15
+You're unlikely to need these built-ins.
+There are sometimes really appropriate uses for a few of these, but you'll likely be able to get away with never learning about these.
 
-- ord() / chr(): these are fun for teaching ASCII tables, but I've never found a use for them in my own code
-- compile()
-- exec() / eval()
-- slice()
-- bytes() / bytearray() / memoryview()
-- ascii()
-- frozenset()
-- __import__()
-- format()
+- `ord` and `chr`: these are fun for teaching ASCII tables and unicode code points, but I've never really found a use for them in my own code
+- `compile`: 
+- `exec` and `eval`
+- `slice`: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
+- `bytes`, `bytearray`, and `memoryview`: if you're working with bytes often, you'll reach for some of these.  Until then, you can mostly ignore them.
+- `ascii`: like `repr` but returns an ASCII-only representation of an object; I haven't needed this in my code yet
+- `frozenset`: like `set`, but it's immutable; neat but not something I've reached for in my own code
+- `__import__`: this function isn't really meant to be used by you, use [importlib][] instead.
+- `format`: this calls the `__format__` method, which is used for string formatting; you usually don't need to call this function directly
+- `pow`: the exponentiation operator (`**`) usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
+- `complex`: if you didn't know that `4j+3` is valid Python code, you likely don't need the `complex` function
 
-- Two math things you'll likely never need
 
-pow(): the `**` operator usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
-complex(): `4j+3` is valid Python code.  If you didn't know that, you likely don't need the `complex` function.
-
+## There's always more to learn
 
 
 [built-in functions page]: https://docs.python.org/3/library/functions.html
 [standard library]: https://docs.python.org/3/library/index.html
 [RSA encryption]: http://code.activestate.com/recipes/578838-rsa-a-simple-and-easy-to-read-implementation/
 [hello world]: https://en.wikipedia.org/wiki/Hello_world_program
-[keyword arguments]: TODO
+[keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
 [functions and callables]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
-[overusing comprehensions]: TODO
-[asterisks]: TODO
-[xrange]: TODO range vs xrange
-[list comprehension]: TODO
-[looping with indexes]: TODO
-[how to make your own iterators]: TODO
-[loop better]: TODO
-[comprehensible comprehensions]: TODO
-[comprehensions tutorial]: TODO
+[overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/
+[asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
+[xrange]: https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/
+[list comprehension]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
+[looping with indexes]: https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
+[make iterators]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
+[loop better]: https://youtu.be/JYuE8ZiDPl4
+[comprehensible comprehensions]: https://youtu.be/5_cJIcgM7rw
+[comprehensions tutorial]: https://pycon2018.trey.io
 [deep ordering]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/
-[any-all article]: TODO
-[pathlib]: TODO
+[any-all article]: https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/
+[pathlib]: https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/
+[django]: https://djangoproject.com/
+[subclasscheck]: https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks
+[overloading operators]: https://docs.python.org/3/library/numbers.html#implementing-the-arithmetic-operations
+[collections.abc.Iterable]: https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable
+[eafp]: https://docs.python.org/3/glossary.html#term-eafp
+[lbyl]: https://docs.python.org/3/glossary.html#term-lbyl
+[metaprogramming]: https://en.wikipedia.org/wiki/Metaprogramming
+[how for loops work]: https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/
+[overusing lambda functions]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/
+[sentinel values]: https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/
+[importlib]: https://docs.python.org/3/library/importlib.html#importlib.import_module
