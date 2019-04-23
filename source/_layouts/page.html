@@ -33,10 +33,11 @@ layout: default
 </div>
 {% unless page.sidebar == false %}
 <aside class="sidebar">
-  {% if site.page_asides.size %}
-    {% include_array page_asides %}
-  {% else %}
-    {% include_array default_asides %}
-  {% endif %}
+  {% raw %}
+    {% include_relative "../../includes/asides/abouttrey.html" %}
+    {% include_relative "../../includes/asides/python_morsels.html" %}
+    {% include_relative "../../includes/asides/favorite_posts.html" %}
+    {% include_relative "../../includes/asides/social.html" %}
+  {% endraw %}
 </aside>
 {% endunless %}
