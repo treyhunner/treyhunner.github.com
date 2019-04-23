@@ -15,6 +15,8 @@ But sometimes `None` isn't enough: sometimes `None` is ambiguous.
 
 In this article we'll talk about when `None` isn't enough, I'll show you how I create unique values when `None` doesn't cut it, and we'll see a few different uses for this technique.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Initial values and default values
 

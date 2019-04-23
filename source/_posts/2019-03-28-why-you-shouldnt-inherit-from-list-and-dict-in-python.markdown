@@ -23,6 +23,8 @@ I'm writing this article to explain why I often don't recommend inheriting from 
 
 My examples will focus on `dict` and `list` since those are likely more commonly sub-classed.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Making a custom dictionary
 
