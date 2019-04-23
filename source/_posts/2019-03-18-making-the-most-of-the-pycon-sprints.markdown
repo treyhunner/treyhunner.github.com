@@ -24,6 +24,8 @@ Some people like the talks better, but I've also talked to first time sprinters 
 In this post I'm going to share some advice for **how to get the most out of the PyCon sprints**.
 I'm hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.
 
+<ol data-toc=".entry-content"></ol>
+
 
 ## Your fears going into the sprints
 

@@ -15,6 +15,8 @@ So if you learned `*` and `**` back in the days of Python 2, I'd recommend at le
 
 If you're newer to Python and you're not yet familiar with keyword arguments (a.k.a. named arguments), I'd recommend reading my article on [keyword arguments in Python][keyword arguments] first.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## What we're not talking about
 

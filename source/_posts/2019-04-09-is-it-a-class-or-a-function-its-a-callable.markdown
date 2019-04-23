@@ -14,6 +14,8 @@ But these **aren't functions: they're classes**!
 
 I'm going to explain why this confusion between classes and functions happens in Python and then explain **why this distinction often doesn't matter**.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Class or function?
 

@@ -15,6 +15,9 @@ I hope that this article will inspire you to **use Python's `pathlib` module pre
 
 **Update**: I wrote a follow-up article to address further comments and concerns that were raised after this one.  Read this article first and then take a look at [the follow-up article here][follow-up].
 
+<ul data-toc=".entry-content"></ul>
+
+
 ## os.path is clunky
 
 The `os.path` module has always been what we reached for to work with paths in Python.

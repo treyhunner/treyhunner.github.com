@@ -10,6 +10,9 @@ If you're moving to Python from C or Java, you might be confused by Python's `fo
 
 In this article I'll compare Python's `for` loops to those of other languages and discuss the usual ways we solve common problems with `for` loops in Python.
 
+<ul data-toc=".entry-content"></ul>
+
+
 ## For loops in other languages
 
 Before we look at Python's loops, let's take a look at a for loop in JavaScript:

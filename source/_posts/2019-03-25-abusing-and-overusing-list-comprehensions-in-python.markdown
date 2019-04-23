@@ -20,6 +20,7 @@ This article isn't meant to scare you off from comprehensions if you're not alre
 **Note**: In this article, I'll be using the term "comprehension" to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you're unfamiliar with comprehensions, I recommend reading [this article][article] or watching [this talk][talk] (the talk dives into generator expressions a bit more deeply).
 
+<ul data-toc=".entry-content"></ul>
 
 
 ## Writing comprehensions with poor spacing

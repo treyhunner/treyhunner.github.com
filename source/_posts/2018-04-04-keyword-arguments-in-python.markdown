@@ -12,6 +12,8 @@ When teaching Python, I've often wished I had a summary of the various keyword a
 
 In this article I'm going to explain what keyword arguments are and why they're used.  I'll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you're already an experienced Python programmer, you might want to skip to the end.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## What are keyword arguments?
 

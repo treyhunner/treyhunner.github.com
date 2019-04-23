@@ -16,6 +16,8 @@ And there were also concerns expressed about performance.
 In this article I'd like to acknowledge and address these concerns.
 This will be both a defense of `pathlib` and a sort of love letter to [PEP 519][].
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Comparing pathlib and os.path the right way
 
