@@ -18,13 +18,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://treyhunner.com/page8">
+  <link rel="canonical" href="http://treyhunner.com/page8/">
   <link href="http://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 
@@ -32,19 +32,20 @@
 <link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
 <script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
 
   
-<!-- Google Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
 
-ga('create', 'UA-26977066-1', 'auto');
-ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 
 
 </head>
@@ -66,7 +67,7 @@ ga('send', 'pageview');
   
 <form action="https://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:treyhunner.com" />
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -117,6 +118,9 @@ Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftrip
 I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pathlib</code> module pretty much anytime you need to work with files in Python</strong>.</p>
 
 <p><strong>Update</strong>: I wrote a follow-up article to address further comments and concerns that were raised after this one.  Read this article first and then take a look at <a href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/">the follow-up article here</a>.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>os.path is clunky</h2>
 
@@ -182,7 +186,7 @@ Wouldn&rsquo;t it be nice if we could take these nested function calls and turn 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules&#8217; <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
+<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules' <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
 
 <p>I know what you&rsquo;re thinking: wait these <code>Path</code> objects aren&rsquo;t the same thing: they&rsquo;re objects, not path strings!
 I&rsquo;ll address that later (hint: these can pretty much be used interchangeably with path strings).</p>
@@ -525,11 +529,11 @@ Most of my code that works with files now defaults to using <code>pathlib</code>
     <h1>Write Pythonic code</h1>
     <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
     <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it&#8217;s time consuming to figure out what code to write.
-    I&#8217;ve made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
     </p>
     <p>
-    Each week you&#8217;ll get an exercise that&#8217;ll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
     The first 4 exercises are free.
     </p>
     <p>
@@ -651,7 +655,7 @@ Most of my code that works with files now defaults to using <code>pathlib</code>
     I send out 1 Python exercise every week through a Python skill-building service called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
     </p>
     <p>
-    If you&#8217;d like to <strong>improve your Python skills every week</strong>, sign up!
+    If you'd like to <strong>improve your Python skills every week</strong>, sign up!
     </p>
     <form method="post" action="https://www.pythonmorsels.com/email-signup/">
       <input type="email" name="email" placeholder="email@domain.com" required>

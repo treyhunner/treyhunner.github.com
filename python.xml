@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="http://treyhunner.com/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-16T10:16:21-07:00</updated>
+  <updated>2019-04-23T15:23:27-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -25,6 +25,9 @@ Those terms are all technically misnomers.</p>
 But these <strong>aren&rsquo;t functions: they&rsquo;re classes</strong>!</p>
 
 <p>I&rsquo;m going to explain why this confusion between classes and functions happens in Python and then explain <strong>why this distinction often doesn&rsquo;t matter</strong>.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Class or function?</h2>
 
@@ -248,12 +251,12 @@ These both use the <a href="https://en.wikipedia.org/wiki/Snake_case">snake_case
 <p>Decorators and context managers are just two places in Python where you&rsquo;ll often see callables which look like functions but aren&rsquo;t.
 Whether a <strong>callable</strong> is a class or a function is often <strong>just an implementation detail</strong>.</p>
 
-<p>It&rsquo;s not really a mistake to refer to <code>property</code> or <code>redirect_stdout</code> as a function because <strong>they may as well be functions</strong>.
+<p>It&rsquo;s not really a mistake to refer to <code>property</code> or <code>redirect_stdout</code> as functions because <strong>they may as well be functions</strong>.
 We can <strong>call</strong> them, and that&rsquo;s what we care about.</p>
 
 <h2>Callable objects</h2>
 
-<p>Python&rsquo;s &ldquo;call&rdquo; syntax, those <code>(...)</code> parenthesis, can <strong>create an class instance</strong> or <strong>call a function</strong>.
+<p>Python&rsquo;s &ldquo;call&rdquo; syntax, those <code>(...)</code> parenthesis, can <strong>create a class instance</strong> or <strong>call a function</strong>.
 But this &ldquo;call&rdquo; syntax can <strong>also be used to call an object</strong>.</p>
 
 <p>Technically, everything in Python &ldquo;is an object&rdquo;:</p>
@@ -584,7 +587,7 @@ When we <em>call</em> classes we get instances of that class back.
 When we <em>call</em> functions we get the return value of that function back.
 The distinction between a class and a function is <strong>rarely important from the perspective of the caller</strong>.</p>
 
-<p>When talking about passing functions or class objects around, try to think in terms of <em>callable</em>.
+<p>When talking about passing functions or class objects around, try to think in terms of <em>callables</em>.
 <strong>What happens when you call something</strong> is often more important than <strong>what that thing actually is</strong>.</p>
 
 <p>More importantly though, if someone mislabels a function as a class or a class as a function, <strong>don&rsquo;t correct them unless the distinction is actually relevant</strong>.
@@ -649,6 +652,9 @@ At this point at least 10 of these exercises involve making a custom collection:
 I&rsquo;m writing this article to explain why I often don&rsquo;t recommend inheriting from these built-in classes in Python.</p>
 
 <p>My examples will focus on <code>dict</code> and <code>list</code> since those are likely more commonly sub-classed.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Making a custom dictionary</h2>
 
@@ -1424,6 +1430,9 @@ Some people like the talks better, but I&rsquo;ve also talked to first time spri
 <p>In this post I&rsquo;m going to share some advice for <strong>how to get the most out of the PyCon sprints</strong>.
 I&rsquo;m hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.</p>
 
+<ol data-toc=".entry-content"></ol>
+
+
 <h2>Your fears going into the sprints</h2>
 
 <p>We&rsquo;re going to start by addressing some common concerns.
@@ -1780,6 +1789,9 @@ We&rsquo;re going to walk through a number of cases where there&rsquo;s a more r
 
 <p><strong>Note</strong>: In this article, I&rsquo;ll be using the term &ldquo;comprehension&rdquo; to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you&rsquo;re unfamiliar with comprehensions, I recommend reading <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">this article</a> or watching <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">this talk</a> (the talk dives into generator expressions a bit more deeply).</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Writing comprehensions with poor spacing</h2>
 
@@ -2385,6 +2397,9 @@ But in each of these cases you want your object to stand out from the other obje
 But sometimes <code>None</code> isn&rsquo;t enough: sometimes <code>None</code> is ambiguous.</p>
 
 <p>In this article we&rsquo;ll talk about when <code>None</code> isn&rsquo;t enough, I&rsquo;ll show you how I create unique values when <code>None</code> doesn&rsquo;t cut it, and we&rsquo;ll see a few different uses for this technique.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Initial values and default values</h2>
 
@@ -3933,6 +3948,9 @@ And there were also concerns expressed about performance.</p>
 <p>In this article I&rsquo;d like to acknowledge and address these concerns.
 This will be both a defense of <code>pathlib</code> and a sort of love letter to <a href="https://www.python.org/dev/peps/pep-0519/#standard-library-changes">PEP 519</a>.</p>
 
+<ul data-toc=".entry-content"></ul>
+
+
 <h2>Comparing pathlib and os.path the right way</h2>
 
 <p>In my last article I compared this code which uses <code>os</code> and <code>os.path</code>:</p>
@@ -4559,6 +4577,9 @@ I hope that this article will inspire you to <strong>use Python&rsquo;s <code>pa
 
 <p><strong>Update</strong>: I wrote a follow-up article to address further comments and concerns that were raised after this one.  Read this article first and then take a look at <a href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/">the follow-up article here</a>.</p>
 
+<ul data-toc=".entry-content"></ul>
+
+
 <h2>os.path is clunky</h2>
 
 <p>The <code>os.path</code> module has always been what we reached for to work with paths in Python.
@@ -4623,7 +4644,7 @@ Wouldn&rsquo;t it be nice if we could take these nested function calls and turn 
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules&#8217; <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
+<p>The <code>os.path</code> module requires function nesting, but <strong>the <code>pathlib</code> modules' <code>Path</code> class allows us to chain methods and attributes</strong> on <code>Path</code> objects to get an equivalent path representation.</p>
 
 <p>I know what you&rsquo;re thinking: wait these <code>Path</code> objects aren&rsquo;t the same thing: they&rsquo;re objects, not path strings!
 I&rsquo;ll address that later (hint: these can pretty much be used interchangeably with path strings).</p>
@@ -5168,6 +5189,9 @@ I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;
 So if you learned <code>*</code> and <code>**</code> back in the days of Python 2, I&rsquo;d recommend at least skimming this article because Python 3 has added a lot of new uses for these operators.</p>
 
 <p>If you&rsquo;re newer to Python and you&rsquo;re not yet familiar with keyword arguments (a.k.a. named arguments), I&rsquo;d recommend reading my article on <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">keyword arguments in Python</a> first.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>What we&rsquo;re not talking about</h2>
 
@@ -7195,6 +7219,9 @@ Different PyCon attendees will have different recommendations for how to make th
 <p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
 
 <p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>What are keyword arguments?</h2>
 

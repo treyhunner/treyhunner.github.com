@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-16T10:16:21-07:00</updated>
+  <updated>2019-04-23T15:23:27-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -26,6 +26,9 @@ I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;
 So if you learned <code>*</code> and <code>**</code> back in the days of Python 2, I&rsquo;d recommend at least skimming this article because Python 3 has added a lot of new uses for these operators.</p>
 
 <p>If you&rsquo;re newer to Python and you&rsquo;re not yet familiar with keyword arguments (a.k.a. named arguments), I&rsquo;d recommend reading my article on <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">keyword arguments in Python</a> first.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>What we&rsquo;re not talking about</h2>
 
@@ -1598,6 +1601,9 @@ Different PyCon attendees will have different recommendations for how to make th
 <p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
 
 <p>In this article I&rsquo;m going to explain what keyword arguments are and why they&rsquo;re used.  I&rsquo;ll then go over some more advanced uses of them that even long-time Python programmers may have overlooked because quite a few things have changed in recent versions of Python 3.  If you&rsquo;re already an experienced Python programmer, you might want to skip to the end.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>What are keyword arguments?</h2>
 

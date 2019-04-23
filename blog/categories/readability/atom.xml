@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-16T10:16:21-07:00</updated>
+  <updated>2019-04-23T15:23:27-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -31,6 +31,9 @@ We&rsquo;re going to walk through a number of cases where there&rsquo;s a more r
 
 <p><strong>Note</strong>: In this article, I&rsquo;ll be using the term &ldquo;comprehension&rdquo; to refer to all forms of comprehensions (list, set, dict) as well as generator expressions.
 If you&rsquo;re unfamiliar with comprehensions, I recommend reading <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">this article</a> or watching <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">this talk</a> (the talk dives into generator expressions a bit more deeply).</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Writing comprehensions with poor spacing</h2>
 
