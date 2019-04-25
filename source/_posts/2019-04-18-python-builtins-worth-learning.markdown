@@ -6,8 +6,6 @@ comments: true
 categories: python
 ---
 
-TODO google octopress table of contents
-
 In every Intro to Python class I teach, there's always at least one "how can we be expected to know all this" question.
 
 It's usually along the lines of either:
@@ -27,6 +25,8 @@ I recommend triaging your knowledge:
 
 I'd like to demonstrate this approach with the Python documentation's [Built-in Functions page][].
 
+<ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol>
+
 
 ## Which built-ins should you know about?
 
@@ -42,33 +42,33 @@ I'll attempt to categorize these built-ins into five categories:
 4. Maybe learn it eventually: these can come in handy, but only in specific circumstances
 5. You likely don't need these: you're unlikely to need these unless you're doing something fairly specialized
 
-TODO I will be referring to all of these built-in functions as *functions*, even though 27 of them aren't actually functions (as I discussed in my article on [functions and callables][]).
+**Note**: I will be referring to all of these built-in functions as **functions**, even though 27 of them **aren't actually functions at all** (as I discussed in my article on [functions and callables][42 functions]).
 
 The commonly known built-in functions (which you likely already know about):
 
-1. print
-2. len
-3. str
-4. int
-5. float
-6. list
-7. tuple
-8. dict
-9. set
-10. range
+1. [print](#print)
+2. [len](#len)
+3. [str](#str)
+4. [int](#int)
+5. [float](#float)
+6. [list](#list)
+7. [tuple](#tuple)
+8. [dict](#dict)
+9. [set](#set)
+10. [range](#range)
 
 The built-in functions which are often overlooked by newer Python programmers:
 
-1. sum()
-2. enumerate()
-3. zip()
-4. bool() ???
-5. reversed()
-6. sorted()
-7. min()
-8. max()
-9. any()
-10. all()
+1. [sum](#sum)
+2. [enumerate](#enumerate)
+3. [zip](#zip)
+4. [bool](#bool)
+5. [reversed](#reversed)
+6. [sorted](#sorted)
+7. [min](#min_and_max)
+8. [max](#max_and_max)
+9. [any](#any_and_all)
+10. [all](#all_and_all)
 
 There are also 4 commonly overlooked built-ins which I recommend knowing about solely because they make debugging easier:
 
@@ -131,7 +131,7 @@ Traceback (most recent call last):
 TypeError: can only concatenate str (not "int") to str
 ```
 
-Python refuses to coerce that `3` integer to a string, so we need to manually do it ourselves, using the built-in `str` function:
+Python refuses to coerce that `3` integer to a string, so we need to manually do it ourselves, using the built-in `str` function (class technically, but as I said, I'll be calling these all functions):
 
 ```python
 >>> version = 3
@@ -592,7 +592,7 @@ The `min` and `max` functions do what you'd expect: they give you the minimum an
 The `min` and `max` functions compare the items given to them by using the `<` operator.
 So all values need to be orderable and comparable to each other (fortunately [many objects are orderable in Python][deep ordering]).
 
-TODO They also accept a `key` function (https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/)
+The `min` and `max` functions also accept [a `key` function][key function] to allow customizing what "minimum" and "maximum" really mean for specific objects.
 
 
 ### sorted
@@ -610,9 +610,9 @@ The `sorted` function accepts any iterable and returns a new lit of all the valu
 
 The `sorted` function, like `min` and `max`, compares the items given to it by using the `<` operator, so all values given to it need so to be orderable.
 
-TODO key function again
+The `sorted` function also allows customization of its sorting via [a `key` function][key function] (just like `min` and `max`).
 
-TODO link https://medium.com/@DahlitzF/list-sort-vs-sorted-list-aab92c00e17
+By the way, if you're curious about `sorted` versus the `list.sort` method, Florian Dahlitz wrote [an article comparing the two][sorted vs sort].
 
 
 ### any and all
@@ -648,24 +648,87 @@ I've written an article on `any` and `all` in Python called [Checking Whether Al
 
 ### The 5 debugging functions
 
-TODO
-
-- Useful debugging tools
-    - dir() / vars() (no more obj.__dict__)
-    - breakpoint() (this was added in Python 3.7. For earlier versions, you can type `import pdb ; pdb.set_trace()`)
-    - type(). Not just for debugging!
-    "No more `self.__class__` ... that's a Python 2 habit you should kick"
-
-#### dir
-
-#### type
+The following 5 functions will be useful for debugging and troubleshooting code.
 
 #### breakpoint
 
+Need to pause the execution of your code and drop into a Python command prompt?
+You need `breakpoint`!
+
+The `breakpoint` function will drop you into [pdb][], the Python debugger.
+There are many tutorials and talks out there on PDB: here's [a short one][pdb lightning talk] and here's [a long one][pdb talk].
+
+This built-in function was added in Python 3.7, but if you're on older versions of Python you can get the same behavior with `import pdb ; pdb.set_trace()`.
+
+#### dir
+
+The `dir` function can be used for two things:
+
+1. Seeing a list of all your local variables
+2. Seeing a list of all attributes on a particular object
+
+Here we can see that our local variables, right after starting a new Python shell and then after creating a new variable `x`:
+
+```pycon
+>>> dir()
+['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
+>>> x = [1, 2, 3, 4]
+```
+
+If we pass that `x` list into `dir` we'll see all the attributes on it:
+
+```pycon
+>>> dir(x)
+['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+```
+
+We can see the typical list methods, `append`, `pop`, `remove`, and more as well as many dunder methods for operator overloading.
+
 #### vars
 
+This function is sort of a shortcut function.
 
-### help
+When it's called with no arguments, it's equivalent to calling the `locals()` built-in function (which shows a dictionary of all local variables and their values).
+
+When it's called with an argument, it accesses the `__dict__` attribute on that object (which on many objects represents a dictionary of all instance attributes).
+
+If you ever try to use `my_object.__dict__`, you can use `vars` instead.
+
+I usually reach for `dir` just before using `vars`.
+
+#### type
+
+The `type` function will tell you the type of the object you pass to it.
+
+The type of a class instance is the class itself:
+
+```pycon
+>>> x = [1, 2, 3]
+>>> type(x)
+<class 'list'>
+```
+
+The type of a class is its metaclass, which is usually `type` (technically `type` is a class and not a function):
+
+```pycon
+>>> type(list)
+<class 'type'>
+>>> type(type(x))
+<class 'type'>
+```
+
+If you ever see someone reach for `__class__`, know that they could reach for the higher-level `type` function instead:
+
+```pycon
+>>> x.__class__
+<class 'list'>
+>>> type(x)
+<class 'list'>
+```
+
+The `type` function is sometimes helpful in actual code (especially object-oriented code with inheritance and custom string representations), but it's also very often useful when debugging.
+
+#### help
 
 If you're in a Python REPL, maybe debugging code (using `breakpoint`), and you'd like to know how a certain object, method, or attribute works, the `help` function is very handy.
 
@@ -677,7 +740,7 @@ But if you're already in a Python REPL, it's quicker to call `help(list.insert)`
 
 There are quite a few built-in functions you'll likely want *eventually*, but you may not need *right now*.
 
-I'm going to mention 13 more built-in functions which are handy to know about, but not worth learning until you actually need to use them.
+I'm going to mention 14 more built-in functions which are handy to know about, but not worth learning until you actually need to use them.
 
 ### open
 
@@ -898,11 +961,46 @@ The `classmethod` and `staticmethod` decorators are somewhat magical in the same
 If you have a method that should be callable on either an instance or a class, you want the `classmethod` decorator.
 Factory methods (alternative constructors) are a common use case for this:
 
-TODO
+```python
+class RomanNumeral:
+    """A roman numeral, represented as a string and numerically."""
+    def __init__(self, number):
+        self.value = number
+    @classmethod
+    def from_string(cls, string):
+        return cls(roman_to_int(string))  # function doesn't exist yet
+```
 
 It's a bit harder to come up with a good use for `staticmethod`, since you can pretty much always use a module-level function instead of a static method.
 
-TODO
+```python
+class RomanNumeral:
+
+    """A roman numeral, represented as a string and numerically."""
+
+    SYMBOLS = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1}
+
+    def __init__(self, number):
+        self.value = number
+
+    @classmethod
+    def from_string(cls, string):
+        return cls(cls.roman_to_int(string))
+
+    @staticmethod
+    def roman_to_int(numeral):
+        total = 0
+        for symbol, next_symbol in zip_longest(numeral, numeral[1:]):
+            value = RomanNumeral.SYMBOLS[symbol]
+            next_value = RomanNumeral.SYMBOLS.get(next_symbol, 0)
+            if value < next_value:
+                value = -value
+            total += value
+        return total
+```
+
+The above `roman_to_int` function doesn't require access to the instance *or* the class, so it doesn't even need to be a `@classmethod`.
+There's no actual need to make this function a `staticmethod` (instead of a `classmethod`): `staticmethod` is just more restrictive to signal the fact that we're not reliant on the class our function lives on.
 
 I find that learning these causes folks to *think* they need them when they often don't.
 You can go looking for these if you really need them eventually.
@@ -945,6 +1043,8 @@ We've already covered nearly half of the built-in functions.
 
 The rest of Python's built-in functions definitely aren't useless, but they're a bit more special-purposed.
 
+The 15 built-ins I'm mentioning in this section are things you may eventually need to learn, but it's which it's also very possible you'll never reach for in your own code.
+
 For the sake of space, I'm going to dedicate at most one bullet point to each of the rest of the built-ins.
 
 - `iter`: get an iterator from an iterable: this function [powers `for` loops][how for loops work] and it can be very useful when you're making helper functions for looping lazily
@@ -956,7 +1056,7 @@ For the sake of space, I'm going to dedicate at most one bullet point to each of
 - `bin`, `oct`, and `hex`: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
 - `abs`: when you need the absolute value of a number, you'll look this up
 - `hash`: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
-- `object`: this function is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
+- `object`: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
 
 You're unlikely to need all the above built-ins, but if you write Python code for long enough you're likely to see nearly all of them.
 
@@ -981,6 +1081,20 @@ There are sometimes really appropriate uses for a few of these, but you'll likel
 
 ## There's always more to learn
 
+There are 69 built-in functions in Python (technically [only 42 of them are actually functions][42 functions]).
+
+When you're newer in your Python journey, I recommend focusing on only 20 of these built-in functions in your own code (the [10 commonly known built-ins](#10_Commonly_known_built-in_functions) and the [10 built-ins that are often overlooked](#Built-ins_overlooked_by_new_Pythonistas)), in addition to the [5 debugging functions](#The_5_debugging_functions).
+
+After that there are [14 more built-ins which you'll probably learn later](#Learn_it_later) (depending on the style of programming you do).
+
+Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_it_eventually).
+Some people love these built-ins and some people never use them: as we get more specific in our coding needs, we'll find the new tools we learn for are ever more niche.
+
+After that I mentioned [the last 17 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
+
+You don't need to learn all the Python built-in functions today.
+Take it slow: focus on those first 20 important built-ins and then work your way into learning about others if and when you eventually need them.
+
 
 [built-in functions page]: https://docs.python.org/3/library/functions.html
 [standard library]: https://docs.python.org/3/library/index.html
@@ -988,6 +1102,7 @@ There are sometimes really appropriate uses for a few of these, but you'll likel
 [hello world]: https://en.wikipedia.org/wiki/Hello_world_program
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
 [functions and callables]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
+[42 functions]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#The_distinction_between_functions_and_classes_often_doesn%E2%80%99t_matter
 [overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/
 [asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
 [xrange]: https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/
@@ -1011,3 +1126,8 @@ There are sometimes really appropriate uses for a few of these, but you'll likel
 [overusing lambda functions]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/
 [sentinel values]: https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/
 [importlib]: https://docs.python.org/3/library/importlib.html#importlib.import_module
+[key function]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once
+[sorted vs sort]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once
+[pdb]: https://pymotw.com/3/pdb/
+[pdb lightning talk]: https://pyvideo.org/pybay-2017/introduction-to-pdb.html
+[pdb talk]: https://www.youtube.com/watch?v=P0pIW5tJrRM&feature=player_embedded
