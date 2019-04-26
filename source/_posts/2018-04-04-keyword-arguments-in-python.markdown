@@ -411,7 +411,19 @@ And remember that you can accept arbitrary keyword arguments to the functions yo
 
 Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!
 
-If you'd like to **level up your Python skills** and get practice using Python-specific features, like keyword arguments, [sign up for Python Morsels][python morsels].
+## Practice Python every week
+
+If you'd like to **level up your Python skills** and get practice using Python-specific features, like keyword arguments, sign up for [Python Morsels][] below.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="sentinels">
+  <input type="hidden" name="form_id" value="keyword arguments post">
+  <button type="submit" class="subscribe-btn form-big">Get a Python exercise now</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
 
 
 [pep 468]: https://www.python.org/dev/peps/pep-0468/
