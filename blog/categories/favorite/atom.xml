@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="http://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="http://treyhunner.com/"/>
-  <updated>2019-04-26T13:34:34-07:00</updated>
+  <updated>2019-04-26T14:59:02-07:00</updated>
   <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1980,7 +1980,19 @@ TypeError: random_password() takes 0 positional arguments but 4 were given
 
 <p>Important objects deserve names and you can use keyword arguments to give your objects the names they deserve!</p>
 
-<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.</p>
+<h2>Practice Python every week</h2>
+
+<p>If you&rsquo;d like to <strong>level up your Python skills</strong> and get practice using Python-specific features, like keyword arguments, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> below.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="sentinels">
+  <input type="hidden" name="form_id" value="keyword arguments post">
+  <button type="submit" class="subscribe-btn form-big">Get a Python exercise now</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
 ]]></content>
   </entry>
   
