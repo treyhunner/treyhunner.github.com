@@ -261,21 +261,10 @@ flipped = {
 Note that we are not adding line breaks arbitrarily: we're breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.
 
 
-## Learn with me
+## Copy-paste into comprehensions
 
-I did a [class on list comprehensions][class] with [PyLadies Remote][] recently.
-
-If you'd like to watch me walk through an explanation of any of the above topics, check out the video:
-
-1. [list comprehensions][class-list]
-2. [generator expressions][class-generator]
-3. [set comprehensions][class-set]
-4. [dictionary comprehensions][class-dict]
-
-
-## Summary
-
-When struggling to write a comprehension, don't panic.  Start with a `for` loop first and copy-paste your way into a comprehension.
+When struggling to write a comprehension, don't panic.
+Start with a `for` loop first and copy-paste your way into a comprehension.
 
 Any `for` loop that looks like this:
 
@@ -294,18 +283,36 @@ Can be rewritten into a list comprehension like this:
 
 If you can nudge a `for` loop until it looks like the ones above, you can rewrite it as a list comprehension.
 
+## Make them readable and don't abuse them
 
-## Even More Comprehensions
+I highly recommend writing your comprehensions over multiple lines.
+Comprehensions don't need to be one-liners to be useful.
+
+If you find that you're a fan of comprehensions, please [try not to overuse list comprehensions][overusing comprehensions].
+It's easy to use list comprehensions for purposes they weren't meant for.
 
 If you'd like to dive a bit deeper into this topic, you might want to watch my 30 minute [Comprehensible Comprehensions][] talk for more.
 
-The best way to learn is to practice.
-If you'd like to practice your comprehension skills and your Python skills in general, I recommend giving [Python Morsels][] a try.
 
-If you're looking for a *very* deep dive into comprehensions in particular, I have a [3 hour tutorial][] on comprehensions and generator expressions in Python.
-That tutorial is heavily inspired by my [team Python training][] workshops.
-If you're interested in diving *even deeper* into comprehensions and other topics, please [drop me a line][].
-I'd love to chat.
+## Practice Python list comprehensions right now!
+
+**The best way to learn** is through **regular practice**.
+Every week I send out carefully crafted Python exercises through my Python skill-building service, [Python Morsels][].
+
+If you'd like to practice comprehensions through one Python exercise right now, you can sign up for [Python Morsels][] using the form below.
+After you sign up, I'll immediately give you **one exercise to practice your comprehension copy-pasting skills**.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
 
 
 [crowdcast]: http://ccst.io/e/list-comprehensions
@@ -325,3 +332,4 @@ I'd love to chat.
 [comprehensible comprehensions]: https://youtu.be/5_cJIcgM7rw?t=52s
 [3 hour tutorial]: http://pycon2018.trey.io/
 [python morsels]: https://www.pythonmorsels.com/
+[overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/

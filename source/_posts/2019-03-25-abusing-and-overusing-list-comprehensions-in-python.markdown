@@ -463,9 +463,41 @@ Comprehensions are a lovely tool, but **they're not your only tool**.
 Don't forget the `list` and `dict` constructors and always consider `for` loops when your comprehensions get out of hand.
 
 
+## Practice Python list comprehensions right now!
+
+**The best way to learn** is through **regular practice**.
+Every week I send out carefully crafted Python exercises through my Python skill-building service, [Python Morsels][].
+
+If you'd like to practice your comprehensions through one Python exercise right now, you can sign up for [Python Morsels][] using the form below.
+After you sign up, I'll immediately give you **one exercise to practice your comprehension copy-pasting skills**.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+    <label><input type="radio" name="exercise_track" value="comprehension4"> I'm pretty much an expert at comprehensions</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="comprehension3"> I use comprehensions quite often</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="comprehension2"> I understand comprehensions, I just don't write them much</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="comprehension1"> What's a comprehension?</label>
+    <br>
+    <br>
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension">
+  <input type="hidden" name="form_id" value="overusing comprehensions">
+  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
+
+
+
 [article]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/ "List Comprehensions: Explain Visually"
 [talk]: https://youtu.be/5_cJIcgM7rw "Comprehensible Comprehensions"
 [tutorial]: https://youtu.be/_6U1XoxyyBY "Using List Comprehensions and Generator Expressions For Data Processing"
 [inline if]: https://docs.python.org/3/faq/programming.html#is-there-an-equivalent-of-c-s-ternary-operator
 [ternary operator]: https://en.wikipedia.org/wiki/%3F:
 [any-all]: https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/
+[python morsels]: https://www.pythonmorsels.com/

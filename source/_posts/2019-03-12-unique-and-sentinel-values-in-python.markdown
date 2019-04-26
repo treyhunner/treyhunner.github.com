@@ -642,9 +642,27 @@ I hope this meandering through unique values has given you something (some non-`
 May your `None` values be unambiguous and your identity checks be truly unique.
 
 
+## Practice what you just learned
+
+Want to get some practice using `object()` in Python?
+
+If you sign up to [Python Morsels][] (my Python skill-building service) using the form below, I'll immediately send you a Python exercise where it makes sense to use `object()`.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="sentinels">
+  <input type="hidden" name="form_id" value="sentinels post">
+  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+
 [sentinel value]: https://en.wikipedia.org/wiki/Sentinel_value
 [explanation]: https://stackoverflow.com/questions/28306371/what-is-object-good-for
 [magic string]: https://en.wikipedia.org/wiki/Magic_string
 [singletons]: https://en.wikipedia.org/wiki/Singleton_pattern
 [pep8]: https://pep8.org/#programming-recommendations
 [iterators]: https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/
+[python morsels]: https://www.pythonmorsels.com/

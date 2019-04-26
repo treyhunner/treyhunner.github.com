@@ -421,12 +421,27 @@ I suggest using this article as **a cheat sheet** or to making your own cheat sh
 You don't learn by putting information in your head, you learn by attempting to retrieve information from your head.
 So you've just read an article on something new, but **you haven't learned yet**.
 
-Write some code that uses `*` and `**` in a number of different ways today.
-Then quiz yourself on the many different ways to use `*` and `**` tomorrow!
+I highly recommend you write some code that you uses `*` and `**` in a number of different ways today and then quiz yourself on the different ways to use these operators tomorrow.
 
-If you'd like to get practice with `*` and `**`, **[sign up for Python Morsels][python morsels]**.
-The first few problems use `*` in a couple different ways.
-If you sign up for [Python Morsels][] I'll help you **level up your Python skills every week**.
+I'd love to send you an exercise on to get some practice with `*` and `**` right now.
+If you sign up for [Python Morsels][] using the for below, I'll **send you an exercise that uses `*` and `**` right after you sign up**.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+    <label><input type="radio" name="exercise_track" value="star1"> I was pretty much brand new to asterisks in Python</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="star2"> The keyword-only stuff was new to me</label>
+    <br>
+    <label><input type="radio" name="exercise_track" value="star3"> Using those operators in list/dict literals isn't something I've done much</label>
+    <br>
+    <br>
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension">
+  <input type="hidden" name="form_id" value="asterisks post">
+  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
 
 
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
