@@ -87,6 +87,11 @@ pre.line-numbers { display: none; }
 
     border: 1px solid #663399;
     border-radius: 0.2rem;
+    &.bright {
+        background-color: #97c93c;
+        border-color: #97c93c;
+        color: #206;
+    }
 }
 .subscribe-email.form-big {
     font-size: 1rem;
@@ -174,4 +179,14 @@ body>footer {
 	top: 0;
 	margin-left: 0;
 	}
+}
+
+.blog-index {
+    font-size: 1.2em;
+    ul a {
+        text-decoration: none;
+    }
+    ul li {
+        margin-bottom: 0.5em;
+    }
 }

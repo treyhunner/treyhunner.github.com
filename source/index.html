@@ -1,29 +1,99 @@
 ---
-layout: default
+layout: page
+sharing: false
+sidebar: false
+css_class: blog-index
 ---
 
-<div class="blog-index">
-  {% assign index = true %}
-  {% for post in paginator.posts %}
-  {% assign content = post.content %}
-    <article>
-      {% include article.html %}
-    </article>
-  {% endfor %}
-  <div class="pagination">
-    {% if paginator.next_page %}
-      <a class="prev" href="{{paginator.next_page_path}}">&larr; Older</a>
-    {% endif %}
-    <a href="/blog/archives">Blog Archives</a>
-    {% if paginator.previous_page %}
-    <a class="next" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
-    {% endif %}
-  </div>
-</div>
-<aside class="sidebar">
-  {% if site.blog_index_asides.size %}
-    {% include_array blog_index_asides %}
-  {% else %}
-    {% include_array default_asides %}
-  {% endif %}
-</aside>
+{% img right https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=250 %}
+
+<h1>Hi! 😁 My name is Trey</h1>
+
+{% markdown %}
+
+My name is Trey Hunner and I help Python developers level-up their skills through [Python Morsels][], my weekly Python exercise service.
+
+I also hold Python trainings for teams through my one-person corporate training company, [Truthful Technology LLC][].
+These trainings are always hands-on (like my [tutorials][], not my [talks][]).
+
+You can scroll down to see a list of the some popular Python articles I've written below, but please remember that watching talks and reading articles is **not the most effective way to learn**.
+Learning comes through practice.
+
+[python morsels]: https://www.pythonmorsels.com/
+[truthful technology llc]: https://truthful.technology/
+[talks]:  /talks#talks
+[tutorials]:  /talks#tutorials
+[talks page]: /talks
+{% endmarkdown %}
+
+<h2>Practice Python every week with Python Morsels</h2>
+
+{% img right python-morsels-logo /images/python-morsels-logo.svg 222.5 88.5 %}
+
+{% markdown %}
+
+We don't learn by putting information into our heads.
+We learn by trying to retrieve information from our heads.
+So practice is pretty much the only way to learn.
+
+I made Python Morsels to help working Python developers grow their skills every week through deliberate practice.
+
+As a Python Morsels subscriber, every Monday I'll send you a new exercise based on your skill level.
+These exercises are meant to push you slightly outside of your comfort zone, gradually expanding your abilities each week.
+
+I recommend allotting a total of 1-2 hours each week for Python practice via Python Morsels.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big bright">Practice Python every week</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+{% endmarkdown %}
+
+<h2>Popular Python Posts</h2>
+
+{% markdown %}
+- [How to loop with indexes in Python](https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/)
+- [Python List Comprehensions: Explained Visually](https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/)
+- [Overusing list comprehensions and generator expressions in Python](https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/)
+- [Asterisks in Python: what they are and how to use them](https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/)
+- [Multiple assignment and tuple unpacking improve Python code readability](https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/)
+- [Keyword (Named) Arguments in Python: How to Use Them](https://treyhunner.com/2018/04/keyword-arguments-in-python/)
+- [How to make an iterator in Python](https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/)
+- [Why you should be using pathlib](https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/)
+- [Overusing lambda expressions in Python](https://treyhunner.com/2018/09/stop-writing-lambda-expressions/)
+- [How to have a great first PyCon](https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/)
+- [Craft Your Python Like Poetry](https://treyhunner.com/2017/07/craft-your-python-like-poetry/)
+- [Check Whether All Items Match a Condition in Python](https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/)
+- [Is it a class or a function? It's a callable!](https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/)
+- [The problem with inheriting from dict and list in Python](https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/)
+- [Counting Things in Python: A History](https://treyhunner.com/2015/11/counting-things-in-python/)
+{% endmarkdown %}
+
+<h2>Stay in touch</h2>
+
+{% markdown %}
+
+You can find my current contact information on the [about page][].
+
+The best way to stay in touch with me is to **get on my Python newsletter**.
+And the easiest way to join my newsletter is to **sign up for Python Morsels** using the form below.
+
+[about page]: /about
+
+{% endmarkdown %}
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big">Improve your Python skills</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>

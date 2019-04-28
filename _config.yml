@@ -4,7 +4,7 @@
 
 url: http://treyhunner.com
 title: Trey Hunner
-subtitle: Python & Django on-site team training
+subtitle: I help developers level-up their Python skills
 author: Trey Hunner
 simple_search: https://google.com/search
 description:
@@ -32,6 +32,8 @@ permalink: /:year/:month/:title/
 source: source
 destination: public
 plugins: plugins
+gems:
+  - octopress-markdown-tag
 code_dir: downloads/codebun
 category_dir: blog/categories
 markdown: rdiscount

@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<div>
+<div{% if page.css_class %} class="{{ page.css_class }}"{% endif %}>
 <article role="article">
   {% if page.title %}
   <header>
