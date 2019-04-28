@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Sometimes a programming design pattern becomes common enough to warrant its own special syntax. Python&rsquo;s list comprehensions are a prime &hellip;">
+  <meta name="description" content="Hi! 😁 My name is Trey My name is Trey Hunner and I help Python developers level-up their skills through Python Morsels, my weekly Python exercise &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,12 +50,12 @@
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><img src="/images/logo.svg">
 <hgroup>
   <h1><a href="/">Trey Hunner</a></h1>
   
-    <h2>Python & Django on-site team training</h2>
+    <h2>I help developers level-up their Python skills</h2>
   
 </hgroup>
 <a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
@@ -84,487 +84,97 @@
   <div id="main">
     <div id="content">
       <div class="blog-index">
+<article role="article">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></h1>
-    
-    
-      <p class="meta">
-        
+  <img class="right" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=250">
 
+<h1>Hi! 😁 My name is Trey</h1>
 
+<p>My name is Trey Hunner and I help Python developers level-up their skills through <a href="https://www.pythonmorsels.com/">Python Morsels</a>, my weekly Python exercise service.</p>
 
+<p>I also hold Python trainings for teams through my one-person corporate training company, <a href="https://truthful.technology/">Truthful Technology LLC</a>.
+These trainings are always hands-on (like my <a href="/talks#tutorials">tutorials</a>, not my <a href="/talks#talks">talks</a>).</p>
 
-<time class='entry-date' datetime='2015-12-01T10:30:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>10:30 am</span></time>
-        
-           | <a href="/2015/12/python-list-comprehensions-now-in-color/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Comments</a>
-        
-      </p>
-    
-  </header>
+<p>You can scroll down to see a list of the some popular Python articles I&rsquo;ve written below, but please remember that watching talks and reading articles is <strong>not the most effective way to learn</strong>.
+Learning comes through practice.</p>
 
 
-  <div class="entry-content"><p>Sometimes a programming design pattern becomes common enough to warrant its own special syntax.  Python&rsquo;s <a href="https://docs.python.org/3/tutorial/datastructures.html#tut-listcomps">list comprehensions</a> are a prime example of such a syntactic sugar.</p>
+<h2>Practice Python every week with Python Morsels</h2>
 
-<p>List comprehensions in Python are great, but mastering them can be tricky because they don&rsquo;t solve a new problem: they just provide a new syntax to solve an existing problem.</p>
+<img class="right python-morsels-logo" src="/images/python-morsels-logo.svg" width="222">
 
-<p>Let&rsquo;s learn what list comprehensions are and how to identify when to use them.</p>
+<p>We don&rsquo;t learn by putting information into our heads.
+We learn by trying to retrieve information from our heads.
+So practice is pretty much the only way to learn.</p>
 
-<h2>What are list comprehensions?</h2>
+<p>I made Python Morsels to help working Python developers grow their skills every week through deliberate practice.</p>
 
-<p>List comprehensions are a tool for transforming one list (any <a href="https://docs.python.org/3/glossary.html#term-iterable">iterable</a> actually) into another list.  During this transformation, elements can be conditionally included in the new list and each element can be transformed as needed.</p>
+<p>As a Python Morsels subscriber, every Monday I&rsquo;ll send you a new exercise based on your skill level.
+These exercises are meant to push you slightly outside of your comfort zone, gradually expanding your abilities each week.</p>
 
-<p>If you&rsquo;re familiar with functional programming, you can think of list comprehensions as syntactic sugar for a <code>filter</code> followed by a <code>map</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re not familiar with functional programming, don&rsquo;t worry: I&rsquo;ll explain using <code>for</code> loops.</p>
-
-<h2>From loops to comprehensions</h2>
-
-<p>Every list comprehension can be rewritten as a <code>for</code> loop but not every <code>for</code> loop can be rewritten as a list comprehension.</p>
-
-<p>The key to understanding when to use list comprehensions is to practice identifying problems that <em>smell</em> like list comprehensions.</p>
-
-<p>If you can rewrite your code to look <em>just like this <code>for</code> loop</em>, you can also rewrite it as a list comprehension:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">new_things</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can rewrite the above <code>for</code> loop as a list comprehension like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">new_things</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;something with &quot;</span> <span class="o">+</span> <span class="n">ITEM</span> <span class="k">for</span> <span class="n">ITEM</span> <span class="ow">in</span> <span class="n">old_things</span> <span class="k">if</span> <span class="n">condition_based_on</span><span class="p">(</span><span class="n">ITEM</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List Comprehensions: The Animated Movie™</h2>
-
-<p>That&rsquo;s great, but how did we do that?</p>
-
-<p>We <strong>copy-pasted</strong> our way from a <code>for</code> loop to a list comprehension.</p>
-
-<p><img src="/images/list-comprehension-condition.gif"></p>
-
-<p>Here&rsquo;s the order we copy-paste in:</p>
-
-<ol>
-<li>Copy the variable assignment for our new empty list (line 3)</li>
-<li>Copy the expression that we&rsquo;ve been <code>append</code>-ing into this new list (line 6)</li>
-<li>Copy the <code>for</code> loop line, excluding the final <code>:</code> (line 4)</li>
-<li>Copy the <code>if</code> statement line, also without the <code>:</code> (line 5)</li>
-</ol>
-
-
-<p>We&rsquo;ve now copied our way from this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">doubled_odds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>List Comprehensions: Now in Color</h2>
-
-<p>Let&rsquo;s use colors to highlight what&rsquo;s going on.</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>:
-        <span class="new-collection">doubled_odds</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
-
-
-
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_odds</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">n % 2 == 1</span></span>]</span>
-</pre>
-
-
-<p>We copy-paste from a <code>for</code> loop into a list comprehension by:</p>
-
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span></li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code></li>
-<li>Copying <span class="conditional-clause">the <code>if</code> statement line</span>, also without the <code>:</code></li>
-</ol>
-
-
-<h2>Unconditional Comprehensions</h2>
-
-<p>But what about comprehensions that don&rsquo;t have a conditional clause (that <code>if SOMETHING</code> part at the end)?  These loop-and-append <code>for</code> loops are even simpler than the loop-and-conditionally-append ones we&rsquo;ve already covered.</p>
-
-<p>A <code>for</code> loop that doesn&rsquo;t have an <code>if</code> statement:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span>:
-    <span class="new-collection">doubled_numbers</span>.append(<span class="item-mutation">n * 2</span>)
-</pre>
-
-
-<p>That same code written as a comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">doubled_numbers</span> = <span class="collection-type">[</span><span class="item-mutation">n * 2</span> <span class="for-loop">for <span class="item">n</span> in <span class="old-collection">numbers</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p>Here&rsquo;s the transformation animated:</p>
-
-<p><img src="/images/list-comprehension-no-condition.gif"></p>
-
-<p>We can copy-paste our way from a simple loop-and-append <code>for</code> loop by:</p>
-
-<ol>
-<li>Copying the <span class="new-collection">variable assignment</span> for our <span class="collection-type">new empty list</span> (line 3)</li>
-<li>Copying <span class="item-mutation">the expression that we&rsquo;ve been <code>append</code>-ing</span> into this new list (line 5)</li>
-<li>Copying <span class="for-loop">the <code>for</code> loop line</span>, excluding the final <code>:</code> (line 4)</li>
-</ol>
-
-
-<h2>Nested Loops</h2>
-
-<p>What about list comprehensions with nested looping?&hellip; 😦</p>
-
-<p>Here&rsquo;s a <code>for</code> loop that flattens a matrix (a list of lists):</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span>:
-    <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span>:
-        <span class="new-collection">flattened</span>.append(<span class="item-mutation">n</span>)
-</pre>
-
-
-<p>Here&rsquo;s a list comprehension that does the same thing:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type"> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p>Nested loops in list comprehensions do not read like English prose.</p>
-
-<p><strong>Note:</strong> My brain wants to write this list comprehension as:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flattened</span> = <span class="collection-type">[</span><span class="item-mutation">n</span> <span class="nested-for-loop">for <span class="item">n</span> in <span class="old-collection">row</span></span><span class="collection-type"> <span class="for-loop">for <span class="item">row</span> in <span class="old-collection">matrix</span></span><span class="collection-type">]</span>
-</pre>
-
-
-<p><strong>But that&rsquo;s not right!</strong>  I&rsquo;ve mistakenly flipped the <code>for</code> loops here.  The correct version is the one above.</p>
-
-<p>When working with nested loops in list comprehensions remember that <strong>the <code>for</code> clauses remain in the same order</strong> as in our original <code>for</code> loops.</p>
-
-<h2>Other Comprehensions</h2>
-
-<p>This same principle applies to <a href="https://docs.python.org/3/tutorial/datastructures.html#sets">set comprehensions</a> and <a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary comprehensions</a>.</p>
-
-<p>Code that creates a set of all the first letters in a sequence of words:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">set()</span>
-<span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span>:
-    <span class="new-collection">first_letters</span>.add(<span class="item-mutation">w[0]</span>)
-</pre>
-
-
-<p>That same code written as a set comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">first_letters</span> = <span class="collection-type">{</span><span class="item-mutation">w[0]</span> <span class="for-loop">for <span class="item">w</span> in <span class="old-collection">words</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<p>Code that makes a new dictionary by swapping the keys and values of the original one:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{}</span>
-<span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span>:
-    <span class="new-collection">flipped</span>[<span class="item-mutation">value</span>] = <span class="item-mutation">key</span>
-</pre>
-
-
-<p>That same code written as a dictionary comprehension:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">flipped</span> = <span class="collection-type">{</span><span class="item-mutation">value</span>: <span class="item-mutation">key</span> <span class="for-loop">for <span class="item">key, value</span> in <span class="old-collection">original.items()</span></span><span class="collection-type">}</span>
-</pre>
-
-
-<h2>Readability Counts</h2>
-
-<p>Did you find the above list comprehensions hard to read?  I often find longer list comprehensions very difficult to read when they&rsquo;re written on one line.</p>
-
-<p>Remember that <a href="https://docs.python.org/3/reference/lexical_analysis.html#implicit-line-joining">Python allows line breaks</a> between brackets and braces.</p>
-
-<h3>List comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">doubled_odds</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Nested loops in list comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flattened</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">n</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">row</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Dictionary comprehension</h3>
-
-<p>Before</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span><span class="n">value</span><span class="p">:</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">flipped</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">value</span><span class="p">:</span> <span class="n">key</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">original</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that we are not adding line breaks arbitrarily: we&rsquo;re breaking between each of the lines of code we copy-pasted to make these comprehension.  Our line breaks occur where color changes occur in the colorized versions.</p>
-
-<h2>Copy-paste into comprehensions</h2>
-
-<p>When struggling to write a comprehension, don&rsquo;t panic.
-Start with a <code>for</code> loop first and copy-paste your way into a comprehension.</p>
-
-<p>Any <code>for</code> loop that looks like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[]</span>
-<span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span>:
-    <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>:
-        <span class="new-collection">new_things</span>.append(<span class="item-mutation">"something with " + ITEM</span>)
-</pre>
-
-
-<p>Can be rewritten into a list comprehension like this:</p>
-
-<pre class="colored-comprehension">
-<span class="new-collection">new_things</span> = <span class="collection-type">[</span><span class="item-mutation">"something with " + ITEM</span> <span class="for-loop">for <span class="item">ITEM</span> in <span class="old-collection">old_things</span></span><span class="collection-type"> <span class="conditional-clause">if <span class="condition">condition_based_on(ITEM)</span></span>]</span>
-</pre>
-
-
-<p>If you can nudge a <code>for</code> loop until it looks like the ones above, you can rewrite it as a list comprehension.</p>
-
-<h2>Make them readable and don&rsquo;t abuse them</h2>
-
-<p>I highly recommend writing your comprehensions over multiple lines.
-Comprehensions don&rsquo;t need to be one-liners to be useful.</p>
-
-<p>If you find that you&rsquo;re a fan of comprehensions, please <a href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/">try not to overuse list comprehensions</a>.
-It&rsquo;s easy to use list comprehensions for purposes they weren&rsquo;t meant for.</p>
-
-<p>If you&rsquo;d like to dive a bit deeper into this topic, you might want to watch my 30 minute <a href="https://youtu.be/5_cJIcgM7rw?t=52s">Comprehensible Comprehensions</a> talk for more.</p>
-
-<h2>Practice Python list comprehensions right now!</h2>
-
-<p><strong>The best way to learn</strong> is through <strong>regular practice</strong>.
-Every week I send out carefully crafted Python exercises through my Python skill-building service, <a href="https://www.pythonmorsels.com/">Python Morsels</a>.</p>
-
-<p>If you&rsquo;d like to practice comprehensions through one Python exercise right now, you can sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
-After you sign up, I&rsquo;ll immediately give you <strong>one exercise to practice your comprehension copy-pasting skills</strong>.</p>
+<p>I recommend allotting a total of 1-2 hours each week for Python practice via Python Morsels.</p>
 
 <p><form method="post" action="https://www.pythonmorsels.com/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="comprehension2">
   <input type="hidden" name="form_id" value="comprehensions in color">
-  <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
+  <button type="submit" class="subscribe-btn form-big bright">Practice Python every week</button>
 <br>
 <small>
 You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
 </small></p>
 
-<p></form></p>
+
+<h2>Popular Python Posts</h2>
+
+<ul>
+<li><a href="https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">How to loop with indexes in Python</a></li>
+<li><a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></li>
+<li><a href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/">Overusing list comprehensions and generator expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">Asterisks in Python: what they are and how to use them</a></li>
+<li><a href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">Multiple assignment and tuple unpacking improve Python code readability</a></li>
+<li><a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a></li>
+<li><a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">How to make an iterator in Python</a></li>
+<li><a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">Why you should be using pathlib</a></li>
+<li><a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/">Overusing lambda expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a></li>
+<li><a href="https://treyhunner.com/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a></li>
+<li><a href="https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a></li>
+<li><a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">Is it a class or a function? It&rsquo;s a callable!</a></li>
+<li><a href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/">The problem with inheriting from dict and list in Python</a></li>
+<li><a href="https://treyhunner.com/2015/11/counting-things-in-python/">Counting Things in Python: A History</a></li>
+</ul>
+
+
+
+<h2>Stay in touch</h2>
+
+<p>You can find my current contact information on the <a href="/about">about page</a>.</p>
+
+<p>The best way to stay in touch with me is to <strong>get on my Python newsletter</strong>.
+And the easiest way to join my newsletter is to <strong>sign up for Python Morsels</strong> using the form below.</p>
+
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big">Improve your Python skills</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+  
+    <footer>
+      
+      
+    </footer>
+  
+</article>
+
 </div>
-  
-  <footer>
-  
-  </footer>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/page29">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/page27">Newer &rarr;</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section class="abouttrey">
-  
-  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
-    <p>Hi!  My name is Trey Hunner.</p>
-    <p>I help Python teams <strong>write better Python code</strong> through <a href="http://truthful.technology/">Python team training</a>.</p>
-    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="http://pythonmorsels.com">weekly Python skill-building</a>.</p>
-
-    <a class="btn" href="http://truthful.technology/">Python Team Training</a>
-
-</section>
-
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
-    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <input type="hidden" name="form_id" value="sidebar">
-      <button type="submit" class="subscribe-btn">Sign up</button>
-    </form>
-    </p>
-    <p>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
-    </p>
-</section>
-<section>
-  <h1>Favorite Posts</h1>
-  <ul id="recent_posts">
-      <li class="post">
-        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
-      </li>
-      <li class="post">
-        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
-      </li>
-      <li class="post">
-        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
-      </li>
-      <li class="post">
-        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
-      </li>
-      <li class="post">
-        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
-      </li>
-      <li class="post">
-        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
-      </li>
-  </ul>
-</section>
-<section>
-
-    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-</section>
-
-  
-</aside>
 
     </div>
   </div>

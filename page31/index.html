@@ -9,7 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Want to serve up your Ember CLI application via Nginx/Apache or another web server software? Let&rsquo;s learn how! TLDR: I made an Ember-CLI-Deploy &hellip;">
+  <meta name="description" content="Hi! 😁 My name is Trey My name is Trey Hunner and I help Python developers level-up their skills through Python Morsels, my weekly Python exercise &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,12 +50,12 @@
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><img src="/images/logo.svg">
 <hgroup>
   <h1><a href="/">Trey Hunner</a></h1>
   
-    <h2>Python & Django on-site team training</h2>
+    <h2>I help developers level-up their Python skills</h2>
   
 </hgroup>
 <a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
@@ -84,277 +84,97 @@
   <div id="main">
     <div id="content">
       <div class="blog-index">
+<article role="article">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2015/03/deploying-an-ember-cli-application-via-ssh/">Deploying an Ember CLI application through SSH</a></h1>
-    
-    
-      <p class="meta">
-        
+  <img class="right" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=250">
+
+<h1>Hi! 😁 My name is Trey</h1>
+
+<p>My name is Trey Hunner and I help Python developers level-up their skills through <a href="https://www.pythonmorsels.com/">Python Morsels</a>, my weekly Python exercise service.</p>
+
+<p>I also hold Python trainings for teams through my one-person corporate training company, <a href="https://truthful.technology/">Truthful Technology LLC</a>.
+These trainings are always hands-on (like my <a href="/talks#tutorials">tutorials</a>, not my <a href="/talks#talks">talks</a>).</p>
+
+<p>You can scroll down to see a list of the some popular Python articles I&rsquo;ve written below, but please remember that watching talks and reading articles is <strong>not the most effective way to learn</strong>.
+Learning comes through practice.</p>
 
 
+<h2>Practice Python every week with Python Morsels</h2>
+
+<img class="right python-morsels-logo" src="/images/python-morsels-logo.svg" width="222">
+
+<p>We don&rsquo;t learn by putting information into our heads.
+We learn by trying to retrieve information from our heads.
+So practice is pretty much the only way to learn.</p>
+
+<p>I made Python Morsels to help working Python developers grow their skills every week through deliberate practice.</p>
+
+<p>As a Python Morsels subscriber, every Monday I&rsquo;ll send you a new exercise based on your skill level.
+These exercises are meant to push you slightly outside of your comfort zone, gradually expanding your abilities each week.</p>
+
+<p>I recommend allotting a total of 1-2 hours each week for Python practice via Python Morsels.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big bright">Practice Python every week</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
 
 
-<time class='entry-date' datetime='2015-03-10T12:30:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:30 pm</span></time>
-        
-           | <a href="/2015/03/deploying-an-ember-cli-application-via-ssh/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2015/03/deploying-an-ember-cli-application-via-ssh/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Want to serve up your <a href="http://ember-cli.com">Ember CLI</a> application via Nginx/Apache or another web server software?  Let&rsquo;s learn how!</p>
-
-<p><strong>TLDR:</strong> I made an Ember-CLI-Deploy adapter for deploying over SSH: <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a></p>
-
-<h2>Ember-CLI-Deploy</h2>
-
-<p><a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> is &ldquo;an Ember CLI addon for lightning fast deployments of Ember CLI apps&rdquo;.  Using Ember-CLI-Deploy is preferable using to another static asset deployment solution because <em>it caters to the needs of an Ember CLI app</em>.</p>
-
-<p>Last week at EmberConf 2015, Luke Melia <a href="https://www.youtube.com/watch?v=4EDetv_Rw5U">announced during his talk</a> that the three big competing Ember-CLI deployment solutions (Ember-Deploy, Front-End-Builds, and Ember-CLI-Deploy) will be merging into a single Ember-CLI-Deploy package based largely on Ember-Deploy.  Luke&rsquo;s talk inspired me to finally look into using <a href="https://github.com/ember-cli/ember-cli-deploy">Ember-CLI-Deploy</a> for deployment.</p>
-
-<p>Note that whenever you see &ldquo;Ember-Deploy&rdquo; post you can now treat this as synonymous with &ldquo;Ember-CLI-Deploy&rdquo;.</p>
-
-<h2>Why SSH instead of S3?</h2>
-
-<p>You can host your entire front-end website on Amazon S3 with <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a>.  If you use Ember CLI&rsquo;s default location behavior, your routes will use non-hash URLs on modern browsers (e.g. <a href="https://freemusic.ninja/resources">/resources</a> instead of <a href="https://freemusic.ninja/#/resources">/#/resources</a>).  This means that you need S3 to properly serve up all of your routes (not just the <code>/</code> path).</p>
-
-<p>As an AWS beginner, the easiest solution I found for using S3 for hosting an Ember app with non-hash URLs is to set the 404 page to <code>index.html</code>.  This serves up the correct pages but returns a 404 status code for all routes besides the base <code>/</code> URL, which is obviously not ideal.</p>
-
-<p>After failing to find a simple and elegant solution using an S3 bucket for my Ember CLI app&rsquo;s <code>index.html</code> file, I decided to move it onto my server and serve it through Nginx.</p>
-
-<p><strong>UPDATE:</strong> You <em>can</em> use non-hash URLs with S3 without returning 404 status codes.  Michael Klein opened <a href="https://github.com/Kerry350/ember-deploy-s3-index/pull/12/files">a pull request</a> for ember-deploy-s3-index noting how</p>
-
-<h2>Ember-Deploy-SSH-Index</h2>
-
-<p>I went looking for an Ember-CLI-Deploy adapter that would allow my to upload my files to a directory on my web server, but I didn&rsquo;t find any such adapters.</p>
-
-<p>Inspired by Kerry Gallagher&rsquo;s blog posts about <a href="http://kerrygallagher.co.uk/the-making-of-ember-deploy-s3-index/">the making of ember-deploy-s3-index</a> and <a href="http://kerrygallagher.co.uk/making-ember-deploy-adapters/">making Ember-Deploy adapters</a>, I decided to try making my own adapter.  My adapter, called <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>, allows deploying your Ember CLI index page to a web server via SSH.</p>
-
-<p>After looking for Node.js-based SSH/SCP/Rsync libraries, I decided to use the <a href="https://github.com/mscdex/ssh2">ssh2</a> library (a pure JS SSH implementation) to manage the SSH connections.  I looked at the in-progress Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#index-adapters">documentation</a>, and the <a href="https://github.com/Kerry350/ember-deploy-s3-index">ember-deploy-s3-index</a> code to determine how my adapter should work.</p>
-
-<p>Following the Ember-CLI-Deploy API, my library includes:</p>
+<h2>Popular Python Posts</h2>
 
 <ul>
-<li>an <code>upload</code> function that uploads the current index page to a file named based on the Ember-CLI-Deploy <a href="https://github.com/ember-cli/ember-cli-deploy#tagging-adapters">tag</a> (the git hash)</li>
-<li>a <code>list</code> function that lists the files in the remote directory on the server</li>
-<li>an <code>activate</code> function that links the <code>index.html</code> file to a given revision file</li>
+<li><a href="https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">How to loop with indexes in Python</a></li>
+<li><a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></li>
+<li><a href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/">Overusing list comprehensions and generator expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">Asterisks in Python: what they are and how to use them</a></li>
+<li><a href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">Multiple assignment and tuple unpacking improve Python code readability</a></li>
+<li><a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a></li>
+<li><a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">How to make an iterator in Python</a></li>
+<li><a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">Why you should be using pathlib</a></li>
+<li><a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/">Overusing lambda expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a></li>
+<li><a href="https://treyhunner.com/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a></li>
+<li><a href="https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a></li>
+<li><a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">Is it a class or a function? It&rsquo;s a callable!</a></li>
+<li><a href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/">The problem with inheriting from dict and list in Python</a></li>
+<li><a href="https://treyhunner.com/2015/11/counting-things-in-python/">Counting Things in Python: A History</a></li>
 </ul>
 
 
-<h2>Usage</h2>
 
-<p>You can use <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> and <a href="https://github.com/LevelbossMike/ember-deploy-s3">ember-deploy-s3</a> to host your static assets on S3 and your index page through your own web server.</p>
+<h2>Stay in touch</h2>
 
-<p>First, install Ember-CLI-Deploy and the adapters into your Ember CLI app:</p>
+<p>You can find my current contact information on the <a href="/about">about page</a>.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>npm install --save-dev ember-cli-deploy ember-deploy-ssh-index ember-deploy-s3
-</span></code></pre></td></tr></table></div></figure>
+<p>The best way to stay in touch with me is to <strong>get on my Python newsletter</strong>.
+And the easiest way to join my newsletter is to <strong>sign up for Python Morsels</strong> using the form below.</p>
 
 
-<p>Now make a <code>config/deploy.js</code> file with your SSH and S3 configuration.  I prefer to store my AWS credentials and SSH private key filename in environment variables, but a gitignore&rsquo;d configuration file or Node.js module would work as well.</p>
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big">Improve your Python skills</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/* jshint node: true */</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">production</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">store</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;ssh&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">remoteDir</span><span class="o">:</span> <span class="s1">&#39;/var/www/&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;example.com&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;root&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">privateKeyFile</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SSH_KEY_FILE</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="nx">assets</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;s3&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">accessKeyId</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_KEY</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">secretAccessKey</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">AWS_SECRET</span><span class="p">,</span>
-</span><span class='line'>      <span class="nx">bucket</span><span class="o">:</span> <span class="s1">&#39;assets.example.com&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="nx">development</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// Add a development configuration here, similar to the production one above</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
+  
+    <footer>
+      
+      
+    </footer>
+  
+</article>
 
-
-<p>Because we&rsquo;re storing our static assets at a different base URL from our index page, we&rsquo;ll need to prepend a base URL to our asset paths.  Let&rsquo;s update our <code>EmberApp</code> definition in our <code>Brocfile.js</code> to reflect that change:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EmberApp</span><span class="p">({</span>
-</span><span class='line'>  <span class="nx">fingerprint</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">prepend</span><span class="o">:</span> <span class="s1">&#39;https://s3.amazonaws.com/assets.example.com/&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we should be able to upload our application:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ember deploy -e production
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And activate our current revision (change <code>example</code> to your app name):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">export </span><span class="nv">tag</span><span class="o">=</span><span class="s2">&quot;example:$(git rev-parse --short HEAD)&quot;</span>
-</span><span class='line'><span class="nv">$ </span>ember deploy:activate --revision <span class="nv">$tag</span> --environment production
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Take a look at the <a href="https://github.com/treyhunner/ember-deploy-ssh-index#readme">README file</a> for more documentation on the usage of <a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a>.</p>
-
-<h2>Next Steps</h2>
-
-<p><a href="https://github.com/treyhunner/ember-deploy-ssh-index">ember-deploy-ssh-index</a> is the first <a href="http://ember-cli.com">Ember CLI</a>-related NPM module I have made.  I have only used it to deploy a single website, <a href="https://freemusic.ninja/">Free Music Ninja</a> (<a href="https://github.com/FreeMusicNinja/freemusic.ninja">code here</a>).  I have also not yet written any tests for this adapter so it&rsquo;s probably buggy.</p>
-
-<p>My future plans include:</p>
-
-<ol>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/3">Write tests.</a>  <q>Code without tests is broken by design</q> - <cite>Jacob Kaplan Moss</cite></li>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/10">Possibly rename app</a>: <code>ember-deploy-ssh-index</code> to <code>ember-cli-deploy-ssh-index</code></li>
-<li><a href="https://github.com/treyhunner/ember-deploy-ssh-index/issues/7">Support SSH config file</a> (<code>~/.ssh/config</code>)</li>
-</ol>
-
-
-<p>At this point I am the only person who has worked with this adapter and I would love some feedback!  Have an opinion or want to help improve this adapter?  <strong>Please open an issue, comment below, tweet me, or email me.</strong></p>
 </div>
-  
-  <footer>
-  
-  </footer>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/page32">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/page30">Newer &rarr;</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section class="abouttrey">
-  
-  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
-    <p>Hi!  My name is Trey Hunner.</p>
-    <p>I help Python teams <strong>write better Python code</strong> through <a href="http://truthful.technology/">Python team training</a>.</p>
-    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="http://pythonmorsels.com">weekly Python skill-building</a>.</p>
-
-    <a class="btn" href="http://truthful.technology/">Python Team Training</a>
-
-</section>
-
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
-    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <input type="hidden" name="form_id" value="sidebar">
-      <button type="submit" class="subscribe-btn">Sign up</button>
-    </form>
-    </p>
-    <p>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
-    </p>
-</section>
-<section>
-  <h1>Favorite Posts</h1>
-  <ul id="recent_posts">
-      <li class="post">
-        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
-      </li>
-      <li class="post">
-        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
-      </li>
-      <li class="post">
-        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
-      </li>
-      <li class="post">
-        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
-      </li>
-      <li class="post">
-        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
-      </li>
-      <li class="post">
-        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
-      </li>
-  </ul>
-</section>
-<section>
-
-    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-</section>
-
-  
-</aside>
 
     </div>
   </div>

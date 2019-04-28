@@ -9,8 +9,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I recently acquired an appreciation for audiobooks. I listen to multiple
-audiobooks every month and I prefer DRM-free audiobooks so that I can listen &hellip;">
+  <meta name="description" content="Hi! 😁 My name is Trey My name is Trey Hunner and I help Python developers level-up their skills through Python Morsels, my weekly Python exercise &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,12 +50,12 @@ audiobooks every month and I prefer DRM-free audiobooks so that I can listen &he
 
 </head>
 
-<body   >
+<body   class="no-sidebar"  >
   <header role="banner"><img src="/images/logo.svg">
 <hgroup>
   <h1><a href="/">Trey Hunner</a></h1>
   
-    <h2>Python & Django on-site team training</h2>
+    <h2>I help developers level-up their Python skills</h2>
   
 </hgroup>
 <a class="headerbtn" href="http://truthful.technology/">Hire Me For Training</a>
@@ -85,265 +84,97 @@ audiobooks every month and I prefer DRM-free audiobooks so that I can listen &he
   <div id="main">
     <div id="content">
       <div class="blog-index">
+<article role="article">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/05/cli-for-finding-drm-free-audiobooks/">CLI for finding DRM-free Audiobooks</a></h1>
-    
-    
-      <p class="meta">
-        
+  <img class="right" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=250">
+
+<h1>Hi! 😁 My name is Trey</h1>
+
+<p>My name is Trey Hunner and I help Python developers level-up their skills through <a href="https://www.pythonmorsels.com/">Python Morsels</a>, my weekly Python exercise service.</p>
+
+<p>I also hold Python trainings for teams through my one-person corporate training company, <a href="https://truthful.technology/">Truthful Technology LLC</a>.
+These trainings are always hands-on (like my <a href="/talks#tutorials">tutorials</a>, not my <a href="/talks#talks">talks</a>).</p>
+
+<p>You can scroll down to see a list of the some popular Python articles I&rsquo;ve written below, but please remember that watching talks and reading articles is <strong>not the most effective way to learn</strong>.
+Learning comes through practice.</p>
 
 
+<h2>Practice Python every week with Python Morsels</h2>
+
+<img class="right python-morsels-logo" src="/images/python-morsels-logo.svg" width="222">
+
+<p>We don&rsquo;t learn by putting information into our heads.
+We learn by trying to retrieve information from our heads.
+So practice is pretty much the only way to learn.</p>
+
+<p>I made Python Morsels to help working Python developers grow their skills every week through deliberate practice.</p>
+
+<p>As a Python Morsels subscriber, every Monday I&rsquo;ll send you a new exercise based on your skill level.
+These exercises are meant to push you slightly outside of your comfort zone, gradually expanding your abilities each week.</p>
+
+<p>I recommend allotting a total of 1-2 hours each week for Python practice via Python Morsels.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big bright">Practice Python every week</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
 
 
-<time class='entry-date' datetime='2014-05-14T12:31:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:31 pm</span></time>
-        
-           | <a href="/2014/05/cli-for-finding-drm-free-audiobooks/#disqus_thread"
-             data-disqus-identifier="http://treyhunner.com/2014/05/cli-for-finding-drm-free-audiobooks/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I recently acquired an appreciation for audiobooks.  I listen to multiple
-audiobooks every month and I prefer DRM-free audiobooks so that I can listen
-through my favorite audiobook reader on each of my devices.</p>
-
-<p><a href="http://www.downpour.com/">Downpour</a> and <a href="http://www.emusic.com/">eMusic</a> are the only services I know that provide a large
-selection of DRM-free audiobooks.  Unfortunately not all audiobooks are
-available on either of these sites, so I often end up searching both sites for
-each book to discover what versions (if any) are available from each.  I got
-sick of searching both websites all the time, so I just created a Python script
-to do that work for me.</p>
-
-<div><script src='https://gist.github.com/21f307b975027be5162d.js'></script>
-<noscript><pre><code>#!/usr/bin/env python
-&quot;&quot;&quot;
-Search downpour.com and emusic.com for DRM-free audiobooks
-
-Usage::
-
-    ./find_audiobooks.py &lt;title&gt;...
-
-File released to the public domain under CC0 license:
-http://creativecommons.org/publicdomain/zero/1.0/deed
-
-Requires purl and beautifulsoup4::
-
-    $ pip install purl beautifulsoup4
-
-&quot;&quot;&quot;
-from __future__ import unicode_literals
-import sys
-from itertools import chain, izip_longest
-import urllib2
-
-from bs4 import BeautifulSoup
-from purl import URL
-
-
-def unescape(text):
-    &quot;&quot;&quot;Return string without smart apostrophes&quot;&quot;&quot;
-    return text.replace(&#39;\u2019&#39;, &quot;&#39;&quot;)
-
-
-def get_downpour_url(book_name):
-    &quot;&quot;&quot;Return search URL for downpour.com&quot;&quot;&quot;
-    base = URL(&quot;http://www.downpour.com/catalogsearch/result/&quot;)
-    return base.query_param(&#39;q&#39;, book_name).as_string()
-
-
-def get_emusic_url(book_name):
-    &quot;&quot;&quot;Return search URL for emusic.com&quot;&quot;&quot;
-    base_url = URL(&quot;http://www.emusic.com/search/book/&quot;)
-    return base_url.query_param(&#39;s&#39;, book_name).as_string()
-
-
-def search_downpour(book_name):
-    &quot;&quot;&quot;Search Downpour and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_downpour_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;item&quot;})
-    results = []
-    for book in books:
-        header = book.find(attrs={&#39;class&#39;: &quot;product-name&quot;})
-        link_tag = header.find(&#39;a&#39;)
-        title = &#39; &#39;.join(unescape(x)
-                         for x in link_tag.stripped_strings)
-        link = link_tag[&#39;href&#39;]
-        for node in book.find_all(attrs={&#39;class&#39;: &#39;author&#39;}):
-            author_text = node.text
-            if author_text.startswith(&#39;By&#39;):
-                author = author_text[2:].strip()
-        results.append({
-            &#39;title&#39;: title,
-            &#39;link&#39;: link,
-            &#39;author&#39;: author,
-        })
-    return results
-
-
-def search_emusic(book_name):
-    &quot;&quot;&quot;Search eMusic and return list of parsed results&quot;&quot;&quot;
-    response = urllib2.urlopen(get_emusic_url(book_name))
-    page = BeautifulSoup(response)
-    books = page.find_all(&#39;li&#39;, attrs={&#39;class&#39;: &quot;bundle&quot;})
-    results = []
-    for book in books:
-        link_tag = book.find(&#39;h4&#39;).find(&#39;a&#39;)
-        author_tag = book.find(&#39;h5&#39;)
-        results.append({
-            &#39;title&#39;: link_tag.text,
-            &#39;link&#39;: link_tag[&#39;href&#39;],
-            &#39;author&#39;: author_tag.text,
-        })
-    return results
-
-
-def print_result(result):
-    &quot;&quot;&quot;Print title, author, and link for audiobook result&quot;&quot;&quot;
-    print &quot;Title: {}&quot;.format(result[&#39;title&#39;])
-    print &quot;Author: {}&quot;.format(result[&#39;author&#39;])
-    print &quot;Link: {}&quot;.format(result[&#39;link&#39;])
-    print
-
-
-def merge_lists(*lists):
-    &quot;&quot;&quot;Return merge of lists by alternating elements of each&quot;&quot;&quot;
-    combined_lists = chain.from_iterable(izip_longest(*lists))
-    return list(filter(bool, combined_lists))
-
-
-def main(*args):
-    &quot;&quot;&quot;Search audiobook sites and return search results&quot;&quot;&quot;
-    for book_name in args:
-        results1 = search_downpour(book_name)
-        results2 = search_emusic(book_name)
-        results = merge_lists(results1[:3], results2[:3])
-        for result in results:
-            print_result(result)
-
-
-if __name__ == &quot;__main__&quot;:
-    main(*sys.argv[1:])
-</code></pre></noscript></div>
-
-
-<h3>Future Improvements</h3>
-
-<p>Some ideas for future improvements:</p>
+<h2>Popular Python Posts</h2>
 
 <ul>
-<li>Add <a href="http://www.audible.com/">Audible</a> results when the book cannot be found in a DRM-free format</li>
-<li>Rewrite the script in JavaScript and create a Chrome extension out of it</li>
-<li>Use <a href="https://github.com/kennethreitz/clint">clint</a> to colorize the command-line output</li>
+<li><a href="https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">How to loop with indexes in Python</a></li>
+<li><a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions: Explained Visually</a></li>
+<li><a href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/">Overusing list comprehensions and generator expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">Asterisks in Python: what they are and how to use them</a></li>
+<li><a href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">Multiple assignment and tuple unpacking improve Python code readability</a></li>
+<li><a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a></li>
+<li><a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">How to make an iterator in Python</a></li>
+<li><a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">Why you should be using pathlib</a></li>
+<li><a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/">Overusing lambda expressions in Python</a></li>
+<li><a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a></li>
+<li><a href="https://treyhunner.com/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a></li>
+<li><a href="https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a></li>
+<li><a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">Is it a class or a function? It&rsquo;s a callable!</a></li>
+<li><a href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/">The problem with inheriting from dict and list in Python</a></li>
+<li><a href="https://treyhunner.com/2015/11/counting-things-in-python/">Counting Things in Python: A History</a></li>
 </ul>
 
+
+
+<h2>Stay in touch</h2>
+
+<p>You can find my current contact information on the <a href="/about">about page</a>.</p>
+
+<p>The best way to stay in touch with me is to <strong>get on my Python newsletter</strong>.
+And the easiest way to join my newsletter is to <strong>sign up for Python Morsels</strong> using the form below.</p>
+
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="comprehension2">
+  <input type="hidden" name="form_id" value="comprehensions in color">
+  <button type="submit" class="subscribe-btn form-big">Improve your Python skills</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+  
+    <footer>
+      
+      
+    </footer>
+  
+</article>
+
 </div>
-  
-  <footer>
-  
-  </footer>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/page38">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/page36">Newer &rarr;</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section class="abouttrey">
-  
-  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=300">
-    <p>Hi!  My name is Trey Hunner.</p>
-    <p>I help Python teams <strong>write better Python code</strong> through <a href="http://truthful.technology/">Python team training</a>.</p>
-    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="http://pythonmorsels.com">weekly Python skill-building</a>.</p>
-
-    <a class="btn" href="http://truthful.technology/">Python Team Training</a>
-
-</section>
-
-<!-- Python Morsels Signup Form -->
-<section class="morsels-sidebar">
-    <h1>Write Pythonic code</h1>
-    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
-    <p>
-    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
-    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
-    </p>
-    <p>
-    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
-    The first 4 exercises are free.
-    </p>
-    <p>
-    Sign up below for <strong>four free exercises</strong>!
-    <form method="post" action="https://www.pythonmorsels.com/signup/">
-      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
-      <input type="hidden" name="form_id" value="sidebar">
-      <button type="submit" class="subscribe-btn">Sign up</button>
-    </form>
-    </p>
-    <p>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
-    </p>
-</section>
-<section>
-  <h1>Favorite Posts</h1>
-  <ul id="recent_posts">
-      <li class="post">
-        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
-      </li>
-      <li class="post">
-        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
-      </li>
-      <li class="post">
-        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
-      </li>
-      <li class="post">
-        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
-      </li>
-      <li class="post">
-        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
-      </li>
-      <li class="post">
-        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
-      </li>
-      <li class="post">
-        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
-      </li>
-  </ul>
-</section>
-<section>
-
-    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-</section>
-
-  
-</aside>
 
     </div>
   </div>
