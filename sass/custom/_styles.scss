@@ -189,4 +189,19 @@ body>footer {
     ul li {
         margin-bottom: 0.5em;
     }
+    .avatar, .logo {
+        float: right;
+        margin-left: 1em;
+        margin-bottom: 1em;
+    }
+    @media only screen and (max-width: 550px) {
+        .avatar, .logo { width: 150px; }
+    }
+    @media only screen and (max-width: 380px) {
+        .avatar, .logo {
+            float: none;
+            margin-left: 0;
+            width: 100px;
+        }
+    }
 }
