@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-04-29T12:59:00-07:00</updated>
+  <updated>2019-04-29T13:34:41-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -6890,6 +6890,24 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
 <p>So when you&rsquo;re thinking &ldquo;it sure would be nice to implement an iterable that lazily computes things as it&rsquo;s looped over,&rdquo; think of iterators.</p>
 
 <p>And when you&rsquo;re considering <strong>how to create your own iterator</strong>, think of <strong>generator functions</strong> and <strong>generator expressions</strong>.</p>
+
+<h2>Practice making an iterator right now</h2>
+
+<p>You won&rsquo;t learn new Python skills by reading, you&rsquo;ll learn them by writing code.</p>
+
+<p>If you&rsquo;d like to practice making an iterator right now, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below and I&rsquo;ll immediately give you an exercise to practice making an iterator.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="iterators">
+  <input type="hidden" name="form_id" value="make an iterator">
+  <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
@@ -8485,10 +8503,24 @@ It&rsquo;s also common to overlook the fact that multiple assignment works <em>d
 <p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
 Please feel free to use this article as your personal reference guide to multiple assignment.</p>
 
-<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.
-To get practice writing some readable code using tuple unpacking, <a href="https://www.pythonmorsels.com/">sign up for Python Morsels</a>.
-The first exercise I&rsquo;ll send you next Monday will benefit from using tuple unpacking.
-Sign up now to <a href="https://www.pythonmorsels.com/">level up your Python skills each week</a>.</p>
+<h2>Get practice with multiple assignment</h2>
+
+<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.</p>
+
+<p>To get practice writing some readable code using tuple unpacking, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
+If you sign up to Python Morsels using this form, I&rsquo;ll immediately send you an exercise that involves tuple unpacking.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="beginner">
+  <input type="hidden" name="form_id" value="tuple unpacking">
+  <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   

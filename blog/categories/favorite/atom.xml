@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-04-29T12:59:00-07:00</updated>
+  <updated>2019-04-29T13:34:41-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1227,6 +1227,24 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
 <p>So when you&rsquo;re thinking &ldquo;it sure would be nice to implement an iterable that lazily computes things as it&rsquo;s looped over,&rdquo; think of iterators.</p>
 
 <p>And when you&rsquo;re considering <strong>how to create your own iterator</strong>, think of <strong>generator functions</strong> and <strong>generator expressions</strong>.</p>
+
+<h2>Practice making an iterator right now</h2>
+
+<p>You won&rsquo;t learn new Python skills by reading, you&rsquo;ll learn them by writing code.</p>
+
+<p>If you&rsquo;d like to practice making an iterator right now, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below and I&rsquo;ll immediately give you an exercise to practice making an iterator.</p>
+
+<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="iterators">
+  <input type="hidden" name="form_id" value="make an iterator">
+  <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
