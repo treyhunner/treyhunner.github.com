@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: python | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2019-04-29T12:56:24-07:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2019-04-29T12:59:00-07:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
-    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
     <updated>2019-04-16T10:20:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
     <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
 Those terms are all technically misnomers.</p>
 
@@ -461,9 +461,9 @@ I send one exercise every week and the first 5 are free.</p>
   
   <entry>
     <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
-    <link href="http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
+    <link href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
     <updated>2019-04-09T07:00:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
+    <id>https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of [Python Morsels][] since I started it last year.
 At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
 
@@ -1006,9 +1006,9 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
   
   <entry>
     <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
+    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
     <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
+    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
     <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
 One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
 
@@ -1370,9 +1370,9 @@ Thanks also to the many folks who sent me ideas and shared their perspective and
   
   <entry>
     <title type="html"><![CDATA[Overusing list comprehensions and generator expressions in Python]]></title>
-    <link href="http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
+    <link href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
     <updated>2019-03-26T13:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
+    <id>https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
     <content type="html"><![CDATA[<p>List comprehensions are one of my favorite features in Python.
 I love list comprehensions so much that I&rsquo;ve written an <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">article</a> about them, done <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">a talk</a> about them, and held a <a href="https://youtu.be/_6U1XoxyyBY" title="Using List Comprehensions and Generator Expressions For Data Processing">3 hour comprehensions tutorial</a> at PyCon 2018.</p>
 
@@ -1824,9 +1824,9 @@ You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy
   
   <entry>
     <title type="html"><![CDATA[Unique sentinel values, identity checks, and when to use object() instead of None]]></title>
-    <link href="http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
+    <link href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
     <updated>2019-03-20T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
+    <id>https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
     <content type="html"><![CDATA[<p>Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
 Sometimes this unique object represents a <strong>stop value</strong> or a <strong>skip value</strong> and sometimes it&rsquo;s an <strong>initial value</strong>.
 But in each of these cases you want your object to stand out from the other objects you&rsquo;re working with.</p>

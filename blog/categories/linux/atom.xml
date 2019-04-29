@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linux | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2019-04-29T12:56:24-07:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2019-04-29T12:59:00-07:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[tmuxstart]]></title>
-    <link href="http://treyhunner.com/2012/12/tmuxstart/"/>
+    <link href="https://treyhunner.com/2012/12/tmuxstart/"/>
     <updated>2012-12-15T00:00:00-08:00</updated>
-    <id>http://treyhunner.com/2012/12/tmuxstart</id>
+    <id>https://treyhunner.com/2012/12/tmuxstart</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve been using a helper script to manage all of my tmux sessions for the last
 few months (nearly since the time I switched from screen to tmux).</p>
 
@@ -84,9 +84,9 @@ the one above and I have Gnome Terminal set to start with the custom command
   
   <entry>
     <title type="html"><![CDATA[Sharing Screenshots in Linux]]></title>
-    <link href="http://treyhunner.com/2011/04/sharing-screenshots-in-linux/"/>
+    <link href="https://treyhunner.com/2011/04/sharing-screenshots-in-linux/"/>
     <updated>2011-04-03T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2011/04/sharing-screenshots-in-linux</id>
+    <id>https://treyhunner.com/2011/04/sharing-screenshots-in-linux</id>
     <content type="html"><![CDATA[<p>I have been using Github Issues recently and loving its simplicity.  Unfortunately, I&rsquo;ve found that I often need to upload screenshots to demonstrate bugs and Issues does not support file uploads.  There are <a href="http://wiki.dropbox.com/DropboxAddons/DropboxScreenGrabber">Windows</a> and <a href="http://www.getcloudapp.com/">Mac</a> applications that solve this problem by capturing a screenshot, uploading it, and copying a URL to access the screenshot to the clipboard.</p>
 
 <p>I did not find any Linux applications that will capture/upload a screenshot and copy the URL but I discovered <a href="http://forums.dropbox.com/topic.php?id=21735">a thread in the Dropbox forums</a> with a script that does just that.  I added comments to the script, changed the variable names, removed the need for a temporary file, and added a <code>notify-send</code> call as a visual cue (should work on Ubuntu).  I have the script mapped to <kbd>Ctrl-PrtScrn</kbd> in Ubuntu.</p>
@@ -135,9 +135,9 @@ notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboa
   
   <entry>
     <title type="html"><![CDATA[Multiple Monitors with Multiple Workspaces]]></title>
-    <link href="http://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces/"/>
+    <link href="https://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces/"/>
     <updated>2009-06-15T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces</id>
+    <id>https://treyhunner.com/2009/06/multiple-monitors-with-multiple-workspaces</id>
     <content type="html"><![CDATA[<p>In most window managers (WMs) that allow for multiple workspaces, additional monitors simply increase the size of each workspace. Since January I have been using a window manager that handles multiple monitors very differently, <a href="http://www.xmonad.org/">xmonad</a>.  Instead of increasing the workspace size to fit onto two monitors, each monitor displays a separate workspace, so the number of visible workspaces is increased.</p>
 
 <p><em>Paradigm difference between these two WM styles:</em></p>
@@ -172,9 +172,9 @@ notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboa
   
   <entry>
     <title type="html"><![CDATA[Ubuntu Now Boots in 10 Seconds]]></title>
-    <link href="http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/"/>
+    <link href="https://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds/"/>
     <updated>2009-05-01T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds</id>
+    <id>https://treyhunner.com/2009/05/ubuntu-now-boots-in-10-seconds</id>
     <content type="html"><![CDATA[<p>I upgraded my Thinkpad to Ubuntu 9.04 (Jaunty Jackalope) recently.  My laptop has a solid-state drive and I had tweaked the boot process previously so it was down to 15 seconds.  I had heard that Jaunty had drastically decrease the boot time, but I figured my computer could not boot much faster than it already had since I had modified the boot process drastically.</p>
 
 <p>I was wrong.  The first time I rebooted I was amazed at the speed of the boot.  My boot logger recorded the boot as taking 8 seconds.  I have rebooted once more since I installed Jaunty and that boot only took 7 seconds.</p>
