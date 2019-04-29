@@ -461,8 +461,28 @@ So when you're thinking "it sure would be nice to implement an iterable that laz
 And when you're considering **how to create your own iterator**, think of **generator functions** and **generator expressions**.
 
 
+## Practice making an iterator right now
+
+You won't learn new Python skills by reading, you'll learn them by writing code.
+
+If you'd like to practice making an iterator right now, sign up for [Python Morsels][] using the form below and I'll immediately give you an exercise to practice making an iterator.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="iterators">
+  <input type="hidden" name="form_id" value="make an iterator">
+  <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
+
+
 [for loops]: http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/
 [loop better talk]: https://www.youtube.com/watch?v=V2PkkMS2Ack
 [loop better article]: https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python
 [list comprehensions in Python]: http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
 [generator comprehensions]: https://nedbatchelder.com/blog/201605/generator_comprehensions.html
+[python morsels]: https://www.pythonmorsels.com/

@@ -525,10 +525,25 @@ It's also common to overlook the fact that multiple assignment works *deeply* an
 It's tricky to recognize and remember all the cases that multiple assignment can come in handy.
 Please feel free to use this article as your personal reference guide to multiple assignment.
 
+
+## Get practice with multiple assignment
+
 You don't learn by reading articles like this one, **you learn by writing code**.
-To get practice writing some readable code using tuple unpacking, [sign up for Python Morsels][python morsels].
-The first exercise I'll send you next Monday will benefit from using tuple unpacking.
-Sign up now to [level up your Python skills each week][python morsels].
+
+To get practice writing some readable code using tuple unpacking, sign up for [Python Morsels][] using the form below.
+If you sign up to Python Morsels using this form, I'll immediately send you an exercise that involves tuple unpacking.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="beginner">
+  <input type="hidden" name="form_id" value="tuple unpacking">
+  <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
 
 
 [f-strings]: https://cito.github.io/blog/f-strings/

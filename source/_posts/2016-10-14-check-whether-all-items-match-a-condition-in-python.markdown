@@ -320,9 +320,22 @@ As you discover new Python idioms and new language features are invented, your c
 
 I hope I've inspired you to embrace the use of `any`/`all` with generator expressions for improved readability and code clarity.
 
-If you'd like to get practice with Python-specific features like `any` and `all`, I highly recommend you **[give Python Morsels a try][python morsels]**.
-I made Python Morsels to **help experienced programmers level up their Python skills**.
-Sign up for [Python Morsels][] to **grow your skills every week**!
+If you'd like to **get practice with the `any` and `all` functions right now**, sign up for Python Morsels using the form below to get an exercise that benefits from using one of these two functions.
+
+<form method="post" action="https://www.pythonmorsels.com/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="any/all">
+  <input type="hidden" name="form_id" value="any/all post">
+  <button type="submit" class="subscribe-btn form-big">Get my Python exercise</button>
+<br>
+<small>
+You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+</small>
+
+</form>
+
+I made Python Morsels to **help experienced programmers level up their Python skills every week**.
+For more details on it, [see the Python Morsels][python morsels] website.
 
 
 [square root check]: http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176
