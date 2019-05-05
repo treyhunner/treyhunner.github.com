@@ -14,7 +14,7 @@ It's usually along the lines of either:
 2. What's the best way to know about 'enumerate` and `range` and other functions day-to-day?
 3. How do you know about all the ways to solve problems in Python?  Do you memorize them?
 
-There are dozens of built-in functions and classes, hundreds more tools bundled in Python's [standard library][], and thousands of third-party librarys on PyPI that can make your life easier as well.
+There are dozens of built-in functions and classes, hundreds of more tools bundled in Python's [standard library][], and thousands of third-party libraries on PyPI that can make your life easier as well.
 There's no way anyone could ever memorize all of these things.
 
 I recommend triaging your knowledge:
@@ -32,7 +32,7 @@ I'd like to demonstrate this approach with the Python documentation's [Built-in 
 
 I estimate there are about 30 built-ins that most Python developers will ever use, but which 30 depends on what you're actually doing with Python.
 
-We're going to take a look at all of the 69 Python built-in functions, in a birds eye view sort of way.
+We're going to take a look at all of the 69 Python built-in functions, in a bird's eye view sort of way.
 
 I'll attempt to categorize these built-ins into five categories:
 
@@ -315,7 +315,7 @@ There's no way to make an empty set with the `{}` set literal syntax (plain `{}`
 set()
 ```
 
-Actually that's a lie because we have this:
+Actually, that's a lie because we have this:
 
 ```python
 >>> {*()}  # This makes an empty set
@@ -363,9 +363,9 @@ Python 3's `range` works like Python 2's `xrange` (though they're [a bit differe
 
 ## Built-ins overlooked by new Pythonistas
 
-If you've been programming Python for a bit or if you just taken an introduction to Python class, you probably already knew about most of the built-in functions above.
+If you've been programming Python for a bit or if you are just taken an introduction to Python class, you probably already knew about most of the built-in functions above.
 
-I'd now like to show off 15 built-in functions that are very handy to know about, but are more frequently overlooked by new Pythonistas.
+I'd now like to show off 15 built-in functions that are very handy to know about but are more frequently overlooked by new Pythonistas.
 
 The first 10 of these functions you'll find floating around in Python code, but the last 5 you'll most often use while debugging.
 
@@ -501,7 +501,7 @@ The `reversed` function, like `enumerate` and `zip` returns an iterator.
 <list_reverseiterator object at 0x7f3d4452f8d0>
 ```
 
-The only thing we can do with this iterator is loop over it (but only once):
+The only thing we can do with this iterator is a loop over it (but only once):
 
 ```python
 >>> list(reversed_numbers)
@@ -524,7 +524,7 @@ You pretty see `reversed` used exclusively in the `for` part of a `for` loop:
 2
 ```
 
-There are other some ways to accomplish the same thing (with lists that is):
+There are other some ways to accomplish the same thing (with lists that are):
 
 ```python
 # Slicing syntax
@@ -597,7 +597,7 @@ The `min` and `max` functions also accept [a `key` function][key function] to al
 
 ### sorted
 
-The `sorted` function accepts any iterable and returns a new lit of all the values in that iterable in sorted order.
+The `sorted` function accepts any iterable and returns a new list of all the values in that iterable in sorted order.
 
 ```python
 >>> numbers = [1, 8, 2, 13, 5, 3, 1]
@@ -658,7 +658,7 @@ You need `breakpoint`!
 The `breakpoint` function will drop you into [pdb][], the Python debugger.
 There are many tutorials and talks out there on PDB: here's [a short one][pdb lightning talk] and here's [a long one][pdb talk].
 
-This built-in function was added in Python 3.7, but if you're on older versions of Python you can get the same behavior with `import pdb ; pdb.set_trace()`.
+This built-in function was added in Python 3.7, but if you're on older versions of Python you can get the same behaviour with `import pdb ; pdb.set_trace()`.
 
 #### dir
 
@@ -698,7 +698,7 @@ I usually reach for `dir` just before using `vars`.
 
 #### type
 
-The `type` function will tell you the type of the object you pass to it.
+The `type` function will tell you the type of object you pass to it.
 
 The type of a class instance is the class itself:
 
@@ -732,8 +732,8 @@ The `type` function is sometimes helpful in actual code (especially object-orien
 
 If you're in a Python REPL, maybe debugging code (using `breakpoint`), and you'd like to know how a certain object, method, or attribute works, the `help` function is very handy.
 
-Realistically, you'll likely resort to getting help from your favorite search engine more often than you use the `help` function.
-But if you're already in a Python REPL, it's quicker to call `help(list.insert)` (if you've forgotten the order of the arguments for the `insert` method) than it is to find the answer in Google.
+Realistically, you'll likely resort to getting help from your favourite search engine more often than you use the `help` function.
+But if you're already in a Python REPL, it's quicker to call `help(list.insert)` (if you've forgotten the order of the arguments for the `insert` method) then it is to find the answer in Google.
 
 
 ## Learn it later
@@ -807,7 +807,7 @@ datetime.date(2020, 1, 1)
 hello!
 ```
 
-You'll see `repr` used when logging, handling exceptions, and implementing dunder methods.
+You'll see `repr` used when logging, handling exceptions and implementing dunder methods.
 
 
 ### super
@@ -894,10 +894,10 @@ True
 True
 ```
 
-If you're [overloading operators][] you might need to use `isinstance`, but in general we try to avoid strong type checking in Python so we don't see these much.
+If you're [overloading operators][] you might need to use `isinstance`, but in general, we try to avoid strong type checking in Python so we don't see these much.
 
-In Python we usually prefer duck typing over type checking.
-These functions actually do a bit more than the strong type checking I noted above ([the behavior of both can be customized][subclasscheck]) so it's actually possible to practice a sort of `isinstance`-powered duck typing with abstract base classes like [collections.abc.Iterable][].
+In Python, we usually prefer duck typing over type checking.
+These functions actually do a bit more than the strong type checking I noted above ([the behaviour of both can be customized][subclasscheck]) so it's actually possible to practice a sort of `isinstance`-powered duck typing with abstract base classes like [collections.abc.Iterable][].
 But this isn't seen much either (partly because we tend to practice exception-handling and [EAFP][] a bit more than condition-checking and [LBYL][] in Python).
 
 The last two paragraphs were filled with confusing jargon that I may explain more thoroughly in a future serious of articles if there's enough interest.
@@ -951,7 +951,7 @@ Traceback (most recent call last):
 AttributeError: 'Thing' object has no attribute 'x'
 ```
 
-These functions allow for a specific flavor of [metaprogramming][] and you likely won't see them often.
+These functions allow for a specific flavour of [metaprogramming][] and you likely won't see them often.
 
 
 ### classmethod and staticmethod
@@ -971,7 +971,7 @@ class RomanNumeral:
         return cls(roman_to_int(string))  # function doesn't exist yet
 ```
 
-It's a bit harder to come up with a good use for `staticmethod`, since you can pretty much always use a module-level function instead of a static method.
+It's a bit harder to come up with a good use for `staticmethod` since you can pretty much always use a module-level function instead of a static method.
 
 ```python
 class RomanNumeral:
@@ -1041,7 +1041,7 @@ You can think of `next` as a way to manually loop over an iterator to get a sing
 
 We've already covered nearly half of the built-in functions.
 
-The rest of Python's built-in functions definitely aren't useless, but they're a bit more special-purposed.
+The rest of Python's built-in functions definitely aren't useless, but they're a bit more special-purpose.
 
 The 15 built-ins I'm mentioning in this section are things you may eventually need to learn, but it's which it's also very possible you'll never reach for in your own code.
 
@@ -1056,7 +1056,7 @@ For the sake of space, I'm going to dedicate at most one bullet point to each of
 - `bin`, `oct`, and `hex`: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
 - `abs`: when you need the absolute value of a number, you'll look this up
 - `hash`: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
-- `object`: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
+- `object`: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values] if you ever need those
 
 You're unlikely to need all the above built-ins, but if you write Python code for long enough you're likely to see nearly all of them.
 
@@ -1066,7 +1066,7 @@ You're unlikely to need all the above built-ins, but if you write Python code fo
 You're unlikely to need these built-ins.
 There are sometimes really appropriate uses for a few of these, but you'll likely be able to get away with never learning about these.
 
-- `ord` and `chr`: these are fun for teaching ASCII tables and unicode code points, but I've never really found a use for them in my own code
+- `ord` and `chr`: these are fun for teaching ASCII tables and Unicode code points, but I've never really found a use for them in my own code
 - `compile`: 
 - `exec` and `eval`
 - `slice`: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
@@ -1085,7 +1085,7 @@ There are 69 built-in functions in Python (technically [only 42 of them are actu
 
 When you're newer in your Python journey, I recommend focusing on only 20 of these built-in functions in your own code (the [10 commonly known built-ins](#10_Commonly_known_built-in_functions) and the [10 built-ins that are often overlooked](#Built-ins_overlooked_by_new_Pythonistas)), in addition to the [5 debugging functions](#The_5_debugging_functions).
 
-After that there are [14 more built-ins which you'll probably learn later](#Learn_it_later) (depending on the style of programming you do).
+After that, there are [14 more built-ins which you'll probably learn later](#Learn_it_later) (depending on the style of programming you do).
 
 Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_it_eventually).
 Some people love these built-ins and some people never use them: as we get more specific in our coding needs, we'll find the new tools we learn for are ever more niche.
