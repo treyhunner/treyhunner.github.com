@@ -237,6 +237,8 @@ The `tuple` function is pretty much just like the `list` function, except it mak
 (2, 1, 3, 4, 7)
 ```
 
+If you need a tuple instead of a list, because you're trying to make a hashable collection for use in a dictionary key for example, you'll want to reach for `tuple` over `list`.
+
 
 ### dict
 
@@ -336,7 +338,7 @@ range(0, 10000)
 range(-1000000000, 1000000000)
 ```
 
-The `range` function is useful you'd like to loop over numbers.
+The `range` function is useful when you'd like to loop over numbers.
 
 ```pycon
 >>> for n in range(0, 50, 10):
@@ -484,7 +486,7 @@ n 11
 If you ever have to loop over two lists (or any other iterable at the same time), `zip` is preferred over `enumerate`.
 The `enumerate` function is handy when you need indexes while looping, but `zip` makes it so we don't even need indexes.
 
-If you're new to `zip`, I also talk about it in my [looping with indexes][] article.
+If you're new to `zip`, I also talk about it in my [looping with indexes][zip looping] article.
 
 Both `enumerate` and `zip` return iterators to us.
 Iterators are the lazy iterables that [power `for` loops][how for loops work].
@@ -512,7 +514,7 @@ The only thing we can do with this iterator is loop over it (but only once):
 ```
 
 Like `enumerate` and `zip`, `reversed` is a looping helper function.
-You pretty see `reversed` used exclusively in the `for` part of a `for` loop:
+You'll pretty much see `reversed` used exclusively in the `for` part of a `for` loop:
 
 ```pycon
 >>> for n in reversed(numbers):
@@ -525,7 +527,7 @@ You pretty see `reversed` used exclusively in the `for` part of a `for` loop:
 2
 ```
 
-There are other some ways to accomplish the same thing (with lists that is):
+There are some other ways to accomplish the same thing (with lists that is):
 
 ```python
 # Slicing syntax
@@ -542,7 +544,8 @@ But the `reversed` function is often *the best* way to reverse an iterable.
 
 Unlike the list `reverse` method (e.g. `numbers.reverse()`), `reversed` doesn't mutate (it just returns an iterator of the reversed items).
 
-Unlike the weird `numbers[::-1]` slice syntax, `reversed(numbers)` doesn't build up a whole new list: the lazy iterator it returns just retrieves the next item in reverse as we loop.
+Unlike the `numbers[::-1]` slice syntax, `reversed(numbers)` doesn't build up a whole new list: the lazy iterator it returns just retrieves the next item in reverse as we loop.
+Also `reversed(numbers)` is a lot easier to understand for new Pythonistas than `numbers[::-1]` (which just looks weird if you've never seen that particular use of slicing before).
 
 The non-copying nature of the `reversed` function along with `zip` allow us to rewrite the `palindromic` function (from `enumerate` above) without taking any extra memory (no copying of lists is done here):
 
@@ -1011,7 +1014,7 @@ You can go looking for these if you really need them eventually.
 
 The `next` function returns the *next* item in an iterator.
 
-I've written about iterators before ([how for loops work][] and [how to make an iterator][]) but a very quick summary of iterators you'll likely run into includes:
+I've written about iterators before ([how for loops work][] and [how to make an iterator][make iterators]) but a very quick summary of iterators you'll likely run into includes:
 
 - `enumerate` objects
 - `zip` objects
@@ -1044,20 +1047,18 @@ We've already covered nearly half of the built-in functions.
 
 The rest of Python's built-in functions definitely aren't useless, but they're a bit more special-purposed.
 
-The 15 built-ins I'm mentioning in this section are things you may eventually need to learn, but it's which it's also very possible you'll never reach for in your own code.
+The 15 built-ins I'm mentioning in this section are things you may eventually need to learn, but it's also very possible you'll never reach for these in your own code.
 
-For the sake of space, I'm going to dedicate at most one bullet point to each of the rest of the built-ins.
-
-- `iter`: get an iterator from an iterable: this function [powers `for` loops][how for loops work] and it can be very useful when you're making helper functions for looping lazily
-- `callable`: return `True` if the argument is a callable (I talked about this a bit in my article [functions and callables][])
-- `filter` and `map`: as I discuss in my article on [overusing lambda functions][], I recommend using generator expressions over the built-in `map` and `filter` functions
-- `id`, `locals`, and `globals`: these are great tools for teaching Python and you may have already seen them, but you won't see these much in real Python code
-- `round`: you'll look this up if you need to round a number
-- `divmod`: this function does a floor division (`//`) and a modulo operation (`%`) at the same time
-- `bin`, `oct`, and `hex`: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
-- `abs`: when you need the absolute value of a number, you'll look this up
-- `hash`: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
-- `object`: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
+- **[iter][]**: get an iterator from an iterable: this function [powers `for` loops][how for loops work] and it can be very useful when you're making helper functions for looping lazily
+- **[callable][]**: return `True` if the argument is a callable (I talked about this a bit in my article [functions and callables][])
+- **[filter][]** and **[map][]**: as I discuss in my article on [overusing lambda functions][], I recommend using generator expressions over the built-in `map` and `filter` functions
+- **[id][]**, **[locals][]**, and **[globals][]**: these are great tools for teaching Python and you may have already seen them, but you won't see these much in real Python code
+- **[round][]**: you'll look this up if you need to round a number
+- **[divmod][]**: this function does a floor division (`//`) and a modulo operation (`%`) at the same time
+- **[bin][]**, **[oct][]**, and **[hex][]**: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
+- **[abs][]**: when you need the absolute value of a number, you'll look this up
+- **[hash][]**: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
+- **[object][]**: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
 
 You're unlikely to need all the above built-ins, but if you write Python code for long enough you're likely to see nearly all of them.
 
@@ -1067,17 +1068,17 @@ You're unlikely to need all the above built-ins, but if you write Python code fo
 You're unlikely to need these built-ins.
 There are sometimes really appropriate uses for a few of these, but you'll likely be able to get away with never learning about these.
 
-- `ord` and `chr`: these are fun for teaching ASCII tables and unicode code points, but I've never really found a use for them in my own code
-- `compile`: 
-- `exec` and `eval`
-- `slice`: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
-- `bytes`, `bytearray`, and `memoryview`: if you're working with bytes often, you'll reach for some of these.  Until then, you can mostly ignore them.
-- `ascii`: like `repr` but returns an ASCII-only representation of an object; I haven't needed this in my code yet
-- `frozenset`: like `set`, but it's immutable; neat but not something I've reached for in my own code
-- `__import__`: this function isn't really meant to be used by you, use [importlib][] instead.
-- `format`: this calls the `__format__` method, which is used for string formatting; you usually don't need to call this function directly
-- `pow`: the exponentiation operator (`**`) usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
-- `complex`: if you didn't know that `4j+3` is valid Python code, you likely don't need the `complex` function
+- **[ord][]** and **[chr][]**: these are fun for teaching ASCII tables and unicode code points, but I've never really found a use for them in my own code
+- **[exec][]** and **[eval][]**: for evaluating a string as if it was code
+- **[compile][]**: this is related to `exec` and `eval`
+- **[slice][]**: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
+- **[bytes][]**, **[bytearray][]**, and **[memoryview][]**: if you're working with bytes often, you'll reach for some of these (just ignore them until then)
+- **[ascii][]**: like `repr` but returns an ASCII-only representation of an object; I haven't needed this in my code yet
+- **[frozenset][]**: like `set`, but it's immutable; neat but not something I've reached for in my own code
+- **[\_\_import\_\_][__import__]**: this function isn't really meant to be used by you, use [importlib][] instead
+- **[format][]**: this calls the `__format__` method, which is used for string formatting ([f-strings][] and [str.format][]); you usually don't need to call this function directly
+- **[pow][]**: the exponentiation operator (`**`) usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
+- **[complex][]**: if you didn't know that `4j+3` is valid Python code, you likely don't need the `complex` function
 
 
 ## There's always more to learn
@@ -1089,7 +1090,7 @@ When you're newer in your Python journey, I recommend focusing on only 20 of the
 After that there are [14 more built-ins which you'll probably learn later](#Learn_it_later) (depending on the style of programming you do).
 
 Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_it_eventually).
-Some people love these built-ins and some people never use them: as we get more specific in our coding needs, we'll find the new tools we learn for are ever more niche.
+Some people love these built-ins and some people never use them: as you get more specific in your coding needs, you'll likely find yourself reaching for considerably more niche tools.
 
 After that I mentioned [the last 17 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
 
@@ -1102,13 +1103,14 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [RSA encryption]: http://code.activestate.com/recipes/578838-rsa-a-simple-and-easy-to-read-implementation/
 [hello world]: https://en.wikipedia.org/wiki/Hello_world_program
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
-[functions and callables]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
+[functions and callables]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#Callable_objects
 [42 functions]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#The_distinction_between_functions_and_classes_often_doesn%E2%80%99t_matter
-[overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/
-[asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
+[overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/#Using_comprehensions_when_a_more_specific_tool_exists
+[asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/#Asterisks_in_list_literals
 [xrange]: https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/
 [list comprehension]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
 [looping with indexes]: https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
+[zip looping]: https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/#What_if_we_need_to_loop_over_multiple_things?
 [make iterators]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
 [loop better]: https://youtu.be/JYuE8ZiDPl4
 [comprehensible comprehensions]: https://youtu.be/5_cJIcgM7rw
@@ -1132,3 +1134,36 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [pdb]: https://pymotw.com/3/pdb/
 [pdb lightning talk]: https://pyvideo.org/pybay-2017/introduction-to-pdb.html
 [pdb talk]: https://www.youtube.com/watch?v=P0pIW5tJrRM&feature=player_embedded
+[python morsels]: https://www.pythonmorsels.com/
+[f-strings]: https://docs.python.org/3.7/reference/lexical_analysis.html#f-strings
+[str.format]: https://docs.python.org/3.7/library/stdtypes.html#str.format
+[iter]: https://docs.python.org/3/library/functions.html#iter
+[callable]: https://docs.python.org/3/library/functions.html#callable
+[map]: https://docs.python.org/3/library/functions.html#map
+[filter]: https://docs.python.org/3/library/functions.html#filter
+[id]: https://docs.python.org/3/library/functions.html#id
+[locals]: https://docs.python.org/3/library/functions.html#locals
+[globals]: https://docs.python.org/3/library/functions.html#globals
+[round]: https://docs.python.org/3/library/functions.html#round
+[divmod]: https://docs.python.org/3/library/functions.html#divmod
+[bin]: https://docs.python.org/3/library/functions.html#bin
+[oct]: https://docs.python.org/3/library/functions.html#oct
+[hex]: https://docs.python.org/3/library/functions.html#hex
+[abs]: https://docs.python.org/3/library/functions.html#abs
+[hash]: https://docs.python.org/3/library/functions.html#hash
+[object]: https://docs.python.org/3/library/functions.html#object
+[ord]: https://docs.python.org/3/library/functions.html#ord
+[chr]: https://docs.python.org/3/library/functions.html#chr
+[exec]: https://docs.python.org/3/library/functions.html#exec
+[eval]: https://docs.python.org/3/library/functions.html#eval
+[compile]: https://docs.python.org/3/library/functions.html#compile
+[slice]: https://docs.python.org/3/library/functions.html#slice
+[bytes]: https://docs.python.org/3/library/functions.html#bytes
+[bytearray]: https://docs.python.org/3/library/functions.html#bytearray
+[memoryview]: https://docs.python.org/3/library/functions.html#memoryview
+[ascii]: https://docs.python.org/3/library/functions.html#ascii
+[frozenset]: https://docs.python.org/3/library/functions.html#frozenset
+[__import__]: https://docs.python.org/3/library/functions.html#__import__
+[format]: https://docs.python.org/3/library/functions.html#format
+[pow]: https://docs.python.org/3/library/functions.html#pow
+[complex]: https://docs.python.org/3/library/functions.html#complex
