@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python built-ins worth learning"
-date: 2019-04-18 06:20:48 -0700
+date: 2019-05-21 08:00:00 -0700
 comments: true
 categories: python
 ---
@@ -11,36 +11,36 @@ In every Intro to Python class I teach, there's always at least one "how can we 
 It's usually along the lines of either:
 
 1. Python has so many functions in it, what's the best way to remember all these?
-2. What's the best way to know about 'enumerate` and `range` and other functions day-to-day?
+2. What's the best way to learn the functions we'll need day-to-day like `enumerate` and `range`?
 3. How do you know about all the ways to solve problems in Python?  Do you memorize them?
 
-There are dozens of built-in functions and classes, hundreds more tools bundled in Python's [standard library][], and thousands of third-party librarys on PyPI that can make your life easier as well.
+There are dozens of built-in functions and classes, hundreds of tools bundled in Python's [standard library][], and thousands of third-party libraries on PyPI.
 There's no way anyone could ever memorize all of these things.
 
 I recommend triaging your knowledge:
 
 1. Things I should memorize such that I know them well
 2. Things I should know *about* so I can look them up more effectively later
-3. Things I shouldn't bother with at all until/unless I need it one day
+3. Things I shouldn't bother with at all until/unless I need them one day
 
-I'd like to demonstrate this approach with the Python documentation's [Built-in Functions page][].
+We're going to look through the [Built-in Functions page][] in the Python documentation with this approach in mind.
 
-<ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol>
+<div style="display: none;"><ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol></div>
 
 
 ## Which built-ins should you know about?
 
-I estimate there are about 30 built-ins that most Python developers will ever use, but which 30 depends on what you're actually doing with Python.
+I estimate **most Python developers will only ever need about 30 built-in functions**, but which 30 depends on what you're actually doing with Python.
 
-We're going to take a look at all of the 69 Python built-in functions, in a birds eye view sort of way.
+We're going to take a look at all 69 of Python's built-in functions, in a birds eye view sort of way.
 
 I'll attempt to categorize these built-ins into five categories:
 
-1. Commonly known: most newer Pythonistas get exposure to these built-ins pretty quickly out of necessity
-2. Overlooked by beginners: these functions are useful to know about, but they're easy to overlook when you're newer to Python
-3. Learn it later: these built-ins are generally useful to know about, but you'll find them when/if you need them
-4. Maybe learn it eventually: these can come in handy, but only in specific circumstances
-5. You likely don't need these: you're unlikely to need these unless you're doing something fairly specialized
+1. **[Commonly known](#10_Commonly_known_built-in_functions)**: most newer Pythonistas get exposure to these built-ins pretty quickly out of necessity
+2. **[Overlooked by beginners](#Built-ins_overlooked_by_new_Pythonistas)**: these functions are useful to know about, but they're easy to overlook when you're newer to Python
+3. **[Learn it later](#Learn_it_later)**: these built-ins are generally useful to know about, but you'll find them when/if you need them
+4. **[Maybe learn it eventually](#Maybe_learn_it_eventually)**: these can come in handy, but only in specific circumstances
+5. **[You likely don't need these](#You_likely_don’t_need_these)**: you're unlikely to need these unless you're doing something fairly specialized
 
 **Note**: I will be referring to all of these built-in functions as **functions**, even though 27 of them **aren't actually functions at all** (as I discussed in my article on [functions and callables][42 functions]).
 
@@ -70,7 +70,7 @@ The built-in functions which are often overlooked by newer Python programmers:
 9. [any](#any_and_all)
 10. [all](#all_and_all)
 
-There are also 4 commonly overlooked built-ins which I recommend knowing about solely because they make debugging easier:
+There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier:
 
 1. dir
 2. var
@@ -108,7 +108,7 @@ You can look up `print` on your own.
 ### len
 
 In Python, we don't write things like `my_list.length()` or `my_string.length`;
-instead we, strangely for new Pythonistas, say `len(my_list)` and `len(my_string)`.
+instead we strangely (for new Pythonistas at least) say `len(my_list)` and `len(my_string)`.
 
 ```pycon
 >>> words = ["Welcome", "to", "Python"]
@@ -142,8 +142,10 @@ Python refuses to coerce that `3` integer to a string, so we need to manually do
 
 ### int
 
-Have user input and need to convert it to a number?
-The `int` function will convert strings to integers:
+Do you have user input and need to convert it to a number?
+You need the `int` function!
+
+The `int` function can convert strings to integers:
 
 ```pycon
 >>> program_name = "Python 3"
@@ -162,7 +164,7 @@ You can also use `int` to truncate a floating point number to an integer:
 5
 ```
 
-Note that if you need to truncate while dividing, the `//` is likely more appropriate (`int(3/2) == 3//2`).
+Note that if you need to truncate while dividing, the `//` operator is likely more appropriate: `int(3 / 2) == 3 // 2`.
 
 
 ### float
@@ -183,6 +185,7 @@ Then you'll want to use `float` instead of `int` for this conversion.
 ```
 
 In Python 2, we used to use `float` to convert integers to floating point numbers to force float division instead of integer division.
+
 "Integer division" isn't a thing anymore in Python 3 (unless you're specifically using the `//` operator), so we don't need `float` for that purpose anymore.
 So if you ever see `float(x) / y` in your Python 3 code, you can change that to just `x / y`.
 
@@ -265,8 +268,8 @@ Can instead be done with the `dict` function:
 
 This function accepts two types of arguments:
 
-1. another dictionary (mapping is the generic term), in which case that dictionary will be copied
-2. a list of key-value tuples (more correctly, an iterable of two-item iterables), in which case a new dictionary will be constructed from these
+1. **another dictionary** (mapping is the generic term), in which case that dictionary will be copied
+2. **a list of key-value tuples** (more correctly, an iterable of two-item iterables), in which case a new dictionary will be constructed from these
 
 So this works as well:
 
@@ -284,7 +287,7 @@ The `dict` function can also accept keyword arguments to make a dictionary with 
 >>> person = dict(name='Trey Hunner', profession='Python Trainer')
 ```
 
-I very much prefer to use a dictionary literal instead:
+But I very much prefer to use a dictionary literal instead:
 
 ```pycon
 >>> person = {'name': 'Trey Hunner', 'profession': 'Python Trainer'}
@@ -301,7 +304,7 @@ Like with `list` and `tuple`, an empty dictionary should be made using the liter
 ### set
 
 The `set` function makes a new set.
-It accepts an iterable of hashable values (strings, numbers, or other immutible types):
+It accepts an iterable of **hashable values** (strings, numbers, or other immutible types):
 
 ```pycon
 >>> numbers = [1, 1, 2, 3, 5, 8]
@@ -351,21 +354,19 @@ The `range` function is useful when you'd like to loop over numbers.
 40
 ```
 
-A common use case is to do an operation `n` times:
+A common use case is to do an operation `n` times (that's a [list comprehension][] by the way):
 
 ```python
 first_five = [get_things() for _ in range(5)]
 ```
 
-By the way that's a [list comprehension][] syntax.
-
 Python 2's `range` function returned a list, which means the expressions above would make very very large lists.
-Python 3's `range` works like Python 2's `xrange` (though they're [a bit different][xrange]) in that numbers are computed lazily as we loop over these items.
+Python 3's `range` works like Python 2's `xrange` (though they're [a bit different][xrange]) in that numbers are **computed lazily** as we loop over these `range` objects.
 
 
 ## Built-ins overlooked by new Pythonistas
 
-If you've been programming Python for a bit or if you just taken an introduction to Python class, you probably already knew about most of the built-in functions above.
+If you've been programming Python for a bit or if you just taken an introduction to Python class, you probably already knew about the built-in functions above.
 
 I'd now like to show off 15 built-in functions that are very handy to know about, but are more frequently overlooked by new Pythonistas.
 
@@ -467,7 +468,7 @@ If `enumerate` is news to you (or if you often use `range(len(...))`), see my ar
 The `zip` function is even more specialized than `enumerate`.
 
 The `zip` function is used for looping over multiple iterables at the same time.
-We actually used it above (in the explanations of `list` and `dict`).
+We actually used it above in the explanations of `list` and `dict`.
 
 ```python
 >>> one_iterable = [2, 1, 3, 4, 7, 11]
@@ -483,8 +484,8 @@ o 7
 n 11
 ```
 
-If you ever have to loop over two lists (or any other iterable at the same time), `zip` is preferred over `enumerate`.
-The `enumerate` function is handy when you need indexes while looping, but `zip` makes it so we don't even need indexes.
+If you ever have to loop over two lists (or any other iterables) at the same time, `zip` is preferred over `enumerate`.
+The `enumerate` function is handy when you need indexes while looping, but `zip` is great when we care specifically about looping over two iterables at once.
 
 If you're new to `zip`, I also talk about it in my [looping with indexes][zip looping] article.
 
@@ -495,7 +496,7 @@ I have [a whole talk on iterators][loop better] as well as a somewhat advanced a
 
 ### reversed
 
-The `reversed` function, like `enumerate` and `zip` returns an iterator.
+The `reversed` function, like `enumerate` and `zip`, returns an [iterator][how for loops work].
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7]
@@ -513,7 +514,7 @@ The only thing we can do with this iterator is loop over it (but only once):
 []
 ```
 
-Like `enumerate` and `zip`, `reversed` is a looping helper function.
+Like `enumerate` and `zip`, `reversed` is a sort of **looping helper function**.
 You'll pretty much see `reversed` used exclusively in the `for` part of a `for` loop:
 
 ```pycon
@@ -527,7 +528,7 @@ You'll pretty much see `reversed` used exclusively in the `for` part of a `for` 
 2
 ```
 
-There are some other ways to accomplish the same thing (with lists that is):
+There are some other ways to reverse Python lists besides the `reversed` function:
 
 ```python
 # Slicing syntax
@@ -540,14 +541,14 @@ for n in numbers:
     print(n)
 ```
 
-But the `reversed` function is often *the best* way to reverse an iterable.
+But the `reversed` function is **usually the best way to reverse any iterable** in Python.
 
-Unlike the list `reverse` method (e.g. `numbers.reverse()`), `reversed` doesn't mutate (it just returns an iterator of the reversed items).
+Unlike the list `reverse` method (e.g. `numbers.reverse()`), `reversed` doesn't mutate the list (it returns an iterator of the reversed items instead).
 
-Unlike the `numbers[::-1]` slice syntax, `reversed(numbers)` doesn't build up a whole new list: the lazy iterator it returns just retrieves the next item in reverse as we loop.
-Also `reversed(numbers)` is a lot easier to understand for new Pythonistas than `numbers[::-1]` (which just looks weird if you've never seen that particular use of slicing before).
+Unlike the `numbers[::-1]` slice syntax, `reversed(numbers)` doesn't build up a whole new list: the lazy iterator it returns retrieves the next item in reverse as we loop.
+Also `reversed(numbers)` is a lot more readable than `numbers[::-1]` (which just looks weird if you've never seen that particular use of slicing before).
 
-The non-copying nature of the `reversed` function along with `zip` allow us to rewrite the `palindromic` function (from `enumerate` above) without taking any extra memory (no copying of lists is done here):
+If we combine the non-copying nature of the `reversed` and `zip` functions, we can rewrite the `palindromic` function (from [enumerate](#enumerate) above) without taking any extra memory (no copying of lists is done here):
 
 ```python
 def palindromic(sequence):
@@ -601,7 +602,7 @@ The `min` and `max` functions also accept [a `key` function][key function] to al
 
 ### sorted
 
-The `sorted` function accepts any iterable and returns a new lit of all the values in that iterable in sorted order.
+The `sorted` function accepts any iterable and returns a new list of all the values in that iterable in sorted order.
 
 ```pycon
 >>> numbers = [1, 8, 2, 13, 5, 3, 1]
@@ -621,7 +622,7 @@ By the way, if you're curious about `sorted` versus the `list.sort` method, Flor
 
 ### any and all
 
-The `any` and `all` functions are looping helpers for determining whether *any* or *all* items in an iterable match a given condition.
+The `any` and `all` functions are looping helpers for determining whether *any* or *all* items in an iterable **match a given condition**.
 
 Our `palindromic` function from earlier checked whether *all* items were equal to their corresponding item in the reversed sequence (is the first value equal to the last, second to the second from last, etc.).
 
@@ -636,7 +637,7 @@ def palindromic(sequence):
     )
 ```
 
-Negating the condition and the return value from `all` would allow us to use `any` equivalently (though this is more confusing in this case):
+Negating the condition and the return value from `all` would allow us to use `any` equivalently (though this is more confusing in this example):
 
 ```python
 def palindromic(sequence):
@@ -647,7 +648,7 @@ def palindromic(sequence):
     )
 ```
 
-I've written an article on `any` and `all` in Python called [Checking Whether All Items Match a Condition in Python][any-all article].
+If the `any` and `all` functions are new to you, you may want to read my article on them: [Checking Whether All Items Match a Condition in Python][any-all article].
 
 
 ### The 5 debugging functions
@@ -659,10 +660,10 @@ The following 5 functions will be useful for debugging and troubleshooting code.
 Need to pause the execution of your code and drop into a Python command prompt?
 You need `breakpoint`!
 
-The `breakpoint` function will drop you into [pdb][], the Python debugger.
+Calling the `breakpoint` function will drop you into [pdb][], the Python debugger.
 There are many tutorials and talks out there on PDB: here's [a short one][pdb lightning talk] and here's [a long one][pdb talk].
 
-This built-in function was added in Python 3.7, but if you're on older versions of Python you can get the same behavior with `import pdb ; pdb.set_trace()`.
+This built-in function was **added in Python 3.7**, but if you're on older versions of Python you can get the same behavior with `import pdb ; pdb.set_trace()`.
 
 #### dir
 
@@ -675,11 +676,13 @@ Here we can see that our local variables, right after starting a new Python shel
 
 ```pycon
 >>> dir()
-['__annotations__', '__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__']
+['__annotations__', '__doc__', '__name__', '__package__']
 >>> x = [1, 2, 3, 4]
+>>> dir()
+['__annotations__', '__doc__', '__name__', '__package__', 'x']
 ```
 
-If we pass that `x` list into `dir` we'll see all the attributes on it:
+If we pass that `x` list into `dir` we can see all the attributes it has:
 
 ```pycon
 >>> dir(x)
@@ -690,9 +693,9 @@ We can see the typical list methods, `append`, `pop`, `remove`, and more as well
 
 #### vars
 
-This function is sort of a shortcut function.
+The [vars][] function is sort of a shortcut function.
 
-When it's called with no arguments, it's equivalent to calling the `locals()` built-in function (which shows a dictionary of all local variables and their values).
+When `vars` is called with no arguments, it's equivalent to calling the `locals()` built-in function (which shows a dictionary of all local variables and their values).
 
 When it's called with an argument, it accesses the `__dict__` attribute on that object (which on many objects represents a dictionary of all instance attributes).
 
@@ -712,7 +715,7 @@ The type of a class instance is the class itself:
 <class 'list'>
 ```
 
-The type of a class is its metaclass, which is usually `type` (technically `type` is a class and not a function):
+The type of a class is its metaclass, which is usually `type`:
 
 ```pycon
 >>> type(list)
@@ -730,14 +733,14 @@ If you ever see someone reach for `__class__`, know that they could reach for th
 <class 'list'>
 ```
 
-The `type` function is sometimes helpful in actual code (especially object-oriented code with inheritance and custom string representations), but it's also very often useful when debugging.
+The `type` function is sometimes helpful in actual code (especially object-oriented code with inheritance and custom string representations), but it's also useful when debugging.
 
 #### help
 
-If you're in a Python REPL, maybe debugging code (using `breakpoint`), and you'd like to know how a certain object, method, or attribute works, the `help` function is very handy.
+If you're in a Python REPL, maybe debugging code using `breakpoint`, and you'd like to know how a certain object, method, or attribute works, the `help` function will come in handy.
 
-Realistically, you'll likely resort to getting help from your favorite search engine more often than you use the `help` function.
-But if you're already in a Python REPL, it's quicker to call `help(list.insert)` (if you've forgotten the order of the arguments for the `insert` method) than it is to find the answer in Google.
+Realistically, you'll likely resort to getting help from your favorite search engine more often than using `help`.
+But if you're already in a Python REPL, it's quicker to call `help(list.insert)` than it would be to look up the `list.insert` method documentation in Google.
 
 
 ## Learn it later
@@ -751,8 +754,8 @@ I'm going to mention 14 more built-in functions which are handy to know about, b
 Need to open a file in Python?
 You need the `open` function!
 
-Don't work with files directly because you do everything with databases?
-You likely don't need the `open` function.
+Don't work with files directly?
+Then you likely don't need the `open` function!
 
 Most Python programmers will at some point read from or write to a file using the built-in `open` function.
 At that point (which you're likely already at), you'll learn about `open`.
@@ -777,7 +780,7 @@ And if you've been writing Python for a while and don't know about this function
 ### repr
 
 Need the programmer-readable representation of an object?
-You need the `repr` function.
+You need the `repr` function!
 
 For many objects, the `str` and `repr` representations are the same:
 
@@ -856,7 +859,7 @@ Here's an access of that `diameter` attribute on a `Circle` object:
 ```
 
 If you're doing object-oriented Python programming (you're making classes a whole bunch), you'll likely want to learn about `property` at some point.
-We use properties instead of getter methods and setter methods.
+**We use properties instead of getter methods and setter methods**.
 
 
 ### issubclass and isinstance
@@ -1167,3 +1170,5 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [format]: https://docs.python.org/3/library/functions.html#format
 [pow]: https://docs.python.org/3/library/functions.html#pow
 [complex]: https://docs.python.org/3/library/functions.html#complex
+[vars]: https://docs.python.org/3/library/functions.html#vars
+[standard input]: https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)
