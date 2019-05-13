@@ -90,7 +90,7 @@ Implementing [hello world][] requires `print`.
 
 You may not know about the various [keyword arguments][] accepted by `print` though:
 
-```python
+```pycon
 >>> words = ["Welcome", "to", "Python"]
 >>> print(words)
 ['Welcome', 'to', 'Python']
@@ -110,7 +110,7 @@ You can look up `print` on your own.
 In Python, we don't write things like `my_list.length()` or `my_string.length`;
 instead we, strangely for new Pythonistas, say `len(my_list)` and `len(my_string)`.
 
-```python
+```pycon
 >>> words = ["Welcome", "to", "Python"]
 >>> len(words)
 3
@@ -123,7 +123,7 @@ Regardless of whether you like this operator-like `len` function, you're stuck w
 
 Unlike many other programming languages, you cannot concatenate strings and numbers in Python.
 
-```python
+```pycon
 >>> version = 3
 >>> "Python " + version
 Traceback (most recent call last):
@@ -133,7 +133,7 @@ TypeError: can only concatenate str (not "int") to str
 
 Python refuses to coerce that `3` integer to a string, so we need to manually do it ourselves, using the built-in `str` function (class technically, but as I said, I'll be calling these all functions):
 
-```python
+```pycon
 >>> version = 3
 >>> "Python " + str(version)
 'Python 3'
@@ -145,7 +145,7 @@ Python refuses to coerce that `3` integer to a string, so we need to manually do
 Have user input and need to convert it to a number?
 The `int` function will convert strings to integers:
 
-```python
+```pycon
 >>> program_name = "Python 3"
 >>> version_number = program_name.split()[-1]
 >>> int(version_number)
@@ -154,7 +154,7 @@ The `int` function will convert strings to integers:
 
 You can also use `int` to truncate a floating point number to an integer:
 
-```python
+```pycon
 >>> from math import sqrt
 >>> sqrt(28)
 5.291502622129181
@@ -170,7 +170,7 @@ Note that if you need to truncate while dividing, the `//` is likely more approp
 Is the string you're converting to a number not actually an integer?
 Then you'll want to use `float` instead of `int` for this conversion.
 
-```python
+```pycon
 >>> program_name = "Python 3"
 >>> version_number = program_name.split()[-1]
 >>> float(version_number)
@@ -193,7 +193,7 @@ Want to make a list out of some other iterable?
 
 The `list` function does that:
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 5, 8]
 >>> squares = (n**2 for n in numbers)
 >>> list_of_squares = list(squares)
@@ -207,13 +207,13 @@ The `list` function does that:
 
 If you know you're working with a list, you could use the `copy` method to make a new copy of a list:
 
-```python
+```pycon
 >>> copy_of_squares = list_of_squares.copy()
 ```
 
 But if you don't know what the iterable you're working with is, the `list` function is the more general way to loop over an iterable and copy it:
 
-```python
+```pycon
 >>> copy_of_squares = list(list_of_squares)
 ```
 
@@ -221,7 +221,7 @@ You could also use a list comprehension for this, [but I wouldn't recommend it][
 
 Note that when you want to make an empty list, using the *list literal syntax* (those `[]` brackets) is recommended:
 
-```python
+```pycon
 >>> my_list = list()  # Don't do this
 >>> my_list = []  # Do this instead
 ```
@@ -231,7 +231,7 @@ Note that when you want to make an empty list, using the *list literal syntax* (
 
 The `tuple` function is pretty much just like the `list` function, except it makes tuples instead:
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 4, 7]
 >>> tuple(numbers)
 (2, 1, 3, 4, 7)
@@ -246,7 +246,7 @@ Similar to like `list` and `tuple`, the `dict` function is equivalent to looping
 
 This:
 
-```python
+```pycon
 >>> to_squares = {}
 >>> for n, s in zip(numbers, list_of_squares):
 ...     to_squares[n] = s
@@ -257,7 +257,7 @@ This:
 
 Can instead be done with the `dict` function:
 
-```python
+```pycon
 >>> to_squares = dict(zip(numbers, list_of_squares))
 ```
 
@@ -268,7 +268,7 @@ This function accepts two types of arguments:
 
 So this works as well:
 
-```python
+```pycon
 >>> to_squares
 {2: 4, 1: 1, 3: 9, 4: 16, 7: 49}
 >>> new_dictionary = dict(to_squares)
@@ -278,19 +278,19 @@ So this works as well:
 
 The `dict` function can also accept keyword arguments to make a dictionary with string-based keys:
 
-```python
+```pycon
 >>> person = dict(name='Trey Hunner', profession='Python Trainer')
 ```
 
 I very much prefer to use a dictionary literal instead:
 
-```python
+```pycon
 >>> person = {'name': 'Trey Hunner', 'profession': 'Python Trainer'}
 ```
 
 Like with `list` and `tuple`, an empty dictionary should be made using the literal syntax as well:
 
-```python
+```pycon
 >>> my_list = dict()  # Don't do this
 >>> my_list = {}  # Do this instead
 ```
@@ -301,7 +301,7 @@ Like with `list` and `tuple`, an empty dictionary should be made using the liter
 The `set` function makes a new set.
 It accepts an iterable of hashable values (strings, numbers, or other immutible types):
 
-```python
+```pycon
 >>> numbers = [1, 1, 2, 3, 5, 8]
 >>> set(numbers)
 {1, 2, 3, 5, 8}
@@ -309,7 +309,7 @@ It accepts an iterable of hashable values (strings, numbers, or other immutible 
 
 There's no way to make an empty set with the `{}` set literal syntax (plain `{}` makes a dictionary), so the `set` function is the only way to make an empty set:
 
-```python
+```pycon
 >>> numbers = set()
 >>> numbers
 set()
@@ -317,7 +317,7 @@ set()
 
 Actually that's a lie because we have this:
 
-```python
+```pycon
 >>> {*()}  # This makes an empty set
 set()
 ```
@@ -329,7 +329,7 @@ But that syntax is confusing (it relies on [a lesser-used feature of the `*` ope
 
 The `range` function gives us a `range` object, which represents a range of numbers:
 
-```python
+```pycon
 >>> range(10_000)
 range(0, 10000)
 >>> range(-1_000_000_000, 1_000_000_000)
@@ -338,7 +338,7 @@ range(-1000000000, 1000000000)
 
 The `range` function is useful you'd like to loop over numbers.
 
-```python
+```pycon
 >>> for n in range(0, 50, 10):
 ...     print(n)
 ...
@@ -375,7 +375,7 @@ The `bool` function checks the **truthiness** of a Python object.
 
 For numbers, truthiness is a question of non-zeroness:
 
-```python
+```pycon
 >>> bool(5)
 True
 >>> bool(-1)
@@ -386,7 +386,7 @@ False
 
 For collections, truthiness is usually a question of non-emptiness:
 
-```python
+```pycon
 >>> bool('hello')
 True
 >>> bool('')
@@ -495,7 +495,7 @@ I have [a whole talk on iterators][loop better] as well as a somewhat advanced a
 
 The `reversed` function, like `enumerate` and `zip` returns an iterator.
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 4, 7]
 >>> reversed(numbers)
 <list_reverseiterator object at 0x7f3d4452f8d0>
@@ -503,7 +503,8 @@ The `reversed` function, like `enumerate` and `zip` returns an iterator.
 
 The only thing we can do with this iterator is loop over it (but only once):
 
-```python
+```pycon
+>>> reversed_numbers = reversed(numbers)
 >>> list(reversed_numbers)
 [7, 4, 3, 1, 2]
 >>> list(reversed_numbers)
@@ -513,7 +514,7 @@ The only thing we can do with this iterator is loop over it (but only once):
 Like `enumerate` and `zip`, `reversed` is a looping helper function.
 You pretty see `reversed` used exclusively in the `for` part of a `for` loop:
 
-```python
+```pycon
 >>> for n in reversed(numbers):
 ...     print(n)
 ...
@@ -559,7 +560,7 @@ def palindromic(sequence):
 
 The `sum` function accepts an iterable of numbers and returns the sum of those numbers.
 
-```python
+```pycon
 >>> sum([2, 1, 3, 4, 7])
 17
 ```
@@ -568,7 +569,7 @@ There's not much more to it than that.
 
 Python has lots of helper functions that **do the looping for you**, partly because they pair nicely with generator expressions:
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 4, 7, 11, 18]
 >>> sum(n**2 for n in numbers)
 524
@@ -581,7 +582,7 @@ If you're curious about generator expressions, I discuss them in my [Comprehensi
 
 The `min` and `max` functions do what you'd expect: they give you the minimum and maximum items in an iterable.
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 4, 7, 11, 18]
 >>> min(numbers)
 1
@@ -599,7 +600,7 @@ The `min` and `max` functions also accept [a `key` function][key function] to al
 
 The `sorted` function accepts any iterable and returns a new lit of all the values in that iterable in sorted order.
 
-```python
+```pycon
 >>> numbers = [1, 8, 2, 13, 5, 3, 1]
 >>> words = ["python", "is", "lovely"]
 >>> sorted(numbers)
@@ -777,7 +778,7 @@ You need the `repr` function.
 
 For many objects, the `str` and `repr` representations are the same:
 
-```python
+```pycon
 >>> str(4), repr(4)
 ('4', '4')
 >>> str([]), repr([])
@@ -786,7 +787,7 @@ For many objects, the `str` and `repr` representations are the same:
 
 But for some objects, they're different:
 
-```python
+```pycon
 >>> str('hello'), repr("hello")
 ('hello', "'hello'")
 >>> from datetime import date
@@ -796,7 +797,7 @@ But for some objects, they're different:
 
 The string representation we see at the Python REPL uses `repr`, while the `print` function relies on `str`:
 
-```python
+```pycon
 >>> date(2020, 1, 1)
 datetime.date(2020, 1, 1)
 >>> "hello!"
@@ -842,7 +843,7 @@ class Circle:
 
 Here's an access of that `diameter` attribute on a `Circle` object:
 
-```python
+```pycon
 >>> circle = Circle()
 >>> circle.diameter
 2
@@ -859,7 +860,7 @@ We use properties instead of getter methods and setter methods.
 
 The `issubclass` function checks whether a class is a subclass of one or more other classes.
 
-```python
+```pycon
 >>> issubclass(int, bool)
 False
 >>> issubclass(bool, int)
@@ -870,7 +871,7 @@ True
 
 The `isinstance` function checks whether an object is an instance of one or more classes.
 
-```python
+```pycon
 >>> isinstance(True, str)
 False
 >>> isinstance(True, bool)
@@ -883,7 +884,7 @@ True
 
 You can think of `isinstance` as delegating to `issubclass`:
 
-```python
+```pycon
 >>> issubclass(type(True), str)
 False
 >>> issubclass(type(True), bool)
@@ -910,7 +911,7 @@ You need `hasattr`, `getattr`, `setattr`, and `delattr`.
 
 Say we have some `thing` object we want to check for a particular value on:
 
-```python
+```pycon
 >>> class Thing: pass
 ...
 >>> thing = Thing()
@@ -918,7 +919,7 @@ Say we have some `thing` object we want to check for a particular value on:
 
 The `hasattr` function allows us to check whether the object *has* a certain attribute:
 
-```python
+```pycon
 >>> hasattr(thing, 'x')
 False
 >>> thing.x = 4
@@ -928,14 +929,14 @@ True
 
 The `getattr` function allows us to retrieve the value of that attribute:
 
-```python
+```pycon
 >>> getattr(thing, 'x')
 4
 ```
 
 The `setattr` function allows for setting the value:
 
-```python
+```pycon
 >>> setattr(thing, 'x', 5)
 >>> thing.x
 5
@@ -943,7 +944,7 @@ The `setattr` function allows for setting the value:
 
 And `delattr` deletes the attribute:
 
-```python
+```pycon
 >>> delattr(thing, 'x')
 >>> thing.x
 Traceback (most recent call last):
@@ -1022,7 +1023,7 @@ I've written about iterators before ([how for loops work][] and [how to make an 
 
 You can think of `next` as a way to manually loop over an iterator to get a single item and then break.
 
-```python
+```pycon
 >>> numbers = [2, 1, 3, 4, 7, 11]
 >>> squares = (n**2 for n in numbers)
 >>> next(squares)
