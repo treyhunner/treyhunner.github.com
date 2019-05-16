@@ -25,6 +25,8 @@ I recommend triaging your knowledge:
 
 We're going to look through the [Built-in Functions page][] in the Python documentation with this approach in mind.
 
+This will be a very long article, so I've linked to 5 sub-sections and 20 specific built-in functions in the next section so you can jump ahead if you're pressed for time or looking for one built-in in particular.
+
 <div style="display: none;"><ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol></div>
 
 
@@ -41,6 +43,10 @@ I'll attempt to categorize these built-ins into five categories:
 3. **[Learn it later](#Learn_it_later)**: these built-ins are generally useful to know about, but you'll find them when/if you need them
 4. **[Maybe learn it eventually](#Maybe_learn_it_eventually)**: these can come in handy, but only in specific circumstances
 5. **[You likely don't need these](#You_likely_don’t_need_these)**: you're unlikely to need these unless you're doing something fairly specialized
+
+The built-in functions in categories 1 and 2 are the **essential built-ins** that nearly all Python programmers should eventually learn about.
+The built-ins in categories 3 and 4 are the **specialized built-ins**, which are often very useful but your need for them will vary based on your use for Python.
+And category 5 are **arcane built-ins**, which might be very handy when you need them but which many Python programmers are likely to never need.
 
 **Note**: I will be referring to all of these built-in functions as **functions**, even though 27 of them **aren't actually functions at all** (as I discussed in my article on [functions and callables][42 functions]).
 
@@ -70,13 +76,9 @@ The built-in functions which are often overlooked by newer Python programmers:
 9. [any](#any_and_all)
 10. [all](#all_and_all)
 
-There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier:
+There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier: `dir`, `var`, `breakpoint`, `type`, `help`.
 
-1. dir
-2. var
-3. breakpoint
-4. type
-5. help
+In addition to the 25 built-in functions above, we'll also briefly see the other 44 built-ins in the [learn it later](#Learn_it_later) [maybe learn it eventually](#Maybe_learn_it_eventually) and [you likely don't need these](#You_likely_don’t_need_these) sections.
 
 
 ## 10 Commonly known built-in functions
@@ -94,9 +96,9 @@ You may not know about the various [keyword arguments][] accepted by `print` tho
 >>> words = ["Welcome", "to", "Python"]
 >>> print(words)
 ['Welcome', 'to', 'Python']
->>> print(*words)
-Welcome to Python
->>> print(*words, sep='\n')
+>>> print(*words, end="!\n")
+Welcome to Python!
+>>> print(*words, sep="\n")
 Welcome
 to
 Python
@@ -164,7 +166,7 @@ You can also use `int` to truncate a floating point number to an integer:
 5
 ```
 
-Note that if you need to truncate while dividing, the `//` operator is likely more appropriate: `int(3 / 2) == 3 // 2`.
+Note that if you need to truncate while dividing, the `//` operator is likely more appropriate (though this works differently with negative numbers): `int(3 / 2) == 3 // 2`.
 
 
 ### float
@@ -184,8 +186,9 @@ Then you'll want to use `float` instead of `int` for this conversion.
 3.141592653589793
 ```
 
-In Python 2, we used to use `float` to convert integers to floating point numbers to force float division instead of integer division.
+You can also use `float` to convert integers to floating point numbers.
 
+In Python 2, we used to use `float` to convert integers to floating point numbers to force float division instead of integer division.
 "Integer division" isn't a thing anymore in Python 3 (unless you're specifically using the `//` operator), so we don't need `float` for that purpose anymore.
 So if you ever see `float(x) / y` in your Python 3 code, you can change that to just `x / y`.
 
@@ -208,6 +211,8 @@ The `list` function does that:
 [(2, 4), (1, 1), (3, 9), (5, 25), (8, 64)]
 ```
 
+We'll take a look at that [zip](#zip) function later.
+
 If you know you're working with a list, you could use the `copy` method to make a new copy of a list:
 
 ```pycon
@@ -228,6 +233,8 @@ Note that when you want to make an empty list, using the *list literal syntax* (
 >>> my_list = list()  # Don't do this
 >>> my_list = []  # Do this instead
 ```
+
+Using `[]` is considered more idiomatic since those square brackets (`[]`) actually *look* like a Python list.
 
 
 ### tuple
@@ -285,12 +292,16 @@ The `dict` function can also accept keyword arguments to make a dictionary with 
 
 ```pycon
 >>> person = dict(name='Trey Hunner', profession='Python Trainer')
+>>> person
+{'name': 'Trey Hunner', 'profession': 'Python Trainer'}
 ```
 
 But I very much prefer to use a dictionary literal instead:
 
 ```pycon
 >>> person = {'name': 'Trey Hunner', 'profession': 'Python Trainer'}
+>>> person
+{'name': 'Trey Hunner', 'profession': 'Python Trainer'}
 ```
 
 Like with `list` and `tuple`, an empty dictionary should be made using the literal syntax as well:
@@ -300,11 +311,13 @@ Like with `list` and `tuple`, an empty dictionary should be made using the liter
 >>> my_list = {}  # Do this instead
 ```
 
+Using `{}` is more CPU efficient, but more importantly it's more idiomatic: it's common to see curly braces (`{}`) used for making dictionaries but `dict` is seen much less frequently.
+
 
 ### set
 
 The `set` function makes a new set.
-It accepts an iterable of **hashable values** (strings, numbers, or other immutible types):
+It takes an iterable of **hashable values** (strings, numbers, or other immutable types) and returns a `set`:
 
 ```pycon
 >>> numbers = [1, 1, 2, 3, 5, 8]
@@ -340,6 +353,8 @@ range(0, 10000)
 >>> range(-1_000_000_000, 1_000_000_000)
 range(-1000000000, 1000000000)
 ```
+
+The resulting range of numbers includes the start number but excludes the stop number (`range(0, 10)` does not include `10`).
 
 The `range` function is useful when you'd like to loop over numbers.
 
@@ -387,7 +402,7 @@ True
 False
 ```
 
-For collections, truthiness is usually a question of non-emptiness:
+For collections, truthiness is usually a question of non-emptiness (whether the collection has a length greater than `0`):
 
 ```pycon
 >>> bool('hello')
@@ -406,6 +421,8 @@ True
 True
 >>> bool(range(0))
 False
+>>> bool(None)
+False
 ```
 
 Truthiness is kind of a big deal in Python.
@@ -422,6 +439,8 @@ if not numbers:
     print("The numbers list is empty")
 ```
 
+You likely won't see `bool` used often, but on the occasion that you need to coerce a value to a boolean to ask about its truthiness, you'll want to know about `bool`.
+
 
 ### enumerate
 
@@ -432,9 +451,13 @@ That might seem like a very niche task, but it comes up quite often.
 For example we might want to keep track of the line number in a file:
 
 ```python
-with open('hello.txt', mode='rt') as my_file:
-    for n, line in enumerate(my_file, start=1):
-        print(f"{n:03}", line)
+>>> with open('hello.txt', mode='rt') as my_file:
+...     for n, line in enumerate(my_file, start=1):
+...         print(f"{n:03}", line)
+...
+001 This is the first line of the file
+002 This is the second line
+003 This is the last line of the file
 ```
 
 The `enumerate` function is also very commonly used to keep track of the *index* of items in a sequence.
@@ -492,6 +515,8 @@ If you're new to `zip`, I also talk about it in my [looping with indexes][zip lo
 Both `enumerate` and `zip` return iterators to us.
 Iterators are the lazy iterables that [power `for` loops][how for loops work].
 I have [a whole talk on iterators][loop better] as well as a somewhat advanced article on [how to make your own iterators][make iterators].
+
+By the way, if you need to use `zip` on iterables of different lengths, you may want to look up [itertools.zip_longest][] in the Python standard library.
 
 
 ### reversed
@@ -562,7 +587,7 @@ def palindromic(sequence):
 
 ### sum
 
-The `sum` function accepts an iterable of numbers and returns the sum of those numbers.
+The `sum` function takes an iterable of numbers and returns the sum of those numbers.
 
 ```pycon
 >>> sum([2, 1, 3, 4, 7])
@@ -602,7 +627,7 @@ The `min` and `max` functions also accept [a `key` function][key function] to al
 
 ### sorted
 
-The `sorted` function accepts any iterable and returns a new list of all the values in that iterable in sorted order.
+The `sorted` function takes any iterable and returns a new list of all the values in that iterable in sorted order.
 
 ```pycon
 >>> numbers = [1, 8, 2, 13, 5, 3, 1]
@@ -697,7 +722,18 @@ The [vars][] function is sort of a shortcut function.
 
 When `vars` is called with no arguments, it's equivalent to calling the `locals()` built-in function (which shows a dictionary of all local variables and their values).
 
+```python
+>>> vars()
+{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>}
+```
+
 When it's called with an argument, it accesses the `__dict__` attribute on that object (which on many objects represents a dictionary of all instance attributes).
+
+```python
+>>> from itertools import chain
+>>> vars(chain)
+mappingproxy({'__getattribute__': <slot wrapper '__getattribute__' of 'itertools.chain' objects>, '__iter__': <slot wrapper '__iter__' of 'itertools.chain' objects>, '__next__': <slot wrapper '__next__' of 'itertools.chain' objects>, '__new__': <built-in method __new__ of type object at 0x5611ee76fac0>, 'from_iterable': <method 'from_iterable' of 'itertools.chain' objects>, '__reduce__': <method '__reduce__' of 'itertools.chain' objects>, '__setstate__': <method '__setstate__' of 'itertools.chain' objects>, '__doc__': 'chain(*iterables) --> chain object\n\nReturn a chain object whose .__next__() method returns elements from the\nfirst iterable until it is exhausted, then elements from the next\niterable, until all of the iterables are exhausted.'})
+```
 
 If you ever try to use `my_object.__dict__`, you can use `vars` instead.
 
@@ -734,6 +770,8 @@ If you ever see someone reach for `__class__`, know that they could reach for th
 ```
 
 The `type` function is sometimes helpful in actual code (especially object-oriented code with inheritance and custom string representations), but it's also useful when debugging.
+
+Note that when *type checking*, the `isinstance` function is usually used instead of `type` (also note that we tend not to type check in Python because we prefer to practice [duck typing][]).
 
 #### help
 
@@ -859,7 +897,7 @@ Here's an access of that `diameter` attribute on a `Circle` object:
 ```
 
 If you're doing object-oriented Python programming (you're making classes a whole bunch), you'll likely want to learn about `property` at some point.
-**We use properties instead of getter methods and setter methods**.
+Unlike other object-orient programming languages, **we use properties instead of getter methods and setter methods**.
 
 
 ### issubclass and isinstance
@@ -1133,7 +1171,7 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [sentinel values]: https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/
 [importlib]: https://docs.python.org/3/library/importlib.html#importlib.import_module
 [key function]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once
-[sorted vs sort]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once
+[sorted vs sort]: https://blog.usejournal.com/list-sort-vs-sorted-list-aab92c00e17
 [pdb]: https://pymotw.com/3/pdb/
 [pdb lightning talk]: https://pyvideo.org/pybay-2017/introduction-to-pdb.html
 [pdb talk]: https://www.youtube.com/watch?v=P0pIW5tJrRM&feature=player_embedded
@@ -1172,3 +1210,5 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [complex]: https://docs.python.org/3/library/functions.html#complex
 [vars]: https://docs.python.org/3/library/functions.html#vars
 [standard input]: https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)
+[itertools.zip_longest]: https://docs.python.org/3.4/library/itertools.html#itertools.zip_longest
+[duck typing]: https://en.wikipedia.org/wiki/Duck_typing
