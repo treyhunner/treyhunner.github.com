@@ -72,9 +72,9 @@ The built-in functions which are often overlooked by newer Python programmers:
 5. [reversed](#reversed)
 6. [sorted](#sorted)
 7. [min](#min_and_max)
-8. [max](#max_and_max)
+8. [max](#min_and_max)
 9. [any](#any_and_all)
-10. [all](#all_and_all)
+10. [all](#any_and_all)
 
 There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier: `dir`, `var`, `breakpoint`, `type`, `help`.
 
@@ -795,8 +795,10 @@ You need the `open` function!
 Don't work with files directly?
 Then you likely don't need the `open` function!
 
-Most Python programmers will at some point read from or write to a file using the built-in `open` function.
-At that point (which you're likely already at), you'll learn about `open`.
+You might think it's odd that I've put `open` in this section because working with files is so common.
+While most programmers will read or write to files using `open` at some point, some Python programmers, such as Django developers, may not use the `open` function very much (if at all).
+
+Once you need to work with files, you'll learn about `open`.
 Until then, don't worry about it.
 
 By the way, you might want to [look into pathlib][pathlib] (which is in the Python standard library) as an alternative to using `open`.
