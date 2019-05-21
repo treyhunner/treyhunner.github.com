@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python built-ins worth learning"
-date: 2019-05-21 08:00:00 -0700
+date: 2019-05-21 08:40:00 -0700
 comments: true
 categories: python
 ---
