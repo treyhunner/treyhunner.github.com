@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-05-21T16:17:54-07:00</updated>
+  <updated>2019-05-21T16:55:49-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -919,7 +919,7 @@ You need <code>hasattr</code>, <code>getattr</code>, <code>setattr</code>, and <
 &gt;&gt;&gt; thing = Thing()
 </code></pre>
 
-<p>The <code>hasattr</code> function allows us to check whether the object <em>has</em> a certain attribute:</p>
+<p>The <code>hasattr</code> function allows us to check whether the object <em>has</em> a certain attribute (note that <code>hasattr</code> <a href="https://hynek.me/articles/hasattr/">has some quirks</a>, though most have been ironed out in Python 3):</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; hasattr(thing, 'x')
 False
@@ -928,10 +928,14 @@ False
 True
 </code></pre>
 
-<p>The <code>getattr</code> function allows us to retrieve the value of that attribute:</p>
+<p>The <code>getattr</code> function allows us to retrieve the value of that attribute (with an optional default if the attribute doesn&rsquo;t exist):</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; getattr(thing, 'x')
 4
+&gt;&gt;&gt; getattr(thing, 'x', 0)
+4
+&gt;&gt;&gt; getattr(thing, 'y', 0)
+0
 </code></pre>
 
 <p>The <code>setattr</code> function allows for setting the value:</p>

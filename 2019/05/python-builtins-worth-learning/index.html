@@ -1361,7 +1361,7 @@ You need <code>hasattr</code>, <code>getattr</code>, <code>setattr</code>, and <
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>hasattr</code> function allows us to check whether the object <em>has</em> a certain attribute:</p>
+<p>The <code>hasattr</code> function allows us to check whether the object <em>has</em> a certain attribute (note that <code>hasattr</code> <a href="https://hynek.me/articles/hasattr/">has some quirks</a>, though most have been ironed out in Python 3):</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1376,12 +1376,20 @@ You need <code>hasattr</code>, <code>getattr</code>, <code>setattr</code>, and <
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>getattr</code> function allows us to retrieve the value of that attribute:</p>
+<p>The <code>getattr</code> function allows us to retrieve the value of that attribute (with an optional default if the attribute doesn&rsquo;t exist):</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">getattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">)</span>
 </span><span class='line'><span class="go">4</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">getattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="go">4</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">getattr</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="go">0</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
