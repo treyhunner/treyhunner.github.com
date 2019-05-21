@@ -48,7 +48,7 @@ The built-in functions in categories 1 and 2 are the **essential built-ins** tha
 The built-ins in categories 3 and 4 are the **specialized built-ins**, which are often very useful but your need for them will vary based on your use for Python.
 And category 5 are **arcane built-ins**, which might be very handy when you need them but which many Python programmers are likely to never need.
 
-**Note**: I will be referring to all of these built-in functions as **functions**, even though 27 of them **aren't actually functions at all** (as I discussed in my article on [functions and callables][42 functions]).
+**Note for pedantic Pythonistas**: I will be referring to all of these built-ins as **functions**, even though 27 of them **aren't actually functions** (as discussed in my [functions and callables article][42 functions]).
 
 The commonly known built-in functions (which you likely already know about):
 
@@ -202,16 +202,12 @@ The `list` function does that:
 ```pycon
 >>> numbers = [2, 1, 3, 5, 8]
 >>> squares = (n**2 for n in numbers)
+>>> squares
+<generator object <genexpr> at 0x7fd52dbd5930>
 >>> list_of_squares = list(squares)
 >>> list_of_squares
 [4, 1, 9, 25, 64]
->>> zip(numbers, list_of_squares)
-<zip object at 0x7f3d43b38788>
->>> list(zip(numbers, list_of_squares))
-[(2, 4), (1, 1), (3, 9), (5, 25), (8, 64)]
 ```
-
-We'll take a look at that [zip](#zip) function later.
 
 If you know you're working with a list, you could use the `copy` method to make a new copy of a list:
 
@@ -247,7 +243,7 @@ The `tuple` function is pretty much just like the `list` function, except it mak
 (2, 1, 3, 4, 7)
 ```
 
-If you need a tuple instead of a list, because you're trying to make a hashable collection for use in a dictionary key for example, you'll want to reach for `tuple` over `list`.
+If you need a tuple instead of a list, because you're trying to make a [hashable][] collection for use in a dictionary key for example, you'll want to reach for `tuple` over `list`.
 
 
 ### dict
@@ -256,36 +252,44 @@ The `dict` function makes a new dictionary.
 
 Similar to like `list` and `tuple`, the `dict` function is equivalent to looping over an iterable of key-value pairs and making a dictionary from them.
 
+Given a list of two-item tuples:
+
+```python
+>>> color_counts = [('red', 2), ('green', 1), ('blue', 3), ('purple', 5)]
+```
+
 This:
 
 ```pycon
->>> to_squares = {}
->>> for n, s in zip(numbers, list_of_squares):
-...     to_squares[n] = s
+>>> colors = {}
+>>> for color, n in color_counts:
+...     colors[color] = n
 ...
->>> to_squares
-{2: 4, 1: 1, 3: 9, 4: 16, 7: 49}
+>>> colors
+{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
 ```
 
 Can instead be done with the `dict` function:
 
 ```pycon
->>> to_squares = dict(zip(numbers, list_of_squares))
+>>> colors = dict(color_counts)
+>>> colors
+{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
 ```
 
-This function accepts two types of arguments:
+The `dict` function accepts two types of arguments:
 
-1. **another dictionary** (mapping is the generic term), in which case that dictionary will be copied
+1. **another dictionary** ([mapping][] is the generic term), in which case that dictionary will be copied
 2. **a list of key-value tuples** (more correctly, an iterable of two-item iterables), in which case a new dictionary will be constructed from these
 
 So this works as well:
 
 ```pycon
->>> to_squares
-{2: 4, 1: 1, 3: 9, 4: 16, 7: 49}
->>> new_dictionary = dict(to_squares)
+>>> colors
+{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
+>>> new_dictionary = dict(colors)
 >>> new_dictionary
-{2: 4, 1: 1, 3: 9, 4: 16, 7: 49}
+{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
 ```
 
 The `dict` function can also accept keyword arguments to make a dictionary with string-based keys:
@@ -304,6 +308,8 @@ But I very much prefer to use a dictionary literal instead:
 {'name': 'Trey Hunner', 'profession': 'Python Trainer'}
 ```
 
+The dictionary literal syntax is more flexible and [a bit faster][dict vs literal] but most importantly I find that it more clearly conveys the fact that we are creating a dictionary.
+
 Like with `list` and `tuple`, an empty dictionary should be made using the literal syntax as well:
 
 ```pycon
@@ -311,13 +317,13 @@ Like with `list` and `tuple`, an empty dictionary should be made using the liter
 >>> my_list = {}  # Do this instead
 ```
 
-Using `{}` is more CPU efficient, but more importantly it's more idiomatic: it's common to see curly braces (`{}`) used for making dictionaries but `dict` is seen much less frequently.
+Using `{}` is slightly more CPU efficient, but more importantly it's more idiomatic: it's common to see curly braces (`{}`) used for making dictionaries but `dict` is seen much less frequently.
 
 
 ### set
 
 The `set` function makes a new set.
-It takes an iterable of **hashable values** (strings, numbers, or other immutable types) and returns a `set`:
+It takes an iterable of [hashable][] values (strings, numbers, or other immutable types) and returns a `set`:
 
 ```pycon
 >>> numbers = [1, 1, 2, 3, 5, 8]
@@ -425,7 +431,7 @@ False
 False
 ```
 
-Truthiness is kind of a big deal in Python.
+Truthiness (called [truth value testing][] in the docs) is kind of a big deal in Python.
 
 Instead of asking questions about the length of a container, many Pythonistas ask questions about truthiness instead:
 
@@ -632,10 +638,10 @@ The `sorted` function takes any iterable and returns a new list of all the value
 ```pycon
 >>> numbers = [1, 8, 2, 13, 5, 3, 1]
 >>> words = ["python", "is", "lovely"]
->>> sorted(numbers)
-[1, 1, 2, 3, 5, 8, 13]
 >>> sorted(words)
 ['is', 'lovely', 'python']
+>>> sorted(numbers, reverse=True)
+[13, 8, 5, 3, 2, 1, 1]
 ```
 
 The `sorted` function, like `min` and `max`, compares the items given to it by using the `<` operator, so all values given to it need so to be orderable.
@@ -647,7 +653,7 @@ By the way, if you're curious about `sorted` versus the `list.sort` method, Flor
 
 ### any and all
 
-The `any` and `all` functions are looping helpers for determining whether *any* or *all* items in an iterable **match a given condition**.
+The `any` and `all` functions can be paired with a generator expression to determine whether *any* or *all* items in an iterable **match a given condition**.
 
 Our `palindromic` function from earlier checked whether *all* items were equal to their corresponding item in the reversed sequence (is the first value equal to the last, second to the second from last, etc.).
 
@@ -718,7 +724,7 @@ We can see the typical list methods, `append`, `pop`, `remove`, and more as well
 
 #### vars
 
-The [vars][] function is sort of a shortcut function.
+The [vars][] function is sort of a mashup of two related things: checking `locals()` and testing the `__dict__` attribute of objects.
 
 When `vars` is called with no arguments, it's equivalent to calling the `locals()` built-in function (which shows a dictionary of all local variables and their values).
 
@@ -775,7 +781,7 @@ Note that when *type checking*, the `isinstance` function is usually used instea
 
 #### help
 
-If you're in a Python REPL, maybe debugging code using `breakpoint`, and you'd like to know how a certain object, method, or attribute works, the `help` function will come in handy.
+If you're in an interactive Python shell (the Python [REPL][] as I usually call it), maybe debugging code using `breakpoint`, and you'd like to know how a certain object, method, or attribute works, the `help` function will come in handy.
 
 Realistically, you'll likely resort to getting help from your favorite search engine more often than using `help`.
 But if you're already in a Python REPL, it's quicker to call `help(list.insert)` than it would be to look up the `list.insert` method documentation in Google.
@@ -871,7 +877,7 @@ If you don't already know about `super`, you'll end up learning this if and when
 
 ### property
 
-The `property` function is a decorator (and also a descriptor) and it'll likely seem somewhat magical when you first learn about it.
+The `property` function is a [decorator][] and a [descriptor][] (only click those weird terms if you're extra curious) and it'll likely seem somewhat magical when you first learn about it.
 
 This decorator allows us to create an attribute which will always seem to contain the return value of a particular function call.
 It's easiest to understand with an example.
@@ -880,8 +886,10 @@ Here's a class that uses `property`:
 
 ```python
 class Circle:
+
     def __init__(self, radius=1):
         self.radius = radius
+
     @property
     def diameter(self):
         return self.radius * 2
@@ -941,7 +949,7 @@ True
 True
 ```
 
-If you're [overloading operators][] you might need to use `isinstance`, but in general we try to avoid strong type checking in Python so we don't see these much.
+If you're [overloading operators][] (e.g. customizing what the `+` operator does on your class) you might need to use `isinstance`, but in general we try to avoid strong type checking in Python so we don't see these much.
 
 In Python we usually prefer duck typing over type checking.
 These functions actually do a bit more than the strong type checking I noted above ([the behavior of both can be customized][subclasscheck]) so it's actually possible to practice a sort of `isinstance`-powered duck typing with abstract base classes like [collections.abc.Iterable][].
@@ -1010,9 +1018,12 @@ Factory methods (alternative constructors) are a common use case for this:
 
 ```python
 class RomanNumeral:
-    """A roman numeral, represented as a string and numerically."""
+
+    """A Roman numeral, represented as a string and numerically."""
+
     def __init__(self, number):
         self.value = number
+
     @classmethod
     def from_string(cls, string):
         return cls(roman_to_int(string))  # function doesn't exist yet
@@ -1023,7 +1034,7 @@ It's a bit harder to come up with a good use for `staticmethod`, since you can p
 ```python
 class RomanNumeral:
 
-    """A roman numeral, represented as a string and numerically."""
+    """A Roman numeral, represented as a string and numerically."""
 
     SYMBOLS = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1}
 
@@ -1100,7 +1111,7 @@ The 15 built-ins I'm mentioning in this section are things you may eventually ne
 - **[divmod][]**: this function does a floor division (`//`) and a modulo operation (`%`) at the same time
 - **[bin][]**, **[oct][]**, and **[hex][]**: if you need to display a number as a string in binary, octal, or hexadecimal form, you'll want these functions
 - **[abs][]**: when you need the absolute value of a number, you'll look this up
-- **[hash][]**: dictionaries and sets rely on the `hash` function, but you likely won't need it unless you're implementing a clever de-duplication algorithm
+- **[hash][]**: dictionaries and sets rely on the `hash` function to test for [hashability][hashable], but you likely won't need it unless you're implementing a clever de-duplication algorithm
 - **[object][]**: this function (yes it's a class) is useful for making [unique default values and sentinel values][sentinel values], if you ever need those
 
 You're unlikely to need all the above built-ins, but if you write Python code for long enough you're likely to see nearly all of them.
@@ -1178,8 +1189,8 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [pdb lightning talk]: https://pyvideo.org/pybay-2017/introduction-to-pdb.html
 [pdb talk]: https://www.youtube.com/watch?v=P0pIW5tJrRM&feature=player_embedded
 [python morsels]: https://www.pythonmorsels.com/
-[f-strings]: https://docs.python.org/3.7/reference/lexical_analysis.html#f-strings
-[str.format]: https://docs.python.org/3.7/library/stdtypes.html#str.format
+[f-strings]: https://docs.python.org/3/reference/lexical_analysis.html#f-strings
+[str.format]: https://docs.python.org/3/library/stdtypes.html#str.format
 [iter]: https://docs.python.org/3/library/functions.html#iter
 [callable]: https://docs.python.org/3/library/functions.html#callable
 [map]: https://docs.python.org/3/library/functions.html#map
@@ -1212,5 +1223,12 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [complex]: https://docs.python.org/3/library/functions.html#complex
 [vars]: https://docs.python.org/3/library/functions.html#vars
 [standard input]: https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)
-[itertools.zip_longest]: https://docs.python.org/3.4/library/itertools.html#itertools.zip_longest
+[itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
 [duck typing]: https://en.wikipedia.org/wiki/Duck_typing
+[hashable]: https://lerner.co.il/2015/04/03/is-it-hashable-fun-and-games-with-hashing-in-python/
+[truth value testing]: https://docs.python.org/3/library/stdtypes.html#truth
+[mapping]: https://docs.python.org/3/glossary.html#term-mapping
+[dict vs literal]: https://doughellmann.com/blog/2012/11/12/the-performance-impact-of-using-dict-instead-of-in-cpython-2-7-2/
+[repl]: https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
+[decorator]: https://docs.python.org/3/glossary.html#term-decorator
+[descriptor]: https://docs.python.org/3/glossary.html#term-descriptor
