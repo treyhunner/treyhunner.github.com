@@ -196,15 +196,16 @@
     right: 0;
     left: 0;
     width: 100%;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-radius: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     animation-duration: 0s;
     -webkit-animation-duration: 0s;
-    text-align: center;
   }
   #funnel-tools-capture .title {
+    text-align: center;
     font-size: 0.8em;
   }
   #funnel-tools-capture .open {
