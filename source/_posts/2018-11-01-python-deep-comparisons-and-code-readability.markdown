@@ -12,6 +12,8 @@ But I've found that **Python's comparison operators are often misunderstood and 
 
 Let's review how Python's comparison operators work on different types of objects and then take a look at how we can use this to improve the readability of our code.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Python's comparison operators
 
