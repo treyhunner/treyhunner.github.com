@@ -971,7 +971,7 @@ Say we have some `thing` object we want to check for a particular value on:
 >>> thing = Thing()
 ```
 
-The `hasattr` function allows us to check whether the object *has* a certain attribute:
+The `hasattr` function allows us to check whether the object *has* a certain attribute (note that `hasattr` [has some quirks](https://hynek.me/articles/hasattr/), though most have been ironed out in Python 3):
 
 ```pycon
 >>> hasattr(thing, 'x')
@@ -981,11 +981,15 @@ False
 True
 ```
 
-The `getattr` function allows us to retrieve the value of that attribute:
+The `getattr` function allows us to retrieve the value of that attribute (with an optional default if the attribute doesn't exist):
 
 ```pycon
 >>> getattr(thing, 'x')
 4
+>>> getattr(thing, 'x', 0)
+4
+>>> getattr(thing, 'y', 0)
+0
 ```
 
 The `setattr` function allows for setting the value:
