@@ -415,7 +415,7 @@ Important objects deserve names and you can use keyword arguments to give your o
 
 If you'd like to **level up your Python skills** and get practice using Python-specific features, like keyword arguments, sign up for [Python Morsels][] below.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="keyword arguments post">
@@ -424,6 +424,7 @@ If you'd like to **level up your Python skills** and get practice using Python-s
 <small>
 You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
 </small>
+</form>
 
 
 [pep 468]: https://www.python.org/dev/peps/pep-0468/

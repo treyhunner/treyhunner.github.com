@@ -471,7 +471,7 @@ Every week I send out carefully crafted Python exercises through my Python skill
 If you'd like to practice your comprehensions through one Python exercise right now, you can sign up for [Python Morsels][] using the form below.
 After you sign up, I'll immediately give you **one exercise to practice your comprehension copy-pasting skills**.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
     <label><input type="radio" name="exercise_track" value="comprehension4"> I'm pretty much an expert at comprehensions</label>
     <br>
     <label><input type="radio" name="exercise_track" value="comprehension3"> I use comprehensions quite often</label>
@@ -482,7 +482,6 @@ After you sign up, I'll immediately give you **one exercise to practice your com
     <br>
     <br>
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
-  <input type="hidden" name="exercise_track" value="comprehension">
   <input type="hidden" name="form_id" value="overusing comprehensions">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
 <br>

@@ -322,7 +322,7 @@ I hope I've inspired you to embrace the use of `any`/`all` with generator expres
 
 If you'd like to **get practice with the `any` and `all` functions right now**, sign up for Python Morsels using the form below to get an exercise that benefits from using one of these two functions.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="any/all">
   <input type="hidden" name="form_id" value="any/all post">

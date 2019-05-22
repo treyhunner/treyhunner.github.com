@@ -467,7 +467,7 @@ You won't learn new Python skills by reading, you'll learn them by writing code.
 
 If you'd like to practice making an iterator right now, sign up for [Python Morsels][] using the form below and I'll immediately give you an exercise to practice making an iterator.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="iterators">
   <input type="hidden" name="form_id" value="make an iterator">

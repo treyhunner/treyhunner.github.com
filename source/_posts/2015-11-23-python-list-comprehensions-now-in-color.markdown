@@ -302,7 +302,7 @@ Every week I send out carefully crafted Python exercises through my Python skill
 If you'd like to practice comprehensions through one Python exercise right now, you can sign up for [Python Morsels][] using the form below.
 After you sign up, I'll immediately give you **one exercise to practice your comprehension copy-pasting skills**.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="comprehension2">
   <input type="hidden" name="form_id" value="comprehensions in color">
@@ -311,7 +311,6 @@ After you sign up, I'll immediately give you **one exercise to practice your com
 <small>
 You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
 </small>
-
 </form>
 
 

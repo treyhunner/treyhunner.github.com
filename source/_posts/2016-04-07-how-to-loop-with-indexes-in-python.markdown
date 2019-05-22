@@ -205,7 +205,7 @@ You have to practice these skills if you want to actually remember them.
 If you'd like to **get hands-on experience practicing Python** every week, I have a Python skill-building service you should consider joining.
 If you sign up for Python Morsels I'll give you a **Python looping exercise that right now** and then I'll send you **one new Python exercise every week** after that.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="zip">
   <input type="hidden" name="form_id" value="looping with indexes">

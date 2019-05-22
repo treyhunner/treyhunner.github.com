@@ -452,7 +452,7 @@ If you sign up for Python Morsels using the below form, I'll send you one callab
 
 #### Which Python exercise would you like right now?
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
     <label><input type="radio" name="exercise_track" value="callables1"> Novice exercise with a bonus involving callables</label>
     <br>
     <label><input type="radio" name="exercise_track" value="callables2"> Making a callable which returns an iterable</label>

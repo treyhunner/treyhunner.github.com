@@ -426,7 +426,7 @@ I highly recommend you write some code that you uses `*` and `**` in a number of
 I'd love to send you an exercise on to get some practice with `*` and `**` right now.
 If you sign up for [Python Morsels][] using the for below, I'll **send you an exercise that uses `*` and `**` right after you sign up**.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
     <label><input type="radio" name="exercise_track" value="star1"> I was pretty much brand new to asterisks in Python</label>
     <br>
     <label><input type="radio" name="exercise_track" value="star2"> The keyword-only stuff was new to me</label>
@@ -442,6 +442,7 @@ If you sign up for [Python Morsels][] using the for below, I'll **send you an ex
 <small>
 You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
 </small>
+</form>
 
 
 [keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/

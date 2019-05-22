@@ -180,4 +180,4 @@ Ready to sign up?
 [pavel anni]: https://twitter.com/PavelAnni/status/963778202605932544
 [jason wattier]: https://twitter.com/jmwatt3/status/1035314897280794629
 [ben jones]: https://twitter.com/abqpythonista/status/976202006405595136
-[sign up]: https://www.pythonmorsels.com/signup/
+[sign up]: https://www.pythonmorsels.com/accounts/signup/

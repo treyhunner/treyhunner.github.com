@@ -648,7 +648,7 @@ Want to get some practice using `object()` in Python?
 
 If you sign up to [Python Morsels][] (my Python skill-building service) using the form below, I'll immediately send you a Python exercise where it makes sense to use `object()`.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="sentinels post">
@@ -657,6 +657,7 @@ If you sign up to [Python Morsels][] (my Python skill-building service) using th
 <small>
 You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
 </small>
+</form>
 
 
 [sentinel value]: https://en.wikipedia.org/wiki/Sentinel_value

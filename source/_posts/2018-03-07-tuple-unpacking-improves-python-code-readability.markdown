@@ -533,7 +533,7 @@ You don't learn by reading articles like this one, **you learn by writing code**
 To get practice writing some readable code using tuple unpacking, sign up for [Python Morsels][] using the form below.
 If you sign up to Python Morsels using this form, I'll immediately send you an exercise that involves tuple unpacking.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="beginner">
   <input type="hidden" name="form_id" value="tuple unpacking">

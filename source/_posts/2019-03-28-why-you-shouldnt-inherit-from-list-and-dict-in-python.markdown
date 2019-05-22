@@ -542,7 +542,7 @@ If you use the below form to sign up for Python Morsels, the first exercise you 
 After that first exercise, I'll send you one exercise every week for the next month.
 By default they'll be **intermediate-level** exercises, though you can change your skill level after you sign up.
 
-<form method="post" action="https://www.pythonmorsels.com/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
     <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
     <input type="hidden" name="exercise_track" value="custom collection">
     <input type="hidden" name="form_id" value="inheriting from builtins">
