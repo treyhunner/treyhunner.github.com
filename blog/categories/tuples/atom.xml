@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tuples | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-05-21T17:57:18-07:00</updated>
+  <updated>2019-05-22T07:34:55-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -938,7 +938,7 @@ Please feel free to use this article as your personal reference guide to multipl
 <p>To get practice writing some readable code using tuple unpacking, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
 If you sign up to Python Morsels using this form, I&rsquo;ll immediately send you an exercise that involves tuple unpacking.</p>
 
-<p><form method="post" action="https://www.pythonmorsels.com/signup/">
+<p><form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="beginner">
   <input type="hidden" name="form_id" value="tuple unpacking">
