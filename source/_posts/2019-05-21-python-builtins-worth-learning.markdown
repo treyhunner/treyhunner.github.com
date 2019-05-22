@@ -76,7 +76,7 @@ The built-in functions which are often overlooked by newer Python programmers:
 9. [any](#any_and_all)
 10. [all](#any_and_all)
 
-There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier: `dir`, `var`, `breakpoint`, `type`, `help`.
+There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier: `dir`, `vars`, `breakpoint`, `type`, `help`.
 
 In addition to the 25 built-in functions above, we'll also briefly see the other 44 built-ins in the [learn it later](#Learn_it_later) [maybe learn it eventually](#Maybe_learn_it_eventually) and [you likely don't need these](#You_likely_don’t_need_these) sections.
 
@@ -1132,7 +1132,7 @@ There are sometimes really appropriate uses for a few of these, but you'll likel
 - **[slice][]**: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
 - **[bytes][]**, **[bytearray][]**, and **[memoryview][]**: if you're working with bytes often, you'll reach for some of these (just ignore them until then)
 - **[ascii][]**: like `repr` but returns an ASCII-only representation of an object; I haven't needed this in my code yet
-- **[frozenset][]**: like `set`, but it's immutable; neat but not something I've reached for in my own code
+- **[frozenset][]**: like `set`, but it's immutable (and hashable!); very neat but not something I've needed in my own code
 - **[\_\_import\_\_][__import__]**: this function isn't really meant to be used by you, use [importlib][] instead
 - **[format][]**: this calls the `__format__` method, which is used for string formatting ([f-strings][] and [str.format][]); you usually don't need to call this function directly
 - **[pow][]**: the exponentiation operator (`**`) usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
