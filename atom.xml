@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-05-21T16:55:49-07:00</updated>
+  <updated>2019-05-21T17:57:18-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -103,7 +103,7 @@ And category 5 are <strong>arcane built-ins</strong>, which might be very handy 
 </ol>
 
 
-<p>There are also <a href="#The_5_debugging_functions">5 commonly overlooked built-ins</a> which I recommend knowing about solely because they make debugging easier: <code>dir</code>, <code>var</code>, <code>breakpoint</code>, <code>type</code>, <code>help</code>.</p>
+<p>There are also <a href="#The_5_debugging_functions">5 commonly overlooked built-ins</a> which I recommend knowing about solely because they make debugging easier: <code>dir</code>, <code>vars</code>, <code>breakpoint</code>, <code>type</code>, <code>help</code>.</p>
 
 <p>In addition to the 25 built-in functions above, we&rsquo;ll also briefly see the other 44 built-ins in the <a href="#Learn_it_later">learn it later</a> <a href="#Maybe_learn_it_eventually">maybe learn it eventually</a> and <a href="#You_likely_don%E2%80%99t_need_these">you likely don&rsquo;t need these</a> sections.</p>
 
@@ -1499,7 +1499,7 @@ There are sometimes really appropriate uses for a few of these, but you&rsquo;ll
 <li><strong><a href="https://docs.python.org/3/library/functions.html#slice">slice</a></strong>: if you&rsquo;re implementing <code>__getitem__</code> to make a custom sequence, you may need this (some <a href="https://www.pythonmorsels.com/">Python Morsels</a> exercises require this actually), but unless you make your own custom sequence you&rsquo;ll likely never see <code>slice</code></li>
 <li><strong><a href="https://docs.python.org/3/library/functions.html#bytes">bytes</a></strong>, <strong><a href="https://docs.python.org/3/library/functions.html#bytearray">bytearray</a></strong>, and <strong><a href="https://docs.python.org/3/library/functions.html#memoryview">memoryview</a></strong>: if you&rsquo;re working with bytes often, you&rsquo;ll reach for some of these (just ignore them until then)</li>
 <li><strong><a href="https://docs.python.org/3/library/functions.html#ascii">ascii</a></strong>: like <code>repr</code> but returns an ASCII-only representation of an object; I haven&rsquo;t needed this in my code yet</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#frozenset">frozenset</a></strong>: like <code>set</code>, but it&rsquo;s immutable; neat but not something I&rsquo;ve reached for in my own code</li>
+<li><strong><a href="https://docs.python.org/3/library/functions.html#frozenset">frozenset</a></strong>: like <code>set</code>, but it&rsquo;s immutable (and hashable!); very neat but not something I&rsquo;ve needed in my own code</li>
 <li><strong><a href="https://docs.python.org/3/library/functions.html#__import__">__import__</a></strong>: this function isn&rsquo;t really meant to be used by you, use <a href="https://docs.python.org/3/library/importlib.html#importlib.import_module">importlib</a> instead</li>
 <li><strong><a href="https://docs.python.org/3/library/functions.html#format">format</a></strong>: this calls the <code>__format__</code> method, which is used for string formatting (<a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">f-strings</a> and <a href="https://docs.python.org/3/library/stdtypes.html#str.format">str.format</a>); you usually don&rsquo;t need to call this function directly</li>
 <li><strong><a href="https://docs.python.org/3/library/functions.html#pow">pow</a></strong>: the exponentiation operator (<code>**</code>) usually supplants this&hellip; unless you&rsquo;re doing modulo-math (maybe you&rsquo;re implementing <a href="http://code.activestate.com/recipes/578838-rsa-a-simple-and-easy-to-read-implementation/">RSA encryption</a> from scratch&hellip;?)</li>
