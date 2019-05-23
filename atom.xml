@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-05-23T08:05:40-07:00</updated>
+  <updated>2019-05-23T14:37:07-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -659,8 +659,7 @@ If you ever see code with <code>range(len(...))</code>, you&rsquo;ll almost alwa
 
 <p>The <code>zip</code> function is even more specialized than <code>enumerate</code>.</p>
 
-<p>The <code>zip</code> function is used for looping over multiple iterables at the same time.
-We actually used it above in the explanations of <code>list</code> and <code>dict</code>.</p>
+<p>The <code>zip</code> function is used for looping over multiple iterables at the same time.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1185,7 +1184,7 @@ It&rsquo;s easiest to understand with an example.</p>
 
 
 <p>If you&rsquo;re doing object-oriented Python programming (you&rsquo;re making classes a whole bunch), you&rsquo;ll likely want to learn about <code>property</code> at some point.
-Unlike other object-orient programming languages, <strong>we use properties instead of getter methods and setter methods</strong>.</p>
+Unlike other object-oriented programming languages, <strong>we use properties instead of getter methods and setter methods</strong>.</p>
 
 <h3>issubclass and isinstance</h3>
 
