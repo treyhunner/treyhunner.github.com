@@ -497,7 +497,6 @@ If `enumerate` is news to you (or if you often use `range(len(...))`), see my ar
 The `zip` function is even more specialized than `enumerate`.
 
 The `zip` function is used for looping over multiple iterables at the same time.
-We actually used it above in the explanations of `list` and `dict`.
 
 ```python
 >>> one_iterable = [2, 1, 3, 4, 7, 11]
@@ -907,7 +906,7 @@ Here's an access of that `diameter` attribute on a `Circle` object:
 ```
 
 If you're doing object-oriented Python programming (you're making classes a whole bunch), you'll likely want to learn about `property` at some point.
-Unlike other object-orient programming languages, **we use properties instead of getter methods and setter methods**.
+Unlike other object-oriented programming languages, **we use properties instead of getter methods and setter methods**.
 
 
 ### issubclass and isinstance
