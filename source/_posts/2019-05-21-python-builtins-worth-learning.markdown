@@ -1150,7 +1150,7 @@ After that there are [14 more built-ins which you'll probably learn later](#Lear
 Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_it_eventually).
 Some people love these built-ins and some people never use them: as you get more specific in your coding needs, you'll likely find yourself reaching for considerably more niche tools.
 
-After that I mentioned [the last 17 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
+After that I mentioned [the last 15 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
 
 You don't need to learn all the Python built-in functions today.
 Take it slow: focus on those first 20 important built-ins and then work your way into learning about others if and when you eventually need them.
