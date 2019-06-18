@@ -8,10 +8,10 @@ categories: python
 
 Python's `for` loops don't work the way `for` loops do in other languages.  In this article we're going to dive into Python's `for` loops to take a look at how they work under the hood and why they work the way they do.
 
-This article is based on my [Loop Better talk][].
-It was originally published [on opensource.com][].
-
 <ol data-toc=".entry-content" data-toc-headings="h2"></ol>
+
+**Note**: This article is based on my [Loop Better talk][].
+It was originally published [on opensource.com][].
 
 
 ## Looping Gotchas
@@ -155,7 +155,7 @@ Lists, tuples, strings and *all other* sequences work this way.
 'o'
 ```
 
-Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but not of these things are sequences.
+Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but none of these things are sequences.
 
 ```pycon
 >>> my_set = {1, 2, 3}
@@ -271,7 +271,7 @@ You can take PEZ out, but once a PEZ is removed it can't be put back and once th
 
 ## Looping without a for loop
 
-Now that we've learned about iterators and the `iter` and `next` functions, we're going to try to manually looping over an iterable without using a `for` loop.
+Now that we've learned about iterators and the `iter` and `next` functions, we're going to try manually looping over an iterable without using a `for` loop.
 
 We'll do so by attempting to turn this `for` loop into a `while` loop:
 
