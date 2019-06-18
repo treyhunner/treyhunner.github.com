@@ -109,11 +109,11 @@
 
 <div class="entry-content"><p>Python&rsquo;s <code>for</code> loops don&rsquo;t work the way <code>for</code> loops do in other languages.  In this article we&rsquo;re going to dive into Python&rsquo;s <code>for</code> loops to take a look at how they work under the hood and why they work the way they do.</p>
 
-<p>This article is based on my <a href="https://youtu.be/JYuE8ZiDPl4">Loop Better talk</a>.
-It was originally published <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">on opensource.com</a>.</p>
-
 <ol data-toc=".entry-content" data-toc-headings="h2"></ol>
 
+
+<p><strong>Note</strong>: This article is based on my <a href="https://youtu.be/JYuE8ZiDPl4">Loop Better talk</a>.
+It was originally published <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">on opensource.com</a>.</p>
 
 <h2>Looping Gotchas</h2>
 
@@ -286,7 +286,7 @@ Lists, tuples, strings and <em>all other</em> sequences work this way.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but not of these things are sequences.</p>
+<p>Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but none of these things are sequences.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -438,7 +438,7 @@ You can take PEZ out, but once a PEZ is removed it can&rsquo;t be put back and o
 
 <h2>Looping without a for loop</h2>
 
-<p>Now that we&rsquo;ve learned about iterators and the <code>iter</code> and <code>next</code> functions, we&rsquo;re going to try to manually looping over an iterable without using a <code>for</code> loop.</p>
+<p>Now that we&rsquo;ve learned about iterators and the <code>iter</code> and <code>next</code> functions, we&rsquo;re going to try manually looping over an iterable without using a <code>for</code> loop.</p>
 
 <p>We&rsquo;ll do so by attempting to turn this <code>for</code> loop into a <code>while</code> loop:</p>
 
