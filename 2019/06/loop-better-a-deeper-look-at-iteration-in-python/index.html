@@ -1,0 +1,1392 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Loop Better: a deeper look at iteration in Python - Trey Hunner</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Python&rsquo;s for loops don&rsquo;t work the way for loops do in other languages. In this article we&rsquo;re going to dive into Python&rsquo;s for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/">
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-26977066-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Loop Better: a deeper look at iteration in Python</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2019-06-18T09:15:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>9:15 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Python&rsquo;s <code>for</code> loops don&rsquo;t work the way <code>for</code> loops do in other languages.  In this article we&rsquo;re going to dive into Python&rsquo;s <code>for</code> loops to take a look at how they work under the hood and why they work the way they do.</p>
+
+<p>This article is based on my <a href="https://youtu.be/JYuE8ZiDPl4">Loop Better talk</a>.
+It was originally published <a href="https://opensource.com/article/18/3/loop-better-deeper-look-iteration-python">on opensource.com</a>.</p>
+
+<ol data-toc=".entry-content" data-toc-headings="h2"></ol>
+
+
+<h2>Looping Gotchas</h2>
+
+<p>We&rsquo;re going to start off our journey by taking a look at some &ldquo;gotchas&rdquo;.  After we&rsquo;ve learned how looping works in Python, we&rsquo;ll take another look at these gotchas and explain what&rsquo;s going on.</p>
+
+<h3>Gotcha 1: Looping Twice</h3>
+
+<p>Let&rsquo;s say we have a list of numbers and a generator that will give us the squares of those numbers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can pass our generator object to the <code>tuple</code> constructor to make a tuple out of it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">(1, 4, 9, 25, 49)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we then take the same generator object and pass it to the <code>sum</code> function we might expect that we&rsquo;d get the sum of these numbers, which would be 88.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead we get <code>0</code>.</p>
+
+<h3>Gotcha 2: Containment Checking</h3>
+
+<p>Let&rsquo;s take the same list of numbers and the same generator object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we ask whether <code>9</code> is in our <code>squares</code> generator, Python will tell us that 9 <em>is</em> in <code>squares</code>.  But if we ask the <em>same question again</em>, Python will tell us that 9 <em>is not</em> in <code>squares</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">9</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">9</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We asked the same question twice and Python gave us two different answers.</p>
+
+<h3>Gotcha 3: Unpacking</h3>
+
+<p>This dictionary has two key-value pairs:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;apples&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;oranges&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s unpack this dictionary using multiple assignment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">counts</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You might expect that when unpacking this dictionary, we&rsquo;ll get key-value pairs or maybe that we&rsquo;ll get an error.</p>
+
+<p>But unpacking dictionaries doesn&rsquo;t raise errors and it doesn&rsquo;t return key-value pairs.  When you unpack dictionaries you get keys:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+</span><span class='line'><span class="go">&#39;apples&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;ll come back to these gotchas after we&rsquo;ve learned a bit about the logic that powers these Python snippets.</p>
+
+<h2>Review: Python&rsquo;s for loop</h2>
+
+<p>Python doesn&rsquo;t have traditional <code>for</code> loops.  To explain what I mean, let&rsquo;s take a look at a <code>for</code> loop in another programming language.</p>
+
+<p>This is a traditional C-style <code>for</code> loop written in JavaScript:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">let</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">];</span>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numbers</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">print</span><span class="p">(</span><span class="nx">numbers</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>JavaScript, C, C++, Java, PHP, and a whole bunch of other programming languages all have this kind of <code>for</code> loop.  <strong>But Python doesn&rsquo;t</strong>.</p>
+
+<p>Python <strong>does not</strong> have traditional C-style <code>for</code> loops.  We do have something that we <em>call</em> a <code>for</code> loop in Python, but it works like a <a href="https://en.wikipedia.org/wiki/Foreach">foreach loop</a>.</p>
+
+<p>This is Python&rsquo;s flavor of <code>for</code> loop:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike traditional C-style <code>for</code> loops, Python&rsquo;s <code>for</code> loops don&rsquo;t have index variables.  There&rsquo;s no index initializing, bounds checking, or index incrementing.  Python&rsquo;s <code>for</code> loops do <em>all the work</em> of looping over our <code>numbers</code> list for us.</p>
+
+<p>So while we do have <code>for</code> loops in Python, we do not have have traditional C-style <code>for</code> loops.  The thing that <em>we</em> call a <code>for</code> loop works very differently.</p>
+
+<h2>Definitions: Iterables and Sequences</h2>
+
+<p>Now that we&rsquo;ve addressed the index-free <code>for</code> loop in our Python room, let&rsquo;s get some definitions out of the way now.</p>
+
+<p>An <strong>iterable</strong> is anything you can loop over with a <code>for</code> loop in Python.
+Iterables can be looped over and anything that can be looped over is an iterable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">some_iterable</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sequences are a very common type of iterable.
+Lists, tuples, and strings are all sequences.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="s">&quot;hello there&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sequences are iterables which have a specific set of features.
+They can be indexed starting from <code>0</code> and ending at one less than the length of the sequence, they have a length, and they can be sliced.
+Lists, tuples, strings and <em>all other</em> sequences work this way.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="go">7</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">words</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</span><span class='line'><span class="go">&#39;o&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lots of things in Python are iterables, but not all iterables are sequences.  Sets, dictionaries, files, and generators are all iterables but not of these things are sequences.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_set</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;k1&#39;</span><span class="p">:</span> <span class="s">&#39;v1&#39;</span><span class="p">,</span> <span class="s">&#39;k2&#39;</span><span class="p">:</span> <span class="s">&#39;v2&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;some_file.txt&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">my_set</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So anything that can be looped over with a <code>for</code> loop is an iterable and sequences are one type of iterable but Python has many other kinds of iterables as well.</p>
+
+<h2>Python&rsquo;s for loops don&rsquo;t use indexes</h2>
+
+<p>You might think that under the hood, Python&rsquo;s <code>for</code> loops use indexes to loop.
+Here we&rsquo;re manually looping over an iterable using a <code>while</code> loop and indexes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works for lists, but it won&rsquo;t work everything.  This way of looping <strong>only works for sequences</strong>.</p>
+
+<p>If we try to manually loop over a set using indexes, we&rsquo;ll get an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;lemon&#39;</span><span class="p">,</span> <span class="s">&#39;apple&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruits</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</span><span class='line'><span class="gp">... </span>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'><span class="err">File &quot;&lt;stdin&gt;&quot;, line 2, in &lt;module&gt;</span>
+</span><span class='line'><span class="go">TypeError: &#39;set&#39; object does not support indexing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sets are not sequences so they don&rsquo;t support indexing.</p>
+
+<p>We <em>cannot</em> manually loop over every iterable in Python by using indexes.
+This simply won&rsquo;t work for iterables that aren&rsquo;t sequences.</p>
+
+<h2>Iterators power for loops</h2>
+
+<p>So we&rsquo;ve seen that Python&rsquo;s <code>for</code> loops must not be using indexes under the hood.
+Instead, Python&rsquo;s <code>for</code> loops use <strong>iterators</strong>.</p>
+
+<p>Iterators are the things that power iterables.
+You can get an iterator from <em>any</em> iterable.
+And you can use an iterator to manually loop over the iterable it came from.</p>
+
+<p>Let&rsquo;s take a look at how that works.</p>
+
+<p>Here are three iterables: a set, a tuple, and a string.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">coordinates</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="s">&quot;hello there&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can ask each of these iterables for an <em>iterator</em> using Python&rsquo;s built-in <code>iter</code> function.
+Passing an iterable to the <code>iter</code> function will always give us back an iterator, no matter what type of iterable we&rsquo;re working with.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;set_iterator object at 0x7f2b9271c860&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;tuple_iterator object at 0x7f2b9271ce80&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;str_iterator object at 0x7f2b9271c860&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once we have an iterator, the one thing we can do with it is get its next item by passing it to the built-in <code>next</code> function.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">my_iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">my_iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Iterators are stateful, meaning once you&rsquo;ve consumed an item from them it&rsquo;s gone.</p>
+
+<p>If you ask for the <code>next</code> item from an iterator and there are no more items, you&rsquo;ll get a <code>StopIteration</code> exception:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">3</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+</span><span class='line'><span class="gr">StopIteration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So you can get an iterator from every iterable.
+And the only thing that you can do with iterators is ask them for their next item using the <code>next</code> function.
+And if you pass them to <code>next</code> but they don&rsquo;t have a next item, a <code>StopIteration</code> exception will be raised.</p>
+
+<p><img src="/images/hello-kitty-pez.jpg" width="512" height="384" title="&#34;Hello Kitty PEZ dispenser&#34;" alt="&#34;Hello Kitty PEZ dispenser&#34;"></p>
+
+<p><a href="https://www.flickr.com/photos/30223382@N06/4151828376">Hello Kitty PEZ dispenser photo</a> by Deborah Austin / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY</a></p>
+
+<p>You can think of iterators as like Hello Kitty PEZ dispensers that cannot be reloaded.
+You can take PEZ out, but once a PEZ is removed it can&rsquo;t be put back and once the dispenser is empty, it&rsquo;s useless.</p>
+
+<h2>Looping without a for loop</h2>
+
+<p>Now that we&rsquo;ve learned about iterators and the <code>iter</code> and <code>next</code> functions, we&rsquo;re going to try to manually looping over an iterable without using a <code>for</code> loop.</p>
+
+<p>We&rsquo;ll do so by attempting to turn this <code>for</code> loop into a <code>while</code> loop:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">funky_for_loop</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">action_to_do</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">action_to_do</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To do this we&rsquo;ll:</p>
+
+<ol>
+<li>Get an iterator from the given iterable</li>
+<li>Repeatedly get the next item from the iterator</li>
+<li>Execute the body of the <code>for</code> loop if we successfully got the next item</li>
+<li>Stop our loop if we got a <code>StopIteration</code> exception while getting the next item</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">funky_for_loop</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">action_to_do</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">done_looping</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>    <span class="k">while</span> <span class="ow">not</span> <span class="n">done_looping</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">item</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">done_looping</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">action_to_do</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;ve just re-invented a <code>for</code> loop by using a <code>while</code> loop and iterators.</p>
+
+<p>The above code pretty much defines the way looping works under the hood in Python.  If you understand the way the built-in <code>iter</code> and <code>next</code> functions work for looping over things, you understand how Python&rsquo;s <code>for</code> loops work.</p>
+
+<p>In fact you&rsquo;ll understand a little bit more than just how <code>for</code> loops work in Python.  All forms of looping over iterables work this way.</p>
+
+<p><strong>The iterator protocol</strong> is a fancy way of saying &ldquo;how looping over iterables works in Python&rdquo;.
+It&rsquo;s essentially the definition of the way the <code>iter</code> and <code>next</code> functions work in Python.
+All forms of iteration in Python are powered by the iterator protocol.</p>
+
+<p>The iterator protocol is used by <code>for</code> loops (as we&rsquo;ve already seen):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Multiple assignment also uses the iterator protocol:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">coordinates</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Star expressions use the iterator protocol:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">numbers</span>
+</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And many built-in functions rely on the iterator protocol:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">unique_numbers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Anything in Python that works with an <em>iterable</em> probably uses the iterator protocol in some way
+Any time you&rsquo;re looping over an iterable in Python, you&rsquo;re relying on the iterator protocol.</p>
+
+<h2>Generators are iterators</h2>
+
+<p>So you might be thinking: iterators seem cool, but they also just seem like an implementation detail and we might not need to <em>care</em> about them as users of Python.</p>
+
+<p>I have news for you: it&rsquo;s very common to work directly with iterators in Python.</p>
+
+<p>The <code>squares</code> object here is a generator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And generators are iterators, meaning you can call <code>next</code> on a generator to get its next item:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if you&rsquo;ve ever used a generator before, you probably know that you can also loop over generators:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">squares</span><span class="p">:</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">4</span>
+</span><span class='line'><span class="go">9</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you can loop over something in Python, it&rsquo;s an <strong>iterable</strong>.</p>
+
+<p>So <strong>generators are iterators</strong>, but generators are also iterables.  What&rsquo;s going on here?</p>
+
+<h2>I lied to you</h2>
+
+<p>So when I explained how iterators worked earlier, I skipped over an important detail about them.</p>
+
+<p><strong>Iterators are iterables</strong>.</p>
+
+<p>I&rsquo;ll say that again: every iterator in Python is also an iterable, which means you can loop over iterators.</p>
+
+<p>Because iterators are also iterables, you can get an iterator from an iterator using the built-in <code>iter</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator1</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator2</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterator1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Remember that iterables give us iterators when we call <code>iter</code> on them.</p>
+
+<p>When we call <code>iter</code> on an iterator it will always give us itself back:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator1</span> <span class="ow">is</span> <span class="n">iterator2</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Iterators are iterables and all iterators are their own iterators.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">is_iterator</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span> <span class="ow">is</span> <span class="n">iterable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Confused yet?</p>
+
+<p>Let&rsquo;s recap these terms.</p>
+
+<p>An iter<strong>able</strong> is something you&rsquo;re able to iterate over.
+An iter<strong>ator</strong> is the agent that actually does the iterating over an iterable.</p>
+
+<p>Additionally, in Python iterators are also iterables and they act as <em>their own</em> iterators.</p>
+
+<p>So iterators are iterables, but they don&rsquo;t have the variety of features that some iterables have.</p>
+
+<p>Iterators have no length and they can&rsquo;t be indexed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">TypeError: object of type &#39;list_iterator&#39; has no len()</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">iterator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="go">TypeError: &#39;list_iterator&#39; object is not subscriptable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>From our perspective as Python programmers, the only useful things you can do with an iterator are pass it to the built-in <code>next</code> function or loop over it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">[2, 3, 5, 7]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And if we loop over an iterator a second time, we&rsquo;ll get nothing back:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'><span class="go">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can think of iterators are <strong>lazy iterables</strong> that are <strong>single-use</strong>, meaning they can be looped over one time only.</p>
+
+<table>
+<thead>
+<tr>
+<th> Object    </th>
+<th> Iterable?        </th>
+<th> Iterator?        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Iterable  </td>
+<td> &#x2714;&#xfe0f; </td>
+<td>         &#x2753; </td>
+</tr>
+<tr>
+<td> Iterator  </td>
+<td> &#x2714;&#xfe0f; </td>
+<td> &#x2714;&#xfe0f; </td>
+</tr>
+<tr>
+<td> Generator </td>
+<td> &#x2714;&#xfe0f; </td>
+<td> &#x2714;&#xfe0f; </td>
+</tr>
+<tr>
+<td> List      </td>
+<td> &#x2714;&#xfe0f; </td>
+<td>         &#x274c; </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>As you can see in the truth table above, iterables are not always iterators but iterators are always iterables:</p>
+
+<h2>The iterator protocol, in full</h2>
+
+<p>Let&rsquo;s define how iterators work from Python&rsquo;s perspective.</p>
+
+<p>Iterables can be passed to the <code>iter</code> function to get an iterator for them.</p>
+
+<p>Iterators:</p>
+
+<ol>
+<li>Can be passed to the <code>next</code> function which will give their next item or raise a <code>StopIteration</code> exception if there are no more items</li>
+<li>Can be passed to the <code>iter</code> function and will return themselves back</li>
+</ol>
+
+
+<p>The inverse of these statements also hold true:</p>
+
+<ol>
+<li>Anything that can be passed to <code>iter</code> without a <code>TypeError</code> is an iterable</li>
+<li>Anything that can be passed to <code>next</code> without a <code>TypeError</code> is an iterator</li>
+<li>Anything that returns itself when passed to <code>iter</code> is an iterator</li>
+</ol>
+
+
+<p>That&rsquo;s the iterator protocol in Python.</p>
+
+<h2>Iterators enable laziness</h2>
+
+<p>Iterators allow us to both work with and create <strong>lazy iterables</strong> that don&rsquo;t do any work until we ask them for their next item.
+Because we can create lazy iterables, we can make infinitely long iterables.
+And we can create iterables that are conservative with system resources, that can save us memory and can save us CPU time.</p>
+
+<h2>Iterators are everywhere</h2>
+
+<p>You&rsquo;ve already seen lots of iterators in Python.
+I&rsquo;ve already mentioned that generators are iterators.
+Many of Python&rsquo;s built-in classes are iterators also.
+For example Python&rsquo;s <code>enumerate</code> and <code>reversed</code> objects are iterators.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span>
+</span><span class='line'><span class="go">&lt;enumerate object at 0x7f112b0e6510&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span><span class='line'><span class="go">(0, &#39;a&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In Python 3, <code>zip</code>, <code>map</code>, and <code>filter</code> objects are iterators too.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">letters</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span>
+</span><span class='line'><span class="go">&lt;zip object at 0x7f112cc6ce48&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</span><span class='line'><span class="go">(1, &#39;a&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And file objects in Python are iterators also.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;hello.txt&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="go">&#39;hello world\n&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are lots of iterators bult-in to Python, in the standard library, and in third-party Python libraries.
+These iterators all act like lazy iterables by delaying work until the moment you ask them for their next item.</p>
+
+<h2>Creating your own iterator</h2>
+
+<p>It&rsquo;s useful to know that you&rsquo;re already using iterators, but I&rsquo;d like you to also know that you can create your own iterators and your own lazy iterables.</p>
+
+<p>This class makes an iterator that accepts an iterable of numbers and provides squares of each of the numbers as it&rsquo;s looped over.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">square_all</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">numbers</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But no work will be done until we start looping over an instance of this class.</p>
+
+<p>Here we have an infinitely long iterable <code>count</code> and you can see that <code>square_all</code> accepts <code>count</code> without fully looping over this infinitely long iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="n">square_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">25</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">36</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This iterator class works, but we don&rsquo;t usually make iterators this way.
+Usually when we want to make a custom iterator, we make a generator function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">square_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This generator function is equivalent to the class we made above and it works essentially the same way.</p>
+
+<p>That <code>yield</code> statement probably seem magical, but it is very powerful: <code>yield</code> allows us to put our generator function on pause between calls from the <code>next</code> function.
+The <code>yield</code> statement is the thing that separates generator functions from regular functions.</p>
+
+<p>Another way we could implement this same iterator is with a generator expression.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">square_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This does the same thing as our generator function but it uses a syntax that looks <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">like a list comprehension</a>.
+If you need to make a lazy iterable in your code, think of iterators and consider making a generator function or a generator expression.</p>
+
+<h2>How iterators can improve your code</h2>
+
+<p>Once you&rsquo;ve embraced the idea of using lazy iterables in your code, you&rsquo;ll find that there are lots of possibilities for discovering or creating helper functions that assist you in looping over iterables and processing data.</p>
+
+<h3>Laziness and summing</h3>
+
+<p>This is a <code>for</code> loop that sums up all billable hours in a Django queryset:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">hours_worked</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_billable</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">hours_worked</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">duration</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is code that does the same thing using a generator expression for lazy evaluation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">billable_times</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="n">event</span><span class="o">.</span><span class="n">duration</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">is_billable</span><span class="p">()</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">hours_worked</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">billable_times</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that the shape of our code has changed dramatically.</p>
+
+<p>Turning our billable times into a lazy iterable has allowed us to name something (<code>billable_times</code>) that was previously unnamed.
+This has also allowed us to use the <code>sum</code> function.  We couldn&rsquo;t have used <code>sum</code> before because we didn&rsquo;t even have an iterable to pass to it.
+Iterators allow you to fundamentally change the way you structure your code.</p>
+
+<h3>Laziness and breaking out of loops</h3>
+
+<p>This code prints out the first ten lines of a log file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">log_file</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code does the same thing, but we&rsquo;re using the <code>itertools.islice</code> function to lazily grab the first 10 lines of our file as we loop:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">islice</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">first_ten_lines</span> <span class="o">=</span> <span class="n">islice</span><span class="p">(</span><span class="n">log_file</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">first_ten_lines</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>first_ten_lines</code> variable we&rsquo;ve made is an iterator.
+Again using an iterator allowed us to give a name to something (first ten lines) that was previously unnamed.
+Naming things can make our code more descriptive and more readable.</p>
+
+<p>As a bonus we also removed the need for a <code>break</code> statement in our loop because the <code>islice</code> utility handles the breaking for us.</p>
+
+<p>You can find many more iteration helper functions in <a href="https://docs.python.org/3/library/itertools.html">itertools</a> in the standard library as well as in third-party libraries such as <a href="https://boltons.readthedocs.io">boltons</a> and <a href="https://more-itertools.readthedocs.io">more-itertools</a>.</p>
+
+<h3>Creating your own iteration helpers</h3>
+
+<p>You can find helper functions for looping in the standard library and in third-party libraries, but you can also make your own!</p>
+
+<p>This code makes a list of the differences between consecutive values in a sequence.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">current</span> <span class="o">=</span> <span class="n">readings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">next_item</span> <span class="ow">in</span> <span class="n">readings</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+</span><span class='line'>    <span class="n">differences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span> <span class="o">-</span> <span class="n">current</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">current</span> <span class="o">=</span> <span class="n">next_item</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that this code has an extra variable that we need to assign each time we loop.
+Also note that this code only works with things we can slice, like sequences.  If <code>readings</code> were a generator, a zip object, or any other type of iterator this code would fail.</p>
+
+<p>Let&rsquo;s write a helper function to fix our code.</p>
+
+<p>This is a generator function that gives us the current item and the item following it for every item in a given iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">with_next</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Yield (current, next_item) tuples for each item in iterable.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">iterator</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">current</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">next_item</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">yield</span> <span class="n">current</span><span class="p">,</span> <span class="n">next_item</span>
+</span><span class='line'>        <span class="n">current</span> <span class="o">=</span> <span class="n">next_item</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re manually getting an iterator from our iterable, calling <code>next</code> on it to grab the first item, and then looping over our iterator to get all subsequent items, keeping track of our last item along the way.
+This function works not just with sequences, but with any type of iterable</p>
+
+<p>This is the same code but we&rsquo;re using our helper function instead of manually keeping track of <code>next_item</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">differences</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">current</span><span class="p">,</span> <span class="n">next_item</span> <span class="ow">in</span> <span class="n">with_next</span><span class="p">(</span><span class="n">readings</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">differences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span> <span class="o">-</span> <span class="n">current</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice that this code doesn&rsquo;t have awkward assignments to <code>next_item</code> hanging around our loop.
+The <code>with_previous</code> generator function handles the work of keeping track of <code>next_item</code> for us.</p>
+
+<p>Also note that this code has been compacted enough that we could even <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste our way into a list comprehension</a> if we wanted to.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">differences</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">(</span><span class="n">next_item</span> <span class="o">-</span> <span class="n">current</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">current</span><span class="p">,</span> <span class="n">next_item</span> <span class="ow">in</span> <span class="n">with_next</span><span class="p">(</span><span class="n">readings</span><span class="p">)</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Looping Gotchas: Revisited</h2>
+
+<p>At this point we&rsquo;re ready to jump back to those odd examples we saw earlier and try to figure out what was going on.</p>
+
+<h3>Gotcha 1: Exhausting an Iterator</h3>
+
+<p>Here we have a generator object, <code>squares</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we pass this generator to the <code>tuple</code> constructor, we&rsquo;ll get a tuple of its items back:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">(1, 4, 9, 25, 49)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we then try to compute the <code>sum</code> of the numbers in this generator, we&rsquo;ll get <code>0</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This generator is now empty: we&rsquo;ve exhausted it.
+If we try to make a tuple out of it again, we&rsquo;ll get an empty tuple:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Generators are iterators.
+And iterators are single-use iterables.
+They&rsquo;re like Hello Kitty PEZ dispensers that cannot be reloaded.</p>
+
+<h3>Gotcha 2: Partially-Consuming an Iterator</h3>
+
+<p>Again we have a generator object, <code>squares</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we ask whether <code>9</code> is in this <code>squares</code> generator, we&rsquo;ll get <code>True</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">9</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="go">True</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But if we ask the same question again, we&rsquo;ll get <code>False</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">9</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When we ask whether <code>9</code> is in this generator, Python has to loop over this generator to find <code>9</code>.
+If we kept looping over it after checking for <code>9</code>, we&rsquo;ll only get the last two numbers because we&rsquo;ve already consumed the numbers before this point:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">9</span> <span class="ow">in</span> <span class="n">squares</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+</span><span class='line'><span class="go">[25, 49]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Asking whether something is <em>contained</em> in an iterator will partially consume the iterator.
+There is no way to know whether something is in an iterator without starting to loop over it.</p>
+
+<h3>Gotcha 3: Unpacking is iteration</h3>
+
+<p>When you <em>loop</em> over dictionaries you get keys:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;apples&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;oranges&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">apples</span>
+</span><span class='line'><span class="go">oranges</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You also get keys when you unpack a dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">counts</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</span><span class='line'><span class="go">(&#39;apples&#39;, &#39;oranges&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looping relies on the iterator protocol.
+Iterable unpacking also relies on the iterator protocol.
+Unpacking a dictionary is really the same as looping over the dictionary.
+Both use the iterator protocol, so you get the same result in both cases.</p>
+
+<h2>Recap and related resources</h2>
+
+<p>Sequences are iterables, but not all iterables are sequences.
+When someone says the word &ldquo;iterable&rdquo; you can only assume they mean &ldquo;something that you can iterate over&rdquo;.  Don&rsquo;t assume iterables can be looped over twice, asked for their length, or indexed.</p>
+
+<p>Iterators are the most rudimentary form of iterables in Python.
+If you&rsquo;d like to make a lazy iterable in your code think of iterators and consider making a generator function or a generator expression.</p>
+
+<p>And finally, remember that every type of iteration in Python relies on the iterator protocol so understanding the iterator protocol is the key to understanding quite a bit about looping in Python in general.</p>
+
+<p>Here are some related articles and videos I recommend:</p>
+
+<ul>
+<li><a href="https://nedbatchelder.com/text/iter.html">Loop Like a Native</a>, Ned Batchelder&rsquo;s PyCon 2013 talk</li>
+<li><a href="https://www.youtube.com/watch?v=V2PkkMS2Ack">Loop Better</a>, the talk this article is based on</li>
+<li><a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How For Loops Work</a>, a short article I wrote on the iterator protocol</li>
+<li><a href="https://www.youtube.com/watch?v=5_cJIcgM7rw">Comprehensible Comprehensions</a>, my talk on comprehensions and generator expressions</li>
+<li><a href="http://treyhunner.com/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator</a>, my article on range and iterators</li>
+<li><a href="https://www.youtube.com/watch?v=u8g9scXeAcI">Looping Like a Pro in Python</a>, DB&rsquo;s PyCon 2017 talk</li>
+</ul>
+
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2019-06-18T09:15:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>9:15 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/" data-via="treyhunner" data-counturl="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2019/05/python-builtins-worth-learning/" title="Previous Post: Python built-ins worth learning">&laquo; Python built-ins worth learning</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 4 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>four free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    </p>
+</section>
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/';
+        var disqus_url = 'https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    I send out 1 Python exercise every week through a Python skill-building service called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+    </p>
+    <p>
+    If you'd like to <strong>improve your Python skills every week</strong>, sign up!
+    </p>
+    <form method="post" action="https://www.pythonmorsels.com/email-signup/">
+      <input type="email" name="email" placeholder="email@domain.com" required>
+      <button type="submit">Sign me up for Python Morsels!</button>
+    </form>
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+  </div>
+</section>
+
+
+</body>
+</html>
