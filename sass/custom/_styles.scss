@@ -205,3 +205,34 @@ body>footer {
         }
     }
 }
+
+.entry-content table {
+    margin-bottom: 1.5em;
+}
+.entry-content th {
+    font-weight: bold;
+    text-align: center;
+}
+.entry-content th, .entry-content td {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}
+
+.entry-content tr {
+    background-color: #FFFFFF;
+}
+.entry-content tr:nth-child(even) {
+    background-color: #F8F8F8;
+}
+
+// Undo those table customizations for pygments
+.entry-content .code table {
+    margin-bottom: inherit;
+}
+.entry-content .code th, .entry-content .code td {
+  border: inherit;
+  padding: inherit;
+}
+.entry-content .code tr, .entry-content .code tr:nth-child(even) {
+    background-color: inherit;
+}
