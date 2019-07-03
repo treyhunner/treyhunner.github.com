@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-06-18T11:40:44-07:00</updated>
+  <updated>2019-07-03T14:33:48-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -230,7 +230,7 @@ Here we&rsquo;re manually looping over an iterable using a <code>while</code> lo
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This works for lists, but it won&rsquo;t work everything.  This way of looping <strong>only works for sequences</strong>.</p>
+<p>This works for lists, but it won&rsquo;t work for everything.  This way of looping <strong>only works for sequences</strong>.</p>
 
 <p>If we try to manually loop over a set using indexes, we&rsquo;ll get an error:</p>
 
@@ -437,7 +437,7 @@ All forms of iteration in Python are powered by the iterator protocol.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Anything in Python that works with an <em>iterable</em> probably uses the iterator protocol in some way
+<p>Anything in Python that works with an <em>iterable</em> probably uses the iterator protocol in some way.
 Any time you&rsquo;re looping over an iterable in Python, you&rsquo;re relying on the iterator protocol.</p>
 
 <h2>Generators are iterators</h2>
@@ -759,7 +759,7 @@ Usually when we want to make a custom iterator, we make a generator function:</p
 
 <p>This generator function is equivalent to the class we made above and it works essentially the same way.</p>
 
-<p>That <code>yield</code> statement probably seem magical, but it is very powerful: <code>yield</code> allows us to put our generator function on pause between calls from the <code>next</code> function.
+<p>That <code>yield</code> statement probablys seem magical, but it is very powerful: <code>yield</code> allows us to put our generator function on pause between calls from the <code>next</code> function.
 The <code>yield</code> statement is the thing that separates generator functions from regular functions.</p>
 
 <p>Another way we could implement this same iterator is with a generator expression.</p>

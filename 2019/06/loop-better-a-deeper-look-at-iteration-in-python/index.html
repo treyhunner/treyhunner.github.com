@@ -35,17 +35,18 @@
 <script src="/javascripts/jquery.toc.min.js"></script>
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-26977066-1']);
-    _gaq.push(['_trackPageview']);
+  <!-- Google Analytics -->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+  ga('create', 'UA-26977066-1', 'auto');  // Replace with your property ID.
+  ga('send', 'pageview');
+
   </script>
+  <!-- End Google Analytics -->
 
 
 </head>
@@ -319,7 +320,7 @@ Here we&rsquo;re manually looping over an iterable using a <code>while</code> lo
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This works for lists, but it won&rsquo;t work everything.  This way of looping <strong>only works for sequences</strong>.</p>
+<p>This works for lists, but it won&rsquo;t work for everything.  This way of looping <strong>only works for sequences</strong>.</p>
 
 <p>If we try to manually loop over a set using indexes, we&rsquo;ll get an error:</p>
 
@@ -526,7 +527,7 @@ All forms of iteration in Python are powered by the iterator protocol.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Anything in Python that works with an <em>iterable</em> probably uses the iterator protocol in some way
+<p>Anything in Python that works with an <em>iterable</em> probably uses the iterator protocol in some way.
 Any time you&rsquo;re looping over an iterable in Python, you&rsquo;re relying on the iterator protocol.</p>
 
 <h2>Generators are iterators</h2>
@@ -848,7 +849,7 @@ Usually when we want to make a custom iterator, we make a generator function:</p
 
 <p>This generator function is equivalent to the class we made above and it works essentially the same way.</p>
 
-<p>That <code>yield</code> statement probably seem magical, but it is very powerful: <code>yield</code> allows us to put our generator function on pause between calls from the <code>next</code> function.
+<p>That <code>yield</code> statement probablys seem magical, but it is very powerful: <code>yield</code> allows us to put our generator function on pause between calls from the <code>next</code> function.
 The <code>yield</code> statement is the thing that separates generator functions from regular functions.</p>
 
 <p>Another way we could implement this same iterator is with a generator expression.</p>
