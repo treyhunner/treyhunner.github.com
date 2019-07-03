@@ -180,7 +180,7 @@ while i < len(numbers):
     i += 1
 ```
 
-This works for lists, but it won't work everything.  This way of looping **only works for sequences**.
+This works for lists, but it won't work for everything.  This way of looping **only works for sequences**.
 
 If we try to manually loop over a set using indexes, we'll get an error:
 
@@ -337,7 +337,7 @@ And many built-in functions rely on the iterator protocol:
 unique_numbers = set(numbers)
 ```
 
-Anything in Python that works with an *iterable* probably uses the iterator protocol in some way
+Anything in Python that works with an *iterable* probably uses the iterator protocol in some way.
 Any time you're looping over an iterable in Python, you're relying on the iterator protocol.
 
 
@@ -569,7 +569,7 @@ def square_all(numbers):
 
 This generator function is equivalent to the class we made above and it works essentially the same way.
 
-That `yield` statement probably seem magical, but it is very powerful: `yield` allows us to put our generator function on pause between calls from the `next` function.
+That `yield` statement probablys seem magical, but it is very powerful: `yield` allows us to put our generator function on pause between calls from the `next` function.
 The `yield` statement is the thing that separates generator functions from regular functions.
 
 Another way we could implement this same iterator is with a generator expression.
