@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-09T21:57:08-07:00</updated>
+  <updated>2019-09-28T12:35:32-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -10449,6 +10449,9 @@ This feature often seems simple after you&rsquo;ve learned about it, but <strong
 
 <p>Note that in this article I will be using <a href="https://cito.github.io/blog/f-strings/">f-strings</a> which are a Python 3.6+ feature.
 If you&rsquo;re on an older version of Python, you&rsquo;ll need to mentally translate those to use the string <code>format</code> method.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>How multiple assignment works</h2>
 
