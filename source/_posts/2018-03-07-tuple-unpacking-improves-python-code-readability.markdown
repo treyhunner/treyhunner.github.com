@@ -16,6 +16,8 @@ In this article we'll see what multiple assignment is, we'll take a look at comm
 Note that in this article I will be using [f-strings][] which are a Python 3.6+ feature.
 If you're on an older version of Python, you'll need to mentally translate those to use the string `format` method.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## How multiple assignment works
 
