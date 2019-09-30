@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-29T07:35:45-07:00</updated>
+  <updated>2019-09-29T07:35:59-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -8891,6 +8891,9 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
 One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
 
 <p>In this article I&rsquo;m going to discuss why you&rsquo;d want to make your own iterators and then show you how to do so.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>What is an iterator?</h2>
 
