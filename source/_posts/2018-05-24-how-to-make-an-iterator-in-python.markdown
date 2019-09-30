@@ -11,6 +11,8 @@ One thing I left out of that article was **how to make your own iterators**.
 
 In this article I'm going to discuss why you'd want to make your own iterators and then show you how to do so.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## What is an iterator?
 
