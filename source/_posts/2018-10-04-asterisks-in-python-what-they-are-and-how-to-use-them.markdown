@@ -439,9 +439,12 @@ If you sign up for [Python Morsels][] using the for below, I'll **send you an ex
   <input type="hidden" name="form_id" value="asterisks post">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
 <br>
+
 <small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+  I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small>
+
 </form>
 
 
