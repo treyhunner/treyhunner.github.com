@@ -328,8 +328,10 @@ If you'd like to **get practice with the `any` and `all` functions right now**, 
   <input type="hidden" name="form_id" value="any/all post">
   <button type="submit" class="subscribe-btn form-big">Get my Python exercise</button>
 <br>
+
 <small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+  I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small>
 
 </form>

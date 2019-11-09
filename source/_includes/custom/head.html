@@ -5,3 +5,25 @@
 <script src="{{ root_url document.}}/javascripts/expired_storage.min.js"></script>
 <script src="{{ root_url document.}}/javascripts/funnel-tools-capture.min.js"></script>
 <script src="{{ root_url document.}}/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="recaptcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="recaptcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
