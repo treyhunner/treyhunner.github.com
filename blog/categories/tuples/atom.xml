@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tuples | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-29T07:35:59-07:00</updated>
+  <updated>2019-11-09T10:04:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -946,9 +946,11 @@ If you sign up to Python Morsels using this form, I&rsquo;ll immediately send yo
   <input type="hidden" name="exercise_track" value="beginner">
   <input type="hidden" name="form_id" value="tuple unpacking">
   <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>

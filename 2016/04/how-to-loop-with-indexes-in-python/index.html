@@ -33,6 +33,28 @@
 <script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 <script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="recaptcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="recaptcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
 
   
   <!-- Google Analytics -->
@@ -355,9 +377,11 @@ If you sign up for Python Morsels I&rsquo;ll give you a <strong>Python looping e
   <input type="hidden" name="exercise_track" value="zip">
   <input type="hidden" name="form_id" value="looping with indexes">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>
@@ -464,7 +488,10 @@ You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy
     </form>
     </p>
     <p>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
     </p>
 </section>
 <section>
@@ -584,7 +611,8 @@ You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy
       <input type="email" name="email" placeholder="email@domain.com" required>
       <button type="submit">Sign me up for Python Morsels!</button>
     </form>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.
+    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.<br>
+    <small>reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)</small>
   </div>
 </section>
 <section id="morsels-signup-thanks" style="display: none;">

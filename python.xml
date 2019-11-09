@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-29T07:35:59-07:00</updated>
+  <updated>2019-11-09T10:04:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -3207,7 +3207,8 @@ I send one exercise every week and the first 5 are free.</p>
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
     <br>
     <small>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+    This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
     </small>
 </form></p>
 ]]></content>
@@ -3982,11 +3983,15 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
     <input type="hidden" name="exercise_track" value="custom collection">
     <input type="hidden" name="form_id" value="inheriting from builtins">
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-    <br>
-    <small>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-    </small>
-</form></p>
+    <br></p>
+
+<pre><code>&lt;small&gt;
+I won't share you info with others (see the &lt;a href="https://www.pythonmorsels.com/privacy/"&gt;Python Morsels Privacy Policy&lt;/a&gt; for details).&lt;br&gt;
+This form is reCAPTCHA protected (Google &lt;a href="https://policies.google.com/privacy"&gt;Privacy Policy&lt;/a&gt; &amp;amp; &lt;a href="https://policies.google.com/terms"&gt;TOS&lt;/a&gt;)
+&lt;/small&gt;
+</code></pre>
+
+<p></form></p>
 
 <p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
 ]]></content>
@@ -4988,9 +4993,11 @@ After you sign up, I&rsquo;ll immediately give you <strong>one exercise to pract
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="form_id" value="overusing comprehensions">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>
@@ -5910,11 +5917,14 @@ In those cases <code>object()</code> is a great tool to have in your Python tool
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="sentinels post">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-</small>
-</form></p>
+<br></p>
+
+<p><small>
+I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
@@ -8372,11 +8382,14 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
   <input type="hidden" name="exercise_track" value="comprehension">
   <input type="hidden" name="form_id" value="asterisks post">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-</small>
-</form></p>
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
@@ -9494,9 +9507,11 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
   <input type="hidden" name="exercise_track" value="iterators">
   <input type="hidden" name="form_id" value="make an iterator">
   <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>
@@ -10430,11 +10445,14 @@ Different PyCon attendees will have different recommendations for how to make th
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="keyword arguments post">
   <button type="submit" class="subscribe-btn form-big">Get a Python exercise now</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-</small>
-</form></p>
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
@@ -11111,9 +11129,11 @@ If you sign up to Python Morsels using this form, I&rsquo;ll immediately send yo
   <input type="hidden" name="exercise_track" value="beginner">
   <input type="hidden" name="form_id" value="tuple unpacking">
   <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>

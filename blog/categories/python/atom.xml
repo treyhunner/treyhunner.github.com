@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-29T07:35:59-07:00</updated>
+  <updated>2019-11-09T10:04:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -2328,7 +2328,8 @@ I send one exercise every week and the first 5 are free.</p>
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
     <br>
     <small>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+    I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+    This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
     </small>
 </form></p>
 ]]></content>
@@ -2859,11 +2860,15 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
     <input type="hidden" name="exercise_track" value="custom collection">
     <input type="hidden" name="form_id" value="inheriting from builtins">
     <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-    <br>
-    <small>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-    </small>
-</form></p>
+    <br></p>
+
+<pre><code>&lt;small&gt;
+I won't share you info with others (see the &lt;a href="https://www.pythonmorsels.com/privacy/"&gt;Python Morsels Privacy Policy&lt;/a&gt; for details).&lt;br&gt;
+This form is reCAPTCHA protected (Google &lt;a href="https://policies.google.com/privacy"&gt;Privacy Policy&lt;/a&gt; &amp;amp; &lt;a href="https://policies.google.com/terms"&gt;TOS&lt;/a&gt;)
+&lt;/small&gt;
+</code></pre>
+
+<p></form></p>
 
 <p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-09-29T07:35:59-07:00</updated>
+  <updated>2019-11-09T10:04:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -415,11 +415,14 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
   <input type="hidden" name="exercise_track" value="comprehension">
   <input type="hidden" name="form_id" value="asterisks post">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-</small>
-</form></p>
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
@@ -1243,9 +1246,11 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
   <input type="hidden" name="exercise_track" value="iterators">
   <input type="hidden" name="form_id" value="make an iterator">
   <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
 </small></p>
 
 <p></form></p>
@@ -2011,11 +2016,14 @@ TypeError: random_password() takes 0 positional arguments but 4 were given
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="keyword arguments post">
   <button type="submit" class="subscribe-btn form-big">Get a Python exercise now</button>
-<br>
-<small>
-You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy for Python Morsels here</a>.
-</small>
-</form></p>
+<br></p>
+
+<p><small>
+  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small></p>
+
+<p></form></p>
 ]]></content>
   </entry>
   
