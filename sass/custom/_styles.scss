@@ -236,3 +236,7 @@ body>footer {
 .entry-content .code tr, .entry-content .code tr:nth-child(even) {
     background-color: inherit;
 }
+
+.grecaptcha-badge {
+    visibility: hidden;
+}
