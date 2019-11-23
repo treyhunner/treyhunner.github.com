@@ -12,6 +12,8 @@ To understand how to loop without a `for` loop, we'll need to discover what make
 
 We're about to learn how `for` loops work in Python.  Along the way we'll need to learn about iterables, iterators, and the iterator protocol.  Let's loop. ➿
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Looping with indexes: a failed attempt
 
@@ -210,6 +212,28 @@ If you're interested in making your own iterators, I've also written an article 
 
 If you want an excuse to practice making iterators, consider giving [Python Morsels][] a try.
 The first few exercises include an excuse to create your own Python iterator.
+
+
+## Practice working with iterators
+
+You don't learn new Python skills by reading, you learn them by writing code.
+
+If you'd like to practice working with iterators, you can sign up for [Python Morsels][] using the form below.
+The first exercise I send you will involve both working with and creating iterators.
+
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
+  <input type="hidden" name="exercise_track" value="iterators">
+  <input type="hidden" name="form_id" value="how for loops work">
+  <button type="submit" class="subscribe-btn form-big">Get my iterator practice exercise</button>
+<br>
+
+<small>
+  I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+</small>
+
+</form>
 
 
 [loop with indexes]: http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
