@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Black Friday Sale: Gift Python Morsels to a Friend"
-date: 2019-11-29 14:30:00 -0800
+date: 2019-11-29 15:00:00 -0800
 comments: true
 categories: python
 ---
