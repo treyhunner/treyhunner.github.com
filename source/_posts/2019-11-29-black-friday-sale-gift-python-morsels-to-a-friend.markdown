@@ -12,7 +12,7 @@ You can buy 12 months of Python Morsels for yourself and **gift 12 months of Pyt
 
 Or, if you're extra generous, you can buy two redemption codes (for the price of one) and gift them both to *two friends*.
 
-### What is Python Morsels?
+### What is Python Morsels?🐍🍪
 
 [Python Morsels][] is a weekly Python skill-building service for professional Python developers.
 Subscribers receive one Python exercise every week in the Python skill level of their choosing (novice, intermediate, advanced).
@@ -23,7 +23,7 @@ Each exercise is designed to help you **think the way Python thinks**, so you ca
 One year's worth of Python Morsels will help even experienced Python developers **deepen their Python skills** and **find new insights about Python** to incorporate into their day-to-day work.
 
 
-### How does this work?
+### How does this work? 🤔
 
 Normally a 12 month Python Morsels subscription costs $200.
 For $200, I'm instead selling two redemption codes, each of which can be used for 12 months (52 weeks) of Python Morsels exercises.
@@ -36,7 +36,7 @@ These codes can be used at any time and users of these codes will always maintai
 Only one of these codes can be used per account (though you can purchase as many as you'd like to gift to others).
 
 
-### What will I (and my friends) get with Python Morsels?
+### What will I (and my friends) get with Python Morsels? 🎁
 
 With Python Morsels you'll get:
 
@@ -50,7 +50,7 @@ With Python Morsels you'll get:
 - A web interface you can come back to even after your 12 months are over
 
 
-### Okay, I'm interested. Now what?
+### Okay, I'm interested. Now what? ✨
 
 First of all, don't wait. This buy-one-get-one-free sale ends Monday!
 
@@ -59,7 +59,7 @@ You can sign up and purchase 2 redemption codes by visiting http://trey.io/sale2
 Note that you need to create a Python Morsels account to purchase the redemption codes.
 You don't need to have an on-going subscription, you just need an account.
 
-If you have any questions about this sale, please don't hesitate to reply to this email and ask them.
+If you have any questions about this sale, please don't hesitate to <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a>.
 
 
 [Go get your Python Morsels redemption codes][sale]
