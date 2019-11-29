@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-11-23T08:50:38-08:00</updated>
+  <updated>2019-11-29T14:51:11-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
+    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
+    <updated>2019-11-29T15:00:00-08:00</updated>
+    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
+    <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
+
+<p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
+
+<p>Or, if you&rsquo;re extra generous, you can buy two redemption codes (for the price of one) and gift them both to <em>two friends</em>.</p>
+
+<h3>What is Python Morsels?🐍🍪</h3>
+
+<p><a href="https://pythonmorsels.com">Python Morsels</a> is a weekly Python skill-building service for professional Python developers.
+Subscribers receive one Python exercise every week in the Python skill level of their choosing (novice, intermediate, advanced).</p>
+
+<p>Each exercise is designed to help you <strong>think the way Python thinks</strong>, so you can write your code less like a C/Java/Perl developer would and more like a fluent Pythonista would.
+  Each programming language has its own unique ways of looking at the world: Python Morsels will help you embrace Python&rsquo;s.</p>
+
+<p>One year&rsquo;s worth of Python Morsels will help even experienced Python developers <strong>deepen their Python skills</strong> and <strong>find new insights about Python</strong> to incorporate into their day-to-day work.</p>
+
+<h3>How does this work? 🤔</h3>
+
+<p>Normally a 12 month Python Morsels subscription costs $200.
+For $200, I&rsquo;m instead selling two redemption codes, each of which can be used for 12 months (52 weeks) of Python Morsels exercises.</p>
+
+<p>With this sale, you&rsquo;ll get two 12-month redemption codes for the price of one.
+So you&rsquo;ll get 1 year of Python Morsels for 2 friends for just $200.</p>
+
+<p>These codes can be used at any time and users of these codes will always maintain access to the 52 exercises received over the 12 month period. You can use one of these codes to extend your current subscription, but new users can also use this redemption code without signing up for an ongoing subscription.</p>
+
+<p>Only one of these codes can be used per account (though you can purchase as many as you&rsquo;d like to gift to others).</p>
+
+<h3>What will I (and my friends) get with Python Morsels? 🎁</h3>
+
+<p>With Python Morsels you&rsquo;ll get:</p>
+
+<ul>
+<li><strong>An email every Monday</strong> which includes a detailed problem to solve using Python</li>
+<li>Multiple bonuses for almost every problem (most have 3 bonuses, almost all have 2) so you can <strong>re-adjust your difficulty level on a weekly basis</strong></li>
+<li>Hints for each problem which you can use when you get stuck</li>
+<li>An online progress tracking tool to keep track of which exercises you&rsquo;ve solved and how many bonuses you solved for each exercise</li>
+<li><strong>Automated tests</strong> (to ensure correctness) which you can run locally and which also run automatically when you submit your solutions</li>
+<li>An email every Wednesday with a <strong>detailed walkthrough of various solutions (usually 5-10)</strong> for each problem, including walkthroughs of each bonus and a discussion of why some solutions may be better than others</li>
+<li>A skill level selection tool (novice, intermediate, advanced) which you can adjust based on your Python experience</li>
+<li>A web interface you can come back to even after your 12 months are over</li>
+</ul>
+
+
+<h3>Okay, I&rsquo;m interested. Now what? ✨</h3>
+
+<p>First of all, don&rsquo;t wait. This buy-one-get-one-free sale ends Monday!</p>
+
+<p>You can sign up and purchase 2 redemption codes by visiting <a href="http://trey.io/sale2019">http://trey.io/sale2019</a></p>
+
+<p>Note that you need to create a Python Morsels account to purchase the redemption codes.
+You don&rsquo;t need to have an on-going subscription, you just need an account.</p>
+
+<p>If you have any questions about this sale, please don&rsquo;t hesitate to <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a>.</p>
+
+<p><a href="http://trey.io/sale2019">Go get your Python Morsels redemption codes</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Loop Better: a deeper look at iteration in Python]]></title>
@@ -11486,540 +11550,6 @@ If you sign up to Python Morsels using this form, I&rsquo;ll immediately send yo
 <p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
 
 <p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python 3's range is more powerful than Python 2's xrange]]></title>
-    <link href="https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/"/>
-    <updated>2018-02-15T08:00:00-08:00</updated>
-    <id>https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange</id>
-    <content type="html"><![CDATA[<p>If you&rsquo;re switching between Python 2 and Python 3, you might think that Python 2&rsquo;s <code>xrange</code> objects are pretty much the identical to Python 3&rsquo;s <code>range</code> object.  It seems like they probably just renamed <code>xrange</code> to <code>range</code>, right?</p>
-
-<p>Not quite.</p>
-
-<p>Python 2&rsquo;s <code>xrange</code> is somewhat more limited than Python 3&rsquo;s <code>range</code>.  In this article we&rsquo;re going to take a look at how <code>xrange</code> in Python 2 differs from <code>range</code> in Python 3.</p>
-
-<p>The inspiration for this article came from <a href="https://www.crowdcast.io/e/range/1/q/-KpfDuicwa4YGF9tAoMW">a question I addressed</a> during a <a href="http://www.weeklypython.chat">Weekly Python Chat</a> session I did last year on range objects.</p>
-
-<h2>Python 2 vs Python 3: range</h2>
-
-<p>The first thing I need to address is how <code>range</code> works in Python 2 and Python 3.</p>
-
-<p>In Python 2, the <code>range</code> function returned a list of numbers:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And the <code>xrange</code> class represented an iterable that provided the same thing when looped over, but it was lazy:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This laziness was really embraced in Python 3.  In Python 3, they removed the original <code>range</code> function and renamed <code>xrange</code> to <code>range</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So if you wanted the Python 2 behavior for <code>range</code> in Python 3, you could always convert the <code>range</code> object to a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 1, 2, 3, 4]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Okay now let&rsquo;s compare Python 2&rsquo;s <code>xrange</code> class to Python 3&rsquo;s <code>range</code> class.</p>
-
-<h2>Similarities</h2>
-
-<p>Before we take a look at differences between <code>xrange</code> and <code>range</code> objects, let&rsquo;s take a look at some of the similarities.</p>
-
-<p>Python 2&rsquo;s <code>xrange</code> has a fairly descriptive string representation:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(10)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And so does Python 3&rsquo;s <code>range</code> object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 10)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>xrange</code> object in Python 2 is an iterable (anything you can loop over is an iterable):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span> <span class="n">n</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And the <code>range</code> object in Python 3 is also an iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="go">2</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>xrange</code> object has a start, stop, and step.  Step is optional and so is start:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">xrange(5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So does the <code>range</code> object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 5)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="go">[0, 3, 6, 9]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Both have a length and both can be indexed in forward or reverse order:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="go">5</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">4</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python considers both <code>range</code> and <code>xrange</code> to be sequences:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Sequence</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Sequence</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So much of the basic functionality is the same between <code>xrange</code> and <code>range</code>.  Let&rsquo;s talk about the differences.</p>
-
-<h2>Dunder Methods</h2>
-
-<p>The first difference we&rsquo;ll look at is the built-in documentation that exists for Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code>.</p>
-
-<p>If we use the <code>help</code> function to ask <code>xrange</code> for documentation, we&rsquo;ll see a number of dunder methods.  Dunder methods are what Python uses when you use many operators on objects (like <code>+</code> or <code>*</code>) as well as other features shared between different objects (like the <code>len</code> and <code>str</code> functions).</p>
-
-<p>Here are the core dunder methods which Python 2&rsquo;s <code>xrange</code> objects fully implement:</p>
-
-<pre><code> |  __getitem__(...)
- |      x.__getitem__(y) &lt;==&gt; x[y]
- |
- |  __iter__(...)
- |      x.__iter__() &lt;==&gt; iter(x)
- |
- |  __len__(...)
- |      x.__len__() &lt;==&gt; len(x)
- |
- |  __reduce__(...)
- |
- |  __repr__(...)
- |      x.__repr__() &lt;==&gt; repr(x)
- |
- |  __reversed__(...)
- |      Returns a reverse iterator.
-</code></pre>
-
-<p>And here are the core dunder methods which Python 3&rsquo;s <code>range</code> objects fully implement:</p>
-
-<pre><code> |  __contains__(self, key, /)
- |      Return key in self.
- |
- |  __eq__(self, value, /)
- |      Return self==value.
- |
- |  __getitem__(self, key, /)
- |      Return self[key].
- |
- |  __iter__(self, /)
- |      Implement iter(self).
- |
- |  __len__(self, /)
- |      Return len(self).
- |
- |  __ne__(self, value, /)
- |      Return self!=value.
- |
- |  __repr__(self, /)
- |      Return repr(self).
- |
- |  __reversed__(...)
- |      Return a reverse iterator.
- |
- |  count(...)
- |      rangeobject.count(value) -&gt; integer -- return number of occurrences of value
- |
- |  index(...)
- |      rangeobject.index(value, [start, [stop]]) -&gt; integer -- return index of value.
- |      Raise ValueError if the value is not present.
-</code></pre>
-
-<p>Notice that <code>range</code> objects support many more operations than <code>xrange</code> does.  Let&rsquo;s take a look at some of them.</p>
-
-<h2>Comparability</h2>
-
-<p>Python 3&rsquo;s <code>range</code> support equality checks:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 2&rsquo;s <code>xrange</code> objects may seem like they support equality:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But they&rsquo;re actually falling back to Python&rsquo;s default identity check:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Two <code>xrange</code> objects will not be seen as equal unless they are actually the same exact object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whereas a comparison between two <code>range</code> objects in Python 3 actually checks whether the start, stop, and step of each object is equal:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Sliceabiltiy</h2>
-
-<p>We already saw that both Python 2&rsquo;s <code>xrange</code> and Python 3&rsquo;s <code>range</code> support indexing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">9</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 3&rsquo;s <code>range</code> object also supports slicing:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-</span><span class='line'><span class="go">range(2, 10)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">3</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">range(3, 8, -1)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <code>xrange</code> doesn&rsquo;t:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">sequence index must be integer, not &#39;slice&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Containment</h2>
-
-<p>Both <code>range</code> and <code>xrange</code> support containment checks:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mi">5</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this support is a little deceptive with <code>xrange</code>.  Python 2&rsquo;s <code>xrange</code> objects don&rsquo;t actually implement the <code>__contains__</code> method that is used to implement Python&rsquo;s <code>in</code> operator.</p>
-
-<p>So while we can ask whether an <code>xrange</code> object contains a number, in order to answer our question Python will have to manually loop over the <code>xrange</code> object until it finds a match.</p>
-
-<p>This takes about 20 seconds to run on my computer in Python 2.7.12:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But in Python 3 this returns an answer immediately:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 3 is able to return an answer immediately for <code>range</code> objects because it can compute an answer based off the start, stop, and step we provided.</p>
-
-<h2>Start, stop, and step</h2>
-
-<p>In Python 3, <code>range</code> objects have a start, stop, and step:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>These can be useful when playing with or extending the capability of <code>range</code>.</p>
-
-<p>We might for example wish that <code>range</code> objects could be negated to get a mirrored <code>range</code> on the opposite side of the number line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">-</span><span class="n">numbers</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">TypeError</span>: <span class="n">bad operand type for unary -: &#39;range&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While <code>range</code> objects don&rsquo;t support this feature, we could implement something similar by negating the start, stop, and step ourselves and making a new <code>range</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="o">-</span><span class="n">numbers</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(-5, -20, -1)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While you can provide start, stop, and step as arguments to Python 2&rsquo;s <code>xrange</code> objects, they don&rsquo;t have these start, stop, and step <strong>attributes</strong> at all:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">start</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">AttributeError</span>: <span class="n">&#39;xrange&#39; object has no attribute &#39;start&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you wanted to get start, stop, and step from an <code>xrange</code> object, you would need to calculate them manually.  Something like this might work:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">start</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">stop</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">step</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Support for big numbers</h2>
-
-<p>The last difference I&rsquo;d like to mention is sort of a silly one, but it could be important for some interesting use cases of <code>range</code> and <code>xrange</code>.</p>
-
-<p>In Python 3, the <code>range</code> object will accept integers of any size:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
-</span><span class='line'><span class="go">range(0, 10000000000000000000)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But Python 2&rsquo;s <code>xrange</code> objects are limited in the size of integers they can accept:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">19</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">OverflowError</span>: <span class="n">Python int too large to convert to C long</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I run into this difference most often during my on-site team training sessions because I sometimes use silly examples with big numbers when I teach.</p>
-
-<h2>Is any of this important to know?</h2>
-
-<p>Most of the time you use either Python 2&rsquo;s <code>xrange</code> objects or Python 3&rsquo;s <code>range</code> objects, you&rsquo;ll probably just be creating them and looping over them immediately:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="go">3</span>
-</span><span class='line'><span class="go">6</span>
-</span><span class='line'><span class="go">9</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So the missing <code>xrange</code> features I noted above don&rsquo;t matter most of the time.</p>
-
-<p>However, there are times when it&rsquo;s useful to have a sequence of consecutive numbers that supports features like slicing, fast containment checks, or equality.  In those cases, Python 2 users will be tempted to fall back to the Python 2 <code>range</code> function which returns a list.  In Python 3 though, you&rsquo;ll pretty much always find what you&rsquo;re looking for in the <code>range</code> class.  For pretty much every operation you&rsquo;ll want to perform, <strong>Python 3&rsquo;s <code>range</code> is fast, memory-efficient, and powerful</strong>.</p>
-
-<p>Python 3 put a lot of work into making sure its built-ins are memory efficient and fast.  Many built-in functions (e.g. <code>zip</code>, <code>map</code>, <code>filter</code>) now return iterators and lazy objects instead of lists.</p>
-
-<p>At the same time, Python 3 made common functions and classes, like <code>range</code>, more featureful.</p>
-
-<p>There are many big improvements that Python 3 made over Python 2, but there are <strong>many many more tiny benefits to upgrading to Python 3</strong>.  If you haven&rsquo;t already, I&rsquo;d strongly consider whether it makes sense for you to upgrade your code to Python 3.</p>
 ]]></content>
   </entry>
   
