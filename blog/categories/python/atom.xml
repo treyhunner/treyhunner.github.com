@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2019-11-29T14:51:11-08:00</updated>
+  <updated>2019-11-30T14:41:24-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cyber Monday Python Sales]]></title>
+    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
+    <updated>2019-12-02T02:00:00-08:00</updated>
+    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
+This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
+
+<h3>Python Morsels, weekly skill-building for professional Pythonistas</h3>
+
+<p><a href="https://www.pythonmorsels.com/">Python Morsels</a> is my weekly Python skill-building service.</p>
+
+<p>I&rsquo;m offering something sort of like a &ldquo;buy one get one free&rdquo; sale this year.</p>
+
+<p>You can pay $200 to get 2 redemption codes, each worth 12 months of Python Morsels.</p>
+
+<p>You can use one code for yourself and give one to a friend.
+Or you could be extra generous and give them both away to two friends.
+Either way, 2 people are each getting one year&rsquo;s worth of weekly Python training.</p>
+
+<p>You can find <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">more details on this sale here</a>.</p>
+
+<h3>Data School&rsquo;s Machine Learning course</h3>
+
+<p>Kevin Markham of Data School is selling his &ldquo;Machine Learning with Text in Python&rdquo; course for $195 (it&rsquo;s usually $295).
+You can find more details on this sale <a href="https://www.dataschool.io/black-friday/">on the Data School Black Friday post</a>.</p>
+
+<h3>Talk Python Course Bundle</h3>
+
+<p>Michael Kennedy is selling a bundle that includes <a href="https://training.talkpython.fm/black-friday-2019">every Talk Python course for $250</a>.</p>
+
+<p>There are 20 courses included in this bundle.
+If you&rsquo;re into Python and you don&rsquo;t already own most of these courses, this bundle could be a really good deal for you.</p>
+
+<h3>Reuven Lerner&rsquo;s Python courses</h3>
+
+<p>Reuven Lerner is offering a <a href="https://lerner.co.il/2019/11/28/my-black-friday-sale-is-live-take-50-off-any-course-in-python-or-data-science/">50% off sale on his courses</a>.
+Reuven has courses on Python, Git, and regular expressions.</p>
+
+<p>This sale also includes Reuven&rsquo;s <a href="https://store.lerner.co.il/wpe?coupon=BF2019">Weekly Python Exercise</a>, which is similar to <a href="https://www.pythonmorsels.com/">Python Morsels</a>, but has its own flavor.
+You could sign up for both if you want double the weekly learning.</p>
+
+<h3>Real Python courses</h3>
+
+<p>Real Python is also offering <a href="https://realpython.com/account/join/?c=blackfriday2019">$40 off their annual memberships</a>.
+Real Python has many tutorials and courses as well.</p>
+
+<h3>PyBites Code Challenges</h3>
+
+<p>Bob and Julian of PyBites are offering their a <a href="https://gumroad.com/l/Xhxeo/teachingpython">40% discount off their Newbie Bites</a> on their PyBites Code Challenges platform.</p>
+
+<p>If you&rsquo;re new to Python and programming, check out their newbie bites.</p>
+
+<h3>Other Cyber Monday deals?</h3>
+
+<p>If you have questions about the <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">Python Morsels sale</a>, <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a>.</p>
+
+<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
+
+<p>So go check them out!</p>
+
+<p>Did I miss a deal that you know about?
+Link to it in the comments!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
@@ -2396,555 +2462,6 @@ I send one exercise every week and the first 5 are free.</p>
     This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
     </small>
 </form></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
-    <link href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
-    <updated>2019-04-09T07:00:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of [Python Morsels][] since I started it last year.
-At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
-
-<p>Since each Python Morsels solutions email involves a walk-through of many ways to solve the same problem, I&rsquo;ve solved each of these in many ways.</p>
-
-<p>I&rsquo;ve solved these:</p>
-
-<ul>
-<li>manually with <code>__dunder__</code> methods</li>
-<li>with the abstract base classes in [collections.abc][]</li>
-<li>with [collections.UserDict][UserDict] and [collections.UserList][UserList]</li>
-<li>by inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> directly</li>
-</ul>
-
-
-<p>While creating and solving many exercises involving custom collections, I&rsquo;ve realized that inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> is often subtly painful.
-I&rsquo;m writing this article to explain why I often don&rsquo;t recommend inheriting from these built-in classes in Python.</p>
-
-<p>My examples will focus on <code>dict</code> and <code>list</code> since those are likely more commonly sub-classed.</p>
-
-<ul data-toc=".entry-content"></ul>
-
-
-<h2>Making a custom dictionary</h2>
-
-<p>We&rsquo;d like to make a dictionary that&rsquo;s bi-directional.
-When a key-value pair is added, the key maps to the value but the value also maps to the key.</p>
-
-<p>There will always be an even number of elements in this dictionary.
-And if <code>d[k] == v</code> is <code>True</code> then <code>d[v] == k</code> will always be <code>True</code> also.</p>
-
-<p>We could try to implement this by customizing deletion and setting of key-value pairs.</p>
-
-<pre><code class="python">class TwoWayDict(dict):
-    def __delitem__(self, key):
-        value = super().pop(key)
-        super().pop(value, None)
-    def __setitem__(self, key, value):
-        if key in self:
-            del self[self[key]]
-        if value in self:
-            del self[value]
-        super().__setitem__(key, value)
-        super().__setitem__(value, key)
-    def __repr__(self):
-        return f"{type(self).__name__}({super().__repr__()})"
-</code></pre>
-
-<p>Here we&rsquo;re ensuring that:</p>
-
-<ul>
-<li>deleting keys will delete their corresponding values as well</li>
-<li>whenever we set a new value for <code>k</code>, that any existing value will be removed properly</li>
-<li>whenever we set a key-value pair, that the corresponding value-key pair will be set too</li>
-</ul>
-
-
-<p>Setting and deleting items from this bi-directional dictionary seems to work as we&rsquo;d expect:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
-&gt;&gt;&gt; d[3] = 8
-&gt;&gt;&gt; d
-TwoWayDict({3: 8, 8: 3})
-&gt;&gt;&gt; d[7] = 6
-&gt;&gt;&gt; d
-TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
-</code></pre>
-
-<p>But calling the <code>update</code> method on this dictionary leads to odd behavior:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d
-TwoWayDict({3: 8, 8: 3, 7: 6, 6: 7})
-&gt;&gt;&gt; d.update({9: 7, 8: 2})
-&gt;&gt;&gt; d
-TwoWayDict({3: 8, 8: 2, 7: 6, 6: 7, 9: 7})
-</code></pre>
-
-<p>Adding <code>9: 7</code> should have removed <code>7: 6</code> and <code>6: 7</code> and adding <code>8: 2</code> should have removed <code>3: 8</code> and <code>8: 3</code>.</p>
-
-<p>We could fix this with a custom <code>update</code> method:</p>
-
-<pre><code class="python">    def update(self, items):
-        if isinstance(items, dict):
-            items = items.items()
-        for key, value in items:
-            self[key] = value
-</code></pre>
-
-<p>But calling the initializer doesn&rsquo;t work either:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict({9: 7, 8: 2})
-&gt;&gt;&gt; d
-TwoWayDict({9: 7, 8: 2})
-</code></pre>
-
-<p>So we&rsquo;ll make a custom initializer that calls <code>update</code>:</p>
-
-<pre><code class="python">    def __init__(self, items=()):
-        self.update(items)
-</code></pre>
-
-<p>But <code>pop</code> doesn&rsquo;t work:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
-&gt;&gt;&gt; d[9] = 7
-&gt;&gt;&gt; d
-TwoWayDict({9: 7, 7: 9})
-&gt;&gt;&gt; d.pop(9)
-7
-&gt;&gt;&gt; d
-TwoWayDict({7: 9}
-</code></pre>
-
-<p>And neither does <code>setdefault</code>:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d = TwoWayDict()
-&gt;&gt;&gt; d.setdefault(4, 2)
-2
-&gt;&gt;&gt; d
-TwoWayDict({4: 2})
-</code></pre>
-
-<p>The problem is the <code>pop</code> method doesn&rsquo;t actually call <code>__delitem__</code> and the <code>setdefault</code> method doesn&rsquo;t actually call <code>__setitem__</code>.</p>
-
-<p>If we wanted to fix this problem, we have to completely re-implement <code>pop</code> and <code>setdefault</code>:</p>
-
-<pre><code class="python">DEFAULT = object()
-
-class TwoWayDict(dict):
-    # ...
-    def pop(self, key, default=DEFAULT):
-        if key in self or default is DEFAULT:
-            value = self[key]
-            del self[key]
-            return value
-        else:
-            return default
-    def setdefault(self, key, value):
-        if key not in self:
-            self[key] = value
-</code></pre>
-
-<p>This is all very tedious though.
-When inheriting from <code>dict</code> to create a custom dictionary, we&rsquo;d expect <code>update</code> and <code>__init__</code> would call <code>__setitem__</code> and <code>pop</code> and <code>setdefault</code> would call <code>__delitem__</code>.
-But they don&rsquo;t!</p>
-
-<p>Likewise, <code>get</code> and <code>pop</code> don&rsquo;t call <code>__getitem__</code>, as you might expect they would.</p>
-
-<h2>Lists and sets have the same problem</h2>
-
-<p>The <code>list</code> and <code>set</code> classes have similar problems to the <code>dict</code> class.
-Let&rsquo;s take a look at an example.</p>
-
-<p>We&rsquo;ll make a custom list that inherits from the <code>list</code> constructor and overrides the behavior of <code>__delitem__</code>, <code>__iter__</code>, and <code>__eq__</code>.
-This list will customize <code>__delitem__</code> to not actually <em>delete</em> an item but to instead leave a &ldquo;hole&rdquo; where that item used to be.
-The <code>__iter__</code> and <code>__eq__</code> methods will skip over this hole when comparing two <code>HoleList</code> classes as &ldquo;equal&rdquo;.</p>
-
-<p>This class is a bit nonsensical (no it&rsquo;s not a Python Morsels exercise fortunately), but we&rsquo;re focused less on the class itself and more on the issue with inheriting from <code>list</code>:</p>
-
-<pre><code class="python">class HoleList(list):
-
-    HOLE = object()
-
-    def __delitem__(self, index):
-        self[index] = self.HOLE
-
-    def __iter__(self):
-        return (
-            item
-            for item in super().__iter__()
-            if item is not self.HOLE
-        )
-
-    def __eq__(self, other):
-        if isinstance(other, HoleList):
-            return all(
-                x == y
-                for x, y in zip(self, other)
-            )
-        return super().__eq__(other)
-
-    def __repr__(self):
-        return f"{type(self).__name__}({super().__repr__()})"
-</code></pre>
-
-<p>Unrelated Aside: if you&rsquo;re curious about that <code>object()</code> thing, I explain why it&rsquo;s useful in [my article about sentinel values in Python][sentinel values].</p>
-
-<p>If we make two <code>HoleList</code> objects and delete items from them such that they have the same non-hole items:</p>
-
-<pre><code class="python">&gt;&gt;&gt; x = HoleList([2, 1, 3, 4])
-&gt;&gt;&gt; y = HoleList([1, 2, 3, 5])
-&gt;&gt;&gt; del x[0]
-&gt;&gt;&gt; del y[1]
-&gt;&gt;&gt; del x[-1]
-&gt;&gt;&gt; del y[-1]
-</code></pre>
-
-<p>We&rsquo;ll see that they&rsquo;re equal:</p>
-
-<pre><code class="python">&gt;&gt;&gt; x == y
-True
-&gt;&gt;&gt; list(x), list(y)
-([1, 3], [1, 3])
-&gt;&gt;&gt; x
-HoleList([&lt;object object at 0x7f56bdf38120&gt;, 1, 3, &lt;object object at 0x7f56bdf38120&gt;])
-&gt;&gt;&gt; y
-HoleList([1, &lt;object object at 0x7f56bdf38120&gt;, 3, &lt;object object at 0x7f56bdf38120&gt;])
-</code></pre>
-
-<p>But if we then ask them whether they&rsquo;re <em>not equal</em> we&rsquo;ll see that they&rsquo;re both <em>equal</em> and <em>not equal</em>:</p>
-
-<pre><code class="python">&gt;&gt;&gt; x == y
-True
-&gt;&gt;&gt; x != y
-True
-&gt;&gt;&gt; list(x), list(y)
-([1, 3], [1, 3])
-&gt;&gt;&gt; x
-HoleList([&lt;object object at 0x7f56bdf38120&gt;, 1, 3, &lt;object object at 0x7f56bdf38120&gt;])
-&gt;&gt;&gt; y
-HoleList([1, &lt;object object at 0x7f56bdf38120&gt;, 3, &lt;object object at 0x7f56bdf38120&gt;])
-</code></pre>
-
-<p>Normally in Python 3, overriding <code>__eq__</code> would customize the behavior of both equality (<code>==</code>) and inequality (<code>!=</code>) checks.
-But not for <code>list</code> or <code>dict</code>: they define both <code>__eq__</code> and <code>__ne__</code> methods which means we need to override both.</p>
-
-<pre><code class="python">    def __ne__(self, other):
-        return not (self == other)
-</code></pre>
-
-<p>Dictionaries suffer from this same problem: <code>__ne__</code> exists which means we need to be careful to override both <code>__eq__</code> and <code>__ne__</code> when inheriting from them.</p>
-
-<p>Also like dictionaries, the <code>remove</code> and <code>pop</code> methods on lists don&rsquo;t call <code>__delitem__</code>:</p>
-
-<p>```python</p>
-
-<blockquote><blockquote><blockquote><p>y
-HoleList([1, <object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
-y.remove(1)
-y
-HoleList([<object object at 0x7f56bdf38120>, 3, <object object at 0x7f56bdf38120>])
-y.pop(0)</p></blockquote></blockquote></blockquote>
-
-<p><object object at 0x7f56bdf38120></p>
-
-<blockquote><blockquote><blockquote><p>y
-HoleList([3, <object object at 0x7f56bdf38120>])
-```</p></blockquote></blockquote></blockquote>
-
-<p>We could again fix these issues by re-implementing the <code>remove</code> and <code>pop</code> methods:</p>
-
-<pre><code class="python">    def remove(self, value):
-        index = self.index(value)
-        del self[index]
-    def pop(self, index=-1):
-        value = self[index]
-        del self[index]
-        return value
-</code></pre>
-
-<p>But this is a pain.
-And who knows whether we&rsquo;re done?</p>
-
-<p>Every time we customize a bit of core functionality on a <code>list</code> or <code>dict</code> subclass, we&rsquo;ll need to make sure we customize other methods that also include exactly the same functionality (but which don&rsquo;t delegate to the method we overrode).</p>
-
-<h2>Why did the Python developers do this?</h2>
-
-<p>From my understanding, the built-in <code>list</code>, <code>dict</code>, and <code>set</code> types have in-lined a lot of code for performance.
-Essentially, they&rsquo;ve copy-pasted the same code between many different functions to avoid extra function calls and make things a tiny bit faster.</p>
-
-<p>I haven&rsquo;t found a reference online that explains why this decision was made and what the consequences of the alternatives to this choice were.
-But I mostly trust that this was done for my benefit as a Python developer.
-If <code>dict</code> and <code>list</code> weren&rsquo;t faster this way, why would the core developers have chosen this odd implementation?</p>
-
-<h2>What&rsquo;s the alternative to inheriting from list and dict?</h2>
-
-<p>So inheriting from <code>list</code> to make a custom list was painful and inheriting from <code>dict</code> to create a custom dictionary was painful.
-What&rsquo;s the alternative?</p>
-
-<p>How can we create a custom dictionary-like object that <em>doesn&rsquo;t</em> inherit from the built-in <code>dict</code>?</p>
-
-<p>There are a few ways to create custom dictionaries:</p>
-
-<ol>
-<li>Fully embrace duck typing: figure out everything you need for your data structure to be <code>dict</code>-like and create a completely custom class (that walks and quacks like a <code>dict</code>)</li>
-<li>Inherit from a helper class that&rsquo;ll point us in the right direction and tell us which methods our object needs to be <code>dict</code>-like</li>
-<li>Find a more extensible re-implementation of <code>dict</code> and inherit from it instead</li>
-</ol>
-
-
-<p>We&rsquo;re going to skip over the first approach: reimplementing everything from scratch will take a while and Python has some helpers that&rsquo;ll make things easier.
-We&rsquo;re going to take a look at those helpers, first the ones that point us in the right direction (2 above) and then the ones that act as full <code>dict</code>-replacements (3 above).</p>
-
-<h3>Abstract base classes: they&rsquo;ll help you quack like a duck</h3>
-
-<p>Python&rsquo;s [collections.abc][] module includes <strong>abstract base classes</strong> that can help us implement some of the common protocols (<em>interfaces</em> as Java calls them) seen in Python.</p>
-
-<p>We&rsquo;re trying to make a dictionary-like object.
-Dictionaries are <strong>mutable mappings</strong>.
-A dictionary-like object is a mapping.
-That word &ldquo;mapping&rdquo; comes from &ldquo;hash map&rdquo;, which is what many other programming languages call this kind of data structure.</p>
-
-<p>So we want to make a mutable mapping.
-The <code>collections.abc</code> module provides an abstract base class for that: <code>MutableMapping</code>!</p>
-
-<p>If we inherit from this abstract base class, we&rsquo;ll see that we&rsquo;re required to implement certain methods for it to work:</p>
-
-<pre><code class="python">&gt;&gt;&gt; from collections.abc import MutableMapping
-&gt;&gt;&gt; class TwoWayDict(MutableMapping):
-...     pass
-...
-&gt;&gt;&gt; d = TwoWayDict()
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: Can't instantiate abstract class TwoWayDict with abstract methods __delitem__, __getitem__, __iter__, __len__, __setitem__
-</code></pre>
-
-<p>The <code>MutableMapping</code> class requires us to say how getting, deleting, and setting items works, how iterating works, and how we get the length of our dictionary.
-But once we do that, we&rsquo;ll get the <code>pop</code>, <code>clear</code>, <code>update</code>, and <code>setdefault</code> methods for free!</p>
-
-<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> using the <code>MutableMapping</code> abstract base class:</p>
-
-<pre><code class="python">from collections.abc import MutableMapping
-
-
-class TwoWayDict(MutableMapping):
-    def __init__(self, data=()):
-        self.mapping = {}
-        self.update(data)
-    def __getitem__(self, key):
-        return self.mapping[key]
-    def __delitem__(self, key):
-        value = self[key]
-        del self.mapping[key]
-        self.pop(value, None)
-    def __setitem__(self, key, value):
-        if key in self:
-            del self[self[key]]
-        if value in self:
-            del self[value]
-        self.mapping[key] = value
-        self.mapping[value] = key
-    def __iter__(self):
-        return iter(self.mapping)
-    def __len__(self):
-        return len(self.mapping)
-    def __repr__(self):
-        return f"{type(self).__name__}({self.mapping})"
-</code></pre>
-
-<p>Unlike <code>dict</code>, these <code>update</code> and <code>setdefault</code> methods will call our <code>__setitem__</code> method and the <code>pop</code> and <code>clear</code> methods will call our <code>__delitem__</code> method.</p>
-
-<p>Abstract base classes might make you think we&rsquo;re leaving the wonderful land of Python duck typing behind for some sort of strongly-typed [OOP][] land.
-But abstract base classes actually enhance duck typing.
-<strong>Inheriting from abstract base classes helps us be better ducks</strong>.
-We don&rsquo;t have to worry about whether we&rsquo;ve implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify some essential behavior.</p>
-
-<p>The <code>HoleList</code> class we made before would need to inherit from the <code>MutableSequence</code> abstract base class.
-A custom set-like class would probably inherit from the <code>MutableSet</code> abstract base class.</p>
-
-<h3>UserList/UserDict: lists and dictionaries that are actually extensible</h3>
-
-<p>When using the collection ABCs, <code>Mapping</code>, <code>Sequence</code>, <code>Set</code> (and their mutable children) you&rsquo;ll often find yourself creating a wrapper around an existing data structure.
-If you&rsquo;re implementing a dictionary-like object, using a dictionary under the hood makes things easier: the same applies for lists and sets.</p>
-
-<p>Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which <strong>wrap around <code>list</code> and <code>dict</code> objects</strong>.
-These two classes live in the [collections][] module as [UserList][] and [UserDict][].</p>
-
-<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> that inherits from <code>UserDict</code>:</p>
-
-<pre><code class="python">from collections import UserDict
-
-
-class TwoWayDict(UserDict):
-    def __delitem__(self, key):
-        value = self[key]
-        super().__delitem__(key)
-        self.pop(value, None)
-    def __setitem__(self, key, value):
-        if key in self:
-            del self[self[key]]
-        if value in self:
-            del self[value]
-        super().__setitem__(key, value)
-        super().__setitem__(value, key)
-    def __repr__(self):
-        return f"{type(self).__name__}({self.data})"
-</code></pre>
-
-<p>You may notice something interesting about the above code.</p>
-
-<p>That code looks extremely similar to the code we originally wrote (the first version that had lots of bugs) when attempting to inherit from <code>dict</code>:</p>
-
-<pre><code class="python">class TwoWayDict(dict):
-    def __delitem__(self, key):
-        value = super().pop(key)
-        super().pop(value, None)
-    def __setitem__(self, key, value):
-        if key in self:
-            del self[self[key]]
-        if value in self:
-            del self[value]
-        super().__setitem__(key, value)
-        super().__setitem__(value, key)
-    def __repr__(self):
-        return f"{type(self).__name__}({super().__repr__()})"
-</code></pre>
-
-<p>The <code>__setitem__</code> method is identical, but the <code>__delitem__</code> method has some small differences.</p>
-
-<p>It might seem from these two code blocks that <code>UserDict</code> just a better <code>dict</code>.
-That&rsquo;s not quite right though: <code>UserDict</code> isn&rsquo;t a <code>dict</code> replacement so much as a <code>dict</code> wrapper.</p>
-
-<p>The <code>UserDict</code> class implements the <em>interface</em> that dictionaries are supposed to have, but it wraps around an actual <code>dict</code> object under-the-hood.</p>
-
-<p>Here&rsquo;s another way we could have written the above <code>UserDict</code> code, without any <code>super</code> calls:</p>
-
-<pre><code class="python">from collections import UserDict
-
-
-class TwoWayDict(UserDict):
-    def __delitem__(self, key):
-        value = self.data.pop(key)
-        self.data.pop(value, None)
-    def __setitem__(self, key, value):
-        if key in self:
-            del self[self[key]]
-        if value in self:
-            del self[value]
-        self.data[key] = value
-        self.data[value] = key
-</code></pre>
-
-<p>Both of these methods reference <code>self.data</code>, which we didn&rsquo;t define.</p>
-
-<p>The <code>UserDict</code> class initializer makes a dictionary which it stores in <code>self.data</code>.
-All of the methods on this dictionary-like <code>UserDict</code> class wrap around this <code>self.data</code> dictionary.
-<code>UserList</code> works the same way, except its <code>data</code> attribute wraps around a <code>list</code> object.
-If we want to customize one of the <code>dict</code> or <code>list</code> methods of these classes, we can just override it and change what it does.</p>
-
-<p>You can think of <code>UserDict</code> and <code>UserList</code> as <strong>wrapper classes</strong>.
-When we inherit from these classes, we&rsquo;re wrapping around a <code>data</code> attribute which we proxy all our method lookups to.</p>
-
-<p>In fancy OOP speak, we might consider <code>UserDict</code> and <code>UserList</code> to be [adapter classes][].</p>
-
-<h3>So should I use abstract base classes or UserDict and UserList?</h3>
-
-<p>The <code>UserList</code> and <code>UserDict</code> classes were originally created long before the abstract base classes in <code>collections.abc</code>.
-<code>UserList</code> and <code>UserDict</code> have been around (in some form at least) since before Python 2.0 was even released, but the <code>collections.abc</code> abstract base classes have only been around since Python 2.6.</p>
-
-<p>The <code>UserList</code> and <code>UserDict</code> classes are for when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.</p>
-
-<p>The abstract base classes in <code>collections.abc</code> are useful when you want something that&rsquo;s a <em>sequence</em> or a <em>mapping</em> but is different enough from a list or a dictionary that you really should be making your own custom class.</p>
-
-<h2>Does inheriting from list and dict ever make sense?</h2>
-
-<p>Inheriting from <code>list</code> and <code>dict</code> isn&rsquo;t always bad.</p>
-
-<p>For example, here&rsquo;s a perfectly functional version of a <code>DefaultDict</code> (which acts a little differently from <code>collections.defaultdict</code>):</p>
-
-<pre><code class="python">class DefaultDict(dict):
-    def __init__(self, *args, default=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.default = default
-    def __missing__(self, key):
-        return self.default
-</code></pre>
-
-<p>This <code>DefaultDict</code> uses the <code>__missing__</code> method to act as you&rsquo;d expect:</p>
-
-<pre><code class="python">&gt;&gt;&gt; d = DefaultDict({'a': 8})
-&gt;&gt;&gt; d['a']
-8
-&gt;&gt;&gt; d['b']
-&gt;&gt;&gt; d
-{'a': 8}
-&gt;&gt;&gt; e = DefaultDict({'a': 8}, default=4)
-&gt;&gt;&gt; e['a']
-8
-&gt;&gt;&gt; e['b']
-4
-&gt;&gt;&gt; e
-{'a': 8}
-</code></pre>
-
-<p>There&rsquo;s no problem with inheriting from <code>dict</code> here because we&rsquo;re not overriding functionality that lives in many different places.</p>
-
-<p>If you&rsquo;re changing functionality that&rsquo;s limited to a single method or adding your own custom method, it&rsquo;s probably worth inheriting from <code>list</code> or <code>dict</code> directly.
-But if your change will require duplicating the same functionality in multiple places (as is often the case), consider reaching for one of the alternatives.</p>
-
-<h2>When making a custom list or dictionary, remember you have options</h2>
-
-<p>When creating your own set-like, list-like, or dictionary-like object, think carefully about how you need your object to work.</p>
-
-<p>If you need to change some core functionality, inheriting from <code>list</code>, <code>dict</code>, or <code>set</code> will be painful and I&rsquo;d recommend against it.</p>
-
-<p>If you&rsquo;re making a variation of <code>list</code> or <code>dict</code> and need to customize just a little bit of core functionality, consider inheriting from <code>collections.UserList</code> or <code>collections.UserDict</code>.</p>
-
-<p>In general, if you&rsquo;re making something custom, you&rsquo;ll often want to reach for the abstract base classes in <code>collections.abc</code>.
-For example if you&rsquo;re making a slightly more custom sequence or mapping (think <code>collections.deque</code>, <code>range</code>, and maybe <code>collections.Counter</code>) you&rsquo;ll want <code>MutableSequence</code> or <code>MutableMapping</code>.
-And if you&rsquo;re making a custom set-like object, your only options are <code>collections.abc.Set</code> or <code>collections.abc.MutableSet</code> (there is no <code>UserSet</code>).</p>
-
-<p>We don&rsquo;t need to create our own data structures very often in Python.
-When you do need to create your own custom collections, wrapping around a data structure is a great idea.
-Remember the <code>collections</code> and <code>collections.abc</code> modules when you need them!</p>
-
-<h2>You don&rsquo;t learn by putting information into your head</h2>
-
-<p>You don&rsquo;t learn by putting information into your head, you learn by trying to retrieve information <em>from</em> your head.
-This knowledge about inheriting from <code>list</code> and <code>dict</code> and the <code>collections.abc</code> classes and <code>collections.UserList</code> and <code>collections.UserDict</code> isn&rsquo;t going to stick unless you try to apply it!</p>
-
-<p>If you use the below form to sign up for Python Morsels, the first exercise you see when you sign up will involve creating your own custom mapping or sequence (it&rsquo;ll be a surprise which one).
-After that first exercise, I&rsquo;ll send you one exercise every week for the next month.
-By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, though you can change your skill level after you sign up.</p>
-
-<p><form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
-    <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
-    <input type="hidden" name="exercise_track" value="custom collection">
-    <input type="hidden" name="form_id" value="inheriting from builtins">
-    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-    <br></p>
-
-<pre><code>&lt;small&gt;
-I won't share you info with others (see the &lt;a href="https://www.pythonmorsels.com/privacy/"&gt;Python Morsels Privacy Policy&lt;/a&gt; for details).&lt;br&gt;
-This form is reCAPTCHA protected (Google &lt;a href="https://policies.google.com/privacy"&gt;Privacy Policy&lt;/a&gt; &amp;amp; &lt;a href="https://policies.google.com/terms"&gt;TOS&lt;/a&gt;)
-&lt;/small&gt;
-</code></pre>
-
-<p></form></p>
-
-<p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
-
-<p>[python morsels]: <a href="https://www.pythonmorsels.com/">https://www.pythonmorsels.com/</a>
-[collections.abc]: <a href="https://docs.python.org/3/library/collections.abc.html">https://docs.python.org/3/library/collections.abc.html</a>
-[UserDict]: <a href="https://docs.python.org/3/library/collections.html#collections.UserDict">https://docs.python.org/3/library/collections.html#collections.UserDict</a>
-[UserList]: <a href="https://docs.python.org/3/library/collections.html#collections.UserList">https://docs.python.org/3/library/collections.html#collections.UserList</a>
-[solid]: <a href="https://en.wikipedia.org/wiki/SOLID_">https://en.wikipedia.org/wiki/SOLID_</a>(object-oriented_design)
-[oop]: <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">https://en.wikipedia.org/wiki/Object-oriented_programming</a>
-[collections]: <a href="https://docs.python.org/3/library/collections.html">https://docs.python.org/3/library/collections.html</a>
-[sentinel values]: <a href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/">https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/</a>
-[adapter classes]: <a href="https://en.wikipedia.org/wiki/Adapter_pattern">https://en.wikipedia.org/wiki/Adapter_pattern</a></p>
 ]]></content>
   </entry>
   
