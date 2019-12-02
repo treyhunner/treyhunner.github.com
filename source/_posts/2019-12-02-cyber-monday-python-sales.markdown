@@ -44,7 +44,7 @@ If you're into Python and you don't already own most of these courses, this bund
 Reuven Lerner is offering a [50% off sale on his courses](https://lerner.co.il/2019/11/28/my-black-friday-sale-is-live-take-50-off-any-course-in-python-or-data-science/).
 Reuven has courses on Python, Git, and regular expressions.
 
-This sale also includes Reuven's Weekly Python Exercise, which is similar to [Python Morsels][], but has its own flavor.
+This sale also includes Reuven's [Weekly Python Exercise][], which is similar to [Python Morsels][], but has its own flavor.
 You could sign up for both if you want double the weekly learning.
 
 
@@ -74,3 +74,4 @@ Link to it in the comments!
 
 [python morsels]: https://www.pythonmorsels.com/
 [python morsels sale]: https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/
+[weekly python exercise]: https://store.lerner.co.il/wpe?coupon=BF2019
