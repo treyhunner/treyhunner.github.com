@@ -61,6 +61,12 @@ Bob and Julian of PyBites are offering their a [40% discount off their Newbie Bi
 If you're new to Python and programming, check out their newbie bites.
 
 
+### Automate the Boring Stuff Course (for free!)
+
+Al Sweigart is offering [free lifetime access to his Automate the Boring Stuff with Python course](https://www.udemy.com/course/automate/?couponCode=DEC2019FREE) on Udemy until Wednesday.
+It's hard to beat free!
+
+
 ### Other Cyber Monday deals?
 
 If you have questions about the [Python Morsels sale][], <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a>.
@@ -72,6 +78,7 @@ So go check them out!
 Did I miss a deal that you know about?
 Link to it in the comments!
 
+
 [python morsels]: https://www.pythonmorsels.com/
-[python morsels sale]: https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/
+[python morsels sale]: https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/
 [weekly python exercise]: https://store.lerner.co.il/wpe?coupon=BF2019
