@@ -17,6 +17,8 @@ I have had an aversion to lambda expressions for many years, and since I started
 
 I'm going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.
 
+<ul data-toc=".entry-content"></ul>
+
 
 ## Lambda expressions in Python: what are they?
 
