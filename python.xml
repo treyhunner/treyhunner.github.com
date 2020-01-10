@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Trey Hunner]]> - Python</title>
-  <link href="https://treyhunner.com/atom.xml" rel="self"/>
-  <link href="https://treyhunner.com/"/>
-  <updated>2019-12-02T07:02:51-08:00</updated>
-  <id>https://treyhunner.com/</id>
+  <link href="http://treyhunner.com/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2020-01-10T11:23:33-08:00</updated>
+  <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cyber Monday Python Sales]]></title>
-    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
+    <link href="http://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
     <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
+    <id>http://treyhunner.com/2019/12/cyber-monday-python-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -86,9 +86,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
-    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
+    <link href="http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
     <updated>2019-11-29T15:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
+    <id>http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
     <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
 
 <p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
@@ -150,9 +150,9 @@ You don&rsquo;t need to have an on-going subscription, you just need an account.
   
   <entry>
     <title type="html"><![CDATA[Loop Better: a deeper look at iteration in Python]]></title>
-    <link href="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
+    <link href="http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
     <updated>2019-06-18T09:15:00-07:00</updated>
-    <id>https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
+    <id>http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
     <content type="html"><![CDATA[<p>Python&rsquo;s <code>for</code> loops don&rsquo;t work the way <code>for</code> loops do in other languages.  In this article we&rsquo;re going to dive into Python&rsquo;s <code>for</code> loops to take a look at how they work under the hood and why they work the way they do.</p>
 
 <ol data-toc=".entry-content" data-toc-headings="h2"></ol>
@@ -475,7 +475,7 @@ Passing an iterable to the <code>iter</code> function will always give us back a
 And the only thing that you can do with iterators is ask them for their next item using the <code>next</code> function.
 And if you pass them to <code>next</code> but they don&rsquo;t have a next item, a <code>StopIteration</code> exception will be raised.</p>
 
-<p><img src="https://treyhunner.com/images/hello-kitty-pez.jpg" width="512" height="384" title="&#34;Hello Kitty PEZ dispenser&#34;" alt="&#34;Hello Kitty PEZ dispenser&#34;"></p>
+<p><img src="http://treyhunner.com/images/hello-kitty-pez.jpg" width="512" height="384" title="&#34;Hello Kitty PEZ dispenser&#34;" alt="&#34;Hello Kitty PEZ dispenser&#34;"></p>
 
 <p><a href="https://www.flickr.com/photos/30223382@N06/4151828376">Hello Kitty PEZ dispenser photo</a> by Deborah Austin / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY</a></p>
 
@@ -1047,7 +1047,7 @@ This function works not just with sequences, but with any type of iterable</p>
 
 
 <p>Notice that this code doesn&rsquo;t have awkward assignments to <code>next_item</code> hanging around our loop.
-The <code>with_previous</code> generator function handles the work of keeping track of <code>next_item</code> for us.</p>
+The <code>with_next</code> generator function handles the work of keeping track of <code>next_item</code> for us.</p>
 
 <p>Also note that this code has been compacted enough that we could even <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste our way into a list comprehension</a> if we wanted to.</p>
 
@@ -1224,9 +1224,9 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
   
   <entry>
     <title type="html"><![CDATA[Python built-ins worth learning]]></title>
-    <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
+    <link href="http://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
     <updated>2019-05-21T08:40:00-07:00</updated>
-    <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
+    <id>http://treyhunner.com/2019/05/python-builtins-worth-learning</id>
     <content type="html"><![CDATA[<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
 
 <p>It&rsquo;s usually along the lines of either:</p>
@@ -2735,9 +2735,9 @@ Take it slow: focus on those first 20 important built-ins and then work your way
   
   <entry>
     <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
-    <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
     <updated>2019-04-16T10:20:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
     <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
 Those terms are all technically misnomers.</p>
 
@@ -3351,9 +3351,9 @@ I send one exercise every week and the first 5 are free.</p>
   
   <entry>
     <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
-    <link href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
+    <link href="http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
     <updated>2019-04-09T07:00:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
+    <id>http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of <a href="https://www.pythonmorsels.com/">Python Morsels</a> since I started it last year.
 At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
 
@@ -4134,9 +4134,9 @@ This form is reCAPTCHA protected (Google &lt;a href="https://policies.google.com
   
   <entry>
     <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
+    <link href="http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
     <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
+    <id>http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
     <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
 One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
 
@@ -4498,9 +4498,9 @@ Thanks also to the many folks who sent me ideas and shared their perspective and
   
   <entry>
     <title type="html"><![CDATA[Overusing list comprehensions and generator expressions in Python]]></title>
-    <link href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
+    <link href="http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
     <updated>2019-03-26T13:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
+    <id>http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
     <content type="html"><![CDATA[<p>List comprehensions are one of my favorite features in Python.
 I love list comprehensions so much that I&rsquo;ve written an <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">article</a> about them, done <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">a talk</a> about them, and held a <a href="https://youtu.be/_6U1XoxyyBY" title="Using List Comprehensions and Generator Expressions For Data Processing">3 hour comprehensions tutorial</a> at PyCon 2018.</p>
 
@@ -5141,9 +5141,9 @@ This form is reCAPTCHA protected (Google <a href="https://policies.google.com/pr
   
   <entry>
     <title type="html"><![CDATA[Unique sentinel values, identity checks, and when to use object() instead of None]]></title>
-    <link href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
+    <link href="http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
     <updated>2019-03-20T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
+    <id>http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
     <content type="html"><![CDATA[<p>Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
 Sometimes this unique object represents a <strong>stop value</strong> or a <strong>skip value</strong> and sometimes it&rsquo;s an <strong>initial value</strong>.
 But in each of these cases you want your object to stand out from the other objects you&rsquo;re working with.</p>
@@ -6065,9 +6065,9 @@ This form is reCAPTCHA protected (Google <a href="https://policies.google.com/pr
   
   <entry>
     <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
-    <link href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
+    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
     <updated>2019-03-13T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
+    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
     <content type="html"><![CDATA[<p>Comparing things in Python.
 That sounds like something that almost doesn&rsquo;t even need to be taught.
 But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
@@ -6713,9 +6713,9 @@ Remember these features: you may not need them today, but they&rsquo;ll almost c
   
   <entry>
     <title type="html"><![CDATA[No really, pathlib is great]]></title>
-    <link href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
+    <link href="http://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
     <updated>2019-01-15T11:20:00-08:00</updated>
-    <id>https://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
+    <id>http://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
     <content type="html"><![CDATA[<p>I recently <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">published an article about Python&rsquo;s pathlib module</a> and how I think everyone should be using it.</p>
 
 <p>I won some <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> converts, but some folks also brought up concerns.
@@ -7343,9 +7343,9 @@ Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</
   
   <entry>
     <title type="html"><![CDATA[Why you should be using pathlib]]></title>
-    <link href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
+    <link href="http://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
     <updated>2018-12-21T14:00:00-08:00</updated>
-    <id>https://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
+    <id>http://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
     <content type="html"><![CDATA[<p>When I discovered Python&rsquo;s new <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the <code>os.path</code> module.
 I was wrong.
 Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftriplett.com/2017/pathlib-is-wonderful/">wonderful</a>!</p>
@@ -7733,9 +7733,9 @@ Most of my code that works with files now defaults to using <code>pathlib</code>
   
   <entry>
     <title type="html"><![CDATA[Python Cyber Monday Sales]]></title>
-    <link href="https://treyhunner.com/2018/11/python-cyber-monday-sales/"/>
+    <link href="http://treyhunner.com/2018/11/python-cyber-monday-sales/"/>
     <updated>2018-11-26T07:45:00-08:00</updated>
-    <id>https://treyhunner.com/2018/11/python-cyber-monday-sales</id>
+    <id>http://treyhunner.com/2018/11/python-cyber-monday-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -7791,9 +7791,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
-    <link href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
+    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
     <updated>2018-11-21T11:00:00-08:00</updated>
-    <id>https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
+    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
     <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
 This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
 
@@ -7956,9 +7956,9 @@ That&rsquo;s less than $2/week and about one hour of your time each week (which 
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
-    <link href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
+    <link href="http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
     <updated>2018-10-11T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
+    <id>http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
     <content type="html"><![CDATA[<p>There are a lot of places you&rsquo;ll see <code>*</code> and <code>**</code> used in Python.
 These two operators can be a bit mysterious at times, both for brand new programmers and for folks moving from many other programming languages which may not have completely equivalent operators.
 I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;re used.</p>
@@ -8530,9 +8530,9 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
   
   <entry>
     <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
-    <link href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
     <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
 
 <p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
@@ -9032,9 +9032,9 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
   
   <entry>
     <title type="html"><![CDATA[How to make an iterator in Python]]></title>
-    <link href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
+    <link href="http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
     <updated>2018-06-21T16:00:00-07:00</updated>
-    <id>https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
+    <id>http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
     <content type="html"><![CDATA[<p>I wrote an article sometime ago on <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">the iterator protocol that powers Python&rsquo;s <code>for</code> loops</a>.
 One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
 
@@ -9547,7 +9547,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p><img src="https://treyhunner.com/images/generator-expression-copy-paste.gif"></p>
+<p><img src="http://treyhunner.com/images/generator-expression-copy-paste.gif"></p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
@@ -9655,9 +9655,9 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
   
   <entry>
     <title type="html"><![CDATA[How to have a great first PyCon]]></title>
-    <link href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
+    <link href="http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
     <updated>2018-04-30T08:00:00-07:00</updated>
-    <id>https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
+    <id>http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
     <content type="html"><![CDATA[<p><strong>Update (2019)</strong>: I originally left the sprints out of this article completely!
 To remedy that, I&rsquo;ve recently published another article <a href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/">all about the PyCon sprints</a> and why you should consider attending them.</p>
 
@@ -10031,9 +10031,9 @@ Different PyCon attendees will have different recommendations for how to make th
   
   <entry>
     <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
-    <link href="https://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
+    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
     <updated>2018-04-04T08:00:00-07:00</updated>
-    <id>https://treyhunner.com/2018/04/keyword-arguments-in-python</id>
+    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
     <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
 
 <p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
@@ -10593,9 +10593,9 @@ Different PyCon attendees will have different recommendations for how to make th
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
-    <link href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
     <updated>2018-03-07T16:30:00-08:00</updated>
-    <id>https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
     <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
 
 <p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.

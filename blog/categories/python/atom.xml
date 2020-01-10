@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: python | Trey Hunner]]></title>
-  <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="https://treyhunner.com/"/>
-  <updated>2019-12-02T07:02:51-08:00</updated>
-  <id>https://treyhunner.com/</id>
+  <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2020-01-10T11:23:33-08:00</updated>
+  <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cyber Monday Python Sales]]></title>
-    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
+    <link href="http://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
     <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
+    <id>http://treyhunner.com/2019/12/cyber-monday-python-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -86,9 +86,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
-    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
+    <link href="http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
     <updated>2019-11-29T15:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
+    <id>http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
     <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
 
 <p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
@@ -150,9 +150,9 @@ You don&rsquo;t need to have an on-going subscription, you just need an account.
   
   <entry>
     <title type="html"><![CDATA[Loop Better: a deeper look at iteration in Python]]></title>
-    <link href="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
+    <link href="http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
     <updated>2019-06-18T09:15:00-07:00</updated>
-    <id>https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
+    <id>http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
     <content type="html"><![CDATA[<p>Python&rsquo;s <code>for</code> loops don&rsquo;t work the way <code>for</code> loops do in other languages.  In this article we&rsquo;re going to dive into Python&rsquo;s <code>for</code> loops to take a look at how they work under the hood and why they work the way they do.</p>
 
 <ol data-toc=".entry-content" data-toc-headings="h2"></ol>
@@ -806,7 +806,7 @@ for current, next_item in with_next(readings):
 </code></pre>
 
 <p>Notice that this code doesn&rsquo;t have awkward assignments to <code>next_item</code> hanging around our loop.
-The <code>with_previous</code> generator function handles the work of keeping track of <code>next_item</code> for us.</p>
+The <code>with_next</code> generator function handles the work of keeping track of <code>next_item</code> for us.</p>
 
 <p>Also note that this code has been compacted enough that we could even <a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste our way into a list comprehension</a> if we wanted to.</p>
 
@@ -937,9 +937,9 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
   
   <entry>
     <title type="html"><![CDATA[Python built-ins worth learning]]></title>
-    <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
+    <link href="http://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
     <updated>2019-05-21T08:40:00-07:00</updated>
-    <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
+    <id>http://treyhunner.com/2019/05/python-builtins-worth-learning</id>
     <content type="html"><![CDATA[<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
 
 <p>It&rsquo;s usually along the lines of either:</p>
@@ -2025,9 +2025,9 @@ Take it slow: focus on those first 20 important built-ins and then work your way
   
   <entry>
     <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
-    <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
     <updated>2019-04-16T10:20:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
     <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
 Those terms are all technically misnomers.</p>
 
