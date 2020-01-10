@@ -691,7 +691,7 @@ for current, next_item in with_next(readings):
 ```
 
 Notice that this code doesn't have awkward assignments to `next_item` hanging around our loop.
-The `with_previous` generator function handles the work of keeping track of `next_item` for us.
+The `with_next` generator function handles the work of keeping track of `next_item` for us.
 
 Also note that this code has been compacted enough that we could even [copy-paste our way into a list comprehension][list comprehension] if we wanted to.
 
