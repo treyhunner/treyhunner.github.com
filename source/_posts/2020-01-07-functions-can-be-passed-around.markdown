@@ -12,14 +12,14 @@ You can pass functions around because in Python, **functions are objects**.
 You likely don't need to know about this in your first week of using Python, but as you dive deeper into Python you'll find that it can be quite convenient to understand how to pass a function into another function.
 
 This is part 1 of what I expect to be a series on the various properties of "function objects".
-This article focuses on what a new Python program should know and appreciate about **the object-nature of Python's functions**.
+This article focuses on what a new Python programmer should know and appreciate about **the object-nature of Python's functions**.
 
 <ul data-toc=".entry-content"></ul>
 
 
 ## Functions can be referenced
 
-If you try to use a function without putting parenthesis after it Python won't complain but it also won't do anything useful:
+If you try to use a function without putting parentheses after it Python won't complain but it also won't do anything useful:
 
 ```pycon
 >>> def greet():
@@ -48,7 +48,7 @@ Python is allowing us to *refer* to these *function objects*, the same way we mi
 range(0, 10)
 ```
 
-Since functions can be referred to like any other object, we can point a variable to them:
+Since we can refer to functions like any other object, we can point a variable to a function:
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7, 11, 18, 29]
@@ -104,7 +104,7 @@ square 324
 cube 24389
 ```
 
-It's not very common to take a function and give another name to it or to store it inside a data structure, but Python allows us to do these things because **functions can be passed around, just like any other object**.
+It's not very common to take a function and give it another name or to store it inside a data structure, but Python allows us to do these things because **functions can be passed around, just like any other object**.
 
 
 ## Functions can be passed into other functions
@@ -164,7 +164,7 @@ So if we pass `filter` an `is_odd` function (which returns `True` when given an 
 [1, 3, 7, 11, 29]
 ```
 
-The object returned from `filter` is [a lazy iterator][iterator] so we needed to convert it to a list to actually see its output.
+The object returned from `filter` is [a lazy iterator][iterator] so we needed to convert it to a `list` to actually see its output.
 
 Since functions can be passed into functions, that also means that functions can accept another function as an argument.
 The `filter` function assumes its first argument is a function.
@@ -186,7 +186,7 @@ When we call that function (with `predicate(item)`), we pass a single argument t
 ## Lambda functions are an example of this
 
 A lambda expression is a special syntax in Python for creating an [anonymous function][].
-When you evaluate a **lambda expressions** the object you get back is called a **lambda function**.
+When you evaluate a **lambda expression** the object you get back is called a **lambda function**.
 
 ```pycon
 >>> is_odd = lambda n: n % 2 == 1
@@ -210,7 +210,7 @@ They also can't have docstrings and they can only contain a single Python expres
 >>> add.__doc__
 ```
 
-You can think of a lambda expressions as a shortcut for making a function which will evaluate a single Python expression and return the result of that expression.
+You can think of a lambda expression as a shortcut for making a function which will evaluate a single Python expression and return the result of that expression.
 
 So defining a lambda expression doesn't actually evaluate that expression: it returns a function that can evaluate that expression later.
 
@@ -306,7 +306,7 @@ Here we're finding the string with the most letters in it:
 'Cherimoya'
 ```
 
-If there are multiple maximums or minimums, the earliest ones *wins* (that's how `min`/`max` work):
+If there are multiple maximums or minimums, the earliest one *wins* (that's how `min`/`max` work):
 
 ```pycon
 >>> fruits = ['kumquat', 'Cherimoya', 'Loquat', 'longan', 'jujube']
@@ -316,7 +316,7 @@ If there are multiple maximums or minimums, the earliest ones *wins* (that's how
 ['Loquat', 'longan', 'jujube', 'kumquat', 'Cherimoya']
 ```
 
-Here's a function which will return a 2-item tuple of the length of a given string and the case-normalized version of that string:
+Here's a function which will return a 2-item tuple containing the length of a given string and the case-normalized version of that string:
 
 ```python
 def length_and_alphabetical(string):
@@ -324,7 +324,7 @@ def length_and_alphabetical(string):
     return (len(string), string.casefold())
 ```
 
-We could pass this `length_and_alphabetical` function as the `key` argument to `sorted` to sort our strings by their length first and by their case-insensitive letters afterward:
+We could pass this `length_and_alphabetical` function as the `key` argument to `sorted` to sort our strings by their length first and then by their case-normalized representation:
 
 ```pycon
 >>> fruits = ['kumquat', 'Cherimoya', 'Loquat', 'longan', 'jujube']
@@ -495,9 +495,9 @@ This topics goes *much deeper* than what I've discussed here, but until you find
 [methods]: https://docs.python.org/3/glossary.html#term-method
 [key function]: https://docs.python.org/3/glossary.html#term-key-function
 [anonymous function]: https://en.wikipedia.org/wiki/Anonymous_function
-[overusing lambda expressions]: https://docs.python.org/3/glossary.html#term-key-function
+[overusing lambda expressions]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/
 [named argument]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
-[callable]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
+[callable]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
 [generator expressions]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/#Overuse:_lambda_with_map_and_filter
 [defaultdict]: https://docs.python.org/3/library/collections.html#collections.defaultdict
 [callable object]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#Callable_objects
