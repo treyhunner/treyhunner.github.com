@@ -92,16 +92,16 @@ You can even store functions inside data structures and then reference them late
 >>> numbers = [2, 1, 3, 4, 7, 11, 18, 29]
 >>> for i, n in enumerate(numbers):
 ...     action = operations[i % 2]
-...     print(action.__name__, action(n))
+...     print(f"{action.__name__}({n}) =", action(n))
 ...
-square 4
-cube 1
-square 9
-cube 64
-square 49
-cube 1331
-square 324
-cube 24389
+square(2) = 4
+cube(1) = 1
+square(3) = 9
+cube(4) = 64
+square(7) = 49
+cube(11) = 1331
+square(18) = 324
+cube(29) = 24389
 ```
 
 It's not very common to take a function and give it another name or to store it inside a data structure, but Python allows us to do these things because **functions can be passed around, just like any other object**.
@@ -128,7 +128,7 @@ And then pass it into the built-in `help` function to see what it does:
 >>> help(greet)
 Help on function greet in module __main__:
 
-greet(name='Trey')
+greet(name='world')
     Greet a person (or the whole world by default).
 ```
 
@@ -143,7 +143,9 @@ There are actually quite a few functions built-in to Python that are specificall
 
 The built-in `filter` function accepts two things as an argument: a `function` and an `iterable`.
 
-```
+```pycon
+>>> help(filter)
+
  |  filter(function or None, iterable) --> filter object
  |
  |  Return an iterator yielding those items of iterable for which function(item)
