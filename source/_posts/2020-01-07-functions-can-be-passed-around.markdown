@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Functions can be passed into other functions in Python"
-date: 2020-01-07 07:16:50 -0800
+title: "Passing functions as arguments to other functions in Python"
+date: 2020-01-14 08:00:00 -0800
 comments: true
 categories: python
 ---
@@ -92,16 +92,16 @@ You can even store functions inside data structures and then reference them late
 >>> numbers = [2, 1, 3, 4, 7, 11, 18, 29]
 >>> for i, n in enumerate(numbers):
 ...     action = operations[i % 2]
-...     print(f"{action.__name__}({n}) =", action(n))
+...     print(f"{action.__name__}({n}):", action(n))
 ...
-square(2) = 4
-cube(1) = 1
-square(3) = 9
-cube(4) = 64
-square(7) = 49
-cube(11) = 1331
-square(18) = 324
-cube(29) = 24389
+square(2): 4
+cube(1): 1
+square(3): 9
+cube(4): 64
+square(7): 49
+cube(11): 1331
+square(18): 324
+cube(29): 24389
 ```
 
 It's not very common to take a function and give it another name or to store it inside a data structure, but Python allows us to do these things because **functions can be passed around, just like any other object**.
