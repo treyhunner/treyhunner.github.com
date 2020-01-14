@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: open-source | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/open-source/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2020-01-10T11:23:33-08:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/open-source/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2020-01-14T07:44:25-08:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Maintaining an open source project]]></title>
-    <link href="http://treyhunner.com/2013/07/maintaining-an-open-source-project/"/>
+    <link href="https://treyhunner.com/2013/07/maintaining-an-open-source-project/"/>
     <updated>2013-07-21T00:00:00-07:00</updated>
-    <id>http://treyhunner.com/2013/07/maintaining-an-open-source-project</id>
+    <id>https://treyhunner.com/2013/07/maintaining-an-open-source-project</id>
     <content type="html"><![CDATA[<p>This post contains some of my opinions on how to maintain an open source project well.  I&rsquo;ve built up my opinions on this topic from maintaining and contributing to open source projects.  Keep in mind that I am not an expert on this topic.</p>
 
 <h2>Structure your project logically</h2>

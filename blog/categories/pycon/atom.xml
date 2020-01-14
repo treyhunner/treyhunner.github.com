@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: pycon | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2020-01-10T11:23:33-08:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2020-01-14T07:44:25-08:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
+    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
     <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
+    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
     <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
 One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2020-01-10T11:23:33-08:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2020-01-14T07:44:25-08:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
-    <link href="http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
+    <link href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
     <updated>2018-10-11T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
+    <id>https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
     <content type="html"><![CDATA[<p>There are a lot of places you&rsquo;ll see <code>*</code> and <code>**</code> used in Python.
 These two operators can be a bit mysterious at times, both for brand new programmers and for folks moving from many other programming languages which may not have completely equivalent operators.
 I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;re used.</p>
@@ -428,9 +428,9 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
   
   <entry>
     <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
-    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <link href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <id>https://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
     <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
 
 <p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
@@ -441,6 +441,9 @@ My students tend to see them in code on StackOverflow or they see them in a cowo
 I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
 
 <p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Lambda expressions in Python: what are they?</h2>
 
@@ -809,9 +812,9 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
   
   <entry>
     <title type="html"><![CDATA[How to make an iterator in Python]]></title>
-    <link href="http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
+    <link href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
     <updated>2018-06-21T16:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
+    <id>https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
     <content type="html"><![CDATA[<p>I wrote an article sometime ago on <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">the iterator protocol that powers Python&rsquo;s <code>for</code> loops</a>.
 One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
 
@@ -1259,9 +1262,9 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
   
   <entry>
     <title type="html"><![CDATA[How to have a great first PyCon]]></title>
-    <link href="http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
+    <link href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
     <updated>2018-04-30T08:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
+    <id>https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
     <content type="html"><![CDATA[<p><strong>Update (2019)</strong>: I originally left the sprints out of this article completely!
 To remedy that, I&rsquo;ve recently published another article <a href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/">all about the PyCon sprints</a> and why you should consider attending them.</p>
 
@@ -1635,9 +1638,9 @@ Different PyCon attendees will have different recommendations for how to make th
   
   <entry>
     <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
-    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
+    <link href="https://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
     <updated>2018-04-04T08:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
+    <id>https://treyhunner.com/2018/04/keyword-arguments-in-python</id>
     <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
 
 <p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>

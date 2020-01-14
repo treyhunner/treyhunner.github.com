@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: git | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2020-01-10T11:23:33-08:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2020-01-14T07:44:25-08:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Migrating from Subversion to Git]]></title>
-    <link href="http://treyhunner.com/2011/11/migrating-from-subversion-to-git/"/>
+    <link href="https://treyhunner.com/2011/11/migrating-from-subversion-to-git/"/>
     <updated>2011-11-17T00:00:00-08:00</updated>
-    <id>http://treyhunner.com/2011/11/migrating-from-subversion-to-git</id>
+    <id>https://treyhunner.com/2011/11/migrating-from-subversion-to-git</id>
     <content type="html"><![CDATA[<p>I recently migrated multiple Subversion repositories to Git.  I found
 <a href="http://blog.woobling.org/2009/06/git-svn-abandon.html" title="Migrating from Subversion to Git">this blog post</a> very helpful during the process.  Here are
 some tips I found helpful that were not mentioned in that post.</p>

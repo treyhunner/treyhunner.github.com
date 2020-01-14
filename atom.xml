@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Trey Hunner]]></title>
-  <link href="http://treyhunner.com/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2020-01-10T11:23:33-08:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2020-01-14T07:44:25-08:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -14,10 +14,691 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Passing a function as an argument to another function in Python]]></title>
+    <link href="https://treyhunner.com/2020/01/passing-functions-as-arguments/"/>
+    <updated>2020-01-14T08:00:00-08:00</updated>
+    <id>https://treyhunner.com/2020/01/passing-functions-as-arguments</id>
+    <content type="html"><![CDATA[<p>One of the more hair-raising facts we learn in my introductory Python trainings is that <strong>you can pass functions into other functions</strong>.
+You can pass functions around because in Python, <strong>functions are objects</strong>.</p>
+
+<p>You likely don&rsquo;t need to know about this in your first week of using Python, but as you dive deeper into Python you&rsquo;ll find that it can be quite convenient to understand how to pass a function into another function.</p>
+
+<p>This is part 1 of what I expect to be a series on the various properties of &ldquo;function objects&rdquo;.
+This article focuses on what a new Python programmer should know and appreciate about <strong>the object-nature of Python&rsquo;s functions</strong>.</p>
+
+<ul data-toc=".entry-content"></ul>
+
+
+<h2>Functions can be referenced</h2>
+
+<p>If you try to use a function without putting parentheses after it Python won&rsquo;t complain but it also won&rsquo;t do anything useful:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">greet</span><span class="p">():</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Hello world!&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span>
+</span><span class='line'><span class="go">&lt;function greet at 0x7ff246c6d9d0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This applies to methods as well (<a href="https://docs.python.org/3/glossary.html#term-method">methods</a> are functions which live on objects):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="go">&lt;built-in method pop of list object at 0x7ff246c76a80&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Python is allowing us to <em>refer</em> to these <em>function objects</em>, the same way we might refer to a string, a number, or a <code>range</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;hello&quot;</span>
+</span><span class='line'><span class="go">&#39;hello&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="mf">2.5</span>
+</span><span class='line'><span class="go">2.5</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="go">range(0, 10)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since we can refer to functions like any other object, we can point a variable to a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">gimme</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="n">pop</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <code>gimme</code> variable now points to the <code>pop</code> method on our <code>numbers</code> list.
+So if we call <code>gimme</code>, it&rsquo;ll do the same thing that calling <code>numbers.pop</code> would have done:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">gimme</span><span class="p">()</span>
+</span><span class='line'><span class="go">29</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span>
+</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">gimme</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="go">2</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span>
+</span><span class='line'><span class="go">[1, 3, 4, 7, 11, 18]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">gimme</span><span class="p">()</span>
+</span><span class='line'><span class="go">18</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that we <strong>didn&rsquo;t make a new function</strong>.
+We&rsquo;ve just pointed the <code>gimme</code> variable name to the <code>numbers.pop</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">gimme</span>
+</span><span class='line'><span class="go">&lt;built-in method pop of list object at 0x7ff246c76bc0&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="go">&lt;built-in method pop of list object at 0x7ff246c76bc0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can even store functions inside data structures and then reference them later:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span><span class="o">**</span><span class="mi">3</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">operations</span> <span class="o">=</span> <span class="p">[</span><span class="n">square</span><span class="p">,</span> <span class="n">cube</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="n">action</span> <span class="o">=</span> <span class="n">operations</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{action.__name__}({n}):&quot;</span><span class="p">,</span> <span class="n">action</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="go">square(2): 4</span>
+</span><span class='line'><span class="go">cube(1): 1</span>
+</span><span class='line'><span class="go">square(3): 9</span>
+</span><span class='line'><span class="go">cube(4): 64</span>
+</span><span class='line'><span class="go">square(7): 49</span>
+</span><span class='line'><span class="go">cube(11): 1331</span>
+</span><span class='line'><span class="go">square(18): 324</span>
+</span><span class='line'><span class="go">cube(29): 24389</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s not very common to take a function and give it another name or to store it inside a data structure, but Python allows us to do these things because <strong>functions can be passed around, just like any other object</strong>.</p>
+
+<h2>Functions can be passed into other functions</h2>
+
+<p>Functions, like any other object, can be passed as an argument to another function.</p>
+
+<p>For example we could define a function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;world&quot;</span><span class="p">):</span>
+</span><span class='line'><span class="gp">... </span>    <span class="sd">&quot;&quot;&quot;Greet a person (or the whole world by default).&quot;&quot;&quot;</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Hello {name}!&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Trey&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">Hello Trey!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then pass it into the built-in <code>help</code> function to see what it does:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">greet</span><span class="p">)</span>
+</span><span class='line'><span class="go">Help on function greet in module __main__:</span>
+</span><span class='line'>
+</span><span class='line'><span class="go">greet(name=&#39;world&#39;)</span>
+</span><span class='line'><span class="go">    Greet a person (or the whole world by default).</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And we can pass the function into itself (yes this is weird), which converts it to a string here:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span><span class="p">(</span><span class="n">greet</span><span class="p">)</span>
+</span><span class='line'><span class="go">Hello &lt;function greet at 0x7f93416be8b0&gt;!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are actually quite a few functions built-in to Python that are specifically meant to accept other functions as arguments.</p>
+
+<p>The built-in <code>filter</code> function accepts two things as an argument: a <code>function</code> and an <code>iterable</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="go"> |  filter(function or None, iterable) --&gt; filter object</span>
+</span><span class='line'><span class="go"> |</span>
+</span><span class='line'><span class="go"> |  Return an iterator yielding those items of iterable for which function(item)</span>
+</span><span class='line'><span class="go"> |  is true. If function is None, return the items that are true.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The given iterable (list, tuple, string, etc.) is looped over and the given function is called on each item in that iterable: whenever the function returns <code>True</code> (or another truthy value) the item is included in the <code>filter</code> output.</p>
+
+<p>So if we pass <code>filter</code> an <code>is_odd</code> function (which returns <code>True</code> when given an odd number) and a list of numbers, we&rsquo;ll get back all of the numbers we gave it which are odd.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">29</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span><span class="p">(</span><span class="n">is_odd</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;filter object at 0x7ff246c8dc40&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">is_odd</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 3, 7, 11, 29]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The object returned from <code>filter</code> is <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">a lazy iterator</a> so we needed to convert it to a <code>list</code> to actually see its output.</p>
+
+<p>Since functions can be passed into functions, that also means that functions can accept another function as an argument.
+The <code>filter</code> function assumes its first argument is a function.
+You can think of the <code>filter</code> function as pretty much the same as this function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span>
+</span><span class='line'>        <span class="n">item</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This function expects the <code>predicate</code> argument to be a function (technically it could be any <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">callable</a>).
+When we call that function (with <code>predicate(item)</code>), we pass a single argument to it and then check the truthiness of its return value.</p>
+
+<h2>Lambda functions are an example of this</h2>
+
+<p>A lambda expression is a special syntax in Python for creating an <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous function</a>.
+When you evaluate a <strong>lambda expression</strong> the object you get back is called a <strong>lambda function</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">is_odd</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">is_odd</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">True</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">is_odd</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="go">False</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lambda functions are pretty much just like regular Python functions, with a few caveats.</p>
+
+<p>Unlike other functions, lambda functions don&rsquo;t have a name (their name shows up as <code>&lt;lambda&gt;</code>).
+They also can&rsquo;t have docstrings and they can only contain a single Python expression.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">5</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span>
+</span><span class='line'><span class="go">&lt;function &lt;lambda&gt; at 0x7ff244852f70&gt;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="o">.</span><span class="n">__doc__</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can think of a lambda expression as a shortcut for making a function which will evaluate a single Python expression and return the result of that expression.</p>
+
+<p>So defining a lambda expression doesn&rsquo;t actually evaluate that expression: it returns a function that can evaluate that expression later.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;world&quot;</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Hello {name}&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Trey&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="go">Hello Trey</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">greet</span><span class="p">()</span>
+</span><span class='line'><span class="go">Hello world</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;d like to note that all three of the above examples of <code>lambda</code> are poor examples.
+If you want a variable name to point to a function object that you can use later, you should use <code>def</code> to define a function: that&rsquo;s the <em>usual</em> way to define a function.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;world&quot;</span><span class="p">):</span> <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Hello {name}&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lambda expressions are for when we&rsquo;d like to define a function and <strong>pass it into another function immediately</strong>.</p>
+
+<p>For example here we&rsquo;re using <code>filter</code> to get even numbers, but we&rsquo;re using a lambda expression so we don&rsquo;t have to define an <code>is_even</code> function before we use it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span>
+</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18, 29]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[2, 4, 18]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is <em>the most appropriate</em> use of lambda expressions: passing a function into another function while defining that passed function all on one line of code.</p>
+
+<p>As I&rsquo;ve written about in <a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/">Overusing lambda expressions</a>, I&rsquo;m not a fan of Python&rsquo;s lambda expression syntax.
+Whether or not you like this syntax, you should know that this syntax is just a shortcut for creating a function.</p>
+
+<p>Whenever you see <code>lambda</code> expressions, keep in mind that:</p>
+
+<ol>
+<li>A lambda expression is a special syntax for creating a function and passing it to another function all on one line of code</li>
+<li>Lambda functions are just like all other function objects: neither is more special than the other and both can be passed around</li>
+</ol>
+
+
+<p>All functions in Python can be passed as an argument to another function (that just happens to be the <em>sole</em> purpose of lambda functions).</p>
+
+<h2>A common example: key functions</h2>
+
+<p>Besides the built-in <code>filter</code> function, where will you ever see a function passed into another function?
+Probably the most common place you&rsquo;ll see this in Python itself is with a <strong>key function</strong>.</p>
+
+<p>It&rsquo;s a common convention for functions which accept an iterable-to-be-sorted/ordered to also accept a <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">named argument</a> called <code>key</code>.
+This <code>key</code> argument should be a function <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">or another callable</a>.</p>
+
+<p>The <a href="https://treyhunner.com/2019/05/python-builtins-worth-learning/#sorted">sorted</a>, <a href="https://treyhunner.com/2019/05/python-builtins-worth-learning/#min_and_max">min</a>, and <a href="https://treyhunner.com/2019/05/python-builtins-worth-learning/#min_and_max">max</a> functions all follow this convention of accepting a <code>key</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">normalize_case</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;Cherimoya&#39;, &#39;jujube&#39;, &#39;kumquat&#39;, &#39;longan&#39;, &#39;Loquat&#39;]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">min</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">normalize_case</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;Cherimoya&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">max</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">normalize_case</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;Loquat&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That <a href="https://docs.python.org/3/glossary.html#term-key-function">key function</a> is called for each value in the given iterable and the return value is used to order/sort each of the iterable items.
+You can think of this key function as computing <strong>a comparison key</strong> for each item in the iterable.</p>
+
+<p>In the above example our comparison key returns a lowercased string, so each string is compared by its lowercased version (which results in a case-insensitive ordering).</p>
+
+<p>We used a <code>normalize_case</code> function to do this, but the same thing could be done using <code>str.casefold</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;Cherimoya&#39;, &#39;jujube&#39;, &#39;kumquat&#39;, &#39;longan&#39;, &#39;Loquat&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: That <code>str.casefold</code> trick is a bit odd if you aren&rsquo;t familiar with how classes work.
+Classes store the <em>unbound methods</em> that will accept an instance of that class when called.
+We normally type <code>my_string.casefold()</code> but <code>str.casefold(my_string)</code> is what Python translates that to.
+That&rsquo;s a story for another time.</p>
+
+<p>Here we&rsquo;re finding the string with the most letters in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">max</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;Cherimoya&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If there are multiple maximums or minimums, the earliest one <em>wins</em> (that&rsquo;s how <code>min</code>/<code>max</code> work):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">min</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</span><span class='line'><span class="go">&#39;Loquat&#39;</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;Loquat&#39;, &#39;longan&#39;, &#39;jujube&#39;, &#39;kumquat&#39;, &#39;Cherimoya&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s a function which will return a 2-item tuple containing the length of a given string and the case-normalized version of that string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">length_and_alphabetical</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return sort key: length first, then case-normalized string.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="n">string</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We could pass this <code>length_and_alphabetical</code> function as the <code>key</code> argument to <code>sorted</code> to sort our strings by their length first and then by their case-normalized representation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;kumquat&#39;</span><span class="p">,</span> <span class="s">&#39;Cherimoya&#39;</span><span class="p">,</span> <span class="s">&#39;Loquat&#39;</span><span class="p">,</span> <span class="s">&#39;longan&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits_by_length</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">length_and_alphabetical</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits_by_length</span>
+</span><span class='line'><span class="go">[&#39;jujube&#39;, &#39;longan&#39;, &#39;Loquat&#39;, &#39;kumquat&#39;, &#39;Cherimoya&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This relies on the fact that <a href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/">Python&rsquo;s ordering operators do deep comparisons</a>.</p>
+
+<h2>Other examples of passing a function as an argument</h2>
+
+<p>The <code>key</code> argument accepted by <code>sorted</code>, <code>min</code>, and <code>max</code> is just one common example of passing functions into functions.</p>
+
+<p>Two more function-accepting Python built-ins are <code>map</code> and <code>filter</code>.</p>
+
+<p>We&rsquo;ve already seen that <code>filter</code> will <em>filter</em> our list based on a given function&rsquo;s return value.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span>
+</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18, 29]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">is_odd</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="k">return</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">is_odd</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[1, 3, 7, 11, 29]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>map</code> function will call the given function on each item in the given iterable and use the result of that function call as the new item:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_odd</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[False, True, True, False, True, True, False, True]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For example here we&rsquo;re converting numbers to strings and squaring numbers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[&#39;2&#39;, &#39;1&#39;, &#39;3&#39;, &#39;4&#39;, &#39;7&#39;, &#39;11&#39;, &#39;18&#39;, &#39;29&#39;]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</span><span class='line'><span class="go">[4, 1, 9, 16, 49, 121, 324, 841]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: as I noted in my article on overusing lambda, I personally prefer to <a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/#Overuse:_lambda_with_map_and_filter">use generator expressions instead of the <code>map</code> and <code>filter</code> functions</a>.</p>
+
+<p>Similar to <code>map</code>, and <code>filter</code>, there&rsquo;s also <a href="https://docs.python.org/3/library/itertools.html#itertools.takewhile">takewhile</a> and <a href="https://docs.python.org/3/library/itertools.html#itertools.dropwhile">dropwhile</a> from the <code>itertools</code> module.
+The first one is like <code>filter</code> except it stops once it finds a value for which the <em>predicate function</em> is false.
+The second one does the opposite: it only includes values after the predicate function has become false.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">takewhile</span><span class="p">,</span> <span class="n">dropwhile</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;pink&#39;</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">short_length</span><span class="p">(</span><span class="n">word</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">6</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">takewhile</span><span class="p">(</span><span class="n">short_length</span><span class="p">,</span> <span class="n">colors</span><span class="p">))</span>
+</span><span class='line'><span class="go">[&#39;red&#39;, &#39;green&#39;]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">dropwhile</span><span class="p">(</span><span class="n">short_length</span><span class="p">,</span> <span class="n">colors</span><span class="p">))</span>
+</span><span class='line'><span class="go">[&#39;orange&#39;, &#39;purple&#39;, &#39;pink&#39;, &#39;blue&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And there&rsquo;s <a href="https://docs.python.org/3/library/functools.html#functools.reduce">functools.reduce</a> and <a href="https://docs.python.org/3/library/itertools.html#itertools.accumulate">itertools.accumulate</a>, which both call a 2-argument function to accumulate values as they loop:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">accumulate</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+</span><span class='line'><span class="gp">...</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">reduce</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</span><span class='line'><span class="go">168</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">accumulate</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">product</span><span class="p">))</span>
+</span><span class='line'><span class="go">[2, 2, 6, 24, 168]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <a href="https://docs.python.org/3/library/collections.html#collections.defaultdict">defaultdict</a> class in the <code>collections</code> module is another example.
+The <code>defaultdict</code> class creates dictionary-like objects which will never raise a <code>KeyError</code> when a missing key is accessed, but will instead add a new value to the dictionary automatically.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span><span class="p">[</span><span class="s">&#39;jujubes&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="go">0</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span>
+</span><span class='line'><span class="go">defaultdict(&lt;class &#39;int&#39;&gt;, {&#39;jujubes&#39;: 0})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This <code>defaultdict</code> class accepts a <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/">callable</a> (function or class) that will be called to create a default value whenever a missing key is accessed.</p>
+
+<p>The above code worked because <code>int</code> returns <code>0</code> when called with no arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">()</span>
+</span><span class='line'><span class="go">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here the default value is <code>list</code>, which returns a new list when called with no arguments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things_by_color</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things_by_color</span><span class="p">[</span><span class="s">&#39;purple&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;socks&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things_by_color</span><span class="p">[</span><span class="s">&#39;purple&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;shoes&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things_by_color</span>
+</span><span class='line'><span class="go">defaultdict(&lt;class &#39;list&#39;&gt;, {&#39;purple&#39;: [&#39;socks&#39;, &#39;shoes&#39;]})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <a href="https://docs.python.org/3/library/functools.html#functools.partial">partial</a> function in the <code>functools</code> module is another example.
+<code>partial</code> accepts a function and any number of arguments and returns a new function (technically it returns a <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#Callable_objects">callable object</a>).</p>
+
+<p>Here&rsquo;s an example of <code>partial</code> used to &ldquo;bind&rdquo; the <code>sep</code> keyword argument to the <code>print</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">print_each</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="k">print</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>print_each</code> function returned now does the same thing as if <code>print</code> was called with <code>sep='\n'</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">1 2 3</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">2</span>
+</span><span class='line'><span class="go">3</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">print_each</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="go">1</span>
+</span><span class='line'><span class="go">2</span>
+</span><span class='line'><span class="go">3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;ll also find functions-that-accept-functions in third-party libraries, like <a href="https://docs.djangoproject.com/en/3.0/ref/models/fields/#default">in Django</a>, and <a href="https://numpy.org/doc/1.17/reference/generated/numpy.fromfunction.html">in numpy</a>.
+Anytime you see a class or a function with documentation stating that one of its arguments should be a <strong>callable</strong> or a <strong>callable object</strong>, that means &ldquo;you could pass in a function here&rdquo;.</p>
+
+<h2>A topic I&rsquo;m skipping over: nested functions</h2>
+
+<p>Python also supports nested functions (functions defined inside of other functions).
+Nested functions power Python&rsquo;s <a href="https://docs.python.org/3/glossary.html#term-decorator">decorator</a> syntax.</p>
+
+<p>I&rsquo;m not going to discuss nested functions in this article because nested functions warrant exploration of <a href="https://en.wikipedia.org/wiki/Non-local_variable">non-local variables</a>, <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">closures</a>, and other weird corners of Python that you don&rsquo;t need to know when you&rsquo;re first getting started with treating functions as objects.</p>
+
+<p>I plan to write a follow-up article on this topic and link to it here later.
+In the meantime, if you&rsquo;re interested in nested functions in Python, a search for <a href="https://duckduckgo.com/?q=higher-order+functions+in+Python">higher order functions in Python</a> may be helpful.</p>
+
+<h2>Treating functions as objects is normal</h2>
+
+<p>Python has <a href="https://en.wikipedia.org/wiki/First-class_function">first-class functions</a>, which means:</p>
+
+<ol>
+<li>You can assign functions to variables</li>
+<li>You can store functions in lists, dictionaries, or other data structures</li>
+<li>You can pass functions into other functions</li>
+<li>You can write functions that return functions</li>
+</ol>
+
+
+<p>It might seem odd to treat functions as objects, but it&rsquo;s not that unusual in Python.
+By my count, about 15% of the Python built-ins are meant to accept functions as arguments (<code>min</code>, <code>max</code>, <code>sorted</code>, <code>map</code>, <code>filter</code>, <code>iter</code>, <code>property</code>, <code>classmethod</code>, <code>staticmethod</code>, <code>callable</code>).</p>
+
+<p>The most important uses of Python&rsquo;s first-class functions are:</p>
+
+<ol>
+<li>Passing a <code>key</code> function to the built-in <code>sorted</code>, <code>min</code>, and <code>max</code> functions</li>
+<li>Passing functions into looping helpers like <code>filter</code> and <code>itertools.dropwhile</code></li>
+<li>Passing a &ldquo;default-value generating factory function&rdquo; to classes like <code>defaultdict</code></li>
+<li>&ldquo;Partially-evaluating&rdquo; functions by passing them into <code>functools.partial</code></li>
+</ol>
+
+
+<p>This topics goes <em>much deeper</em> than what I&rsquo;ve discussed here, but until you find yourself writing decorator functions, you probably don&rsquo;t need to explore this topic any further.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Cyber Monday Python Sales]]></title>
-    <link href="http://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
+    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
     <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>http://treyhunner.com/2019/12/cyber-monday-python-sales</id>
+    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -86,9 +767,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
-    <link href="http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
+    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
     <updated>2019-11-29T15:00:00-08:00</updated>
-    <id>http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
+    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
     <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
 
 <p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
@@ -150,9 +831,9 @@ You don&rsquo;t need to have an on-going subscription, you just need an account.
   
   <entry>
     <title type="html"><![CDATA[Loop Better: a deeper look at iteration in Python]]></title>
-    <link href="http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
+    <link href="https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/"/>
     <updated>2019-06-18T09:15:00-07:00</updated>
-    <id>http://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
+    <id>https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python</id>
     <content type="html"><![CDATA[<p>Python&rsquo;s <code>for</code> loops don&rsquo;t work the way <code>for</code> loops do in other languages.  In this article we&rsquo;re going to dive into Python&rsquo;s <code>for</code> loops to take a look at how they work under the hood and why they work the way they do.</p>
 
 <ol data-toc=".entry-content" data-toc-headings="h2"></ol>
@@ -475,7 +1156,7 @@ Passing an iterable to the <code>iter</code> function will always give us back a
 And the only thing that you can do with iterators is ask them for their next item using the <code>next</code> function.
 And if you pass them to <code>next</code> but they don&rsquo;t have a next item, a <code>StopIteration</code> exception will be raised.</p>
 
-<p><img src="http://treyhunner.com/images/hello-kitty-pez.jpg" width="512" height="384" title="&#34;Hello Kitty PEZ dispenser&#34;" alt="&#34;Hello Kitty PEZ dispenser&#34;"></p>
+<p><img src="https://treyhunner.com/images/hello-kitty-pez.jpg" width="512" height="384" title="&#34;Hello Kitty PEZ dispenser&#34;" alt="&#34;Hello Kitty PEZ dispenser&#34;"></p>
 
 <p><a href="https://www.flickr.com/photos/30223382@N06/4151828376">Hello Kitty PEZ dispenser photo</a> by Deborah Austin / <a href="https://creativecommons.org/licenses/by/2.0/">CC BY</a></p>
 
@@ -1224,9 +1905,9 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
   
   <entry>
     <title type="html"><![CDATA[Python built-ins worth learning]]></title>
-    <link href="http://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
+    <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
     <updated>2019-05-21T08:40:00-07:00</updated>
-    <id>http://treyhunner.com/2019/05/python-builtins-worth-learning</id>
+    <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
     <content type="html"><![CDATA[<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
 
 <p>It&rsquo;s usually along the lines of either:</p>
@@ -2735,9 +3416,9 @@ Take it slow: focus on those first 20 important built-ins and then work your way
   
   <entry>
     <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
-    <link href="http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
+    <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
     <updated>2019-04-16T10:20:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
+    <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
     <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
 Those terms are all technically misnomers.</p>
 
@@ -3351,9 +4032,9 @@ I send one exercise every week and the first 5 are free.</p>
   
   <entry>
     <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
-    <link href="http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
+    <link href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
     <updated>2019-04-09T07:00:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
+    <id>https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of <a href="https://www.pythonmorsels.com/">Python Morsels</a> since I started it last year.
 At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
 
@@ -4134,9 +4815,9 @@ This form is reCAPTCHA protected (Google &lt;a href="https://policies.google.com
   
   <entry>
     <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
+    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
     <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>http://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
+    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
     <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
 One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
 
@@ -4498,9 +5179,9 @@ Thanks also to the many folks who sent me ideas and shared their perspective and
   
   <entry>
     <title type="html"><![CDATA[Overusing list comprehensions and generator expressions in Python]]></title>
-    <link href="http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
+    <link href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
     <updated>2019-03-26T13:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
+    <id>https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
     <content type="html"><![CDATA[<p>List comprehensions are one of my favorite features in Python.
 I love list comprehensions so much that I&rsquo;ve written an <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">article</a> about them, done <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">a talk</a> about them, and held a <a href="https://youtu.be/_6U1XoxyyBY" title="Using List Comprehensions and Generator Expressions For Data Processing">3 hour comprehensions tutorial</a> at PyCon 2018.</p>
 
@@ -5141,9 +5822,9 @@ This form is reCAPTCHA protected (Google <a href="https://policies.google.com/pr
   
   <entry>
     <title type="html"><![CDATA[Unique sentinel values, identity checks, and when to use object() instead of None]]></title>
-    <link href="http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
+    <link href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/"/>
     <updated>2019-03-20T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
+    <id>https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python</id>
     <content type="html"><![CDATA[<p>Occasionally in Python (and in programming in general), you&rsquo;ll need an object which can be uniquely identified.
 Sometimes this unique object represents a <strong>stop value</strong> or a <strong>skip value</strong> and sometimes it&rsquo;s an <strong>initial value</strong>.
 But in each of these cases you want your object to stand out from the other objects you&rsquo;re working with.</p>
@@ -6065,9 +6746,9 @@ This form is reCAPTCHA protected (Google <a href="https://policies.google.com/pr
   
   <entry>
     <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
-    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
+    <link href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
     <updated>2019-03-13T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
+    <id>https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
     <content type="html"><![CDATA[<p>Comparing things in Python.
 That sounds like something that almost doesn&rsquo;t even need to be taught.
 But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
@@ -6713,9 +7394,9 @@ Remember these features: you may not need them today, but they&rsquo;ll almost c
   
   <entry>
     <title type="html"><![CDATA[No really, pathlib is great]]></title>
-    <link href="http://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
+    <link href="https://treyhunner.com/2019/01/no-really-pathlib-is-great/"/>
     <updated>2019-01-15T11:20:00-08:00</updated>
-    <id>http://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
+    <id>https://treyhunner.com/2019/01/no-really-pathlib-is-great</id>
     <content type="html"><![CDATA[<p>I recently <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">published an article about Python&rsquo;s pathlib module</a> and how I think everyone should be using it.</p>
 
 <p>I won some <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> converts, but some folks also brought up concerns.
@@ -7343,9 +8024,9 @@ Here&rsquo;s a succinct and descriptive Python script to demonstrate my point:</
   
   <entry>
     <title type="html"><![CDATA[Why you should be using pathlib]]></title>
-    <link href="http://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
+    <link href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/"/>
     <updated>2018-12-21T14:00:00-08:00</updated>
-    <id>http://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
+    <id>https://treyhunner.com/2018/12/why-you-should-be-using-pathlib</id>
     <content type="html"><![CDATA[<p>When I discovered Python&rsquo;s new <a href="https://docs.python.org/3/library/pathlib.html">pathlib</a> module a few years ago, I initially wrote it off as being a slightly more awkward and unnecessarily object-oriented version of the <code>os.path</code> module.
 I was wrong.
 Python&rsquo;s <code>pathlib</code> module is actually <a href="https://jefftriplett.com/2017/pathlib-is-wonderful/">wonderful</a>!</p>
@@ -7733,9 +8414,9 @@ Most of my code that works with files now defaults to using <code>pathlib</code>
   
   <entry>
     <title type="html"><![CDATA[Python Cyber Monday Sales]]></title>
-    <link href="http://treyhunner.com/2018/11/python-cyber-monday-sales/"/>
+    <link href="https://treyhunner.com/2018/11/python-cyber-monday-sales/"/>
     <updated>2018-11-26T07:45:00-08:00</updated>
-    <id>http://treyhunner.com/2018/11/python-cyber-monday-sales</id>
+    <id>https://treyhunner.com/2018/11/python-cyber-monday-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -7791,9 +8472,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: 50% Off 52 weeks of Python Morsels]]></title>
-    <link href="http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
+    <link href="https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python/"/>
     <updated>2018-11-21T11:00:00-08:00</updated>
-    <id>http://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
+    <id>https://treyhunner.com/2018/11/python-morsels-sale-52-weeks-of-python</id>
     <content type="html"><![CDATA[<p>I launched a weekly Python skill-building service earlier this year called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
 This week I&rsquo;m running my first sale, which will also likely be the biggest sale that I run on Python Morsels for the foreseeable future (I don&rsquo;t want to say forever, but probably forever).</p>
 
@@ -7956,9 +8637,9 @@ That&rsquo;s less than $2/week and about one hour of your time each week (which 
   
   <entry>
     <title type="html"><![CDATA[Asterisks in Python: what they are and how to use them]]></title>
-    <link href="http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
+    <link href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/"/>
     <updated>2018-10-11T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
+    <id>https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them</id>
     <content type="html"><![CDATA[<p>There are a lot of places you&rsquo;ll see <code>*</code> and <code>**</code> used in Python.
 These two operators can be a bit mysterious at times, both for brand new programmers and for folks moving from many other programming languages which may not have completely equivalent operators.
 I&rsquo;d like to discuss what those operators are and the many ways they&rsquo;re used.</p>
@@ -8530,9 +9211,9 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
   
   <entry>
     <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
-    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <link href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <id>https://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
     <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
 
 <p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
@@ -8543,6 +9224,9 @@ My students tend to see them in code on StackOverflow or they see them in a cowo
 I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
 
 <p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
+
+<ul data-toc=".entry-content"></ul>
+
 
 <h2>Lambda expressions in Python: what are they?</h2>
 
@@ -9032,9 +9716,9 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
   
   <entry>
     <title type="html"><![CDATA[How to make an iterator in Python]]></title>
-    <link href="http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
+    <link href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/"/>
     <updated>2018-06-21T16:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
+    <id>https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python</id>
     <content type="html"><![CDATA[<p>I wrote an article sometime ago on <a href="http://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">the iterator protocol that powers Python&rsquo;s <code>for</code> loops</a>.
 One thing I left out of that article was <strong>how to make your own iterators</strong>.</p>
 
@@ -9547,7 +10231,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p><img src="http://treyhunner.com/images/generator-expression-copy-paste.gif"></p>
+<p><img src="https://treyhunner.com/images/generator-expression-copy-paste.gif"></p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
@@ -9655,9 +10339,9 @@ Likewise, <strong>generators are the typical way to make an iterator in Python</
   
   <entry>
     <title type="html"><![CDATA[How to have a great first PyCon]]></title>
-    <link href="http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
+    <link href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/"/>
     <updated>2018-04-30T08:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
+    <id>https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon</id>
     <content type="html"><![CDATA[<p><strong>Update (2019)</strong>: I originally left the sprints out of this article completely!
 To remedy that, I&rsquo;ve recently published another article <a href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/">all about the PyCon sprints</a> and why you should consider attending them.</p>
 
@@ -10031,9 +10715,9 @@ Different PyCon attendees will have different recommendations for how to make th
   
   <entry>
     <title type="html"><![CDATA[Keyword (Named) Arguments in Python: How to Use Them]]></title>
-    <link href="http://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
+    <link href="https://treyhunner.com/2018/04/keyword-arguments-in-python/"/>
     <updated>2018-04-04T08:00:00-07:00</updated>
-    <id>http://treyhunner.com/2018/04/keyword-arguments-in-python</id>
+    <id>https://treyhunner.com/2018/04/keyword-arguments-in-python</id>
     <content type="html"><![CDATA[<p>Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn&rsquo;t help that folks learning Python often discover the various features of keyword arguments slowly over time.</p>
 
 <p>When teaching Python, I&rsquo;ve often wished I had a summary of the various keyword argument-related features that I could link learners to.  I hope that this article will accomplish that task.</p>
@@ -10580,690 +11264,6 @@ Different PyCon attendees will have different recommendations for how to make th
   <input type="hidden" name="exercise_track" value="sentinels">
   <input type="hidden" name="form_id" value="keyword arguments post">
   <button type="submit" class="subscribe-btn form-big">Get a Python exercise now</button>
-<br></p>
-
-<p><small>
-  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
-  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
-</small></p>
-
-<p></form></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
-    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
-    <updated>2018-03-07T16:30:00-08:00</updated>
-    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
-    <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
-
-<p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
-This feature often seems simple after you&rsquo;ve learned about it, but <strong>it can be tricky to recall multiple assignment when you need it most</strong>.</p>
-
-<p>In this article we&rsquo;ll see what multiple assignment is, we&rsquo;ll take a look at common uses of multiple assignment, and then we&rsquo;ll look at a few uses for multiple assignment that are often overlooked.</p>
-
-<p>Note that in this article I will be using <a href="https://cito.github.io/blog/f-strings/">f-strings</a> which are a Python 3.6+ feature.
-If you&rsquo;re on an older version of Python, you&rsquo;ll need to mentally translate those to use the string <code>format</code> method.</p>
-
-<ul data-toc=".entry-content"></ul>
-
-
-<h2>How multiple assignment works</h2>
-
-<p>I&rsquo;ll be using the words <strong>multiple assignment</strong>, <strong>tuple unpacking</strong>, and <strong>iterable unpacking</strong> interchangeably in this article.
-They&rsquo;re all just different words for the same thing.</p>
-
-<p>Python&rsquo;s multiple assignment looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;re setting <code>x</code> to <code>10</code> and <code>y</code> to <code>20</code>.</p>
-
-<p>What&rsquo;s happening at a lower level is that we&rsquo;re creating a tuple of <code>10, 20</code> and then looping over that tuple and taking each of the two items we get from looping and assigning them to <code>x</code> and <code>y</code> in order.</p>
-
-<p>This syntax might make that a bit more clear:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Parenthesis are optional around tuples in Python and they&rsquo;re also optional in multiple assignment (which uses a tuple-like syntax).
-All of these are equivalent:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Multiple assignment is often called &ldquo;tuple unpacking&rdquo; because it&rsquo;s frequently used with tuples.
-But we can use multiple assignment with any iterable, not just tuples.
-Here we&rsquo;re using it with a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">10</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">20</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And with a string:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s">&#39;hi&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">&#39;h&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">&#39;i&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Anything that can be looped over can be &ldquo;unpacked&rdquo; with tuple unpacking / multiple assignment.</p>
-
-<p>Here&rsquo;s another example to demonstrate that multiple assignment works with any number of items and that it works with variables as well as objects we&rsquo;ve just created:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">point</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">point</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="go">10 20 30</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-</span><span class='line'><span class="go">30 20 10</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that on that last line we&rsquo;re actually swapping variable names, which is something multiple assignment allows us to do easily.</p>
-
-<p>Alright, let&rsquo;s talk about how multiple assignment can be used.</p>
-
-<h2>Unpacking in a for loop</h2>
-
-<p>You&rsquo;ll commonly see multiple assignment used in <code>for</code> loops.</p>
-
-<p>Let&rsquo;s take a dictionary:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">person_dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Trey&quot;</span><span class="p">,</span> <span class="s">&#39;company&#39;</span><span class="p">:</span> <span class="s">&quot;Truthful Technology LLC&quot;</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Instead of looping over our dictionary like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {item[0]} has value {item[1]}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You&rsquo;ll often see Python programmers use multiple assignment by writing this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you write the <code>for X in Y</code> line of a for loop, you&rsquo;re telling Python that it should do an assignment to <code>X</code> for each iteration of your loop.
-Just like in an assignment using the <code>=</code> operator, we can use multiple assignment here.</p>
-
-<p>This:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Is essentially the same as this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">person_dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">item</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Key {key} has value {value}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;re just not doing an unnecessary extra assignment in the first example.</p>
-
-<p>So multiple assignment is great for unpacking dictionary items into key-value pairs, but it&rsquo;s helpful in many other places too.</p>
-
-<p>It&rsquo;s great when paired with the built-in <code>enumerate</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">my_file</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Line {i}: {line}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And the <code>zip</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">color</span><span class="p">,</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">ratios</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;It&#39;s {ratio*100}% {color}.&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">prices</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;{product} is {color} and costs ${price:.2f}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you&rsquo;re unfamiliar with <code>enumerate</code> or <code>zip</code>, see my article on <a href="http://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes in Python</a>.</p>
-
-<p>Newer Pythonistas often see multiple assignment in the context of <code>for</code> loops and sometimes assume it&rsquo;s tied to loops.  Multiple assignment works for any assignment though, not just loop assignments.</p>
-
-<h2>An alternative to hard coded indexes</h2>
-
-<p>It&rsquo;s not uncommon to see hard coded indexes (e.g. <code>point[0]</code>, <code>items[1]</code>, <code>vals[-1]</code>) in code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;The first item is {items[0]} and the last item is {items[-1]}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you see Python code that uses hard coded indexes there&rsquo;s often a way to <strong>use multiple assignment to make your code more readable</strong>.</p>
-
-<p>Here&rsquo;s some code that has three hard coded indexes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">reformat_date</span><span class="p">(</span><span class="n">mdy_date_string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Reformat MM/DD/YYYY string into YYYY-MM-DD string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">date</span> <span class="o">=</span> <span class="n">mdy_date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{date[2]}-{date[0]}-{date[1]}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can make this code much more readable by using multiple assignment to assign separate month, day, and year variables:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">reformat_date</span><span class="p">(</span><span class="n">mdy_date_string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Reformat MM/DD/YYYY string into YYYY-MM-DD string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">mdy_date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{year}-{month}-{day}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whenever you see hard coded indexes in your code, stop to consider whether you could use multiple assignment to make your code more readable.</p>
-
-<h2>Multiple assignment is very strict</h2>
-
-<p>Multiple assignment is actually fairly strict when it comes to unpacking the iterable we give to it.</p>
-
-<p>If we try to unpack a larger iterable into a smaller number of variables, we&rsquo;ll get an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">too many values to unpack (expected 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If we try to unpack a smaller iterable into a larger number of variables, we&rsquo;ll also get an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">not enough values to unpack (expected 3, got 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This strictness is pretty great.
-If we&rsquo;re working with an item that has a different size than we expected, the multiple assignment will fail loudly and we&rsquo;ll hopefully now know about a bug in our program that we weren&rsquo;t yet aware of.</p>
-
-<p>Let&rsquo;s look at an example.
-Imagine that we have a short command line program that parses command-line arguments in a rudimentary way, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">new_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="n">old_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Copying {new_file} to {old_file}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Our program is supposed to accept 2 arguments, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>my_program.py file1.txt file2.txt
-</span><span class='line'>Copying file1.txt to file2.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But if someone called our program with three arguments, they will not see an error:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>my_program.py file1.txt file2.txt file3.txt
-</span><span class='line'>Copying file1.txt to file2.txt
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s no error because we&rsquo;re not validating that we&rsquo;ve received exactly 2 arguments.</p>
-
-<p>If we use multiple assignment instead of hard coded indexes, the assignment will verify that we receive exactly the expected number of arguments:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">_</span><span class="p">,</span> <span class="n">new_file</span><span class="p">,</span> <span class="n">old_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
-</span><span class='line'><span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Copying {new_file} to {old_file}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Note</strong>: we&rsquo;re using the variable name <code>_</code> to note that we don&rsquo;t care about <code>sys.argv[0]</code> (the name of our program).
-Using <code>_</code> for variables you don&rsquo;t care about is just a convention.</p>
-
-<h2>An alternative to slicing</h2>
-
-<p>So multiple assignment can be used for avoiding hard coded indexes and it can be used to ensure we&rsquo;re strict about the size of the tuples/iterables we&rsquo;re working with.</p>
-
-<p>Multiple assignment can be used to replace hard coded slices too!</p>
-
-<p>Slicing is a handy way to grab a specific portion of the items in lists and other sequences.</p>
-
-<p>Here are some slices that are &ldquo;hard coded&rdquo; in that they only use numeric indexes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">all_after_first</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-</span><span class='line'><span class="n">all_but_last_two</span> <span class="o">=</span> <span class="n">items</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-</span><span class='line'><span class="n">items_with_ends_removed</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whenever you see slices that don&rsquo;t use any variables in their slice indexes, you can often use multiple assignment instead.
-To do this we have to talk about a feature that I haven&rsquo;t mentioned yet: the <code>*</code> operator.</p>
-
-<p>In Python 3.0, the <code>*</code> operator was added to the multiple assignment syntax, allowing us to capture remaining items after an unpacking into a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="n">numbers</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rest</span>
-</span><span class='line'><span class="go">[2, 3, 4, 5, 6]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">first</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>*</code> operator allows us to replace hard coded slices near the ends of sequences.</p>
-
-<p>These two lines are equivalent:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">beginning</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="o">*</span><span class="n">beginning</span><span class="p">,</span> <span class="n">last</span> <span class="o">=</span> <span class="n">numbers</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>These two lines are equivalent also:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">head</span><span class="p">,</span> <span class="n">middle</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">middle</span><span class="p">,</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">numbers</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the <code>*</code> operator and multiple assignment you can replace things like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With more descriptive code, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">program_name</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span>
-</span><span class='line'><span class="n">main</span><span class="p">(</span><span class="n">program_name</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So if you see hard coded slice indexes in your code, consider whether you could use multiple assignment to clarify what those slices really represent.</p>
-
-<h2>Deep unpacking</h2>
-
-<p>This next feature is something that long-time Python programmers often overlook.
-It doesn&rsquo;t come up quite as often as the other uses for multiple assignment that I&rsquo;ve discussed, but it can be very handy to know about when you do need it.</p>
-
-<p>We&rsquo;ve seen multiple assignment for unpacking tuples and other iterables.
-We haven&rsquo;t yet seen that this is can be done <em>deeply</em>.</p>
-
-<p>I&rsquo;d say that the following multiple assignment is <em>shallow</em> because it unpacks one level deep:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="p">,</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span>
-</span><span class='line'><span class="go">&#39;red&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">point</span>
-</span><span class='line'><span class="go">(1, 2, 3)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And I&rsquo;d say that this multiple assignment is <em>deep</em> because it unpacks the previous <code>point</code> tuple further into <code>x</code>, <code>y</code>, and <code>z</code> variables:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color</span>
-</span><span class='line'><span class="go">&#39;red&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">1</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
-</span><span class='line'><span class="go">2</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If it seems confusing what&rsquo;s going on above, maybe using parenthesis consistently on both sides of this assignment will help clarify things:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">))</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;re unpacking one level deep to get two objects, but then we take the second object and unpack it also to get 3 more objects.
-Then we assign our first object and our thrice-unpacked second object to our new variables (<code>color</code>, <code>x</code>, <code>y</code>, and <code>z</code>).</p>
-
-<p>Take these two lists:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">start_points</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
-</span><span class='line'><span class="n">end_points</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here&rsquo;s an example of code that works with these lists by using shallow unpacking:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start_points</span><span class="p">,</span> <span class="n">end_points</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">end</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">start</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">end</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Point {start[0]},{start[1]} was negated.&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And here&rsquo;s the same thing with deeper unpacking:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start_points</span><span class="p">,</span> <span class="n">end_points</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">x1</span> <span class="o">==</span> <span class="o">-</span><span class="n">x2</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">==</span> <span class="o">-</span><span class="n">y2</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Point {x1},{y1} was negated.&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that in this second case, it&rsquo;s much more clear what type of objects we&rsquo;re working with.
-The deep unpacking makes it apparent that we&rsquo;re receiving two 2-itemed tuples each time we loop.</p>
-
-<p>Deep unpacking often comes up when nesting looping utilities that each provide multiple items.
-For example, you may see deep multiple assignments when using <code>enumerate</code> and <code>zip</code> together:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">items</span><span class="p">))):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">first</span> <span class="o">!=</span> <span class="n">last</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;Item {i} doesn&#39;t match: {first} != {last}&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I said before that multiple assignment is strict about the size of our iterables as we unpack them.
-With deep unpacking we can also be <strong>strict about the shape of our iterables</strong>.</p>
-
-<p>This works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this buggy code works too:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Whereas this works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">points</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">==</span> <span class="o">-</span><span class="n">x2</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">==</span> <span class="o">-</span><span class="n">y2</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this does not:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">points</span>
-</span><span class='line'><span class="gt">Traceback (most recent call last):</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
-</span><span class='line'><span class="gr">ValueError</span>: <span class="n">too many values to unpack (expected 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With multiple assignment we&rsquo;re assigning variables while also making particular assertions about the size and shape of our iterables.
-Multiple assignment will help you clarify your code to both humans (for <strong>better code readability</strong>) and to computers (for <strong>improved code correctness</strong>).</p>
-
-<h2>Using a list-like syntax</h2>
-
-<p>I noted before that multiple assignment uses a tuple-like syntax, but it works on any iterable.
-That tuple-like syntax is the reason it&rsquo;s commonly called &ldquo;tuple unpacking&rdquo; even though it might be more clear to say &ldquo;iterable unpacking&rdquo;.</p>
-
-<p>I didn&rsquo;t mention before that multiple assignment also works with <strong>a list-like syntax</strong>.</p>
-
-<p>Here&rsquo;s a multiple assignment with a list-like syntax:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
-</span><span class='line'><span class="go">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This might seem really strange. What&rsquo;s the point of allowing both list-like and tuple-like syntaxes?</p>
-
-<p>I use this feature rarely, but I find it helpful for <strong>code clarity</strong> in specific circumstances.</p>
-
-<p>Let&rsquo;s say I have code that used to look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And our well-intentioned coworker has decided to use deep multiple assignment to refactor our code to this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">),</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>See that trailing comma on the left-hand side of the assignment?
-It&rsquo;s easy to miss and it makes this code look sort of weird.
-What is that comma even doing in this code?</p>
-
-<p>That trailing comma is there to make a single item tuple.
-We&rsquo;re doing deep unpacking here.</p>
-
-<p>Here&rsquo;s another way we could write the same code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">((</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">),)</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This might make that deep unpacking a little more obvious but I&rsquo;d prefer to see this instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">most_common</span><span class="p">(</span><span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="p">[(</span><span class="n">value</span><span class="p">,</span> <span class="n">times_seen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The list-syntax in our assignment makes it more clear that we&rsquo;re unpacking a one-item iterable and then unpacking that single item into <code>value</code> and <code>times_seen</code> variables.</p>
-
-<p>When I see this, I also think <em>I bet we&rsquo;re unpacking a single-item list</em>.
-And that is in fact what we&rsquo;re doing.
-We&rsquo;re using a <a href="https://docs.python.org/3/library/collections.html#collections.Counter">Counter</a> object from the collections module here.
-The <code>most_common</code> method on <code>Counter</code> objects allows us to limit the length of the list returned to us.
-We&rsquo;re limiting the list we&rsquo;re getting back to just a single item.</p>
-
-<p>When you&rsquo;re unpacking structures that often hold lots of values (like lists) and structures that often hold a very specific number of values (like tuples) you may decide that your code appears more <em>semantically accurate</em> if you use a list-like syntax when unpacking those list-like structures.</p>
-
-<p>If you&rsquo;d like you might even decide to adopt a convention of always using a list-like syntax when unpacking list-like structures (frequently the case when using <code>*</code> in multiple assignment):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">first</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I don&rsquo;t usually use this convention myself, mostly because I&rsquo;m just not in the habit of using it.
-But if you find it helpful, you might consider using this convention in your own code.</p>
-
-<p>When using multiple assignment in your code, consider when and where a list-like syntax might make your code more descriptive and more clear.
-This can sometimes improve readability.</p>
-
-<h2>Don&rsquo;t forget about multiple assignment</h2>
-
-<p>Multiple assignment can improve both the readability of your code and the correctness of your code.
-It can make your code <strong>more descriptive</strong> while also making implicit assertions about the <strong>size and shape</strong> of the iterables you&rsquo;re unpacking.</p>
-
-<p>The use for multiple assignment that I often see forgotten is its ability to <strong>replace hard coded indexes</strong>, including <strong>replacing hard coded slices</strong> (using the <code>*</code> syntax).
-It&rsquo;s also common to overlook the fact that multiple assignment works <em>deeply</em> and can be used with both a <em>tuple-like</em> syntax and a <em>list-like</em> syntax.</p>
-
-<p>It&rsquo;s tricky to recognize and remember all the cases that multiple assignment can come in handy.
-Please feel free to use this article as your personal reference guide to multiple assignment.</p>
-
-<h2>Get practice with multiple assignment</h2>
-
-<p>You don&rsquo;t learn by reading articles like this one, <strong>you learn by writing code</strong>.</p>
-
-<p>To get practice writing some readable code using tuple unpacking, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
-If you sign up to Python Morsels using this form, I&rsquo;ll immediately send you an exercise that involves tuple unpacking.</p>
-
-<p><form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
-  <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
-  <input type="hidden" name="exercise_track" value="beginner">
-  <input type="hidden" name="form_id" value="tuple unpacking">
-  <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
 <br></p>
 
 <p><small>
