@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Passing functions as arguments to other functions in Python"
+title: "Passing a function as an argument to another function in Python"
 date: 2020-01-14 08:00:00 -0800
 comments: true
 categories: python
