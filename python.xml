@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2020-01-14T07:44:25-08:00</updated>
+  <updated>2020-03-15T09:41:06-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -8963,7 +8963,7 @@ If we try to specify them positionally we&rsquo;ll get an error:</p>
 
 <p>This function accepts two arguments and one of them, <code>fillvalue</code> <em>must be specified as a keyword argument</em>.</p>
 
-<p>I usually use keyword-only arguments used while capturing any number of positional arguments, but I do sometimes use this <code>*</code> to enforce an argument to only be specified positionally.</p>
+<p>I usually use keyword-only arguments while capturing any number of positional arguments, but I do sometimes use this <code>*</code> to enforce an argument to only be specified by its name.</p>
 
 <p>Python&rsquo;s built-in <code>sorted</code> function actually uses this approach.  If you look at the help information on <code>sorted</code> you&rsquo;ll see the following:</p>
 
