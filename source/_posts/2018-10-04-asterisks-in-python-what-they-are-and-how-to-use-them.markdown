@@ -249,7 +249,7 @@ TypeError: with_previous() takes 1 positional argument but 2 were given
 
 This function accepts two arguments and one of them, `fillvalue` *must be specified as a keyword argument*.
 
-I usually use keyword-only arguments used while capturing any number of positional arguments, but I do sometimes use this `*` to enforce an argument to only be specified positionally.
+I usually use keyword-only arguments while capturing any number of positional arguments, but I do sometimes use this `*` to enforce an argument to only be specified by its name.
 
 Python's built-in `sorted` function actually uses this approach.  If you look at the help information on `sorted` you'll see the following:
 
