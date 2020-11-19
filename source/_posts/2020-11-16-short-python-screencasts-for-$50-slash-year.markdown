@@ -80,7 +80,7 @@ This time-money tradeoff comes in a few forms:
 
 Before you do sign up, watch [a few of the current screencasts][screencasts page] and see whether my teaching style is for you.
 If it isn't, that's okay!
-If it is, I think you'll find the next year's worth of screencasts will be a worthwhile! 😁
+If it is, **I think you'll find the next year's worth of screencasts will be worthwhile**! 😁
 
 
 ### Student discounts? Team subscriptions? Other questions?
@@ -89,16 +89,19 @@ I offer discounts to students, though my discounts are *not only* for students.
 My standard [discount policy][] is income-tiered, so that anyone making less than $60,000 USD per year is eligible for a discount.
 I also offer situation-specific discounts, so please don't hesitate to ask for a discount if you need one.
 
-I also have team subscriptions (so you can pay for your whole team in one invoice).
+If you're paying through your employer, note that there are team subscriptions too (so you can pay for your whole team in one invoice).
 Just [fill out this form][] to get started setting up a subscription for your team.
 
 
 ### Ready to try it out?
 
+Are you ready to subscribe to a growing collection of short and concise Python screencasts?
+<a href="https://www.pythonmorsels.com/accounts/signup/lite/">Sign up here!</a>
+
 Do you have another question that I haven't answered here?
 Check out the [Lite plan FAQ][] or <a href="m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m">email your question to he&#108;p&#64;pyt&#104;o&#110;morsel&#115;&#46;&#99;o&#109;</a>.
 
-<a href="" class="subscribe-btn form-big">Sign up for weekly Python screencasts now</a>
+<a href="https://www.pythonmorsels.com/accounts/signup/lite/" class="subscribe-btn form-big">Sign up for weekly Python screencasts now</a>
 
 
 [ruby tapas]: https://www.rubytapas.com/pricing/
