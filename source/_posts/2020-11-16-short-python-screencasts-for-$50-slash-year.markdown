@@ -42,8 +42,8 @@ The screencasts may include standard library modules, but core language features
 These screencasts will all be focused on Python itself, not on third-party libraries.
 So I won't do screencasts on Pandas, Numpy, Django, or other third-party libraries.
 
-**How many screencasts will be freely shareable?**
-Some screencasts will limited to subscribers and some will be available to non-subscribers, but I don't know what the breakdown will be yet.
+**Will the screencasts be freely shareable?**
+Some screencasts will be limited to subscribers and some will be available to non-subscribers, with a yet-to-be-decided breakdown between the two.
 
 
 ### You'll also get get occasional Python exercises
@@ -62,7 +62,7 @@ We don't learn by putting information into our heads; we learn by trying to retr
 I don't have a large archive of past screencasts for new users to peruse (though I will in time) so I'm offering this service for a comparatively low price of $50/year.
 I have loose plans to increase the price in 2021, but as an early user **your price will always be $50/year** (as my way of thanking you for being an early supporter of these screencasts).
 
-If you're not sure whether this is for you, [sign up for Python Morsels][] and try it out for a month.
+If you're not sure whether this is for you, [sign up for Python Morsels][] and try it out free for a month.
 
 
 ### Why pay for this when there's a lot of great free Python videos out there?
