@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Short weely Python screencasts for $50/year"
-date: 2020-11-25 08:00:00 -0800
+date: 2020-11-25 09:00:00 -0800
 comments: true
 categories: python
 ---
@@ -99,7 +99,7 @@ Just [fill out this form][] to get started setting up a subscription for your te
 Are you ready to subscribe to a growing collection of short and concise Python screencasts?
 [Let's get learning][sign up]!
 
-<a href="https://www.pythonmorsels.com/accounts/signup/lite/" class="subscribe-btn form-big bright">Sign up for weekly Python screencasts now</a>
+<a href="https://www.pythonmorsels.com/accounts/signup/?plan=9" class="subscribe-btn form-big bright">Sign up for weekly Python screencasts now</a>
 
 Do you have another question that I haven't answered here?
 Check out the [Lite plan FAQ][] or <a href="m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m">email your question to he&#108;p&#64;pyt&#104;o&#110;morsel&#115;&#46;&#99;o&#109;</a>.
@@ -115,7 +115,7 @@ Happy learning!
 [variables are pointers]: https://www.pythonmorsels.com/topics/variables-are-pointers/
 [the 2 types of "change"]: https://www.pythonmorsels.com/topics/2-types-change/
 [Lite plan FAQ]: https://pythonmorsels.helpscoutdocs.com/article/23-lite-plan
-[sign up]: https://www.pythonmorsels.com/accounts/signup/lite/
+[sign up]: https://www.pythonmorsels.com/accounts/signup/?plan=9
 [my pycon tutorials]: https://treyhunner.com/talks/#tutorials
 [my trainings]: https://truthful.technology/
 [call-by-assignment]: https://jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/
