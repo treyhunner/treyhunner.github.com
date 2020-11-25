@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2020-03-15T09:41:06-07:00</updated>
+  <updated>2020-11-25T08:54:27-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,109 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Short weely Python screencasts for $50/year]]></title>
+    <link href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/"/>
+    <updated>2020-11-25T09:00:00-08:00</updated>
+    <id>https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m offering a service to help <strong>life-long Python learners</strong> manufacture ah-ha moments.</p>
+
+<p>A few years ago at my local Python meetup I was discussing how function arguments work (they&rsquo;re <a href="https://jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/">call-by-assignment</a> a.k.a. <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">call by object</a>).
+A friend spoke up to clarify: &ldquo;but it doesn&rsquo;t work that way for numbers and strings, right?&rdquo;
+I said &ldquo;I&rsquo;m pretty sure it works like this for everything&rdquo;.</p>
+
+<p>After some quiet Googling, my friend declared &ldquo;I&rsquo;ve been using Python for over a decade and I never knew it worked this way&rdquo;.
+They&rsquo;d suddenly realized <em>their mental model of the Python world</em> differed from Python&rsquo;s model of itself.
+They&rsquo;d experienced an &ldquo;ah-ha moment&rdquo;.</p>
+
+<p>I&rsquo;m going to publish <strong>at least one short Python screencast every week</strong> to help <em>manufacture</em> <strong>Python ah-ha moments</strong>.
+These will be single-topic screencasts that <strong>won&rsquo;t waste your time</strong>.</p>
+
+<p>So, if you&rsquo;re a life-long learner who uses Python and doesn&rsquo;t have a wealth of time for learning, read on.</p>
+
+<h3>What is this?</h3>
+
+<p>With this subscription you&rsquo;ll receive access to a growing archive of Python screencasts (<strong>at least one new screencast each week</strong>).
+If you enjoy my <a href="https://treyhunner.com/blog/categories/python/">articles</a> or my <a href="https://treyhunner.com/talks">talks and tutorials</a>, you&rsquo;ll probably enjoy the format I use in my screencasts.</p>
+
+<p><strong>Don&rsquo;t like video?</strong> That&rsquo;s okay!
+Each screencast is captioned and includes <strong>a mini-blog post</strong> which is nearly <strong>a text-based equivalent</strong> to the video.</p>
+
+<h3>What are the screencasts like?</h3>
+
+<p>Each screencast will be <strong>concise</strong> and short, under 6 minutes.
+Examples include <a href="https://www.pythonmorsels.com/topics/variables-are-pointers/">variables are pointers</a> (2 mins) and <a href="https://www.pythonmorsels.com/topics/2-types-change/">the 2 types of &ldquo;change&rdquo;</a> (3 mins), plus <a href="https://www.pythonmorsels.com/screencasts/">others here</a>.</p>
+
+<p><a href="https://www.pythonmorsels.com/screencasts/"><img src="/images/screencasts.png"></a></p>
+
+<p><strong>What topics will the screencasts be on?</strong>
+Functions, classes, scope, operator overloading, decorators, exception handling, and more.
+Screencasts will focus on Python core, not third-party libraries (no Pandas, Numpy, or Django).
+Topics will range from beginner to advanced.</p>
+
+<p><strong>Will the screencasts be freely shareable?</strong>
+Some screencasts will be limited to subscribers and some will be available to non-subscribers, with a yet-to-be-decided breakdown between the two.</p>
+
+<h3>You&rsquo;ll also get get occasional Python exercises</h3>
+
+<p>This weekly screencast subscription is part of <a href="https://www.pythonmorsels.com/">Python Morsels</a>, an exercise subscription service I run.
+In addition to weekly screencasts, you&rsquo;ll also get <strong>one Python exercise each month</strong>.</p>
+
+<p>If you&rsquo;ve taken <a href="https://treyhunner.com/talks/#tutorials">my PyCon tutorials</a> or attended <a href="https://truthful.technology/">my trainings</a>, you know exercises are the best part of my curriculum.
+I spend a lot of time making new exercises because we learn by attempting to retrieve information from our heads (through practice), not by putting information <em>into</em> our heads.</p>
+
+<p>Python Morsels exercises are both interesting and <strong>complex but not complicated</strong>.
+You don&rsquo;t need to work through the monthly exercises, but I do recommend it.</p>
+
+<h3>This subscription is $50/year for a limited time</h3>
+
+<p>I&rsquo;m offering this service for a comparatively low price of $50/year because I don&rsquo;t have a large archive of screencasts yet.
+I have plans to increase the price in 2021, but as an early user <strong>your price will always be $50/year</strong>.</p>
+
+<p>If you&rsquo;re not sure whether this is for you, <a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">sign up to try it out for free</a>.</p>
+
+<h3>Why pay for this when there&rsquo;s a lot of great free Python videos out there?</h3>
+
+<p>Why am I charging money for this?</p>
+
+<p>There&rsquo;s really one reason: <strong>you&rsquo;re trading money for time</strong>.
+This is a tradeoff I&rsquo;ve grown an appreciation for (one which would baffle a younger version of myself).</p>
+
+<p>This time-money tradeoff comes in a few forms:</p>
+
+<ol>
+<li>You will never see any ads on Python Morsels: you&rsquo;re not the product, the screencasts are</li>
+<li>No filler content or rambling (no ad revenue means no need for long videos)</li>
+<li>I have unique expertise and perspective: teaching Python is my business and I&rsquo;m good at it</li>
+</ol>
+
+
+<p>Watch some of <a href="https://www.pythonmorsels.com/screencasts/">the current screencasts</a> before signing up.
+If my teaching style isn&rsquo;t for you, that&rsquo;s okay!
+But if my teaching style <em>is</em> for you, I think you&rsquo;ll find <strong>the next year&rsquo;s worth of screencasts</strong> will be worthwhile! 😁</p>
+
+<h3>Student discounts? Team subscriptions? Other questions?</h3>
+
+<p>My standard <a href="https://www.pythonmorsels.com/discounts/">discount policy</a> is income-tiered: if you make less than $60,000 USD annually, you&rsquo;re eligible.
+I also offer situation-specific discounts, so please <strong>ask for a discount if you need one</strong>.</p>
+
+<p>If you&rsquo;re paying through your employer, note that there are <strong>team subscriptions</strong> too.
+Just <a href="https://form.jotform.com/201278113533043">fill out this form</a> to get started setting up a subscription for your team.</p>
+
+<h3>Ready to try it out?</h3>
+
+<p>Are you ready to subscribe to a growing collection of short and concise Python screencasts?
+<a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">Let&rsquo;s get learning</a>!</p>
+
+<p><a href="https://www.pythonmorsels.com/accounts/signup/?plan=9" class="subscribe-btn form-big bright">Sign up for weekly Python screencasts now</a></p>
+
+<p>Do you have another question that I haven&rsquo;t answered here?
+Check out the <a href="https://pythonmorsels.helpscoutdocs.com/article/23-lite-plan">Lite plan FAQ</a> or <a href="m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m">email your question to he&#108;p&#64;pyt&#104;o&#110;morsel&#115;&#46;&#99;o&#109;</a>.</p>
+
+<p>Happy learning!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Passing a function as an argument to another function in Python]]></title>
@@ -1394,1094 +1497,6 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
 <li><a href="https://www.youtube.com/watch?v=u8g9scXeAcI">Looping Like a Pro in Python</a>, DB&rsquo;s PyCon 2017 talk</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python built-ins worth learning]]></title>
-    <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
-    <updated>2019-05-21T08:40:00-07:00</updated>
-    <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
-    <content type="html"><![CDATA[<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
-
-<p>It&rsquo;s usually along the lines of either:</p>
-
-<ol>
-<li>Python has so many functions in it, what&rsquo;s the best way to remember all these?</li>
-<li>What&rsquo;s the best way to learn the functions we&rsquo;ll need day-to-day like <code>enumerate</code> and <code>range</code>?</li>
-<li>How do you know about all the ways to solve problems in Python?  Do you memorize them?</li>
-</ol>
-
-
-<p>There are dozens of built-in functions and classes, hundreds of tools bundled in Python&rsquo;s <a href="https://docs.python.org/3/library/index.html">standard library</a>, and thousands of third-party libraries on PyPI.
-There&rsquo;s no way anyone could ever memorize all of these things.</p>
-
-<p>I recommend triaging your knowledge:</p>
-
-<ol>
-<li>Things I should memorize such that I know them well</li>
-<li>Things I should know <em>about</em> so I can look them up more effectively later</li>
-<li>Things I shouldn&rsquo;t bother with at all until/unless I need them one day</li>
-</ol>
-
-
-<p>We&rsquo;re going to look through the <a href="https://docs.python.org/3/library/functions.html">Built-in Functions page</a> in the Python documentation with this approach in mind.</p>
-
-<p>This will be a very long article, so I&rsquo;ve linked to 5 sub-sections and 20 specific built-in functions in the next section so you can jump ahead if you&rsquo;re pressed for time or looking for one built-in in particular.</p>
-
-<div style="display: none;"><ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol></div>
-
-
-<h2>Which built-ins should you know about?</h2>
-
-<p>I estimate <strong>most Python developers will only ever need about 30 built-in functions</strong>, but which 30 depends on what you&rsquo;re actually doing with Python.</p>
-
-<p>We&rsquo;re going to take a look at all 69 of Python&rsquo;s built-in functions, in a birds eye view sort of way.</p>
-
-<p>I&rsquo;ll attempt to categorize these built-ins into five categories:</p>
-
-<ol>
-<li><strong><a href="#10_Commonly_known_built-in_functions">Commonly known</a></strong>: most newer Pythonistas get exposure to these built-ins pretty quickly out of necessity</li>
-<li><strong><a href="#Built-ins_overlooked_by_new_Pythonistas">Overlooked by beginners</a></strong>: these functions are useful to know about, but they&rsquo;re easy to overlook when you&rsquo;re newer to Python</li>
-<li><strong><a href="#Learn_it_later">Learn it later</a></strong>: these built-ins are generally useful to know about, but you&rsquo;ll find them when/if you need them</li>
-<li><strong><a href="#Maybe_learn_it_eventually">Maybe learn it eventually</a></strong>: these can come in handy, but only in specific circumstances</li>
-<li><strong><a href="#You_likely_don%E2%80%99t_need_these">You likely don&rsquo;t need these</a></strong>: you&rsquo;re unlikely to need these unless you&rsquo;re doing something fairly specialized</li>
-</ol>
-
-
-<p>The built-in functions in categories 1 and 2 are the <strong>essential built-ins</strong> that nearly all Python programmers should eventually learn about.
-The built-ins in categories 3 and 4 are the <strong>specialized built-ins</strong>, which are often very useful but your need for them will vary based on your use for Python.
-And category 5 are <strong>arcane built-ins</strong>, which might be very handy when you need them but which many Python programmers are likely to never need.</p>
-
-<p><strong>Note for pedantic Pythonistas</strong>: I will be referring to all of these built-ins as <strong>functions</strong>, even though 27 of them <strong>aren&rsquo;t actually functions</strong> (as discussed in my <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#The_distinction_between_functions_and_classes_often_doesn%E2%80%99t_matter">functions and callables article</a>).</p>
-
-<p>The commonly known built-in functions (which you likely already know about):</p>
-
-<ol>
-<li><a href="#print">print</a></li>
-<li><a href="#len">len</a></li>
-<li><a href="#str">str</a></li>
-<li><a href="#int">int</a></li>
-<li><a href="#float">float</a></li>
-<li><a href="#list">list</a></li>
-<li><a href="#tuple">tuple</a></li>
-<li><a href="#dict">dict</a></li>
-<li><a href="#set">set</a></li>
-<li><a href="#range">range</a></li>
-</ol>
-
-
-<p>The built-in functions which are often overlooked by newer Python programmers:</p>
-
-<ol>
-<li><a href="#sum">sum</a></li>
-<li><a href="#enumerate">enumerate</a></li>
-<li><a href="#zip">zip</a></li>
-<li><a href="#bool">bool</a></li>
-<li><a href="#reversed">reversed</a></li>
-<li><a href="#sorted">sorted</a></li>
-<li><a href="#min_and_max">min</a></li>
-<li><a href="#min_and_max">max</a></li>
-<li><a href="#any_and_all">any</a></li>
-<li><a href="#any_and_all">all</a></li>
-</ol>
-
-
-<p>There are also <a href="#The_5_debugging_functions">5 commonly overlooked built-ins</a> which I recommend knowing about solely because they make debugging easier: <code>dir</code>, <code>vars</code>, <code>breakpoint</code>, <code>type</code>, <code>help</code>.</p>
-
-<p>In addition to the 25 built-in functions above, we&rsquo;ll also briefly see the other 44 built-ins in the <a href="#Learn_it_later">learn it later</a> <a href="#Maybe_learn_it_eventually">maybe learn it eventually</a> and <a href="#You_likely_don%E2%80%99t_need_these">you likely don&rsquo;t need these</a> sections.</p>
-
-<h2>10 Commonly known built-in functions</h2>
-
-<p>If you&rsquo;ve been writing Python code, these built-ins are likely familiar already.</p>
-
-<h3>print</h3>
-
-<p>You already know the <code>print</code> function.
-Implementing <a href="https://en.wikipedia.org/wiki/Hello_world_program">hello world</a> requires <code>print</code>.</p>
-
-<p>You may not know about the various <a href="https://treyhunner.com/2018/04/keyword-arguments-in-python/">keyword arguments</a> accepted by <code>print</code> though:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; words = ["Welcome", "to", "Python"]
-&gt;&gt;&gt; print(words)
-['Welcome', 'to', 'Python']
-&gt;&gt;&gt; print(*words, end="!\n")
-Welcome to Python!
-&gt;&gt;&gt; print(*words, sep="\n")
-Welcome
-to
-Python
-</code></pre>
-
-<p>You can look up <code>print</code> on your own.</p>
-
-<h3>len</h3>
-
-<p>In Python, we don&rsquo;t write things like <code>my_list.length()</code> or <code>my_string.length</code>;
-instead we strangely (for new Pythonistas at least) say <code>len(my_list)</code> and <code>len(my_string)</code>.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; words = ["Welcome", "to", "Python"]
-&gt;&gt;&gt; len(words)
-3
-</code></pre>
-
-<p>Regardless of whether you like this operator-like <code>len</code> function, you&rsquo;re stuck with it so you&rsquo;ll need to get used to it.</p>
-
-<h3>str</h3>
-
-<p>Unlike many other programming languages, you cannot concatenate strings and numbers in Python.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; version = 3
-&gt;&gt;&gt; "Python " + version
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: can only concatenate str (not "int") to str
-</code></pre>
-
-<p>Python refuses to coerce that <code>3</code> integer to a string, so we need to manually do it ourselves, using the built-in <code>str</code> function (class technically, but as I said, I&rsquo;ll be calling these all functions):</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; version = 3
-&gt;&gt;&gt; "Python " + str(version)
-'Python 3'
-</code></pre>
-
-<h3>int</h3>
-
-<p>Do you have user input and need to convert it to a number?
-You need the <code>int</code> function!</p>
-
-<p>The <code>int</code> function can convert strings to integers:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; program_name = "Python 3"
-&gt;&gt;&gt; version_number = program_name.split()[-1]
-&gt;&gt;&gt; int(version_number)
-3
-</code></pre>
-
-<p>You can also use <code>int</code> to truncate a floating point number to an integer:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from math import sqrt
-&gt;&gt;&gt; sqrt(28)
-5.291502622129181
-&gt;&gt;&gt; int(sqrt(28))
-5
-</code></pre>
-
-<p>Note that if you need to truncate while dividing, the <code>//</code> operator is likely more appropriate (though this works differently with negative numbers): <code>int(3 / 2) == 3 // 2</code>.</p>
-
-<h3>float</h3>
-
-<p>Is the string you&rsquo;re converting to a number not actually an integer?
-Then you&rsquo;ll want to use <code>float</code> instead of <code>int</code> for this conversion.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; program_name = "Python 3"
-&gt;&gt;&gt; version_number = program_name.split()[-1]
-&gt;&gt;&gt; float(version_number)
-3.0
-&gt;&gt;&gt; pi_digits = '3.141592653589793238462643383279502884197169399375'
-&gt;&gt;&gt; len(pi_digits)
-50
-&gt;&gt;&gt; float(pi_digits)
-3.141592653589793
-</code></pre>
-
-<p>You can also use <code>float</code> to convert integers to floating point numbers.</p>
-
-<p>In Python 2, we used to use <code>float</code> to convert integers to floating point numbers to force float division instead of integer division.
-&ldquo;Integer division&rdquo; isn&rsquo;t a thing anymore in Python 3 (unless you&rsquo;re specifically using the <code>//</code> operator), so we don&rsquo;t need <code>float</code> for that purpose anymore.
-So if you ever see <code>float(x) / y</code> in your Python 3 code, you can change that to just <code>x / y</code>.</p>
-
-<h3>list</h3>
-
-<p>Want to make a list out of some other iterable?</p>
-
-<p>The <code>list</code> function does that:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 5, 8]
-&gt;&gt;&gt; squares = (n**2 for n in numbers)
-&gt;&gt;&gt; squares
-&lt;generator object &lt;genexpr&gt; at 0x7fd52dbd5930&gt;
-&gt;&gt;&gt; list_of_squares = list(squares)
-&gt;&gt;&gt; list_of_squares
-[4, 1, 9, 25, 64]
-</code></pre>
-
-<p>If you know you&rsquo;re working with a list, you could use the <code>copy</code> method to make a new copy of a list:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; copy_of_squares = list_of_squares.copy()
-</code></pre>
-
-<p>But if you don&rsquo;t know what the iterable you&rsquo;re working with is, the <code>list</code> function is the more general way to loop over an iterable and copy it:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; copy_of_squares = list(list_of_squares)
-</code></pre>
-
-<p>You could also use a list comprehension for this, <a href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/#Using_comprehensions_when_a_more_specific_tool_exists">but I wouldn&rsquo;t recommend it</a>.</p>
-
-<p>Note that when you want to make an empty list, using the <em>list literal syntax</em> (those <code>[]</code> brackets) is recommended:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; my_list = list()  # Don't do this
-&gt;&gt;&gt; my_list = []  # Do this instead
-</code></pre>
-
-<p>Using <code>[]</code> is considered more idiomatic since those square brackets (<code>[]</code>) actually <em>look</em> like a Python list.</p>
-
-<h3>tuple</h3>
-
-<p>The <code>tuple</code> function is pretty much just like the <code>list</code> function, except it makes tuples instead:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7]
-&gt;&gt;&gt; tuple(numbers)
-(2, 1, 3, 4, 7)
-</code></pre>
-
-<p>If you need a tuple instead of a list, because you&rsquo;re trying to make a <a href="https://lerner.co.il/2015/04/03/is-it-hashable-fun-and-games-with-hashing-in-python/">hashable</a> collection for use in a dictionary key for example, you&rsquo;ll want to reach for <code>tuple</code> over <code>list</code>.</p>
-
-<h3>dict</h3>
-
-<p>The <code>dict</code> function makes a new dictionary.</p>
-
-<p>Similar to like <code>list</code> and <code>tuple</code>, the <code>dict</code> function is equivalent to looping over an iterable of key-value pairs and making a dictionary from them.</p>
-
-<p>Given a list of two-item tuples:</p>
-
-<pre><code class="python">&gt;&gt;&gt; color_counts = [('red', 2), ('green', 1), ('blue', 3), ('purple', 5)]
-</code></pre>
-
-<p>This:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; colors = {}
-&gt;&gt;&gt; for color, n in color_counts:
-...     colors[color] = n
-...
-&gt;&gt;&gt; colors
-{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
-</code></pre>
-
-<p>Can instead be done with the <code>dict</code> function:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; colors = dict(color_counts)
-&gt;&gt;&gt; colors
-{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
-</code></pre>
-
-<p>The <code>dict</code> function accepts two types of arguments:</p>
-
-<ol>
-<li><strong>another dictionary</strong> (<a href="https://docs.python.org/3/glossary.html#term-mapping">mapping</a> is the generic term), in which case that dictionary will be copied</li>
-<li><strong>a list of key-value tuples</strong> (more correctly, an iterable of two-item iterables), in which case a new dictionary will be constructed from these</li>
-</ol>
-
-
-<p>So this works as well:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; colors
-{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
-&gt;&gt;&gt; new_dictionary = dict(colors)
-&gt;&gt;&gt; new_dictionary
-{'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
-</code></pre>
-
-<p>The <code>dict</code> function can also accept keyword arguments to make a dictionary with string-based keys:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; person = dict(name='Trey Hunner', profession='Python Trainer')
-&gt;&gt;&gt; person
-{'name': 'Trey Hunner', 'profession': 'Python Trainer'}
-</code></pre>
-
-<p>But I very much prefer to use a dictionary literal instead:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; person = {'name': 'Trey Hunner', 'profession': 'Python Trainer'}
-&gt;&gt;&gt; person
-{'name': 'Trey Hunner', 'profession': 'Python Trainer'}
-</code></pre>
-
-<p>The dictionary literal syntax is more flexible and <a href="https://doughellmann.com/blog/2012/11/12/the-performance-impact-of-using-dict-instead-of-in-cpython-2-7-2/">a bit faster</a> but most importantly I find that it more clearly conveys the fact that we are creating a dictionary.</p>
-
-<p>Like with <code>list</code> and <code>tuple</code>, an empty dictionary should be made using the literal syntax as well:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; my_list = dict()  # Don't do this
-&gt;&gt;&gt; my_list = {}  # Do this instead
-</code></pre>
-
-<p>Using <code>{}</code> is slightly more CPU efficient, but more importantly it&rsquo;s more idiomatic: it&rsquo;s common to see curly braces (<code>{}</code>) used for making dictionaries but <code>dict</code> is seen much less frequently.</p>
-
-<h3>set</h3>
-
-<p>The <code>set</code> function makes a new set.
-It takes an iterable of <a href="https://lerner.co.il/2015/04/03/is-it-hashable-fun-and-games-with-hashing-in-python/">hashable</a> values (strings, numbers, or other immutable types) and returns a <code>set</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [1, 1, 2, 3, 5, 8]
-&gt;&gt;&gt; set(numbers)
-{1, 2, 3, 5, 8}
-</code></pre>
-
-<p>There&rsquo;s no way to make an empty set with the <code>{}</code> set literal syntax (plain <code>{}</code> makes a dictionary), so the <code>set</code> function is the only way to make an empty set:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = set()
-&gt;&gt;&gt; numbers
-set()
-</code></pre>
-
-<p>Actually that&rsquo;s a lie because we have this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; {*()}  # This makes an empty set
-set()
-</code></pre>
-
-<p>But that syntax is confusing (it relies on <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/#Asterisks_in_list_literals">a lesser-used feature of the <code>*</code> operator</a>), so I don&rsquo;t recommend it.</p>
-
-<h3>range</h3>
-
-<p>The <code>range</code> function gives us a <code>range</code> object, which represents a range of numbers:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; range(10_000)
-range(0, 10000)
-&gt;&gt;&gt; range(-1_000_000_000, 1_000_000_000)
-range(-1000000000, 1000000000)
-</code></pre>
-
-<p>The resulting range of numbers includes the start number but excludes the stop number (<code>range(0, 10)</code> does not include <code>10</code>).</p>
-
-<p>The <code>range</code> function is useful when you&rsquo;d like to loop over numbers.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; for n in range(0, 50, 10):
-...     print(n)
-...
-0
-10
-20
-30
-40
-</code></pre>
-
-<p>A common use case is to do an operation <code>n</code> times (that&rsquo;s a <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">list comprehension</a> by the way):</p>
-
-<pre><code class="python">first_five = [get_things() for _ in range(5)]
-</code></pre>
-
-<p>Python 2&rsquo;s <code>range</code> function returned a list, which means the expressions above would make very very large lists.
-Python 3&rsquo;s <code>range</code> works like Python 2&rsquo;s <code>xrange</code> (though they&rsquo;re <a href="https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">a bit different</a>) in that numbers are <strong>computed lazily</strong> as we loop over these <code>range</code> objects.</p>
-
-<h2>Built-ins overlooked by new Pythonistas</h2>
-
-<p>If you&rsquo;ve been programming Python for a bit or if you just taken an introduction to Python class, you probably already knew about the built-in functions above.</p>
-
-<p>I&rsquo;d now like to show off 15 built-in functions that are very handy to know about, but are more frequently overlooked by new Pythonistas.</p>
-
-<p>The first 10 of these functions you&rsquo;ll find floating around in Python code, but the last 5 you&rsquo;ll most often use while debugging.</p>
-
-<h3>bool</h3>
-
-<p>The <code>bool</code> function checks the <strong>truthiness</strong> of a Python object.</p>
-
-<p>For numbers, truthiness is a question of non-zeroness:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; bool(5)
-True
-&gt;&gt;&gt; bool(-1)
-True
-&gt;&gt;&gt; bool(0)
-False
-</code></pre>
-
-<p>For collections, truthiness is usually a question of non-emptiness (whether the collection has a length greater than <code>0</code>):</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; bool('hello')
-True
-&gt;&gt;&gt; bool('')
-False
-&gt;&gt;&gt; bool(['a'])
-True
-&gt;&gt;&gt; bool([])
-False
-&gt;&gt;&gt; bool({})
-False
-&gt;&gt;&gt; bool({1: 1, 2: 4, 3: 9})
-True
-&gt;&gt;&gt; bool(range(5))
-True
-&gt;&gt;&gt; bool(range(0))
-False
-&gt;&gt;&gt; bool(None)
-False
-</code></pre>
-
-<p>Truthiness (called <a href="https://docs.python.org/3/library/stdtypes.html#truth">truth value testing</a> in the docs) is kind of a big deal in Python.</p>
-
-<p>Instead of asking questions about the length of a container, many Pythonistas ask questions about truthiness instead:</p>
-
-<pre><code class="python"># Instead of doing this
-if len(numbers) == 0:
-    print("The numbers list is empty")
-
-# Many of us do this
-if not numbers:
-    print("The numbers list is empty")
-</code></pre>
-
-<p>You likely won&rsquo;t see <code>bool</code> used often, but on the occasion that you need to coerce a value to a boolean to ask about its truthiness, you&rsquo;ll want to know about <code>bool</code>.</p>
-
-<h3>enumerate</h3>
-
-<p>Whenever you need to count upward, one number at a time, while looping over an iterable at the same time, the <code>enumerate</code> function will come in handy.</p>
-
-<p>That might seem like a very niche task, but it comes up quite often.</p>
-
-<p>For example we might want to keep track of the line number in a file:</p>
-
-<pre><code class="python">&gt;&gt;&gt; with open('hello.txt', mode='rt') as my_file:
-...     for n, line in enumerate(my_file, start=1):
-...         print(f"{n:03}", line)
-...
-001 This is the first line of the file
-002 This is the second line
-003 This is the last line of the file
-</code></pre>
-
-<p>The <code>enumerate</code> function is also very commonly used to keep track of the <em>index</em> of items in a sequence.</p>
-
-<pre><code class="python">def palindromic(sequence):
-    """Return True if the sequence is the same thing in reverse."""
-    for i, item in enumerate(sequence):
-        if item != sequence[-(i+1)]:
-            return False
-    return True
-</code></pre>
-
-<p>Note that you may see newer Pythonistas use <code>range(len(sequence))</code> in Python.
-If you ever see code with <code>range(len(...))</code>, you&rsquo;ll almost always want to use <code>enumerate</code> instead.</p>
-
-<pre><code class="python">def palindromic(sequence):
-    """Return True if the sequence is the same thing in reverse."""
-    for i in range(len(sequence)):
-        if sequence[i] != sequence[-(i+1)]:
-            return False
-    return True
-</code></pre>
-
-<p>If <code>enumerate</code> is news to you (or if you often use <code>range(len(...))</code>), see my article on <a href="https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/">looping with indexes in Python</a>.</p>
-
-<h3>zip</h3>
-
-<p>The <code>zip</code> function is even more specialized than <code>enumerate</code>.</p>
-
-<p>The <code>zip</code> function is used for looping over multiple iterables at the same time.</p>
-
-<pre><code class="python">&gt;&gt;&gt; one_iterable = [2, 1, 3, 4, 7, 11]
-&gt;&gt;&gt; another_iterable = ['P', 'y', 't', 'h', 'o', 'n']
-&gt;&gt;&gt; for n, letter in zip(one_iterable, another_iterable):
-...     print(letter, n)
-...
-P 2
-y 1
-t 3
-h 4
-o 7
-n 11
-</code></pre>
-
-<p>If you ever have to loop over two lists (or any other iterables) at the same time, <code>zip</code> is preferred over <code>enumerate</code>.
-The <code>enumerate</code> function is handy when you need indexes while looping, but <code>zip</code> is great when we care specifically about looping over two iterables at once.</p>
-
-<p>If you&rsquo;re new to <code>zip</code>, I also talk about it in my <a href="https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/#What_if_we_need_to_loop_over_multiple_things?">looping with indexes</a> article.</p>
-
-<p>Both <code>enumerate</code> and <code>zip</code> return iterators to us.
-Iterators are the lazy iterables that <a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">power <code>for</code> loops</a>.
-I have <a href="https://youtu.be/JYuE8ZiDPl4">a whole talk on iterators</a> as well as a somewhat advanced article on <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make your own iterators</a>.</p>
-
-<p>By the way, if you need to use <code>zip</code> on iterables of different lengths, you may want to look up <a href="https://docs.python.org/3/library/itertools.html#itertools.zip_longest">itertools.zip_longest</a> in the Python standard library.</p>
-
-<h3>reversed</h3>
-
-<p>The <code>reversed</code> function, like <code>enumerate</code> and <code>zip</code>, returns an <a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">iterator</a>.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7]
-&gt;&gt;&gt; reversed(numbers)
-&lt;list_reverseiterator object at 0x7f3d4452f8d0&gt;
-</code></pre>
-
-<p>The only thing we can do with this iterator is loop over it (but only once):</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; reversed_numbers = reversed(numbers)
-&gt;&gt;&gt; list(reversed_numbers)
-[7, 4, 3, 1, 2]
-&gt;&gt;&gt; list(reversed_numbers)
-[]
-</code></pre>
-
-<p>Like <code>enumerate</code> and <code>zip</code>, <code>reversed</code> is a sort of <strong>looping helper function</strong>.
-You&rsquo;ll pretty much see <code>reversed</code> used exclusively in the <code>for</code> part of a <code>for</code> loop:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; for n in reversed(numbers):
-...     print(n)
-...
-7
-4
-3
-1
-2
-</code></pre>
-
-<p>There are some other ways to reverse Python lists besides the <code>reversed</code> function:</p>
-
-<pre><code class="python"># Slicing syntax
-for n in numbers[::-1]:
-    print(n)
-
-# In-place reverse method
-numbers.reverse()
-for n in numbers:
-    print(n)
-</code></pre>
-
-<p>But the <code>reversed</code> function is <strong>usually the best way to reverse any iterable</strong> in Python.</p>
-
-<p>Unlike the list <code>reverse</code> method (e.g. <code>numbers.reverse()</code>), <code>reversed</code> doesn&rsquo;t mutate the list (it returns an iterator of the reversed items instead).</p>
-
-<p>Unlike the <code>numbers[::-1]</code> slice syntax, <code>reversed(numbers)</code> doesn&rsquo;t build up a whole new list: the lazy iterator it returns retrieves the next item in reverse as we loop.
-Also <code>reversed(numbers)</code> is a lot more readable than <code>numbers[::-1]</code> (which just looks weird if you&rsquo;ve never seen that particular use of slicing before).</p>
-
-<p>If we combine the non-copying nature of the <code>reversed</code> and <code>zip</code> functions, we can rewrite the <code>palindromic</code> function (from <a href="#enumerate">enumerate</a> above) without taking any extra memory (no copying of lists is done here):</p>
-
-<pre><code class="python">def palindromic(sequence):
-    """Return True if the sequence is the same thing in reverse."""
-    for n, m in zip(sequence, reversed(sequence)):
-        if n != m:
-            return False
-    return True
-</code></pre>
-
-<h3>sum</h3>
-
-<p>The <code>sum</code> function takes an iterable of numbers and returns the sum of those numbers.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; sum([2, 1, 3, 4, 7])
-17
-</code></pre>
-
-<p>There&rsquo;s not much more to it than that.</p>
-
-<p>Python has lots of helper functions that <strong>do the looping for you</strong>, partly because they pair nicely with generator expressions:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
-&gt;&gt;&gt; sum(n**2 for n in numbers)
-524
-</code></pre>
-
-<p>If you&rsquo;re curious about generator expressions, I discuss them in my <a href="https://youtu.be/5_cJIcgM7rw">Comprehensible Comprehensions</a> talk (and my <a href="https://pycon2018.trey.io">3 hour tutorial on comprehensions and generator expressions</a>).</p>
-
-<h3>min and max</h3>
-
-<p>The <code>min</code> and <code>max</code> functions do what you&rsquo;d expect: they give you the minimum and maximum items in an iterable.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11, 18]
-&gt;&gt;&gt; min(numbers)
-1
-&gt;&gt;&gt; max(numbers)
-18
-</code></pre>
-
-<p>The <code>min</code> and <code>max</code> functions compare the items given to them by using the <code>&lt;</code> operator.
-So all values need to be orderable and comparable to each other (fortunately <a href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/">many objects are orderable in Python</a>).</p>
-
-<p>The <code>min</code> and <code>max</code> functions also accept <a href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once">a <code>key</code> function</a> to allow customizing what &ldquo;minimum&rdquo; and &ldquo;maximum&rdquo; really mean for specific objects.</p>
-
-<h3>sorted</h3>
-
-<p>The <code>sorted</code> function takes any iterable and returns a new list of all the values in that iterable in sorted order.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [1, 8, 2, 13, 5, 3, 1]
-&gt;&gt;&gt; words = ["python", "is", "lovely"]
-&gt;&gt;&gt; sorted(words)
-['is', 'lovely', 'python']
-&gt;&gt;&gt; sorted(numbers, reverse=True)
-[13, 8, 5, 3, 2, 1, 1]
-</code></pre>
-
-<p>The <code>sorted</code> function, like <code>min</code> and <code>max</code>, compares the items given to it by using the <code>&lt;</code> operator, so all values given to it need so to be orderable.</p>
-
-<p>The <code>sorted</code> function also allows customization of its sorting via <a href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once">a <code>key</code> function</a> (just like <code>min</code> and <code>max</code>).</p>
-
-<p>By the way, if you&rsquo;re curious about <code>sorted</code> versus the <code>list.sort</code> method, Florian Dahlitz wrote <a href="https://blog.usejournal.com/list-sort-vs-sorted-list-aab92c00e17">an article comparing the two</a>.</p>
-
-<h3>any and all</h3>
-
-<p>The <code>any</code> and <code>all</code> functions can be paired with a generator expression to determine whether <em>any</em> or <em>all</em> items in an iterable <strong>match a given condition</strong>.</p>
-
-<p>Our <code>palindromic</code> function from earlier checked whether <em>all</em> items were equal to their corresponding item in the reversed sequence (is the first value equal to the last, second to the second from last, etc.).</p>
-
-<p>We could rewrite <code>palindromic</code> using <code>all</code> like this:</p>
-
-<pre><code class="python">def palindromic(sequence):
-    """Return True if the sequence is the same thing in reverse."""
-    return all(
-        n == m
-        for n, m in zip(sequence, reversed(sequence))
-    )
-</code></pre>
-
-<p>Negating the condition and the return value from <code>all</code> would allow us to use <code>any</code> equivalently (though this is more confusing in this example):</p>
-
-<pre><code class="python">def palindromic(sequence):
-    """Return True if the sequence is the same thing in reverse."""
-    return not any(
-        n != m
-        for n, m in zip(sequence, reversed(sequence))
-    )
-</code></pre>
-
-<p>If the <code>any</code> and <code>all</code> functions are new to you, you may want to read my article on them: <a href="https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/">Checking Whether All Items Match a Condition in Python</a>.</p>
-
-<h3>The 5 debugging functions</h3>
-
-<p>The following 5 functions will be useful for debugging and troubleshooting code.</p>
-
-<h4>breakpoint</h4>
-
-<p>Need to pause the execution of your code and drop into a Python command prompt?
-You need <code>breakpoint</code>!</p>
-
-<p>Calling the <code>breakpoint</code> function will drop you into <a href="https://pymotw.com/3/pdb/">pdb</a>, the Python debugger.
-There are many tutorials and talks out there on PDB: here&rsquo;s <a href="https://pyvideo.org/pybay-2017/introduction-to-pdb.html">a short one</a> and here&rsquo;s <a href="https://www.youtube.com/watch?v=P0pIW5tJrRM&amp;feature=player_embedded">a long one</a>.</p>
-
-<p>This built-in function was <strong>added in Python 3.7</strong>, but if you&rsquo;re on older versions of Python you can get the same behavior with <code>import pdb ; pdb.set_trace()</code>.</p>
-
-<h4>dir</h4>
-
-<p>The <code>dir</code> function can be used for two things:</p>
-
-<ol>
-<li>Seeing a list of all your local variables</li>
-<li>Seeing a list of all attributes on a particular object</li>
-</ol>
-
-
-<p>Here we can see that our local variables, right after starting a new Python shell and then after creating a new variable <code>x</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; dir()
-['__annotations__', '__doc__', '__name__', '__package__']
-&gt;&gt;&gt; x = [1, 2, 3, 4]
-&gt;&gt;&gt; dir()
-['__annotations__', '__doc__', '__name__', '__package__', 'x']
-</code></pre>
-
-<p>If we pass that <code>x</code> list into <code>dir</code> we can see all the attributes it has:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; dir(x)
-['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
-</code></pre>
-
-<p>We can see the typical list methods, <code>append</code>, <code>pop</code>, <code>remove</code>, and more as well as many dunder methods for operator overloading.</p>
-
-<h4>vars</h4>
-
-<p>The <a href="https://docs.python.org/3/library/functions.html#vars">vars</a> function is sort of a mashup of two related things: checking <code>locals()</code> and testing the <code>__dict__</code> attribute of objects.</p>
-
-<p>When <code>vars</code> is called with no arguments, it&rsquo;s equivalent to calling the <code>locals()</code> built-in function (which shows a dictionary of all local variables and their values).</p>
-
-<pre><code class="python">&gt;&gt;&gt; vars()
-{'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': &lt;class '_frozen_importlib.BuiltinImporter'&gt;, '__spec__': None, '__annotations__': {}, '__builtins__': &lt;module 'builtins' (built-in)&gt;}
-</code></pre>
-
-<p>When it&rsquo;s called with an argument, it accesses the <code>__dict__</code> attribute on that object (which on many objects represents a dictionary of all instance attributes).</p>
-
-<pre><code class="python">&gt;&gt;&gt; from itertools import chain
-&gt;&gt;&gt; vars(chain)
-mappingproxy({'__getattribute__': &lt;slot wrapper '__getattribute__' of 'itertools.chain' objects&gt;, '__iter__': &lt;slot wrapper '__iter__' of 'itertools.chain' objects&gt;, '__next__': &lt;slot wrapper '__next__' of 'itertools.chain' objects&gt;, '__new__': &lt;built-in method __new__ of type object at 0x5611ee76fac0&gt;, 'from_iterable': &lt;method 'from_iterable' of 'itertools.chain' objects&gt;, '__reduce__': &lt;method '__reduce__' of 'itertools.chain' objects&gt;, '__setstate__': &lt;method '__setstate__' of 'itertools.chain' objects&gt;, '__doc__': 'chain(*iterables) --&gt; chain object\n\nReturn a chain object whose .__next__() method returns elements from the\nfirst iterable until it is exhausted, then elements from the next\niterable, until all of the iterables are exhausted.'})
-</code></pre>
-
-<p>If you ever try to use <code>my_object.__dict__</code>, you can use <code>vars</code> instead.</p>
-
-<p>I usually reach for <code>dir</code> just before using <code>vars</code>.</p>
-
-<h4>type</h4>
-
-<p>The <code>type</code> function will tell you the type of the object you pass to it.</p>
-
-<p>The type of a class instance is the class itself:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; x = [1, 2, 3]
-&gt;&gt;&gt; type(x)
-&lt;class 'list'&gt;
-</code></pre>
-
-<p>The type of a class is its metaclass, which is usually <code>type</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; type(list)
-&lt;class 'type'&gt;
-&gt;&gt;&gt; type(type(x))
-&lt;class 'type'&gt;
-</code></pre>
-
-<p>If you ever see someone reach for <code>__class__</code>, know that they could reach for the higher-level <code>type</code> function instead:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; x.__class__
-&lt;class 'list'&gt;
-&gt;&gt;&gt; type(x)
-&lt;class 'list'&gt;
-</code></pre>
-
-<p>The <code>type</code> function is sometimes helpful in actual code (especially object-oriented code with inheritance and custom string representations), but it&rsquo;s also useful when debugging.</p>
-
-<p>Note that when <em>type checking</em>, the <code>isinstance</code> function is usually used instead of <code>type</code> (also note that we tend not to type check in Python because we prefer to practice <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a>).</p>
-
-<h4>help</h4>
-
-<p>If you&rsquo;re in an interactive Python shell (the Python <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> as I usually call it), maybe debugging code using <code>breakpoint</code>, and you&rsquo;d like to know how a certain object, method, or attribute works, the <code>help</code> function will come in handy.</p>
-
-<p>Realistically, you&rsquo;ll likely resort to getting help from your favorite search engine more often than using <code>help</code>.
-But if you&rsquo;re already in a Python REPL, it&rsquo;s quicker to call <code>help(list.insert)</code> than it would be to look up the <code>list.insert</code> method documentation in Google.</p>
-
-<h2>Learn it later</h2>
-
-<p>There are quite a few built-in functions you&rsquo;ll likely want <em>eventually</em>, but you may not need <em>right now</em>.</p>
-
-<p>I&rsquo;m going to mention 14 more built-in functions which are handy to know about, but not worth learning until you actually need to use them.</p>
-
-<h3>open</h3>
-
-<p>Need to open a file in Python?
-You need the <code>open</code> function!</p>
-
-<p>Don&rsquo;t work with files directly?
-Then you likely don&rsquo;t need the <code>open</code> function!</p>
-
-<p>You might think it&rsquo;s odd that I&rsquo;ve put <code>open</code> in this section because working with files is so common.
-While most programmers will read or write to files using <code>open</code> at some point, some Python programmers, such as Django developers, may not use the <code>open</code> function very much (if at all).</p>
-
-<p>Once you need to work with files, you&rsquo;ll learn about <code>open</code>.
-Until then, don&rsquo;t worry about it.</p>
-
-<p>By the way, you might want to <a href="https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/">look into pathlib</a> (which is in the Python standard library) as an alternative to using <code>open</code>.
-I love the <code>pathlib</code> module so much I&rsquo;ve considered teaching files in Python by mentioning <code>pathlib</code> first and the built-in <code>open</code> function later.</p>
-
-<h3>input</h3>
-
-<p>The <code>input</code> function prompts the user for input, waits for them to hit the Enter key, and then returns the text they typed.</p>
-
-<p>Reading from <a href="https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)">standard input</a> (which is what the <code>input</code> function does) is one way to get inputs into your Python program, but there are so many other ways too!
-You could accept command-line arguments, read from a configuration file, read from a database, and much more.</p>
-
-<p>You&rsquo;ll learn this once you need to prompt the user of a command-line program for input.
-Until then, you won&rsquo;t need it.
-And if you&rsquo;ve been writing Python for a while and don&rsquo;t know about this function, you may simply never need it.</p>
-
-<h3>repr</h3>
-
-<p>Need the programmer-readable representation of an object?
-You need the <code>repr</code> function!</p>
-
-<p>For many objects, the <code>str</code> and <code>repr</code> representations are the same:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; str(4), repr(4)
-('4', '4')
-&gt;&gt;&gt; str([]), repr([])
-('[]', '[]')
-</code></pre>
-
-<p>But for some objects, they&rsquo;re different:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; str('hello'), repr("hello")
-('hello', "'hello'")
-&gt;&gt;&gt; from datetime import date
-&gt;&gt;&gt; str(date(2020, 1, 1)), repr(date(2020, 1, 1))
-('2020-01-01', 'datetime.date(2020, 1, 1)')
-</code></pre>
-
-<p>The string representation we see at the Python REPL uses <code>repr</code>, while the <code>print</code> function relies on <code>str</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; date(2020, 1, 1)
-datetime.date(2020, 1, 1)
-&gt;&gt;&gt; "hello!"
-'hello!'
-&gt;&gt;&gt; print(date(2020, 1, 1))
-2020-01-01
-&gt;&gt;&gt; print("hello!")
-hello!
-</code></pre>
-
-<p>You&rsquo;ll see <code>repr</code> used when logging, handling exceptions, and implementing dunder methods.</p>
-
-<h3>super</h3>
-
-<p>If you create classes in Python, you&rsquo;ll likely need to use <code>super</code>.
-The <code>super</code> function is pretty much essential whenever you&rsquo;re inheriting from another Python class.</p>
-
-<p>Many Python users rarely create classes.
-Creating classes isn&rsquo;t an <em>essential</em> part of Python, though many types of programming require it.
-For example, you can&rsquo;t really use the <a href="https://djangoproject.com/">Django</a> web framework without creating classes.</p>
-
-<p>If you don&rsquo;t already know about <code>super</code>, you&rsquo;ll end up learning this if and when you need it.</p>
-
-<h3>property</h3>
-
-<p>The <code>property</code> function is a <a href="https://docs.python.org/3/glossary.html#term-decorator">decorator</a> and a <a href="https://docs.python.org/3/glossary.html#term-descriptor">descriptor</a> (only click those weird terms if you&rsquo;re extra curious) and it&rsquo;ll likely seem somewhat magical when you first learn about it.</p>
-
-<p>This decorator allows us to create an attribute which will always seem to contain the return value of a particular function call.
-It&rsquo;s easiest to understand with an example.</p>
-
-<p>Here&rsquo;s a class that uses <code>property</code>:</p>
-
-<pre><code class="python">class Circle:
-
-    def __init__(self, radius=1):
-        self.radius = radius
-
-    @property
-    def diameter(self):
-        return self.radius * 2
-</code></pre>
-
-<p>Here&rsquo;s an access of that <code>diameter</code> attribute on a <code>Circle</code> object:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; circle = Circle()
-&gt;&gt;&gt; circle.diameter
-2
-&gt;&gt;&gt; circle.radius = 5
-&gt;&gt;&gt; circle.diameter
-10
-</code></pre>
-
-<p>If you&rsquo;re doing object-oriented Python programming (you&rsquo;re making classes a whole bunch), you&rsquo;ll likely want to learn about <code>property</code> at some point.
-Unlike other object-oriented programming languages, <strong>we use properties instead of getter methods and setter methods</strong>.</p>
-
-<h3>issubclass and isinstance</h3>
-
-<p>The <code>issubclass</code> function checks whether a class is a subclass of one or more other classes.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; issubclass(int, bool)
-False
-&gt;&gt;&gt; issubclass(bool, int)
-True
-&gt;&gt;&gt; issubclass(bool, object)
-True
-</code></pre>
-
-<p>The <code>isinstance</code> function checks whether an object is an instance of one or more classes.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; isinstance(True, str)
-False
-&gt;&gt;&gt; isinstance(True, bool)
-True
-&gt;&gt;&gt; isinstance(True, int)
-True
-&gt;&gt;&gt; isinstance(True, object)
-True
-</code></pre>
-
-<p>You can think of <code>isinstance</code> as delegating to <code>issubclass</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; issubclass(type(True), str)
-False
-&gt;&gt;&gt; issubclass(type(True), bool)
-True
-&gt;&gt;&gt; issubclass(type(True), int)
-True
-&gt;&gt;&gt; issubclass(type(True), object)
-True
-</code></pre>
-
-<p>If you&rsquo;re <a href="https://docs.python.org/3/library/numbers.html#implementing-the-arithmetic-operations">overloading operators</a> (e.g. customizing what the <code>+</code> operator does on your class) you might need to use <code>isinstance</code>, but in general we try to avoid strong type checking in Python so we don&rsquo;t see these much.</p>
-
-<p>In Python we usually prefer duck typing over type checking.
-These functions actually do a bit more than the strong type checking I noted above (<a href="https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks">the behavior of both can be customized</a>) so it&rsquo;s actually possible to practice a sort of <code>isinstance</code>-powered duck typing with abstract base classes like <a href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable">collections.abc.Iterable</a>.
-But this isn&rsquo;t seen much either (partly because we tend to practice exception-handling and <a href="https://docs.python.org/3/glossary.html#term-eafp">EAFP</a> a bit more than condition-checking and <a href="https://docs.python.org/3/glossary.html#term-lbyl">LBYL</a> in Python).</p>
-
-<p>The last two paragraphs were filled with confusing jargon that I may explain more thoroughly in a future serious of articles if there&rsquo;s enough interest.</p>
-
-<h3>hasattr, getattr, setattr, and delattr</h3>
-
-<p>Need to work with an attribute on an object but the attribute name is dynamic?
-You need <code>hasattr</code>, <code>getattr</code>, <code>setattr</code>, and <code>delattr</code>.</p>
-
-<p>Say we have some <code>thing</code> object we want to check for a particular value on:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; class Thing: pass
-...
-&gt;&gt;&gt; thing = Thing()
-</code></pre>
-
-<p>The <code>hasattr</code> function allows us to check whether the object <em>has</em> a certain attribute (note that <code>hasattr</code> <a href="https://hynek.me/articles/hasattr/">has some quirks</a>, though most have been ironed out in Python 3):</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; hasattr(thing, 'x')
-False
-&gt;&gt;&gt; thing.x = 4
-&gt;&gt;&gt; hasattr(thing, 'x')
-True
-</code></pre>
-
-<p>The <code>getattr</code> function allows us to retrieve the value of that attribute (with an optional default if the attribute doesn&rsquo;t exist):</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; getattr(thing, 'x')
-4
-&gt;&gt;&gt; getattr(thing, 'x', 0)
-4
-&gt;&gt;&gt; getattr(thing, 'y', 0)
-0
-</code></pre>
-
-<p>The <code>setattr</code> function allows for setting the value:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; setattr(thing, 'x', 5)
-&gt;&gt;&gt; thing.x
-5
-</code></pre>
-
-<p>And <code>delattr</code> deletes the attribute:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; delattr(thing, 'x')
-&gt;&gt;&gt; thing.x
-Traceback (most recent call last):
-  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-AttributeError: 'Thing' object has no attribute 'x'
-</code></pre>
-
-<p>These functions allow for a specific flavor of <a href="https://en.wikipedia.org/wiki/Metaprogramming">metaprogramming</a> and you likely won&rsquo;t see them often.</p>
-
-<h3>classmethod and staticmethod</h3>
-
-<p>The <code>classmethod</code> and <code>staticmethod</code> decorators are somewhat magical in the same way the <code>property</code> decorator is somewhat magical.</p>
-
-<p>If you have a method that should be callable on either an instance or a class, you want the <code>classmethod</code> decorator.
-Factory methods (alternative constructors) are a common use case for this:</p>
-
-<pre><code class="python">class RomanNumeral:
-
-    """A Roman numeral, represented as a string and numerically."""
-
-    def __init__(self, number):
-        self.value = number
-
-    @classmethod
-    def from_string(cls, string):
-        return cls(roman_to_int(string))  # function doesn't exist yet
-</code></pre>
-
-<p>It&rsquo;s a bit harder to come up with a good use for <code>staticmethod</code>, since you can pretty much always use a module-level function instead of a static method.</p>
-
-<pre><code class="python">class RomanNumeral:
-
-    """A Roman numeral, represented as a string and numerically."""
-
-    SYMBOLS = {'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1}
-
-    def __init__(self, number):
-        self.value = number
-
-    @classmethod
-    def from_string(cls, string):
-        return cls(cls.roman_to_int(string))
-
-    @staticmethod
-    def roman_to_int(numeral):
-        total = 0
-        for symbol, next_symbol in zip_longest(numeral, numeral[1:]):
-            value = RomanNumeral.SYMBOLS[symbol]
-            next_value = RomanNumeral.SYMBOLS.get(next_symbol, 0)
-            if value &lt; next_value:
-                value = -value
-            total += value
-        return total
-</code></pre>
-
-<p>The above <code>roman_to_int</code> function doesn&rsquo;t require access to the instance <em>or</em> the class, so it doesn&rsquo;t even need to be a <code>@classmethod</code>.
-There&rsquo;s no actual need to make this function a <code>staticmethod</code> (instead of a <code>classmethod</code>): <code>staticmethod</code> is just more restrictive to signal the fact that we&rsquo;re not reliant on the class our function lives on.</p>
-
-<p>I find that learning these causes folks to <em>think</em> they need them when they often don&rsquo;t.
-You can go looking for these if you really need them eventually.</p>
-
-<h3>next</h3>
-
-<p>The <code>next</code> function returns the <em>next</em> item in an iterator.</p>
-
-<p>I&rsquo;ve written about iterators before (<a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">how for loops work</a> and <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">how to make an iterator</a>) but a very quick summary of iterators you&rsquo;ll likely run into includes:</p>
-
-<ul>
-<li><code>enumerate</code> objects</li>
-<li><code>zip</code> objects</li>
-<li>the return value of the <code>reversed</code> function</li>
-<li>files (the thing you get back from the <code>open</code> function)</li>
-<li><code>csv.reader</code> objects</li>
-<li>generator expressions</li>
-<li>generator functions</li>
-</ul>
-
-
-<p>You can think of <code>next</code> as a way to manually loop over an iterator to get a single item and then break.</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7, 11]
-&gt;&gt;&gt; squares = (n**2 for n in numbers)
-&gt;&gt;&gt; next(squares)
-4
-&gt;&gt;&gt; for n in squares:
-...     break
-...
-&gt;&gt;&gt; n
-1
-&gt;&gt;&gt; next(squares)
-9
-</code></pre>
-
-<h2>Maybe learn it eventually</h2>
-
-<p>We&rsquo;ve already covered nearly half of the built-in functions.</p>
-
-<p>The rest of Python&rsquo;s built-in functions definitely aren&rsquo;t useless, but they&rsquo;re a bit more special-purposed.</p>
-
-<p>The 15 built-ins I&rsquo;m mentioning in this section are things you may eventually need to learn, but it&rsquo;s also very possible you&rsquo;ll never reach for these in your own code.</p>
-
-<ul>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#iter">iter</a></strong>: get an iterator from an iterable: this function <a href="https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/">powers <code>for</code> loops</a> and it can be very useful when you&rsquo;re making helper functions for looping lazily</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#callable">callable</a></strong>: return <code>True</code> if the argument is a callable (I talked about this a bit in my article <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#Callable_objects">functions and callables</a>)</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#filter">filter</a></strong> and <strong><a href="https://docs.python.org/3/library/functions.html#map">map</a></strong>: as I discuss in my article on <a href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/">overusing lambda functions</a>, I recommend using generator expressions over the built-in <code>map</code> and <code>filter</code> functions</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#id">id</a></strong>, <strong><a href="https://docs.python.org/3/library/functions.html#locals">locals</a></strong>, and <strong><a href="https://docs.python.org/3/library/functions.html#globals">globals</a></strong>: these are great tools for teaching Python and you may have already seen them, but you won&rsquo;t see these much in real Python code</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#round">round</a></strong>: you&rsquo;ll look this up if you need to round a number</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#divmod">divmod</a></strong>: this function does a floor division (<code>//</code>) and a modulo operation (<code>%</code>) at the same time</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#bin">bin</a></strong>, <strong><a href="https://docs.python.org/3/library/functions.html#oct">oct</a></strong>, and <strong><a href="https://docs.python.org/3/library/functions.html#hex">hex</a></strong>: if you need to display a number as a string in binary, octal, or hexadecimal form, you&rsquo;ll want these functions</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#abs">abs</a></strong>: when you need the absolute value of a number, you&rsquo;ll look this up</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#hash">hash</a></strong>: dictionaries and sets rely on the <code>hash</code> function to test for <a href="https://lerner.co.il/2015/04/03/is-it-hashable-fun-and-games-with-hashing-in-python/">hashability</a>, but you likely won&rsquo;t need it unless you&rsquo;re implementing a clever de-duplication algorithm</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#object">object</a></strong>: this function (yes it&rsquo;s a class) is useful for making <a href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/">unique default values and sentinel values</a>, if you ever need those</li>
-</ul>
-
-
-<p>You&rsquo;re unlikely to need all the above built-ins, but if you write Python code for long enough you&rsquo;re likely to see nearly all of them.</p>
-
-<h2>You likely don&rsquo;t need these</h2>
-
-<p>You&rsquo;re unlikely to need these built-ins.
-There are sometimes really appropriate uses for a few of these, but you&rsquo;ll likely be able to get away with never learning about these.</p>
-
-<ul>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#ord">ord</a></strong> and <strong><a href="https://docs.python.org/3/library/functions.html#chr">chr</a></strong>: these are fun for teaching ASCII tables and unicode code points, but I&rsquo;ve never really found a use for them in my own code</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#exec">exec</a></strong> and <strong><a href="https://docs.python.org/3/library/functions.html#eval">eval</a></strong>: for evaluating a string as if it was code</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#compile">compile</a></strong>: this is related to <code>exec</code> and <code>eval</code></li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#slice">slice</a></strong>: if you&rsquo;re implementing <code>__getitem__</code> to make a custom sequence, you may need this (some <a href="https://www.pythonmorsels.com/">Python Morsels</a> exercises require this actually), but unless you make your own custom sequence you&rsquo;ll likely never see <code>slice</code></li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#bytes">bytes</a></strong>, <strong><a href="https://docs.python.org/3/library/functions.html#bytearray">bytearray</a></strong>, and <strong><a href="https://docs.python.org/3/library/functions.html#memoryview">memoryview</a></strong>: if you&rsquo;re working with bytes often, you&rsquo;ll reach for some of these (just ignore them until then)</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#ascii">ascii</a></strong>: like <code>repr</code> but returns an ASCII-only representation of an object; I haven&rsquo;t needed this in my code yet</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#frozenset">frozenset</a></strong>: like <code>set</code>, but it&rsquo;s immutable (and hashable!); very neat but not something I&rsquo;ve needed in my own code</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#__import__">__import__</a></strong>: this function isn&rsquo;t really meant to be used by you, use <a href="https://docs.python.org/3/library/importlib.html#importlib.import_module">importlib</a> instead</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#format">format</a></strong>: this calls the <code>__format__</code> method, which is used for string formatting (<a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">f-strings</a> and <a href="https://docs.python.org/3/library/stdtypes.html#str.format">str.format</a>); you usually don&rsquo;t need to call this function directly</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#pow">pow</a></strong>: the exponentiation operator (<code>**</code>) usually supplants this&hellip; unless you&rsquo;re doing modulo-math (maybe you&rsquo;re implementing <a href="http://code.activestate.com/recipes/578838-rsa-a-simple-and-easy-to-read-implementation/">RSA encryption</a> from scratch&hellip;?)</li>
-<li><strong><a href="https://docs.python.org/3/library/functions.html#complex">complex</a></strong>: if you didn&rsquo;t know that <code>4j+3</code> is valid Python code, you likely don&rsquo;t need the <code>complex</code> function</li>
-</ul>
-
-
-<h2>There&rsquo;s always more to learn</h2>
-
-<p>There are 69 built-in functions in Python (technically <a href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#The_distinction_between_functions_and_classes_often_doesn%E2%80%99t_matter">only 42 of them are actually functions</a>).</p>
-
-<p>When you&rsquo;re newer in your Python journey, I recommend focusing on only 20 of these built-in functions in your own code (the <a href="#10_Commonly_known_built-in_functions">10 commonly known built-ins</a> and the <a href="#Built-ins_overlooked_by_new_Pythonistas">10 built-ins that are often overlooked</a>), in addition to the <a href="#The_5_debugging_functions">5 debugging functions</a>.</p>
-
-<p>After that there are <a href="#Learn_it_later">14 more built-ins which you&rsquo;ll probably learn later</a> (depending on the style of programming you do).</p>
-
-<p>Then come <a href="#Maybe_learn_it_eventually">the 15 built-ins which you may or may not ever end up needing in your own code</a>.
-Some people love these built-ins and some people never use them: as you get more specific in your coding needs, you&rsquo;ll likely find yourself reaching for considerably more niche tools.</p>
-
-<p>After that I mentioned <a href="#You_likely_don%E2%80%99t_need_these">the last 15 built-ins which you&rsquo;ll likely never need</a> (again, very much depending on how you use Python).</p>
-
-<p>You don&rsquo;t need to learn all the Python built-in functions today.
-Take it slow: focus on those first 20 important built-ins and then work your way into learning about others if and when you eventually need them.</p>
 ]]></content>
   </entry>
   
