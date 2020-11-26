@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Short weely Python screencasts for $50/year"
+title: "Short weekly Python screencasts for $50/year"
 date: 2020-11-25 09:00:00 -0800
 comments: true
 categories: python
