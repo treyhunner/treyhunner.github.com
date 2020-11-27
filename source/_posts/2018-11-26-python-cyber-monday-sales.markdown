@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Python Cyber Monday Sales"
+title: "Python Cyber Monday Sales 2018"
 date: 2018-11-26 07:45:00 -0800
 comments: true
 categories: python
