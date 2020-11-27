@@ -49,12 +49,11 @@ Python Morsels is a Django-powered site and I could use this book, so I'll be bu
 
 ### Mike Driscoll's Python books
 
-Sales on various Python books by Mike Driscoll: https://www.blog.pythonlibrary.org/2020/11/25/black-friday-cyber-monday-comes-early-in-2020/
-
+Mike Driscoll is [offering a sale on all his Python books](https://www.blog.pythonlibrary.org/2020/11/25/black-friday-cyber-monday-comes-early-in-2020/) (each is $15 or less during the sale).
 
 ### Brian Okken's Pytest book (Pragmatic Bookshelf)
 
-40% off all Pragmatic Bookshelf books, including Brian Okken's Pytest book with the code turkeysale2020 https://pragprog.com/titles/bopytest/python-testing-with-pytest/
+Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2020, including Brian Okken's [Pytest book](https://pragprog.com/titles/bopytest/python-testing-with-pytest/) which is just $10 with the coupon.
 
 
 ### No Starch Press Python books
