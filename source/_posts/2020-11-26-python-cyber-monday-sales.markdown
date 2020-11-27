@@ -53,7 +53,7 @@ Mike Driscoll is [offering a sale on all his Python books](https://www.blog.pyth
 
 ### Brian Okken's Pytest book (Pragmatic Bookshelf)
 
-Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2020, including Brian Okken's [Pytest book](https://pragprog.com/titles/bopytest/python-testing-with-pytest/) which is just $10 with the coupon.
+Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2020, including [Brian Okken's Pytest book](https://pragprog.com/titles/bopytest/python-testing-with-pytest/) which is just under $15 with the coupon.
 
 
 ### No Starch Press Python books
