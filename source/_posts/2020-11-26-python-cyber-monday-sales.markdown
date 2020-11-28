@@ -74,7 +74,7 @@ I'm not sure whether this is one year for $180 but the subscription renews at th
 
 ### 100 Days of Code Python and other Udemy courses
 
-There's a [100 Days of Code Python course](https://realpython.com/account/join/?c=blackfriday2020) course on sale for just $13 on Udemy through mid next week.
+There's a [100 Days of Code Python course](https://www.udemy.com/course/100-days-of-code/?couponCode=DCF8D1FDCAA3CE660C34) course on sale for just $13 on Udemy through mid next week.
 I haven't heard anything about it but it looks like it includes *a lot*.
 
 There are also various other Udemy Python courses on sale, like [Automate The Boring Stuff](https://www.udemy.com/course/automate/), though many of these sales end within the next 24 hours (through Black Friday only).
