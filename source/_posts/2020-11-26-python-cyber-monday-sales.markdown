@@ -42,8 +42,7 @@ Matt Harrison's [Modern Python workshop](https://mattharrison.podia.com/modern-p
 
 ### Speed Up Your Django book
 
-Adam Johnson's Speed Up Your Django book will be 50% off on Cyber Monday.
-He [announced it on Twitter](https://twitter.com/AdamChainz/status/1330853136597127169) and I don't yet see a discount on [the book purchase page yet](https://gumroad.com/l/suydt) so I assume the sale will start on Monday.
+Adam Johnson's [Speed Up Your Django book](https://adamj.eu/tech/2020/11/28/speed-up-your-django-tests-cyber-monday-deal/) is 50% off through Monday.
 Python Morsels is a Django-powered site and I could use this book, so I'll be buying a copy for myself as well.
 
 
@@ -63,7 +62,7 @@ No Starch Press is also running [a 33% off sale](https://nostarch.com/catalog/py
 
 ### Real Python subscription
 
-Real Python is offering an annual subscription for [$200/year](https://www.pluralsight.com/offer/2020/bf-cm-40-off) and 20% of that goes to the Python Software Foundation.
+Real Python is offering an annual subscription for [$200/year](https://realpython.com/account/join/?c=blackfriday2020) and 20% of that goes to the Python Software Foundation.
 
 
 ### Pluralsight subscription
@@ -75,7 +74,7 @@ I'm not sure whether this is one year for $180 but the subscription renews at th
 
 ### 100 Days of Code Python and other Udemy courses
 
-There's a [100 Days of Code Python course](https://mattharrison.podia.com/courses) course on sale for just $13 on Udemy through mid next week.
+There's a [100 Days of Code Python course](https://realpython.com/account/join/?c=blackfriday2020) course on sale for just $13 on Udemy through mid next week.
 I haven't heard anything about it but it looks like it includes *a lot*.
 
 There are also various other Udemy Python courses on sale, like [Automate The Boring Stuff](https://www.udemy.com/course/automate/), though many of these sales end within the next 24 hours (through Black Friday only).
