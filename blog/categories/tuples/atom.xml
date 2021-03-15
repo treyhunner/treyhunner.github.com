@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: tuples | Trey Hunner]]></title>
-  <link href="https://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
-  <link href="https://treyhunner.com/"/>
-  <updated>2020-11-28T12:15:00-08:00</updated>
-  <id>https://treyhunner.com/</id>
+  <link href="http://treyhunner.com/blog/categories/tuples/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2021-03-15T13:20:45-07:00</updated>
+  <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
-    <link href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
+    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
     <updated>2019-03-13T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
+    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
     <content type="html"><![CDATA[<p>Comparing things in Python.
 That sounds like something that almost doesn&rsquo;t even need to be taught.
 But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
@@ -463,9 +463,9 @@ Remember these features: you may not need them today, but they&rsquo;ll almost c
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
-    <link href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
     <updated>2018-03-07T16:30:00-08:00</updated>
-    <id>https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
     <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
 
 <p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
-  <link href="https://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
-  <link href="https://treyhunner.com/"/>
-  <updated>2020-11-28T12:15:00-08:00</updated>
-  <id>https://treyhunner.com/</id>
+  <link href="http://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
+  <link href="http://treyhunner.com/"/>
+  <updated>2021-03-15T13:20:45-07:00</updated>
+  <id>http://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Overusing list comprehensions and generator expressions in Python]]></title>
-    <link href="https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
+    <link href="http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/"/>
     <updated>2019-03-26T13:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
+    <id>http://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python</id>
     <content type="html"><![CDATA[<p>List comprehensions are one of my favorite features in Python.
 I love list comprehensions so much that I&rsquo;ve written an <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/" title="List Comprehensions: Explain Visually">article</a> about them, done <a href="https://youtu.be/5_cJIcgM7rw" title="Comprehensible Comprehensions">a talk</a> about them, and held a <a href="https://youtu.be/_6U1XoxyyBY" title="Using List Comprehensions and Generator Expressions For Data Processing">3 hour comprehensions tutorial</a> at PyCon 2018.</p>
 
@@ -470,9 +470,9 @@ This form is reCAPTCHA protected (Google <a href="https://policies.google.com/pr
   
   <entry>
     <title type="html"><![CDATA[Tuple ordering and deep comparisons in Python]]></title>
-    <link href="https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
+    <link href="http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/"/>
     <updated>2019-03-13T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
+    <id>http://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability</id>
     <content type="html"><![CDATA[<p>Comparing things in Python.
 That sounds like something that almost doesn&rsquo;t even need to be taught.
 But I&rsquo;ve found that <strong>Python&rsquo;s comparison operators are often misunderstood and under-appreciated by newer Pythonistas</strong>.</p>
@@ -918,9 +918,9 @@ Remember these features: you may not need them today, but they&rsquo;ll almost c
   
   <entry>
     <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
-    <link href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
+    <link href="http://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
     <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
+    <id>http://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
     <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
 
 <p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
@@ -1302,9 +1302,9 @@ While a <code>def</code> statement is often more understandable, <strong>Python 
   
   <entry>
     <title type="html"><![CDATA[Multiple assignment and tuple unpacking improve Python code readability]]></title>
-    <link href="https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
+    <link href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/"/>
     <updated>2018-03-07T16:30:00-08:00</updated>
-    <id>https://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
+    <id>http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability</id>
     <content type="html"><![CDATA[<p>Whether I&rsquo;m teaching new Pythonistas or long-time Python programmers, I frequently find that <strong>Python programmers underutilize multiple assignment</strong>.</p>
 
 <p>Multiple assignment (also known as tuple unpacking or iterable unpacking) allows you to assign multiple variables at the same time in one line of code.
@@ -1798,9 +1798,9 @@ If you sign up to Python Morsels using this form, I&rsquo;ll immediately send yo
   
   <entry>
     <title type="html"><![CDATA[Craft Your Python Like Poetry]]></title>
-    <link href="https://treyhunner.com/2017/07/craft-your-python-like-poetry/"/>
+    <link href="http://treyhunner.com/2017/07/craft-your-python-like-poetry/"/>
     <updated>2017-07-23T10:00:00-07:00</updated>
-    <id>https://treyhunner.com/2017/07/craft-your-python-like-poetry</id>
+    <id>http://treyhunner.com/2017/07/craft-your-python-like-poetry</id>
     <content type="html"><![CDATA[<p>Line length is a big deal&hellip; programmers argue about it quite a bit.  PEP 8, the Python style guide, recommends a <a href="http://pep8.org/#maximum-line-length">79 character maximum line length</a> but concedes that a line length up to 100 characters is acceptable for teams that agree to use a specific longer line length.</p>
 
 <p>So 79 characters is recommended&hellip; but isn&rsquo;t line length completely obsolete?  After all, programmers are no longer restricted by <a href="https://en.wikipedia.org/wiki/Punched_card">punch cards</a>, <a href="https://en.wikipedia.org/wiki/Teletype_Corporation">teletypes</a>, and 80 column <a href="https://en.wikipedia.org/wiki/Computer_terminal">terminals</a>.  The laptop screen I&rsquo;m typing this on can fit about 200 characters per line.</p>
