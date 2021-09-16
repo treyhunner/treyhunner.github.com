@@ -20,18 +20,35 @@ As of Python 3.6 dictionaries are **ordered**.
 
 The keys in dictionaries are stored in **insertion order**, meaning whenever a new key is added it goes at the very end.
 
-TODO code
+```pycon
+>>> color_amounts = {"purple": 6, "green": 3, "blue": 2}
+>>> color_amonuts["pink"] = 4
+>>> color_amounts
+{'purple': 6, 'green': 3, 'blue': 2, 'pink': 4}
+```
 
 If we update a key-value pair, the key remains where it was before:
 
-TODO code
+```pycon
+>>> color_amonuts["green"] = 5
+>>> color_amounts
+{'purple': 6, 'green': 5, 'blue': 2, 'pink': 4}
+```
 
 So if you plan to populate a dictionary with some specific data and then leave that dictionary as-is, all you need to do is make sure that original data is in the order you'd like.
 
 If our input data is already ordered correctly, our dictionary will end up ordered correctly as well.
 For example if we have a CSV file of US state abbreviations and our file is ordered alphabetically by state name, our dictionary will be ordered the same way:
 
-TODO code
+```pycon
+>>> import csv
+>>> state_abbreviations = {}
+>>> for name, abbreviation in csv.reader("state-abbreviations.csv")
+...     state_abbreviations[name] = abbreviation
+...
+>>> state_abbreviations
+{'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', ...}
+```
 
 
 ### How to sort a dictionary by its keys
