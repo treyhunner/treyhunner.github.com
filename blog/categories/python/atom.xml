@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: python | Trey Hunner]]></title>
-  <link href="http://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="http://treyhunner.com/"/>
-  <updated>2021-03-15T13:20:45-07:00</updated>
-  <id>http://treyhunner.com/</id>
+  <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2021-09-17T13:25:26-07:00</updated>
+  <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python Cyber Monday Sales 2020]]></title>
-    <link href="http://treyhunner.com/2020/11/python-cyber-monday-sales/"/>
+    <link href="https://treyhunner.com/2020/11/python-cyber-monday-sales/"/>
     <updated>2020-11-27T13:20:00-08:00</updated>
-    <id>http://treyhunner.com/2020/11/python-cyber-monday-sales</id>
+    <id>https://treyhunner.com/2020/11/python-cyber-monday-sales</id>
     <content type="html"><![CDATA[<p>This post is a compilation of different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
 <h3>Python Morsels weekly screencasts</h3>
@@ -100,9 +100,9 @@ If you have questions about other sales, email the folks running those sales (ma
   
   <entry>
     <title type="html"><![CDATA[Short weekly Python screencasts for $50/year]]></title>
-    <link href="http://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/"/>
+    <link href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/"/>
     <updated>2020-11-25T09:00:00-08:00</updated>
-    <id>http://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year</id>
+    <id>https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year</id>
     <content type="html"><![CDATA[<p>I&rsquo;m offering a service to help <strong>life-long Python learners</strong> manufacture ah-ha moments.</p>
 
 <p>A few years ago at my local Python meetup I was discussing how function arguments work (they&rsquo;re <a href="https://jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/">call-by-assignment</a> a.k.a. <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">call by object</a>).
@@ -203,9 +203,9 @@ Check out the <a href="https://pythonmorsels.helpscoutdocs.com/article/23-lite-p
   
   <entry>
     <title type="html"><![CDATA[Passing a function as an argument to another function in Python]]></title>
-    <link href="http://treyhunner.com/2020/01/passing-functions-as-arguments/"/>
+    <link href="https://treyhunner.com/2020/01/passing-functions-as-arguments/"/>
     <updated>2020-01-14T08:00:00-08:00</updated>
-    <id>http://treyhunner.com/2020/01/passing-functions-as-arguments</id>
+    <id>https://treyhunner.com/2020/01/passing-functions-as-arguments</id>
     <content type="html"><![CDATA[<p>One of the more hair-raising facts we learn in my introductory Python trainings is that <strong>you can pass functions into other functions</strong>.
 You can pass functions around because in Python, <strong>functions are objects</strong>.</p>
 
@@ -665,9 +665,9 @@ By my count, about 15% of the Python built-ins are meant to accept functions as 
   
   <entry>
     <title type="html"><![CDATA[Cyber Monday Python Sales 2019]]></title>
-    <link href="http://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
+    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
     <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>http://treyhunner.com/2019/12/cyber-monday-python-sales</id>
+    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
     <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
 This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
 
@@ -736,9 +736,9 @@ Link to it in the comments!</p>
   
   <entry>
     <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
-    <link href="http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
+    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
     <updated>2019-11-29T15:00:00-08:00</updated>
-    <id>http://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
+    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
     <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
 
 <p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
