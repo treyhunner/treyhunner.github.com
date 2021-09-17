@@ -91,7 +91,7 @@ If we instead used the `readlines` method to store all lines in memory, we might
 So **iterators can save us memory**, but **iterators can sometimes save us time** also.
 
 Additionally, **iterators have abilities that other iterables don't**.
-For example, the laziness of iterables can be used to make iterables that have an unknown length.
+For example, the laziness of iterators can be used to make iterables that have an unknown length.
 In fact, you can even make infinitely long iterators.
 
 For example, the `itertools.count` utility will give us an iterator that will provide every number from `0` upward as we loop over it:
