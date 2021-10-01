@@ -59,7 +59,7 @@ for group in groups:
         ...
 ```
 
-And we append each item to a new list.
+And then append each item to a new list:
 
 ```python
 names = []
@@ -78,7 +78,7 @@ for group in groups:
 
 The list `extend` method accepts an iterable and appends every item in the iterable you give to it.
 
-Using the `+=` operator on a list does the same thing as the `extend` method:
+Or we could use the `+=` operator to concatenate each list to our new list:
 
 ```python
 names = []
@@ -151,7 +151,7 @@ If we try to do this Python will specifically tell us that the `*` operator can'
 SyntaxError: iterable unpacking cannot be used in comprehension
 ```
 
-This feature was specifically excluded from [PEP 448][], the Python Enhancement Proposal that added this `*`-in-list-literal syntax to Python.
+This feature was specifically excluded from [PEP 448][], the Python Enhancement Proposal that added this `*`-in-list-literal syntax to Python due to readability concerns.
 
 
 ### What about `itertools.chain`?
@@ -182,9 +182,73 @@ There's actually a method on `chain` that's specifically for flattening a single
 
 Using `chain.from_iterable` is more performant than using `chain` with `*` because `*` unpacks the whole iterable immediately when `chain` is called.
 
+
+### Comparison of shallow list flattening techniques
+
+If you want to flatten an iterable of iterables lazily, I would use `itertools.chain.from_iterable`:
+
+```pycon
+>>> from itertools import chain
+>>> flattened = chain.from_iterable(groups)
+```
+
+This will return an [iterator][], meaning no work will be done until the returned iterable is looped over:
+
+```pycon
+>>> list(flattened)
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+```
+
+And it will be consumed as we loop, so looping twice will result in an empty iterable:
+
+```pycon
+>>> list(flattened)
+[]
+```
+
+If you find `itertools.chain` a bit too cryptic, you might prefer a `for` loop that calls the `extend` method on a new list to repeatedly extend the values in each iterable:
+
+```python
+names = []
+for group in groups:
+    names.extend(group)
+```
+
+Or a `for` loop that uses the `+=` operator on our new list:
+
+```python
+names = []
+for group in groups:
+    names += group
+```
+
+If you find list comprehensions readable (I love them for conveying that "we're building up a list here") then you might prefer a comprehension instead:
+
+```python
+names = [
+    name
+    for group in groups
+    for name in group
+]
+```
+
+And if you *do* want laziness (an iterator) but you don't like `itertools.chain` you could make a generator expression that does tha same thing as `itertools.chain.from_iterable`:
+
+```python
+names = (
+    name
+    for group in groups
+    for name in group
+)
+```
+
+
+### Summary
+
 **TODO** summary?
 
 
 [comprehension]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
 [asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
 [pep 448]: https://www.python.org/dev/peps/pep-0448/#variations
+[iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
