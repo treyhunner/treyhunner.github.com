@@ -13,7 +13,7 @@ I've primarily been working on solutions to Python Morsels exercises that embrac
 I'd like to share what I've found.
 
 
-## Troubleshooting
+## Easier troubleshooting with improved error messages
 
 The biggest Python 3.10 improvements by far are all related improved error messages.
 I make typos all the time.
