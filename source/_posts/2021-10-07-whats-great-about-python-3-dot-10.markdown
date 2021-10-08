@@ -3,6 +3,7 @@ layout: post
 title: "What's great about Python 3.10?"
 date: 2021-10-08 08:30:30 -0700
 comments: true
+twitter_image: https://treyhunner.com/images/idle3.10.png
 categories: python
 ---
 
