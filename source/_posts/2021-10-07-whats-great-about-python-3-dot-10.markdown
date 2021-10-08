@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "What's great about Python 3.10?"
-date: 2021-10-07 14:00:17 -0700
+date: 2021-10-08 08:30:30 -0700
 comments: true
 categories: python
 ---
