@@ -18,7 +18,7 @@ The biggest Python 3.10 improvements by far are all related improved error messa
 I make typos all the time.
 Error messages that help me quickly figure out what's wrong are *really* important.
 
-I've already grown accustom to the process of decyphering many of Python's more cryptic error messages.
+I've already grown accustom to the process of deciphering many of Python's more cryptic error messages.
 So while improved error messages *are* great for me, this change is *especially* big for new Python learners.
 
 When I teach an introduction to Python course, some of the most common errors I help folks debug are:
@@ -158,7 +158,7 @@ To the same snippet refactored to use structural pattern matching:
             raise TemplateSyntaxError(f"'{name}' requires 'for string as variable' (got {rest!r})")
 ```
 
-Notice that the second approach allows us to describe both the number variables we're unpacking our data into and the names to unpack into (just like tuple unpacking) while also matching the second and third values against the strings `for` and `as`.
+Notice that the second approach allows us to describe both the number of variables we're unpacking our data into and the names to unpack into (just like tuple unpacking) while also matching the second and third values against the strings `for` and `as`.
 If those strings don't show up in the expected positions, we raise an appropriate exception.
 
 Structural pattern matching is *really* handy for implementing simple parsers, like Django's template language.
@@ -313,7 +313,7 @@ Here are a few more things I looked into and plan to play with later:
 - `importlib` [deprecations][]: some of my dynamic module importing code was using features that are now deprecated in Python 3.10 (you'll notice obvious deprecation warnings if your code needs updating too)
 - [Dictionary views][] have a `mapping` attribute now: if you're making your own dictionary-like objects, you should probably add a `mapping` attribute to your `keys`/`values`/`items` views as well (this will definitely crop up in Python Morsels exercises in the future)
 - When using multiple context managers in a single `with` block, parentheses can now be used to wrap them onto the next line (this was actually added in Python 3.9 but unofficially)
-- The names of [standard library modules](https://docs.python.org/3.10/library/sys.html#sys.stdlib_module_names) and builtin modules are now included in `sys.stdlib_module_names` and `sys.builtin_module_names`: I've occasionally needed to distinguish between third party and standard library modules dynamically and this makes that a lot easier
+- The names of [standard library modules](https://docs.python.org/3.10/library/sys.html#sys.stdlib_module_names) and built-in modules are now included in `sys.stdlib_module_names` and `sys.builtin_module_names`: I've occasionally needed to distinguish between third party and standard library modules dynamically and this makes that a lot easier
 - `sys.orig_argv` includes the [full list of command-line arguments][orig_argv] (including the Python interpreter and all arguments passed to it) which could be useful when inspecting how your Python process was launched or when re-launching your Python process with the same arguments
 
 
