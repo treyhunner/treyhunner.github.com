@@ -12,6 +12,7 @@ I've spent this week playing with Python 3.10.
 I've primarily been working on solutions to Python Morsels exercises that embrace new Python 3.10 features.
 I'd like to share what I've found.
 
+
 ## Troubleshooting
 
 The biggest Python 3.10 improvements by far are all related improved error messages.
@@ -76,7 +77,7 @@ I'm really excited about that one because I make typos in variable names pretty 
 
 The error message shown for unclosed brackets, braces, and parentheses is also *much* more helpful.
 
-Python used to show us the *next* of code after an unclosed brace:
+Python used to show us the *next* line of code after an unclosed brace:
 
 ```bash
 $ python3.9 temp.py 70
@@ -135,6 +136,7 @@ This feature is very powerful but probably not very relevant for most Python use
 
 One important note about this feature: `match` and `case` are still allowable variable names so all your existing code should keep working (they're [soft keywords][]).
 
+
 ### Matching the shape and contents of an iterable
 
 You could look at the new `match`/`case` statement as **like tuple unpacking with a lot more than just length-checking**.
@@ -163,6 +165,7 @@ If those strings don't show up in the expected positions, we raise an appropriat
 
 Structural pattern matching is *really* handy for implementing simple parsers, like Django's template language.
 I'm looking forward to seeing Django's refactored template code in 2025 (after Python 3.9 support ends).
+
 
 ### Complex type checking
 
@@ -226,7 +229,7 @@ For me, the `bisect` module is mostly a reminder of how infrequently I need to c
 But for those times you do need to find an item in a sorted list, `bisect` is great.
 
 As of Python 3.10, all the binary search helpers in the `bisect` module now accept a `key` argument.
-So you can now quickly search within a case insesitively-sorted list of strings for the string you're looking for.
+So you can now quickly search within a case insensitively-sorted list of strings for the string you're looking for.
 
 ```pycon
 >>> fruits = sorted(['Watermelon','loquat', 'Apple', 'jujube'], key=str.lower)
@@ -287,6 +290,7 @@ I still don't use type annotations often, but these features are a pretty big de
 
 Also if you're introspecting annotations, calling the `inspect.get_annotations` function is [recommended][annotations best practices] over accessing `__annotations__` directly or calling the `typing.get_type_hints` function.
 
+
 ### Checking for default file encoding issues
 
 You can also now ask Python to emit warnings when you fail to specify an explicit file encoding (this is *very* relevant when writing cross operating system compatible code).
@@ -306,13 +310,13 @@ $ python3.10 -X warn_default_encoding count_lines.py declaration-of-independence
 The changes above are the main ones I've found useful when updating Python Morsels exercises over the last week.
 There are many more changes in Python 3.10 though.
 
-Here are a few more things I looked into and plan to play with later:
+Here are a few more things I looked into, and plan to play with later:
 
-- [keyword-only dataclass fields][]
+- [keyword-only][] dataclass fields
 - The `fileinput.input` (handy for handling standard input *or* a file) function [now accepts][fileinput] an `encoding` argument
 - `importlib` [deprecations][]: some of my dynamic module importing code was using features that are now deprecated in Python 3.10 (you'll notice obvious deprecation warnings if your code needs updating too)
 - [Dictionary views][] have a `mapping` attribute now: if you're making your own dictionary-like objects, you should probably add a `mapping` attribute to your `keys`/`values`/`items` views as well (this will definitely crop up in Python Morsels exercises in the future)
-- When using multiple context managers in a single `with` block, parentheses can now be used to wrap them onto the next line (this was actually added in Python 3.9 but unofficially)
+- When using multiple context managers in a single `with` block, parentheses can now be used to wrap them onto the next line (this was actually added in Python 3.9 [but unofficially][context managers])
 - The names of [standard library modules](https://docs.python.org/3.10/library/sys.html#sys.stdlib_module_names) and built-in modules are now included in `sys.stdlib_module_names` and `sys.builtin_module_names`: I've occasionally needed to distinguish between third party and standard library modules dynamically and this makes that a lot easier
 - `sys.orig_argv` includes the [full list of command-line arguments][orig_argv] (including the Python interpreter and all arguments passed to it) which could be useful when inspecting how your Python process was launched or when re-launching your Python process with the same arguments
 
@@ -325,10 +329,15 @@ But the biggest improvement by far are the new error messages.
 And you know what's even better news than the new errors in Python 3.10?
 [Python 3.11 will include even better error messages][3.11]!
 
----
 
-If you're interested in keeping your Python skills (and finding excuses to try out new Python features), [check out Python Morsels][python morsels].
-Python Morsels currently includes 170 Python exercises and 80 Python screencasts with a new short screencast/article hybrid added each week.
+## Deepen your Python skills every week
+
+If you'd like to **deepen your Python skills** and finding excuses to try out new Python features, [join Python Morsels][python morsels].
+
+Python Morsels currently includes **170 Python exercises** and **80 Python screencasts** with a new short screencast/article hybrid added each week.
+This service is all about hands-on skill building (we learn and grow through doing, not just reading/watching).
+
+I'd love for you to [come learn Python with me][python morsels]! 💖
 
 
 [better error messages]: https://docs.python.org/3.10/whatsnew/3.10.html#better-error-messages
@@ -341,12 +350,12 @@ Python Morsels currently includes 170 Python exercises and 80 Python screencasts
 [slots removal]: https://github.com/ericvsmith/dataclasses/issues/28
 [slots defaults]: https://stackoverflow.com/questions/50180735/how-can-dataclasses-be-made-to-work-better-with-slots
 [magic of super]: https://stackoverflow.com/questions/19608134/why-is-python-3-xs-super-magic/19609168#19609168
-[object.__setatr__]: https://stackoverflow.com/a/54119384/98187
+[object.__setattr__]: https://stackoverflow.com/a/54119384/98187
 [annotations best practices]: https://docs.python.org/3/howto/annotations.html#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer
 [idle]: https://twitter.com/sjoerdjob/status/1446172628922867712
 [bisect without key]: https://stackoverflow.com/a/55007379/98187
 [fileinput]: https://docs.python.org/3.10/whatsnew/3.10.html#fileinput
-[keyword-only dataclass fields]: https://docs.python.org/3.10/whatsnew/3.10.html#keyword-only-fields
+[keyword-only]: https://docs.python.org/3.10/whatsnew/3.10.html#keyword-only-fields
 [deprecations]: https://docs.python.org/3.10/whatsnew/3.10.html#deprecated
 [dictionary views]: https://docs.python.org/3.10/library/stdtypes.html#dict-views
 [localize]: https://github.com/django/django/blob/3.2/django/utils/formats.py#L195..L209
@@ -355,3 +364,4 @@ Python Morsels currently includes 170 Python exercises and 80 Python screencasts
 [orig_argv]: https://docs.python.org/3.10/library/sys.html#sys.orig_argv
 [3.11]: https://docs.python.org/3.11/whatsnew/3.11.html#enhanced-error-locations-in-tracebacks
 [python morsels]: https://www.pythonmorsels.com/
+[context managers]: https://bugs.python.org/issue12782
