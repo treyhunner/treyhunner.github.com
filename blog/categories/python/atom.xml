@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-08T09:19:41-07:00</updated>
+  <updated>2021-10-11T10:57:21-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -155,7 +155,7 @@ This feature is very powerful but probably not very relevant for most Python use
 <p>To the same snippet refactored to use structural pattern matching:</p>
 
 <pre><code class="python">    match token.split_contents():
-        case [name, "for", code "as" info]:
+        case [name, "for", code, "as" info]:
             return GetLanguageInfoNode(parser.compile_filter(code), info)
         case [name, *rest]:
             raise TemplateSyntaxError(f"'{name}' requires 'for string as variable' (got {rest!r})")
