@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-11T10:57:23-07:00</updated>
+  <updated>2021-10-11T19:55:37-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -7640,11 +7640,11 @@ You don&rsquo;t need to know that phrase, but if you ever need to describe <em>t
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="s">&#39;3.7.0&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Trey&#39;</span><span class="p">,</span> <span class="s">&#39;python_version&#39;</span><span class="p">:</span> <span class="s">&#39;2.7.0&#39;</span><span class="p">}</span>
 </span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
 </span><span class='line'><span class="bp">False</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span><span class="p">[</span><span class="s">&#39;python_version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">actual</span><span class="p">[</span><span class="s">&#39;python_version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;3.7.0&#39;</span>
 </span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">expected</span> <span class="o">==</span> <span class="n">actual</span>
 </span><span class='line'><span class="bp">True</span>
 </span></code></pre></td></tr></table></div></figure>
