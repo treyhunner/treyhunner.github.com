@@ -335,7 +335,7 @@ And you know what's even better news than the new errors in Python 3.10?
 
 Want to try out Python 3.10?
 Try out the [Python 3.10 exercise path][] on Python Morsels.
-It's free for [Python Morsels][] subscribers and $24 for non-subscribers.
+It's free for [Python Morsels][] subscribers and $17 for non-subscribers.
 
 Python Morsels currently includes **170 Python exercises** and **80 Python screencasts** with a new short screencast/article hybrid added each week.
 This service is all about hands-on skill building (we learn and grow through doing, not just reading/watching).
