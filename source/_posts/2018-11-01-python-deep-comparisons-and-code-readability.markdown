@@ -204,11 +204,11 @@ Many objects in Python work with equality but don't work with ordering at all.
 For example dictionaries compare "equal" when they have all the same keys and values:
 
 ```python
->>> expected = {'name': 'Trey', 'python_version': 3.7.0}
->>> actual = {'name': 'Trey', 'python_version': 2.7.0}
+>>> expected = {'name': 'Trey', 'python_version': '3.7.0'}
+>>> actual = {'name': 'Trey', 'python_version': '2.7.0'}
 >>> expected == actual
 False
->>> actual['python_version'] = 3.7.0
+>>> actual['python_version'] = '3.7.0'
 >>> expected == actual
 True
 ```
