@@ -155,7 +155,7 @@ To the same snippet refactored to use structural pattern matching:
 
 ```python
     match token.split_contents():
-        case [name, "for", code, "as" info]:
+        case [name, "for", code, "as", info]:
             return GetLanguageInfoNode(parser.compile_filter(code), info)
         case [name, *rest]:
             raise TemplateSyntaxError(f"'{name}' requires 'for string as variable' (got {rest!r})")
