@@ -331,14 +331,16 @@ And you know what's even better news than the new errors in Python 3.10?
 [Python 3.11 will include even better error messages][3.11]!
 
 
-## Deepen your Python skills every week
+## Get practice with Python 3.10
 
-If you'd like to **deepen your Python skills** and finding excuses to try out new Python features, [join Python Morsels][python morsels].
+Want to try out Python 3.10?
+Try out the [Python 3.10 exercise path][] on Python Morsels.
+It's free for [Python Morsels][] subscribers and $24 for non-subscribers.
 
 Python Morsels currently includes **170 Python exercises** and **80 Python screencasts** with a new short screencast/article hybrid added each week.
 This service is all about hands-on skill building (we learn and grow through doing, not just reading/watching).
 
-I'd love for you to [come learn Python with me][python morsels]! 💖
+I'd love for you to [come learn Python (3.10) with me][python 3.10 exercise path]! 💖
 
 
 [better error messages]: https://docs.python.org/3.10/whatsnew/3.10.html#better-error-messages
@@ -366,3 +368,4 @@ I'd love for you to [come learn Python with me][python morsels]! 💖
 [3.11]: https://docs.python.org/3.11/whatsnew/3.11.html#enhanced-error-locations-in-tracebacks
 [python morsels]: https://www.pythonmorsels.com/
 [context managers]: https://bugs.python.org/issue12782
+[python 3.10 exercise path]: https://www.pythonmorsels.com/exercises/paths/#path-14
