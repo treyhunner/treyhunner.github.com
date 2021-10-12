@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-11T10:57:21-07:00</updated>
+  <updated>2021-10-11T10:57:23-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -201,7 +201,7 @@ This feature is very powerful but probably not very relevant for most Python use
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">match</span> <span class="n">token</span><span class="o">.</span><span class="n">split_contents</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">case</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;for&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="s">&quot;as&quot;</span> <span class="n">info</span><span class="p">]:</span>
+</span><span class='line'>    <span class="n">case</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;for&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="s">&quot;as&quot;</span><span class="p">,</span> <span class="n">info</span><span class="p">]:</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">GetLanguageInfoNode</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">compile_filter</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="n">info</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">case</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
 </span><span class='line'>        <span class="k">raise</span> <span class="n">TemplateSyntaxError</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;&#39;{name}&#39; requires &#39;for string as variable&#39; (got {rest!r})&quot;</span><span class="p">)</span>
