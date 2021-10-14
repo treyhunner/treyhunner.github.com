@@ -17,7 +17,7 @@ We have a list of lists of strings:
 >>> groups = [["Hong", "Ryan"], ["Anthony", "Wilhelmina"], ["Margaret", "Adrian"]]
 ```
 
-We would like to take this nested list-of-lists of strings and turn into into a single list of strings:
+We would like to take this nested list-of-lists of strings and turn it into a single list of strings:
 
 ```pycon
 >>> expected_output = ["Hong", "Ryan", "Anthony", "Wilhelmina", "Margaret", "Adrian"]
@@ -32,26 +32,27 @@ For example lists of tuples should be flattenable:
 >>> groups = [("Hong", "Ryan"), ("Anthony", "Wilhelmina"), ("Margaret", "Adrian")]
 ```
 
-And `dict_items` objects of tuples should be flattenable:
+And even an odd type like a `dict_items` object (which we get from asking a dictionary for its items) should be flattenable:
 
 ```pycon
-TODO show dictionary
-TODO show .items() on dictionary
-TODO show expected output
+>>> fruit_counts = {"apple": 3, "lime": 2, "watermelon": 1, "mandarin": 4}
+>>> fruit_counts.items()
+dict_items([('apple', 3), ('lime', 2), ('watermelon', 1), ('mandarin', 4)])
+>>> flattened_counts = ['apple', 3, 'lime', 2, 'watermelon', 1, 'mandarin', 4]
 ```
 
 
 ### Flattening iterables-of-iterables with a `for` loop
 
 One way to flatten an iterable-of-iterables is with a `for` loop.
-We can loop one level deep to get each iterable.
+We can loop one level deep to get each of the inner iterables.
 
 ```python
 for group in groups:
     ...
 ```
 
-And then we loop a second level deep to get each item in each iterable.
+And then we loop a second level deep to get each item from each inner iterable.
 
 ```python
 for group in groups:
@@ -86,7 +87,7 @@ for group in groups:
     names += group
 ```
 
-You can think of `+=` on lists as calling the `extend` method: the two operations are equivalennt (for lists that is).
+You can think of `+=` on lists as calling the `extend` method: with lists these two operations are equivalent.
 
 
 ### Flattening iterables-of-iterables with a comprehension
@@ -100,7 +101,9 @@ for group in groups:
         names.append(name)
 ```
 
-The structure of that code looks like something we could [copy-paste into a list comprehension][comprehension]:
+The structure of this code looks like something we could [copy-paste into a list comprehension][comprehension].
+
+Inside our square brackets we'd copy the thing we're appending first, and then the logic for our first loop, and then the logic for our second loop:
 
 ```python
 names = [
@@ -110,8 +113,11 @@ names = [
 ]
 ```
 
-This comprehension looks two levels deep, just like our nested `for` loops did.
-Note that the order of the `for` clauses in the comprehension must remain the same as the order of the `for` loops.
+This comprehension loops two levels deep, just like our nested `for` loops did.
+Note that the order of the `for` clauses in the comprehension **must remain the same as the order of the `for` loops**.
+
+The (sometimes confusing) order of those `for` clauses is partly why I recommend [copy-pasting into a comprehension][comprehension].
+When turning a `for` loop into a comprehension, the `for` and `if` clauses remain in the same relative place, but the thing you're appending moves from the end to the beginning.
 
 
 ### Could we flatten with `*` in a comprehension?
