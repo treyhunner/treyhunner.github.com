@@ -375,7 +375,9 @@ def get_a_generator(some_iterable):
     )
 ```
 
-If you can't write your generator function in that form, then you can't create a generator expression to replace it.
+If you *can't write your generator function in that form, then **you can't create a generator expression to replace it**.
+
+Note that we've changed the example we're using because **we can't use a generator expression for our previous example** (our example that re-implements `itertools.count`).
 
 
 ## Generator expressions vs generator functions
