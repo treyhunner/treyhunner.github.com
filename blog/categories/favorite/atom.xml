@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-12T15:29:43-07:00</updated>
+  <updated>2021-10-14T12:45:12-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1157,7 +1157,9 @@ They&rsquo;re not as powerful though.</p>
     )
 </code></pre>
 
-<p>If you can&rsquo;t write your generator function in that form, then you can&rsquo;t create a generator expression to replace it.</p>
+<p>If you *can&rsquo;t write your generator function in that form, then <strong>you can&rsquo;t create a generator expression to replace it</strong>.</p>
+
+<p>Note that we&rsquo;ve changed the example we&rsquo;re using because <strong>we can&rsquo;t use a generator expression for our previous example</strong> (our example that re-implements <code>itertools.count</code>).</p>
 
 <h2>Generator expressions vs generator functions</h2>
 
