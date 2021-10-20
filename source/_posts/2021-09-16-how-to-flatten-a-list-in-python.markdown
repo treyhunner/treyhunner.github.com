@@ -1,12 +1,26 @@
 ---
 layout: post
 title: "How to flatten a list in Python"
-date: 2021-09-16 06:22:27 -0700
+date: 2021-10-26 08:00:00 -0700
 comments: true
-categories: 
+categories: python
 ---
 
-**TODO** intro
+You've somehow ended up with lists nested inside of lists, possibly like this one:
+
+```pycon
+>>> values
+[['purple'], ['blue'], ['green'], ['yellow']]
+```
+
+But you *want* just a single list (without the nesting) like this:
+
+```pycon
+>>> new_values
+['purple', 'blue', 'green', 'yellow']
+```
+
+You need to flatten your list-of-lists.
 
 
 ### What do we mean by *flatten*?
@@ -24,8 +38,9 @@ We would like to take this nested list-of-lists of strings and turn it into a si
 ```
 
 We can think of this as a **shallow flatten** operation, meaning we're flattening this list by one level.
+A **deep flatten** operation would handle lists-of-lists-of-lists-of-lists (and so on) and that's a bit than we need for our use case.
 
-The flattening strategy we come up with should work on lists-of-lists as well as any other type of iterable-of-iterables.
+The flattening strategy we come up with should work on lists-of-lists as well as any other type of [iterable][]-of-iterables.
 For example lists of tuples should be flattenable:
 
 ```pycon
@@ -164,7 +179,7 @@ This feature was specifically excluded from [PEP 448][], the Python Enhancement 
 
 There is one more tool that's often used for flattening: the `chain` utility in the `itertools` module.
 
-`chain` accepts any number arguments and it returns an iterator:
+`chain` accepts any number arguments and it returns an [iterator][]:
 
 ```pycon
 >>> from itertools import chain
@@ -172,7 +187,7 @@ There is one more tool that's often used for flattening: the `chain` utility in 
 <itertools.chain object at 0x7fc1b2d65bb0>
 ```
 
-We can loop over that iterator or turn into another iterable, like a list:
+We can loop over that iterator or turn it into another iterable, like a list:
 
 ```pycon
 >>> list(chain(*groups))
@@ -189,9 +204,9 @@ There's actually a method on `chain` that's specifically for flattening a single
 Using `chain.from_iterable` is more performant than using `chain` with `*` because `*` unpacks the whole iterable immediately when `chain` is called.
 
 
-### Comparison of shallow list flattening techniques
+### A comparison of shallow list flattening techniques
 
-If you want to flatten an iterable of iterables lazily, I would use `itertools.chain.from_iterable`:
+If you want to flatten an iterable-of-iterables lazily, I would use `itertools.chain.from_iterable`:
 
 ```pycon
 >>> from itertools import chain
@@ -228,7 +243,9 @@ for group in groups:
     names += group
 ```
 
-If you find list comprehensions readable (I love them for conveying that "we're building up a list here") then you might prefer a comprehension instead:
+Unlike `chain.from_iterable`, both of these `for` loops build up new list rather than a lazy iterator object.
+
+If you find list comprehensions readable (I love them for signaling "look we're building up a list") then you might prefer a comprehension instead:
 
 ```python
 names = [
@@ -238,7 +255,7 @@ names = [
 ]
 ```
 
-And if you *do* want laziness (an iterator) but you don't like `itertools.chain` you could make a generator expression that does tha same thing as `itertools.chain.from_iterable`:
+And if you *do* want laziness (an iterator) but you don't like `itertools.chain` you could make a [generator expression][] that does tha same thing as `itertools.chain.from_iterable`:
 
 ```python
 names = (
@@ -248,13 +265,12 @@ names = (
 )
 ```
 
-
-### Summary
-
-**TODO** summary?
+Happy list flattening!
 
 
 [comprehension]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
+[generator expression]: https://www.pythonmorsels.com/topics/how-write-generator-expression/
 [asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
 [pep 448]: https://www.python.org/dev/peps/pep-0448/#variations
 [iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
+[iterable]: https://www.pythonmorsels.com/topics/iterable/
