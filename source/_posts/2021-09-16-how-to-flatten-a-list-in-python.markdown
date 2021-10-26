@@ -176,6 +176,29 @@ SyntaxError: iterable unpacking cannot be used in comprehension
 This feature was specifically excluded from [PEP 448][], the Python Enhancement Proposal that added this `*`-in-list-literal syntax to Python due to readability concerns.
 
 
+### Can't we use `sum`?
+
+Here's another list flattening trick I've seen a few times:
+
+```pycon
+>>> names = sum(groups, start=[])
+```
+
+This does work:
+
+```pycon
+>>> names
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+```
+
+But I find this technique pretty unintuitive.
+
+We use the `+` operator in Python for both adding numbers and concatenating sequences and the `sum` function happens to work with anything that supports the `+` operator (thanks to [duck typing][]).
+But in my mind, the word "sum" implies arithmetic: **summing adds numbers together**.
+
+I find it confusing to "sum" lists, so **I don't recommend this approach**.
+
+
 ### What about `itertools.chain`?
 
 There is one more tool that's often used for flattening: the `chain` utility in the `itertools` module.
@@ -266,6 +289,8 @@ names = (
 )
 ```
 
+While it *is* possible to use the built-in `sum` function to flatten lists, I don't recommend it (*sum* feels different from *concatenate*).
+
 Happy list flattening!
 
 
@@ -275,3 +300,4 @@ Happy list flattening!
 [pep 448]: https://www.python.org/dev/peps/pep-0448/#variations
 [iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
 [iterable]: https://www.pythonmorsels.com/topics/iterable/
+[duck typing]: https://www.pythonmorsels.com/topics/duck-typing/
