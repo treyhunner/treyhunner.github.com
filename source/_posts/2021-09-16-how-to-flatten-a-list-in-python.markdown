@@ -38,7 +38,7 @@ We would like to take this nested list-of-lists of strings and turn it into a si
 ```
 
 We can think of this as a **shallow flatten** operation, meaning we're flattening this list by one level.
-A **deep flatten** operation would handle lists-of-lists-of-lists-of-lists (and so on) and that's a bit than we need for our use case.
+A **deep flatten** operation would handle lists-of-lists-of-lists-of-lists (and so on) and that's a bit more than we need for our use case.
 
 The flattening strategy we come up with should work on lists-of-lists as well as any other type of [iterable][]-of-iterables.
 For example lists of tuples should be flattenable:
@@ -102,7 +102,8 @@ for group in groups:
     names += group
 ```
 
-You can think of `+=` on lists as calling the `extend` method: with lists these two operations are equivalent.
+You can think of `+=` on lists as calling the `extend` method.
+With lists these two operations (`+=` and `extend`) are equivalent.
 
 
 ### Flattening iterables-of-iterables with a comprehension
@@ -204,7 +205,7 @@ There's actually a method on `chain` that's specifically for flattening a single
 Using `chain.from_iterable` is more performant than using `chain` with `*` because `*` unpacks the whole iterable immediately when `chain` is called.
 
 
-### A comparison of shallow list flattening techniques
+### Recap: comparing list flattening techniques
 
 If you want to flatten an iterable-of-iterables lazily, I would use `itertools.chain.from_iterable`:
 
