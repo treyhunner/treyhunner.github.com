@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to flatten a list in Python"
-date: 2021-10-26 08:00:00 -0700
+date: 2021-11-02 08:00:00 -0700
 comments: true
 categories: python
 ---
@@ -9,33 +9,19 @@ categories: python
 You've somehow ended up with lists nested inside of lists, possibly like this one:
 
 ```pycon
->>> values
-[['purple'], ['blue'], ['green'], ['yellow']]
+>>> groups = [["Hong", "Ryan"], ["Anthony", "Wilhelmina"], ["Margaret", "Adrian"]]
 ```
 
 But you *want* just a single list (without the nesting) like this:
 
 ```pycon
->>> new_values
-['purple', 'blue', 'green', 'yellow']
+>>> expected_output = ["Hong", "Ryan", "Anthony", "Wilhelmina", "Margaret", "Adrian"]
 ```
 
 You need to flatten your list-of-lists.
 
 
-### What do we mean by *flatten*?
-
-We have a list of lists of strings:
-
-```pycon
->>> groups = [["Hong", "Ryan"], ["Anthony", "Wilhelmina"], ["Margaret", "Adrian"]]
-```
-
-We would like to take this nested list-of-lists of strings and turn it into a single list of strings:
-
-```pycon
->>> expected_output = ["Hong", "Ryan", "Anthony", "Wilhelmina", "Margaret", "Adrian"]
-```
+### We're looking for a "shallow" flatten
 
 We can think of this as a **shallow flatten** operation, meaning we're flattening this list by one level.
 A **deep flatten** operation would handle lists-of-lists-of-lists-of-lists (and so on) and that's a bit more than we need for our use case.
@@ -184,7 +170,7 @@ Here's another list flattening trick I've seen a few times:
 >>> names = sum(groups, start=[])
 ```
 
-This does work:
+This *does* work:
 
 ```pycon
 >>> names
@@ -288,8 +274,6 @@ names = (
     for name in group
 )
 ```
-
-While it *is* possible to use the built-in `sum` function to flatten lists, I don't recommend it (*sum* feels different from *concatenate*).
 
 Happy list flattening!
 
