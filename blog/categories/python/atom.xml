@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-14T12:45:12-07:00</updated>
+  <updated>2021-11-01T07:53:24-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,251 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to flatten a list in Python]]></title>
+    <link href="https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python/"/>
+    <updated>2021-11-01T08:00:00-07:00</updated>
+    <id>https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python</id>
+    <content type="html"><![CDATA[<p>You&rsquo;ve somehow ended up with lists nested inside of lists, possibly like this one:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; groups = [["Hong", "Ryan"], ["Anthony", "Wilhelmina"], ["Margaret", "Adrian"]]
+</code></pre>
+
+<p>But you <em>want</em> just a single list (without the nesting) like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; expected_output = ["Hong", "Ryan", "Anthony", "Wilhelmina", "Margaret", "Adrian"]
+</code></pre>
+
+<p>You need to flatten your list-of-lists.</p>
+
+<h3>We&rsquo;re looking for a &ldquo;shallow&rdquo; flatten</h3>
+
+<p>We can think of this as a <strong>shallow flatten</strong> operation, meaning we&rsquo;re flattening this list by one level.
+A <strong>deep flatten</strong> operation would handle lists-of-lists-of-lists-of-lists (and so on) and that&rsquo;s a bit more than we need for our use case.</p>
+
+<p>The flattening strategy we come up with should work on lists-of-lists as well as any other type of <a href="https://www.pythonmorsels.com/topics/iterable/">iterable</a>-of-iterables.
+For example lists of tuples should be flattenable:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; groups = [("Hong", "Ryan"), ("Anthony", "Wilhelmina"), ("Margaret", "Adrian")]
+</code></pre>
+
+<p>And even an odd type like a <code>dict_items</code> object (which we get from asking a dictionary for its items) should be flattenable:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; fruit_counts = {"apple": 3, "lime": 2, "watermelon": 1, "mandarin": 4}
+&gt;&gt;&gt; fruit_counts.items()
+dict_items([('apple', 3), ('lime', 2), ('watermelon', 1), ('mandarin', 4)])
+&gt;&gt;&gt; flattened_counts = ['apple', 3, 'lime', 2, 'watermelon', 1, 'mandarin', 4]
+</code></pre>
+
+<h3>Flattening iterables-of-iterables with a <code>for</code> loop</h3>
+
+<p>One way to flatten an iterable-of-iterables is with a <code>for</code> loop.
+We can loop one level deep to get each of the inner iterables.</p>
+
+<pre><code class="python">for group in groups:
+    ...
+</code></pre>
+
+<p>And then we loop a second level deep to get each item from each inner iterable.</p>
+
+<pre><code class="python">for group in groups:
+    for name in group:
+        ...
+</code></pre>
+
+<p>And then append each item to a new list:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    for name in group:
+        names.append(name)
+</code></pre>
+
+<p>There&rsquo;s also a list method that makes this a bit shorter, the <code>extend</code> method:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    names.extend(group)
+</code></pre>
+
+<p>The list <code>extend</code> method accepts an iterable and appends every item in the iterable you give to it.</p>
+
+<p>Or we could use the <code>+=</code> operator to concatenate each list to our new list:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    names += group
+</code></pre>
+
+<p>You can think of <code>+=</code> on lists as calling the <code>extend</code> method.
+With lists these two operations (<code>+=</code> and <code>extend</code>) are equivalent.</p>
+
+<h3>Flattening iterables-of-iterables with a comprehension</h3>
+
+<p>This nested <code>for</code> loop with an <code>append</code> call might look familiar:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    for name in group:
+        names.append(name)
+</code></pre>
+
+<p>The structure of this code looks like something we could <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste into a list comprehension</a>.</p>
+
+<p>Inside our square brackets we&rsquo;d copy the thing we&rsquo;re appending first, and then the logic for our first loop, and then the logic for our second loop:</p>
+
+<pre><code class="python">names = [
+    name
+    for group in groups
+    for name in group
+]
+</code></pre>
+
+<p>This comprehension loops two levels deep, just like our nested <code>for</code> loops did.
+Note that the order of the <code>for</code> clauses in the comprehension <strong>must remain the same as the order of the <code>for</code> loops</strong>.</p>
+
+<p>The (sometimes confusing) order of those <code>for</code> clauses is partly why I recommend <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-pasting into a comprehension</a>.
+When turning a <code>for</code> loop into a comprehension, the <code>for</code> and <code>if</code> clauses remain in the same relative place, but the thing you&rsquo;re appending moves from the end to the beginning.</p>
+
+<h3>Could we flatten with <code>*</code> in a comprehension?</h3>
+
+<p>But what about Python&rsquo;s <code>*</code> operator?
+I&rsquo;ve written about the many uses for <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">the prefixed asterisk symbol in Python</a>.</p>
+
+<p>We can use <code>*</code> in Python&rsquo;s list literal syntax (<code>[</code>&hellip;<code>]</code>) to unpack an iterable into a new list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [3, 4, 7]
+&gt;&gt;&gt; more_numbers = [2, 1, *numbers, 11, 18]
+&gt;&gt;&gt; more_numbers
+[2, 1, 3, 4, 7, 11, 18]
+</code></pre>
+
+<p>Could we use that <code>*</code> operator to unpack an iterable within a comprehension?</p>
+
+<pre><code class="python">names = [
+    *group
+    for group in groups
+]
+</code></pre>
+
+<p>We can&rsquo;t.
+If we try to do this Python will specifically tell us that the <code>*</code> operator can&rsquo;t be used like this in a comprehension:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; names = [
+...     *group
+...     for group in groups
+... ]
+  File "&lt;stdin&gt;", line 2
+    ]
+     ^
+SyntaxError: iterable unpacking cannot be used in comprehension
+</code></pre>
+
+<p>This feature was specifically excluded from <a href="https://www.python.org/dev/peps/pep-0448/#variations">PEP 448</a>, the Python Enhancement Proposal that added this <code>*</code>-in-list-literal syntax to Python due to readability concerns.</p>
+
+<h3>Can&rsquo;t we use <code>sum</code>?</h3>
+
+<p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; names = sum(groups, start=[])
+</code></pre>
+
+<p>This <em>does</em> work:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; names
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+</code></pre>
+
+<p>But I find this technique pretty unintuitive.</p>
+
+<p>We use the <code>+</code> operator in Python for both adding numbers and concatenating sequences and the <code>sum</code> function happens to work with anything that supports the <code>+</code> operator (thanks to <a href="https://www.pythonmorsels.com/topics/duck-typing/">duck typing</a>).
+But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
+
+<p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
+
+<h3>What about <code>itertools.chain</code>?</h3>
+
+<p>There is one more tool that&rsquo;s often used for flattening: the <code>chain</code> utility in the <code>itertools</code> module.</p>
+
+<p><code>chain</code> accepts any number arguments and it returns an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from itertools import chain
+&gt;&gt;&gt; chain(*groups)
+&lt;itertools.chain object at 0x7fc1b2d65bb0&gt;
+</code></pre>
+
+<p>We can loop over that iterator or turn it into another iterable, like a list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; list(chain(*groups))
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+</code></pre>
+
+<p>There&rsquo;s actually a method on <code>chain</code> that&rsquo;s specifically for flattening a single iterable:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; list(chain.from_iterable(groups))
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+</code></pre>
+
+<p>Using <code>chain.from_iterable</code> is more performant than using <code>chain</code> with <code>*</code> because <code>*</code> unpacks the whole iterable immediately when <code>chain</code> is called.</p>
+
+<h3>Recap: comparing list flattening techniques</h3>
+
+<p>If you want to flatten an iterable-of-iterables lazily, I would use <code>itertools.chain.from_iterable</code>:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; from itertools import chain
+&gt;&gt;&gt; flattened = chain.from_iterable(groups)
+</code></pre>
+
+<p>This will return an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>, meaning no work will be done until the returned iterable is looped over:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; list(flattened)
+['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
+</code></pre>
+
+<p>And it will be consumed as we loop, so looping twice will result in an empty iterable:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; list(flattened)
+[]
+</code></pre>
+
+<p>If you find <code>itertools.chain</code> a bit too cryptic, you might prefer a <code>for</code> loop that calls the <code>extend</code> method on a new list to repeatedly extend the values in each iterable:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    names.extend(group)
+</code></pre>
+
+<p>Or a <code>for</code> loop that uses the <code>+=</code> operator on our new list:</p>
+
+<pre><code class="python">names = []
+for group in groups:
+    names += group
+</code></pre>
+
+<p>Unlike <code>chain.from_iterable</code>, both of these <code>for</code> loops build up new list rather than a lazy iterator object.</p>
+
+<p>If you find list comprehensions readable (I love them for signaling &ldquo;look we&rsquo;re building up a list&rdquo;) then you might prefer a comprehension instead:</p>
+
+<pre><code class="python">names = [
+    name
+    for group in groups
+    for name in group
+]
+</code></pre>
+
+<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does tha same thing as <code>itertools.chain.from_iterable</code>:</p>
+
+<pre><code class="python">names = (
+    name
+    for group in groups
+    for name in group
+)
+</code></pre>
+
+<p>Happy list flattening!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What's great about Python 3.10?]]></title>
@@ -980,77 +1225,6 @@ By my count, about 15% of the Python built-ins are meant to accept functions as 
 
 
 <p>This topics goes <em>much deeper</em> than what I&rsquo;ve discussed here, but until you find yourself writing decorator functions, you probably don&rsquo;t need to explore this topic any further.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cyber Monday Python Sales 2019]]></title>
-    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
-    <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels, weekly skill-building for professional Pythonistas</h3>
-
-<p><a href="https://www.pythonmorsels.com/">Python Morsels</a> is my weekly Python skill-building service.</p>
-
-<p>I&rsquo;m offering something sort of like a &ldquo;buy one get one free&rdquo; sale this year.</p>
-
-<p>You can pay $200 to get 2 redemption codes, each worth 12 months of Python Morsels.</p>
-
-<p>You can use one code for yourself and give one to a friend.
-Or you could be extra generous and give them both away to two friends.
-Either way, 2 people are each getting one year&rsquo;s worth of weekly Python training.</p>
-
-<p>You can find <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">more details on this sale here</a>.</p>
-
-<h3>Data School&rsquo;s Machine Learning course</h3>
-
-<p>Kevin Markham of Data School is selling his &ldquo;Machine Learning with Text in Python&rdquo; course for $195 (it&rsquo;s usually $295).
-You can find more details on this sale <a href="https://www.dataschool.io/black-friday/">on the Data School Black Friday post</a>.</p>
-
-<h3>Talk Python Course Bundle</h3>
-
-<p>Michael Kennedy is selling a bundle that includes <a href="https://training.talkpython.fm/black-friday-2019">every Talk Python course for $250</a>.</p>
-
-<p>There are 20 courses included in this bundle.
-If you&rsquo;re into Python and you don&rsquo;t already own most of these courses, this bundle could be a really good deal for you.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses</h3>
-
-<p>Reuven Lerner is offering a <a href="https://lerner.co.il/2019/11/28/my-black-friday-sale-is-live-take-50-off-any-course-in-python-or-data-science/">50% off sale on his courses</a>.
-Reuven has courses on Python, Git, and regular expressions.</p>
-
-<p>This sale also includes Reuven&rsquo;s <a href="https://store.lerner.co.il/wpe?coupon=BF2019">Weekly Python Exercise</a>, which is similar to <a href="https://www.pythonmorsels.com/">Python Morsels</a>, but has its own flavor.
-You could sign up for both if you want double the weekly learning.</p>
-
-<h3>Real Python courses</h3>
-
-<p>Real Python is also offering <a href="https://realpython.com/account/join/?c=blackfriday2019">$40 off their annual memberships</a>.
-Real Python has many tutorials and courses as well.</p>
-
-<h3>PyBites Code Challenges</h3>
-
-<p>Bob and Julian of PyBites are offering their a <a href="https://gumroad.com/l/Xhxeo/teachingpython">40% discount off their Newbie Bites</a> on their PyBites Code Challenges platform.</p>
-
-<p>If you&rsquo;re new to Python and programming, check out their newbie bites.</p>
-
-<h3>Automate the Boring Stuff Course (for free!)</h3>
-
-<p>Al Sweigart is offering <a href="https://www.udemy.com/course/automate/?couponCode=DEC2019FREE">free lifetime access to his Automate the Boring Stuff with Python course</a> on Udemy until Wednesday.
-It&rsquo;s hard to beat free!</p>
-
-<h3>Other Cyber Monday deals?</h3>
-
-<p>If you have questions about the <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">Python Morsels sale</a>, <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a>.</p>
-
-<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
-
-<p>So go check them out!</p>
-
-<p>Did I miss a deal that you know about?
-Link to it in the comments!</p>
 ]]></content>
   </entry>
   

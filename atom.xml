@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-10-14T12:45:12-07:00</updated>
+  <updated>2021-11-01T07:53:24-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,356 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to flatten a list in Python]]></title>
+    <link href="https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python/"/>
+    <updated>2021-11-01T08:00:00-07:00</updated>
+    <id>https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python</id>
+    <content type="html"><![CDATA[<p>You&rsquo;ve somehow ended up with lists nested inside of lists, possibly like this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But you <em>want</em> just a single list (without the nesting) like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">expected_output</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">,</span> <span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">,</span> <span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You need to flatten your list-of-lists.</p>
+
+<h3>We&rsquo;re looking for a &ldquo;shallow&rdquo; flatten</h3>
+
+<p>We can think of this as a <strong>shallow flatten</strong> operation, meaning we&rsquo;re flattening this list by one level.
+A <strong>deep flatten</strong> operation would handle lists-of-lists-of-lists-of-lists (and so on) and that&rsquo;s a bit more than we need for our use case.</p>
+
+<p>The flattening strategy we come up with should work on lists-of-lists as well as any other type of <a href="https://www.pythonmorsels.com/topics/iterable/">iterable</a>-of-iterables.
+For example lists of tuples should be flattenable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">)]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And even an odd type like a <code>dict_items</code> object (which we get from asking a dictionary for its items) should be flattenable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;lime&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&quot;watermelon&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;mandarin&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span class='line'><span class="go">dict_items([(&#39;apple&#39;, 3), (&#39;lime&#39;, 2), (&#39;watermelon&#39;, 1), (&#39;mandarin&#39;, 4)])</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened_counts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;apple&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;lime&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;mandarin&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Flattening iterables-of-iterables with a <code>for</code> loop</h3>
+
+<p>One way to flatten an iterable-of-iterables is with a <code>for</code> loop.
+We can loop one level deep to get each of the inner iterables.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then we loop a second level deep to get each item from each inner iterable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+</span><span class='line'>        <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then append each item to a new list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s also a list method that makes this a bit shorter, the <code>extend</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The list <code>extend</code> method accepts an iterable and appends every item in the iterable you give to it.</p>
+
+<p>Or we could use the <code>+=</code> operator to concatenate each list to our new list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can think of <code>+=</code> on lists as calling the <code>extend</code> method.
+With lists these two operations (<code>+=</code> and <code>extend</code>) are equivalent.</p>
+
+<h3>Flattening iterables-of-iterables with a comprehension</h3>
+
+<p>This nested <code>for</code> loop with an <code>append</code> call might look familiar:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The structure of this code looks like something we could <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste into a list comprehension</a>.</p>
+
+<p>Inside our square brackets we&rsquo;d copy the thing we&rsquo;re appending first, and then the logic for our first loop, and then the logic for our second loop:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">name</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This comprehension loops two levels deep, just like our nested <code>for</code> loops did.
+Note that the order of the <code>for</code> clauses in the comprehension <strong>must remain the same as the order of the <code>for</code> loops</strong>.</p>
+
+<p>The (sometimes confusing) order of those <code>for</code> clauses is partly why I recommend <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-pasting into a comprehension</a>.
+When turning a <code>for</code> loop into a comprehension, the <code>for</code> and <code>if</code> clauses remain in the same relative place, but the thing you&rsquo;re appending moves from the end to the beginning.</p>
+
+<h3>Could we flatten with <code>*</code> in a comprehension?</h3>
+
+<p>But what about Python&rsquo;s <code>*</code> operator?
+I&rsquo;ve written about the many uses for <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">the prefixed asterisk symbol in Python</a>.</p>
+
+<p>We can use <code>*</code> in Python&rsquo;s list literal syntax (<code>[</code>&hellip;<code>]</code>) to unpack an iterable into a new list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span>
+</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Could we use that <code>*</code> operator to unpack an iterable within a comprehension?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="o">*</span><span class="n">group</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can&rsquo;t.
+If we try to do this Python will specifically tell us that the <code>*</code> operator can&rsquo;t be used like this in a comprehension:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'><span class="gp">... </span>    <span class="o">*</span><span class="n">group</span>
+</span><span class='line'><span class="gp">... </span>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+</span><span class='line'><span class="gp">... </span><span class="p">]</span>
+</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'>     <span class="o">^</span>
+</span><span class='line'><span class="gr">SyntaxError</span>: <span class="n">iterable unpacking cannot be used in comprehension</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This feature was specifically excluded from <a href="https://www.python.org/dev/peps/pep-0448/#variations">PEP 448</a>, the Python Enhancement Proposal that added this <code>*</code>-in-list-literal syntax to Python due to readability concerns.</p>
+
+<h3>Can&rsquo;t we use <code>sum</code>?</h3>
+
+<p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="p">[])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This <em>does</em> work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span>
+</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I find this technique pretty unintuitive.</p>
+
+<p>We use the <code>+</code> operator in Python for both adding numbers and concatenating sequences and the <code>sum</code> function happens to work with anything that supports the <code>+</code> operator (thanks to <a href="https://www.pythonmorsels.com/topics/duck-typing/">duck typing</a>).
+But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
+
+<p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
+
+<h3>What about <code>itertools.chain</code>?</h3>
+
+<p>There is one more tool that&rsquo;s often used for flattening: the <code>chain</code> utility in the <code>itertools</code> module.</p>
+
+<p><code>chain</code> accepts any number arguments and it returns an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
+</span><span class='line'><span class="go">&lt;itertools.chain object at 0x7fc1b2d65bb0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can loop over that iterator or turn it into another iterable, like a list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">))</span>
+</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s actually a method on <code>chain</code> that&rsquo;s specifically for flattening a single iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
+</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using <code>chain.from_iterable</code> is more performant than using <code>chain</code> with <code>*</code> because <code>*</code> unpacks the whole iterable immediately when <code>chain</code> is called.</p>
+
+<h3>Recap: comparing list flattening techniques</h3>
+
+<p>If you want to flatten an iterable-of-iterables lazily, I would use <code>itertools.chain.from_iterable</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will return an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>, meaning no work will be done until the returned iterable is looped over:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
+</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And it will be consumed as we loop, so looping twice will result in an empty iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
+</span><span class='line'><span class="go">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you find <code>itertools.chain</code> a bit too cryptic, you might prefer a <code>for</code> loop that calls the <code>extend</code> method on a new list to repeatedly extend the values in each iterable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or a <code>for</code> loop that uses the <code>+=</code> operator on our new list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike <code>chain.from_iterable</code>, both of these <code>for</code> loops build up new list rather than a lazy iterator object.</p>
+
+<p>If you find list comprehensions readable (I love them for signaling &ldquo;look we&rsquo;re building up a list&rdquo;) then you might prefer a comprehension instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">name</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does tha same thing as <code>itertools.chain.from_iterable</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">(</span>
+</span><span class='line'>    <span class="n">name</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Happy list flattening!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What's great about Python 3.10?]]></title>
@@ -9828,511 +10178,6 @@ If you sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> u
 </small></p>
 
 <p></form></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Overusing lambda expressions in Python]]></title>
-    <link href="https://treyhunner.com/2018/09/stop-writing-lambda-expressions/"/>
-    <updated>2018-09-27T07:30:00-07:00</updated>
-    <id>https://treyhunner.com/2018/09/stop-writing-lambda-expressions</id>
-    <content type="html"><![CDATA[<p><strong>Note</strong>: This post was originally titled &ldquo;Stop writing lambda expressions in Python&rdquo; but I&rsquo;ve changed the title after deciding that it was a little too extreme.</p>
-
-<p>It&rsquo;s hard for me to teach an in-depth Python class without discussing lambda expressions.
-I almost always get questions about them.
-My students tend to see them in code on StackOverflow or they see them in a coworker&rsquo;s code (which, realistically, may have also come from StackOverflow).</p>
-
-<p>I get a lot of questions about lambda, I&rsquo;m hesitant to recommend my students embrace Python&rsquo;s lambda expressions.
-I have had an aversion to lambda expressions for many years, and since I started teaching Python more regularly a few years ago, my aversion to lambda expressions has only grown stronger.</p>
-
-<p>I&rsquo;m going to explain how I see lambda expressions and why I tend to recommend my students avoid using them.</p>
-
-<ul data-toc=".entry-content"></ul>
-
-
-<h2>Lambda expressions in Python: what are they?</h2>
-
-<p>Lambda expressions a special syntax in Python for creating <a href="https://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a>.
-I&rsquo;ll call the <code>lambda</code> syntax itself a <strong>lambda expression</strong> and the function you get back from this I&rsquo;ll call a <strong>lambda function</strong>.</p>
-
-<p>Python&rsquo;s lambda expressions allow a function to be created and passed around (often into another function) all in one line of code.</p>
-
-<p>Lambda expressions allow us to take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">normalized_colors</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">normalize_case</span><span class="p">,</span> <span class="n">colors</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And turn it into this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">normalized_colors</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">(),</span> <span class="n">colors</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Lambda expressions are just a special syntax for making functions.
-They can only have one statement in them and they return the result of that statement automatically.</p>
-
-<p>The inherent limitations of lambda expressions are actually part of their appeal.
-When an experienced Python programmer sees a lambda expression they know that they&rsquo;re working with a function that is <strong>only used in one place</strong> and does <strong>just one thing</strong>.</p>
-
-<p>If you&rsquo;ve ever used anonymous functions in JavaScript before, you can think of Python&rsquo;s lambda expressions as the same, except they have more restrictions and use a very different syntax than the traditional function syntax.</p>
-
-<h2>Where they&rsquo;re usually used</h2>
-
-<p>You&rsquo;ll typically see <code>lambda</code> expressions used when calling functions (or classes) that accept a function as an argument.</p>
-
-<p>Python&rsquo;s built-in <code>sorted</code> function accepts a function as its <code>key</code> argument.  This <em>key function</em> is used to compute a comparison key when determining the sorting order of items.</p>
-
-<p>So <code>sorted</code> is a great example of a place that lambda expressions are often used:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;cyan&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'><span class="p">[</span><span class="s">&#39;cyan&#39;</span><span class="p">,</span> <span class="s">&#39;Goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;Salmon&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise&#39;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above code returns the given colors sorted in a case-insensitive way.</p>
-
-<p>The <code>sorted</code> function isn&rsquo;t the only use of lambda expressions, but it&rsquo;s a common one.</p>
-
-<h2>The pros and cons of lambda</h2>
-
-<p>I frame my thinking around lambda expressions as a constant comparison to using <code>def</code> to define functions.
-Both of these tools give us functions, but they each have different limitations and use a different syntax.</p>
-
-<p>The main ways lambda expressions are different from <code>def</code>:</p>
-
-<ol>
-<li>They can be immediately passed around (no variable needed)</li>
-<li>They can only have a single line of code within them</li>
-<li>They return automatically</li>
-<li>They can&rsquo;t have a docstring and they don&rsquo;t have a name</li>
-<li>They use a different and unfamiliar syntax</li>
-</ol>
-
-
-<p>The fact that lambda expressions can be passed around is their biggest benefit.  Returning automatically is neat but not a big benefit in my mind.  I find the &ldquo;single line of code&rdquo; limitation is neither good nor bad overall.  The fact that lambda functions can&rsquo;t have docstrings and don&rsquo;t have a name is unfortunate and their unfamiliar syntax can be troublesome for newer Pythonistas.</p>
-
-<p>Overall I feel the cons slightly outweigh the pros of lambda expressions, but my biggest complaint about them is that I find that they tend to be both misused and overused.</p>
-
-<h2>Lambda is both misused and overused</h2>
-
-<p>When I see a lambda expression in unfamiliar code I immediately become skeptical.
-When I encounter a lambda expression in the wild, I often find that removing it improves code readability.</p>
-
-<p>Sometimes the issue is that lambda expressions are being misused, meaning they&rsquo;re <strong>used in a way that is nearly always unideal</strong>.
-Other times lambda expressions are simply being overused, meaning they&rsquo;re acceptable but I&rsquo;d personally <strong>prefer to see the code written a different way</strong>.</p>
-
-<p>Let&rsquo;s take a look at the various ways lambda expressions are misused and overused.</p>
-
-<h2>Misuse: naming lambda expressions</h2>
-
-<p>PEP8, the official Python style guide, advises never to write code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">normalize_case</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above statement makes an anonymous function and then assigns it to a variable.
-The above code ignores the reason lambda functions are useful: <strong>lambda functions can be passed around without needing to be assigned to a variable first</strong>.</p>
-
-<p>If you want to create a one-liner function and store it in a variable, you should use <code>def</code> instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>PEP8 recommends this because named functions are a common and easily understood thing.
-This also has the benefit of giving our function a proper name, which could make debugging easier.
-Unlike functions defined with <code>def</code>, lambda functions never have a name (it&rsquo;s always <code>&lt;lambda&gt;</code>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">function</span> <span class="o">&lt;</span><span class="k">lambda</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x7f264d5b91e0</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">normalize_case</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-</span><span class='line'><span class="o">...</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">normalize_case</span>
-</span><span class='line'><span class="o">&lt;</span><span class="n">function</span> <span class="n">normalize_case</span> <span class="n">at</span> <span class="mh">0x7f247f68fea0</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>If you want to create a function and store it in a variable, define your function using <code>def</code></strong>.
-That&rsquo;s exactly what it&rsquo;s for.
-It doesn&rsquo;t matter if your function is a single line of code or if you&rsquo;re defining a function inside of another function, <code>def</code> works just fine for those use cases.</p>
-
-<h2>Misuse: needless function calls</h2>
-
-<p>I frequently see lambda expressions used to wrap around a function that was already appropriate for the problem at hand.</p>
-
-<p>For example take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sorted_numbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The person who wrote this code likely learned that lambda expressions are used for making a function that can be passed around.
-But they missed out on a slightly bigger picture idea: <strong>all functions in Python (not just lambda functions) can be passed around</strong>.</p>
-
-<p>Since <code>abs</code> (which returns the absolute value of a number) is a function and all functions can be passed around, we could actually have written the above code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">sorted_numbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">abs</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now this example might feel contrived, but it&rsquo;s not terribly uncommon to overuse lambda expressions in this way.  Here&rsquo;s another example I&rsquo;ve seen:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
-</span><span class='line'><span class="n">sorted_by_smallest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">items</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">items</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Because we&rsquo;re accepting exactly the same arguments as we&rsquo;re passing into <code>min</code>, we don&rsquo;t need that extra function call.  We can just pass the <code>min</code> function to <code>key</code> instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
-</span><span class='line'><span class="n">sorted_by_smallest</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">min</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You don&rsquo;t need a lambda function if you already have another function that does what you want.</p>
-
-<h2>Overuse: simple, but non-trivial functions</h2>
-
-<p>It&rsquo;s common to see lambda expressions used to make a function that returns a couple of values in a tuple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="n">colors_by_length</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">c</span><span class="o">.</span><span class="n">casefold</span><span class="p">()))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>key</code> function here is helping us sort these colors by their length followed by their case-normalized name.</p>
-
-<p>This code is the same as the above code, but I find it more readable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">length_and_alphabetical</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return sort key: length first, then case-normalized string.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">),</span> <span class="n">string</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Goldenrod&quot;</span><span class="p">,</span> <span class="s">&quot;Purple&quot;</span><span class="p">,</span> <span class="s">&quot;Salmon&quot;</span><span class="p">,</span> <span class="s">&quot;Turquoise&quot;</span><span class="p">,</span> <span class="s">&quot;Cyan&quot;</span><span class="p">])</span>
-</span><span class='line'><span class="n">colors_by_length</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">length_and_alphabetical</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This code is quite a bit more verbose, but I find the name of that key function makes it clearer what we&rsquo;re sorting by.
-We&rsquo;re not just sorting by the length and we&rsquo;re not just sorting by the color: we&rsquo;re sorting by both.</p>
-
-<p><strong>If a function is important, it deserves a name</strong>.
-You could argue that most functions that are used in a lambda expression are so trivial that they don&rsquo;t deserve a name, but there&rsquo;s often little downside to naming functions and I find it usually makes my code more readable overall.</p>
-
-<p>Naming functions often makes code more readable, the same way <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">using tuple unpacking to name variables</a> instead of using arbitrary index-lookups often makes code more readable.</p>
-
-<h2>Overuse: when multiple lines would help</h2>
-
-<p>Sometimes the &ldquo;just one line&rdquo; aspect of lambda expressions cause us to write code in convoluted ways.  For example take this code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">points</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;red&#39;</span><span class="p">),</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s">&#39;green&#39;</span><span class="p">)]</span>
-</span><span class='line'><span class="n">points_by_color</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;re hard-coding an index lookup here to sort points by their color.
-If we used a named function we could have used <a href="http://treyhunner.com/2018/03/tuple-unpacking-improves-python-code-readability/">tuple unpacking</a> to make this code more readable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">color_of_point</span><span class="p">(</span><span class="n">point</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return the color of the given point.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">point</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">color</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">points</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;red&#39;</span><span class="p">),</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s">&#39;green&#39;</span><span class="p">)]</span>
-</span><span class='line'><span class="n">points_by_color</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">color_of_point</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Tuple unpacking can improve readability over using hard-coded index lookups.
-<strong>Using lambda expressions often means sacrificing some Python language features</strong>, specifically those that require multiple lines of code (like an extra assignment statement).</p>
-
-<h2>Overuse: lambda with map and filter</h2>
-
-<p>Python&rsquo;s map and filter functions are almost always paired with lambda expressions.  It&rsquo;s common to see StackOverflow questions asking &ldquo;what is lambda&rdquo; answered with code examples like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squared_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">odd_numbers</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I find these examples a bit confusing because <strong>I almost never use map and filter in my code</strong>.</p>
-
-<p>Python&rsquo;s <code>map</code> and <code>filter</code> functions are used for looping over an iterable and making a new iterable that either slightly changes each element or filters the iterable down to only elements that match a certain condition.
-We can accomplish both of those tasks just as well with list comprehensions or generator expressions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">squared_numbers</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">odd_numbers</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Personally, I&rsquo;d prefer to see the above generator expressions written over multiple lines of code (<a href="http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">see my article on comprehensions</a>) but I find even these one-line generator expressions more readable than those <code>map</code> and <code>filter</code> calls.</p>
-
-<p>The general operations of mapping and filtering are useful, but we really don&rsquo;t need the <code>map</code> and <code>filter</code> functions themselves.
-Generator expressions are a special syntax that exists just for the tasks of mapping and filtering.
-So my advice is to <strong>use generator expressions instead of the <code>map</code> and <code>filter</code> functions</strong>.</p>
-
-<h2>Misuse: sometimes you don&rsquo;t even need to pass a function</h2>
-
-<p>What about cases where you need to pass around a function that performs a single operation?</p>
-
-<p>Newer Pythonistas who are keen on functional programming sometimes write code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This code adds all the numbers in the <code>numbers</code> list.
-There&rsquo;s an even better way to do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python&rsquo;s built-in <code>sum</code> function was made just for this task.</p>
-
-<p>The <code>sum</code> function, along with a number of other specialized Python tools, are easy to overlook.
-But I&rsquo;d encourage you to seek out the more specialized tools when you need them because they often make for more readable code.</p>
-
-<p>Instead of passing functions into other functions, <strong>look into whether there is a more specialized way to solve your problem instead</strong>.</p>
-
-<h2>Overuse: using lambda for very simple operations</h2>
-
-<p>Let&rsquo;s say instead of adding numbers up, we&rsquo;re multiply numbers together:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above lambda expression is necessary because we&rsquo;re not allowed to pass the <code>*</code> operator around as if it were a function.
-If there was a function that was equivalent to <code>*</code>, we could pass it into the <code>reduce</code> function instead.</p>
-
-<p>Python&rsquo;s standard library actually has a whole module meant to address this problem:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">mul</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">mul</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python&rsquo;s <a href="https://docs.python.org/3/library/operator.html">operator module</a> exists to make various Python operators easy to use as functions.
-If you&rsquo;re practicing functional(ish) programming, <strong>Python&rsquo;s <code>operator</code> module is your friend</strong>.</p>
-
-<p>In addition to providing functions corresponding to Python&rsquo;s many operators, the <code>operator</code> module provides a couple common higher level functions for accessing items and attributes and calling methods.</p>
-
-<p>There&rsquo;s <code>itemgetter</code> for accessing indexes of a list/sequence or keys of a dictionary/mapping:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: accessing a key/index</span>
-</span><span class='line'><span class="n">rows_sorted_by_city</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;city&#39;</span><span class="p">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: accessing a key/index</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
-</span><span class='line'><span class="n">rows_sorted_by_city</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="s">&#39;city&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s also <code>attrgetter</code> for accessing attributes on an object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: accessing an attribute</span>
-</span><span class='line'><span class="n">products_by_quantity</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">quantity</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: accessing an attribute</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
-</span><span class='line'><span class="n">products_by_quantity</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">products</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">attrgetter</span><span class="p">(</span><span class="s">&#39;quantity&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And <code>methodcaller</code> for calling methods on an object:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># Without operator: calling a method</span>
-</span><span class='line'><span class="n">sorted_colors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">casefold</span><span class="p">())</span>
-</span><span class='line'>
-</span><span class='line'><span class="c"># With operator: calling a method</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">methodcaller</span>
-</span><span class='line'><span class="n">sorted_colors</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">methodcaller</span><span class="p">(</span><span class="s">&#39;casefold&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I <em>usually</em> find that <strong>using the functions in the <code>operator</code> module makes my code clearer</strong> than if I&rsquo;d used an equivalent lambda expression.</p>
-
-<h2>Overuse: when higher order functions add confusion</h2>
-
-<p>A function that accepts a function as an argument is called a <a href="https://en.wikipedia.org/wiki/Higher-order_function">higher order function</a>.  Higher order functions are the kinds of functions that we tend to pass lambda functions to.</p>
-
-<p>The use of higher order functions is common when practicing functional programming.  Functional programming isn&rsquo;t the only way to use Python though: Python is a multi-paradigm language so we can mix and match coding disciplines to make our code more readable.</p>
-
-<p>Compare this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">multiply_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return the product of the given numbers.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="n">product</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">product</span> <span class="o">*=</span> <span class="n">n</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">product</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="n">product</span> <span class="o">=</span> <span class="n">multiply_all</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The second code is longer, but folks without a functional programming background will often find it easier to understand.</p>
-
-<p>Anyone who has gone through one of my Python training courses can probably understand what that <code>multiply_all</code> function does, whereas that <code>reduce</code>/<code>lambda</code> combination is likely a bit more cryptic for many Python programmers.</p>
-
-<p>In general, <strong>passing one function into another function, tends to make code more complex, which can hurt readability</strong>.</p>
-
-<h2>Should you ever use lambda expressions?</h2>
-
-<p>So I find the use of lambda expressions problematic because:</p>
-
-<ul>
-<li>lambda expressions are an odd and unfamiliar syntax to many Python programmers</li>
-<li>lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do</li>
-<li>lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can&rsquo;t be used with them</li>
-<li>lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python</li>
-</ul>
-
-
-<p>Lambda expressions are rarely more immediately readable than a well-named function.
-While a <code>def</code> statement is often more understandable, <strong>Python also has a number of features that can be used to replace lambda expressions</strong>, including special syntaxes (comprehensions), built-in functions (sum), and standard library functions (in the <code>operators</code> module).</p>
-
-<p>I&rsquo;d say that using lambda expressions is acceptable only if your situation meets all four of these criteria:</p>
-
-<ol>
-<li>The operation you&rsquo;re doing is trivial: the function doesn&rsquo;t deserve a name</li>
-<li>Having a lambda expression makes your code more understandable than the function names you can think of</li>
-<li>You&rsquo;re pretty sure there&rsquo;s not already a function that does what you&rsquo;re looking for</li>
-<li>Everyone on your team understands lambda expressions and you&rsquo;ve all agreed to use them</li>
-</ol>
-
-
-<p>If any of those four statements don&rsquo;t fit your situation, I&rsquo;d recommend <strong>writing a new function using <code>def</code></strong> and (whenever possible) <strong>embracing a function that already exists within Python</strong> that already does what you&rsquo;re looking for.</p>
 ]]></content>
   </entry>
   
