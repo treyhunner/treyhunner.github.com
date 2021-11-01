@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to flatten a list in Python"
-date: 2021-11-02 08:00:00 -0700
+date: 2021-11-01 08:00:00 -0700
 comments: true
 categories: python
 ---
