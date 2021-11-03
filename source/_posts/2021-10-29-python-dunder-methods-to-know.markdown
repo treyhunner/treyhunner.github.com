@@ -157,13 +157,16 @@ At this point, which dunder method(s) we implement next (if any) becomes a bit m
 
 Here are our options:
 
+- String formatting
 - Ordering
 - Iteration
 - Various container methods
-- Arithmetic
 - Context manager methods
-- String formatting
-- Type conversion... also binary stuff (`__bytes__`)?
+- Arithmetic
+- Type conversion
+    - Includes familiar things like truthiness (`__bool__`) and `__str__`
+    - `__int__`, `__bytes__`, `__bool__`
+    - etc.?
 - Boolean/set arithmetic
 - Callability
 - Constuction/destruction (rare)
