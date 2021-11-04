@@ -11,14 +11,14 @@ Dictionaries are best used for key-value lookups: **we provide a key** and the d
 But what if you need both key-value lookups and iteration?
 It is possible to loop over a dictionary and when looping, we *might* care about **the order of the items** in the dictionary.
 
-How can we *sort* a dictionary?
+With dictionary item order in mind, you might wonder how can we *sort* a dictionary?
 
 
 ### Dictionaries are ordered
 
 As of Python 3.6 dictionaries are **ordered** (technically the ordering [became official in 3.7][ordered dicts]).
 
-The keys in dictionaries are stored in **insertion order**, meaning whenever a new key is added it goes at the very end.
+Dictionary keys in dictionaries are stored in **insertion order**, meaning whenever a new key is added it gets added at the very end.
 
 ```pycon
 >>> color_amounts = {"purple": 6, "green": 3, "blue": 2}
@@ -27,7 +27,7 @@ The keys in dictionaries are stored in **insertion order**, meaning whenever a n
 {'purple': 6, 'green': 3, 'blue': 2, 'pink': 4}
 ```
 
-If we update a key-value pair, the key remains where it was before:
+But if we update a key-value pair, the key remains where it was before:
 
 ```pycon
 >>> color_amonuts["green"] = 5
@@ -37,7 +37,6 @@ If we update a key-value pair, the key remains where it was before:
 
 So if you plan to populate a dictionary with some specific data and then leave that dictionary as-is, all you need to do is make sure that original data is in the order you'd like.
 
-If our input data is already ordered correctly, our dictionary will end up ordered correctly as well.
 For example if we have a CSV file of US state abbreviations and our file is ordered alphabetically by state name, our dictionary will be ordered the same way:
 
 ```pycon
@@ -47,18 +46,20 @@ For example if we have a CSV file of US state abbreviations and our file is orde
 ...     state_abbreviations[name] = abbreviation
 ...
 >>> state_abbreviations
-{'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', ...}
+{'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR', 'California': 'CA', ...}
 ```
+
+If our input data is already ordered correctly, our dictionary will end up ordered correctly as well.
 
 
 ### How to sort a dictionary by its keys
 
 What if our data isn't sorted yet?
 
-Say we have a lists-of-tuples that pairs meeting rooms to their corresponding room numbers:
+Say we have a lists-of-tuples that pair meeting rooms to their corresponding room numbers:
 
 ```pycon
->>> rooms = [("Purple", "Room 403"), ("Space", "Room 201"), ("Quail", "Room 500"), ("Lime", "Room 503")]
+>>> rooms = [("Pink", "Rm 403"), ("Space", "Rm 201"), ("Quail", "Rm 500"), ("Lime", "Rm 503")]
 ```
 
 And we'd like to sort this dicitonary by its keys.
@@ -67,7 +68,7 @@ We could use the built-in `sorted` function to sort it:
 
 ```pycon
 >>> sorted(rooms)
-[('Lime', 'Room 503'), ('Purple', 'Room 403'), ('Quail', 'Room 500'), ('Space', 'Room 201')]
+[('Lime', 'Rm 503'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Space', 'Rm 201')]
 ```
 
 The `sorted` function uses the `<` operator to compare many items in the given iterable and return a sorted list.
@@ -78,7 +79,7 @@ To make these key-value pairs into a dictionary, we can pass them straight to th
 ```pycon
 >>> sorted_rooms = dict(sorted(rooms))
 >>> sorted_rooms
-{'Lime': 'Room 503', 'Purple': 'Room 403', 'Quail': 'Room 500', 'Space': 'Room 201'}
+{'Lime': 'Rm 503', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Space': 'Rm 201'}
 ```
 
 The `dict` constructor will accept a list of 2-item tuples (or any iterable of 2-item iterables) and make a dictionary out of it, using the first item from each tuple as a key and the second as the corresponding value.
@@ -122,10 +123,10 @@ So as long as the keys are comparable to each other with the less than operator 
 What if we already have our items *in* a dictionary and we'd like to sort that dictionary?
 Unlike lists, **there's no `sort` method on dictionaries**.
 
-We can't sort a dictionary in-place, but we could get the items from the dictionary and use the same technique we used before to sort them and then make them into a new dictionary:
+We can't sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items them into a new dictionary:
 
 ```pycon
->>> rooms = {"Purple": "Room 403", "Space": "Room 201", "Quail": "Room 500", "Lime": "Room 503"}
+>>> rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 >>> sorted_rooms = dict(sorted(rooms.items()))
 ```
 
@@ -133,38 +134,38 @@ That creates a new dictionary object.
 If we *really* wanted to update our original dictionary object, we could take the items from the dicionary, sort them, clear the dictionary of all its items, and then add all the items back into the dictionary:
 
 ```pycon
->>> old_dictionary = {"Purple": "Room 403", "Space": "Room 201", "Quail": "Room 500", "Lime": "Room 503"}
+>>> old_dictionary = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 >>> sorted_items = sorted(old_dictionary.items())
 >>> old_dictionary.clear()
 >>> old_dictionary.update(sorted_items)
 ```
 
 But why bother?
-We don't usually *want* to operate on data structures in-place in Python: we tend to prefer making a new data structure rather than re-using an old one.
+We don't usually *want* to operate on data structures in-place in Python: we tend to prefer making a new data structure rather than re-using an old one (this preference is partly thanks to [how variables work in Python][variables]).
 
 
 ### How to sort a dictionary by its values
 
 What if we wanted to sort a dictionary by its values instead of its keys?
 
-We could make a new list of value-key tuples (actually a generator in our case below), sort that, then flip them back to key-values tuples and recreate our dictionary:
+We could make a new list of value-key tuples (actually a generator in our case below), sort that, then flip them back to key-value tuples and recreate our dictionary:
 
 ```pycon
->>> rooms = {"Purple": "Room 403", "Space": "Room 201", "Quail": "Room 500", "Lime": "Room 503"}
+>>> rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 >>> room_to_name = sorted((room, name) for (name, room) in rooms.items())
 >>> sorted_rooms = {
-...     room: name
-...     for name, room in room_to_name
+...     name: room
+...     for room, name in room_to_name
 ... }
 >>> sorted_rooms
-{'Space': 'Room 201', 'Purple': 'Room 403', 'Quail': 'Room 500', 'Lime': 'Room 503'}
+{'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
 
 This works but it's a bit long.
 Also this technique actually sorts both our values and our keys (giving the values precedence in the sorting).
 
 What if we wanted to *just* sort by the values, ignoring the contents of the keys entirely?
-Python's `sorted` function accepts `key` argument that we can use for this!
+Python's `sorted` function accepts a `key` argument that we can use for this!
 
 ```pycon
 >>> help(sorted)
@@ -177,11 +178,11 @@ sorted(iterable, /, *, key=None, reverse=False)
     reverse flag can be set to request the result in descending order.
 ```
 
-The `sorted` function accepts a `key` argument which should be a function that accepts an item from the iterable we're sorting and returns the *key* to sort by.
+The key function we pass to sorted should accept an item from the iterable we're sorting and return the *key* to sort by.
 Note that the word "key" here isn't related to dictionary keys.
 Dictionary keys are used for looking up dictionary values whereas this key function returns an object that determines how to order items in an iterable.
 
-If we want to sort by our values, we could make a key function that accepts each the items in our list of 2-item tuples and **returns just the value**:
+If we want to sort by our values, we could make a key function that accepts each item in our list of 2-item tuples and **returns just the value**:
 
 ```python
 def value_from_item(item):
@@ -190,7 +191,7 @@ def value_from_item(item):
     return value
 ```
 
-Then we'd use our `key` function by passing it to the `sorted` function (yes [functions can be passed to other functions in Python][passing functions]):
+Then we'd use our key function by passing it to the `sorted` function (yes [functions can be passed to other functions in Python][passing functions]):
 
 ```pycon
 >>> sorted_rooms = sorted(rooms.items(), key=value_from_item)
@@ -208,23 +209,23 @@ Or you could use `operator.itemgetter` to make a key function that gets the seco
 >>> from operator import itemgetter
 >>> sorted_rooms = sorted(rooms.items(), key=itemgetter(1))
 >>> sorted_rooms
-[('Space', 'Room 201'), ('Purple', 'Room 403'), ('Quail', 'Room 500'), ('Lime', 'Room 503')]
+[('Space', 'Rm 201'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')]
 ```
 
 
 ### Ordering a dictionary in some other way
 
 What if we needed to sort by something other than just a key or a value?
-For example what if our our room numbers strings include numbers that aren't always the same length:
+For example what if our room number strings include numbers that aren't always the same length:
 
 ```python
 rooms = {
-    "Purple": "Room 403",
-    "Space": "Room 201",
-    "Quail": "Room 500",
-    "Lime": "Room 503",
-    "Ocean": "Room 2000",
-    "Big": "Room 30",
+    "Pink": "Rm 403",
+    "Space": "Rm 201",
+    "Quail": "Rm 500",
+    "Lime": "Rm 503",
+    "Ocean": "Rm 2000",
+    "Big": "Rm 30",
 }
 ```
 
@@ -234,11 +235,11 @@ If we sorted these rooms by value, those strings wouldn't be sorted in the numer
 >>> from operator import itemgetter
 >>> sorted_rooms = sorted(rooms.items(), key=itemgetter(1))
 >>> sorted_rooms
-[('Ocean', 'Room 2000'), ('Space', 'Room 201'), ('Big', 'Room 30'), ('Purple', 'Room 403'), ('Quail', 'Room 500'), ('Lime', 'Room 503')]
+[('Ocean', 'Rm 2000'), ('Space', 'Rm 201'), ('Big', 'Rm 30'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')]
 ```
 
-**Room 30** should be first and **Room 2000** should be last.
-But we're sorting strings, which are ordered character-by-character based on the unicode value of each character.
+**Rm 30** should be first and **Rm 2000** should be last.
+But we're sorting strings, which are ordered character-by-character based on the unicode value of each character (I [noted this][string comparisons] in my article on tuple ordering).
 
 We could customize the `key` function we're using to sort numerically instead:
 
@@ -260,7 +261,7 @@ It will be sorted by the integer room number, as expected:
 
 ```pycon
 >>> sorted_rooms
-[('Big', 'Room 30'), ('Space', 'Room 201'), ('Purple', 'Room 403'), ('Quail', 'Room 500'), ('Lime', 'Room 503'), ('Ocean', 'Room 2000')]
+[('Big', 'Rm 30'), ('Space', 'Rm 201'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503'), ('Ocean', 'Rm 2000')]
 ```
 
 
@@ -277,7 +278,7 @@ If you can get away with using a list of tuples in your code (because you don't 
 
 But if key lookups are what you need, it's unlikely that you also need to loop over your dictionary.
 
-Now it's certainly possible that right now you do in fact have a good use case for sorting a dictionary (for example maybe you're [sorting keys in a dictionary of attributes][sort attributes]), but keep in mind that it's rare that you'll run across one.
+Now it's certainly possible that right now you do in fact have a good use case for sorting a dictionary (for example maybe you're [sorting keys in a dictionary of attributes][sort attributes]), but keep in mind that you'll need to sort a dictionary **very rarely**.
 
 
 ### Summary
@@ -313,3 +314,5 @@ Whenever you're sorting a dictionary, please remember to ask yourself **do I rea
 [lambda]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/
 [sort attributes]: https://gist.github.com/treyhunner/7adcbc96870b79642f1754c3cc602ac6
 [ordered dicts]: https://docs.python.org/3/whatsnew/3.7.html#summary-release-highlights
+[variables]: https://www.pythonmorsels.com/topics/variables-are-pointers/
+[string comparisons]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#String_comparisons_in_Python
