@@ -342,7 +342,7 @@ If we try to do this Python will specifically tell us that the <code>*</code> op
 <p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="p">[])</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="p">[])</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -361,6 +361,9 @@ If we try to do this Python will specifically tell us that the <code>*</code> op
 But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
 
 <p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
+
+<p><strong>Quick Aside</strong>: The algorithm <code>sum</code> uses also makes list flattening <em>really</em> slow (<a href="https://gist.github.com/treyhunner/f0c069496a1e41aadcf0d7050e475eb3">timing comparison here</a>).
+In <a href="https://www.youtube.com/watch?v=duvZ-2UK0fc">Big-O</a> terms (for the time complexity nerds), <code>sum</code> with lists is <code>O(n**2)</code> instead of <code>O(n)</code>.</p>
 
 <h3>What about <code>itertools.chain</code>?</h3>
 
