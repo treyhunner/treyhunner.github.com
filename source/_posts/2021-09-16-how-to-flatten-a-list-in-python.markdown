@@ -268,7 +268,7 @@ names = [
 ]
 ```
 
-And if you *do* want laziness (an iterator) but you don't like `itertools.chain` you could make a [generator expression][] that does tha same thing as `itertools.chain.from_iterable`:
+And if you *do* want laziness (an iterator) but you don't like `itertools.chain` you could make a [generator expression][] that does the same thing as `itertools.chain.from_iterable`:
 
 ```python
 names = (
