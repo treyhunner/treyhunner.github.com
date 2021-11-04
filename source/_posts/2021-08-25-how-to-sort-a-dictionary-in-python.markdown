@@ -57,6 +57,8 @@ What if our data isn't sorted yet?
 
 Say we have a... TODO example where we're sorting keys
 
+**TODO** exercise names as keys mapping to bonus counts as values
+
 We could use the built-in `sorted` function to sort it:
 
 TODO code
