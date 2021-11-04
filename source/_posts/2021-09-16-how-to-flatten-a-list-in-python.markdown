@@ -167,7 +167,7 @@ This feature was specifically excluded from [PEP 448][], the Python Enhancement 
 Here's another list flattening trick I've seen a few times:
 
 ```pycon
->>> names = sum(groups, start=[])
+>>> names = sum(groups, [])
 ```
 
 This *does* work:
@@ -183,6 +183,9 @@ We use the `+` operator in Python for both adding numbers and concatenating sequ
 But in my mind, the word "sum" implies arithmetic: **summing adds numbers together**.
 
 I find it confusing to "sum" lists, so **I don't recommend this approach**.
+
+**Quick Aside**: The algorithm `sum` uses also makes list flattening *really* slow ([timing comparison here][timing]).
+In [Big-O][] terms (for the time complexity nerds), `sum` with lists is `O(n**2)` instead of `O(n)`.
 
 
 ### What about `itertools.chain`?
@@ -285,3 +288,5 @@ Happy list flattening!
 [iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
 [iterable]: https://www.pythonmorsels.com/topics/iterable/
 [duck typing]: https://www.pythonmorsels.com/topics/duck-typing/
+[big-o]: https://www.youtube.com/watch?v=duvZ-2UK0fc
+[timing]: https://gist.github.com/treyhunner/f0c069496a1e41aadcf0d7050e475eb3
