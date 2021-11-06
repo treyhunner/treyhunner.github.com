@@ -18,7 +18,7 @@ With dictionary item order in mind, you might wonder how can we *sort* a diction
 
 As of Python 3.6 dictionaries are **ordered** (technically the ordering [became official in 3.7][ordered dicts]).
 
-Dictionary keys in dictionaries are stored in **insertion order**, meaning whenever a new key is added it gets added at the very end.
+Dictionary keys are stored in **insertion order**, meaning whenever a new key is added it gets added at the very end.
 
 ```pycon
 >>> color_amounts = {"purple": 6, "green": 3, "blue": 2}
@@ -56,13 +56,13 @@ If our input data is already ordered correctly, our dictionary will end up order
 
 What if our data isn't sorted yet?
 
-Say we have a lists-of-tuples that pair meeting rooms to their corresponding room numbers:
+Say we have a list-of-tuples that pair meeting rooms to their corresponding room numbers:
 
 ```pycon
 >>> rooms = [("Pink", "Rm 403"), ("Space", "Rm 201"), ("Quail", "Rm 500"), ("Lime", "Rm 503")]
 ```
 
-And we'd like to sort this dicitonary by its keys.
+And we'd like to sort this dictionary by its keys.
 
 We could use the built-in `sorted` function to sort it:
 
@@ -128,10 +128,12 @@ We can't sort a dictionary in-place, but we could get the items from our diction
 ```pycon
 >>> rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 >>> sorted_rooms = dict(sorted(rooms.items()))
+>>> sorted_rooms
+{'Lime': 'Rm 503', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Space': 'Rm 201'}
 ```
 
 That creates a new dictionary object.
-If we *really* wanted to update our original dictionary object, we could take the items from the dicionary, sort them, clear the dictionary of all its items, and then add all the items back into the dictionary:
+If we *really* wanted to update our original dictionary object, we could take the items from the dictionary, sort them, clear the dictionary of all its items, and then add all the items back into the dictionary:
 
 ```pycon
 >>> old_dictionary = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
@@ -195,12 +197,16 @@ Then we'd use our key function by passing it to the `sorted` function (yes [func
 
 ```pycon
 >>> sorted_rooms = sorted(rooms.items(), key=value_from_item)
+>>> sorted_rooms
+{'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
 
 If you prefer not to create a custom key function just to use it once, you could use a lambda function (which I [don't usually recommend][lambda]):
 
 ```pycon
 >>> sorted_rooms = sorted(rooms.items(), key=lambda item: item[1])
+>>> sorted_rooms
+{'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
 
 Or you could use `operator.itemgetter` to make a key function that gets the second item from each key-value tuple:
@@ -211,6 +217,8 @@ Or you could use `operator.itemgetter` to make a key function that gets the seco
 >>> sorted_rooms
 [('Space', 'Rm 201'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')]
 ```
+
+I discussed my preference for `itemgetter` [in my article on lambda functions][itemgetter].
 
 
 ### Ordering a dictionary in some other way
@@ -316,3 +324,4 @@ Whenever you're sorting a dictionary, please remember to ask yourself **do I rea
 [ordered dicts]: https://docs.python.org/3/whatsnew/3.7.html#summary-release-highlights
 [variables]: https://www.pythonmorsels.com/topics/variables-are-pointers/
 [string comparisons]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#String_comparisons_in_Python
+[itemgetter]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/#Overuse:_using_lambda_for_very_simple_operations
