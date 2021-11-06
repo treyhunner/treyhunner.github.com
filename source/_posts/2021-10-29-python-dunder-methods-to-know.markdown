@@ -177,5 +177,106 @@ Here are our options:
 https://docs.python.org/3/reference/datamodel.html
 
 
+### String formatting
+
+Have an object that you might want to customize the string representation of on the fly?
+You might consider customizing how string formatting works with your objects by making a `__format__` method.
+
+Integers, floating point numbers, and `datetime.datetime` objects all allow for custom string formatting:
+
+TODO show f strings with those objects
+
+When your object is used in string formatting, everything after the `:` is considered a "format specification" and is sent to your object's `__format__` method.
+
+For our `Point` class we could accept an `f` format specification the same way floating point numbers do, to control how many digits are shown after in coordinate numbers:
+
+TODO show Point `__format__`
+
+Just like with an `int` or `float`, we can now specify `.Nf` on our `Point` objects, where `N` is the number of digits to show after the decimal point:
+
+TODO show Point with .0f and .2f
+
+
+### Ordering
+
+All objects support equality and inequality (`==` and `!=`), even if they just rely on the default `__eq__` implementation that treats equality the same as identity.
+Some objects also support ordering (`<`, `>`, `<=`, `>=`).
+
+The ordering operators are powered by the `__lt__`, `__gt__`, `__le__`, and `__ge__` methods.
+
+**TODO** we need an example besides Point to demonstrate `<` and `>` with other types and the importance of implementing all of these operators
+
+
+### Iteration
+
+Should your object work with tuple unpacking?
+You need your object to be an iterable.
+
+Are you making an object that should work with `for` loop (like a custom data structure)?
+You need your object to be an iterable.
+
+From Python's perspective, an iterable is anything that can be passed to the built-in `iter` function to get an iterator from it.
+All forms of iteration in Python rely on passing an object to `iter` to get an iterator and then repetedly passing the returned iterator to the built-in `next` function to get the next item from it.
+If you're interested in how iterables and iterators, I briefly explain [The Iterator Protocol here][the iterator protocol] and I explain it in more depth in my [Loop Better article][] or [Loop Better talk][].
+
+Here's the basics of iteration:
+
+1. To make your objects iterable you need a `__iter__` method that returns an iterator
+2. The [easiest way to make an iterator][make iterator] is with a generator (either a generator function or a generator expression)
+
+Let's add a `__iter__` method to our `Point` class that's implemented as a generator function (using `yield` statements):
+
+TODO `__iter__` that yields the point coordinates
+
+Now we should be able to turn our `Point` objects into tuples:
+
+TODO
+
+Or use them in tuple unpacking:
+
+TODO
+
+
+### Containers (data structures)
+
+Making a custom data structure?
+You'll need a `__len__` method... and probably a bunch of other dunder methods too.
+
+When making a custom data structure (sometimes called a "container" because it's an object that contains other arbittrary objects), there are some methods you'll many dunder methods you'll **almost always want** and even more dunder methods you'll **sometimes want**.
+
+Data structures tend to support length checks with the built-in `len` function.
+That relies on the `__len__` method.
+
+TODO
+
+Many data structures also use the `x[...]` notation to support index lookups or key lookups.
+That relies on the `__getitem__` method.
+
+TODO
+
+But while `__getitem__` with a missing list index returns an `IndexError`:
+
+TODO numbers.__getitem__(100)
+
+The `__getitem__` method with a missing dictionary key returns a `KeyError`:
+
+TODO
+
+What if you want to support setting items and deleting items?
+
+TODO numbers[1] = 5
+TODO del numbers[1]
+
+You'll want to implement `__setitem__` and `__delitem__` too.
+
+You'll almost certainly want your data structure to be iterable, so you'll probably also want a `__iter__` method.
+
+TODO `__reversed__`
+
 [pdb]: TODO
 [repl]: TODO
+[how to make an iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
+[the iterator protocol]: https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/#Iterables:_what_are_they?
+[loop better article]: https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/
+[loop better talk]: https://youtu.be/JYuE8ZiDPl4
+[make iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
