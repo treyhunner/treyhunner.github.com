@@ -162,13 +162,15 @@ Here are our options:
 - Iteration
 - Various container methods
 - Context manager methods
+- Callability
 - Arithmetic
+- Boolean/set arithmetic
 - Type conversion
     - Includes familiar things like truthiness (`__bool__`) and `__str__`
     - `__int__`, `__bytes__`, `__bool__`
+    - There's no `__list__`, `__tuple__`, or `__set__` because those rely on iteration (you'll need `__iter__` for that)
+    - There's no `__dict__` because that relies either on iteration or the presence of a `keys` method and a `__getitem__` method (Python's practicing very fuzzy duck typing here)
     - etc.?
-- Boolean/set arithmetic
-- Callability
 - Constuction/destruction (rare)
 - Metaprogramming: `__init_subclass__`, `__instancecheck__`, etc
 - Iterator methods (rare)
@@ -272,6 +274,37 @@ You'll want to implement `__setitem__` and `__delitem__` too.
 You'll almost certainly want your data structure to be iterable, so you'll probably also want a `__iter__` method.
 
 TODO `__reversed__`
+
+
+### Context managers
+
+TODO
+
+
+### Callability
+
+TODO
+
+
+### Arithmetic
+
+TODO
+
+
+### Bitwise arithmetic / set operations
+
+TODO
+
+
+### Type conversions
+
+TODO
+
+
+### Everything else
+
+TODO
+
 
 [pdb]: TODO
 [repl]: TODO
