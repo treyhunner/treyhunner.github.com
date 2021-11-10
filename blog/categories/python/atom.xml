@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-04T08:43:53-07:00</updated>
+  <updated>2021-11-10T06:45:26-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -248,7 +248,7 @@ for group in groups:
 ]
 </code></pre>
 
-<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does tha same thing as <code>itertools.chain.from_iterable</code>:</p>
+<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does the same thing as <code>itertools.chain.from_iterable</code>:</p>
 
 <pre><code class="python">names = (
     name

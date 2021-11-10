@@ -5,14 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>The Idiomatic Way to Merge Dictionaries in Python - Trey Hunner</title>
+  <title>How to Merge Dictionaries in Python - Trey Hunner</title>
   <meta name="author" content="Trey Hunner">
 
   
   <meta name="description" content="Have you ever wanted to combine two or more dictionaries in Python? There are multiple ways to solve this problem: some are awkward, some are &hellip;">
   
 
-  <meta name="twitter:title" content="The Idiomatic Way to Merge Dictionaries in Python"/>
+  <meta name="twitter:title" content="How to Merge Dictionaries in Python"/>
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -119,7 +119,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">The Idiomatic Way to Merge Dictionaries in Python</h1>
+      <h1 class="entry-title">How to Merge Dictionaries in Python</h1>
     
     
       <p class="meta">
@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 <p>Before we can discuss solutions, we need to clearly define our problem.</p>
 
-<p>Our code has two dictionaries: <code>user</code> and <code>defaults</code>.  We want to merge these two dictionaries into a new dictionary called <code>context</code>.</p>
+<p>Our code has two dictionaries: <code>user</code> and <code>defaults</code>.  We want to combine these two dictionaries into a new dictionary called <code>context</code>.</p>
 
 <p>We have some requirements:</p>
 
@@ -439,7 +439,7 @@ $(document).ready(function () {
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This is cool, but it <strong>isn&rsquo;t valid</strong>.  This was discussed in a <a href="https://mail.python.org/pipermail/python-ideas/2015-February/031748.html">python-ideas thread</a> last year.</p>
+<p>This is cool, but it <strong>isn&rsquo;t valid</strong>.  This was discussed in a <a href="https://mail.python.org/pipermail/python-ideas/2015-February/031748.html">python-ideas thread</a> some time ago.</p>
 
 <p>Some of the concerns brought up in this thread include:</p>
 
@@ -460,7 +460,7 @@ $(document).ready(function () {
 
 <h3>Dictionary unpacking</h3>
 
-<p>If you&rsquo;re using Python 3.5, thanks to <a href="https://www.python.org/dev/peps/pep-0448/">PEP 448</a>, there&rsquo;s a new way to merge dictionaries:</p>
+<p>Since Python 3.5 (thanks to <a href="https://www.python.org/dev/peps/pep-0448/">PEP 448</a>) you can merge dictionaries with the <code>**</code> operator:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">user</span><span class="p">}</span>
@@ -475,6 +475,72 @@ $(document).ready(function () {
 
 <ul>
 <li>Accurate: yes</li>
+<li>Idiomatic: fairly</li>
+</ul>
+
+
+<h3>Dictionary unioning</h3>
+
+<p>Since Python 3.9, there&rsquo;s finally <strong>an operator</strong> for <strong>combining two dictionaries</strong>.</p>
+
+<p>The <code>|</code> operator will combine two dictionaries into a new dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">defaults</span> <span class="o">|</span> <span class="n">user</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>+</code> and <code>|</code> operators were already in-use on <a href="https://docs.python.org/3/library/collections.html#collections.Counter">collections.Counter</a> objects (see my article on <a href="https://treyhunner.com/2015/11/counting-things-in-python/">counting things in Python</a>) and <code>|</code> on <code>Counter</code> objects worked the same way it now does on all dictionaries.</p>
+
+<p>So why use <code>|</code> instead of <code>**</code>?
+Two reasons: <code>|</code> is more readable (for new Pythonistas certainly) and it&rsquo;s also <em>more flexible</em>.</p>
+
+<p>When using the <code>|</code> operator between <a href="https://docs.python.org/3/glossary.html#term-mapping">mappings</a> (dictionary-like objects), the mappings you&rsquo;re merging have control over what type is returned (usually they&rsquo;ll maintain the same type).</p>
+
+<p>For example let&rsquo;s say we have two <code>defaultdict</code> objects, we&rsquo;d like to merge:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flags1</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;purple&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flags2</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;blue&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since <code>defaultdict</code> objects are dictionary-like, we can use <code>**</code> to merge them into a new dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="o">**</span><span class="n">flags1</span><span class="p">,</span> <span class="o">**</span><span class="n">flags2</span><span class="p">}</span>
+</span><span class='line'><span class="go">{&#39;purple&#39;: True, &#39;blue&#39;: True, &#39;green&#39;: False}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But note that the returned object <em>is</em> a dictionary: it&rsquo;s of type <code>dict</code>, not <code>collections.defaultdict</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">({</span><span class="o">**</span><span class="n">flags1</span><span class="p">,</span> <span class="o">**</span><span class="n">flags2</span><span class="p">})</span>
+</span><span class='line'><span class="go">&lt;class &#39;dict&#39;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since Python 3.9, we can instead use the <code>|</code> operator to merge two <code>defaultdict</code> objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flags1</span> <span class="o">|</span> <span class="n">flags2</span>
+</span><span class='line'><span class="go">defaultdict(&lt;class &#39;bool&#39;&gt;, {&#39;purple&#39;: True, &#39;blue&#39;: True, &#39;green&#39;: False})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Unlike <code>**</code>, using the <code>|</code> operator between mappings will maintain the mapping type.</p>
+
+<p>Score:</p>
+
+<ul>
+<li>Accurate: yes</li>
 <li>Idiomatic: yes</li>
 </ul>
 
@@ -483,20 +549,31 @@ $(document).ready(function () {
 
 <p>There are a number of ways to combine multiple dictionaries, but there are few elegant ways to do this with just one line of code.</p>
 
-<p>If you&rsquo;re using Python 3.5, this is the one obvious way to solve this problem:</p>
+<p>If you&rsquo;re using Python 3.8 or below, this is the most idiomatic way to merge two dictionaries:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">defaults</span><span class="p">,</span> <span class="o">**</span><span class="n">user</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>If you are not yet using Python 3.5, you&rsquo;ll need to review the solutions above to determine which is the most appropriate for your needs.</p>
+<p>If you&rsquo;re using Python 3.9 or above, this is the most idiomatic way to merge two dictionaries:</p>
 
-<p><strong>Note</strong>: For those of you particularly concerned with performance, I also measured the <a href="https://gist.github.com/treyhunner/f35292e676efa0be1728">performance of these different dictionary merging methods</a>.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">context</span> <span class="o">=</span> <span class="n">defaults</span> <span class="o">|</span> <span class="n">user</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note</strong>: If you are particularly concerned with performance, I also measured the <a href="https://gist.github.com/treyhunner/f35292e676efa0be1728">performance of these different dictionary merging methods</a>.</p>
 
 <p>If you&rsquo;re interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out <a href="https://gist.github.com/mahmoud/db02d16ac89fa401b968">this deep merging technique</a> from Mahmoud Hashemi.</p>
 
-<p><strong>Update</strong>: If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to read the article I wrote on <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">asterisks in Python</a>.</p>
+<p><strong>Updates</strong>:</p>
+
+<ul>
+<li>If you&rsquo;re interested in learning more about the new features of <code>*</code> and <code>**</code> in Python 3.5 and their history you may want to read the article I wrote on <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">asterisks in Python</a></li>
+<li>This post has been updated to note the <code>|</code> operator that Python 3.9 added</li>
+</ul>
+
 </div>
 
 
