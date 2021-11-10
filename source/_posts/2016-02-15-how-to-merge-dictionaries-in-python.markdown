@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Idiomatic Way to Merge Dictionaries in Python"
+title: "How to Merge Dictionaries in Python"
 date: 2016-02-23 10:00:00 -0800
 comments: true
 categories: python favorite
@@ -16,7 +16,7 @@ Let's walk through the different ways of solving this problem and discuss which 
 
 Before we can discuss solutions, we need to clearly define our problem.
 
-Our code has two dictionaries: `user` and `defaults`.  We want to merge these two dictionaries into a new dictionary called `context`.
+Our code has two dictionaries: `user` and `defaults`.  We want to combine these two dictionaries into a new dictionary called `context`.
 
 We have some requirements:
 
@@ -261,7 +261,7 @@ What if we simply concatenate our dictionaries?
 context = defaults + user
 ```
 
-This is cool, but it **isn't valid**.  This was discussed in a [python-ideas thread][python-ideas] last year.
+This is cool, but it **isn't valid**.  This was discussed in a [python-ideas thread][python-ideas] some time ago.
 
 Some of the concerns brought up in this thread include:
 
@@ -277,7 +277,7 @@ Score:
 
 ### Dictionary unpacking
 
-If you're using Python 3.5, thanks to [PEP 448][], there's a new way to merge dictionaries:
+Since Python 3.5 (thanks to [PEP 448][]) you can merge dictionaries with the `**` operator:
 
 ```python
 context = {**defaults, **user}
@@ -290,6 +290,60 @@ This is functionally equivalent to our very first solution where we made an empt
 Score:
 
 - Accurate: yes
+- Idiomatic: fairly
+
+
+### Dictionary unioning
+
+Since Python 3.9, there's finally **an operator** for **combining two dictionaries**.
+
+The `|` operator will combine two dictionaries into a new dictionary:
+
+```python
+context = defaults | user
+```
+
+The `+` and `|` operators were already in-use on [collections.Counter][] objects (see my article on [counting things in Python][]) and `|` on `Counter` objects worked the same way it now does on all dictionaries.
+
+So why use `|` instead of `**`?
+Two reasons: `|` is more readable (for new Pythonistas certainly) and it's also *more flexible*.
+
+When using the `|` operator between [mappings][] (dictionary-like objects), the mappings you're merging have control over what type is returned (usually they'll maintain the same type).
+
+For example let's say we have two `defaultdict` objects, we'd like to merge:
+
+```pycon
+>>> from collections import defaultdict
+>>> flags1 = defaultdict(bool, {"purple": True, "blue": False})
+>>> flags2 = defaultdict(bool, {"blue": True, "green": False})
+```
+
+Since `defaultdict` objects are dictionary-like, we can use `**` to merge them into a new dictionary:
+
+```pycon
+>>> {**flags1, **flags2}
+{'purple': True, 'blue': True, 'green': False}
+```
+
+But note that the returned object *is* a dictionary: it's of type `dict`, not `collections.defaultdict`.
+
+```pycon
+>>> type({**flags1, **flags2})
+<class 'dict'>
+```
+
+Since Python 3.9, we can instead use the `|` operator to merge two `defaultdict` objects:
+
+```pycon
+>>> flags1 | flags2
+defaultdict(<class 'bool'>, {'purple': True, 'blue': True, 'green': False})
+```
+
+Unlike `**`, using the `|` operator between mappings will maintain the mapping type.
+
+Score:
+
+- Accurate: yes
 - Idiomatic: yes
 
 
@@ -297,19 +351,26 @@ Score:
 
 There are a number of ways to combine multiple dictionaries, but there are few elegant ways to do this with just one line of code.
 
-If you're using Python 3.5, this is the one obvious way to solve this problem:
+If you're using Python 3.8 or below, this is the most idiomatic way to merge two dictionaries:
 
 ```python
 context = {**defaults, **user}
 ```
 
-If you are not yet using Python 3.5, you'll need to review the solutions above to determine which is the most appropriate for your needs.
+If you're using Python 3.9 or above, this is the most idiomatic way to merge two dictionaries:
 
-**Note**: For those of you particularly concerned with performance, I also measured the [performance of these different dictionary merging methods][performance].
+```python
+context = defaults | user
+```
+
+**Note**: If you are particularly concerned with performance, I also measured the [performance of these different dictionary merging methods][performance].
 
 If you're interested in deep-merging this dictionary (merging a dictionary of dictionaries for example), check out [this deep merging technique][deep merge] from Mahmoud Hashemi.
 
-**Update**: If you're interested in learning more about the new features of ``*`` and ``**`` in Python 3.5 and their history you may want to read the article I wrote on [asterisks in Python][].
+**Updates**:
+
+- If you're interested in learning more about the new features of ``*`` and ``**`` in Python 3.5 and their history you may want to read the article I wrote on [asterisks in Python][]
+- This post has been updated to note the `|` operator that Python 3.9 added
 
 
 [kwargs hack]: http://stackoverflow.com/a/39858/98187
@@ -331,3 +392,6 @@ If you're interested in deep-merging this dictionary (merging a dictionary of di
 [deepcopy]: https://docs.python.org/3/library/copy.html#copy.deepcopy
 [deep merge]: https://gist.github.com/mahmoud/db02d16ac89fa401b968
 [asterisks in Python]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/
+[counting things in python]: https://treyhunner.com/2015/11/counting-things-in-python/
+[collections.counter]: https://docs.python.org/3/library/collections.html#collections.Counter
+[mappings]: https://docs.python.org/3/glossary.html#term-mapping
