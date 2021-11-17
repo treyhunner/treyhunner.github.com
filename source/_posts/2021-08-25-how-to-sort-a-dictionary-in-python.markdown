@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to sort a dictionary in Python"
-date: 2021-08-25 06:19:08 -0700
+date: 2021-11-17 07:00:00 -0800
 comments: true
 categories: python
 ---
@@ -193,10 +193,10 @@ def value_from_item(item):
     return value
 ```
 
-Then we'd use our key function by passing it to the `sorted` function (yes [functions can be passed to other functions in Python][passing functions]):
+Then we'd use our key function by passing it to the `sorted` function (yes [functions can be passed to other functions in Python][passing functions]) and pass the result to `dict` to create a new dictionary:
 
 ```pycon
->>> sorted_rooms = sorted(rooms.items(), key=value_from_item)
+>>> sorted_rooms = dict(sorted(rooms.items(), key=value_from_item))
 >>> sorted_rooms
 {'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
@@ -204,7 +204,7 @@ Then we'd use our key function by passing it to the `sorted` function (yes [func
 If you prefer not to create a custom key function just to use it once, you could use a lambda function (which I [don't usually recommend][lambda]):
 
 ```pycon
->>> sorted_rooms = sorted(rooms.items(), key=lambda item: item[1])
+>>> sorted_rooms = dict(sorted(rooms.items(), key=lambda item: item[1]))
 >>> sorted_rooms
 {'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
@@ -213,9 +213,9 @@ Or you could use `operator.itemgetter` to make a key function that gets the seco
 
 ```pycon
 >>> from operator import itemgetter
->>> sorted_rooms = sorted(rooms.items(), key=itemgetter(1))
+>>> sorted_rooms = dict(sorted(rooms.items(), key=itemgetter(1)))
 >>> sorted_rooms
-[('Space', 'Rm 201'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')]
+{'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
 
 I discussed my preference for `itemgetter` [in my article on lambda functions][itemgetter].
@@ -241,9 +241,9 @@ If we sorted these rooms by value, those strings wouldn't be sorted in the numer
 
 ```pycon
 >>> from operator import itemgetter
->>> sorted_rooms = sorted(rooms.items(), key=itemgetter(1))
+>>> sorted_rooms = dict(sorted(rooms.items(), key=itemgetter(1)))
 >>> sorted_rooms
-[('Ocean', 'Rm 2000'), ('Space', 'Rm 201'), ('Big', 'Rm 30'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')]
+{'Ocean': 'Rm 2000', 'Space': 'Rm 201', 'Big': 'Rm 30', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503'}
 ```
 
 **Rm 30** should be first and **Rm 2000** should be last.
@@ -262,14 +262,14 @@ def by_room_number(item):
 When we use this key function to sort our dictionary:
 
 ```pycon
->>> sorted_rooms = sorted(rooms.items(), key=by_room_number)
+>>> sorted_rooms = dict(sorted(rooms.items(), key=by_room_number))
 ```
 
 It will be sorted by the integer room number, as expected:
 
 ```pycon
 >>> sorted_rooms
-[('Big', 'Rm 30'), ('Space', 'Rm 201'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503'), ('Ocean', 'Rm 2000')]
+{'Big': 'Rm 30', 'Space': 'Rm 201', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Lime': 'Rm 503', 'Ocean': 'Rm 2000'}
 ```
 
 
@@ -297,10 +297,10 @@ The *order* of a dictionary's items is rarely important.
 In the rare case that you care about the order of your dictionary's items, keep in mind that dictionaries are ordered by the *insertion order* of their keys (as of Python 3.6).
 So the keys in your dictionary will remain in the order they were added to the dictionary.
 
-If you'd like to sort a dictionary by its keys, you can use the built-in `sorted` function:
+If you'd like to sort a dictionary by its keys, you can use the built-in `sorted` function along with the `dict` constructor:
 
 ```pycon
->>> sorted_dictionary = sorted(old_dictionary.items())
+>>> sorted_dictionary = dict(sorted(old_dictionary.items()))
 ```
 
 If you'd like to sort a dictionary by its values, you can pass a custom `key` function (one which returns the value for each item) to `sorted`:
@@ -310,7 +310,7 @@ If you'd like to sort a dictionary by its values, you can pass a custom `key` fu
 ...     key, value = item
 ...     return value
 ...
->>> sorted_dictionary = sorted(old_dictionary.items(), key=value_from_item)
+>>> sorted_dictionary = dict(sorted(old_dictionary.items(), key=value_from_item))
 ```
 
 But remember, it's not often that we care about the order of a dictionary.
