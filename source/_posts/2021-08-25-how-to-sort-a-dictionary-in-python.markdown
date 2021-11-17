@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to sort a dictionary in Python"
-date: 2021-11-17 07:00:00 -0800
+date: 2021-11-17 07:30:00 -0800
 comments: true
 categories: python
 ---
