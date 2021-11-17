@@ -19,7 +19,23 @@ Does your class need to accept function arguments?
 You'll need a `__init__` method.
 In fact, you probably already *have* a `__init__` method!
 
-Python's `__init__` method is called **the initializer method**.
+This class uses its `__init__` method to accept 3 arguments:
+
+```python
+class Point:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+```
+
+Without that `__init__` method this code would give an error (because the default `__init__` accepts no arguments):
+
+```pycon
+>>> p = Point(1, 2, 3)
+```
+
+Python's `__init__` method is called **the [initializer][] method**.
 Other programming languages often call their equivalent class-creation method **the constructor method**.
 In Python, our class instance is **already constructed** by the time the initializer is called: `__init__`, like all methods, accepts `self` and that's our class instance.
 We have a different method we call the constructor (`__new__`) and we pretty much never use it.
@@ -35,32 +51,78 @@ In general though, you'll *almost always* want a `__init__` method in your class
 Your class should be *easy to work with*.
 If someone is playing with your class in [the Python REPL][] or inside a [Python debugger][pdb] session, it would be helpful if your class had a friendly string representation.
 
-Python's built-in `repr` function calls the `__repr__` dunder method:
-
-TODO
-
-The default string representation (defined on `object`, which is the base class of all classes) looks like this:
+The default string representation for an object at the Python REPL is controlled by the built-in `repr` function:
 
 ```pycon
-TODO
+>>> numbers = [2, 1, 3, 4]
+>>> numbers
+[2, 1, 3, 4]
+>>> repr(numbers)
+[2, 1, 3, 4]
 ```
 
-That's not very helpful.
+Python's built-in `repr` function calls the `__repr__` dunder method on the object it's given:
 
+```pycon
+>>> numbers.__repr__()
+'[2, 1, 3, 4]'
+```
+
+All Python objects inherit from the `object` class and the object class defines a default `__repr__` implementation that says the object type and it's unique `id` (as a hexadecimal number):
+
+```pycon
+>>> object.__repr__(numbers)
+'<list object at 0x7fb9efb6bf00>'
+```
+
+Any object that doesn't define its own string representation will use this default.
+For example the built-in `zip` class doesn't define its own `__repr__` method:
+
+```pycon
+>>> zip()
+<zip object at 0x7fb9efb72240>
+```
+
+That default string representation isn't very helpful.
 It's a common practice to write a string representation that represents the Python code you could type out to re-create a copy of your object.
 
 For a `Point` class that accepts three coordinates:
 
-TODO
+```pycon
+>>> p = Point(1, 2, 3)
+```
 
 A nice string representation might look like this:
 
-TODO
+```pycon
+>>> p
+Point(1, 2, 3)
+```
 
-But this isn't the *only* practice.
+Here's a `Point` class with a `__repr__` method that returns the above string representation:
+
+```python
+class Point:
+
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __repr__(self):
+        return f"Point({self.x}, {self.y}, {self.z})"
+```
+
+This code-like string representation is a common practice, but it isn't the *only* practice.
 Sometimes Python programmers put some helpful information about their class instances in angular brackets (to make it stand out but also make it clear that it's not Python).
 
-TODO
+For example Django `Model` class uses angle brackets in its default string representation:
+
+```pycon
+>>> user = User.objects.get(username='trey')
+>>> user
+<User: trey>
+```
 
 Whatever practice you choose, make sure every class you make has a nice string representation.
 Pop open a Python REPL and try it out to make sure it looks nice because it can be easy to make typos while constructing a friendly `__repr__` method.
@@ -73,37 +135,80 @@ The `__eq__` method allows us to override what happens when our class instances 
 
 Taking our `Point` class from before, an equality method might look like this:
 
-TODO
+```python
+    def __eq__(self, other):
+        return (self.x, self.y, self.z) == (other.x, other.y, other.z)
+```
 
 So we can now two `Point` objects to each other:
 
-TODO
+```pycon
+>>> a = Point(1, 2, 3)
+>>> b = Point(1, 2, 3)
+>>> a == b
+True
+>>> b.z = 9
+>>> a == b
+True
+```
 
 Note that we're assuming the other argument given to our `__eq__` method is another `Point` object.
 That's a problem!
 
 If we compare a `Point` object to a non-point we'll get an error:
 
-TODO
+```pycon
+>>> a == 4
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 9, in __eq__
+AttributeError: 'int' object has no attribute 'x'
+```
 
 The most common way to fix this is to add a sort of "guard" to our `__eq__` method to let Python know that `Point` objects only know how to compare themselves to other `Point` objects:
 
-TODO
+```python
+    def __eq__(self, other):
+        if not isinstance(other, Point):
+            return NotImplemented
+        return (self.x, self.y, self.z) == (other.x, other.y, other.z)
+```
+
+Note that we're returning `NotImplemented` and not `False`.
+But when Python sees `NotImplemented` it will return `False` *for* us:
+
+```pycon
+>>> a == 4
+False
+```
 
 You might think "well couldn't we just return `False` for non-points"?
-
-TODO
-
 We *could*, but then no one could ever implement equality between our `Point` objects and another object type.
 In dunder method land (in most dunder methods at least), if we don't know what to do re are supposed to return `NotImplemented`.
 
 For example take a look at how integers and floating point numbers work with equality:
 
-TODO
+```pycon
+>>> a = 2
+>>> b = 2.0
+>>> a.__eq__(b)
+NotImplemented
+```
 
-TODO talk about how the default equality method checks identity
+In Python, `int` objects don't know how to compare themselves to `float` objects.
+But `float` objects *do* know how to compare themselves to `int` objects, so equality works as expected:
 
-TODO also more in this section
+```pycon
+>>> b.__eq__(a)
+True
+>>> a == b
+True
+```
+
+When Python gets `NotImplemented` from a `__eq__` check, it knows that it should delegate to the other object to see whether it knows how to do the equality check.
+If it doesn't, Python returns `False`.
+
+Note that all objects *do* support equality checks by default, but they only compare as equal if they're identity (more on [identity and equality here][identity]).
 
 
 ### `__str__`: the human readable string representation
@@ -115,22 +220,29 @@ But there's another string representation we *could* make on our objects.
 Python's `__str__` method defines what happens when you call the built-in `str` on an object:
 
 ```pycon
-TODO str on a list
+>>> numbers = [2, 1, 3, 4]
+>>> str(numbers)
+'[2, 1, 3, 4]'
 ```
 
 But wait... `str` works on our `Point` objects already!
 
 ```pycon
-TODO
+>>> p = Point(1, 2, 3)
+>>> str(p)
+'Point(1, 2, 3)'
 ```
 
 Why is that?
 
 Well, all classes in Python inherit from the `object` class (the default base class) by default.
-And the `object` class has a `__str__` method which just calls `__repr__`:
+And the `object` class has a `__str__` method which just calls `__repr__`, so our `Point` class also has the same default `__str__` method:
 
 ```pycon
-TODO show Point.__str__ and show calling Point.__str__
+>>> Point.__str__
+<slot wrapper '__str__' of 'object' objects>
+>>> Point.__str__(p)
+'Point(1, 2, 3)'
 ```
 
 Python's `__str__` method defines the **human readable** string representation of our objects.
@@ -278,12 +390,71 @@ TODO `__reversed__`
 
 ### Context managers
 
-TODO
+Context managers are any object that can be passed to a `with` block.
+Context managers are powered by the `__enter__` and `__exit__` methods.
+
+Context managers are can sandwich a block of code within setup code and cleanup code.
+They're most often used when cleanup code needs to be executed regardless of whether an exception occurred within the sandwhiched code block.
+
+Here's an example context manager:
+
+```python
+class Connection:
+    def __init__(self, name):
+        self.name = name
+    def __enter__(self):
+        print("Open")
+        return self
+    def __exit__(self, cls, exc, tb):
+        print("Close")
+```
+
+Because that `Connection` object implements `__enter__` and `__exit__` methods, it can now be used in a `with` block:
+
+```pycon
+>>> with Connection("Trey") as connection:
+...     print("Name:", connection.name)
+...
+Open
+Name: Trey
+Close
+```
+
+Context managers *must* implement both a `__enter__` and a `__exit__` method.
+The `__enter__` method controls what object is captured by the `as` part of the `with` block, so it's most common to return `self` (to pass back the context manager object itself).
+
+See [this Python Morsels topic on context managers][context managers] for more.
 
 
 ### Callability
 
-TODO
+Anything you can "call" in Python is a callable.
+Functions and classes are both callables (you can put parentheses after them to call them).
+
+```pycon
+>>> print
+<built-in function print>
+>>> print('hi')
+hi
+>>> int
+<class 'int'>
+>>> int('4')
+4
+```
+
+All callables implement a `__call__` method.
+
+```pycon
+>>> print.__call__
+<method-wrapper '__call__' of builtin_function_or_method object at 0x7fb9f153d170>
+>>> int.__call__
+<method-wrapper '__call__' of type object at 0x561ee02b7780>
+```
+
+The `__call__` method is what *makes* an object callable.
+So if we could implement a `__call__` method on our own object to make it callable.
+
+If you're interested in callability spend 2 minutes [reading/watching this Python Morsels topic][callable] or [read this longer article on callables][callable article].
 
 
 ### Arithmetic
@@ -313,3 +484,8 @@ TODO
 [loop better article]: https://treyhunner.com/2019/06/loop-better-a-deeper-look-at-iteration-in-python/
 [loop better talk]: https://youtu.be/JYuE8ZiDPl4
 [make iterator]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
+[identity]: https://www.pythonmorsels.com/topics/equality-vs-identity/
+[initializer]: https://www.pythonmorsels.com/topics/what-is-init/
+[callable]: https://www.pythonmorsels.com/topics/callables/
+[callable article]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
+[context managers]: https://www.pythonmorsels.com/topics/context-managers/
