@@ -398,7 +398,7 @@ So I find the use of lambda expressions problematic because:
 - lambda expressions are an odd and unfamiliar syntax to many Python programmers
 - lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do
 - lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can't be used with them
-- lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python
+- lambda functions can often be replaced with already existing functions in the standard library or built-in to Python
 
 Lambda expressions are rarely more immediately readable than a well-named function.
 While a `def` statement is often more understandable, **Python also has a number of features that can be used to replace lambda expressions**, including special syntaxes (comprehensions), built-in functions (sum), and standard library functions (in the `operators` module).

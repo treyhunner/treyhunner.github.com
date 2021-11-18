@@ -22,7 +22,7 @@ Dictionary keys are stored in **insertion order**, meaning whenever a new key is
 
 ```pycon
 >>> color_amounts = {"purple": 6, "green": 3, "blue": 2}
->>> color_amonuts["pink"] = 4
+>>> color_amounts["pink"] = 4
 >>> color_amounts
 {'purple': 6, 'green': 3, 'blue': 2, 'pink': 4}
 ```
@@ -30,7 +30,7 @@ Dictionary keys are stored in **insertion order**, meaning whenever a new key is
 But if we update a key-value pair, the key remains where it was before:
 
 ```pycon
->>> color_amonuts["green"] = 5
+>>> color_amounts["green"] = 5
 >>> color_amounts
 {'purple': 6, 'green': 5, 'blue': 2, 'pink': 4}
 ```
