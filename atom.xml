@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-17T07:30:06-08:00</updated>
+  <updated>2021-11-18T13:48:59-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -36,7 +36,7 @@ It is possible to loop over a dictionary and when looping, we <em>might</em> car
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amounts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;purple&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amonuts</span><span class="p">[</span><span class="s">&quot;pink&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amounts</span><span class="p">[</span><span class="s">&quot;pink&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amounts</span>
 </span><span class='line'><span class="go">{&#39;purple&#39;: 6, &#39;green&#39;: 3, &#39;blue&#39;: 2, &#39;pink&#39;: 4}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -47,7 +47,7 @@ It is possible to loop over a dictionary and when looping, we <em>might</em> car
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amonuts</span><span class="p">[</span><span class="s">&quot;green&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amounts</span><span class="p">[</span><span class="s">&quot;green&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
 </span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">color_amounts</span>
 </span><span class='line'><span class="go">{&#39;purple&#39;: 6, &#39;green&#39;: 5, &#39;blue&#39;: 2, &#39;pink&#39;: 4}</span>
 </span></code></pre></td></tr></table></div></figure>

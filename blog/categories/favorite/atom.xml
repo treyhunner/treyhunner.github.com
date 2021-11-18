@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-17T07:30:06-08:00</updated>
+  <updated>2021-11-18T13:48:59-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -789,7 +789,7 @@ product = multiply_all(numbers)
 <li>lambda expressions are an odd and unfamiliar syntax to many Python programmers</li>
 <li>lambda functions inherently lack a name or documentation, meaning reading their code is the only way to figure out what they do</li>
 <li>lambda expressions can have only one statement in them so certain language features that improve readability, like tuple unpacking, can&rsquo;t be used with them</li>
-<li>lambda functions can often be replaced with already existing functions in the standard libray or built-in to Python</li>
+<li>lambda functions can often be replaced with already existing functions in the standard library or built-in to Python</li>
 </ul>
 
 

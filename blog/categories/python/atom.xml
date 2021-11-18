@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-17T07:30:06-08:00</updated>
+  <updated>2021-11-18T13:48:59-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -32,14 +32,14 @@ It is possible to loop over a dictionary and when looping, we <em>might</em> car
 <p>Dictionary keys are stored in <strong>insertion order</strong>, meaning whenever a new key is added it gets added at the very end.</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; color_amounts = {"purple": 6, "green": 3, "blue": 2}
-&gt;&gt;&gt; color_amonuts["pink"] = 4
+&gt;&gt;&gt; color_amounts["pink"] = 4
 &gt;&gt;&gt; color_amounts
 {'purple': 6, 'green': 3, 'blue': 2, 'pink': 4}
 </code></pre>
 
 <p>But if we update a key-value pair, the key remains where it was before:</p>
 
-<pre><code class="pycon">&gt;&gt;&gt; color_amonuts["green"] = 5
+<pre><code class="pycon">&gt;&gt;&gt; color_amounts["green"] = 5
 &gt;&gt;&gt; color_amounts
 {'purple': 6, 'green': 5, 'blue': 2, 'pink': 4}
 </code></pre>
