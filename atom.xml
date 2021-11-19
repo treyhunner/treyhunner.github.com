@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-19T15:44:38-08:00</updated>
+  <updated>2021-11-19T15:47:01-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -218,7 +218,7 @@ We don&rsquo;t usually <em>want</em> to operate on data structures in-place in P
 <p>This works but it&rsquo;s a bit long.
 Also this technique actually sorts both our values and our keys (giving the values precedence in the sorting).</p>
 
-<p>What if we wanted to <em>just</em> sort by the values, ignoring the contents of the keys entirely?
+<p>What if we wanted to <em>just</em> sort our dictionary by its values, ignoring the contents of the keys entirely?
 Python&rsquo;s <code>sorted</code> function accepts a <code>key</code> argument that we can use for this!</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -244,7 +244,7 @@ Python&rsquo;s <code>sorted</code> function accepts a <code>key</code> argument 
 Note that the word &ldquo;key&rdquo; here isn&rsquo;t related to dictionary keys.
 Dictionary keys are used for looking up dictionary values whereas this key function returns an object that determines how to order items in an iterable.</p>
 
-<p>If we want to sort by our values, we could make a key function that accepts each item in our list of 2-item tuples and <strong>returns just the value</strong>:</p>
+<p>If we want to sort the dictionary by its values, we could make a key function that accepts each item in our list of 2-item tuples and <strong>returns just the value</strong>:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -296,7 +296,7 @@ Dictionary keys are used for looking up dictionary values whereas this key funct
 
 <h3>Ordering a dictionary in some other way</h3>
 
-<p>What if we needed to sort by something other than just a key or a value?
+<p>What if we needed to sort our dictionary by something other than just a key or a value?
 For example what if our room number strings include numbers that aren&rsquo;t always the same length:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
