@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-18T13:48:59-08:00</updated>
+  <updated>2021-11-19T15:44:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -160,7 +160,7 @@ So as long as the keys are comparable to each other with the less than operator 
 <p>What if we already have our items <em>in</em> a dictionary and we&rsquo;d like to sort that dictionary?
 Unlike lists, <strong>there&rsquo;s no <code>sort</code> method on dictionaries</strong>.</p>
 
-<p>We can&rsquo;t sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items them into a new dictionary:</p>
+<p>We can&rsquo;t sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items into a new dictionary:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

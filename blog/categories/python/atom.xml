@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-18T13:48:59-08:00</updated>
+  <updated>2021-11-19T15:44:38-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -123,7 +123,7 @@ So as long as the keys are comparable to each other with the less than operator 
 <p>What if we already have our items <em>in</em> a dictionary and we&rsquo;d like to sort that dictionary?
 Unlike lists, <strong>there&rsquo;s no <code>sort</code> method on dictionaries</strong>.</p>
 
-<p>We can&rsquo;t sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items them into a new dictionary:</p>
+<p>We can&rsquo;t sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items into a new dictionary:</p>
 
 <pre><code class="pycon">&gt;&gt;&gt; rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 &gt;&gt;&gt; sorted_rooms = dict(sorted(rooms.items()))
