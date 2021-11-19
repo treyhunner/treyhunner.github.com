@@ -166,7 +166,7 @@ We could make a new list of value-key tuples (actually a generator in our case b
 This works but it's a bit long.
 Also this technique actually sorts both our values and our keys (giving the values precedence in the sorting).
 
-What if we wanted to *just* sort by the values, ignoring the contents of the keys entirely?
+What if we wanted to *just* sort our dictionary by its values, ignoring the contents of the keys entirely?
 Python's `sorted` function accepts a `key` argument that we can use for this!
 
 ```pycon
@@ -184,7 +184,7 @@ The key function we pass to sorted should accept an item from the iterable we're
 Note that the word "key" here isn't related to dictionary keys.
 Dictionary keys are used for looking up dictionary values whereas this key function returns an object that determines how to order items in an iterable.
 
-If we want to sort by our values, we could make a key function that accepts each item in our list of 2-item tuples and **returns just the value**:
+If we want to sort the dictionary by its values, we could make a key function that accepts each item in our list of 2-item tuples and **returns just the value**:
 
 ```python
 def value_from_item(item):
@@ -223,7 +223,7 @@ I discussed my preference for `itemgetter` [in my article on lambda functions][i
 
 ### Ordering a dictionary in some other way
 
-What if we needed to sort by something other than just a key or a value?
+What if we needed to sort our dictionary by something other than just a key or a value?
 For example what if our room number strings include numbers that aren't always the same length:
 
 ```python
