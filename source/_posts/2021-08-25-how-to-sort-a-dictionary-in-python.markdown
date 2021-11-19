@@ -123,7 +123,7 @@ So as long as the keys are comparable to each other with the less than operator 
 What if we already have our items *in* a dictionary and we'd like to sort that dictionary?
 Unlike lists, **there's no `sort` method on dictionaries**.
 
-We can't sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items them into a new dictionary:
+We can't sort a dictionary in-place, but we could get the items from our dictionary, sort those items using the same technique we used before, and then turn those items into a new dictionary:
 
 ```pycon
 >>> rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
