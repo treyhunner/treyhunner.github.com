@@ -13,7 +13,7 @@ This is my annual compilation post of Black Friday and Cyber Monday deals I've f
 
 ### 50% off dozens of Python screencasts (Python Morsels)
 
-(the self-promotion comes first)
+Yes, the self-promotion comes first.
 
 The Python Morsels Lite plan has evolved *a lot* since I first launched it and it's long overdue for a price increase.
 This plan includes access to **over 90 Python screencasts** (a new one added each week) as well as a **monthly Python exercise** (your choice from novice to advanced Python).
@@ -30,7 +30,7 @@ This is the lowest price I'll ever offer this plan for.
 ### Reuven Lerner's Python courses and Weekly Python Exercise
 
 Reuven Lerner is offering [30% off all his products](https://store.lerner.co.il/?coupon=BF2021) (intro Python bundle, advanced Python bundle, data analytics bundle, and Weekly Python Exercises, and more) through Monday.
-If you don't see discounts, apply the coupon code **BF2021** (that link in the previous sentence already has the code applied though).
+Enter the coupon BF2021 if needed (though that link should apply the coupon already).
 
 If you like Python Morsels, you might want to check out Reuven's Weekly Python exercise as well.
 Both are based around exercise-driven learning.
@@ -38,16 +38,16 @@ Both are based around exercise-driven learning.
 
 ### Matt Harrison's books and courses on Python, data science, and Pandas
 
-Matt Harrison is offering a 40% discount off all his various courses and books (on Python, Pandas, and data science).
+Matt Harrison is offering a 40% discount on all his courses and books (on Python, Pandas, and data science).
 See his [MetaSnake store](https://store.metasnake.com/?coupon=BF40) for more details.
 Enter coupon code BF40 if needed (though the coupon code should already be applied when you click that link).
 
 
-### Python Essentials for Data Scientists (from Kevin Markham at Data School)
+### Python Essentials for Data Scientists (Kevin Markham of Data School)
 
 Kevin Markham is offering 33% off his new course, [Python Essentials for Data Scientists](https://courses.dataschool.io/python-essentials-for-data-scientists?coupon=BLACKFRIDAY).
 The course will be $33 instead of $49 from Black Friday through Cyber Monday.
-The **BLACKFRIDAY** coupon is already in the link in this post, but you'll need to wait until Friday (when enrollment to officially opens) to hit the Buy button.
+The BLACKFRIDAY coupon is already applied from that link, but you'll need to wait until Friday (when enrollment to officially opens) to hit the Buy button.
 
 
 ### Brian Okken's Pytest book (Pragmatic Bookshelf)
@@ -58,7 +58,7 @@ Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2021, 
 ### Django-specific sales
 
 Adam Johnson's Speed Up Your Django Tests is [on sale for 50% off](https://adamchainz.gumroad.com/l/suydt) (it's normally $49).
-If you're using Django and writin automated tests (you should be!) check out Adam's book.
+If you're using Django and writing automated tests (you should be!) check out Adam's book.
 
 Will Vincent is also offering a 50% discount on his Django books, via [a 3 book bundle](https://wsvincent.gumroad.com/l/bhylo/blackfriday2021).
 Each of Will's Django books is normally $40, but during his Black Friday sale you can get all 3 books for $59.
@@ -66,21 +66,20 @@ Each of Will's Django books is normally $40, but during his Black Friday sale yo
 Test Driven is offering a 25% discount on a [3 Django course bundle](https://testdriven.io/bundle/django-black-friday/) from Michael Herman and friends.
 You can get three $30 courses for just $68 in total.
 
-If you're not writing test in Django but know you should be, Test Driven's course on testing and Adam Johnson's book on speeding up your tests might complement each other well.
-Maybe consider following that up with Brian Okken's PyTest book, which is also on sale (see above).
+Check out Adam Johnson's [Django-related deals for Black Friday and Cyber Monday](https://adamj.eu/tech/2021/11/22/django-black-friday-deals/) post for more Django-related deals.
 
 
-### Sales To Watch Out For
+### More Sales To Watch Out For
 
 **Talk Python** has been offering a Black Friday sale on their [everything bundle](https://training.talkpython.fm/courses/bundle/everything-bundle-2021-q4) every year for a while now (often a discount of $50 or more).
 They'll likely offer another sale this year so check their site on Black Friday for details.
 
+**Mike Driscoll** often offers Black Friday and Cyber Monday sales on his [Python books](  https://www.blog.pythonlibrary.org/).
+
 **No Starch** press often offers Black Friday discounts on lots of [Python books](https://nostarch.com/catalog/python) (Al Sweigart, Eric Mathes, and more).
 
-**PyBites** also has Black Friday and Cyber Monday sales some years.
-Check [the PyBites site](https://pybit.es/) on Black Friday for details on their sales.
-
-**Mike Driscoll** also often offers Black Friday and Cyber Monday sales on his [Python books](  https://www.blog.pythonlibrary.org/).
+**PyBites** sometimes holds Black Friday and Cyber Monday sales.
+Check [the PyBites site](https://pybit.es/) on Black Friday in case they're holding a sale.
 
 
 ### Lots of screencasts, exercises, books, and courses on sale
