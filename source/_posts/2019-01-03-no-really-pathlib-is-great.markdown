@@ -303,7 +303,7 @@ def make_editorconfig(dir_path):
     """Create .editorconfig file in given directory and return filepath."""
     path = Path(dir_path, '.editorconfig')
     if not path.exists():
-        path.parent.mkdir(exist_ok=True, parent=True)
+        path.parent.mkdir(exist_ok=True, parents=True)
         path.touch()
     return path
 ```
