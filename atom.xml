@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-24T09:57:13-08:00</updated>
+  <updated>2021-11-24T09:57:46-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -9262,7 +9262,7 @@ I&rsquo;ll mostly leave these code blocks without comment and let you be the jud
 </span><span class='line'>    <span class="sd">&quot;&quot;&quot;Create .editorconfig file in given directory and return filepath.&quot;&quot;&quot;</span>
 </span><span class='line'>    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="s">&#39;.editorconfig&#39;</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">path</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">path</span>
 </span></code></pre></td></tr></table></div></figure>
