@@ -50,9 +50,26 @@ The course will be $33 instead of $49 from Black Friday through Cyber Monday.
 The BLACKFRIDAY coupon is already applied from that link, but you'll need to wait until Friday (when enrollment to officially opens) to hit the Buy button.
 
 
+### Talk Python course bundle
+
+You can get every Talk Python course that's been made so far [for just $250](http://talkpython.fm/black-friday) (or less if you've bought previous bundles).
+There's 34 courses currently and the bundle also includes courses published before October 2022.
+
+
+### Mike Driscoll's Python books
+
+Mike Driscoll is offering $10 off any of his [Python books](https://driscollis.gumroad.com/) with the coupon code **black21**.
+Remember to apply that coupon code (it's not auto-applied in that link).
+
+
 ### Brian Okken's Pytest book (Pragmatic Bookshelf)
 
 Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2021, including [**Brian Okken's Pytest book**](https://pragprog.com/titles/bopytest/python-testing-with-pytest/) which is just under $15 with the coupon.
+
+
+### Learning Python By Example
+
+Sundeep Agarwal is offering his [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/blackfriday) for free this week (normally $10) as well as a [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/blackfriday) (which includes Practice Python Projects) for $2 (normally $12).
 
 
 ### Django-specific sales
@@ -70,11 +87,6 @@ Check out Adam Johnson's [Django-related deals for Black Friday and Cyber Monday
 
 
 ### More Sales To Watch Out For
-
-**Talk Python** has been offering a Black Friday sale on their [everything bundle](https://training.talkpython.fm/courses/bundle/everything-bundle-2021-q4) every year for a while now (often a discount of $50 or more).
-They'll likely offer another sale this year so check their site on Black Friday for details.
-
-**Mike Driscoll** often offers Black Friday and Cyber Monday sales on his [Python books](  https://www.blog.pythonlibrary.org/).
 
 **No Starch** press often offers Black Friday discounts on lots of [Python books](https://nostarch.com/catalog/python) (Al Sweigart, Eric Mathes, and more).
 
