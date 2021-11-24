@@ -64,7 +64,7 @@ Remember to apply that coupon code (it's not auto-applied in that link).
 
 ### Brian Okken's Pytest book (Pragmatic Bookshelf)
 
-Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2021, including [**Brian Okken's Pytest book**](https://pragprog.com/titles/bopytest/python-testing-with-pytest/) which is just under $15 with the coupon.
+Pragmatic Bookshelf is offering 40% off all books with the code **turkeysale2021**, including [**Brian Okken's Pytest book**](https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/) which is just under $15 with the coupon.
 
 
 ### Learning Python By Example
