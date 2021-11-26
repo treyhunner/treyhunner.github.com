@@ -56,6 +56,11 @@ You can get every Talk Python course that's been made so far [for just $250](htt
 There's 34 courses currently and the bundle also includes courses published before October 2022.
 
 
+### PyBites books, courses, and Python exercises
+
+PyBites is offering 40% off Python courses, books, and exercises in their [Black Friday and Cyber Monday sale](https://pybit.es/black-friday-2021/).
+
+
 ### Mike Driscoll's Python books
 
 Mike Driscoll is offering $10 off any of his [Python books](https://driscollis.gumroad.com/) with the coupon code **black21**.
@@ -89,9 +94,6 @@ Check out Adam Johnson's [Django-related deals for Black Friday and Cyber Monday
 ### More Sales To Watch Out For
 
 **No Starch** press often offers Black Friday discounts on lots of [Python books](https://nostarch.com/catalog/python) (Al Sweigart, Eric Mathes, and more).
-
-**PyBites** sometimes holds Black Friday and Cyber Monday sales.
-Check [the PyBites site](https://pybit.es/) on Black Friday in case they're holding a sale.
 
 
 ### Lots of screencasts, exercises, books, and courses on sale
