@@ -77,6 +77,11 @@ Pragmatic Bookshelf is offering 40% off all books with the code **turkeysale2021
 Sundeep Agarwal is offering his [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/blackfriday) for free this week (normally $10) as well as a [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/blackfriday) (which includes Practice Python Projects) for $2 (normally $12).
 
 
+### Python Problem-Solving Bootcamp
+
+Rodrigo of Mathspp is offering 40% off his [Python Problem-Solving Bootcamp](https://mathspp.gumroad.com/l/pythonbootcamp/blackfriday) which involves a community that will be solving Advent of Code 2021 exercises together during December 2021 as well as Jupyter notebooks and an eBook of analysis around the challenges.
+
+
 ### Django-specific sales
 
 Adam Johnson's Speed Up Your Django Tests is [on sale for 50% off](https://adamchainz.gumroad.com/l/suydt) (it's normally $49).
