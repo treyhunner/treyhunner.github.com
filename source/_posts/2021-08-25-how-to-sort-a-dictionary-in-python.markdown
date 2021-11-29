@@ -56,18 +56,20 @@ If our input data is already ordered correctly, our dictionary will end up order
 
 What if our data isn't sorted yet?
 
-Say we have a list-of-tuples that pair meeting rooms to their corresponding room numbers:
+Say we have a dictionary that mapps meeting rooms to their corresponding room numbers:
 
 ```pycon
->>> rooms = [("Pink", "Rm 403"), ("Space", "Rm 201"), ("Quail", "Rm 500"), ("Lime", "Rm 503")]
+>>> rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 ```
 
 And we'd like to sort this dictionary by its keys.
 
-We could use the built-in `sorted` function to sort it:
+We could use the `items` method on our dictionary to get iterables of key-value tuples and then use the `sorted` function to sort these tuples:
 
 ```pycon
->>> sorted(rooms)
+>>> rooms.items()
+dict_items([('Pink', 'Rm 403'), ('Space', 'Rm 201'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')])
+>>> sorted(rooms.items())
 [('Lime', 'Rm 503'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Space', 'Rm 201')]
 ```
 
@@ -77,7 +79,7 @@ The `sorted` function always returns a list.
 To make these key-value pairs into a dictionary, we can pass them straight to the `dict` constructor:
 
 ```pycon
->>> sorted_rooms = dict(sorted(rooms))
+>>> sorted_rooms = dict(sorted(rooms.items()))
 >>> sorted_rooms
 {'Lime': 'Rm 503', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Space': 'Rm 201'}
 ```
