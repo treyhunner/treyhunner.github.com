@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-26T10:29:05-08:00</updated>
+  <updated>2021-11-29T13:58:50-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -173,16 +173,18 @@ It is possible to loop over a dictionary and when looping, we <em>might</em> car
 
 <p>What if our data isn&rsquo;t sorted yet?</p>
 
-<p>Say we have a list-of-tuples that pair meeting rooms to their corresponding room numbers:</p>
+<p>Say we have a dictionary that mapps meeting rooms to their corresponding room numbers:</p>
 
-<pre><code class="pycon">&gt;&gt;&gt; rooms = [("Pink", "Rm 403"), ("Space", "Rm 201"), ("Quail", "Rm 500"), ("Lime", "Rm 503")]
+<pre><code class="pycon">&gt;&gt;&gt; rooms = {"Pink": "Rm 403", "Space": "Rm 201", "Quail": "Rm 500", "Lime": "Rm 503"}
 </code></pre>
 
 <p>And we&rsquo;d like to sort this dictionary by its keys.</p>
 
-<p>We could use the built-in <code>sorted</code> function to sort it:</p>
+<p>We could use the <code>items</code> method on our dictionary to get iterables of key-value tuples and then use the <code>sorted</code> function to sort these tuples:</p>
 
-<pre><code class="pycon">&gt;&gt;&gt; sorted(rooms)
+<pre><code class="pycon">&gt;&gt;&gt; rooms.items()
+dict_items([('Pink', 'Rm 403'), ('Space', 'Rm 201'), ('Quail', 'Rm 500'), ('Lime', 'Rm 503')])
+&gt;&gt;&gt; sorted(rooms.items())
 [('Lime', 'Rm 503'), ('Pink', 'Rm 403'), ('Quail', 'Rm 500'), ('Space', 'Rm 201')]
 </code></pre>
 
@@ -191,7 +193,7 @@ The <code>sorted</code> function always returns a list.</p>
 
 <p>To make these key-value pairs into a dictionary, we can pass them straight to the <code>dict</code> constructor:</p>
 
-<pre><code class="pycon">&gt;&gt;&gt; sorted_rooms = dict(sorted(rooms))
+<pre><code class="pycon">&gt;&gt;&gt; sorted_rooms = dict(sorted(rooms.items()))
 &gt;&gt;&gt; sorted_rooms
 {'Lime': 'Rm 503', 'Pink': 'Rm 403', 'Quail': 'Rm 500', 'Space': 'Rm 201'}
 </code></pre>

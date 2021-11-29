@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-11-26T10:29:05-08:00</updated>
+  <updated>2021-11-29T13:58:50-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -190,20 +190,24 @@ It is possible to loop over a dictionary and when looping, we <em>might</em> car
 
 <p>What if our data isn&rsquo;t sorted yet?</p>
 
-<p>Say we have a list-of-tuples that pair meeting rooms to their corresponding room numbers:</p>
+<p>Say we have a dictionary that mapps meeting rooms to their corresponding room numbers:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rooms</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&quot;Pink&quot;</span><span class="p">,</span> <span class="s">&quot;Rm 403&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Space&quot;</span><span class="p">,</span> <span class="s">&quot;Rm 201&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Quail&quot;</span><span class="p">,</span> <span class="s">&quot;Rm 500&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Lime&quot;</span><span class="p">,</span> <span class="s">&quot;Rm 503&quot;</span><span class="p">)]</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rooms</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;Pink&quot;</span><span class="p">:</span> <span class="s">&quot;Rm 403&quot;</span><span class="p">,</span> <span class="s">&quot;Space&quot;</span><span class="p">:</span> <span class="s">&quot;Rm 201&quot;</span><span class="p">,</span> <span class="s">&quot;Quail&quot;</span><span class="p">:</span> <span class="s">&quot;Rm 500&quot;</span><span class="p">,</span> <span class="s">&quot;Lime&quot;</span><span class="p">:</span> <span class="s">&quot;Rm 503&quot;</span><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>And we&rsquo;d like to sort this dictionary by its keys.</p>
 
-<p>We could use the built-in <code>sorted</code> function to sort it:</p>
+<p>We could use the <code>items</code> method on our dictionary to get iterables of key-value tuples and then use the <code>sorted</code> function to sort these tuples:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">rooms</span><span class="p">)</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">rooms</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span class='line'><span class="go">dict_items([(&#39;Pink&#39;, &#39;Rm 403&#39;), (&#39;Space&#39;, &#39;Rm 201&#39;), (&#39;Quail&#39;, &#39;Rm 500&#39;), (&#39;Lime&#39;, &#39;Rm 503&#39;)])</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">rooms</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 </span><span class='line'><span class="go">[(&#39;Lime&#39;, &#39;Rm 503&#39;), (&#39;Pink&#39;, &#39;Rm 403&#39;), (&#39;Quail&#39;, &#39;Rm 500&#39;), (&#39;Space&#39;, &#39;Rm 201&#39;)]</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -216,7 +220,7 @@ The <code>sorted</code> function always returns a list.</p>
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">sorted_rooms</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rooms</span><span class="p">))</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">sorted_rooms</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">rooms</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
 </span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">sorted_rooms</span>
 </span><span class='line'><span class="go">{&#39;Lime&#39;: &#39;Rm 503&#39;, &#39;Pink&#39;: &#39;Rm 403&#39;, &#39;Quail&#39;: &#39;Rm 500&#39;, &#39;Space&#39;: &#39;Rm 201&#39;}</span>
 </span></code></pre></td></tr></table></div></figure>
