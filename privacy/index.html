@@ -276,19 +276,23 @@ $(document).ready(function () {
   <div class="description">
     <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
     <p>
-    I send out 1 Python exercise every week through a Python skill-building service called <a href="https://www.pythonmorsels.com/">Python Morsels</a>.
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
     </p>
-    <p>
-    If you'd like to <strong>improve your Python skills every week</strong>, sign up!
-    </p>
-    <form method="post" action="https://www.pythonmorsels.com/email-signup/">
-      <input type="hidden" name="captcha_action" value="signup">
-      <input type="hidden" name="captcha_token" value="">
-      <input type="email" name="email" placeholder="email@domain.com" required>
-      <button type="submit">Sign me up for Python Morsels!</button>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
     </form>
-    You can <a href="https://www.pythonmorsels.com/privacy/">find the Privacy Policy here</a>.<br>
-    <small>reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)</small>
+
   </div>
 </section>
 <section id="morsels-signup-thanks" style="display: none;">
