@@ -280,11 +280,13 @@ And the easiest way to join my newsletter is to <strong>sign up for Python Morse
 
 
       <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
 
       <div style="display: none;" aria-hidden="true">
         <label for="website">Website</label><br>
         <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
       </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
 
 
       <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
