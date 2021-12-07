@@ -296,7 +296,7 @@ Also if you're introspecting annotations, calling the `inspect.get_annotations` 
 
 You can also now ask Python to emit warnings when you fail to specify an explicit file encoding (this is *very* relevant when writing cross operating system compatible code).
 
-Just run Python with `-X warn_default_encoding` and you'll see a loud error message if you're not specifying encodings everyone you open files up:
+Just run Python with `-X warn_default_encoding` and you'll see a loud error message if you're not specifying encodings everywhere you open files up:
 
 ```bash
 $ python3.10 -X warn_default_encoding count_lines.py declaration-of-independence.txt
