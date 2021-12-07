@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2021-12-02T09:45:56-08:00</updated>
+  <updated>2021-12-02T09:46:10-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -932,7 +932,7 @@ I still don&rsquo;t use type annotations often, but these features are a pretty 
 
 <p>You can also now ask Python to emit warnings when you fail to specify an explicit file encoding (this is <em>very</em> relevant when writing cross operating system compatible code).</p>
 
-<p>Just run Python with <code>-X warn_default_encoding</code> and you&rsquo;ll see a loud error message if you&rsquo;re not specifying encodings everyone you open files up:</p>
+<p>Just run Python with <code>-X warn_default_encoding</code> and you&rsquo;ll see a loud error message if you&rsquo;re not specifying encodings everywhere you open files up:</p>
 
 <pre><code class="bash">$ python3.10 -X warn_default_encoding count_lines.py declaration-of-independence.txt
 /home/trey/count_lines.py:3: EncodingWarning: 'encoding' argument not specified
