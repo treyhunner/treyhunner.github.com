@@ -4,6 +4,7 @@ title: "How to loop with indexes in Python"
 date: 2016-04-25 09:00:00 -0700
 comments: true
 categories: python favorite
+magnet: beyond_intro
 ---
 
 If you're moving to Python from C or Java, you might be confused by Python's `for` loops.  **Python doesn't actually have for loops**... at least not the same kind of `for` loop that C-based languages have.  Python's `for` loops are actually [foreach loops][foreach].

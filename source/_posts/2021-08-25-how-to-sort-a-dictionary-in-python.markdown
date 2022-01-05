@@ -4,6 +4,7 @@ title: "How to sort a dictionary in Python"
 date: 2021-11-17 07:30:00 -0800
 comments: true
 categories: python
+magnet: beyond_intro
 ---
 
 Dictionaries are best used for key-value lookups: **we provide a key** and the dictionary *very* quickly **returns the corresponding value**.

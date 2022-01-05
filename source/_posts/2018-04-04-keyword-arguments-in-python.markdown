@@ -4,6 +4,7 @@ title: "Keyword (Named) Arguments in Python: How to Use Them"
 date: 2018-04-04 08:00:00 -0700
 comments: true
 categories: python favorite
+magnet: beyond_intro
 ---
 
 Keyword arguments are one of those Python features that often seems a little odd for folks moving to Python from many other programming languages.  It doesn't help that folks learning Python often discover the various features of keyword arguments slowly over time.
