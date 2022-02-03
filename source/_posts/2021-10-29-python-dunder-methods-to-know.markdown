@@ -3,7 +3,7 @@ layout: post
 title: "Python dunder methods to know"
 date: 2021-10-29 07:08:46 -0700
 comments: true
-categories: 
+categories: python
 ---
 
 You've just made a class.
@@ -269,24 +269,25 @@ At this point, which dunder method(s) we implement next (if any) becomes a bit m
 
 Here are our options:
 
-- String formatting
-- Ordering
-- Iteration
-- Various container methods
-- Context manager methods
-- Callability
-- Arithmetic
+- String formatting (shown below)
+- Ordering (shown below)
+- Iteration (shown below)
+- Various container methods (shown below)
+- Context manager methods (shown below)
+- Callability (shown below)
+- Arithmetic (shown below)
+- In-place arithmetic (shown below)
 - Boolean/set arithmetic
 - Type conversion
     - Includes familiar things like truthiness (`__bool__`) and `__str__`
-    - `__int__`, `__bytes__`, `__bool__`
+    - Also `__int__`, `__bytes__`, `__bool__`
     - There's no `__list__`, `__tuple__`, or `__set__` because those rely on iteration (you'll need `__iter__` for that)
     - There's no `__dict__` because that relies either on iteration or the presence of a `keys` method and a `__getitem__` method (Python's practicing very fuzzy duck typing here)
     - etc.?
 - Constuction/destruction (rare)
 - Metaprogramming: `__init_subclass__`, `__instancecheck__`, etc
 - Iterator methods (rare)
-- Dunder attributes you won't define (`__name__`, `__code__`, `__doc__`, etc.)
+- There are also dunder attributes you won't define (`__name__`, `__code__`, `__doc__`, `__class__`, `__bases__`, `__mro__`, etc.)
 
 https://docs.python.org/3/reference/datamodel.html
 
@@ -459,7 +460,191 @@ If you're interested in callability spend 2 minutes [reading/watching this Pytho
 
 ### Arithmetic
 
-TODO
+Have you ever seen objects that act kind of like a number, but *aren't* a number?
+
+For example the `datetime` and `timedelta` from Python's [datetime][] support arithmetic operations.
+
+You can add `timedelta` objects together, subtract them from each other, and multiply them by numbers to scale them up and down:
+
+```pycon
+>>> from datetime import timedelta
+>>> week = timedelta(days=7)
+>>> day = timedelta(days=1)
+>>> week + day
+datetime.timedelta(days=8)
+>>> week - day
+datetime.timedelta(days=6)
+>>> day * 365
+datetime.timedelta(days=365)
+```
+
+And you can add and subtract `timedelta` objects from `datetime` objects to shift the `datetime`:
+
+```pycon
+>>> from datetime import datetime, timedelta
+>>> nye = datetime(2025, 12, 31)
+>>> week = timedelta(days=7)
+>>> nye + week
+datetime.datetime(2026, 1, 7, 0, 0)
+>>> nye - week
+datetime.datetime(2025, 12, 24, 0, 0)
+```
+
+To implement `+`, your object will need a `__add__` method:
+
+```python
+class Vector:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+    def __add__(self, other):
+        if not isinstance(other, Vector):
+            return NotImplemented
+        return Vector(self.x+other.x, self.y+other.y)
+```
+
+The `__add__` method should return `NotImplemented` whenever it's given a type of object it doesn't know how to add itself to.
+
+If your objects need to be addable to other types of objects, you'll also need a `__radd__` method.
+For example Python's `datetime` objects implement both `__add__` and `__radd__` methods to support addition with `timedelta` objects.
+
+Python's `timedelta` objects don't know how to add themselves to `datetime` objects:
+
+```pycon
+>>> from datetime import datetime, timedelta
+>>> nye = datetime(2025, 12, 31)
+>>> week = timedelta(days=7)
+>>> week.__add__(nye)
+NotImplemented
+```
+
+When Python called `week.__add__(nye)` it got `NotImplemented`, which means that `week` doesn't know how to add itself to `nye`.
+So Python attempts a **right-hand addition** on `nye` with `week`:
+
+```pycon
+>>> nye.__radd__(week)
+datetime.datetime(2026, 1, 7, 0, 0)
+```
+
+Calling `__add__` on a `timedelta` with a `datetime` didn't work, but calling `__radd__` on a `datetime` object with a `timedelta` object did work. So both `nye + week` and `week + nye` will work as expected!
+
+The addition operator is usually commutative (meaning `a + b` is the same as `b + a`), but Python doesn't assume that's the case.
+So addition, subtraction, multiplication, and division all have support for left-hand operations as well as right-hand operations.
+
+Here's a table showing each arithmetic operation and the dunder method that corresponds to it.
+
+|    Operation   | Left Dunder Method  | Right Dunder Method  |
+| -------------- | ------------------- | -------------------- |
+|    `a + b`     | `a.__add__(b)`      | `b.__radd__(a)`      |
+|    `a - b`     | `a.__sub__(b)`      | `b.__rsub__(a)`      |
+|    `a * b`     | `a.__mul__(b)`      | `b.__rmul__(a)`      |
+|    `a ** b`    | `a.__pow__(b)`      | `b.__rpow__(a)`      |
+|      `-a`      | `a.__neg__()`       | --                   |
+|      `+a`      | `a.__pos__()`       | --                   |
+|   `a / b`      | `a.__truediv__(b)`  | `b.__rtruediv__(a)`  |
+|   `a // b`     | `a.__floordiv__(b)` | `b.__rfloordiv__(a)` |
+|    `a % b`     | `a.__mod__(b)`      | `b.__rmod__(a)`      |
+| `divmod(a, b)` | `a.__divmod__(b)`   | `b.__rdivmod__(a)`   |
+|    `int(a)`    | `a.__int__()`       | --                   |
+|   `float(a)`   | `a.__float__()`     | --                   |
+|    `abs(a)`    | `a.__abs__()`       | --                   |
+|   `floor(a)`   | `a.__floor__()`     | --                   |
+|    `ceil(a)`   | `a.__ceil__()`      | --                   |
+
+All of the binary operations above (operations that have two objects instead of just one), have both a left-hand and right-hand support.
+If you're implementing one of those operators **only for objects of the same type**, you'll only need to implement the **left dunder method**.
+But if you're implementing the operator on objects of different types, you'll need to implement the **right dunder method** as well.
+
+Here's one more example of left and right-hand operations with Python's `int` and `float` types.
+
+```pycon
+>>> i = 2
+>>> f = 2.5
+```
+
+Even though integers don't know how to add themselves to floating point numbers in Python adding an `int` to a `float` still works.
+It works because passing a `float` to `int`'s `__add__` method returns `NotImplemented` so Python attempts a right-hand side addition on the `float` instead:
+
+```pycon
+>>> i + f
+4.5
+>>> i.__add__(f)
+NotImplemented
+>>> f.__radd__(i)
+4.5
+```
+
+The same thing happens with subtraction between `int` and `float` objects:
+
+```pycon
+>>> i - f
+-0.5
+>>> i.__sub__(f)
+NotImplemented
+>>> f.__rsub__(i)
+-0.5
+```
+
+And with multiplication and division too:
+
+```pycon
+>>> i * f
+5.0
+>>> i.__mul__(f)
+NotImplemented
+>>> f.__rmul__(i)
+5.0
+>>> i / f
+0.8
+>>> i.__truediv__(f)
+NotImplemented
+>>> f.__rtruediv__(i)
+0.8
+```
+
+
+### In-place arithmetic operators
+
+Python has many **augmented assignment operators** (`+=`, `-=`, `*=` etc).
+These are often called **in-place** operators because they're meant to operate on an object in-place.
+
+Using the `+=` operator in a list will call the `__iadd__` method on that list:
+
+```pycon
+>>> numbers = [2, 1, 3, 4]
+>>> numbers += [7, 11, 18]
+>>> numbers
+[2, 1, 3, 4, 7, 11, 18]
+>>> numbers.__iadd__([29, 47, 76])
+>>> numbers
+[2, 1, 3, 4, 7, 11, 18, 29, 47, 76]
+```
+
+The `__iadd__` method mutates the list *and* returns the same list.
+You can think of the list `__iadd__` method as equivalent to this:
+
+```python
+    def __iadd__(self, iterable):
+        self.extend(iterable)
+        return self
+```
+
+If you're making an immutable object (on an object that's meant to be immutable), you don't need to implement any in-place addition operators because Python will automatically fallback to the non-in-place operator along with an assignment instead.
+
+For example with tuples and strings, `+=` is the same as `+` followed by `=`:
+
+```pycon
+TODO show tuple identity changing but list identity being the same?
+```
+
+- `__iadd__`
+- `__isub__`
+- `__imul__`
+- `__itruediv__`
+- `__itruediv__`
+- `__ifloordiv__`
+- `__imod__`
+- `__ipow__`
+- `__ipow__`
 
 
 ### Bitwise arithmetic / set operations
@@ -489,3 +674,4 @@ TODO
 [callable]: https://www.pythonmorsels.com/topics/callables/
 [callable article]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/
 [context managers]: https://www.pythonmorsels.com/topics/context-managers/
+[datetime]: https://docs.python.org/3/library/datetime.html
