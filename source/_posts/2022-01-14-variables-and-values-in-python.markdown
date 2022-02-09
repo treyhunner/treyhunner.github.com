@@ -286,6 +286,8 @@ Note that even though the second item in `second_matrix` looks like the third it
 
 The two rows were equal but not identical: they represented the same data but were different objects.
 
+You can see a [Python Tutor visualization of the above code here](https://pythontutor.com/visualize.html#code=matrix%20%3D%20%5B%5B1,%202,%203%5D,%20%5B4,%205,%206%5D,%20%5B7,%208,%209%5D%5D%0A%0A%23%20row%20is%20matrix%5B1%5D%0Arow%20%3D%20matrix%5B1%5D%0Arow%5B0%5D%20%3D%201000%0Aprint%28row%29%0Aprint%28matrix%29%0A%0A%23%20matrix%5B0%5D%20is%20second_matrix%5B0%5D%0Asecond_matrix%20%3D%20%5Bmatrix%5B0%5D,%20%5B7,%208,%209%5D,%20%5B10,%2011,%2012%5D%5D%0Asecond_matrix%5B0%5D%5B0%5D%20%3D%200%0Aprint%28second_matrix%29%0Aprint%28matrix%29%0A%0A%23%20matrix%5B1%5D%20is%20not%20second_matrix%5B1%5D%0Asecond_matrix%5B1%5D%5B0%5D%20%3D%20100%0Aprint%28second_matrix%29%0Aprint%28matrix%29&cumulative=false&curInstr=0&heapPrimitives=true&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false).
+
 
 ## Function arguments act like assignment statements
 
