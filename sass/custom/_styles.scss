@@ -15,6 +15,9 @@ article {
   img.no-radius {
     @include border-radius(0);
   }
+  img.full-width {
+    width: 100%;
+  }
 }
 
 blockquote { font-size: 1.0em; }

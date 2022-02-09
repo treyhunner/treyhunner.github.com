@@ -31,11 +31,11 @@ Variables in Python are not buckets containing things; they're **pointers** (the
 That word "pointer" may sound scary (it is both scarier and more complex in C and C++), but it mostly means what it sounds like.
 You can think of variables as living in variable land and values as living in value land and an arrow connects each variable to each value.
 
-{% img "no-radius" /images/variable-diagram-different-values.svg %}
+{% img "no-radius full-width" /images/variable-diagram-different-values.svg %}
 
 Note that 2 variables can even point to the same value.
 
-{% img "no-radius" /images/variable-diagram-same-value.svg %}
+{% img "no-radius full-width" /images/variable-diagram-same-value.svg %}
 
 But only one arrow comes out of each variable (and there must be an arrow because each variable always has a value).
 
@@ -246,6 +246,10 @@ True
 ```
 
 The `id` of second object (index `1`) in our `matrix` list is the same as the `id` of `row` and the `is` operator tells us that they are identical (they're literally *the same object*).
+
+Here's a visual diagram showing this deceptively complex relationship.
+
+{% img "no-radius full-width" /images/data-structures-diagram.svg %}
 
 Not only can a data structure and a variable point to the same object.
 Two data structures can point to the same object:
