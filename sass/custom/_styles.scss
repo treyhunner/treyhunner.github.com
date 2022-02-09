@@ -12,6 +12,9 @@ article {
     border: none;
     @include box-shadow(none);
   }
+  img.no-radius {
+    @include border-radius(0);
+  }
 }
 
 blockquote { font-size: 1.0em; }

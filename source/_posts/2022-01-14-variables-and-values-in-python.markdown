@@ -9,29 +9,33 @@ categories: python
 In Python, variables and data structures **don't contain objects**.
 This fact is easy to miss when new to Python and it can be tricky to internalize.
 
-TODO more intro?
+Let's talk about a concept that's both crucial to understanding Python's model of the world *and* very commonly common overlooked when learning (and teaching) Python.
 
 ## Definitions
 
 "Value" and "object" are synonyms in this thread.
+These terms refer to *things*: lists, dictionaries, strings, numbers, tuples, and even functions and modules (I often say [everything is an object in Python][]).
 
 "Variable" and "name" are also synonyms.
+These terms refer to the names we use to refer to objects.
 
-**TODO** do I need to explain "pointer"? Should I just say that pointer means something big in C and C++ because there's referencing and dereferencing and pointers to pointers but in Python it just means "an arrow, representing a level of indirection"?
+"Pointer" is a Computer Science term that represents the connection between variables and values.
+This term is complex in some programming languages, but fairly simple in Python (by comparison at least).
+We define this below.
 
 
 ## Python's variables are pointers, not buckets
 
 Variables in Python are not buckets containing things; they're **pointers** (they *point* to values).
 
-That word "pointer" may sound scary (it is scary in C and C++), but it mostly means what it sounds like.
+That word "pointer" may sound scary (it is both scarier and more complex in C and C++), but it mostly means what it sounds like.
 You can think of variables as living in variable land and values as living in value land and an arrow connects each variable to each value.
 
-**TODO** need image of variables in variable land and values in value land
+{% img "no-radius" /images/variable-diagram-different-values.svg %}
 
 Note that 2 variables can even point to the same value.
 
-**TODO** image that points two variables to the same value
+{% img "no-radius" /images/variable-diagram-same-value.svg %}
 
 But only one arrow comes out of each variable (and there must be an arrow because each variable always has a value).
 
@@ -91,9 +95,7 @@ To avoid thinking in terms of pointers or references (or whatever other term you
 
 Some folks try to form a mental model that avoids this distinction between variables and objects.
 I call this less accurate mental model the **as-if mental model**.
-It goes something like this:
-
-> When an object changes it's "as if" each variable that points to it changed.
+It goes something like this: <q>When an object changes it's "as if" each variable that points to it changed.</q>
 
 I said **this mental model isn't accurrate**.
 But what's the problem with it?
@@ -373,9 +375,59 @@ When you copy an object in Python, if that object **points to other objects**, y
 New Python programmers sometimes see this behavior and decide to start sprinkling `copy.deepcopy` into their code.
 The `deepcopy` function attempts to recursively copy the object given to it as well as every object it points to (and the objects those point to and so on).
 
-TODO show deepcopy
+```python
+from copy import deepcopy
+from datetime import datetime
 
-While deepcopy works, there's usually a simpler approach that most Python programmers take: **don't mutate an object that doesn't belong to you**.
+tweet_data = [
+    {
+        "created_at": "Tue Feb 04 00:51:01 +0000 2014",
+        "full_text": "I finally decided it was time to get my own Twitter account.",
+    },
+    {
+        "created_at": "Wed Apr 16 06:05:52 +0000 2014",
+        "full_text": 'OH: "Mallic acid? They just made that word up" #pycon2014',
+    },
+]
+
+def parse_time(string):
+    return datetime.strptime(string, "%a %b %d %H:%M:%S %z %Y")
+
+# Parse date strings into datetime objects
+processed_data = deepcopy(tweet_data)
+for tweet in processed_data:
+    tweet["created_at"] = parse_time(tweet["created_at"])
+```
+
+While `deepcopy` works, there's usually a simpler approach that most Python programmers take: **don't mutate an object that doesn't belong to you**.
+
+Instead of changing an object you were given, you could make new objects that contain the data you'd like:
+
+```python
+from datetime import datetime
+
+tweet_data = [
+    {
+        "created_at": "Tue Feb 04 00:51:01 +0000 2014",
+        "full_text": "I finally decided it was time to get my own Twitter account.",
+    },
+    {
+        "created_at": "Wed Apr 16 06:05:52 +0000 2014",
+        "full_text": 'OH: "Mallic acid? They just made that word up" #pycon2014',
+    },
+]
+
+def parse_time(string):
+    return datetime.strptime(string, "%a %b %d %H:%M:%S %z %Y")
+
+# Parse date strings into datetime objects
+processed_data = [
+    {**tweet, "created_at": parse_time(tweet["created_at"])}
+    for tweet in tweet_data
+]
+```
+
+The `deepcopy` function has its uses, but it's often unnecessary.
 
 
 ## Summary
@@ -399,8 +451,11 @@ So **objects cannot contain objects in Python** (they can only *point to* object
 And note that while **mutations change objects** (not variables), multiple variables *can* point to the same object.
 If two variables point to the same object and that object gets mutated, that change will be seen when accessing either variable (because they both point to the same object).
 
-This mental model of Python can be tricky to internalize at first.
-If you haven't internalized this how variables and values work, that's okay!
+I teach this concept in both introductory and intermediate Python trainings because it's so often overlooked.
+It's possible (and common) to happily use Python for years without really understanding how variables and data structures actually work.
+But understanding this variable and value distinction can alleviate *many* common Python gotchas.
+
+This mental model of Python can be tricky to internalize and it's okay if you haven't yet!
 Python was designed to embrace this idea and continually pushes us in the direction of *doing the right thing* when it comes to variables and values.
 
 
@@ -409,3 +464,4 @@ Python was designed to embrace this idea and continually pushes us in the direct
 [parameters]: https://docs.python.org/3/glossary.html#term-parameter
 [arguments]: https://docs.python.org/3/glossary.html#term-argument
 [shared defaults]: https://docs.python.org/3/faq/programming.html#why-are-default-values-shared-between-objects
+[everything is an object in Python]: https://www.pythonmorsels.com/topics/everything-is-an-object/
