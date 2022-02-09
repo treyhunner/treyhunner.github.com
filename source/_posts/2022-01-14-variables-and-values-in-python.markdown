@@ -31,11 +31,11 @@ Variables in Python are not buckets containing things; they're **pointers** (the
 That word "pointer" may sound scary (it is both scarier and more complex in C and C++), but it mostly means what it sounds like.
 You can think of variables as living in variable land and values as living in value land and an arrow connects each variable to each value.
 
-{% img "no-radius full-width" /images/variable-diagram-different-values.svg %}
+{% img "no-radius full-width" /images/variable-diagram-different-values.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers variable points to a list. The numbers2 variable points to a separate list. The name variable points to a string. %}
 
 Note that 2 variables can even point to the same value.
 
-{% img "no-radius full-width" /images/variable-diagram-same-value.svg %}
+{% img "no-radius full-width" /images/variable-diagram-same-value.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers and numbers2 variables have arrows coming out of them pointing to the same list. The name variable points to a string. %}
 
 But only one arrow comes out of each variable (and there must be an arrow because each variable always has a value).
 
@@ -249,7 +249,7 @@ The `id` of second object (index `1`) in our `matrix` list is the same as the `i
 
 Here's a visual diagram showing this deceptively complex relationship.
 
-{% img "no-radius full-width" /images/data-structures-diagram.svg %}
+{% img "no-radius full-width" /images/data-structures-diagram.svg Diagram showing matrix variable which points to a list of 3 items. Each item has an arrow coming out of it, pointing to a separate list. Each of these sublists has 3 elements which each point to a separate integer object. There's also a row variable which points to a list that's also pointed to by index 1 of the matrix list. %}
 
 Not only can a data structure and a variable point to the same object.
 Two data structures can point to the same object:
