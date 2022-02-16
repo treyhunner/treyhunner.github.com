@@ -88,52 +88,22 @@ So if another variable points to an object that we've just mutated, it will refl
 
 ## Other mental models tend to be more complex or erroneous
 
-Remember when I said that word "pointer" is scary?
-It's scary because in necessitates a *distinction* between variables and objects.
-Variables point to objects and we change one independent of the other.
-
-To avoid thinking in terms of pointers or references (or whatever other term you can think of to describe the separation between variables and object), sometimes Python educators will try to (overly) simplify this mental model.
-
-Some folks try to form a mental model that avoids this distinction between variables and objects.
-I call this less accurate mental model the **as-if mental model**.
-It goes something like this: <q>When an object changes it's "as if" each variable that points to it changed.</q>
-
-I said **this mental model isn't accurate**.
-But what's the problem with it?
-
-Well, this as-if mental model breaks down for assignment statements.
-
-Let's say `numbers` and `other_numbers` point to the same list:
-
-```pycon
->>> numbers = [2, 1, 3]
->>> other_numbers = numbers
-```
-
-And then we assign to the `numbers` variable:
-
-```pycon
->>> numbers = [9, 8, 7]
-```
-
-Our `numbers` variable changed but `other_numbers` didn't change:
-
-```pycon
->>> numbers
-[9, 8, 7]
->>> other_numbers
-[2, 1, 3]
-```
-
-The `numbers` and `other_numbers` variables both pointed to the same object before.
-If we had mutated that object, they both would have "seen" that change (because the object they both point to changed), just as with `numbers` and `numbers2` before.
-
-But **we didn't mutate any objects here**.
-Instead we reassigned `numbers`, pointing it to a *new* object.
-We changed which object `numbers` pointed to, which doesn't affect `other_numbers` at all.
-
-Our as-if mental model attempts to remove the separation between variables and objects.
+Sometimes Python educators will try to simplify the mental model of how variables work by skipping over the distinction between variables and values.
 But that separation is *essential* to understanding how Python's variables and values actually work.
+
+Variables *point* to objects and we can change a variable independent of an object.
+
+Yes, the word **pointer** *is* a bit scary.
+But a lot of that scariness comes from related concepts (like referencing and dereferencing) which aren't relevant in Python.
+
+Personally I like the word **pointer** because it evokes a mental image of **an arrow pointing from a variable to a value**.
+But if the word pointer scares you, use the word **reference** instead.
+Just do a mental translation whenever see pointer-based phrases:
+
+- **pointer** &rArr; **reference**
+- **point to** &rArr; **refer to**
+- **pointed to** &rArr; **referenced**
+- **point X to Y** &rArr; **cause X to refer to Y**
 
 
 ## Identity and equality exist because variables are pointers
