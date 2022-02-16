@@ -446,25 +446,9 @@ for tweet in processed_data:
 
 While `deepcopy` works, there's usually a simpler approach that most Python programmers take: **don't mutate an object that doesn't belong to you**.
 
-Instead of changing an object you were given, you could make new objects that contain the data you'd like:
+Instead of changing an object you were given, we often make new objects that contain the data we'd like:
 
 ```python
-from datetime import datetime
-
-tweet_data = [
-    {
-        "created_at": "Tue Feb 04 00:51:01 +0000 2014",
-        "full_text": "I finally decided it was time to get my own Twitter account.",
-    },
-    {
-        "created_at": "Wed Apr 16 06:05:52 +0000 2014",
-        "full_text": 'OH: "Mallic acid? They just made that word up" #pycon2014',
-    },
-]
-
-def parse_time(string):
-    return datetime.strptime(string, "%a %b %d %H:%M:%S %z %Y")
-
 # Parse date strings into datetime objects
 processed_data = [
     {**tweet, "created_at": parse_time(tweet["created_at"])}
