@@ -11,6 +11,8 @@ This fact is easy to miss when new to Python and it can be tricky to internalize
 
 Let's talk about a concept that's both crucial to understanding Python's model of the world *and* very commonly common overlooked when learning (and teaching) Python.
 
+<ul data-toc=".entry-content"></ul>
+
 ## Definitions
 
 "Value" and "object" are synonyms in this thread.
