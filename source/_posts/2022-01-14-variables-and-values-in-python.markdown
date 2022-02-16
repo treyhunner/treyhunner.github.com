@@ -482,6 +482,9 @@ So **objects cannot contain objects in Python** (they can only *point to* object
 And note that while **mutations change objects** (not variables), multiple variables *can* point to the same object.
 If two variables point to the same object and that object gets mutated, that change will be seen when accessing either variable (because they both point to the same object).
 
+If you'd like a video recap of these concepts, I try to succinctly explain most of this topic in the first 12 minutes of my [screencast series on Assignments and Mutation in Python][screencasts].
+I also can't wrap this topic up without giving shout out to Ned Batchelder for his wonderful [Python Names and Values][] talk and Brandon Rhodes for his [Names, Objects, and Plummeting From The Cliff][rhodes] talk.
+
 I teach this concept in both introductory and intermediate Python trainings because it's so often overlooked.
 It's possible (and common) to happily use Python for years without really understanding how variables and data structures actually work.
 But understanding this variable and value distinction can alleviate *many* common Python gotchas.
@@ -499,3 +502,6 @@ Python was designed to embrace this idea and continually pushes us in the direct
 [keyword-only arguments]: https://www.pythonmorsels.com/topics/keyword-only-function-arguments/
 [java]: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
 [object]: https://www.pythonmorsels.com/topics/everything-is-an-object/
+[screencasts]: https://www.pythonmorsels.com/topics/playlist/assignment-and-mutation/
+[python names and values]: https://nedbatchelder.com/text/names1.html
+[rhodes]: https://pyvideo.org/pyohio-2011/pyohio-2011-names-objects-and-plummeting-from.html
