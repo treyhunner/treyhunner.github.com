@@ -309,6 +309,46 @@ Also note that each default value is defined once and [shared between all functi
 So avoid using mutable default values and use them very carefully if/when you do.
 
 
+## There's no exception for "primitive" data types
+
+Unlike [Java][], Python doesn't have a concept of primitive data types.
+Everything is an [object][] in Python, even strings and numbers.
+
+But wait, modifying a number *doesn't* change other variables pointing to the same number, right?
+
+```pycon
+>>> n = 3
+>>> m = n  # n and m point to the same number
+>>> n += 2
+>>> n  # n changed
+5
+>>> m  # but m didn't!
+3
+```
+
+That's incorrect.
+Modifying a number *would* change all variables that point to that number.
+But **modifying a number is not possible** in Python.
+Numbers and strings are both **immutable**, meaning you can't mutate them.
+You **cannot change** an immutable object.
+
+So what about that `+=` operator above?
+Didn't that change the number that `n` points to?
+It didn't!
+
+With immutable objects (such as numbers and strings), these two statements are equivalent:
+
+```pycon
+>>> n += 2
+>>> n = n + 2
+```
+
+For immutable objects, all augmented assignments (`+=`, `*=`, `%=`, etc.) are equivalent to an operation followed by an assignment.
+
+Any operation you might *think* changes a string or a number really returns a copy.
+Whether it's an operator or a method call, any operation you perform on an immutable object will always **return a new object** instead of modifying the original.
+
+
 ## Copies are shallow and that's usually okay
 
 Need to copy a list in Python?
@@ -471,3 +511,5 @@ Python was designed to embrace this idea and continually pushes us in the direct
 [shared defaults]: https://docs.python.org/3/faq/programming.html#why-are-default-values-shared-between-objects
 [everything is an object in Python]: https://www.pythonmorsels.com/topics/everything-is-an-object/
 [keyword-only arguments]: https://www.pythonmorsels.com/topics/keyword-only-function-arguments/
+[java]: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
+[object]: https://www.pythonmorsels.com/topics/everything-is-an-object/
