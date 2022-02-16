@@ -266,15 +266,42 @@ Variables are pointers and data structures contain pointers.
 But what about function arguments?
 
 Function arguments work basically the same way as assignment statements.
-The Python documentation distinguishes between [arguments][] (the objects passed-in to a function) and [parameters][] (the names within a function definition that will refer to the passed arguments).
-Most Python programmers (myself included) are much sloppier with these terms, but this distinction is useful when considering the separation between variables and the objects those variables point to.
+
+The Python documentation distinguishes between [arguments][] (objects passed-in to a function) and [parameters][] (the names in a function definition that will point to arguments).
 
 Parameters are just local variables and arguments are just values.
-Meaning if you mutate an object that's passed into your function, you've mutated the original object passed-in by the caller.
+So if you mutate an object that's passed into your function, you've mutated the original object passed-in by the caller.
+
+```pycon
+>>> def smallest_n(items, n):
+...     items.sort()
+...     return items[:n]
+...
+>>> numbers = [29, 7, 1, 4, 11, 18, 2]
+>>> smallest_n(numbers, 4)
+[1, 2, 4, 7]
+>>> numbers
+[1, 2, 4, 7, 11, 18, 29]
+```
+
 But if you reassign a parameter name (the name that points to an argument) to a different object, the passed-in object doesn't change (you've changed a variable, not a value).
 
-When defining a function, your guiding rule for arguments should be: **don't mutate the arguments** that are passed into your function unless the function caller expects you to.
+```pycon
+>>> def smallest_n(items, n):
+...     items = sorted(items)
+...     return items[:n]
+...
+>>> numbers = [29, 7, 1, 4, 11, 18, 2]
+>>> smallest_n(numbers, 4)
+[1, 2, 4, 7]
+>>> numbers
+[29, 7, 1, 4, 11, 18, 2]
+```
 
+**Aside**: Note that most Python programmers (myself included) are sloppy with the terms argument and parameter.
+We often say argument when we mean parameter (e.g. the phrase [keyword-only arguments][] is about parameters not arguments).
+
+When defining a function, your guiding rule for arguments should be: **don't mutate the arguments** that are passed into your function unless the function caller expects you to.
 If you're writing a function that's meant to mutate a given list, mutate.
 If you're not, make sure you don't mutate that list!
 
@@ -443,3 +470,4 @@ Python was designed to embrace this idea and continually pushes us in the direct
 [arguments]: https://docs.python.org/3/glossary.html#term-argument
 [shared defaults]: https://docs.python.org/3/faq/programming.html#why-are-default-values-shared-between-objects
 [everything is an object in Python]: https://www.pythonmorsels.com/topics/everything-is-an-object/
+[keyword-only arguments]: https://www.pythonmorsels.com/topics/keyword-only-function-arguments/
