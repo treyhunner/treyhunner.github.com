@@ -34,6 +34,7 @@ You can think of variables as living in variable land and values as living in va
 {% img "no-radius full-width" /images/variable-diagram-different-values.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers variable points to a list. The numbers2 variable points to a separate list. The name variable points to a string. %}
 
 Note that 2 variables can even point to the same value.
+Look what happens when you point `numbers` and `numbers2` to the same value.
 
 {% img "no-radius full-width" /images/variable-diagram-same-value.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers and numbers2 variables have arrows coming out of them pointing to the same list. The name variable points to a string. %}
 
@@ -49,7 +50,7 @@ So assigning one name to another name is an odd thing to do:
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7]
->>> plus_another = numbers
+>>> numbers2 = numbers
 ```
 
 Python doesn't copy anything when we make an assignment.
@@ -58,15 +59,15 @@ So all we've done is point two names to **the same value**.
 If two variables point to the same value and we *change* that value, look at what happens:
 
 ```pycon
->>> y = [2, 1]
->>> x = y
->>> x.pop()
-1
->>> y
-[2]
+>>> numbers.pop()
+7
+>>> numbers
+[2, 1, 3, 4]
+>>> numbers2
+[2, 1, 3, 4]
 ```
 
-Our two variables (`numbers` and `plus_another`) still point to the same single object, but we've *changed* that object and both variables seem to "see" that change.
+Our two variables (`numbers` and `numbers2`) still point to the same single object, but we've *changed* that object and both variables seem to "see" that change.
 Note that **we didn't change either of our variables**: we've only changed the object that these two variables both point to.
 
 
@@ -82,7 +83,7 @@ The 2 distinct types of change we have in Python are:
 
 **Mutations change objects**, not variables.
 But variables *point to* objects.
-So if another variable points to an object that we've just mutated it will reflect the same change; not because the variable changed but because **the object it happens to point to** has changed.
+So if another variable points to an object that we've just mutated, it will reflect the same change; not because the variable changed but because **the object it happens to point to** has changed.
 
 
 ## Other mental models tend to be more complex or erroneous
@@ -97,7 +98,7 @@ Some folks try to form a mental model that avoids this distinction between varia
 I call this less accurate mental model the **as-if mental model**.
 It goes something like this: <q>When an object changes it's "as if" each variable that points to it changed.</q>
 
-I said **this mental model isn't accurrate**.
+I said **this mental model isn't accurate**.
 But what's the problem with it?
 
 Well, this as-if mental model breaks down for assignment statements.
@@ -125,7 +126,7 @@ Our `numbers` variable changed but `other_numbers` didn't change:
 ```
 
 The `numbers` and `other_numbers` variables both pointed to the same object before.
-If we had mutated that object, they both would have "seen" that change (because the object they both point to changed), just as with `numbers` and `plus_another` before.
+If we had mutated that object, they both would have "seen" that change (because the object they both point to changed), just as with `numbers` and `numbers2` before.
 
 But **we didn't mutate any objects here**.
 Instead we reassigned `numbers`, pointing it to a *new* object.
@@ -296,6 +297,7 @@ But what about function arguments?
 
 Function arguments work basically the same way as assignment statements.
 The Python documentation distinguishes between [arguments][] (the objects passed-in to a function) and [parameters][] (the names within a function definition that will refer to the passed arguments).
+Most Python programmers (myself included) are much sloppier with these terms, but this distinction is useful when considering the separation between variables and the objects those variables point to.
 
 Parameters are just local variables and arguments are just values.
 Meaning if you mutate an object that's passed into your function, you've mutated the original object passed-in by the caller.
@@ -347,9 +349,9 @@ False
 True
 ```
 
-Integers are immutable in Python (as are floating point numbers and strings), so we don't really care that are objects are the same above.
-But occasionally we might care.
+Since integers are immutable in Python (as are floating point numbers and strings) we don't really care that each list contains the same exact integer objects because there's no way to mutate them anyway.
 
+With mutable objects, this distinction matters.
 If we pass a list-of-lists to the `list` constructor, Python will copy 3 pointers to 3 lists to make a new list:
 
 ```pycon
