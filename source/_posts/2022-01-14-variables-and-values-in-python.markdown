@@ -7,58 +7,81 @@ categories: python
 ---
 
 In Python, variables and data structures **don't contain objects**.
-This fact is easy to miss when new to Python and it can be tricky to internalize.
+This fact is both commonly overlooked and tricky to internalize.
 
-Let's talk about a concept that's both crucial to understanding Python's model of the world *and* very commonly common overlooked when learning (and teaching) Python.
+You can happily use Python for years without really understanding the below concepts, but this knowledge can certainly help alleviate *many* common Python gotchas.
+
+Table of Contents:
 
 <ul data-toc=".entry-content"></ul>
 
 ## Definitions
 
-"Value" and "object" are synonyms in this thread.
-These terms refer to *things*: lists, dictionaries, strings, numbers, tuples, and even functions and modules (I often say [everything is an object in Python][]).
+Let's start with some definitions.
 
-"Variable" and "name" are also synonyms.
-These terms refer to the names we use to refer to objects.
+**Object** (a.k.a. **value**): a "thing".
+Lists, dictionaries, strings, numbers, tuples, functions, and modules are all objects.
+"Object" defies definition because [everything is an object in Python][object].
 
-"Pointer" is a Computer Science term that represents the connection between variables and values.
-This term is complex in some programming languages, but fairly simple in Python (by comparison at least).
-We define this below.
+**Variable** (a.k.a. **name**): a name used to refer to an object.
+
+**Pointer** (a.k.a. **reference**): describes where an object lives (often shown visually as an arrow)
+
+**Equality**: whether two objects represent the same data
+
+**Identity**: whether two pointers refer to the same object
+
+These terms are best understood by their relationships to each other (and that's the primary focus of this article).
 
 
 ## Python's variables are pointers, not buckets
 
-Variables in Python are not buckets containing things; they're **pointers** (they *point* to values).
+Variables in Python are not buckets containing things; they're **pointers** (they *point* to objects).
 
-That word "pointer" may sound scary (it is both scarier and more complex in C and C++), but it mostly means what it sounds like.
-You can think of variables as living in variable land and values as living in value land and an arrow connects each variable to each value.
+The word "pointer" may sound scary, but a lot of that scariness comes from related concepts (e.g. dereferencing) which aren't relevant in Python.
+In Python a pointer just represents **the connection between a variable and an objects**.
+
+Imagine **variables** living in *variable land* and **objects** living in *object land*.
+A **pointer** is a little arrow that connects each variable to the object it **points to**.
 
 {% img "no-radius full-width" /images/variable-diagram-different-values.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers variable points to a list. The numbers2 variable points to a separate list. The name variable points to a string. %}
 
-Note that 2 variables can even point to the same value.
-Look what happens when you point `numbers` and `numbers2` to the same value.
+This above diagram represents the state of our Python process after running this code:
 
-{% img "no-radius full-width" /images/variable-diagram-same-value.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers and numbers2 variables have arrows coming out of them pointing to the same list. The name variable points to a string. %}
+```pycon
+>>> numbers = [2, 1, 3, 4, 7]
+>>> numbers2 = [11, 18, 29]
+>>> name = "Trey"
+```
 
-But only one arrow comes out of each variable (and there must be an arrow because each variable always has a value).
+If the word **pointer** scares you, use the word **reference** instead.
+Whenever you see pointer-based phrases in this article, do a mental translation to a reference-based phrase:
+
+- **pointer** &rArr; **reference**
+- **point to** &rArr; **refer to**
+- **pointed to** &rArr; **referenced**
+- **point X to Y** &rArr; **cause X to refer to Y**
 
 
-## Assignments point a variable to a value
+## Assignments point a variable to an object
 
-Assignment statements point a variable to a value.
+Assignment statements point a variable to an object.
 That's it.
 
-So assigning one name to another name is an odd thing to do:
+If we run this code:
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7]
 >>> numbers2 = numbers
+>>> name = "Trey"
 ```
 
-Python doesn't copy anything when we make an assignment.
-So all we've done is point two names to **the same value**.
+The state of our variables and objects would look like this:
 
-If two variables point to the same value and we *change* that value, look at what happens:
+{% img "no-radius full-width" /images/variable-diagram-same-value.svg Diagram showing variables on the left and objects on the right, with arrows between each. The numbers and numbers2 variables have arrows coming out of them pointing to the same list. The name variable points to a string. %}
+
+Note that `numbers` and `numbers2` **point to the same object**.
+If we *change* that object, both variables will seem to "see" that change:
 
 ```pycon
 >>> numbers.pop()
@@ -69,48 +92,34 @@ If two variables point to the same value and we *change* that value, look at wha
 [2, 1, 3, 4]
 ```
 
-Our two variables (`numbers` and `numbers2`) still point to the same single object, but we've *changed* that object and both variables seem to "see" that change.
-Note that **we didn't change either of our variables**: we've only changed the object that these two variables both point to.
+That strangeness was all due to this assignment statement:
+
+```pycon
+>>> numbers2 = numbers
+```
+
+Assignment statements don't copy anything: they just point a variable to an object.
+So assigning one variable to another variable just **points two variables to the same object**.
 
 
 ## The 2 types of "change" in Python
 
-The word "change" is often ambiguous in Python.
-The phrase "when we changed x" could mean two different things.
+Python has 2 distinct types of "change":
 
-The 2 distinct types of change we have in Python are:
+1. **Assignment** changes a variable (it changes *which* object it points to)
+2. **Mutation** changes an object (which any number of variables might point to)
 
-1. **Assignments**: an assignment changes a variable (specifically which object a variable points to)
-2. **Mutations**: mutations change an object (which may be pointed to by any number of variables)
+The word "change" is often ambiguous.
+The phrase "we changed `x`" could mean "we re-assigned `x`" or it might mean "we mutated the object `x` points to".
 
 **Mutations change objects**, not variables.
 But variables *point to* objects.
-So if another variable points to an object that we've just mutated, it will reflect the same change; not because the variable changed but because **the object it happens to point to** has changed.
+So if another variable points to an object that *we've just mutated*, that other variable will reflect the same change; not because the variable changed but because **the object points to** changed.
 
 
-## Other mental models tend to be more complex or erroneous
+## Equality compares objects and identity compares pointers
 
-Sometimes Python educators will try to simplify the mental model of how variables work by skipping over the distinction between variables and values.
-But that separation is *essential* to understanding how Python's variables and values actually work.
-
-Variables *point* to objects and we can change a variable independent of an object.
-
-Yes, the word **pointer** *is* a bit scary.
-But a lot of that scariness comes from related concepts (like referencing and dereferencing) which aren't relevant in Python.
-
-Personally I like the word **pointer** because it evokes a mental image of **an arrow pointing from a variable to a value**.
-But if the word pointer scares you, use the word **reference** instead.
-Just do a mental translation whenever see pointer-based phrases:
-
-- **pointer** &rArr; **reference**
-- **point to** &rArr; **refer to**
-- **pointed to** &rArr; **referenced**
-- **point X to Y** &rArr; **cause X to refer to Y**
-
-
-## Identity and equality exist because variables are pointers
-
-Python's `==` operator checks that two objects **represent the same data**:
+Python's `==` operator checks that two objects **represent the same data** (a.k.a. **equality**):
 
 ```pycon
 >>> my_numbers = [2, 1, 3, 4]
@@ -119,9 +128,16 @@ Python's `==` operator checks that two objects **represent the same data**:
 True
 ```
 
-The `my_numbers` and `your_numbers` variables point to lists that have the same number of objects and each object in the same relative position is equal (represents the same data) to the other.
+Python's `is` operator checks whether two objects **are the same object** (a.k.a. **identity**):
 
-If we modified one of these two lists, they wouldn't be equal anymore:
+```pycon
+>>> my_numbers is your_numbers
+False
+```
+
+The `my_numbers` and `your_numbers` variables point to objects representing the same data, the objects they point to **are not the same object**.
+
+So changing one object doesn't change the other:
 
 ```pycon
 >>> my_numbers[0] = 7
@@ -129,20 +145,15 @@ If we modified one of these two lists, they wouldn't be equal anymore:
 False
 ```
 
-Python's `is` operator checks whether two objects **are the same object**:
+If two variables point to the same object:
 
 ```pycon
->>> my_numbers = [2, 1, 3, 4]
->>> your_numbers = [2, 1, 3, 4]
 >>> my_numbers_again = my_numbers
->>> my_numbers is your_numbers
-False
 >>> my_numbers is my_numbers_again
 True
 ```
 
-The `my_numbers` variable and the `my_numbers_again` variable **point to the same object**.
-Changing one object will change the other (because the two objects are one in the same):
+Changing the object one variable points also changes the object the other points to because they both point to the same object:
 
 ```pycon
 >>> my_numbers_again.append(7)
@@ -152,36 +163,50 @@ Changing one object will change the other (because the two objects are one in th
 [2, 1, 3, 4, 7]
 ```
 
-But the `your_numbers` variable points to a different object (the `is` operator returned `False` when comparing it to `my_numbers`), so that object didn't change:
-
-```pycon
->>> your_numbers
-[2, 1, 3, 4]
-```
-
-The `is` operator checks for **identity** and the `==` operator checks for **equality**.
-In Python equality checks are very common and identity checks are very rare.
-
-Another way to check identity is by comparing the `id` of an object:
-
-```pycon
->>> id(my_numbers)
-140418754598848
->>> id(your_numbers)
-140418754532352
->>> id(my_numbers_again)
-140418754598848
-```
-
-The `my_numbers` and `my_numbers_again` variables above point to objects that have the same `id`, which means they point to the same object.
-
+The `==` operator checks for **equality** and the `is` operator checks for **identity**.
 This distinction between identity and equality exists because variables **don't contain objects**, they **point to objects**.
+
+In Python equality checks are very common and [identity checks are very rare][identity].
+
+
+## There's no exception for immutable objects
+
+But wait, modifying a number *doesn't* change other variables pointing to the same number, right?
+
+```pycon
+>>> n = 3
+>>> m = n  # n and m point to the same number
+>>> n += 2
+>>> n  # n has changed
+5
+>>> m  # but m hasn't changed!
+3
+```
+
+Well, **modifying a number is not possible** in Python.
+Numbers and strings are both **immutable**, meaning you can't mutate them.
+You **cannot change** an immutable object.
+
+So what about that `+=` operator above?
+Didn't that mutate a number?
+(It didn't.)
+
+With immutable objects, these two statements are equivalent:
+
+```pycon
+>>> n += 2
+>>> n = n + 2
+```
+
+For immutable objects, augmented assignments (`+=`, `*=`, `%=`, etc.) perform an operation (which returns a new object) and then do an assignment (to that new object).
+
+Any operation you might *think* changes a string or a number instead returns a new object.
+Any operation on an immutable object always **returns a new object** instead of modifying the original.
 
 
 ## Data structures contain pointers
 
-Like variables, data structures also **do not contain objects**.
-Data structures **contain pointers to objects**.
+Like variables, data structures **don't contain objects**, they **contain pointers to objects**.
 
 Let's say we make a list-of-lists:
 
@@ -189,7 +214,7 @@ Let's say we make a list-of-lists:
 >>> matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 ```
 
-And then we make a variable that points to the second list in our list-of-lists:
+And then we make a variable pointing to the second list in our list-of-lists:
 
 ```pycon
 >>> row = matrix[1]
@@ -197,86 +222,44 @@ And then we make a variable that points to the second list in our list-of-lists:
 [4, 5, 6]
 ```
 
-If we mutate this list object, we'll see it change in both places:
+The state of our variables and objects now looks like this:
+
+{% img "no-radius full-width" /images/data-structures-diagram.svg Diagram showing matrix variable which points to a list of 3 items. Each item has an arrow coming out of it, pointing to a separate list. Each of these sublists has 3 elements which each point to a separate integer object. There's also a row variable which points to a list that's also pointed to by index 1 of the matrix list. %}
+
+Our `row` variable **points to the same object** as index `1` in our `matrix` list:
+
+```pycon
+>>> row is matrix[1]
+True
+```
+
+So if we mutate the list that `row` points to:
 
 ```pycon
 >>> row[0] = 1000
+```
+
+We'll see that change in both places:
+
+```pycon
 >>> row
 [1000, 5, 6]
 >>> matrix
 [[1, 2, 3], [1000, 5, 6], [7, 8, 9]]
 ```
 
-Index `1` in our `matrix` list **points to the same object** as the `row` variable:
-
-```pycon
->>> [id(x) for x in matrix]
-[140418754597888, 140418754594240, 140418754576448]
->>> id(row)
-140418754594240
->>> matrix[1] is row
-True
-```
-
-The `id` of second object (index `1`) in our `matrix` list is the same as the `id` of `row` and the `is` operator tells us that they are identical (they're literally *the same object*).
-
-Here's a visual diagram showing this deceptively complex relationship.
-
-{% img "no-radius full-width" /images/data-structures-diagram.svg Diagram showing matrix variable which points to a list of 3 items. Each item has an arrow coming out of it, pointing to a separate list. Each of these sublists has 3 elements which each point to a separate integer object. There's also a row variable which points to a list that's also pointed to by index 1 of the matrix list. %}
-
-Not only can a data structure and a variable point to the same object.
-Two data structures can point to the same object:
-
-```pycon
->>> second_matrix = [matrix[0], [7, 8, 9], [10, 11, 12]]
->>> second_matrix
-[[1, 2, 3], [7, 8, 9], [10, 11, 12]]
->>> second_matrix[0] is matrix[0]
-True
-```
-
-The first row in `matrix` is the same object as the first row in `second_matrix`.
-
-So changing one changes the other:
-
-```pycon
->>> second_matrix[0][0] = 0
->>> second_matrix
-[[0, 2, 3], [7, 8, 9], [10, 11, 12]]
->>> matrix
-[[0, 2, 3], [1000, 5, 6], [7, 8, 9]]
-```
-
-Note that even though the second item in `second_matrix` looks like the third item in `matrix`, the two are not identical, so changing one doesn't change the other:
-
-```pycon
->>> second_matrix[1][0] = 100
->>> second_matrix
-[[0, 2, 3], [100, 8, 9], [10, 11, 12]]
->>> matrix
-[[0, 2, 3], [1000, 5, 6], [7, 8, 9]]
-```
-
-The two rows were equal but not identical: they represented the same data but were different objects.
-
-You can see a [Python Tutor visualization of the above code here](https://pythontutor.com/visualize.html#code=matrix%20%3D%20%5B%5B1,%202,%203%5D,%20%5B4,%205,%206%5D,%20%5B7,%208,%209%5D%5D%0A%0A%23%20row%20is%20matrix%5B1%5D%0Arow%20%3D%20matrix%5B1%5D%0Arow%5B0%5D%20%3D%201000%0Aprint%28row%29%0Aprint%28matrix%29%0A%0A%23%20matrix%5B0%5D%20is%20second_matrix%5B0%5D%0Asecond_matrix%20%3D%20%5Bmatrix%5B0%5D,%20%5B7,%208,%209%5D,%20%5B10,%2011,%2012%5D%5D%0Asecond_matrix%5B0%5D%5B0%5D%20%3D%200%0Aprint%28second_matrix%29%0Aprint%28matrix%29%0A%0A%23%20matrix%5B1%5D%20is%20not%20second_matrix%5B1%5D%0Asecond_matrix%5B1%5D%5B0%5D%20%3D%20100%0Aprint%28second_matrix%29%0Aprint%28matrix%29&cumulative=false&curInstr=0&heapPrimitives=true&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false).
+It's common to speak of data structures "containing" objects, but they actually only contain pointers to objects.
 
 
 ## Function arguments act like assignment statements
 
-Variables are pointers and data structures contain pointers.
-But what about function arguments?
+Function calls also perform assignments.
 
-Function arguments work basically the same way as assignment statements.
-
-The Python documentation distinguishes between [arguments][] (objects passed-in to a function) and [parameters][] (the names in a function definition that will point to arguments).
-
-Parameters are just local variables and arguments are just values.
-So if you mutate an object that's passed into your function, you've mutated the original object passed-in by the caller.
+If you mutate an object that was passed-in to your function, you've mutated the original object:
 
 ```pycon
 >>> def smallest_n(items, n):
-...     items.sort()
+...     items.sort()  # This mutates the list (it sorts in-place)
 ...     return items[:n]
 ...
 >>> numbers = [29, 7, 1, 4, 11, 18, 2]
@@ -286,11 +269,11 @@ So if you mutate an object that's passed into your function, you've mutated the 
 [1, 2, 4, 7, 11, 18, 29]
 ```
 
-But if you reassign a parameter name (the name that points to an argument) to a different object, the passed-in object doesn't change (you've changed a variable, not a value).
+But if you reassign a variable to a different object, the original object will not change:
 
 ```pycon
 >>> def smallest_n(items, n):
-...     items = sorted(items)
+...     items = sorted(items)  # this makes a new list (original is unchanged)
 ...     return items[:n]
 ...
 >>> numbers = [29, 7, 1, 4, 11, 18, 2]
@@ -300,55 +283,9 @@ But if you reassign a parameter name (the name that points to an argument) to a 
 [29, 7, 1, 4, 11, 18, 2]
 ```
 
-**Aside**: Note that most Python programmers (myself included) are sloppy with the terms argument and parameter.
-We often say argument when we mean parameter (e.g. the phrase [keyword-only arguments][] is about parameters not arguments).
+We **changed an object** in the first case and we **changed a variable** in the second case.
 
-When defining a function, your guiding rule for arguments should be: **don't mutate the arguments** that are passed into your function unless the function caller expects you to.
-If you're writing a function that's meant to mutate a given list, mutate.
-If you're not, make sure you don't mutate that list!
-
-Also note that each default value is defined once and [shared between all function calls][shared defaults].
-So avoid using mutable default values and use them very carefully if/when you do.
-
-
-## There's no exception for "primitive" data types
-
-Unlike [Java][], Python doesn't have a concept of primitive data types.
-Everything is an [object][] in Python, even strings and numbers.
-
-But wait, modifying a number *doesn't* change other variables pointing to the same number, right?
-
-```pycon
->>> n = 3
->>> m = n  # n and m point to the same number
->>> n += 2
->>> n  # n changed
-5
->>> m  # but m didn't!
-3
-```
-
-That's incorrect.
-Modifying a number *would* change all variables that point to that number.
-But **modifying a number is not possible** in Python.
-Numbers and strings are both **immutable**, meaning you can't mutate them.
-You **cannot change** an immutable object.
-
-So what about that `+=` operator above?
-Didn't that change the number that `n` points to?
-It didn't!
-
-With immutable objects (such as numbers and strings), these two statements are equivalent:
-
-```pycon
->>> n += 2
->>> n = n + 2
-```
-
-For immutable objects, all augmented assignments (`+=`, `*=`, `%=`, etc.) are equivalent to an operation followed by an assignment.
-
-Any operation you might *think* changes a string or a number really returns a copy.
-Whether it's an operator or a method call, any operation you perform on an immutable object will always **return a new object** instead of modifying the original.
+So **don't mutate the objects** passed-in to your function unless the function caller expects you to.
 
 
 ## Copies are shallow and that's usually okay
@@ -359,25 +296,19 @@ Need to copy a list in Python?
 >>> numbers = [2000, 1000, 3000]
 ```
 
-You could call the `copy` method (if you're certain you have a list and not some other iterable):
+You could call the `copy` method (if you're certain your iterable is a list):
 
 ```pycon
 >>> my_numbers = numbers.copy()
 ```
 
-Or you could slice the list (if you're comfortable with hard-to-read code...):
-
-```pycon
->>> my_numbers = numbers[:]
-```
-
-Or you could pass it to the `list` constructor (this works on **any iterable**, not just on lists):
+Or you could pass it to the `list` constructor (this works on **any iterable**):
 
 ```pycon
 >>> my_numbers = list(numbers)
 ```
 
-All of these techniques make a new list which **points to the same objects** as the original list.
+Both of these techniques make a new list which **points to the same objects** as the original list.
 
 The two lists are distinct, but the objects within them are the same:
 
@@ -388,17 +319,17 @@ False
 True
 ```
 
-Since integers are immutable in Python (as are floating point numbers and strings) we don't really care that each list contains the same exact integer objects because there's no way to mutate them anyway.
+Since integers are immutable in Python we don't really care that each list contains the same objects because we can't mutate those objects anyway.
 
 With mutable objects, this distinction matters.
-If we pass a list-of-lists to the `list` constructor, Python will copy 3 pointers to 3 lists to make a new list:
+This makes two list-of-lists which each contain pointers to the same three lists:
 
 ```pycon
 >>> matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 >>> new_matrix = list(matrix)
 ```
 
-Our two lists aren't the same, but each item within them is the same:
+These two lists aren't the same, but each item within them is the same:
 
 ```pycon
 >>> matrix is new_matrix
@@ -407,7 +338,11 @@ False
 True
 ```
 
-So if we mutate the first row in one, it'll mutate the same object within the other:
+Here's a rather complex visual representation of these two objects and the pointers they contain:
+
+{% img "no-radius full-width" /images/data-structures-same-pointers-diagram.svg Diagram showing matrix variable which points to a list of 3 items and a new_matrix variable which points to a separate list of 3 items. Each corresponding item in each of these matrix and new_matrix lists points to the same sublist. %}
+
+So if we mutate the first item in one list, it'll mutate the same item within the other list:
 
 ```pycon
 >>> matrix[0].append(100)
@@ -419,41 +354,29 @@ So if we mutate the first row in one, it'll mutate the same object within the ot
 
 When you copy an object in Python, if that object **points to other objects**, you'll copy pointers to those other objects instead of copying the objects themselves.
 
-New Python programmers sometimes see this behavior and decide to start sprinkling `copy.deepcopy` into their code.
-The `deepcopy` function attempts to recursively copy the object given to it as well as every object it points to (and the objects those point to and so on).
+New Python programmers respond to this behavior by sprinkling `copy.deepcopy` into their code:
 
 ```python
 from copy import deepcopy
 from datetime import datetime
 
-tweet_data = [
-    {
-        "created_at": "Tue Feb 04 00:51:01 +0000 2014",
-        "full_text": "I finally decided it was time to get my own Twitter account.",
-    },
-    {
-        "created_at": "Wed Apr 16 06:05:52 +0000 2014",
-        "full_text": 'OH: "Mallic acid? They just made that word up" #pycon2014',
-    },
-]
-
-def parse_time(string):
-    return datetime.strptime(string, "%a %b %d %H:%M:%S %z %Y")
+tweet_data = [{"date": "Feb 04 2014", "text": "Hi Twitter"}, {"date": "Apr 16 2014", "text": "At #pycon2014"}]
 
 # Parse date strings into datetime objects
 processed_data = deepcopy(tweet_data)
 for tweet in processed_data:
-    tweet["created_at"] = parse_time(tweet["created_at"])
+    tweet["date"] = datetime.strptime(tweet["date"], "%b %d %Y")
 ```
 
-While `deepcopy` works, there's usually a simpler approach that most Python programmers take: **don't mutate an object that doesn't belong to you**.
+The `deepcopy` function attempts to recursively copy an object along with all objects it points to.
+But there's usually an even simpler solution than `deepcopy`: **don't mutate objects that don't belong to you**.
 
-Instead of changing an object you were given, we often make new objects that contain the data we'd like:
+In Python, we often **make new objects instead of mutating existing objects**:
 
 ```python
 # Parse date strings into datetime objects
 processed_data = [
-    {**tweet, "created_at": parse_time(tweet["created_at"])}
+    {**tweet, "date": datetime.strptime(tweet["date"], "%b %d %Y")}
     for tweet in tweet_data
 ]
 ```
@@ -463,16 +386,16 @@ The `deepcopy` function has its uses, but it's often unnecessary.
 
 ## Summary
 
-Variables in Python are not buckets containing things; they're **pointers** (they *point* to values).
+Variables in Python are not buckets containing things; they're **pointers** (they *point* to objects).
 
-Python's model of variables and values boils down to two primary rules:
+Python's model of variables and objects boils down to two primary rules:
 
 1. **Mutation** changes an object
-2. **Assignment** points a variable to a value
+2. **Assignment** points a variable to an object
 
 As well as these corollary rules:
 
-1. **Reassigning** a variable points the variable **to a different object**, leaving the original object unchanged
+1. **Reassigning** a variable points it to **a different object**, leaving the original object unchanged
 2. **Assignments don't copy** anything, so it's up to you to copy objects as needed
 
 Furthermore, data structures work the same way: lists and dictionaries container **pointers to objects** rather than the objects themselves.
@@ -480,17 +403,17 @@ And attributes work the same way: **attributes point to objects** (just like any
 So **objects cannot contain objects in Python** (they can only *point to* objects).
 
 And note that while **mutations change objects** (not variables), multiple variables *can* point to the same object.
-If two variables point to the same object and that object gets mutated, that change will be seen when accessing either variable (because they both point to the same object).
+If two variables point to the same object changes to that object will be seen when accessing either variable (because they both point to *the same* object).
 
-If you'd like a video recap of these concepts, I try to succinctly explain most of this topic in the first 12 minutes of my [screencast series on Assignments and Mutation in Python][screencasts].
-I also can't wrap this topic up without giving shout out to Ned Batchelder for his wonderful [Python Names and Values][] talk and Brandon Rhodes for his [Names, Objects, and Plummeting From The Cliff][rhodes] talk.
+For more on this topic see:
 
-I teach this concept in both introductory and intermediate Python trainings because it's so often overlooked.
-It's possible (and common) to happily use Python for years without really understanding how variables and data structures actually work.
-But understanding this variable and value distinction can alleviate *many* common Python gotchas.
+- My [screencast series on Assignments and Mutation in Python][screencasts]
+- Ned Batchelder's [Python Names and Values][] talk
+- Brandon Rhodes' [Names, Objects, and Plummeting From The Cliff][rhodes] talk
 
-This mental model of Python can be tricky to internalize and it's okay if you haven't yet!
-Python was designed to embrace this idea and continually pushes us in the direction of *doing the right thing* when it comes to variables and values.
+This mental model of Python is tricky to internalize so it's okay if you're still confused!
+Python's features and best practices *often* nudge us toward "doing the right thing" automatically.
+But if your code is acting strangely, it might be due to changing an object you didn't mean to change.
 
 
 [comprehension article]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
@@ -498,10 +421,10 @@ Python was designed to embrace this idea and continually pushes us in the direct
 [parameters]: https://docs.python.org/3/glossary.html#term-parameter
 [arguments]: https://docs.python.org/3/glossary.html#term-argument
 [shared defaults]: https://docs.python.org/3/faq/programming.html#why-are-default-values-shared-between-objects
-[everything is an object in Python]: https://www.pythonmorsels.com/topics/everything-is-an-object/
 [keyword-only arguments]: https://www.pythonmorsels.com/topics/keyword-only-function-arguments/
 [java]: https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
 [object]: https://www.pythonmorsels.com/topics/everything-is-an-object/
 [screencasts]: https://www.pythonmorsels.com/topics/playlist/assignment-and-mutation/
 [python names and values]: https://nedbatchelder.com/text/names1.html
 [rhodes]: https://pyvideo.org/pyohio-2011/pyohio-2011-names-objects-and-plummeting-from.html
+[identity]: https://www.pythonmorsels.com/topics/equality-vs-identity/
