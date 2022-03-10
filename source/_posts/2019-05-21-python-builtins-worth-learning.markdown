@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Python built-ins worth learning"
+title: "Python built-in functions to know"
 date: 2019-05-21 08:40:00 -0700
 comments: true
 categories: python
