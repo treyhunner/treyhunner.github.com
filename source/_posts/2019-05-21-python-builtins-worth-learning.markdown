@@ -26,7 +26,7 @@ I recommend triaging your knowledge:
 
 We're going to look through the [Built-in Functions page][] in the Python documentation with this approach in mind.
 
-This will be a very long article, so I've linked to 5 sub-sections and 20 specific built-in functions in the next section so you can jump ahead if you're pressed for time or looking for one built-in in particular.
+This will be a very long article, so I've linked to 5 sub-sections and 25 specific built-in functions in the next section so you can jump ahead if you're pressed for time or looking for one built-in in particular.
 
 <div style="display: none;"><ol data-toc=".entry-content" data-toc-headings="h2,h3,h4"></ol></div>
 
@@ -35,21 +35,21 @@ This will be a very long article, so I've linked to 5 sub-sections and 20 specif
 
 I estimate **most Python developers will only ever need about 30 built-in functions**, but which 30 depends on what you're actually doing with Python.
 
-We're going to take a look at all 69 of Python's built-in functions, in a birds eye view sort of way.
+We're going to take a look at all 71 of Python's built-in functions, in a birds eye view sort of way.
 
 I'll attempt to categorize these built-ins into five categories:
 
-1. **[Commonly known](#10_Commonly_known_built-in_functions)**: most newer Pythonistas get exposure to these built-ins pretty quickly out of necessity
-2. **[Overlooked by beginners](#Built-ins_overlooked_by_new_Pythonistas)**: these functions are useful to know about, but they're easy to overlook when you're newer to Python
-3. **[Learn it later](#Learn_it_later)**: these built-ins are generally useful to know about, but you'll find them when/if you need them
-4. **[Maybe learn it eventually](#Maybe_learn_it_eventually)**: these can come in handy, but only in specific circumstances
+1. **[Commonly known built-ins](#The_10_commonly_known_built-in_functions)**: most newer Pythonistas get exposure to these built-ins pretty quickly out of necessity
+2. **[Overlooked by new Pythonistas](#The_10_commonly_overlooked_built-ins)**: these functions are useful to know about, but they're easy to overlook when you're newer to Python
+3. **[Learn these later](#Learn_these_later)**: these built-ins are generally useful to know about, but you'll find them when/if you need them
+4. **[Maybe learn these eventually](#Maybe_learn_these_eventually)**: these can come in handy, but only in specific circumstances
 5. **[You likely don't need these](#You_likely_don’t_need_these)**: you're unlikely to need these unless you're doing something fairly specialized
 
 The built-in functions in categories 1 and 2 are the **essential built-ins** that nearly all Python programmers should eventually learn about.
 The built-ins in categories 3 and 4 are the **specialized built-ins**, which are often very useful but your need for them will vary based on your use for Python.
 And category 5 are **arcane built-ins**, which might be very handy when you need them but which many Python programmers are likely to never need.
 
-**Note for pedantic Pythonistas**: I will be referring to all of these built-ins as **functions**, even though 27 of them **aren't actually functions** (as discussed in my [functions and callables article][42 functions]).
+**Note for pedantic Pythonistas**: I will be referring to all of these built-ins as **functions**, even though 27 of them [aren't actually functions][42 functions].
 
 The commonly known built-in functions (which you likely already know about):
 
@@ -77,16 +77,22 @@ The built-in functions which are often overlooked by newer Python programmers:
 9. [any](#any_and_all)
 10. [all](#any_and_all)
 
-There are also [5 commonly overlooked built-ins](#The_5_debugging_functions) which I recommend knowing about solely because they make debugging easier: `dir`, `vars`, `breakpoint`, `type`, `help`.
+There are also [5 commonly overlooked built-ins](#The_5_built-ins_for_debugging) which I recommend knowing about solely because they make debugging easier:
 
-In addition to the 25 built-in functions above, we'll also briefly see the other 44 built-ins in the [learn it later](#Learn_it_later) [maybe learn it eventually](#Maybe_learn_it_eventually) and [you likely don't need these](#You_likely_don’t_need_these) sections.
+1. [dir](#dir)
+2. [vars](#vars)
+3. [breakpoint](#breakpoint)
+4. [type](#type)
+5. [help](#help)
+
+In addition to the 25 built-in functions above, we'll also briefly see the other 46 built-ins in the [learn it later](#Learn_these_later) [maybe learn it eventually](#Maybe_learn_these_eventually) and [you likely don't need these](#You_likely_don’t_need_these) sections.
 
 
-## 10 Commonly known built-in functions
+## The 10 commonly known built-in functions
 
 If you've been writing Python code, these built-ins are likely familiar already.
 
-### print
+###print
 
 You already know the `print` function.
 Implementing [hello world][] requires `print`.
@@ -124,7 +130,7 @@ Regardless of whether you like this operator-like `len` function, you're stuck w
 
 ### str
 
-Unlike many other programming languages, you cannot concatenate strings and numbers in Python.
+Unlike many other programming languages, [Python doesn't have type coercion][] so you can't concatenate strings and numbers in Python.
 
 ```pycon
 >>> version = 3
@@ -222,7 +228,7 @@ But if you don't know what the iterable you're working with is, the `list` funct
 >>> copy_of_squares = list(list_of_squares)
 ```
 
-You could also use a list comprehension for this, [but I wouldn't recommend it][overusing comprehensions].
+You could also use a [list comprehension][] for this, [but I wouldn't recommend it][overusing comprehensions].
 
 Note that when you want to make an empty list, using the *list literal syntax* (those `[]` brackets) is recommended:
 
@@ -293,7 +299,7 @@ So this works as well:
 {'red': 2, 'green': 1, 'blue' 3, 'purple': 5}
 ```
 
-The `dict` function can also accept keyword arguments to make a dictionary with string-based keys:
+The `dict` function can also accept [keyword arguments][] to make a dictionary with string-based keys:
 
 ```pycon
 >>> person = dict(name='Trey Hunner', profession='Python Trainer')
@@ -386,19 +392,18 @@ Python 2's `range` function returned a list, which means the expressions above w
 Python 3's `range` works like Python 2's `xrange` (though they're [a bit different][xrange]) in that numbers are **computed lazily** as we loop over these `range` objects.
 
 
-## Built-ins overlooked by new Pythonistas
+## The 10 commonly overlooked built-ins
 
 If you've been programming Python for a bit or if you just taken an introduction to Python class, you probably already knew about the built-in functions above.
 
-I'd now like to show off 15 built-in functions that are very handy to know about, but are more frequently overlooked by new Pythonistas.
-
-The first 10 of these functions you'll find floating around in Python code, but the last 5 you'll most often use while debugging.
+I'd now like to show off 10 built-in functions that are very handy to know about, but are more frequently overlooked by new Pythonistas.
+After this we'll look at [5 built-in functions](#The_5_built-ins_for_debugging) that you'll likely find handy while debugging.
 
 ### bool
 
-The `bool` function checks the **truthiness** of a Python object.
+The `bool` function checks the [truthiness][] of a Python object.
 
-For numbers, truthiness is a question of non-zeroness:
+For numbers, **truthiness** is a question of **non-zeroness**:
 
 ```pycon
 >>> bool(5)
@@ -409,7 +414,7 @@ True
 False
 ```
 
-For collections, truthiness is usually a question of non-emptiness (whether the collection has a length greater than `0`):
+For collections, truthiness is usually a question of **non-emptiness** (whether the collection has a length greater than `0`):
 
 ```pycon
 >>> bool('hello')
@@ -432,7 +437,7 @@ False
 False
 ```
 
-Truthiness (called [truth value testing][] in the docs) is kind of a big deal in Python.
+Truthiness is kind of a big deal in Python.
 
 Instead of asking questions about the length of a container, many Pythonistas ask questions about truthiness instead:
 
@@ -490,7 +495,7 @@ def palindromic(sequence):
     return True
 ```
 
-If `enumerate` is news to you (or if you often use `range(len(...))`), see my article on [looping with indexes in Python][looping with indexes].
+If `enumerate` is news to you (or if you often use `range(len(...))`), see [looping with indexes][looping with indexes].
 
 
 ### zip
@@ -516,18 +521,17 @@ n 11
 If you ever have to loop over two lists (or any other iterables) at the same time, `zip` is preferred over `enumerate`.
 The `enumerate` function is handy when you need indexes while looping, but `zip` is great when we care specifically about looping over two iterables at once.
 
-If you're new to `zip`, I also talk about it in my [looping with indexes][zip looping] article.
+If you're new to `zip`, see [looping over multiple iterables at the same time][zip looping].
 
 Both `enumerate` and `zip` return iterators to us.
-Iterators are the lazy iterables that [power `for` loops][how for loops work].
-I have [a whole talk on iterators][loop better] as well as a somewhat advanced article on [how to make your own iterators][make iterators].
+Iterators are the lazy iterables that [power `for` loops][iterator].
 
 By the way, if you need to use `zip` on iterables of different lengths, you may want to look up [itertools.zip_longest][] in the Python standard library.
 
 
 ### reversed
 
-The `reversed` function, like `enumerate` and `zip`, returns an [iterator][how for loops work].
+The `reversed` function, like `enumerate` and `zip`, returns an [iterator][].
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7]
@@ -602,15 +606,13 @@ The `sum` function takes an iterable of numbers and returns the sum of those num
 
 There's not much more to it than that.
 
-Python has lots of helper functions that **do the looping for you**, partly because they pair nicely with generator expressions:
+Python has lots of helper functions that **do the looping for you**, partly because they pair nicely with [generator expressions][generator expression]:
 
 ```pycon
 >>> numbers = [2, 1, 3, 4, 7, 11, 18]
 >>> sum(n**2 for n in numbers)
 524
 ```
-
-If you're curious about generator expressions, I discuss them in my [Comprehensible Comprehensions][] talk (and my [3 hour tutorial on comprehensions and generator expressions][comprehensions tutorial]).
 
 
 ### min and max
@@ -653,7 +655,7 @@ By the way, if you're curious about `sorted` versus the `list.sort` method, Flor
 
 ### any and all
 
-The `any` and `all` functions can be paired with a generator expression to determine whether *any* or *all* items in an iterable **match a given condition**.
+The `any` and `all` functions can be paired with a [generator expression][] to determine whether *any* or *all* items in an iterable **match a given condition**.
 
 Our `palindromic` function from earlier checked whether *all* items were equal to their corresponding item in the reversed sequence (is the first value equal to the last, second to the second from last, etc.).
 
@@ -682,11 +684,11 @@ def palindromic(sequence):
 If the `any` and `all` functions are new to you, you may want to read my article on them: [Checking Whether All Items Match a Condition in Python][any-all article].
 
 
-### The 5 debugging functions
+## The 5 built-ins for debugging
 
 The following 5 functions will be useful for debugging and troubleshooting code.
 
-#### breakpoint
+### breakpoint
 
 Need to pause the execution of your code and drop into a Python command prompt?
 You need `breakpoint`!
@@ -694,9 +696,10 @@ You need `breakpoint`!
 Calling the `breakpoint` function will drop you into [pdb][], the Python debugger.
 There are many tutorials and talks out there on PDB: here's [a short one][pdb lightning talk] and here's [a long one][pdb talk].
 
-This built-in function was **added in Python 3.7**, but if you're on older versions of Python you can get the same behavior with `import pdb ; pdb.set_trace()`.
+This built-in function was added in Python 3.7.
+On older versions of Python you can use `import pdb ; pdb.set_trace()` instead.
 
-#### dir
+### dir
 
 The `dir` function can be used for two things:
 
@@ -720,9 +723,9 @@ If we pass that `x` list into `dir` we can see all the attributes it has:
 ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
 ```
 
-We can see the typical list methods, `append`, `pop`, `remove`, and more as well as many dunder methods for operator overloading.
+We can see the typical list methods, `append`, `pop`, `remove`, and more as well as many [dunder methods][] for operator overloading.
 
-#### vars
+### vars
 
 The [vars][] function is sort of a mashup of two related things: checking `locals()` and testing the `__dict__` attribute of objects.
 
@@ -745,7 +748,7 @@ If you ever try to use `my_object.__dict__`, you can use `vars` instead.
 
 I usually reach for `dir` just before using `vars`.
 
-#### type
+### type
 
 The `type` function will tell you the type of the object you pass to it.
 
@@ -779,7 +782,7 @@ The `type` function is sometimes helpful in actual code (especially object-orien
 
 Note that when *type checking*, the `isinstance` function is usually used instead of `type` (also note that we tend not to type check in Python because we prefer to practice [duck typing][]).
 
-#### help
+### help
 
 If you're in an interactive Python shell (the Python [REPL][] as I usually call it), maybe debugging code using `breakpoint`, and you'd like to know how a certain object, method, or attribute works, the `help` function will come in handy.
 
@@ -787,7 +790,7 @@ Realistically, you'll likely resort to getting help from your favorite search en
 But if you're already in a Python REPL, it's quicker to call `help(list.insert)` than it would be to look up the `list.insert` method documentation in Google.
 
 
-## Learn it later
+## Learn these later
 
 There are quite a few built-in functions you'll likely want *eventually*, but you may not need *right now*.
 
@@ -795,7 +798,7 @@ I'm going to mention 14 more built-in functions which are handy to know about, b
 
 ### open
 
-Need to open a file in Python?
+Need to [read from a file][] or [write to a file][] in Python?
 You need the `open` function!
 
 Don't work with files directly?
@@ -828,7 +831,8 @@ And if you've been writing Python for a while and don't know about this function
 Need the programmer-readable representation of an object?
 You need the `repr` function!
 
-For many objects, the `str` and `repr` representations are the same:
+All Python objects have [two different string representations][]: `str` and `repr`.
+For most objects, the `str` and `repr` representations are the same:
 
 ```pycon
 >>> str(4), repr(4)
@@ -860,13 +864,13 @@ datetime.date(2020, 1, 1)
 hello!
 ```
 
-You'll see `repr` used when logging, handling exceptions, and implementing dunder methods.
+You'll see `repr` used when logging, handling [exceptions][], and implementing [dunder methods][].
 
 
 ### super
 
 If you create classes in Python, you'll likely need to use `super`.
-The `super` function is pretty much essential whenever you're inheriting from another Python class.
+The `super` function is pretty much essential whenever you're [inheriting from another Python class][inheritance].
 
 Many Python users rarely create classes.
 Creating classes isn't an *essential* part of Python, though many types of programming require it.
@@ -908,6 +912,8 @@ Here's an access of that `diameter` attribute on a `Circle` object:
 
 If you're doing object-oriented Python programming (you're making classes a whole bunch), you'll likely want to learn about `property` at some point.
 Unlike other object-oriented programming languages, **we use properties instead of getter methods and setter methods**.
+
+For more on using properties, see [making an auto-updating attribute][] and [customizing what happens when you assign an attribute][].
 
 
 ### issubclass and isinstance
@@ -1015,7 +1021,7 @@ These functions allow for a specific flavor of [metaprogramming][] and you likel
 
 ### classmethod and staticmethod
 
-The `classmethod` and `staticmethod` decorators are somewhat magical in the same way the `property` decorator is somewhat magical.
+The `classmethod` and `staticmethod` [decorators][decorator] are somewhat magical in the same way the `property` decorator is somewhat magical.
 
 If you have a method that should be callable on either an instance or a class, you want the `classmethod` decorator.
 Factory methods (alternative constructors) are a common use case for this:
@@ -1070,9 +1076,9 @@ You can go looking for these if you really need them eventually.
 
 ### next
 
-The `next` function returns the *next* item in an iterator.
+The `next` function returns the *next* item in an [iterator][].
 
-I've written about iterators before ([how for loops work][] and [how to make an iterator][make iterators]) but a very quick summary of iterators you'll likely run into includes:
+Here's a very quick summary of iterators you'll likely run into includes:
 
 - `enumerate` objects
 - `zip` objects
@@ -1099,7 +1105,7 @@ You can think of `next` as a way to manually loop over an iterator to get a sing
 ```
 
 
-## Maybe learn it eventually
+## Maybe learn these eventually
 
 We've already covered nearly half of the built-in functions.
 
@@ -1107,9 +1113,9 @@ The rest of Python's built-in functions definitely aren't useless, but they're a
 
 The 15 built-ins I'm mentioning in this section are things you may eventually need to learn, but it's also very possible you'll never reach for these in your own code.
 
-- **[iter][]**: get an iterator from an iterable: this function [powers `for` loops][how for loops work] and it can be very useful when you're making helper functions for looping lazily
+- **[iter][]**: get an iterator from an iterable: this function [powers `for` loops][iterator] and it can be very useful when you're making helper functions for looping lazily
 - **[callable][]**: return `True` if the argument is a callable (I talked about this a bit in my article [functions and callables][])
-- **[filter][]** and **[map][]**: as I discuss in my article on [overusing lambda functions][], I recommend using generator expressions over the built-in `map` and `filter` functions
+- **[filter][]** and **[map][]**: as discussed in [map and filter in Python][], I recommend using generator expressions instead of `map` and `filter`
 - **[id][]**, **[locals][]**, and **[globals][]**: these are great tools for teaching Python and you may have already seen them, but you won't see these much in real Python code
 - **[round][]**: you'll look this up if you need to round a number
 - **[divmod][]**: this function does a floor division (`//`) and a modulo operation (`%`) at the same time
@@ -1129,50 +1135,67 @@ There are sometimes really appropriate uses for a few of these, but you'll likel
 - **[ord][]** and **[chr][]**: these are fun for teaching ASCII tables and unicode code points, but I've never really found a use for them in my own code
 - **[exec][]** and **[eval][]**: for evaluating a string as if it was code
 - **[compile][]**: this is related to `exec` and `eval`
-- **[slice][]**: if you're implementing `__getitem__` to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
-- **[bytes][]**, **[bytearray][]**, and **[memoryview][]**: if you're working with bytes often, you'll reach for some of these (just ignore them until then)
+- **[slice][]**: if you're [implementing `__getitem__`][__getitem__] to make a custom sequence, you may need this (some [Python Morsels][] exercises require this actually), but unless you make your own custom sequence you'll likely never see `slice`
+- **[bytes][]**, **[bytearray][]**, and **[memoryview][]**: if you're working with [bytes][] often, you'll reach for some of these (just ignore them until then)
 - **[ascii][]**: like `repr` but returns an ASCII-only representation of an object; I haven't needed this in my code yet
-- **[frozenset][]**: like `set`, but it's immutable (and hashable!); very neat but not something I've needed in my own code
+- **[frozenset][]**: like `set`, but it's immutable (and hashable!); very neat but not something I've needed often
+- **[aiter][]** and **[anext][]**: if you're deep into asynchronous programming in Python, you may reach for these to work with asynchronous iterators (just ignore them until then)
 - **[\_\_import\_\_][__import__]**: this function isn't really meant to be used by you, use [importlib][] instead
-- **[format][]**: this calls the `__format__` method, which is used for string formatting ([f-strings][] and [str.format][]); you usually don't need to call this function directly
+- **[format][]**: this calls the `__format__` method, which is used for [string formatting][]; you usually don't need to call this function directly
 - **[pow][]**: the exponentiation operator (`**`) usually supplants this... unless you're doing modulo-math (maybe you're implementing [RSA encryption][] from scratch...?)
 - **[complex][]**: if you didn't know that `4j+3` is valid Python code, you likely don't need the `complex` function
 
 
 ## There's always more to learn
 
-There are 69 built-in functions in Python (technically [only 42 of them are actually functions][42 functions]).
+There are 71 built-in functions in Python (technically [only 44 of them are actually functions][42 functions]).
 
-When you're newer in your Python journey, I recommend focusing on only 20 of these built-in functions in your own code (the [10 commonly known built-ins](#10_Commonly_known_built-in_functions) and the [10 built-ins that are often overlooked](#Built-ins_overlooked_by_new_Pythonistas)), in addition to the [5 debugging functions](#The_5_debugging_functions).
+When you're newer in your Python journey, I recommend focusing on **only 25 of these built-in functions** in your own code:
 
-After that there are [14 more built-ins which you'll probably learn later](#Learn_it_later) (depending on the style of programming you do).
+1. The [10 commonly known built-ins](#The_10_commonly_known_built-in_functions)
+2. The [10 built-ins that are often overlooked](#The_10_commonly_overlooked_built-ins)
+3. The [5 debugging functions](#The_5_built-ins_for_debugging)
 
-Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_it_eventually).
+After that there are [14 more built-ins which you'll probably learn later](#Learn_these_later) (depending on the style of programming you do).
+
+Then come [the 15 built-ins which you may or may not ever end up needing in your own code](#Maybe_learn_these_eventually).
 Some people love these built-ins and some people never use them: as you get more specific in your coding needs, you'll likely find yourself reaching for considerably more niche tools.
 
-After that I mentioned [the last 15 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
+After that I mentioned [the last 17 built-ins which you'll likely never need](#You_likely_don’t_need_these) (again, very much depending on how you use Python).
 
 You don't need to learn all the Python built-in functions today.
-Take it slow: focus on those first 20 important built-ins and then work your way into learning about others if and when you eventually need them.
+Take it slow: focus on those first 25 important built-ins and then work your way into learning about others if and when you eventually need them.
 
 
 [built-in functions page]: https://docs.python.org/3/library/functions.html
 [standard library]: https://docs.python.org/3/library/index.html
 [RSA encryption]: http://code.activestate.com/recipes/578838-rsa-a-simple-and-easy-to-read-implementation/
 [hello world]: https://en.wikipedia.org/wiki/Hello_world_program
-[keyword arguments]: https://treyhunner.com/2018/04/keyword-arguments-in-python/
 [functions and callables]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#Callable_objects
 [42 functions]: https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/#The_distinction_between_functions_and_classes_often_doesn%E2%80%99t_matter
 [overusing comprehensions]: https://treyhunner.com/2019/03/abusing-and-overusing-list-comprehensions-in-python/#Using_comprehensions_when_a_more_specific_tool_exists
 [asterisks]: https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/#Asterisks_in_list_literals
 [xrange]: https://treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/
-[list comprehension]: https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
-[looping with indexes]: https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/
-[zip looping]: https://treyhunner.com/2016/04/how-to-loop-with-indexes-in-python/#What_if_we_need_to_loop_over_multiple_things?
-[make iterators]: https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/
-[loop better]: https://youtu.be/JYuE8ZiDPl4
-[comprehensible comprehensions]: https://youtu.be/5_cJIcgM7rw
-[comprehensions tutorial]: https://pycon2018.trey.io
+[keyword arguments]: https://www.pythonmorsels.com/topics/positional-vs-keyword-arguments/
+[list comprehension]: https://www.pythonmorsels.com/topics/what-are-list-comprehensions/
+[generator expression]: https://www.pythonmorsels.com/topics/how-write-generator-expression/
+[looping with indexes]: https://www.pythonmorsels.com/topics/looping-with-indexes/
+[zip looping]: https://www.pythonmorsels.com/topics/looping-over-multiple-iterables/
+[iterator]: https://www.pythonmorsels.com/topics/iterator-protocol/
+[duck typing]: https://www.pythonmorsels.com/topics/duck-typing/
+[decorator]: https://www.pythonmorsels.com/topics/what-is-a-decorator/
+[making an auto-updating attribute]: https://www.pythonmorsels.com/topics/making-auto-updating-attribute/
+[customizing what happens when you assign an attribute]: https://www.pythonmorsels.com/topics/customizing-what-happens-when-you-assign-attribute/
+[map and filter in Python]: https://www.pythonmorsels.com/topics/map-and-filter-python/
+[inheritance]: https://www.pythonmorsels.com/topics/inheriting-one-class-another/
+[two different string representations]: https://www.pythonmorsels.com/topics/pythons-two-different-string-representations/
+[exceptions]: https://www.pythonmorsels.com/topics/how-to-catch-an-exception-in-python/
+[dunder methods]: https://www.pythonmorsels.com/topics/what-are-dunder-methods/
+[read from a file]: https://www.pythonmorsels.com/topics/how-read-text-file/
+[write to a file]: https://www.pythonmorsels.com/topics/creating-and-writing-file-python/
+[python doesn't have type coercion]: https://www.pythonmorsels.com/topics/type-coercion/
+[truthiness]: https://www.pythonmorsels.com/topics/truthiness/
+[string formatting]: https://www.pythonmorsels.com/topics/string-concatenation-and-string-interpolation/
 [deep ordering]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/
 [any-all article]: https://treyhunner.com/2016/11/check-whether-all-items-match-a-condition-in-python/
 [pathlib]: https://treyhunner.com/2018/12/why-you-should-be-using-pathlib/
@@ -1183,8 +1206,6 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [eafp]: https://docs.python.org/3/glossary.html#term-eafp
 [lbyl]: https://docs.python.org/3/glossary.html#term-lbyl
 [metaprogramming]: https://en.wikipedia.org/wiki/Metaprogramming
-[how for loops work]: https://treyhunner.com/2016/12/python-iterator-protocol-how-for-loops-work/
-[overusing lambda functions]: https://treyhunner.com/2018/09/stop-writing-lambda-expressions/
 [sentinel values]: https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/
 [importlib]: https://docs.python.org/3/library/importlib.html#importlib.import_module
 [key function]: https://treyhunner.com/2019/03/python-deep-comparisons-and-code-readability/#Sorting_by_multiple_attributes_at_once
@@ -1193,8 +1214,6 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [pdb lightning talk]: https://pyvideo.org/pybay-2017/introduction-to-pdb.html
 [pdb talk]: https://www.youtube.com/watch?v=P0pIW5tJrRM&feature=player_embedded
 [python morsels]: https://www.pythonmorsels.com/
-[f-strings]: https://docs.python.org/3/reference/lexical_analysis.html#f-strings
-[str.format]: https://docs.python.org/3/library/stdtypes.html#str.format
 [iter]: https://docs.python.org/3/library/functions.html#iter
 [callable]: https://docs.python.org/3/library/functions.html#callable
 [map]: https://docs.python.org/3/library/functions.html#map
@@ -1221,6 +1240,8 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [memoryview]: https://docs.python.org/3/library/functions.html#memoryview
 [ascii]: https://docs.python.org/3/library/functions.html#ascii
 [frozenset]: https://docs.python.org/3/library/functions.html#frozenset
+[aiter]: https://docs.python.org/3/library/functions.html#aiter
+[anext]: https://docs.python.org/3/library/functions.html#anext
 [__import__]: https://docs.python.org/3/library/functions.html#__import__
 [format]: https://docs.python.org/3/library/functions.html#format
 [pow]: https://docs.python.org/3/library/functions.html#pow
@@ -1228,11 +1249,10 @@ Take it slow: focus on those first 20 important built-ins and then work your way
 [vars]: https://docs.python.org/3/library/functions.html#vars
 [standard input]: https://en.wikipedia.org/wiki/Standard_streams#Standard_input_(stdin)
 [itertools.zip_longest]: https://docs.python.org/3/library/itertools.html#itertools.zip_longest
-[duck typing]: https://en.wikipedia.org/wiki/Duck_typing
 [hashable]: https://lerner.co.il/2015/04/03/is-it-hashable-fun-and-games-with-hashing-in-python/
-[truth value testing]: https://docs.python.org/3/library/stdtypes.html#truth
 [mapping]: https://docs.python.org/3/glossary.html#term-mapping
 [dict vs literal]: https://doughellmann.com/blog/2012/11/12/the-performance-impact-of-using-dict-instead-of-in-cpython-2-7-2/
 [repl]: https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
-[decorator]: https://docs.python.org/3/glossary.html#term-decorator
-[descriptor]: https://docs.python.org/3/glossary.html#term-descriptor
+[descriptor]: https://docs.python.org/3/glossary.html#term-descriptory
+[__getitem__]: https://www.pythonmorsels.com/topics/supporting-index-and-key-lookups/
+[bytes]: https://www.pythonmorsels.com/topics/representing-binary-data-with-bytes/ 
