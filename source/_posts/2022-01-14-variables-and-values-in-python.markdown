@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Variables and Values in Python"
+title: "Overlooked facts about variables and objects in Python: it's all about pointers"
 date: 2022-01-14 06:31:57 -0800
 comments: true
 categories: python
@@ -15,9 +15,10 @@ Table of Contents:
 
 <ul data-toc=".entry-content"></ul>
 
-## Definitions
+## Terminology
 
-Let's start with some definitions.
+Let's start with by introducing some terminology.
+The last few definitions likely won't make sense until we define them in more detail later on.
 
 **Object** (a.k.a. **value**): a "thing".
 Lists, dictionaries, strings, numbers, tuples, functions, and modules are all objects.
@@ -31,7 +32,7 @@ Lists, dictionaries, strings, numbers, tuples, functions, and modules are all ob
 
 **Identity**: whether two pointers refer to the same object
 
-These terms are best understood by their relationships to each other (and that's the primary focus of this article).
+These terms are best understood by their relationships to each other and that's the primarily purpose of this article.
 
 
 ## Python's variables are pointers, not buckets
@@ -114,7 +115,7 @@ The phrase "we changed `x`" could mean "we re-assigned `x`" or it might mean "we
 
 **Mutations change objects**, not variables.
 But variables *point to* objects.
-So if another variable points to an object that *we've just mutated*, that other variable will reflect the same change; not because the variable changed but because **the object points to** changed.
+So if another variable points to an object that *we've just mutated*, that other variable will reflect the same change; not because the variable changed but because **the object it points to** changed.
 
 
 ## Equality compares objects and identity compares pointers
@@ -135,7 +136,7 @@ Python's `is` operator checks whether two objects **are the same object** (a.k.a
 False
 ```
 
-The `my_numbers` and `your_numbers` variables point to objects representing the same data, the objects they point to **are not the same object**.
+The variables `my_numbers` and `your_numbers` point to **objects representing the same data**, but the objects they point to **are not the same object**.
 
 So changing one object doesn't change the other:
 
@@ -283,9 +284,25 @@ But if you reassign a variable to a different object, the original object will n
 [29, 7, 1, 4, 11, 18, 2]
 ```
 
+We're reassigning the `items` variable here.
+That reassignment changes *which* object the `items` variable points to, but it doesn't change the original object.
+
 We **changed an object** in the first case and we **changed a variable** in the second case.
 
-So **don't mutate the objects** passed-in to your function unless the function caller expects you to.
+Here's another example you'll sometimes see:
+
+```python
+class Widget:
+    def __init__(self, attrs=(), choices=()):
+        self.attrs = list(attrs)
+        self.choices = list(choices)
+```
+
+Class [initializer methods][] often copy iterables given to them by making a new list out of their items.
+This allows the class to accept any iterable (not just lists) and decouples the original iterable from the class (modifying these lists won't upset the original caller).
+The above example was [borrowed from Django][django].
+
+**Don't mutate the objects** passed-in to your function unless the function caller expects you to.
 
 
 ## Copies are shallow and that's usually okay
@@ -319,7 +336,7 @@ False
 True
 ```
 
-Since integers are immutable in Python we don't really care that each list contains the same objects because we can't mutate those objects anyway.
+Since integers (and all numbers) are immutable in Python we don't really care that each list contains the same objects because we can't mutate those objects anyway.
 
 With mutable objects, this distinction matters.
 This makes two list-of-lists which each contain pointers to the same three lists:
@@ -354,7 +371,10 @@ So if we mutate the first item in one list, it'll mutate the same item within th
 
 When you copy an object in Python, if that object **points to other objects**, you'll copy pointers to those other objects instead of copying the objects themselves.
 
-New Python programmers respond to this behavior by sprinkling `copy.deepcopy` into their code:
+New Python programmers respond to this behavior by sprinkling `copy.deepcopy` into their code.
+The `deepcopy` function attempts to recursively copy an object along with all objects it points to.
+
+Sometimes new Python programmers will use `deepcopy` to recursively copy data structures:
 
 ```python
 from copy import deepcopy
@@ -368,10 +388,8 @@ for tweet in processed_data:
     tweet["date"] = datetime.strptime(tweet["date"], "%b %d %Y")
 ```
 
-The `deepcopy` function attempts to recursively copy an object along with all objects it points to.
-But there's usually an even simpler solution than `deepcopy`: **don't mutate objects that don't belong to you**.
-
-In Python, we often **make new objects instead of mutating existing objects**:
+But in Python, we often prefer to make new objects instead of mutating existing objects.
+So we could entirely remove that `deepcopy` usage above by making a new list of new dictionaries instead of deep-copying our old list-of-dictionaries.
 
 ```python
 # Parse date strings into datetime objects
@@ -381,7 +399,11 @@ processed_data = [
 ]
 ```
 
-The `deepcopy` function has its uses, but it's often unnecessary.
+We tend to prefer shallow copies in Python.
+If you **don't mutate objects that don't belong to you** you usually won't have any need for `deepcopy`.
+
+The `deepcopy` function certainly has its uses, but it's often unnecessary.
+"How to avoid using `deepcopy`" warrants a separate discussion in a future article.
 
 
 ## Summary
@@ -411,7 +433,7 @@ For more on this topic see:
 - Ned Batchelder's [Python Names and Values][] talk
 - Brandon Rhodes' [Names, Objects, and Plummeting From The Cliff][rhodes] talk
 
-This mental model of Python is tricky to internalize so it's okay if you're still confused!
+This mental model of Python is tricky to internalize so it's okay if it still feels confusing!
 Python's features and best practices *often* nudge us toward "doing the right thing" automatically.
 But if your code is acting strangely, it might be due to changing an object you didn't mean to change.
 
@@ -428,3 +450,5 @@ But if your code is acting strangely, it might be due to changing an object you 
 [python names and values]: https://nedbatchelder.com/text/names1.html
 [rhodes]: https://pyvideo.org/pyohio-2011/pyohio-2011-names-objects-and-plummeting-from.html
 [identity]: https://www.pythonmorsels.com/topics/equality-vs-identity/
+[django]: https://github.com/django/django/blob/4.0.2/django/forms/widgets.py#L560,L565
+[initializer methods]: https://www.pythonmorsels.com/topics/what-is-init/
