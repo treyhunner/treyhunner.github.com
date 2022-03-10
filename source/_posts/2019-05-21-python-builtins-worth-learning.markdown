@@ -7,6 +7,8 @@ categories: python
 magnet: beyond_intro
 ---
 
+*Also published on [Python Morsels](https://www.pythonmorsels.com/built-in-functions-in-python/)*
+
 In every Intro to Python class I teach, there's always at least one "how can we be expected to know all this" question.
 
 It's usually along the lines of either:
