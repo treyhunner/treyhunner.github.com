@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-03-09T20:01:01-08:00</updated>
+  <updated>2022-03-10T07:43:53-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -3399,7 +3399,9 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
     <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
     <updated>2019-05-21T08:40:00-07:00</updated>
     <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
-    <content type="html"><![CDATA[<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
+    <content type="html"><![CDATA[<p><em>Also published on <a href="https://www.pythonmorsels.com/built-in-functions-in-python/">Python Morsels</a></em></p>
+
+<p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
 
 <p>It&rsquo;s usually along the lines of either:</p>
 
