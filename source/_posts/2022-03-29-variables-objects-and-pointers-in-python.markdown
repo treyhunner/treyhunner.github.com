@@ -1,10 +1,15 @@
 ---
 layout: post
 title: "Overlooked facts about variables and objects in Python: it's all about pointers"
-date: 2022-01-14 06:31:57 -0800
+date: 2022-03-29 08:00:00 -0700
 comments: true
+twitter_image: https://treyhunner.com/images/variable-diagram-different-values.png
+description: Unlike many programming languages, variables in Python are not buckets which "contain" objects. In Python, variables are pointers that "point" to objects.
+canonical: https://www.pythonmorsels.com/pointers/
 categories: python
 ---
+
+*This article was originally published [on Python Morsels][original].*
 
 In Python, variables and data structures **don't contain objects**.
 This fact is both commonly overlooked and tricky to internalize.
@@ -452,3 +457,4 @@ But if your code is acting strangely, it might be due to changing an object you 
 [identity]: https://www.pythonmorsels.com/topics/equality-vs-identity/
 [django]: https://github.com/django/django/blob/4.0.2/django/forms/widgets.py#L560,L565
 [initializer methods]: https://www.pythonmorsels.com/topics/what-is-init/
+[original]: https://www.pythonmorsels.com/pointers/
