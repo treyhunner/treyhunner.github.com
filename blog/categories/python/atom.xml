@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-03-10T07:43:53-08:00</updated>
+  <updated>2022-03-29T07:55:39-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,425 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Overlooked facts about variables and objects in Python: it's all about pointers]]></title>
+    <link href="https://treyhunner.com/2022/03/variables-objects-and-pointers-in-python/"/>
+    <updated>2022-03-29T08:00:00-07:00</updated>
+    <id>https://treyhunner.com/2022/03/variables-objects-and-pointers-in-python</id>
+    <content type="html"><![CDATA[<p><em>This article was originally published <a href="https://www.pythonmorsels.com/pointers/">on Python Morsels</a>.</em></p>
+
+<p>In Python, variables and data structures <strong>don&rsquo;t contain objects</strong>.
+This fact is both commonly overlooked and tricky to internalize.</p>
+
+<p>You can happily use Python for years without really understanding the below concepts, but this knowledge can certainly help alleviate <em>many</em> common Python gotchas.</p>
+
+<p>Table of Contents:</p>
+
+<ul data-toc=".entry-content"></ul>
+
+
+<h2>Terminology</h2>
+
+<p>Let&rsquo;s start with by introducing some terminology.
+The last few definitions likely won&rsquo;t make sense until we define them in more detail later on.</p>
+
+<p><strong>Object</strong> (a.k.a. <strong>value</strong>): a &ldquo;thing&rdquo;.
+Lists, dictionaries, strings, numbers, tuples, functions, and modules are all objects.
+&ldquo;Object&rdquo; defies definition because <a href="https://www.pythonmorsels.com/topics/everything-is-an-object/">everything is an object in Python</a>.</p>
+
+<p><strong>Variable</strong> (a.k.a. <strong>name</strong>): a name used to refer to an object.</p>
+
+<p><strong>Pointer</strong> (a.k.a. <strong>reference</strong>): describes where an object lives (often shown visually as an arrow)</p>
+
+<p><strong>Equality</strong>: whether two objects represent the same data</p>
+
+<p><strong>Identity</strong>: whether two pointers refer to the same object</p>
+
+<p>These terms are best understood by their relationships to each other and that&rsquo;s the primarily purpose of this article.</p>
+
+<h2>Python&rsquo;s variables are pointers, not buckets</h2>
+
+<p>Variables in Python are not buckets containing things; they&rsquo;re <strong>pointers</strong> (they <em>point</em> to objects).</p>
+
+<p>The word &ldquo;pointer&rdquo; may sound scary, but a lot of that scariness comes from related concepts (e.g. dereferencing) which aren&rsquo;t relevant in Python.
+In Python a pointer just represents <strong>the connection between a variable and an objects</strong>.</p>
+
+<p>Imagine <strong>variables</strong> living in <em>variable land</em> and <strong>objects</strong> living in <em>object land</em>.
+A <strong>pointer</strong> is a little arrow that connects each variable to the object it <strong>points to</strong>.</p>
+
+<p><img class="&ldquo;no-radius full-width&rdquo;" src="/images/variable-diagram-different-values.svg" title="Diagram showing variables on the left and objects on the right, with arrows between each. The numbers variable points to a list. The numbers2 variable points to a separate list. The name variable points to a string." ></p>
+
+<p>This above diagram represents the state of our Python process after running this code:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7]
+&gt;&gt;&gt; numbers2 = [11, 18, 29]
+&gt;&gt;&gt; name = "Trey"
+</code></pre>
+
+<p>If the word <strong>pointer</strong> scares you, use the word <strong>reference</strong> instead.
+Whenever you see pointer-based phrases in this article, do a mental translation to a reference-based phrase:</p>
+
+<ul>
+<li><strong>pointer</strong> &rArr; <strong>reference</strong></li>
+<li><strong>point to</strong> &rArr; <strong>refer to</strong></li>
+<li><strong>pointed to</strong> &rArr; <strong>referenced</strong></li>
+<li><strong>point X to Y</strong> &rArr; <strong>cause X to refer to Y</strong></li>
+</ul>
+
+
+<h2>Assignments point a variable to an object</h2>
+
+<p>Assignment statements point a variable to an object.
+That&rsquo;s it.</p>
+
+<p>If we run this code:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [2, 1, 3, 4, 7]
+&gt;&gt;&gt; numbers2 = numbers
+&gt;&gt;&gt; name = "Trey"
+</code></pre>
+
+<p>The state of our variables and objects would look like this:</p>
+
+<p><img class="&ldquo;no-radius full-width&rdquo;" src="/images/variable-diagram-same-value.svg" title="Diagram showing variables on the left and objects on the right, with arrows between each. The numbers and numbers2 variables have arrows coming out of them pointing to the same list. The name variable points to a string." ></p>
+
+<p>Note that <code>numbers</code> and <code>numbers2</code> <strong>point to the same object</strong>.
+If we <em>change</em> that object, both variables will seem to &ldquo;see&rdquo; that change:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers.pop()
+7
+&gt;&gt;&gt; numbers
+[2, 1, 3, 4]
+&gt;&gt;&gt; numbers2
+[2, 1, 3, 4]
+</code></pre>
+
+<p>That strangeness was all due to this assignment statement:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers2 = numbers
+</code></pre>
+
+<p>Assignment statements don&rsquo;t copy anything: they just point a variable to an object.
+So assigning one variable to another variable just <strong>points two variables to the same object</strong>.</p>
+
+<h2>The 2 types of &ldquo;change&rdquo; in Python</h2>
+
+<p>Python has 2 distinct types of &ldquo;change&rdquo;:</p>
+
+<ol>
+<li><strong>Assignment</strong> changes a variable (it changes <em>which</em> object it points to)</li>
+<li><strong>Mutation</strong> changes an object (which any number of variables might point to)</li>
+</ol>
+
+
+<p>The word &ldquo;change&rdquo; is often ambiguous.
+The phrase &ldquo;we changed <code>x</code>&rdquo; could mean &ldquo;we re-assigned <code>x</code>&rdquo; or it might mean &ldquo;we mutated the object <code>x</code> points to&rdquo;.</p>
+
+<p><strong>Mutations change objects</strong>, not variables.
+But variables <em>point to</em> objects.
+So if another variable points to an object that <em>we&rsquo;ve just mutated</em>, that other variable will reflect the same change; not because the variable changed but because <strong>the object it points to</strong> changed.</p>
+
+<h2>Equality compares objects and identity compares pointers</h2>
+
+<p>Python&rsquo;s <code>==</code> operator checks that two objects <strong>represent the same data</strong> (a.k.a. <strong>equality</strong>):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers = [2, 1, 3, 4]
+&gt;&gt;&gt; your_numbers = [2, 1, 3, 4]
+&gt;&gt;&gt; my_numbers == your_numbers
+True
+</code></pre>
+
+<p>Python&rsquo;s <code>is</code> operator checks whether two objects <strong>are the same object</strong> (a.k.a. <strong>identity</strong>):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers is your_numbers
+False
+</code></pre>
+
+<p>The variables <code>my_numbers</code> and <code>your_numbers</code> point to <strong>objects representing the same data</strong>, but the objects they point to <strong>are not the same object</strong>.</p>
+
+<p>So changing one object doesn&rsquo;t change the other:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers[0] = 7
+&gt;&gt;&gt; my_numbers == your_numbers
+False
+</code></pre>
+
+<p>If two variables point to the same object:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers_again = my_numbers
+&gt;&gt;&gt; my_numbers is my_numbers_again
+True
+</code></pre>
+
+<p>Changing the object one variable points also changes the object the other points to because they both point to the same object:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers_again.append(7)
+&gt;&gt;&gt; my_numbers_again
+[2, 1, 3, 4, 7]
+&gt;&gt;&gt; my_numbers
+[2, 1, 3, 4, 7]
+</code></pre>
+
+<p>The <code>==</code> operator checks for <strong>equality</strong> and the <code>is</code> operator checks for <strong>identity</strong>.
+This distinction between identity and equality exists because variables <strong>don&rsquo;t contain objects</strong>, they <strong>point to objects</strong>.</p>
+
+<p>In Python equality checks are very common and <a href="https://www.pythonmorsels.com/topics/equality-vs-identity/">identity checks are very rare</a>.</p>
+
+<h2>There&rsquo;s no exception for immutable objects</h2>
+
+<p>But wait, modifying a number <em>doesn&rsquo;t</em> change other variables pointing to the same number, right?</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; n = 3
+&gt;&gt;&gt; m = n  # n and m point to the same number
+&gt;&gt;&gt; n += 2
+&gt;&gt;&gt; n  # n has changed
+5
+&gt;&gt;&gt; m  # but m hasn't changed!
+3
+</code></pre>
+
+<p>Well, <strong>modifying a number is not possible</strong> in Python.
+Numbers and strings are both <strong>immutable</strong>, meaning you can&rsquo;t mutate them.
+You <strong>cannot change</strong> an immutable object.</p>
+
+<p>So what about that <code>+=</code> operator above?
+Didn&rsquo;t that mutate a number?
+(It didn&rsquo;t.)</p>
+
+<p>With immutable objects, these two statements are equivalent:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; n += 2
+&gt;&gt;&gt; n = n + 2
+</code></pre>
+
+<p>For immutable objects, augmented assignments (<code>+=</code>, <code>*=</code>, <code>%=</code>, etc.) perform an operation (which returns a new object) and then do an assignment (to that new object).</p>
+
+<p>Any operation you might <em>think</em> changes a string or a number instead returns a new object.
+Any operation on an immutable object always <strong>returns a new object</strong> instead of modifying the original.</p>
+
+<h2>Data structures contain pointers</h2>
+
+<p>Like variables, data structures <strong>don&rsquo;t contain objects</strong>, they <strong>contain pointers to objects</strong>.</p>
+
+<p>Let&rsquo;s say we make a list-of-lists:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+</code></pre>
+
+<p>And then we make a variable pointing to the second list in our list-of-lists:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; row = matrix[1]
+&gt;&gt;&gt; row
+[4, 5, 6]
+</code></pre>
+
+<p>The state of our variables and objects now looks like this:</p>
+
+<p><img class="&ldquo;no-radius full-width&rdquo;" src="/images/data-structures-diagram.svg" title="Diagram showing matrix variable which points to a list of 3 items. Each item has an arrow coming out of it, pointing to a separate list. Each of these sublists has 3 elements which each point to a separate integer object. There&rsquo;s also a row variable which points to a list that&rsquo;s also pointed to by index 1 of the matrix list." ></p>
+
+<p>Our <code>row</code> variable <strong>points to the same object</strong> as index <code>1</code> in our <code>matrix</code> list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; row is matrix[1]
+True
+</code></pre>
+
+<p>So if we mutate the list that <code>row</code> points to:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; row[0] = 1000
+</code></pre>
+
+<p>We&rsquo;ll see that change in both places:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; row
+[1000, 5, 6]
+&gt;&gt;&gt; matrix
+[[1, 2, 3], [1000, 5, 6], [7, 8, 9]]
+</code></pre>
+
+<p>It&rsquo;s common to speak of data structures &ldquo;containing&rdquo; objects, but they actually only contain pointers to objects.</p>
+
+<h2>Function arguments act like assignment statements</h2>
+
+<p>Function calls also perform assignments.</p>
+
+<p>If you mutate an object that was passed-in to your function, you&rsquo;ve mutated the original object:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; def smallest_n(items, n):
+...     items.sort()  # This mutates the list (it sorts in-place)
+...     return items[:n]
+...
+&gt;&gt;&gt; numbers = [29, 7, 1, 4, 11, 18, 2]
+&gt;&gt;&gt; smallest_n(numbers, 4)
+[1, 2, 4, 7]
+&gt;&gt;&gt; numbers
+[1, 2, 4, 7, 11, 18, 29]
+</code></pre>
+
+<p>But if you reassign a variable to a different object, the original object will not change:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; def smallest_n(items, n):
+...     items = sorted(items)  # this makes a new list (original is unchanged)
+...     return items[:n]
+...
+&gt;&gt;&gt; numbers = [29, 7, 1, 4, 11, 18, 2]
+&gt;&gt;&gt; smallest_n(numbers, 4)
+[1, 2, 4, 7]
+&gt;&gt;&gt; numbers
+[29, 7, 1, 4, 11, 18, 2]
+</code></pre>
+
+<p>We&rsquo;re reassigning the <code>items</code> variable here.
+That reassignment changes <em>which</em> object the <code>items</code> variable points to, but it doesn&rsquo;t change the original object.</p>
+
+<p>We <strong>changed an object</strong> in the first case and we <strong>changed a variable</strong> in the second case.</p>
+
+<p>Here&rsquo;s another example you&rsquo;ll sometimes see:</p>
+
+<pre><code class="python">class Widget:
+    def __init__(self, attrs=(), choices=()):
+        self.attrs = list(attrs)
+        self.choices = list(choices)
+</code></pre>
+
+<p>Class <a href="https://www.pythonmorsels.com/topics/what-is-init/">initializer methods</a> often copy iterables given to them by making a new list out of their items.
+This allows the class to accept any iterable (not just lists) and decouples the original iterable from the class (modifying these lists won&rsquo;t upset the original caller).
+The above example was <a href="https://github.com/django/django/blob/4.0.2/django/forms/widgets.py#L560,L565">borrowed from Django</a>.</p>
+
+<p><strong>Don&rsquo;t mutate the objects</strong> passed-in to your function unless the function caller expects you to.</p>
+
+<h2>Copies are shallow and that&rsquo;s usually okay</h2>
+
+<p>Need to copy a list in Python?</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers = [2000, 1000, 3000]
+</code></pre>
+
+<p>You could call the <code>copy</code> method (if you&rsquo;re certain your iterable is a list):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers = numbers.copy()
+</code></pre>
+
+<p>Or you could pass it to the <code>list</code> constructor (this works on <strong>any iterable</strong>):</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; my_numbers = list(numbers)
+</code></pre>
+
+<p>Both of these techniques make a new list which <strong>points to the same objects</strong> as the original list.</p>
+
+<p>The two lists are distinct, but the objects within them are the same:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers is my_numbers
+False
+&gt;&gt;&gt; numbers[0] is my_numbers[0]
+True
+</code></pre>
+
+<p>Since integers (and all numbers) are immutable in Python we don&rsquo;t really care that each list contains the same objects because we can&rsquo;t mutate those objects anyway.</p>
+
+<p>With mutable objects, this distinction matters.
+This makes two list-of-lists which each contain pointers to the same three lists:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+&gt;&gt;&gt; new_matrix = list(matrix)
+</code></pre>
+
+<p>These two lists aren&rsquo;t the same, but each item within them is the same:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; matrix is new_matrix
+False
+&gt;&gt;&gt; matrix[0] is new_matrix[0]
+True
+</code></pre>
+
+<p>Here&rsquo;s a rather complex visual representation of these two objects and the pointers they contain:</p>
+
+<p><img class="&ldquo;no-radius full-width&rdquo;" src="/images/data-structures-same-pointers-diagram.svg" title="Diagram showing matrix variable which points to a list of 3 items and a new_matrix variable which points to a separate list of 3 items. Each corresponding item in each of these matrix and new_matrix lists points to the same sublist." ></p>
+
+<p>So if we mutate the first item in one list, it&rsquo;ll mutate the same item within the other list:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; matrix[0].append(100)
+&gt;&gt;&gt; matrix
+[[1, 2, 3, 100], [4, 5, 6], [7, 8, 9]]
+&gt;&gt;&gt; new_matrix
+[[1, 2, 3, 100], [4, 5, 6], [7, 8, 9]]
+</code></pre>
+
+<p>When you copy an object in Python, if that object <strong>points to other objects</strong>, you&rsquo;ll copy pointers to those other objects instead of copying the objects themselves.</p>
+
+<p>New Python programmers respond to this behavior by sprinkling <code>copy.deepcopy</code> into their code.
+The <code>deepcopy</code> function attempts to recursively copy an object along with all objects it points to.</p>
+
+<p>Sometimes new Python programmers will use <code>deepcopy</code> to recursively copy data structures:</p>
+
+<pre><code class="python">from copy import deepcopy
+from datetime import datetime
+
+tweet_data = [{"date": "Feb 04 2014", "text": "Hi Twitter"}, {"date": "Apr 16 2014", "text": "At #pycon2014"}]
+
+# Parse date strings into datetime objects
+processed_data = deepcopy(tweet_data)
+for tweet in processed_data:
+    tweet["date"] = datetime.strptime(tweet["date"], "%b %d %Y")
+</code></pre>
+
+<p>But in Python, we often prefer to make new objects instead of mutating existing objects.
+So we could entirely remove that <code>deepcopy</code> usage above by making a new list of new dictionaries instead of deep-copying our old list-of-dictionaries.</p>
+
+<pre><code class="python"># Parse date strings into datetime objects
+processed_data = [
+    {**tweet, "date": datetime.strptime(tweet["date"], "%b %d %Y")}
+    for tweet in tweet_data
+]
+</code></pre>
+
+<p>We tend to prefer shallow copies in Python.
+If you <strong>don&rsquo;t mutate objects that don&rsquo;t belong to you</strong> you usually won&rsquo;t have any need for <code>deepcopy</code>.</p>
+
+<p>The <code>deepcopy</code> function certainly has its uses, but it&rsquo;s often unnecessary.
+&ldquo;How to avoid using <code>deepcopy</code>&rdquo; warrants a separate discussion in a future article.</p>
+
+<h2>Summary</h2>
+
+<p>Variables in Python are not buckets containing things; they&rsquo;re <strong>pointers</strong> (they <em>point</em> to objects).</p>
+
+<p>Python&rsquo;s model of variables and objects boils down to two primary rules:</p>
+
+<ol>
+<li><strong>Mutation</strong> changes an object</li>
+<li><strong>Assignment</strong> points a variable to an object</li>
+</ol>
+
+
+<p>As well as these corollary rules:</p>
+
+<ol>
+<li><strong>Reassigning</strong> a variable points it to <strong>a different object</strong>, leaving the original object unchanged</li>
+<li><strong>Assignments don&rsquo;t copy</strong> anything, so it&rsquo;s up to you to copy objects as needed</li>
+</ol>
+
+
+<p>Furthermore, data structures work the same way: lists and dictionaries container <strong>pointers to objects</strong> rather than the objects themselves.
+And attributes work the same way: <strong>attributes point to objects</strong> (just like any variable points to an object).
+So <strong>objects cannot contain objects in Python</strong> (they can only <em>point to</em> objects).</p>
+
+<p>And note that while <strong>mutations change objects</strong> (not variables), multiple variables <em>can</em> point to the same object.
+If two variables point to the same object changes to that object will be seen when accessing either variable (because they both point to <em>the same</em> object).</p>
+
+<p>For more on this topic see:</p>
+
+<ul>
+<li>My <a href="https://www.pythonmorsels.com/topics/playlist/assignment-and-mutation/">screencast series on Assignments and Mutation in Python</a></li>
+<li>Ned Batchelder&rsquo;s <a href="https://nedbatchelder.com/text/names1.html">Python Names and Values</a> talk</li>
+<li>Brandon Rhodes' <a href="https://pyvideo.org/pyohio-2011/pyohio-2011-names-objects-and-plummeting-from.html">Names, Objects, and Plummeting From The Cliff</a> talk</li>
+</ul>
+
+
+<p>This mental model of Python is tricky to internalize so it&rsquo;s okay if it still feels confusing!
+Python&rsquo;s features and best practices <em>often</em> nudge us toward &ldquo;doing the right thing&rdquo; automatically.
+But if your code is acting strangely, it might be due to changing an object you didn&rsquo;t mean to change.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday Sales (2021)]]></title>
@@ -976,91 +1395,6 @@ It&rsquo;s free for <a href="https://www.pythonmorsels.com/">Python Morsels</a> 
 This service is all about hands-on skill building (we learn and grow through doing, not just reading/watching).</p>
 
 <p>I&rsquo;d love for you to <a href="https://www.pythonmorsels.com/exercises/paths/#path-14">come learn Python (3.10) with me</a>! 💖</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Cyber Monday Sales 2020]]></title>
-    <link href="https://treyhunner.com/2020/11/python-cyber-monday-sales/"/>
-    <updated>2020-11-27T13:20:00-08:00</updated>
-    <id>https://treyhunner.com/2020/11/python-cyber-monday-sales</id>
-    <content type="html"><![CDATA[<p>This post is a compilation of different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels weekly screencasts</h3>
-
-<p>Let&rsquo;s get the self-promotion out of the way first.</p>
-
-<p>I <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">announced a couple days ago</a> that you can now get <strong>one year of Python screencasts</strong> as well as mini-blog posts for <strong>$50/year</strong> (with at least one new screencast each week).
-This also includes one Python exercise each month.
-I haven&rsquo;t set a concrete end date to this &ldquo;sale&rdquo; (it&rsquo;s actually more of a newly announced service that will be increasing in price in early 2021).</p>
-
-<p>You can <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">find my article on the Python Morsels screencasts sale here</a>.</p>
-
-<h3>Talk Python course bundle</h3>
-
-<p>You can get every Talk Python course that&rsquo;s been made so far <a href="https://training.talkpython.fm/black-friday-2020">for just $250</a>.
-There&rsquo;s 28 courses currently and the bundle also includes courses published through October 2021.</p>
-
-<h3>PyBites sales</h3>
-
-<p>PyBites is offering PyBites Premium+ Access for 2 months for $24 and Introductory Bites Course for $15 (both effectively 70% off) during their <a href="https://pybit.es/blackfriday">Black Friday and Cyber Monday sale</a>.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses and exercises</h3>
-
-<p>Reuven Lerner is offering <a href="https://store.lerner.co.il/?coupon=BF2020">40% off all his products</a> (Python courses, Weekly Python Exercises, and product bundles) through Monday.</p>
-
-<h3>Matt Harrison&rsquo;s Modern Python workshop</h3>
-
-<p>Matt Harrison&rsquo;s <a href="https://mattharrison.podia.com/modern-python-a-hands-on-approach-to-idiomatic-python-projects">Modern Python workshop</a> is $500 (50%) off through Monday with coupon code EARLYBIRD and and <a href="https://mattharrison.podia.com/courses">his other courses</a> (including Python data science and pandas courses) are 40% off through Monday with code BLACKFRIDAY.</p>
-
-<h3>Speed Up Your Django book</h3>
-
-<p>Adam Johnson&rsquo;s <a href="https://adamj.eu/tech/2020/11/28/speed-up-your-django-tests-cyber-monday-deal/">Speed Up Your Django book</a> is 50% off through Monday.
-Python Morsels is a Django-powered site and I could use this book, so I&rsquo;ll be buying a copy for myself as well.</p>
-
-<h3>Mike Driscoll&rsquo;s Python books</h3>
-
-<p>Mike Driscoll is <a href="https://www.blog.pythonlibrary.org/2020/11/25/black-friday-cyber-monday-comes-early-in-2020/">offering a sale on all his Python books</a> (each is $15 or less during the sale).</p>
-
-<h3>Brian Okken&rsquo;s Pytest book (Pragmatic Bookshelf)</h3>
-
-<p>Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2020, including <a href="https://pragprog.com/titles/bopytest/python-testing-with-pytest/">Brian Okken&rsquo;s Pytest book</a> which is just under $15 with the coupon.</p>
-
-<h3>No Starch Press Python books</h3>
-
-<p>No Starch Press is also running <a href="https://nostarch.com/catalog/python">a 33% off sale</a> on their Python books (with books by Al Sweigart, Eric Matthes, and many others), though the sale ends before Monday.</p>
-
-<h3>Real Python subscription</h3>
-
-<p>Real Python is offering an annual subscription for <a href="https://realpython.com/account/join/?c=blackfriday2020">$200/year</a> and 20% of that goes to the Python Software Foundation.</p>
-
-<h3>Pluralsight subscription</h3>
-
-<p>We&rsquo;re now moving into &ldquo;I&rsquo;m really not actually sure what you&rsquo;re getting&rdquo; sales.
-Pluralsight is running a Black Friday sale this year: <a href="https://www.pluralsight.com/offer/2020/bf-cm-40-off">$180/year for a subscription</a>.
-I&rsquo;m not sure whether this is one year for $180 but the subscription renews at the regular price of $300/year or whether it&rsquo;s $180/year indefinitely (the fact that they don&rsquo;t specify is a bit concerning).</p>
-
-<h3>100 Days of Code Python and other Udemy courses</h3>
-
-<p>There&rsquo;s a <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=DCF8D1FDCAA3CE660C34">100 Days of Code Python course</a> course on sale for just $13 on Udemy through mid next week.
-I haven&rsquo;t heard anything about it but it looks like it includes <em>a lot</em>.</p>
-
-<p>There are also various other Udemy Python courses on sale, like <a href="https://www.udemy.com/course/automate/">Automate The Boring Stuff</a>, though many of these sales end within the next 24 hours (through Black Friday only).</p>
-
-<h3>Lots of courses, books, screencasts, exercises, live workshops on sale</h3>
-
-<p>Don&rsquo;t go too wild on sales.</p>
-
-<p>I know that I wouldn&rsquo;t want anyone subscribing to Python Morsels unless they think they&rsquo;ll actually commit at least an hour over the next year to watch screencasts.
-I imagine many other Python educators feel similar about purchases that go to waste.</p>
-
-<p>Look through the sales above and think about what you could use.
-What works well with the way you learn and what would you actually make a habit to use after you&rsquo;ve purchased it?</p>
-
-<p>If you have a question about the <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">Python Morsels screencasts/exercises</a>, email me.
-If you have questions about other sales, email the folks running those sales (make sure to do it now in case they take a day or two to get back to you).</p>
-
-<p>Also if you&rsquo;ve found other Python sales I&rsquo;ve missed above, please comment or <a href='m&#97;&#105;l&#116;o&#58;he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m'>email me</a> to let me know about them.</p>
 ]]></content>
   </entry>
   
