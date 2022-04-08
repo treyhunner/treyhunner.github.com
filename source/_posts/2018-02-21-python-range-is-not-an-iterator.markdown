@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Python: range is not an iterator!"
+title: "Python: range is not an iterator"
 date: 2018-02-28 16:00:00 -0800
 comments: true
 categories: python
@@ -12,7 +12,7 @@ Unfortunately, I don't remember the name of the person who asked me this questio
 
 I love this question because `range` objects in Python 3 ([xrange in Python 2][xrange]) are lazy, but **range objects are not iterators** and this is something I see folks mix up frequently.
 
-In the last year I've heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3's `range` objects as iterators.  This distinction is something a lot of people get confused about.
+In the last year I've heard Python beginners, long-time Python programmers, and even other Python educators mistakenly refer to Python 3's `range` objects as iterators.  This distinction is something a lot of people get confused about.
 
 
 ## Yes this *is* confusing
@@ -256,7 +256,7 @@ If you know you can pass something to the `next` function, it's an <strong>itera
 
 If you can loop over something multiple times without "exhausting" it, it's not an iterator.  If you can't pass something to the `next` function, it's not an iterator.  Python 3's `range` object is not an iterator.  If you're teaching people about `range` objects, please don't use the word "iterator".  It's confusing and might cause others to start misusing the word "iterator" as well.
 
-On the other hand, if you see someone else misusing the word iterator don't be mean.  You may want to point out the misuse if it seems important, but keep in mind that I've heard long-time Python programmers and experienced Python trainers misuse this word by calling `range` objects iterators.  Words are important, but language is tricky.
+On the other hand, if you see someone else misusing the word iterator don't be mean.  You may want to point out the misuse if it seems important, but keep in mind that I've heard long-time Python programmers and experienced Python educators misuse this word by calling `range` objects iterators.  Words are important, but language is tricky.
 
 Thanks for joining me on this brief `range` and iterator-filled adventure!
 

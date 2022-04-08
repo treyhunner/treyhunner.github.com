@@ -387,7 +387,7 @@ If you're interested in deep-merging this dictionary (merging a dictionary of di
 [pythonic]: https://docs.python.org/3/glossary.html#term-pythonic
 [duck typing]: https://docs.python.org/3/glossary.html#term-duck-typing
 [sorted]: https://docs.python.org/3/library/functions.html#sorted
-[performance]: https://gist.github.com/treyhunner/f35292e676efa0be1728
+[performance]: https://pym.dev/p/23rcx/
 [python training]: http://truthful.technology/
 [contact me]: mailto:hello@truthful.technology
 [deepcopy]: https://docs.python.org/3/library/copy.html#copy.deepcopy

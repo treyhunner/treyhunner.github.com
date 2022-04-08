@@ -196,7 +196,7 @@ Counter({'brown': 3, 'yellow': 2, 'green': 1, 'black': 1, 'red': 1})
 
 Notice that we didn't focus on efficiency for these solutions.  Most of these solutions have the same time complexity (`O(n)` in big O notation) but runtimes could vary based on the Python implementation.
 
-While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance].  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
+While performance isn't our main concern, [I did measure the run-times on CPython 3.5.0][performance] (you can [measure performance yourself here][self performance]).  It's interesting to see how each implementation changes in relative efficiency based on the density of color names in the list.
 
 ## Conclusion
 
@@ -237,6 +237,7 @@ Thanks to [Brian Schrader][] and [David Lord][] for proof-reading this post and 
 [tests]: https://gist.github.com/macro1/9b364612ee3907df4179
 [zen email]: https://mail.python.org/pipermail/python-list/1999-June/001951.html
 [zen of python]: https://www.python.org/dev/peps/pep-0020/
+[self performance]: https://pym.dev/p/23vzw/
 
 [brian schrader]: http://brianschrader.com/
 [david lord]: http://stackoverflow.com/users/400617/davidism
