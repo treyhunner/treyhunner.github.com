@@ -5,14 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Python: range is not an iterator! - Trey Hunner</title>
+  <title>Python: range is not an iterator - Trey Hunner</title>
   <meta name="author" content="Trey Hunner">
 
   
   <meta name="description" content="After my Loop Better talk at PyGotham 2017 someone asked me a great question: iterators are lazy iterables and range is a lazy iterable in Python 3, &hellip;">
   
 
-  <meta name="twitter:title" content="Python: range is not an iterator!"/>
+  <meta name="twitter:title" content="Python: range is not an iterator"/>
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -123,7 +123,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">Python: range is not an iterator!</h1>
+      <h1 class="entry-title">Python: range is not an iterator</h1>
     
     
       <p class="meta">
@@ -148,7 +148,7 @@ $(document).ready(function () {
 
 <p>I love this question because <code>range</code> objects in Python 3 (<a href="treyhunner.com/2018/02/python-3-s-range-better-than-python-2-s-xrange/">xrange in Python 2</a>) are lazy, but <strong>range objects are not iterators</strong> and this is something I see folks mix up frequently.</p>
 
-<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python trainers mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
+<p>In the last year I&rsquo;ve heard Python beginners, long-time Python programmers, and even other Python educators mistakenly refer to Python 3&rsquo;s <code>range</code> objects as iterators.  This distinction is something a lot of people get confused about.</p>
 
 <h2>Yes this <em>is</em> confusing</h2>
 
@@ -480,7 +480,7 @@ $(document).ready(function () {
 
 <p>If you can loop over something multiple times without &ldquo;exhausting&rdquo; it, it&rsquo;s not an iterator.  If you can&rsquo;t pass something to the <code>next</code> function, it&rsquo;s not an iterator.  Python 3&rsquo;s <code>range</code> object is not an iterator.  If you&rsquo;re teaching people about <code>range</code> objects, please don&rsquo;t use the word &ldquo;iterator&rdquo;.  It&rsquo;s confusing and might cause others to start misusing the word &ldquo;iterator&rdquo; as well.</p>
 
-<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python trainers misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
+<p>On the other hand, if you see someone else misusing the word iterator don&rsquo;t be mean.  You may want to point out the misuse if it seems important, but keep in mind that I&rsquo;ve heard long-time Python programmers and experienced Python educators misuse this word by calling <code>range</code> objects iterators.  Words are important, but language is tricky.</p>
 
 <p>Thanks for joining me on this brief <code>range</code> and iterator-filled adventure!</p>
 </div>
