@@ -5,6 +5,7 @@ date: 2019-05-21 08:40:00 -0700
 comments: true
 categories: python
 magnet: beyond_intro
+canonical: https://www.pythonmorsels.com/built-in-functions-in-python/
 ---
 
 *Also published on [Python Morsels](https://www.pythonmorsels.com/built-in-functions-in-python/)*
