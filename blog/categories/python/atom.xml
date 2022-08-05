@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-06-24T13:39:10-07:00</updated>
+  <updated>2022-08-04T17:29:18-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1113,7 +1113,7 @@ So while improved error messages <em>are</em> great for me, this change is <em>e
 <p>New Python users often forget to put a <code>:</code> to begin their code blocks.
 In Python 3.9 users would see this cryptic error message:</p>
 
-<pre><code class="bash">$ python3.10 temp.py 70
+<pre><code class="bash">$ python3.9 temp.py 70
   File "/home/trey/temp.py", line 4
     if temperature &lt; 65
                        ^

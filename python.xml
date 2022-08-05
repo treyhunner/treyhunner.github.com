@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-06-24T13:39:10-07:00</updated>
+  <updated>2022-08-04T17:29:18-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1473,7 +1473,7 @@ In Python 3.9 users would see this cryptic error message:</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 temp.py 70
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.9 temp.py 70
 </span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 4
 </span><span class='line'>    <span class="k">if</span> temperature &lt; 65
 </span><span class='line'>                       ^
