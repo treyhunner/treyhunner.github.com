@@ -36,7 +36,7 @@ New Python users often forget to put a `:` to begin their code blocks.
 In Python 3.9 users would see this cryptic error message:
 
 ```bash
-$ python3.10 temp.py 70
+$ python3.9 temp.py 70
   File "/home/trey/temp.py", line 4
     if temperature < 65
                        ^
