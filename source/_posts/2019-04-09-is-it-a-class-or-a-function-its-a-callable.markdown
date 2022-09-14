@@ -446,7 +446,7 @@ You learn through recall, that is trying to retrieve information for your head.
 If you'd like to get some practice with the `__call__` method, if you'd like to make your own iterable/iterator-returning callables, or if you just want to practice working with "callables", I have a Python Morsels exercise for you.
 
 Python Morsels is a weekly Python skill-building service.
-I send one exercise every week and the first 5 are free.
+I send one exercise every week and the first 3 are free.
 
 If you sign up for Python Morsels using the below form, I'll send you one callable-related exercise of your choosing (choose using the selection below).
 
