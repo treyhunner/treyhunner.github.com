@@ -56,7 +56,7 @@ You'll likely be able to visit [**this link**](http://talkpython.fm/black-friday
 - **[No Starch][]**: No Starch usually holds a sale on their books, including many popular Python
 - **[Udemy][]**: various Python courses are also on sale on Udemy right now, including Al Sweigart's [Automate the Boring Stuff with Python course](https://www.udemy.com/course/automate/)
 - **Sundeep Agarwal**: Sundeep's [all books bundle is 64% off](https://learnbyexample.gumroad.com/l/all-books/FestiveOffer) (it's $10), the [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer) is 80% off (it's $3), and [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer) is free!
-- **[O'Reilly Media][]** subscriptions are $200 off with the coupon [CYBERWEEK22][oreilly]
+- **[O'Reilly Media][oreilly]** subscriptions are $200 off with the coupon [CYBERWEEK22][oreilly]
 - **[DataCamp][]** has a 50% off sale on their annual subscriptions right now as well
 
 
