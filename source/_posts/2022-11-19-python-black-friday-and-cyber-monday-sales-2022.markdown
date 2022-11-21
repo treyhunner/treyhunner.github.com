@@ -50,12 +50,18 @@ During the last few years, Michael Kennedy has offered a bundle of all Talk Pyth
 You'll likely be able to visit [**this link**](http://talkpython.fm/black-friday) on Black Friday to see the bundle.
 
 
+## Reuven Lerner's Python courses
+
+Reuven Lerner's various Python courses are 40% off this week.
+Use [this link to visit Reuven's store with coupon code BF2022](https://store.lerner.co.il/?coupon=BF2022).
+
+
 ## More Python books and courses
 
+- **Sundeep Agarwal**: Sundeep's [all books bundle is 64% off](https://learnbyexample.gumroad.com/l/all-books/FestiveOffer) (it's $10), the [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer) is 80% off (it's $3), and [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer) is free!
 - **[Pragmatic Bookshelf][]**: save 40% on Brian Okken's PyTest book or any other Pragmatic Bookshelf book with the coupon code `turkeysale2022`
 - **[No Starch][]**: No Starch usually holds a sale on their books, including many popular Python
 - **[Udemy][]**: various Python courses are also on sale on Udemy right now, including Al Sweigart's [Automate the Boring Stuff with Python course](https://www.udemy.com/course/automate/)
-- **Sundeep Agarwal**: Sundeep's [all books bundle is 64% off](https://learnbyexample.gumroad.com/l/all-books/FestiveOffer) (it's $10), the [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer) is 80% off (it's $3), and [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer) is free!
 - **[O'Reilly Media][oreilly]** subscriptions are $200 off with the coupon [CYBERWEEK22][oreilly]
 - **[DataCamp][]** has a 50% off sale on their annual subscriptions right now as well
 
@@ -64,7 +70,6 @@ You'll likely be able to visit [**this link**](http://talkpython.fm/black-friday
 
 I'm watching out for sales from these folks as well and will update this post with more details if/when more sales are announced:
 
-- **Reuven Lerner**: Reuven usually holds sales on his books and courses ([check his store here][reuven sale])
 - **Matt Harrison**: Matt often offers a sale on his books and courses ([check his store here][metasnake])
 - **PyBites**: Bob and Julian at [PyBites][] often offer a sale
 - **Mike Driscoll**: Mike often offers sales on his [Python books and courses][driscoll]
