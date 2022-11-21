@@ -81,7 +81,7 @@ And if you have questions about the [**Python Morsels Cyber Monday sale**](https
 Happy Python-ing!
 
 
-[adam post]: https://adamj.eu/tech/2022/11/10/django-black-friday-deals/
+[adam post]: https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/
 [reuven sale]: https://store.lerner.co.il
 [metasnake]: https://store.metasnake.com
 [data school]: https://www.dataschool.io
