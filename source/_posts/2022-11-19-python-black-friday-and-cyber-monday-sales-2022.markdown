@@ -96,7 +96,7 @@ Happy Python-ing!
 [pybites]: https://pybit.es
 [driscoll]: https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/
 [sundeep]: https://learnbyexample.gumroad.com
-[sorcery pro]: https://sourcery.ai/pricing/
+[sourcery pro]: https://sourcery.ai/pricing/
 [pragmatic bookshelf]: https://pragprog.com/
 [talk python]: http://talkpython.fm/black-friday
 [email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
