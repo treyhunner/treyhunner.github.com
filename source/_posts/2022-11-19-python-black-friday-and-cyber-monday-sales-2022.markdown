@@ -104,5 +104,5 @@ Happy Python-ing!
 [udemy]: https://udemy.com
 [datacamp]: https://www.datacamp.com/promo/black-friday-2022
 [oreilly]: https://www.oreilly.com/online-learning/cyber-monday-2022.html
-[dunder data]: dunderdata.com
+[dunder data]: https://www.dunderdata.com/black-friday
 [docker]: https://pythonspeed.com/products/docker/
