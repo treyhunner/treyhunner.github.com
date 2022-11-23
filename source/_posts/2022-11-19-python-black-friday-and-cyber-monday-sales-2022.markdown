@@ -46,8 +46,12 @@ I use a subscription model for [Python Morsels][] because subscriptions (when do
 Here are 3 subscriptions that also involve Python learning:
 
 - **[O'Reilly Media][oreilly]** subscriptions are $200 off with the coupon [CYBERWEEK22][oreilly]
-- **[DataCamp][]** has a 50% off sale on their annual subscriptions right now as well
 - **[Ted Petrou][dunder data]** is offering 40% off his Dunder Data subscriptions (normally $399), plus an extra 50% off for completing 3 certificates within 3 months
+- **[DataCamp][]** has a 50% off sale on their annual subscriptions right now as well
+
+And here's a Python-related service that's on sale (a subscription product, not a learning service):
+
+- **Sorcery**: [Sorcery Pro][] is 33% off for the first 12 months with coupon `BLACKFRIDAY2022`
 
 
 ## Django sales
@@ -92,6 +96,7 @@ Happy Python-ing!
 [pybites]: https://pybit.es
 [driscoll]: https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/
 [sundeep]: https://learnbyexample.gumroad.com
+[sorcery pro]: https://sourcery.ai/pricing/
 [pragmatic bookshelf]: https://pragprog.com/
 [talk python]: http://talkpython.fm/black-friday
 [email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
