@@ -51,7 +51,7 @@ Here are 3 subscriptions that also involve Python learning:
 
 And here's a Python-related service that's on sale (a subscription product, not a learning service):
 
-- **Sorcery**: [Sorcery Pro][] is 33% off for the first 12 months with coupon `BLACKFRIDAY2022`
+- **Sourcery**: [Sourcery Pro][] is 33% off for the first 12 months with coupon `BLACKFRIDAY2022`
 
 
 ## Django sales
