@@ -7,9 +7,7 @@ categories: python
 ---
 
 
-It's that time of year again… time for my annual compilation post of Black Friday and Cyber Monday deals for learning Python.
-
-Note that Cyber Monday is a week away, so most sales aren't yet announced. I'll update this post when more details become available; it shouldn't be a long wait!
+It's that time of year again… time for my annual compilation post of **Black Friday and Cyber Monday deals for learning Python**.
 
 
 ## Save up to $108 a year on Python Morsels
@@ -31,10 +29,15 @@ If you saw yourself in that list, subscribe now before prices increase on Novemb
 
 ## Python books, courses, templates, and exercises
 
+There are a *lot* of Python-related sales going on this year.
+Note that some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
+
 - **[Reuven Lerner][reuven]**: Reuven's Python courses are 40% off this week with the coupon `BF2022`
+- **[Talk Python][]**: Get all Talk Python courses in one $249 bundle
 - **Sundeep Agarwal**: Sundeep's [all books bundle is 64% off](https://learnbyexample.gumroad.com/l/all-books/FestiveOffer) (it's $10), the [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer) is 80% off (it's $3), and [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer) is free!
 - **[Itamar Turner-Trauring][docker]**: Itamar's Docker packaging products for Python are all 25% off through November with the code `FALL22`
 - **[Mike Driscoll][driscoll]**: Mike is offering $10 off any of his books this year with the coupon code `black2022`
+- **[No Starch][]**: books are 35% off with the coupon `HOLIDAYDEALS`
 - **[Pragmatic Bookshelf][]**: save 40% on Brian Okken's PyTest book or any other Pragmatic Bookshelf book with the coupon code `turkeysale2022`
 - **[Udemy][]**: various Python courses are also on sale on Udemy right now, including Al Sweigart's [Automate the Boring Stuff with Python course](https://www.udemy.com/course/automate/)
 
@@ -42,14 +45,15 @@ If you saw yourself in that list, subscribe now before prices increase on Novemb
 ## Python learning subscriptions
 
 I use a subscription model for [Python Morsels][] because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.
+But Python Morsels isn't the only subscription-based Python learning platform.
 
-Here are 3 subscriptions that also involve Python learning:
+Here sales on other learning subscriptions:
 
 - **[O'Reilly Media][oreilly]** subscriptions are $200 off with the coupon [CYBERWEEK22][oreilly]
-- **[Ted Petrou][dunder data]** is offering 40% off his Dunder Data subscriptions (normally $399), plus an extra 50% off for completing 3 certificates within 3 months
+- **[Dunder Data][]** subscriptions (by Ted Petrou) are 40% off (normally $399), plus an extra 50% off for completing 3 certificates within 3 months
 - **[DataCamp][]** has a 50% off sale on their annual subscriptions right now as well
 
-And here's a Python-related service that's on sale (a subscription product, not a learning service):
+Also here's a Python-related service that's on sale (a subscription product, not a learning service):
 
 - **Sourcery**: [Sourcery Pro][] is 33% off for the first 12 months with coupon `BLACKFRIDAY2022`
 
@@ -65,18 +69,6 @@ Here's a quick summary:
 - Test Driven is selling a discounted bundle of courses on Django REST Framework, Celery, and search ([sale](https://testdriven.io/bundle/django-black-friday/))
 
 Plus other discounted books, apps, templates, and services from others: [read Adam's full post][adam post] for more details on the Django-related sales this year.
-
-
-## Possible sales that aren't (yet) announced
-
-I'm watching out for sales from these folks as well and will update this post with more details if/when more sales are announced:
-
-- **Talk Python**: Michael Kennedy usually offers all his courses in one $250 bundle each year ([this link *should* point to the sale on Friday][talk python])
-- **Matt Harrison**: Matt often offers a sale on his books and courses ([check his store here][metasnake])
-- **PyBites**: Bob and Julian at [PyBites][] often offer a sale
-- **No Starch**: [No Starch][] usually holds a sale on their books, including many popular Python
-
-I'll update the above links as more sales are announced.
 
 
 ## Go get yourself some deals!
