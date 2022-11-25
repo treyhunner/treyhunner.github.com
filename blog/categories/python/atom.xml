@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-11-23T10:54:42-08:00</updated>
+  <updated>2022-11-25T08:24:57-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Morsels Cyber Monday sale]]></title>
+    <link href="https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale/"/>
+    <updated>2022-11-25T08:30:00-08:00</updated>
+    <id>https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale</id>
+    <content type="html"><![CDATA[<p>Python Morsels helps Python users <strong>sharpen their Python skills</strong> in a way that writing production code doesn&rsquo;t. If you are:</p>
+
+<ul>
+<li>an experienced developer, frustrated with <strong>gaps in your Python knowledge</strong></li>
+<li>a self-taught programmer seeking <strong>courage and confidence</strong> in your Python abilities</li>
+<li>or an intermediate-level Python learner trying to <strong>deepen your Python skills</strong></li>
+</ul>
+
+
+<p>&hellip;a weekly Python Morsels habit can help you make <strong>consistent progress</strong> and <strong>noticeable growth</strong> in <strong>just a few months</strong>.</p>
+
+<p>Python Morsels is <strong>on sale</strong> through Cyber Monday. <a href="https://www.pythonmorsels.com/all-python-exercises-and-screencasts/">Subscribe</a> now to <strong><a href="https://www.pythonmorsels.com/pricing/">save up to $108 per year</a></strong>.</p>
+
+<h2>Day-to-day coding isn&rsquo;t purposeful learning</h2>
+
+<p>If you write Python frequently, you likely learn new things all the time.
+The learning you get from day-to-day coding is messy and unpredictable. Yes, learning happens, but gradually.</p>
+
+<p>What if you could <strong>learn something unexpected about Python</strong> in <strong>just 30 minutes</strong> a week?</p>
+
+<p>That&rsquo;s what Python Morsels is designed to do: push you <em>just</em> outside your comfort zone to <strong>discover something new</strong> without requiring a big time sink.</p>
+
+<blockquote><p>The time I spent working on Python Morsels problems translates into saved time programming for work. And it&rsquo;s not a grind - it&rsquo;s actually fun. I&rsquo;ve learned advanced Python concepts that I would have never had the opportunity to use in my day to day work.
+<br><span style="float: right;">
+— Eric Pederson, <a href="https://www.pythonmorsels.com/testimonials/#tag:short_on_time">Python Morsels user</a></span>
+<br></p></blockquote>
+
+<div class="clearfix"></div>
+
+
+<h2>Guided Python practice every single week</h2>
+
+<p>Python Morsels is <strong>quite different</strong> from many other Python learning systems: you tell me your Python skill level (from <strong>novice</strong> to <strong>advanced</strong>) and I send you small tasks to help you sharpen your Python skills.</p>
+
+<p>Every Monday, you&rsquo;ll receive an email from me with:</p>
+
+<ul>
+<li>a short screencast to watch (or read)</li>
+<li>a multi-part exercise to move you outside your comfort zone (often achievable in 30 minutes)</li>
+<li>a mini exercise that you can accomplish in just 10 minutes</li>
+<li>links to dive deeper into subsequent screencasts and exercises</li>
+</ul>
+
+
+<p>If you&rsquo;d like to nudge your learning in a specific direction, you can always work through a topic-specific exercise path, or watch one of my many screencast series.</p>
+
+<h2>Does this actually work?</h2>
+
+<p>If you use Python Morsels even semi-regularly, I’m confident your Python skills will improve.</p>
+
+<p>Here&rsquo;s what Python Morsels users have to say:</p>
+
+<blockquote><p>I was hesitant about paying for Python Morsels given how many free learning resources there are. But it was definitely worth it. I&rsquo;ve learnt more from Python Morsels than anything else, by far.
+<br><span style="float: right;">
+— Cosmo Grant</span>
+<br></p></blockquote>
+
+<div class="clearfix"></div>
+
+
+<blockquote><p>During my study of Python, I used various programming challenge sites. I can say for sure that this is the best challenge site I have ever come across.
+<br><span style="float: right;">
+— Bartosz Chojnacki</span>
+<br></p></blockquote>
+
+<div class="clearfix"></div>
+
+
+<p>Not sure? <a href="https://www.pythonmorsels.com/testimonials/">Read more from Python Morsels users here</a>.</p>
+
+<h2>Lock-in your $200/year subscription</h2>
+
+<p>Python Morsels currently includes <strong>over 150 screencasts and articles</strong> and <strong>nearly 200 exercises</strong>, each of which links to over a dozen helpful resources.</p>
+
+<p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
+
+<p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2022)]]></title>
@@ -926,254 +1011,6 @@ So the keys in your dictionary will remain in the order they were added to the d
 
 <p>But remember, it&rsquo;s not often that we care about the order of a dictionary.
 Whenever you&rsquo;re sorting a dictionary, please remember to ask yourself <strong>do I really need to sort this data structure</strong> and <strong>would a list of tuples be more suitable than a dictionary here</strong>?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to flatten a list in Python]]></title>
-    <link href="https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python/"/>
-    <updated>2021-11-01T08:00:00-07:00</updated>
-    <id>https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve somehow ended up with lists nested inside of lists, possibly like this one:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; groups = [["Hong", "Ryan"], ["Anthony", "Wilhelmina"], ["Margaret", "Adrian"]]
-</code></pre>
-
-<p>But you <em>want</em> just a single list (without the nesting) like this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; expected_output = ["Hong", "Ryan", "Anthony", "Wilhelmina", "Margaret", "Adrian"]
-</code></pre>
-
-<p>You need to flatten your list-of-lists.</p>
-
-<h3>We&rsquo;re looking for a &ldquo;shallow&rdquo; flatten</h3>
-
-<p>We can think of this as a <strong>shallow flatten</strong> operation, meaning we&rsquo;re flattening this list by one level.
-A <strong>deep flatten</strong> operation would handle lists-of-lists-of-lists-of-lists (and so on) and that&rsquo;s a bit more than we need for our use case.</p>
-
-<p>The flattening strategy we come up with should work on lists-of-lists as well as any other type of <a href="https://www.pythonmorsels.com/topics/iterable/">iterable</a>-of-iterables.
-For example lists of tuples should be flattenable:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; groups = [("Hong", "Ryan"), ("Anthony", "Wilhelmina"), ("Margaret", "Adrian")]
-</code></pre>
-
-<p>And even an odd type like a <code>dict_items</code> object (which we get from asking a dictionary for its items) should be flattenable:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; fruit_counts = {"apple": 3, "lime": 2, "watermelon": 1, "mandarin": 4}
-&gt;&gt;&gt; fruit_counts.items()
-dict_items([('apple', 3), ('lime', 2), ('watermelon', 1), ('mandarin', 4)])
-&gt;&gt;&gt; flattened_counts = ['apple', 3, 'lime', 2, 'watermelon', 1, 'mandarin', 4]
-</code></pre>
-
-<h3>Flattening iterables-of-iterables with a <code>for</code> loop</h3>
-
-<p>One way to flatten an iterable-of-iterables is with a <code>for</code> loop.
-We can loop one level deep to get each of the inner iterables.</p>
-
-<pre><code class="python">for group in groups:
-    ...
-</code></pre>
-
-<p>And then we loop a second level deep to get each item from each inner iterable.</p>
-
-<pre><code class="python">for group in groups:
-    for name in group:
-        ...
-</code></pre>
-
-<p>And then append each item to a new list:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    for name in group:
-        names.append(name)
-</code></pre>
-
-<p>There&rsquo;s also a list method that makes this a bit shorter, the <code>extend</code> method:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    names.extend(group)
-</code></pre>
-
-<p>The list <code>extend</code> method accepts an iterable and appends every item in the iterable you give to it.</p>
-
-<p>Or we could use the <code>+=</code> operator to concatenate each list to our new list:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    names += group
-</code></pre>
-
-<p>You can think of <code>+=</code> on lists as calling the <code>extend</code> method.
-With lists these two operations (<code>+=</code> and <code>extend</code>) are equivalent.</p>
-
-<h3>Flattening iterables-of-iterables with a comprehension</h3>
-
-<p>This nested <code>for</code> loop with an <code>append</code> call might look familiar:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    for name in group:
-        names.append(name)
-</code></pre>
-
-<p>The structure of this code looks like something we could <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste into a list comprehension</a>.</p>
-
-<p>Inside our square brackets we&rsquo;d copy the thing we&rsquo;re appending first, and then the logic for our first loop, and then the logic for our second loop:</p>
-
-<pre><code class="python">names = [
-    name
-    for group in groups
-    for name in group
-]
-</code></pre>
-
-<p>This comprehension loops two levels deep, just like our nested <code>for</code> loops did.
-Note that the order of the <code>for</code> clauses in the comprehension <strong>must remain the same as the order of the <code>for</code> loops</strong>.</p>
-
-<p>The (sometimes confusing) order of those <code>for</code> clauses is partly why I recommend <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-pasting into a comprehension</a>.
-When turning a <code>for</code> loop into a comprehension, the <code>for</code> and <code>if</code> clauses remain in the same relative place, but the thing you&rsquo;re appending moves from the end to the beginning.</p>
-
-<h3>Could we flatten with <code>*</code> in a comprehension?</h3>
-
-<p>But what about Python&rsquo;s <code>*</code> operator?
-I&rsquo;ve written about the many uses for <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">the prefixed asterisk symbol in Python</a>.</p>
-
-<p>We can use <code>*</code> in Python&rsquo;s list literal syntax (<code>[</code>&hellip;<code>]</code>) to unpack an iterable into a new list:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers = [3, 4, 7]
-&gt;&gt;&gt; more_numbers = [2, 1, *numbers, 11, 18]
-&gt;&gt;&gt; more_numbers
-[2, 1, 3, 4, 7, 11, 18]
-</code></pre>
-
-<p>Could we use that <code>*</code> operator to unpack an iterable within a comprehension?</p>
-
-<pre><code class="python">names = [
-    *group
-    for group in groups
-]
-</code></pre>
-
-<p>We can&rsquo;t.
-If we try to do this Python will specifically tell us that the <code>*</code> operator can&rsquo;t be used like this in a comprehension:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; names = [
-...     *group
-...     for group in groups
-... ]
-  File "&lt;stdin&gt;", line 2
-    ]
-     ^
-SyntaxError: iterable unpacking cannot be used in comprehension
-</code></pre>
-
-<p>This feature was specifically excluded from <a href="https://www.python.org/dev/peps/pep-0448/#variations">PEP 448</a>, the Python Enhancement Proposal that added this <code>*</code>-in-list-literal syntax to Python due to readability concerns.</p>
-
-<h3>Can&rsquo;t we use <code>sum</code>?</h3>
-
-<p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; names = sum(groups, [])
-</code></pre>
-
-<p>This <em>does</em> work:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; names
-['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
-</code></pre>
-
-<p>But I find this technique pretty unintuitive.</p>
-
-<p>We use the <code>+</code> operator in Python for both adding numbers and concatenating sequences and the <code>sum</code> function happens to work with anything that supports the <code>+</code> operator (thanks to <a href="https://www.pythonmorsels.com/topics/duck-typing/">duck typing</a>).
-But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
-
-<p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
-
-<p><strong>Quick Aside</strong>: The algorithm <code>sum</code> uses also makes list flattening <em>really</em> slow (<a href="https://gist.github.com/treyhunner/f0c069496a1e41aadcf0d7050e475eb3">timing comparison here</a>).
-In <a href="https://www.youtube.com/watch?v=duvZ-2UK0fc">Big-O</a> terms (for the time complexity nerds), <code>sum</code> with lists is <code>O(n**2)</code> instead of <code>O(n)</code>.</p>
-
-<h3>What about <code>itertools.chain</code>?</h3>
-
-<p>There is one more tool that&rsquo;s often used for flattening: the <code>chain</code> utility in the <code>itertools</code> module.</p>
-
-<p><code>chain</code> accepts any number arguments and it returns an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from itertools import chain
-&gt;&gt;&gt; chain(*groups)
-&lt;itertools.chain object at 0x7fc1b2d65bb0&gt;
-</code></pre>
-
-<p>We can loop over that iterator or turn it into another iterable, like a list:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; list(chain(*groups))
-['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
-</code></pre>
-
-<p>There&rsquo;s actually a method on <code>chain</code> that&rsquo;s specifically for flattening a single iterable:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; list(chain.from_iterable(groups))
-['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
-</code></pre>
-
-<p>Using <code>chain.from_iterable</code> is more performant than using <code>chain</code> with <code>*</code> because <code>*</code> unpacks the whole iterable immediately when <code>chain</code> is called.</p>
-
-<h3>Recap: comparing list flattening techniques</h3>
-
-<p>If you want to flatten an iterable-of-iterables lazily, I would use <code>itertools.chain.from_iterable</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; from itertools import chain
-&gt;&gt;&gt; flattened = chain.from_iterable(groups)
-</code></pre>
-
-<p>This will return an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>, meaning no work will be done until the returned iterable is looped over:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; list(flattened)
-['Hong', 'Ryan', 'Anthony', 'Wilhelmina', 'Margaret', 'Adrian']
-</code></pre>
-
-<p>And it will be consumed as we loop, so looping twice will result in an empty iterable:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; list(flattened)
-[]
-</code></pre>
-
-<p>If you find <code>itertools.chain</code> a bit too cryptic, you might prefer a <code>for</code> loop that calls the <code>extend</code> method on a new list to repeatedly extend the values in each iterable:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    names.extend(group)
-</code></pre>
-
-<p>Or a <code>for</code> loop that uses the <code>+=</code> operator on our new list:</p>
-
-<pre><code class="python">names = []
-for group in groups:
-    names += group
-</code></pre>
-
-<p>Unlike <code>chain.from_iterable</code>, both of these <code>for</code> loops build up new list rather than a lazy iterator object.</p>
-
-<p>If you find list comprehensions readable (I love them for signaling &ldquo;look we&rsquo;re building up a list&rdquo;) then you might prefer a comprehension instead:</p>
-
-<pre><code class="python">names = [
-    name
-    for group in groups
-    for name in group
-]
-</code></pre>
-
-<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does the same thing as <code>itertools.chain.from_iterable</code>:</p>
-
-<pre><code class="python">names = (
-    name
-    for group in groups
-    for name in group
-)
-</code></pre>
-
-<p>Happy list flattening!</p>
 ]]></content>
   </entry>
   
