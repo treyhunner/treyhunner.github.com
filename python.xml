@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2022-11-25T08:24:57-08:00</updated>
+  <updated>2022-11-25T08:42:44-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -103,9 +103,7 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
     <link href="https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022/"/>
     <updated>2022-11-22T10:15:00-08:00</updated>
     <id>https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s that time of year again… time for my annual compilation post of Black Friday and Cyber Monday deals for learning Python.</p>
-
-<p>Note that Cyber Monday is a week away, so most sales aren&rsquo;t yet announced. I&rsquo;ll update this post when more details become available; it shouldn&rsquo;t be a long wait!</p>
+    <content type="html"><![CDATA[<p>It&rsquo;s that time of year again… time for my annual compilation post of <strong>Black Friday and Cyber Monday deals for learning Python</strong>.</p>
 
 <h2>Save up to $108 a year on Python Morsels</h2>
 
@@ -128,11 +126,16 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 
 <h2>Python books, courses, templates, and exercises</h2>
 
+<p>There are a <em>lot</em> of Python-related sales going on this year.
+Note that some of the below sales include courses, some include books, some include templates (Itamar&rsquo;s Docker templates for example) and some include a mix of different learning products.</p>
+
 <ul>
 <li><strong><a href="https://store.lerner.co.il/?coupon=BF2022">Reuven Lerner</a></strong>: Reuven&rsquo;s Python courses are 40% off this week with the coupon <code>BF2022</code></li>
+<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: Get all Talk Python courses in one $249 bundle</li>
 <li><strong>Sundeep Agarwal</strong>: Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all books bundle is 64% off</a> (it&rsquo;s $10), the <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Learn by example Python bundle</a> is 80% off (it&rsquo;s $3), and <a href="https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer">Practice Python Projects</a> is free!</li>
 <li><strong><a href="https://pythonspeed.com/products/docker/">Itamar Turner-Trauring</a></strong>: Itamar&rsquo;s Docker packaging products for Python are all 25% off through November with the code <code>FALL22</code></li>
 <li><strong><a href="https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/">Mike Driscoll</a></strong>: Mike is offering $10 off any of his books this year with the coupon code <code>black2022</code></li>
+<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: books are 35% off with the coupon <code>HOLIDAYDEALS</code></li>
 <li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: save 40% on Brian Okken&rsquo;s PyTest book or any other Pragmatic Bookshelf book with the coupon code <code>turkeysale2022</code></li>
 <li><strong><a href="https://udemy.com">Udemy</a></strong>: various Python courses are also on sale on Udemy right now, including Al Sweigart&rsquo;s <a href="https://www.udemy.com/course/automate/">Automate the Boring Stuff with Python course</a></li>
 </ul>
@@ -140,18 +143,19 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 
 <h2>Python learning subscriptions</h2>
 
-<p>I use a subscription model for <a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.</p>
+<p>I use a subscription model for <a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.
+But Python Morsels isn&rsquo;t the only subscription-based Python learning platform.</p>
 
-<p>Here are 3 subscriptions that also involve Python learning:</p>
+<p>Here sales on other learning subscriptions:</p>
 
 <ul>
 <li><strong><a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">O'Reilly Media</a></strong> subscriptions are $200 off with the coupon <a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">CYBERWEEK22</a></li>
-<li><strong><a href="https://www.dunderdata.com/black-friday">Ted Petrou</a></strong> is offering 40% off his Dunder Data subscriptions (normally $399), plus an extra 50% off for completing 3 certificates within 3 months</li>
+<li><strong><a href="https://www.dunderdata.com/black-friday">Dunder Data</a></strong> subscriptions (by Ted Petrou) are 40% off (normally $399), plus an extra 50% off for completing 3 certificates within 3 months</li>
 <li><strong><a href="https://www.datacamp.com/promo/black-friday-2022">DataCamp</a></strong> has a 50% off sale on their annual subscriptions right now as well</li>
 </ul>
 
 
-<p>And here&rsquo;s a Python-related service that&rsquo;s on sale (a subscription product, not a learning service):</p>
+<p>Also here&rsquo;s a Python-related service that&rsquo;s on sale (a subscription product, not a learning service):</p>
 
 <ul>
 <li><strong>Sourcery</strong>: <a href="https://sourcery.ai/pricing/">Sourcery Pro</a> is 33% off for the first 12 months with coupon <code>BLACKFRIDAY2022</code></li>
@@ -172,20 +176,6 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 
 
 <p>Plus other discounted books, apps, templates, and services from others: <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">read Adam&rsquo;s full post</a> for more details on the Django-related sales this year.</p>
-
-<h2>Possible sales that aren&rsquo;t (yet) announced</h2>
-
-<p>I&rsquo;m watching out for sales from these folks as well and will update this post with more details if/when more sales are announced:</p>
-
-<ul>
-<li><strong>Talk Python</strong>: Michael Kennedy usually offers all his courses in one $250 bundle each year (<a href="http://talkpython.fm/black-friday">this link <em>should</em> point to the sale on Friday</a>)</li>
-<li><strong>Matt Harrison</strong>: Matt often offers a sale on his books and courses (<a href="https://store.metasnake.com">check his store here</a>)</li>
-<li><strong>PyBites</strong>: Bob and Julian at <a href="https://pybit.es">PyBites</a> often offer a sale</li>
-<li><strong>No Starch</strong>: <a href="https://nostarch.com/catalog/python">No Starch</a> usually holds a sale on their books, including many popular Python</li>
-</ul>
-
-
-<p>I&rsquo;ll update the above links as more sales are announced.</p>
 
 <h2>Go get yourself some deals!</h2>
 
