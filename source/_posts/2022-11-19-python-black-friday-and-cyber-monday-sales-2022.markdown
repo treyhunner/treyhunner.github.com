@@ -35,6 +35,7 @@ Note that some of the below sales include courses, some include books, some incl
 - **[Reuven Lerner][reuven]**: Reuven's Python courses are 40% off this week with the coupon `BF2022`
 - **[Talk Python][]**: Get all Talk Python courses in one $249 bundle
 - **Sundeep Agarwal**: Sundeep's [all books bundle is 64% off](https://learnbyexample.gumroad.com/l/all-books/FestiveOffer) (it's $10), the [Learn by example Python bundle](https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer) is 80% off (it's $3), and [Practice Python Projects](https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer) is free!
+- **[Matt Harrison][]**: Matt's offering 30% off his Effective Pandas book on Friday **only**
 - **[Itamar Turner-Trauring][docker]**: Itamar's Docker packaging products for Python are all 25% off through November with the code `FALL22`
 - **[Mike Driscoll][driscoll]**: Mike is offering $10 off any of his books this year with the coupon code `black2022`
 - **[No Starch][]**: books are 35% off with the coupon `HOLIDAYDEALS`
@@ -98,3 +99,4 @@ Happy Python-ing!
 [oreilly]: https://www.oreilly.com/online-learning/cyber-monday-2022.html
 [dunder data]: https://www.dunderdata.com/black-friday
 [docker]: https://pythonspeed.com/products/docker/
+[matt harrison]: https://store.metasnake.com/?coupon=PANDAS30
