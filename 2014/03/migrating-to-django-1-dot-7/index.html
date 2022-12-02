@@ -143,11 +143,6 @@ $(document).ready(function () {
 
 
 
-<div style="margin: 1.5rem 0;">
-  <strong style="color: #d00;">Cyber Monday Sale</strong>: save up to <strong>$108 per year</strong> on a <a href="https://trey.io/cyber-monday-sale-2022" style="color: blue;">Python Morsels subscription</a>
-  <hr style="margin: 1rem 0;">
-</div>
-
 <div class="entry-content"><p>Have an open source Django app with South migrations?  Adding support for Django 1.7 might be a little painful.  In this post I will discuss the difficulty of supporting Django 1.7 while maintaining South migrations for users of Django 1.6 and below.</p>
 
 <p>Django 1.7 uses the <code>migrations</code> sub-package in your app for database migrations and South relies on the same package.  Unfortunately, you can&rsquo;t store both packages in the same place.  At first glance, it seems we cannot support both Django 1.7 and previous versions of Django using South.  However, as I explain below, we can support both at once.</p>
