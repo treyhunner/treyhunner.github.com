@@ -61,7 +61,7 @@ True
 False
 ```
 
-You can think of truthy as meaning non-empty or non-zero (Python chat on [truthiness][]).  For our purposes, we'll treat it as pretty much the same as `True`.
+You can think of [truthy][] as meaning non-empty or non-zero.  For our purposes, we'll treat it as pretty much the same as `True`.
 
 The `all` built-in function is equivalent to this:
 
@@ -120,9 +120,9 @@ I know this is probably doesn't seem like progress, but bear with me for a few m
 
 ## List comprehensions
 
-If you're familiar with list comprehensions, this code structure might look a little familiar.  We're creating one iterable from another which is exactly what list comprehensions are good for.
+If you're familiar with [list comprehensions][], this code structure might look a little familiar.  We're creating one iterable from another which is exactly what list comprehensions are good for.
 
-Let's copy-paste our way into a list comprehension (see my article on [how to write list comprehensions][list comprehensions]):
+Let's copy-paste our way into a list comprehension (see my article on [how to write list comprehensions][copy-paste]):
 
 ```python
 def is_prime(candidate):
@@ -142,9 +142,9 @@ Let's fix this inefficiency by turning our list comprehension into a generator e
 
 ## Generator expressions
 
-A generator expression is like a list comprehension, but instead of making a list it makes a **generator** (Python chat on [generators][]).
+A [generator expression][] is like a list comprehension, but instead of making a list it makes a **generator object**.
 
-A generator is a **lazy iterable**: generators don't compute the items they contain until you loop over them.  We'll see what that means in a moment.
+A generator is an **[iterator][]**: generators don't compute the items they contain until you loop over them.  We'll see what that means in a moment.
 
 We can turn our list comprehension into a generator expression by changing the brackets to parentheses:
 
@@ -343,9 +343,10 @@ For more details on it, [see the Python Morsels][python morsels] website.
 [square root check]: http://stackoverflow.com/questions/5811151/why-do-we-check-upto-the-square-root-of-a-prime-number-to-determine-if-it-is-pri#5811176
 [proposal]: https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010
 [discussion]: https://mail.python.org/pipermail/python-dev/2005-March/thread.html#52010
-[list comprehensions]: http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
-[generators]: https://www.crowdcast.io/e/generators
-[truthiness]: https://www.crowdcast.io/e/truthiness
+[list comprehensions]: https://www.pythonmorsels.com/what-are-list-comprehensions/
+[copy-paste]: http://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/
+[generator expression]: https://www.pythonmorsels.com/how-write-generator-expression/
+[iterator]: https://www.pythonmorsels.com/what-is-an-iterator/
+[truthy]: https://www.pythonmorsels.com/truthiness/
 [tweet me]: http://twitter.com/treyhunner
 [email me]: mailto:hello@truthful.technology
-[python morsels]: https://www.pythonmorsels.com/
