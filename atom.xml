@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2023-03-24T16:47:11-07:00</updated>
+  <updated>2023-03-27T13:27:09-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -4125,7 +4125,7 @@ If you&rsquo;d like to make a lazy iterable in your code think of iterators and 
     <link href="https://treyhunner.com/2019/05/python-builtins-worth-learning/"/>
     <updated>2019-05-21T08:40:00-07:00</updated>
     <id>https://treyhunner.com/2019/05/python-builtins-worth-learning</id>
-    <content type="html"><![CDATA[<p><em>Also published on <a href="https://www.pythonmorsels.com/built-in-functions-in-python/">Python Morsels</a></em></p>
+    <content type="html"><![CDATA[<p><strong>Update</strong>: You can find a <a href="https://www.pythonmorsels.com/built-in-functions-in-python/">newer version of this article on Python Morsels</a>.</p>
 
 <p>In every Intro to Python class I teach, there&rsquo;s always at least one &ldquo;how can we be expected to know all this&rdquo; question.</p>
 
@@ -5655,7 +5655,9 @@ Take it slow: focus on those first 25 important built-ins and then work your way
     <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
     <updated>2019-04-16T10:20:00-07:00</updated>
     <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
-    <content type="html"><![CDATA[<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
+    <content type="html"><![CDATA[<p><strong>Update</strong>: You can find a <a href="https://www.pythonmorsels.com/built-in-functions-in-python/">newer version of this article on Python Morsels</a>.</p>
+
+<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
 Those terms are all technically misnomers.</p>
 
 <p>When I use terms like &ldquo;the <code>bool</code> function&rdquo; and &ldquo;the <code>str</code> function&rdquo; I&rsquo;m incorrectly implying that <code>bool</code> and <code>str</code> are functions.
