@@ -4,7 +4,10 @@ title: "Is it a class or a function? It's a callable!"
 date: 2019-04-16 10:20:00 -0700
 comments: true
 categories: python
+canonical: https://www.pythonmorsels.com/class-function-and-callable/
 ---
+
+**Update**: You can find a [newer version of this article on Python Morsels](https://www.pythonmorsels.com/built-in-functions-in-python/).
 
 If you search course curriculum I've written, you'll often find phrases like "`zip` function", "`enumerate` function", and "`list` function".
 Those terms are all technically misnomers.

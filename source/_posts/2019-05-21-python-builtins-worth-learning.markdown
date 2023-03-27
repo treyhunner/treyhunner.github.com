@@ -8,7 +8,7 @@ magnet: beyond_intro
 canonical: https://www.pythonmorsels.com/built-in-functions-in-python/
 ---
 
-*Also published on [Python Morsels](https://www.pythonmorsels.com/built-in-functions-in-python/)*
+**Update**: You can find a [newer version of this article on Python Morsels](https://www.pythonmorsels.com/built-in-functions-in-python/).
 
 In every Intro to Python class I teach, there's always at least one "how can we be expected to know all this" question.
 
