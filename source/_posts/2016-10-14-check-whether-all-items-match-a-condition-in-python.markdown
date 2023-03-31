@@ -6,6 +6,8 @@ comments: true
 categories: python favorite readability
 ---
 
+**Update**: You can find a [newer version of this article on Python Morsels](https://www.pythonmorsels.com/any-and-all/).
+
 In this article, we're going to look at a common programming pattern and discuss how we can refactor our code when we notice this pattern. 🏗
 
 We'll be discussing how to make code with this shape a little more descriptive:
