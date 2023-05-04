@@ -17,11 +17,12 @@ I often use this game as an ice breaker.  The conversation usually goes somethin
 **Me**: An information management game ("memory game" seems to discourage people).  
 **Them**: Hm okay.  
 
-Cabo did not have a Wikipedia article when I first learned about it and I couldn't find anything online about it.  There is now a [Wikipedia entry for Cabo][wikipedia] and I ran across a website selling special Cabo playing cards: [playcabo.com][playcabo.com].
+Cabo did not have a Wikipedia article when I first learned about it and I couldn't find anything online about it.
+There is now a [Wikipedia entry for Cabo][wikipedia] and I ran across a website selling special Cabo playing cards: playcabo.com (now offline).
 
 I have thought about making an online version of this game, printing playing cards with custom Cabo-themed artwork, and making an open source program that knows the rules of Cabo so I could use it as a teaching tool.  After chatting with friends I met at PyCon, I looked into what it would take to print a custom card deck to sell or gift to friends.
 
-I contacted the owner of [playcabo.com][playcabo.com] and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like [Big Two][], [Durak][], and [Egyptian Ratscrew][].  I was wrong.  This game has a known creator.
+I contacted the owner of playcabo.com and asked whether Cabo was IP-protected and whether the origins of the game were known.  I had assumed Cabo was a folk card game of unknown origins, like [Big Two][], [Durak][], and [Egyptian Ratscrew][].  I was wrong.  This game has a known creator.
 
 Hard work was put into the creation of this game.  This game was designed by Melissa Limes and Mandy Henning.  Melissa founded Eventide Games LLC, registered Cabo as a trademark, and registered a copyright for the rules.  I was a little disappointed to discover that Cabo is owned property, but I was very excited to discover the origins of this game.
 
@@ -105,7 +106,9 @@ The lowest total score wins (see objective).
 
 The version of the game I know is played with a standard 52-card deck.  To play this version you need to remember the rules and the rhyme.
 
-The official rules are slightly different.  If you want a deck custom-built for Cabo and play by the official rules, you can buy one from Eventide Games LLC at [PlayCabo.com][].
+The official rules are significantly different from the version I play by and I find my version significantly more fun.
+However, the official version *is* fun and it's definitely simpler to pick up (especially for kids).
+If you want a deck custom-built for Cabo and you'd like to play by the official rules, you can [buy a deck here][] (previously Eventide Games LLC sold them at PlayCabo.com).
 
 ## Play it
 
@@ -118,3 +121,4 @@ If you like this game, spread it everywhere you go.  It's a great ice breaker an
 [big two]: https://en.wikipedia.org/wiki/Big_Two
 [durak]: https://en.wikipedia.org/wiki/Durak
 [egyptian ratscrew]: https://en.wikipedia.org/wiki/Egyptian_Ratscrew
+[here]: https://beziergames.com/products/cabo
