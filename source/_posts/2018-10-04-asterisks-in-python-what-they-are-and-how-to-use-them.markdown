@@ -424,7 +424,7 @@ So you've just read an article on something new, but **you haven't learned yet**
 I highly recommend you write some code that you uses `*` and `**` in a number of different ways today and then quiz yourself on the different ways to use these operators tomorrow.
 
 I'd love to send you an exercise on to get some practice with `*` and `**` right now.
-If you sign up for [Python Morsels][] using the for below, I'll **send you an exercise that uses `*` and `**` right after you sign up**.
+If you sign up for [Python Morsels][] using the form below, I'll **send you an exercise that uses `*` and `**` right after you sign up**.
 
 <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
     <label><input type="radio" name="exercise_track" value="star1"> I was pretty much brand new to asterisks in Python</label>
