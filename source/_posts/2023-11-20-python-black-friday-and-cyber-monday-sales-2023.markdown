@@ -49,7 +49,7 @@ Some of the below sales include courses, some include books, some include templa
 
 - **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
 - **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
-- **[Mike Driscoll][driscoll]**: Mike usually offers sales on his Python books and courses
+- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python books and courses with the code `black2023`
 - **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
 - **[Sundeep Agarwal][sundeep]**: often offers Python-related deals on his books
 - **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
