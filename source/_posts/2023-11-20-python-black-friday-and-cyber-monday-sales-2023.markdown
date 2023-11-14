@@ -70,7 +70,7 @@ Happy Python-ing!
 
 
 [python morsels]: https://www.pythonmorsels.com/lifetime-access-sale/
-[adam post]: https://adamj.eu/tech/2023/11/12/django-black-friday-deals-2023/
+[adam post]: https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/
 [reuven]: https://store.lerner.co.il
 [metasnake]: https://store.metasnake.com
 [driscoll]: https://www.blog.pythonlibrary.org
