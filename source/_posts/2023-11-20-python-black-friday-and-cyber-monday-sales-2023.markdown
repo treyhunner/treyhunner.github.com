@@ -1,0 +1,84 @@
+---
+layout: post
+title: "Python Black Friday &amp; Cyber Monday sales (2023)"
+date: 2023-11-20 08:00:00 -0800
+comments: true
+categories: python sales
+---
+
+It's time for my annual compilation post of **Python learning deals**.
+I've been compiling Python-related Black Friday & Cyber Monday sales [since 2018](https://treyhunner.com/blog/categories/sales/) and 2023's Python-related sales are coming up.
+
+
+## Lifetime Python Morsels access for the price of two years
+
+I'm kicking things off with [my sale][python morsels] on Python Morsels.
+Python Morsels helps developers **deepen their Python skills** in a way that day-to-day coding simply can't.
+
+Python Morsels is designed for:
+
+- experienced developers frustrated with gaps in their Python knowledge
+- self-taught programmers seeking courage and confidence in their Python abilities
+- experienced Python developers hoping to dive even deeper
+
+If you saw yourself in that list and you plan to use Python heavily for at least a few more years, I highly recommend checking out [the Python Morsels sale][python morsels].
+
+From now through November 27, you can get **lifetime access** to Python Morsels for a one-time fee.
+Python Morsels usually costs **$240/year** but lifetime access is **only $480**.
+This is the best sale I've ever offered on Python Morsels and I'm guessing this might be the best Python-related deal this year.
+
+<a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">💰 See the Python Morsels sale</a>
+
+
+## Django sales
+
+Adam Johnson is also compiling many **Django-related Black Friday and Cyber Monday sales** via a [Django sales post][adam post].
+More details to come as more sales are posted.
+
+
+## On sale now
+
+Here's a sale that's already active:
+
+- **[O'Reilly Media][oreilly]** annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
+
+
+## More sales to watch out for
+
+Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
+
+- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
+- **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
+- **[Mike Driscoll][driscoll]**: Mike usually offers sales on his Python books and courses
+- **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
+- **[Sundeep Agarwal][sundeep]**: often offers Python-related deals on his books
+- **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
+- **[Pragmatic Bookshelf][]**: Pragmatic also usually has a sale on their books (including Brian Okken's Python Testing with pytest). The code is *very likely* to be `turkeycode2023`.
+- **[Udemy][]**: various Python courses are usually on sale on Udemy too
+
+If you know of another sale (or a likely sale) **please comment below**.
+
+I'll update the above links as more sales are confirmed or announced.
+
+
+## Go get yourself some deals!
+
+Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)
+And if you have questions about the [**Python Morsels Cyber Monday sale**][python morsels] please comment below or [email me][].
+
+Happy Python-ing!
+
+
+[python morsels]: https://www.pythonmorsels.com/lifetime-access-sale/
+[adam post]: https://adamj.eu/tech/2023/11/12/django-black-friday-deals-2023/
+[reuven]: https://store.lerner.co.il
+[metasnake]: https://store.metasnake.com
+[driscoll]: https://www.blog.pythonlibrary.org
+[sundeep]: https://learnbyexample.gumroad.com
+[pragmatic bookshelf]: https://pragprog.com/
+[talk python]: http://talkpython.fm
+[email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
+[no starch]: https://nostarch.com/catalog/python
+[udemy]: https://udemy.com
+[oreilly]: https://www.oreilly.com/online-learning/cyber-monday-2022.html
+[matt harrison]: https://store.metasnake.com
