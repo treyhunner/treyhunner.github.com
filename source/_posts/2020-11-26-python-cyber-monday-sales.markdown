@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Python Cyber Monday Sales 2020"
+title: "Python Cyber Monday Sales (2020)"
 date: 2020-11-27 13:20:00 -0800
 comments: true
-categories: python
+categories: python sales
 ---
 
 This post is a compilation of different Cyber Monday deals I've found related to Python and Python learning.

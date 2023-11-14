@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Python Cyber Monday Sales 2018"
+title: "Python Cyber Monday Sales (2018)"
 date: 2018-11-26 07:45:00 -0800
 comments: true
-categories: python
+categories: python sales
 ---
 
 I'm running [a sale][python morsels sale] that ends in 24 hours, but I'm not the only one.

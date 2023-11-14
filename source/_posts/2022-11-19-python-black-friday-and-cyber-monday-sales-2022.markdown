@@ -3,7 +3,7 @@ layout: post
 title: "Python Black Friday &amp; Cyber Monday sales (2022)"
 date: 2022-11-22 10:15:00 -0800
 comments: true
-categories: python
+categories: python sales
 ---
 
 

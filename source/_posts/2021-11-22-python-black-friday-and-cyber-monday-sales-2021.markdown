@@ -3,7 +3,7 @@ layout: post
 title: "Python Black Friday &amp; Cyber Monday Sales (2021)"
 date: 2021-11-22 21:00:00 -0800
 comments: true
-categories: python
+categories: python sales
 ---
 
 This is my annual compilation post of Black Friday and Cyber Monday deals I've found related to **Python and Python learning**.
@@ -98,7 +98,7 @@ Check out Adam Johnson's [Django-related deals for Black Friday and Cyber Monday
 
 ### More Sales To Watch Out For
 
-**No Starch** press often offers Black Friday discounts on lots of [Python books](https://nostarch.com/catalog/python) (Al Sweigart, Eric Mathes, and more).
+**No Starch** often offers Black Friday discounts on lots of [Python books](https://nostarch.com/catalog/python) (Al Sweigart, Eric Mathes, and more).
 
 
 ### Lots of screencasts, exercises, books, and courses on sale
