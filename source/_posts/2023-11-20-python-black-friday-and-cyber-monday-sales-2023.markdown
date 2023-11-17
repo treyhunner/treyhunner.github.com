@@ -30,35 +30,44 @@ This is the best sale I've ever offered on Python Morsels and I'm guessing this 
 <a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">💰 See the Python Morsels sale</a>
 
 
+## On sale now
+
+Here are Python-related sales that are live right now:
+
+- **[Python Morsels][]**: lifetime access to my Python skill-building platform $480
+- **[O'Reilly Media][oreilly]**: annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
+- **[Stephen Gruppetta][]**: Stephen is offering a 70% off pre-sale on his new Python learning membership, which launches in January 2024 ($95 instead of $395)
+- **[Rodrigo][]**: Rodrigo is offering a 40% discount on his upcoming [Python problem-solving bootcamp][bootcamp] and on his [Comprehending Comprehensions][] course.
+- **[Pragmatic Bookshelf][]**: Pragmatic has a sale on their books (including Brian Okken's Python Testing with pytest). The code is `turkeycode2023`.
+- **[Udemy][]**: various [Python courses][udemy courses] are on sale right now
+
+
+## Sales to watch out for on Friday
+
+Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
+
+- **[Data School][]**: Kevin Markham is offering 40% off all his courses this year
+- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
+- **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
+- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with the code `black2023`
+- **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
+- **[Sundeep Agarwal][sundeep]**: often offers Python-related deals on his books
+- **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
+
+If you know of another sale (or a likely sale) **please comment below**.
+
+I'll update the above links as more sales are confirmed or announced.
+
+
 ## Django sales
 
 Adam Johnson is also compiling many **Django-related Black Friday and Cyber Monday sales** via a [Django sales post][adam post].
 More details to come as more sales are posted.
 
 
-## On sale now
+## More developer-oriented deals
 
-Here's a sale that's already active:
-
-- **[O'Reilly Media][oreilly]** annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
-
-
-## More sales to watch out for
-
-Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
-
-- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
-- **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
-- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python books and courses with the code `black2023`
-- **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
-- **[Sundeep Agarwal][sundeep]**: often offers Python-related deals on his books
-- **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
-- **[Pragmatic Bookshelf][]**: Pragmatic also usually has a sale on their books (including Brian Okken's Python Testing with pytest). The code is *very likely* to be `turkeycode2023`.
-- **[Udemy][]**: various Python courses are usually on sale on Udemy too
-
-If you know of another sale (or a likely sale) **please comment below**.
-
-I'll update the above links as more sales are confirmed or announced.
+For even more Black Friday deals for software developers, see [BlackFridayDeals.dev](https://blackfridaydeals.dev), which I believe launched this year.
 
 
 ## Go get yourself some deals!
@@ -71,14 +80,22 @@ Happy Python-ing!
 
 [python morsels]: https://www.pythonmorsels.com/lifetime-access-sale/
 [adam post]: https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/
+[data school]: https://courses.dataschool.io/black-friday
 [reuven]: https://store.lerner.co.il
 [metasnake]: https://store.metasnake.com
 [driscoll]: https://www.blog.pythonlibrary.org
+[mike books]: https://driscollis.gumroad.com/
+[mike courses]: https://www.teachmepython.com/
+[rodrigo]: https://mathspp.gumroad.com/
+[bootcamp]: https://mathspp.gumroad.com/l/pythonbootcamp?code=bootcampbf23
+[comprehending comprehensions]: https://mathspp.gumroad.com/l/comprehending-comprehensions?code=presale
 [sundeep]: https://learnbyexample.gumroad.com
 [pragmatic bookshelf]: https://pragprog.com/
+[Stephen Gruppetta]: https://thepythoncodingplace.com/membership/
 [talk python]: http://talkpython.fm
 [email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
 [no starch]: https://nostarch.com/catalog/python
 [udemy]: https://udemy.com
+[udemy courses]: https://www.udemy.com/topic/python/
 [oreilly]: https://www.oreilly.com/online-learning/cyber-monday-2022.html
 [matt harrison]: https://store.metasnake.com
