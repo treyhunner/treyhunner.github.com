@@ -101,5 +101,5 @@ Happy Python-ing!
 [no starch]: https://nostarch.com/catalog/python
 [udemy]: https://udemy.com
 [udemy courses]: https://www.udemy.com/topic/python/
-[oreilly]: https://www.oreilly.com/online-learning/cyber-monday-2022.html
+[oreilly]: https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK23
 [matt harrison]: https://store.metasnake.com
