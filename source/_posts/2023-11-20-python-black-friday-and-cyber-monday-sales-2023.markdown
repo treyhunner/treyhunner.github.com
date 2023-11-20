@@ -37,6 +37,7 @@ Here are Python-related sales that are live right now:
 - **[Python Morsels][]**: lifetime access to my Python skill-building platform $480
 - **[O'Reilly Media][oreilly]**: annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
 - **[Sundeep Agarwal][sundeep]**: around 70% off his [all book bundle][] and [Python bundle][] and his [regular expressions][] book is free
+- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
 - **[Stephen Gruppetta][]**: 70% off pre-sale on his new Python learning membership, which launches in January 2024 ($95 instead of $395)
 - **[Rodrigo][]**: 40% discount on his upcoming [Python problem-solving bootcamp][bootcamp] and on his [Comprehending Comprehensions][] course
 - **[Pragmatic Bookshelf][]**: 40% off [the pytest book][] and all other books with code `turkeycode2023`
@@ -48,9 +49,8 @@ Here are Python-related sales that are live right now:
 Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
 
 - **[Data School][]**: Kevin Markham is offering 40% off all his courses this year
-- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
 - **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
-- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
+- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
 - **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
 - **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
 
