@@ -36,6 +36,7 @@ Here are Python-related sales that are live right now:
 
 - **[Python Morsels][]**: lifetime access to my Python skill-building platform $480
 - **[O'Reilly Media][oreilly]**: annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
+- **[Talk Python][]**: Talk Python is offering 50% off 5 of their courses
 - **[Sundeep Agarwal][sundeep]**: around 70% off his [all book bundle][] and [Python bundle][] and his [regular expressions][] book is free
 - **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
 - **[Stephen Gruppetta][]**: 70% off pre-sale on his new Python learning membership, which launches in January 2024 ($95 instead of $395)
@@ -50,7 +51,6 @@ Some of the below sales include courses, some include books, some include templa
 
 - **[Data School][]**: Kevin Markham is offering 40% off all his courses this year
 - **[Reuven Lerner][reuven]**: Reuven's Python courses are often discounted during Black Friday and Cyber Monday. I'm *guessing* the coupon code will be `BF2023`. 
-- **[Talk Python][]**: Talk Python usually offers a bundle deal on their courses at [talkpython.fm/black-friday](http://talkpython.fm/black-friday)
 - **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
 - **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
 
@@ -96,7 +96,7 @@ Happy Python-ing!
 [pragmatic bookshelf]: https://pragprog.com/
 [the pytest book]: https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/
 [Stephen Gruppetta]: https://thepythoncodingplace.com/membership/
-[talk python]: http://talkpython.fm
+[talk python]: http://talkpython.fm/black-friday
 [email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
 [no starch]: https://nostarch.com/catalog/python
 [udemy]: https://udemy.com
