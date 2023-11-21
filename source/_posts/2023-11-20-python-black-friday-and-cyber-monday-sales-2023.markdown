@@ -35,7 +35,7 @@ This is the best sale I've ever offered on Python Morsels and I'm guessing this 
 Here are Python-related sales that are live right now:
 
 - **[Python Morsels][]**: lifetime access to my Python skill-building platform $480
-- **[O'Reilly Media][oreilly]**: annual subscriptions are $200 off with the coupon `CYBERWEEK23` ($299 per year instead of $499 per year)
+- **[O'Reilly Media][oreilly]**: the first year is $200 off with the coupon `CYBERWEEK23` ($299 instead of $499)
 - **[Talk Python][]**: Talk Python is offering 50% off 5 of their courses
 - **[Sundeep Agarwal][sundeep]**: around 70% off his [all book bundle][] and [Python bundle][] and his [regular expressions][] book is free
 - **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
