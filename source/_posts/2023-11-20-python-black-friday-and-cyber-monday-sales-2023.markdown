@@ -38,6 +38,7 @@ Here are Python-related sales that are live right now:
 - **[O'Reilly Media][oreilly]**: the first year is $200 off with the coupon `CYBERWEEK23` ($299 instead of $499)
 - **[Talk Python][]**: Talk Python is offering 50% off 5 of their courses
 - **[Reuven Lerner][reuven]**: Reuven is offering 40% off his courses and 25% off a new membership he's launching
+- **[Matt Harrison][]**: Matt is offering 20% off his corporate training
 - **[Sundeep Agarwal][sundeep]**: around 70% off his [all book bundle][] and [Python bundle][] and his [regular expressions][] book is free
 - **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
 - **[Stephen Gruppetta][]**: 70% off pre-sale on his new Python learning membership, which launches in January 2024 ($95 instead of $395)
@@ -51,7 +52,6 @@ Here are Python-related sales that are live right now:
 Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
 
 - **[Data School][]**: Kevin Markham is offering 40% off all his courses this year
-- **[Matt Harrison][]**: Matt Harrison also sometimes has a sale this time of year
 - **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
 
 If you know of another sale (or a likely sale) **please comment below**.
@@ -81,7 +81,7 @@ Happy Python-ing!
 [python morsels]: https://www.pythonmorsels.com/lifetime-access-sale/
 [adam post]: https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/
 [data school]: https://courses.dataschool.io/black-friday
-[reuven]: https://store.lerner.co.il
+[reuven]: https://lernerpython.com/bfcm-2023/
 [metasnake]: https://store.metasnake.com
 [driscoll]: https://www.blog.pythonlibrary.org
 [mike books]: https://driscollis.gumroad.com/
@@ -102,4 +102,4 @@ Happy Python-ing!
 [udemy]: https://udemy.com
 [udemy courses]: https://www.udemy.com/topic/python/
 [oreilly]: https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK23
-[matt harrison]: https://store.metasnake.com
+[matt harrison]: https://www.linkedin.com/feed/update/urn:li:activity:7133217889460883456/
