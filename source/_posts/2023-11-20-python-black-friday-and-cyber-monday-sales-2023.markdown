@@ -34,15 +34,16 @@ This is the best sale I've ever offered on Python Morsels and I'm guessing this 
 
 Here are Python-related sales that are live right now:
 
-- **[Python Morsels][]**: lifetime access to my Python skill-building platform $480
+- **[Python Morsels][]**: lifetime access to my Python skill-building platform for the price of 2 years
 - **[O'Reilly Media][oreilly]**: the first year is $200 off with the coupon `CYBERWEEK23` ($299 instead of $499)
-- **[Talk Python][]**: Talk Python is offering 50% off 5 of their courses
-- **[Reuven Lerner][reuven]**: Reuven is offering 40% off his courses and 25% off a new membership he's launching
-- **[Matt Harrison][]**: Matt is offering 20% off his corporate training
-- **[Sundeep Agarwal][sundeep]**: around 70% off his [all book bundle][] and [Python bundle][] and his [regular expressions][] book is free
-- **[Mike Driscoll][driscoll]**: Mike is offering 33% off his Python [books][mike books] and [courses][mike courses] with code `black2023`
-- **[Stephen Gruppetta][]**: 70% off pre-sale on his new Python learning membership, which launches in January 2024 ($95 instead of $395)
-- **[Rodrigo][]**: 40% discount on his upcoming [Python problem-solving bootcamp][bootcamp] and on his [Comprehending Comprehensions][] course
+- **[Talk Python][]**: 50% off 5 of their courses
+- **[Reuven Lerner][reuven]**: 40% off Reuven's courses and 25% off a new membership he's launching
+- **[Matt Harrison][]**: 20% off Matt's corporate training
+- **[Sundeep Agarwal][sundeep]**: around 70% off Sundeep's [all book][all book bundle] and [Python][python bundle] and his [regex][] book is free
+- **[Mike Driscoll][driscoll]**: 33% off Mike's Python [books][mike books] and [courses][mike courses] with code `black2023`
+- **[Stephen Gruppetta][]**: 70% off pre-sale on his new Python membership ($95 instead of $395)
+- **[Rodrigo][]**: 40% discount on Rodrigo's upcoming [bootcamp][] and on his [comprehensions course][]
+- **[No Starch][]**: 35% off with code `DEALS4DAYS` (Crash Course, Automate The Boring Stuff, etc.)
 - **[Pragmatic Bookshelf][]**: 40% off [the pytest book][] and all other books with code `turkeycode2023`
 - **[Udemy][]**: various [Python courses][udemy courses] are on sale right now
 
@@ -51,8 +52,7 @@ Here are Python-related sales that are live right now:
 
 Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
 
-- **[Data School][]**: Kevin Markham is offering 40% off all his courses this year
-- **[No Starch][]**: No Starch's books are often on sale, including Python books by Al Sweigart, Eric Matthes, and more. The coupon code last year was `HOLIDAYDEALS`.
+- **[Data School][]**: 40% off all Kevin's courses (sale launches this Friday)
 
 If you know of another sale (or a likely sale) **please comment below**.
 
@@ -88,11 +88,11 @@ Happy Python-ing!
 [mike courses]: https://www.teachmepython.com/
 [rodrigo]: https://mathspp.gumroad.com/
 [bootcamp]: https://mathspp.gumroad.com/l/pythonbootcamp?code=bootcampbf23
-[comprehending comprehensions]: https://mathspp.gumroad.com/l/comprehending-comprehensions?code=presale
+[comprehensions course]: https://mathspp.gumroad.com/l/comprehending-comprehensions?code=presale
 [sundeep]: https://learnbyexample.gumroad.com
 [all book bundle]: https://learnbyexample.gumroad.com/l/all-books/FestiveOffer
 [python bundle]: https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer
-[regular expressions]: https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer
+[regex]: https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer
 [pragmatic bookshelf]: https://pragprog.com/
 [the pytest book]: https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/
 [Stephen Gruppetta]: https://thepythoncodingplace.com/membership/
