@@ -37,6 +37,7 @@ Here are Python-related sales that are live right now:
 - **[Python Morsels][]**: lifetime access to my Python skill-building platform for the price of 2 years
 - **[O'Reilly Media][oreilly]**: the first year is $200 off with the coupon `CYBERWEEK23` ($299 instead of $499)
 - **[Talk Python][]**: 50% off 5 of their courses
+- **[Data School][]**: 40% off all Kevin Markham's courses
 - **[Reuven Lerner][reuven]**: 40% off Reuven's courses and 25% off a new membership he's launching
 - **[Matt Harrison][]**: 20% off Matt's corporate training
 - **[Sundeep Agarwal][sundeep]**: around 70% off Sundeep's [all book][all book bundle] and [Python][python bundle] and his [regex][] book is free
@@ -47,22 +48,12 @@ Here are Python-related sales that are live right now:
 - **[Pragmatic Bookshelf][]**: 40% off [the pytest book][] and all other books with code `turkeycode2023`
 - **[Udemy][]**: various [Python courses][udemy courses] are on sale right now
 
-
-## Sales to watch out for on Friday
-
-Some of the below sales include courses, some include books, some include templates (Itamar's Docker templates for example) and some include a mix of different learning products.
-
-- **[Data School][]**: 40% off all Kevin's courses (sale launches this Friday)
-
 If you know of another sale (or a likely sale) **please comment below**.
-
-I'll update the above links as more sales are confirmed or announced.
 
 
 ## Django sales
 
 Adam Johnson is also compiling many **Django-related Black Friday and Cyber Monday sales** via a [Django sales post][adam post].
-More details to come as more sales are posted.
 
 
 ## More developer-oriented deals
