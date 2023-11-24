@@ -46,6 +46,7 @@ Here are Python-related sales that are live right now:
 - **[Rodrigo][]**: 40% discount on Rodrigo's upcoming [bootcamp][] and on his [comprehensions course][]
 - **[No Starch][]**: 35% off with code `DEALS4DAYS` (Crash Course, Automate The Boring Stuff, etc.)
 - **[Pragmatic Bookshelf][]**: 40% off [the pytest book][] and all other books with code `turkeycode2023`
+- **[Manning][]** 50% off eBooks, 40% off print books
 - **[Udemy][]**: various [Python courses][udemy courses] are on sale right now
 
 If you know of another sale (or a likely sale) **please comment below**.
@@ -85,6 +86,7 @@ Happy Python-ing!
 [python bundle]: https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer
 [regex]: https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer
 [pragmatic bookshelf]: https://pragprog.com/
+[manning]: https://www.manning.com/catalog#section-50
 [the pytest book]: https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/
 [Stephen Gruppetta]: https://thepythoncodingplace.com/membership/
 [talk python]: http://talkpython.fm/black-friday
