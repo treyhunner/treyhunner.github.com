@@ -38,7 +38,7 @@ Here are Python-related sales that are live right now:
 - **[O'Reilly Media][oreilly]**: the first year is $200 off with the coupon `CYBERWEEK23` ($299 instead of $499)
 - **[Talk Python][]**: 50% off 5 of their courses
 - **[Data School][]**: 40% off all Kevin Markham's courses
-- **[Brian Okken][]**: 50% off course and community access with coupon code `BLACKFRIDAY` (ends Nov 30)
+- **[Brian Okken][]**: 50% off pytest course and community access with coupon code `BLACKFRIDAY` (ends Nov 30)
 - **[Reuven Lerner][reuven]**: 40% off Reuven's courses and 25% off a new membership he's launching
 - **[Matt Harrison][]**: 20% off Matt's corporate training
 - **[Sundeep Agarwal][sundeep]**: around 70% off Sundeep's [all book][all book bundle] and [Python][python bundle] and his [regex][] book is free
