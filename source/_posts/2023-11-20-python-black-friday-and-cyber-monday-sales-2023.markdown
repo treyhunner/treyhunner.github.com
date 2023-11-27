@@ -74,6 +74,7 @@ Happy Python-ing!
 [python morsels]: https://www.pythonmorsels.com/lifetime-access-sale/
 [adam post]: https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/
 [data school]: https://courses.dataschool.io/black-friday
+[brian okken]: https://courses.pythontest.com/p/complete-pytest-course?code=BLACKFRIDAY
 [reuven]: https://lernerpython.com/bfcm-2023/
 [metasnake]: https://store.metasnake.com
 [driscoll]: https://www.blog.pythonlibrary.org
