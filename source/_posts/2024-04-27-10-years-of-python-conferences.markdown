@@ -73,18 +73,18 @@ I didn't even know what the PSF *was* until PyCon 2015!
 ## A *lot* of travel... maybe too much
 
 After DjangoCon 2016, I went a bit conference-wild.
-I attended PyTennessee 2017, PyCaribbean 2017 in Puerto Rico, PyCon US 2017 in Portland, PyCon Australia 2017 in Melbourne, DjangoCon 2017 in Spokane, PyGotham 2017 in NYC, and North Bay Python 2017 in Petaluma.
+I attended PyTennessee 2017, PyCaribbean 2017 in Puerto Rico, PyCon US 2017 in Portland, PyCon Australia 2017 in Melbourne, [DjangoCon 2017](https://www.flickr.com/photos/144080672@N05/31764542868/) in Spokane, PyGotham 2017 in NYC, and North Bay Python 2017 in Petaluma.
 
 In 2018 I sponsored PyTennessee and [PyOhio](https://twitter.com/jmwatt3/status/1023713820752183296) and spoke at both.
 I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of [Python Morsels][].
 I also attended [PyCon 2018](https://twitter.com/treyhunner/status/996881842820272128) in Cleveland, DjangoCon 2018 in San Diego, [PyGotham 2018](https://twitter.com/treyhunner/status/1048340952451047425), and [North Bay Python 2018](https://twitter.com/nnja/status/1058589935618318336).
 
-I slowed down *a bit* in 2019, with just PyCascades (Seattle), PyCon US (Cleveland), PyCon Australia (Sydney), and DjangoCon US (San Diego, which is home for me).
+I slowed down *a bit* in 2019, with just PyCascades (Seattle), [PyCon US](https://twitter.com/mariatta/status/1125534406851084288) (Cleveland), [PyCon Australia](https://twitter.com/juliansequeira/status/1157106403598749698) (Sydney), and DjangoCon US (San Diego, which is home for me).
 
 
 ## Since the pandemic
 
-Since the start of the pandemic, I've attended PyCon US 2022, DjangoCon 2022 in San Diego (in my city for the *third* time!) and [PyCon US 2023](https://mastodon.social/@treyhunner/110243968672457367).
+Since the start of the pandemic, I've attended [PyCon US 2022](https://twitter.com/treyhunner/status/1519724687890128899), DjangoCon 2022 in San Diego (in my city for the *third* time!) and [PyCon US 2023](https://mastodon.social/@treyhunner/110243968672457367).
 Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.
 
 Between client work, I've been focusing less on conferences and more on blog posts ([over here][python morsels blog]), [screencasts][], my [weekly Python tips][] emails, and (of course) on [Python Morsels][].
