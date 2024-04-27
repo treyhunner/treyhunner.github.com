@@ -50,7 +50,7 @@ In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of o
 
 ## Presenting talks and tutorials
 
-I presented my first conference tutorial at PyCon 2016 in Portland and [my first talk][] at DjangoCon US 2016 in Philadelphia.
+I presented my first conference tutorial at [PyCon 2016](https://twitter.com/treyhunner/status/737069721292439552) in Portland and [my first talk][] at [DjangoCon US 2016](https://twitter.com/asendecka/status/756851845012844544) in Philadelphia.
 I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.
 
 Having presented locally helped, but presenting on a big stage is always scary.
@@ -73,13 +73,13 @@ I didn't even know what the PSF *was* until PyCon 2015!
 ## A *lot* of travel... maybe too much
 
 After DjangoCon 2016, I went a bit conference-wild.
-I attended PyTennessee 2017, PyCaribbean 2017 in Puerto Rico, PyCon US 2017 in Portland, PyCon Australia 2017 in Melbourne, [DjangoCon 2017](https://www.flickr.com/photos/144080672@N05/31764542868/) in Spokane, PyGotham 2017 in NYC, and North Bay Python 2017 in Petaluma.
+I attended [PyTennessee 2017](https://twitter.com/treyhunner/status/829412120370565120), [PyCaribbean 2017](https://twitter.com/PythonChat/status/845052805375295488) in Puerto Rico, [PyCon US 2017](https://twitter.com/loooorenanicole/status/866382369619562496) in Portland, [PyCon Australia 2017](https://twitter.com/asteracode/status/893274761727361024) in Melbourne, [DjangoCon 2017](https://twitter.com/TobiasMcNulty/status/896570680933703681) in Spokane, [PyGotham 2017](https://twitter.com/treyhunner/status/916890505157468160) in NYC, and [North Bay Python 2017](https://twitter.com/treyhunner/status/937441419966296064) in Petaluma.
 
-In 2018 I sponsored PyTennessee and [PyOhio](https://twitter.com/jmwatt3/status/1023713820752183296) and spoke at both.
+In 2018 I sponsored [PyTennessee](https://twitter.com/treyhunner/status/962862235734495232) and [PyOhio](https://twitter.com/jmwatt3/status/1023713820752183296) and spoke at both.
 I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of [Python Morsels][].
-I also attended [PyCon 2018](https://twitter.com/treyhunner/status/996881842820272128) in Cleveland, DjangoCon 2018 in San Diego, [PyGotham 2018](https://twitter.com/treyhunner/status/1048340952451047425), and [North Bay Python 2018](https://twitter.com/nnja/status/1058589935618318336).
+I also attended [PyCon 2018](https://twitter.com/treyhunner/status/996881842820272128) in Cleveland, [DjangoCon 2018](https://www.flickr.com/photos/144080672@N05/31764542868/) in San Diego, [PyGotham 2018](https://twitter.com/treyhunner/status/1048340952451047425), and [North Bay Python 2018](https://twitter.com/nnja/status/1058589935618318336).
 
-I slowed down *a bit* in 2019, with just PyCascades (Seattle), [PyCon US](https://twitter.com/mariatta/status/1125534406851084288) (Cleveland), [PyCon Australia](https://twitter.com/juliansequeira/status/1157106403598749698) (Sydney), and DjangoCon US (San Diego, which is home for me).
+I slowed down *a bit* in 2019, with just [PyCascades](https://twitter.com/LaylaSells_cshs/status/1100058649227972609) (Seattle), [PyCon US](https://twitter.com/mariatta/status/1125534406851084288) (Cleveland), [PyCon Australia](https://twitter.com/juliansequeira/status/1157106403598749698) (Sydney), and DjangoCon US (San Diego, which is home for me).
 
 
 ## Since the pandemic
