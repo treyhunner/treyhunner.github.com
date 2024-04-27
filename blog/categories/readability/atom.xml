@@ -4,7 +4,7 @@
   <title><![CDATA[Category: readability | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/readability/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2023-11-27T13:05:53-08:00</updated>
+  <updated>2024-04-27T11:51:00-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -444,27 +444,30 @@ Every week I send out carefully crafted Python exercises through my Python skill
 <p>If you&rsquo;d like to practice your comprehensions through one Python exercise right now, you can sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
 After you sign up, I&rsquo;ll immediately give you <strong>one exercise to practice your comprehension copy-pasting skills</strong>.</p>
 
-<p><form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
-    <label><input type="radio" name="exercise_track" value="comprehension4"> I&rsquo;m pretty much an expert at comprehensions</label>
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+    <label><input type="radio" name="exercise_track" value="comprehension4"> I'm pretty much an expert at comprehensions</label>
     <br>
     <label><input type="radio" name="exercise_track" value="comprehension3"> I use comprehensions quite often</label>
     <br>
-    <label><input type="radio" name="exercise_track" value="comprehension2"> I understand comprehensions, I just don&rsquo;t write them much</label>
+    <label><input type="radio" name="exercise_track" value="comprehension2"> I understand comprehensions, I just don't write them much</label>
     <br>
-    <label><input type="radio" name="exercise_track" value="comprehension1"> What&rsquo;s a comprehension?</label>
+    <label><input type="radio" name="exercise_track" value="comprehension1"> What's a comprehension?</label>
     <br>
     <br>
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="form_id" value="overusing comprehensions">
   <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-<br></p>
+<br>
 
-<p><small>
-I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+<small>
+I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
 This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
-</small></p>
+</small>
 
-<p></form></p>
+</form>
+
+
+
 ]]></content>
   </entry>
   
@@ -1436,6 +1439,8 @@ Just like in an assignment using the <code>=</code> operator, we can use multipl
     print(f"It's {ratio*100}% {color}.")
 </code></pre>
 
+
+
 <pre><code class="python">for (product, price, color) in zip(products, prices, colors):
     print(f"{product} is {color} and costs ${price:.2f}")
 </code></pre>
@@ -1780,19 +1785,22 @@ Please feel free to use this article as your personal reference guide to multipl
 <p>To get practice writing some readable code using tuple unpacking, sign up for <a href="https://www.pythonmorsels.com/">Python Morsels</a> using the form below.
 If you sign up to Python Morsels using this form, I&rsquo;ll immediately send you an exercise that involves tuple unpacking.</p>
 
-<p><form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
   <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
   <input type="hidden" name="exercise_track" value="beginner">
   <input type="hidden" name="form_id" value="tuple unpacking">
   <button type="submit" class="subscribe-btn form-big">Get my tuple unpacking exercise</button>
-<br></p>
+<br>
 
-<p><small>
-  I won&rsquo;t share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
+<small>
+  I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
   This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
-</small></p>
+</small>
 
-<p></form></p>
+</form>
+
+
+
 ]]></content>
   </entry>
   

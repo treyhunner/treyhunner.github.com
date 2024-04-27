@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>10 years of Python conferences</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="10 years and 10 days ago I flew home from my very first Python conference. I left a few days into the PyCon US 2014 sprints and I remember feeling a &hellip;">
+  
+
+  <meta name="twitter:title" content="10 years of Python conferences"/>
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2024/04/10-years-of-python-conferences/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">10 years of Python conferences</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2024-04-27T11:45:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>11:45 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>10 years and 10 days ago I flew home from my very first Python conference.</p>
+
+<p>I left a few days into the PyCon US 2014 sprints and I remember feeling a bit like summer camp was ending.
+I&rsquo;d played board games, contributed to an open source project, seen tons of talks, and met a <em>ton</em> of people.</p>
+
+<h2>My first Python conference: PyCon US 2014</h2>
+
+<p>PyCon 2014 was the first Python conference I attended.</p>
+
+<p>At the start of the conference I only knew a handful of San Diegans.
+I left having met many more folks.
+Some of the folks I met I knew from online forums, GitHub repos, or videos
+I met Kenneth Love, Baptiste Mispelon, Carl Meyer, Eric Holscher in-person, among many others.
+Most folks I met I had never encountered online, but I was glad to have met in person.</p>
+
+<p>For the most part, I had no idea who anyone was, what they did with Python, or what they might be interested in talking about.
+I also had no idea what most of the various non-talk activities were.
+I found out about the Education Summit and hadn&rsquo;t realized that it required pre-registration.
+The open spaces are one of my favorite parts of PyCon and I didn&rsquo;t even they existed until PyCon 2015.</p>
+
+<p>I <em>did</em> stay for a couple days of the sprints and I was grateful for that.
+Most of the memorable human connections I had were during the sprints.
+I helped <a href="https://pyvideo.org">PyVideo</a> upgrade their code base from Python 2 to Python 3 (this was before Will and Sheila <a href="https://pyvideo.org/pages/thanks-will-and-sheila.html">stepped down as maintainers</a>).
+Will guided me through the code base and seemed grateful for the help.</p>
+
+<p>I also got the idea to write front-end JavaScript tests for Django during the sprints and eventually <a href="https://github.com/django/deps/blob/main/final/0003-javascript-tests.rst">started that process</a> after PyCon thanks to Carl Meyer&rsquo;s guidance.</p>
+
+<h2>Attending regional conferences and DjangoCon</h2>
+
+<p>In fall 2014, I attended Django BarCamp at the Eventbrite office.
+That was my first exposure to the idea of an &ldquo;unconference&rdquo;&hellip; which I kept in mind when I spotted the open spaces board at PyCon 2015.</p>
+
+<p>Before coming back to Montreal for PyCon 2015, I emailed Harry Percival to ask if he could use a teaching assistant during his tutorial on writing tests. His reply was much more enthusiastic than I expected: &ldquo;YES YES OH GOD YES THANK YOU THANK YOU THANK YOU TREY&rdquo;.
+I was very honored to be able to help Harry, as my testing workflow was <em>heavily</em> inspired by many blog posts he&rsquo;d written about testing best practices in Django.</p>
+
+<p>I coached at my first Django Girls event in 2015 in Ensenada and then my second at DjangoCon 2015 in Austin. I gave my first lightning talk at DjangoCon 2015, comparing modern JavaScript to Python. It was a lightning talk I had given at the San Diego JavaScript and <a href="https://www.sandiegopython.org">San Diego Python</a> meetups.</p>
+
+<p>In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of of about a dozen folks who spoke at the conference. I was grateful to get to chat with so many folks whose talks I&rsquo;d attended.</p>
+
+<h2>Presenting talks and tutorials</h2>
+
+<p>I presented my first conference tutorial at PyCon 2016 in Portland and <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">my first talk</a> at DjangoCon US 2016 in Philadelphia.
+I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.</p>
+
+<p>Having presented locally helped, but presenting on a big stage is always scary.</p>
+
+<h2>Volunteering</h2>
+
+<p>I volunteered at some of my first few conferences and found that I really enjoyed it.
+I especially enjoyed running the registration desk, as you&rsquo;re often the first helpful face that people see coming into the conference.</p>
+
+<p>During PyCon 2016, 2017, and 2018, I co-chaired the open spaces thanks to Anna Ossowski inviting me to help.
+I had first attended open spaces during PyCon 2015 and I <em>loved</em> them.
+Talks are great, but so are discussions!</p>
+
+<p>I also ran for the PSF board of directors in 2016 and ended up serving on the board for a few years before stepping down.
+After my board terms, I volunteered for the PSF Code of Conduct working group for about 6 years.
+I didn&rsquo;t even know what the PSF <em>was</em> until PyCon 2015!</p>
+
+<h2>A <em>lot</em> of travel&hellip; maybe too much</h2>
+
+<p>After DjangoCon 2016, I went a bit conference-wild.
+I attended PyTennessee 2017, PyCaribbean 2017 in Puerto Rico, PyCon US 2017 in Portland, PyCon Australia 2017 in Melbourne, DjangoCon 2017 in Spokane, PyGotham 2017 in NYC, and North Bay Python 2017 in Petaluma.</p>
+
+<p>In 2018 I sponsored PyTennessee and PyOhio and spoke at both.
+I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of <a href="https://www.pythonmorsels.com">Python Morsels</a>.
+I also attended PyCon 2018 in Cleveland, DjangoCon 2018 in San Diego, PyGotham 2018, and North Bay Python 2018.</p>
+
+<p>I slowed down <em>a bit</em> in 2019, with just PyCascades (Seattle), PyCon US (Cleveland), PyCon Australia (Sydney), and DjangoCon US (San Diego, which is home for me).</p>
+
+<h2>Since the pandemic</h2>
+
+<p>Since the start of the pandemic, I&rsquo;ve attended PyCon US 2022, DjangoCon 2022 in San Diego (in my city for the <em>third</em> time!) and PyCon US 2023.
+Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.</p>
+
+<p>Between client work, I&rsquo;ve been focusing less on conferences and more on blog posts (<a href="https://www.pythonmorsels.com/articles/">over here</a>), <a href="https://www.youtube.com/@PythonMorsels">screencasts</a>, my <a href="https://www.pythonmorsels.com/newsletter/">weekly Python tips</a> emails, and (of course) on <a href="https://www.pythonmorsels.com">Python Morsels</a>.</p>
+
+<h2>My journey started locally</h2>
+
+<p>I became part of the Python community before I knew I was part of it.</p>
+
+<p>I started using Python professionally in December 2009 and I attended my first San Diego Python meetup in March 2012.
+I met the organizers, gave some lightning talks, attended Saturday study group sessions (thanks Carol Willing, Alain Domissy, and others for running these), and volunteered to help organize meetups, study groups, and workshops.</p>
+
+<p>By 2014, I had learned from folks online and in-person and I had helped out at my local Python meetup.
+I had even made a few contributions to some small Django packages I relied on heavily.</p>
+
+<p>I was encouraged to attend PyCon 2014 by others who were attending (thanks Carol, Micah, and Paul among others).
+The conference was well-worth the occasional feeling of overwhelm.</p>
+
+<h2>We&rsquo;re all just people</h2>
+
+<p>The biggest thing I&rsquo;ve repeatedly learned over the past decade of Python conferences is that we&rsquo;re all just people.</p>
+
+<p>Carol Willing keynoted PyCon US 2023.
+But I met Carol as a kind Python user in San Diego who started the first Python study group meetings in Pangea Bakery on Convoy Street.</p>
+
+<p>Jay Miller will be keynoting PyCon US 2024.
+But I met Jay as an attendee of the Python study group, who was enthusiastic about both learning and teaching others.</p>
+
+<p>My partner, Melanie Arbor, keynoted DjangoCon 2022 along with Jay Miller.
+When I met Melanie, she was new to Python and was very eager to both learn and help others.</p>
+
+<p>David Lord has made a huge impact on the maintenance of Flask and other Pallets projects.
+I met David as a Python study group attendee who was an enthusiastic StackOverflow contributor.</p>
+
+<p>I learned a ton from Brandon Rhodes, Ned Batchelder, Russell Keith-Magee, and many others from online videos, forums, and open source projects before I ever met them.
+But each of them are also just Python-loving people like the rest of us.
+Russell gives good hugs, Ned is an organizer of his local Python meetup, and Brandon wears the same brand of shoes as me.</p>
+
+<p>We all have people we&rsquo;ve learned from, we suffer from feelings of inadequacy, we get grumpy sometimes, and we care about the Python language and community in big and small ways.</p>
+
+<h2>What&rsquo;s next for you?</h2>
+
+<p>Will you attend a local meetup?
+Or will you attend an online social event?</p>
+
+<p>If so, consider asking the organize if you can present a 5 minute lightning talk at a future event.
+As I <a href="https://youtu.be/aNHBr7q-KVw?si=Fryj6Ez4Cw7q-RAq">noted in a DjangoCon 2016 lightning talk</a>, lightning talks are a great way to connect with folks.</p>
+
+<p>Will you attend a Python conference one day?
+See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> when/if you do.</p>
+
+<p>Remember that we&rsquo;re all just people though.
+Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2024-04-27T11:45:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>11:45 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/04/10-years-of-python-conferences/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/04/10-years-of-python-conferences/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2023/11/python-black-friday-and-cyber-monday-sales-2023/" title="Previous Post: Python Black Friday &amp; Cyber Monday sales (2023)">&laquo; Python Black Friday &amp; Cyber Monday sales (2023)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2024 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2024/04/10-years-of-python-conferences/';
+        var disqus_url = 'https://treyhunner.com/2024/04/10-years-of-python-conferences/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>
