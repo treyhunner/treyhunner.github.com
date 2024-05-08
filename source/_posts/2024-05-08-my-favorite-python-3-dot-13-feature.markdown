@@ -4,6 +4,7 @@ title: "My favorite Python 3.13 feature"
 date: 2024-05-08 13:30:00 -0700
 comments: true
 categories: python
+twitter_image: https://treyhunner.com/images/new-repl-demo.gif
 ---
 
 Python 3.13 just hit feature freeze with [the first beta release today](https://www.python.org/downloads/release/python-3130b1/).
