@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-03T22:33:11-07:00</updated>
+  <updated>2024-05-08T13:27:49-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,107 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My favorite Python 3.13 feature]]></title>
+    <link href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/"/>
+    <updated>2024-05-08T13:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature</id>
+    <content type="html"><![CDATA[<p>Python 3.13 just hit feature freeze with <a href="https://www.python.org/downloads/release/python-3130b1/">the first beta release today</a>.</p>
+
+<p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
+
+<p>This new Python REPL is will likely be my favorite thing about 3.13.
+It&rsquo;s definitely the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.</p>
+
+<p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
+
+<h2>Little niceties</h2>
+
+<p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
+
+<p><img src="https://treyhunner.com/images/new-repl-intro.gif"></p>
+
+<p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
+Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
+
+<p>At this point you might be thinking, &ldquo;wait did I accidentally launch ptpython or some other alternate REPL?&rdquo;
+But it gets even better!</p>
+
+<h2>You can &ldquo;exit&rdquo; now</h2>
+
+<p>Have you ever typed <code>exit</code> at the Python REPL?
+If so, you&rsquo;ve seen a message like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">exit</span>
+</span><span class='line'><span class="go">Use exit() or Ctrl-D (i.e. EOF) to exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That feels a bit silly, doesn&rsquo;t it?
+Well, typing <code>exit</code> will exit immediately.</p>
+
+<p><img src="https://treyhunner.com/images/new-repl-exit.gif"></p>
+
+<p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
+
+<h2>Block-level history</h2>
+
+<p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
+
+<p><img src="https://treyhunner.com/images/new-repl-block.gif"></p>
+
+<p>I make typos all the time while teaching.
+I also often want to re-run a specific block of code with a couple small changes.</p>
+
+<p>The old-style Python REPL stores history line-by-line.
+So editing a block of code in the old REPL required hitting the up arrow many times, hitting Enter, hitting the up arrow many more times, hitting Enter, etc. until each line in a block was chosen.
+At the same time you also needed to make sure to edit your changes along the way&hellip; or you&rsquo;ll end up re-running the same block with the same typo as before!</p>
+
+<p>The ability to edit a previously typed <em>block</em> of code is huge for me.
+For certain sections of my Python curriculum, I hop into <a href="https://github.com/prompt-toolkit/ptpython">ptpython</a> or <a href="https://github.com/ipython/ipython">IPython</a> specifically for this feature.
+Now I&rsquo;ll be able to use the default Python REPL instead.</p>
+
+<h2>Pasting code <em>just works</em></h2>
+
+<p>The next big feature for me is the ability to paste code.</p>
+
+<p>Check this out:</p>
+
+<p><img src="https://treyhunner.com/images/new-repl-paste.gif"></p>
+
+<p>Not impressed?
+Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
+
+<p><img src="https://treyhunner.com/images/old-repl-paste.gif"></p>
+
+<p>The old REPL treated pasted text the same as manually typed text.
+When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>
+
+<p>The new REPL supports <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste</a>, which is was invented in 2002 and has since been adopted by all modern terminal emulators.</p>
+
+<h2>No Windows support? Curses!</h2>
+
+<p>Unfortunately, this new REPL doesn&rsquo;t currently work on Windows.
+This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.
+I&rsquo;m hoping that this new REPL might encourage the addition of <code>curses</code> support on Windows (there are <a href="https://github.com/python/cpython/issues/85796">multiple issues</a> discussing this).</p>
+
+<p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
+
+<h2>Beta test Python 3.13 to try out the new REPL 💖</h2>
+
+<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.
+While the lack of Windows support is disappointing, but I&rsquo;m hopeful that a motivated Windows user will help add support eventually!</p>
+
+<p>Want to try out this new REPL?
+Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
+
+<p>Beta testing new Python releases helps the Python core team ensure the final release of 3.13.0 is as stable and functional as possible.
+If you notice a bug, <a href="https://github.com/python/cpython/issues">check the issue tracker</a> to see if it&rsquo;s been reported yet and if not report it!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Installing a custom Python build with pyenv]]></title>
@@ -7355,370 +7456,6 @@ By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, thoug
 
 
 <p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
-    <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
-    <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
-One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
-
-<p>I didn&rsquo;t mention the sprints not because I don&rsquo;t like them (I actually love the sprints and I usually attend at least the first two days of sprints every year), but because <strong>first-time PyCon attendees often don&rsquo;t stay for the sprints</strong>.
-This is partly because the sprints can be very intimidating for first-time PyCon attendees.
-The fear that <strong>the sprints aren&rsquo;t for me</strong> is a very real one.</p>
-
-<p>This year PyCon has multiple options to help you have a successful sprint, including their annual &ldquo;Introduction to Sprinting Workshop&rdquo; on Sunday and, brand-new this year, the <a href="https://us.pycon.org/2019/hatchery/mentoredsprints/">mentored sprints</a> a hatchery track for underrepresented beginners.
-The applications for the mentored sprints have closed for PyCon 2019, but that&rsquo;s something to keep an eye on for future PyCons.</p>
-
-<p>In this post I&rsquo;m going to share some advice for <strong>how to get the most out of the PyCon sprints</strong> and I hope to <strong>address the fears that folks often feel</strong>. I&rsquo;m hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.</p>
-
-<p>The sprints are a very different experience from the talk days at PyCon and <strong>they&rsquo;re hard to compare to the rest of PyCon</strong>.
-Some people like the talks better, but I&rsquo;ve also talked to first time sprinters who said <strong>the sprints were their favorite part of the conference</strong>.</p>
-
-<p>In this post I&rsquo;m going to share some advice for <strong>how to get the most out of the PyCon sprints</strong>.
-I&rsquo;m hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.</p>
-
-<ol data-toc=".entry-content"></ol>
-
-
-<h2>Your fears going into the sprints</h2>
-
-<p>We&rsquo;re going to start by addressing some common concerns.
-I&rsquo;ve heard these concerns from folks I&rsquo;ve encouraged to stay for the sprints and from folks I&rsquo;ve interviewed about their advice for first-time sprinters.</p>
-
-<h3>I&rsquo;m not experienced enough</h3>
-
-<p>I&rsquo;ve <strong>never contributed to an open source project before</strong> and I don&rsquo;t really know what to do.
-I&rsquo;m a <strong>junior programmer</strong> and I&rsquo;m afraid I&rsquo;m not experienced enough.
-I <strong>don&rsquo;t write code for a living</strong> and I&rsquo;m afraid I won&rsquo;t be able to get anything done because I don&rsquo;t know how to <em>do</em> much yet.</p>
-
-<p>The sprints are a great place for a first-time open source contributor.
-Making a contribution to an open source project <strong>while sitting next to the maintainer</strong> is a unique experience.
-If you contribute to open source at home or at work, you&rsquo;re unlikely to have a project maintainer nearby.</p>
-
-<p>If you&rsquo;re a junior programmer or you don&rsquo;t code for a living <strong>you might be afraid of your inexperience</strong>: maybe you&rsquo;re pretty new to coding in general and you don&rsquo;t understand git, testing, version control, and GitHub.
-But there&rsquo;s very likely a project for <em>you</em> to contribute to.
-The sprints include sprint coordinators who can help <strong>point you to projects they&rsquo;ve heard are particularly beginner-friendly</strong> or who have quite a bit of <strong>low-hanging fruit in their issue tracker for newcomers to dig into</strong> (something as simple as updating the on-boarding documentation can be a great benefit to maintainers).</p>
-
-<h3>It&rsquo;ll be too fast-paced for me</h3>
-
-<p>You might think the sprints involve smart people coding for many hours on end, racing against the clock.
-This is false.
-From my experience, sprints usually aren&rsquo;t like that at all.</p>
-
-<p>There are some very smart people at the sprints, but there are a lot of newcomers too.
-Everyone at the sprints is new to <em>something</em> and most of us are <a href="https://youtu.be/hIJdFxYlEKE?t=333">mediocre programmers</a> (who are more skilled in some areas and less skilled in others).</p>
-
-<p>The &ldquo;pace&rdquo; of the sprints is really up to you.
-The name &ldquo;sprints&rdquo; is kind of a misnomer: <strong>I never find myself <em>sprinting</em> while at the sprints</strong>.</p>
-
-<p>I&rsquo;ve attended at least one day of sprints at PyCon US for each of the last 5 years and my sprint experience has almost always consisted of:</p>
-
-<ul>
-<li>Some <strong>high level conversation</strong> about an intriguing feature, topic, or idea</li>
-<li>Some <strong>low level conversation</strong> about how pieces of a project work (conversations about the inner-workings of a project are so much easier to have in-person)</li>
-<li>Some <strong>writing time</strong>.  Sometimes this is writing code.  Sometimes this is writing text copy for documentation or marketing material.  Sometimes it&rsquo;s my own writing time for a talk or article I&rsquo;m working on.</li>
-<li>Some <strong>rubber duck time</strong>.  I often wander around asking people what they&rsquo;re working on and sometimes act as their <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a>.  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I&rsquo;m contributing to).</li>
-<li>Plenty of <strong>personal break time</strong>.  I very often take mental breaks during the sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.</li>
-</ul>
-
-
-<p>Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like <strong>coworking with new friends in a coffee shop</strong>. Sprints are an intense experience for some people, but they don&rsquo;t have to be intense for you.</p>
-
-<p>My sprints are often more relaxed than the conference and many of the best conversations I have during PyCon come out of the sprints.</p>
-
-<h3>I won&rsquo;t be able to get enough done while I&rsquo;m there</h3>
-
-<p>If you&rsquo;re only planning to be at the sprints for one day, <strong>can you really expect to get up to speed quickly enough to accomplish something meaningful</strong>?</p>
-
-<p>This fear is very real for all sprint attendees.</p>
-
-<p>If you&rsquo;re just getting started on contributing to a new (to you) code base, <strong>you may not be able to submit a viable change (often in the form of a pull request) by the end of the day</strong>.</p>
-
-<p>This fear is about framing: <strong>what is your goal at the sprints</strong>?</p>
-
-<p>If your goal is to get a pull request merged into an open source project by the end of the day, try to find something minor that needs fixing in the documentation, website styling, or something else that the project maintainer agrees needs fixing.
-It&rsquo;s much easier to <strong>get a minor change merged</strong> if you get an early start and pick a small issue.</p>
-
-<p>But if your goal is to make a more substantial improvement to a project, then you probably won&rsquo;t get much code merged (if any) by the end of the day.
-For bigger changes, you&rsquo;ll likely <strong>start your work at the sprints and continue it at home</strong>, often with help from the project maintainers (via comments on pull request and/or emails).</p>
-
-<h2>What to expect from the sprints</h2>
-
-<p>What can you really expect while attending the sprints?
-What is sprinting really like?</p>
-
-<h3>Some projects are easier to sprint on than others</h3>
-
-<p>Different projects sprint in different ways.
-Many projects <strong>go out of their way to welcome contributions from newcomers</strong>, some projects may struggle a little in welcoming newcomers, and a few projects might hold a sprint that&rsquo;s focused entirely on engaging existing contributors since they might not meet to work in-person often (but you&rsquo;re unlikely to stumble upon those).</p>
-
-<p>If you&rsquo;re not sure what project you&rsquo;d like to sprint on during first day at the sprints, <strong>I recommend picking a project to sprint on that seems particularly newcomer friendly</strong>.
-The <a href="https://us.pycon.org/2019/community/sprints/">Pycon Sprints page</a> has several projects that will be sprinting and after the conference ends on Sunday evening you&rsquo;ll get a chance to hear many of the sprinting projects come on stage and tell you who they are and how you can help.
-Alternatively (or additionally), if you&rsquo;ve identified a project that particularly suits your interests, <strong>talk to the maintainers</strong> and see if they think (and you think) their project would be a good fit for you.</p>
-
-<p>Keep in mind that <strong>newer projects and smaller projects often have more to be done</strong>.
-It can be quite challenging to find issues that need fixing in big and stable projects like CPython and Django, but newer or smaller projects often need more help.</p>
-
-<p>It&rsquo;s also usually more fun to be <strong>a big fish in a small pond</strong> rather than a small fish in a big pond.
-It might take you the same amount of effort to make a small improvement to a big project as it takes to make a big change to a small project.</p>
-
-<h3>The maintainers are there to help you</h3>
-
-<p>During the sprints, project maintainers are there to help you.
-Project maintainers can quietly write code at home, but it&rsquo;s hard for them to encourage <em>you</em> to quietly write code at home.
-So <strong>many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints</strong>.</p>
-
-<p>The maintainers of projects are usually focused on <strong>enabling your contributions during the sprints</strong> because they want your help.
-If you contribute to a project during the sprints, it&rsquo;s more likely you&rsquo;ll decide to contribute to the project again <em>after</em> the sprints.
-That would be great for the maintainers (they&rsquo;re getting your help) and might be quite fun for you too.</p>
-
-<p>You might be thinking &ldquo;surely, the maintainers can&rsquo;t be there entirely to help me&rdquo;.
-And you&rsquo;re right: a number of maintainers do contribute code to their own projects during the sprints.
-Generally the amount of code maintainers commit to their projects increases as the sprints stretch on.
-There are far fewer people on the third and fourth days of sprints than on the first and second days.
-If a maintainer stays for all four days of the sprints, they&rsquo;re much more likely to commit code to their own project as the number of sprinters working on their project dwindles and as those still working start to need a bit less help than they did on the first day.
-<strong>During the first couple days of the sprints, most maintainers are there primarily to help you</strong>.</p>
-
-<h3>The sprints can be more relaxing than the talks</h3>
-
-<p>The talk days of PyCon can be pretty overwhelming.
-<strong>The sprints are a bit more structured</strong> (in a sort of odd semi-structured way) because everyone at the sprints is working on something together (or at least they&rsquo;re working on something <em>and</em> they&rsquo;re together).</p>
-
-<p>The sprints are <strong>sort of like an introvert party</strong>: everyone is sitting at tables next to each other, sometimes talking and sometimes working quietly, but always sitting next to other humans without the need to constantly talk and interact.
-And even if you&rsquo;re <em>not</em> working on the same thing as someone else, <strong>you&rsquo;re still a PyCon person in a room with other PyCon people, doing whatever it is you&rsquo;re all doing</strong>.</p>
-
-<p>For some people the sprints really are a sprint, but for most of us <strong>the sprints are more like an endurance run</strong>, one with <em>plenty</em> of breaks.</p>
-
-<h3>Contributing at the sprints is often easier than online</h3>
-
-<p><strong>Contributing to open source projects at the sprints is usually easier than contributing online</strong>.
-The ease of in-person communication often makes the experience less intimidating.</p>
-
-<p>It&rsquo;s easier to express oneself and empathize during face-to-face communication than over text-based communication.
-Emoji are great, but they&rsquo;re not a substitute for body language and tone of voice.</p>
-
-<p>It feels less awkward to chat with a project maintainer about your goals and your skill level in-person than via a GitHub pull request.</p>
-
-<p>Little bits of seemingly meaningless conversation happen while folks sit next to each other for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
-That kind of natural conversation brings people closer together and makes us feel more comfortable communicating later, whether in-person or online.</p>
-
-<p>Continued communication online is also often easier <em>after</em> face-to-face communication.
-After you&rsquo;ve met a project maintainer in-person, you&rsquo;ll likely find communicating online via their issue tracker less intimidating because <strong>you and the maintainer already know each other</strong>.</p>
-
-<p>The in-person nature of the sprints makes them a uniquely favorable place for your first open source contribution.</p>
-
-<h2>How to get the most out of the sprints</h2>
-
-<p>The sprints are a unique experience that <em>might</em> give you a greater sense of community, purpose, and belonging than the (often not quite as communal) talk days of the conference.</p>
-
-<p>What steps can you take to increase the likelihood that you&rsquo;ll have a wonderful time at the PyCon sprints?</p>
-
-<h3>Don&rsquo;t underestimate your skills</h3>
-
-<p>If you&rsquo;re trying to get a feel for what project might be a good fit for you, let the maintainers know what skills you do and don&rsquo;t have and <strong>see if you get a good vibe</strong> from both the maintainers and the project.
-If you do, run with it!</p>
-
-<p>If you&rsquo;re afraid you won&rsquo;t have something to contribute, remember that, like businesses, <strong>open source projects have a wide variety of needs</strong>.</p>
-
-<p>If you know something about marketing, you can offer to sit with project maintainers and <strong>help them improve their marketing materials</strong>.
-At PyCon 2016 I interviewed some project maintainers and then crafted slogans and wrote marketing copy that explained what problem their project solved and who needed it.
-I feel those were some of the most valuable contributions I made in a pretty short amount of time.</p>
-
-<p>If you&rsquo;re pretty good at design, you could offer to <strong>create visuals for projects</strong> (maybe logos, diagrams, or other visualizations).</p>
-
-<p>If you know CSS or JavaScript, you could find <strong>a web-based project that needs help with their front-end</strong>.
-Being the &ldquo;front-end dev among Pythonistas&rdquo; or the &ldquo;UX person among developers&rdquo; can really help you make uniquely helpful contributions to projects.</p>
-
-<p>Also keep in mind that there are often small projects that you can make big contributions to at the sprints simply because they&rsquo;re in great need.
-Sometimes people even start a project <em>at the sprints</em> because it&rsquo;s easier to get help from others when <strong>you&rsquo;re in a room full of folks who might know a few things about the technology you&rsquo;re using</strong>.
-If you join a newer or smaller project at the sprints (or start your own), you&rsquo;ll often be able to find a whole bunch of low-hanging fruit that hasn&rsquo;t been taken care of only because no one has had the time to work on it yet.</p>
-
-<h3>Attend the intro to the sprints the night before</h3>
-
-<p>Some maintainers list their projects on the <a href="https://us.pycon.org/2019/community/sprints/">PyCon sprints page</a> to note that they&rsquo;ll be attending the sprints.
-Some maintainers simply announce their project during <strong>the sprint pitches after</strong> the main conference closing, on the last day of talks (Sunday).
-If you are looking for a project, stick around after the last talk of the day and dozens of maintainers will walk up on the big stage to give an elevator pitch for the project they&rsquo;re sprinting on, with each pitch taking about a minute.</p>
-
-<p>During the sprint pitches, each maintainer will talk about what their project is, what kind of help they&rsquo;re most in need of (fitting as much as they can in the very few seconds they have) and generally close with some commentary on whether their project is a good fit for newcomers.
-You don&rsquo;t have to attend the sprint pitches, but doing so will increase your chances of hearing about <strong>a project that you&rsquo;d actually really like to work on</strong>.</p>
-
-<p>Another thing to pay attention to on the last day of talks is the hands-on <strong>Introduction to Sprinting tutorial</strong> on Sunday evening.
-The Intro to Sprinting tutorial is open to walk-ins (first-come, first-served) and is purposely held after the main conference closing so you won&rsquo;t need to miss any talks.</p>
-
-<p>Last year the Intro to Sprinting tutorial room filled up pretty quickly, so rest assured you won&rsquo;t be alone.
-Definitely try to get the Intro to Sprinting workshop on your calendar (once the room and time are announced) and show up on-time if you can.</p>
-
-<h3>Try to prepare yourself for the setup time</h3>
-
-<p>Getting started on a new project can take a lot of time, so try to prepare yourself and your development environment as much as you can early on.</p>
-
-<p>Make sure you have git, GitHub, a code editor, and a modern version (maybe multiple versions) of Python installed on your machine.</p>
-
-<p><strong>Get an early start if possible</strong>.
-The setup process can take a long time for some projects. Many projects will have a documentation page set up with instructions on what to install and how to install it. But be aware&hellip; sometimes the setup process is a little buggy and <strong>the first pull request you make to a project may be related to improving the setup instructions</strong>.</p>
-
-<p>If you show up to sprints early, you might be able to pick a project and get that project setup on your machine before break time.
-If you&rsquo;re feeling extra ambitious, <strong>you could even get a head start and prepare your machine the night before the sprints</strong>.
-I&rsquo;ve never done this because I&rsquo;m rarely feeling ambitious, but I know some folks do this to make sure they can get in a little more quality sprinting time on the first day.</p>
-
-<p>Another way to prepare yourself for setup time is to stay longer.
-If you&rsquo;re staying for 2 or 3 days of sprints, you can take it easy and spend more time on setup and getting your footing during the first day.
-That way you&rsquo;ll feel <strong>more confident and more independent on the second day</strong>.
-If you stay more than one day, you might also get the opportunity to <strong>sprint on two different projects</strong> if you decide you&rsquo;d like to switch projects on day 2 (or even mid-day if you&rsquo;d like).</p>
-
-<p>Oh and another way to prepare yourself: remember your laptop and your laptop charger (and if you&rsquo;re from outside the US, a power adapter if needed).</p>
-
-<h3>Ask for help</h3>
-
-<p>If the maintainer of the project your sprinting on is in the room they&rsquo;re likely there because <strong>they want to help you contribute to their project</strong>.
-On day 1 of sprints, project maintainers tend to prioritize helping you, over writing their own code.
-<strong>Please don&rsquo;t forget to ask for help when you need it</strong>.</p>
-
-<p>Also if you&rsquo;re stuck on laptop setup issues, the PyCon sprint coordinators will be hosting <strong>a help desk during the first day of sprints</strong> (on Monday).
-The help desk is a great place to get yourself unstuck when you have a general issue that could use another set of eyes.</p>
-
-<p>If you&rsquo;re at the sprints to learn, you do want to struggle <em>some</em>.
-Struggling is a great way to learn, but don&rsquo;t let yourself flounder for too long on issues that aren&rsquo;t your area of expertise.
-If you get stuck, attempt to fix your problem by trial-and-error and Googling, talk to your neighbor or your <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a> and <strong>after you&rsquo;ve given yourself some time to troubleshoot, ask for help</strong>!</p>
-
-<h3>Plan to follow-through when home (if you&rsquo;d like)</h3>
-
-<p>Keep in mind that you may not complete your work at the sprints.
-You&rsquo;re likely to find yourself <strong>still in the middle of a pull request back-and-forth at the end of your sprints</strong>.
-Pull requests often require more work before merging.
-Expect to get started at the sprints, but not necessarily to finish while you&rsquo;re there.</p>
-
-<p>If you plan to complete your pull request at home, <strong>ask the project maintainer what form of remote communication would be best for questions you have regarding contributions</strong>.</p>
-
-<h3>Empathize with others</h3>
-
-<p>Your project maintainer may not show up early on day 1 and they might even leave early, depending on what their plans and schedule look like.
-If they&rsquo;re at the Sunday night pitches or if you interact with them during PyCon, you might consider asking them when they plan to be present and how they plan to operate (will they be writing code or helping others write code or both).</p>
-
-<p>When sprinting, try to empathize with your project maintainer.
-Empathy is challenging during remote open source contributions, but it can be a struggle even for in-person contributions.</p>
-
-<p>Consider what your project maintainer&rsquo;s motivations likely are and remember that they&rsquo;re often trying to balance <strong>getting many new contributors to their project</strong>, <strong>getting bugs fixed</strong>, and <strong>maintaining the quality and consistency of their code base</strong>.
-Balancing multiple goals which sometimes compete with each other can be a challenge.</p>
-
-<p>Text-based communication is hard, so <strong>seize your face-to-face communication while you&rsquo;re at the sprints</strong> and try to get a sense for how your project maintainer thinks.
-If you do decide to contribute more after the sprints are over, <strong>that in-person empathy can help you continue to empathize remotely as well</strong>.</p>
-
-<p>Some other places you may want to use empathy: empathizing with users of your code/documentation/design (someone is going to use your work) and the other sprinters in the room with you.
-It&rsquo;s nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.</p>
-
-<p>If you bring snacks, candy, donuts, or a small power strip to expand one power strip port into multiple, <strong>your kindness might give you happy neighbors at the sprints</strong>.</p>
-
-<h3>Be kind to yourself</h3>
-
-<p>Don&rsquo;t go into the sprints with a very specific thing that you absolutely must do: have a goal but <strong>allow yourself to change your goal</strong> as you learn new information about your environment.
-<strong>Be flexible and be forgiving with yourself</strong>.</p>
-
-<p>You&rsquo;re allowed to <strong>switch projects</strong> at any time, as often as you like, and for any reason you like (i.e. the project isn&rsquo;t as interesting as you hoped, the onboarding process isn&rsquo;t as smooth as you expected, or the project isn&rsquo;t a good fit for you).
-If you need to switch projects, don&rsquo;t feel you need to offer elaborate explanations.</p>
-
-<p>You&rsquo;re allowed to <strong>stop sprinting</strong> at any time and <strong>take a break</strong>.
-You aren&rsquo;t obligated to follow through on a pull request you opened (it&rsquo;d be lovely if you did, but you don&rsquo;t <em>have</em> to).</p>
-
-<p>Time-wise, there&rsquo;s lots of flexibility at the sprints.
-The maintainer of the project you&rsquo;re sprinting on might get an early start or they might not show up until later on the first day of sprints.
-You need to give yourself flexibility as well.</p>
-
-<p>Don&rsquo;t feel obligated at the sprints: you don&rsquo;t have to make a code change, <strong>you don&rsquo;t have to be productive</strong>, you don&rsquo;t have to show up at a certain time or stay for a certain amount of time, and <strong>you don&rsquo;t even have to sprint on an open source project</strong> (I frequently don&rsquo;t).</p>
-
-<p>If you&rsquo;d like to take half of a sprint day to explore the city you&rsquo;re in with a new friend (or on your own because you need personal time), go for it!</p>
-
-<p>Embrace self-care at the sprints, whatever that means for you.</p>
-
-<h3>Remember that sprints are lots of things to lots of people</h3>
-
-<p>During my first PyCon sprint in 2014, I helped a project figure out how to migrate from Python 2 to Python 3.
-The project maintainer wasn&rsquo;t looking forward to that migration so they were grateful to have another brain troubleshooting with them.</p>
-
-<p>But during that sprint I also got an idea for a contribution to another project (Django), was encouraged to pursue the idea, and <a href="https://github.com/django/deps/pull/4">a few weeks after the sprints</a> I proposed the idea publicly.
-After my suggestion sat without feedback, I sort of abandoned it.</p>
-
-<p>But at the PyCon 2015 sprints the next year, I brought up my abandoned idea to a Django core developer and they offered to shepherd my change through, so I <a href="https://github.com/django/deps/pull/13">continued my efforts</a> during the sprints.
-A couple weeks after the sprints ended I <a href="https://github.com/django/deps/pull/14">finished up the idea at home</a> and finally <a href="https://github.com/django/django/pull/4573">implemented the changes</a>, which were eventually merged (after <a href="https://github.com/django/deps/pull/15/files">some scope tweaks</a>).</p>
-
-<p>My first two years of PyCon sprints involved some substantial code contributions that I hadn&rsquo;t expected to make.
-Most of the changes I made were <strong>started at the sprints but finished at home</strong>.</p>
-
-<p>The sprints were a source of idea generation and inspiration, not a place to get lots of work done.
-Since 2015 I&rsquo;ve started sprinting on <em>ideas</em> more than code.</p>
-
-<p>During my PyCon 2016 sprints I helped a few open source projects improve their marketing copy (so someone hitting their website would better understand what their project did and who it was for).
-My pull requests during these sprints were text-based changes, not code changes.</p>
-
-<p>My PyCon 2017 sprints involved a lot of community work: discussions with folks about the PSF and the new Code of Conduct working group.
-I spent much more time in Google Docs tweaking documents than I did using git.</p>
-
-<p>My sprints at PyCon 2018 involved writing talk proposals, meeting with new friends, and chatting with core developers about the soon-to-be-written <a href="https://www.python.org/dev/peps/pep-0582/">PEP 582</a>.
-I don&rsquo;t think I made any contributions to open source projects (outside of possibly inspiring a bullet point or two in that PEP).
-But I had a great time and sitting quietly in the sprint rooms helped me get a lot of work done on my talk proposals.</p>
-
-<p><strong>The sprints aren&rsquo;t one thing</strong>.
-If you&rsquo;re not feeling like a code contribution is the thing you&rsquo;d like to do during the sprints, get creative!
-<strong>Your time at the sprints can be spent however you&rsquo;d like it to be</strong>.</p>
-
-<h2>Running your own sprint</h2>
-
-<p>This could be a whole article on its own, but I want to give a few quick tips for folks who might be attempting to run a sprint for their own project.</p>
-
-<p>While I&rsquo;ve maintained open source projects remotely, I haven&rsquo;t run an in-person sprint on my own projects.
-So my tips on running a sprint on your own project come from the perspective of a contributor and a floating helper for maintainers who needed an extra hand.</p>
-
-<p>As a project maintainer on day 1 of sprints, <strong>I&rsquo;d consider your primary responsibility to be one of helping encourage other contributors</strong>.
-You want to help folks get their environment setup, help folks identify good issues to work on, help folks with their code contributions, and even help other contributors as they help out their neighbors.</p>
-
-<p><strong>Your job often isn&rsquo;t to write code</strong>, it&rsquo;s to be <em>interrupted</em> by people who are trying to make contributions but need your help.</p>
-
-<p>For the in-person, in-the-moment part of running a sprint I have <a href="http://trey.io/pycascades2019">a whole talk and a bunch of related resources</a> for folks who are coaching others in-person.
-But your job doesn&rsquo;t start <em>at the sprints</em>.
-Ideally, you&rsquo;ll want to <strong>prepare your project for the sprints</strong> a while before the sprints even start.</p>
-
-<p>Many projects use issue labels to indicate <strong>issues which are specifically good for first-time contributors</strong> (something like &ldquo;newcomer&rdquo;, &ldquo;good first issue&rdquo;, &ldquo;first-timers only&rdquo;, etc.).
-I&rsquo;d recommend looking at <a href="https://github.com/MunGell/awesome-for-beginners#python">the many other contributor-friendly projects</a>, studying what they do, and figuring out <strong>how you can make your project more friendly to new sprinters</strong>.</p>
-
-<p>The PyCon sprints page also recommends this <a href="https://opensourceevents.github.io/">in-person events handbook</a> made by the OpenHatch folks.
-Take a look at it!
-And if you can, <strong>ask questions of other project maintainers you admire who will also be sprinting</strong>: how do they ensure newcomers feel appreciated, how do they help folks feel accomplished, what do they do to get their project and their minds ready?</p>
-
-<h2>Take note of the key events</h2>
-
-<p>Put the events you&rsquo;ll be attending for the PyCon 2019 sprints in your calendar!</p>
-
-<p>The sprint pitches are on the last talk day at PyCon, just after the closing of the main conference.
-The Intro to Sprints tutorial usually starts just after that.
-And during the first day of sprints the next day, the sprint help desk will be available to help you get some extra help on day 1.</p>
-
-<p>Also remember the mentored sprints (if you&rsquo;ve gone through the application process already) which are designed for underrepresented groups and are on Saturday during the talks.</p>
-
-<h2>Ask others what they think of the sprints</h2>
-
-<p>Much of the above advice was borrowed or enhanced by wisdom from others.
-I&rsquo;ve held interviews with folks during the last few PyCon sprints, I&rsquo;ve asked folks online what they think of the sprints, and I&rsquo;ve chatted with first-time sprinters about what their concerns were going into the sprints.
-If you shared your sprint experiences with me in the past, thank you.</p>
-
-<p>If you&rsquo;re still uncertain about whether you should attend a sprint, please talk to others about what they think of the PyCon sprints.
-I&rsquo;ve found that most PyCon attendees are more than happy to talk about their perspective on the various parts of the conference they&rsquo;ve partaken in.</p>
-
-<p>If you can&rsquo;t afford to stay for the sprints, I completely understand.
-Most PyCon attendees will not be staying for the sprints.
-But if you&rsquo;re lucky enough to have the time and resources to stay, I&rsquo;d suggest giving it a try.</p>
-
-<p>If you can afford to schedule some extra time to attend a day or two of sprints and then decide that the sprints aren&rsquo;t for you, that time could always be spent exploring the city you&rsquo;re in, working, or doing something else that makes you feel whole.</p>
-
-<p>And if you&rsquo;re from an underrepresented or marginalized group in tech and you&rsquo;re new to sprinting, consider applying for the <a href="https://us.pycon.org/2019/hatchery/mentoredsprints/">mentored sprints</a> for PyCon 2020.</p>
-
-<p>Whatever you decide, have a lovely PyCon! 💖</p>
-
-<p>Thanks to Asheesh Laroia for encouraging this post and Chalmer Lowe for quite a bit of helpful feedback while I was writing it.
-Thanks also to the many folks who sent me ideas and shared their perspective and advice about the sprints.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-03T22:33:11-07:00</updated>
+  <updated>2024-05-08T13:27:49-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My favorite Python 3.13 feature]]></title>
+    <link href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/"/>
+    <updated>2024-05-08T13:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature</id>
+    <content type="html"><![CDATA[<p>Python 3.13 just hit feature freeze with <a href="https://www.python.org/downloads/release/python-3130b1/">the first beta release today</a>.</p>
+
+<p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
+
+<p>This new Python REPL is will likely be my favorite thing about 3.13.
+It&rsquo;s definitely the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.</p>
+
+<p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
+
+<h2>Little niceties</h2>
+
+<p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
+
+<p><img src="/images/new-repl-intro.gif"></p>
+
+<p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
+Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
+
+<p>At this point you might be thinking, &ldquo;wait did I accidentally launch ptpython or some other alternate REPL?&rdquo;
+But it gets even better!</p>
+
+<h2>You can &ldquo;exit&rdquo; now</h2>
+
+<p>Have you ever typed <code>exit</code> at the Python REPL?
+If so, you&rsquo;ve seen a message like this:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; exit
+Use exit() or Ctrl-D (i.e. EOF) to exit
+</code></pre>
+
+<p>That feels a bit silly, doesn&rsquo;t it?
+Well, typing <code>exit</code> will exit immediately.</p>
+
+<p><img src="/images/new-repl-exit.gif"></p>
+
+<p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
+
+<h2>Block-level history</h2>
+
+<p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
+
+<p><img src="/images/new-repl-block.gif"></p>
+
+<p>I make typos all the time while teaching.
+I also often want to re-run a specific block of code with a couple small changes.</p>
+
+<p>The old-style Python REPL stores history line-by-line.
+So editing a block of code in the old REPL required hitting the up arrow many times, hitting Enter, hitting the up arrow many more times, hitting Enter, etc. until each line in a block was chosen.
+At the same time you also needed to make sure to edit your changes along the way&hellip; or you&rsquo;ll end up re-running the same block with the same typo as before!</p>
+
+<p>The ability to edit a previously typed <em>block</em> of code is huge for me.
+For certain sections of my Python curriculum, I hop into <a href="https://github.com/prompt-toolkit/ptpython">ptpython</a> or <a href="https://github.com/ipython/ipython">IPython</a> specifically for this feature.
+Now I&rsquo;ll be able to use the default Python REPL instead.</p>
+
+<h2>Pasting code <em>just works</em></h2>
+
+<p>The next big feature for me is the ability to paste code.</p>
+
+<p>Check this out:</p>
+
+<p><img src="/images/new-repl-paste.gif"></p>
+
+<p>Not impressed?
+Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
+
+<p><img src="/images/old-repl-paste.gif"></p>
+
+<p>The old REPL treated pasted text the same as manually typed text.
+When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>
+
+<p>The new REPL supports <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste</a>, which is was invented in 2002 and has since been adopted by all modern terminal emulators.</p>
+
+<h2>No Windows support? Curses!</h2>
+
+<p>Unfortunately, this new REPL doesn&rsquo;t currently work on Windows.
+This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.
+I&rsquo;m hoping that this new REPL might encourage the addition of <code>curses</code> support on Windows (there are <a href="https://github.com/python/cpython/issues/85796">multiple issues</a> discussing this).</p>
+
+<p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
+
+<h2>Beta test Python 3.13 to try out the new REPL 💖</h2>
+
+<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.
+While the lack of Windows support is disappointing, but I&rsquo;m hopeful that a motivated Windows user will help add support eventually!</p>
+
+<p>Want to try out this new REPL?
+Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
+
+<p>Beta testing new Python releases helps the Python core team ensure the final release of 3.13.0 is as stable and functional as possible.
+If you notice a bug, <a href="https://github.com/python/cpython/issues">check the issue tracker</a> to see if it&rsquo;s been reported yet and if not report it!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Installing a custom Python build with pyenv]]></title>
@@ -378,96 +476,6 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 <p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
 
 <p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2022)]]></title>
-    <link href="https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022/"/>
-    <updated>2022-11-22T10:15:00-08:00</updated>
-    <id>https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s that time of year again… time for my annual compilation post of <strong>Black Friday and Cyber Monday deals for learning Python</strong>.</p>
-
-<h2>Save up to $108 a year on Python Morsels</h2>
-
-<p>Of course I&rsquo;m going to kick things off with my own sale. 😉</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> helps developers <strong>deepen their Python skills</strong> in a way that day-to-day coding simply can&rsquo;t.</p>
-
-<p>Python Morsels is specifically crafted for:</p>
-
-<ul>
-<li>experienced developers frustrated with gaps in their Python knowledge</li>
-<li>self-taught programmers seeking courage and confidence in their Python abilities</li>
-<li>intermediate-level Python learners trying to deepen skills</li>
-</ul>
-
-
-<p>If you saw yourself in that list, subscribe now before prices increase on November 29, 2022!</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022" class="subscribe-btn form-big">💰 See the Python Morsels sale</a></p>
-
-<h2>Python books, courses, templates, and exercises</h2>
-
-<p>There are a <em>lot</em> of Python-related sales going on this year.
-Note that some of the below sales include courses, some include books, some include templates (Itamar&rsquo;s Docker templates for example) and some include a mix of different learning products.</p>
-
-<ul>
-<li><strong><a href="https://store.lerner.co.il/?coupon=BF2022">Reuven Lerner</a></strong>: Reuven&rsquo;s Python courses are 40% off this week with the coupon <code>BF2022</code></li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: Get all Talk Python courses in one $249 bundle</li>
-<li><strong>Sundeep Agarwal</strong>: Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all books bundle is 64% off</a> (it&rsquo;s $10), the <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Learn by example Python bundle</a> is 80% off (it&rsquo;s $3), and <a href="https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer">Practice Python Projects</a> is free!</li>
-<li><strong><a href="https://store.metasnake.com/?coupon=PANDAS30">Matt Harrison</a></strong>: Matt&rsquo;s offering 30% off his Effective Pandas book on Friday <strong>only</strong></li>
-<li><strong><a href="https://pythonspeed.com/products/docker/">Itamar Turner-Trauring</a></strong>: Itamar&rsquo;s Docker packaging products for Python are all 25% off through November with the code <code>FALL22</code></li>
-<li><strong><a href="https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/">Mike Driscoll</a></strong>: Mike is offering $10 off any of his books this year with the coupon code <code>black2022</code></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: books are 35% off with the coupon <code>HOLIDAYDEALS</code></li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: save 40% on Brian Okken&rsquo;s PyTest book or any other Pragmatic Bookshelf book with the coupon code <code>turkeysale2022</code></li>
-<li><strong><a href="https://udemy.com">Udemy</a></strong>: various Python courses are also on sale on Udemy right now, including Al Sweigart&rsquo;s <a href="https://www.udemy.com/course/automate/">Automate the Boring Stuff with Python course</a></li>
-</ul>
-
-
-<h2>Python learning subscriptions</h2>
-
-<p>I use a subscription model for <a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.
-But Python Morsels isn&rsquo;t the only subscription-based Python learning platform.</p>
-
-<p>Here sales on other learning subscriptions:</p>
-
-<ul>
-<li><strong><a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">O'Reilly Media</a></strong> subscriptions are $200 off with the coupon <a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">CYBERWEEK22</a></li>
-<li><strong><a href="https://www.dunderdata.com/black-friday">Dunder Data</a></strong> subscriptions (by Ted Petrou) are 40% off (normally $399), plus an extra 50% off for completing 3 certificates within 3 months</li>
-<li><strong><a href="https://www.datacamp.com/promo/black-friday-2022">DataCamp</a></strong> has a 50% off sale on their annual subscriptions right now as well</li>
-</ul>
-
-
-<p>Also here&rsquo;s a Python-related service that&rsquo;s on sale (a subscription product, not a learning service):</p>
-
-<ul>
-<li><strong>Sourcery</strong>: <a href="https://sourcery.ai/pricing/">Sourcery Pro</a> is 33% off for the first 12 months with coupon <code>BLACKFRIDAY2022</code></li>
-</ul>
-
-
-<h2>Django sales</h2>
-
-<p>Adam Johnson compiled many <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/"><strong>Django-related Black Friday and Cyber Monday sales</strong></a>.</p>
-
-<p>Here&rsquo;s a quick summary:</p>
-
-<ul>
-<li>Will Vincent is offering 50% off a bundle for newer Django developers (<a href="https://wsvincent.gumroad.com/l/bhylo/blackfriday2022">sale</a>)</li>
-<li>Adam Johnson is offering 50% off his books for experienced Django developers (<a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">announcement</a>)</li>
-<li>Test Driven is selling a discounted bundle of courses on Django REST Framework, Celery, and search (<a href="https://testdriven.io/bundle/django-black-friday/">sale</a>)</li>
-</ul>
-
-
-<p>Plus other discounted books, apps, templates, and services from others: <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">read Adam&rsquo;s full post</a> for more details on the Django-related sales this year.</p>
-
-<h2>Go get yourself some deals!</h2>
-
-<p>Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)</p>
-
-<p>And if you have questions about the <a href="https://trey.io/cyber-monday-sale-2022"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
-
-<p>Happy Python-ing!</p>
 ]]></content>
   </entry>
   

@@ -17,15 +17,14 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Installing a custom Python build with pyenv</title>
+  <title>My favorite Python 3.13 feature</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I am so excited about the new Python REPL that will likely land in Python 3.13.
-I&rsquo;ve been following this CPython pull request since I heard &hellip;">
+  <meta name="description" content="Python 3.13 just hit feature freeze with the first beta release today. Just before the feature freeze, a shiny new feature was added: a brand new &hellip;">
   
 
-  <meta name="twitter:title" content="Installing a custom Python build with pyenv"/>
+  <meta name="twitter:title" content="My favorite Python 3.13 feature"/>
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -42,7 +41,7 @@ I&rsquo;ve been following this CPython pull request since I heard &hellip;">
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">
+  <link rel="canonical" href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -121,7 +120,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">Installing a custom Python build with pyenv</h1>
+      <h1 class="entry-title">My favorite Python 3.13 feature</h1>
     
     
       <p class="meta">
@@ -130,7 +129,7 @@ $(document).ready(function () {
 
 
 
-<time class='entry-date' datetime='2024-05-03T21:26:23-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2024</span></span> <span class='time'>9:26 pm</span></time>
+<time class='entry-date' datetime='2024-05-08T13:30:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>1:30 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://treyhunner.com">Comments</a>
@@ -141,97 +140,99 @@ $(document).ready(function () {
 
 
 
-<div class="entry-content"><p>I am <em>so</em> excited about the new Python REPL that will <em>likely</em> land in Python 3.13.
-I&rsquo;ve been following <a href="https://github.com/python/cpython/pull/111567">this CPython pull request</a> since I heard <a href="https://github.com/pablogsal">Pablo</a> and <a href="https://lukasz.langa.pl">Łukasz</a> announce their work on the new Python REPL <a href="https://twitter.com/treyhunner/status/1720186574032531780">in episode 1</a> of their new <a href="https://podcasts.apple.com/us/podcast/core-py/id1712665877">core.py podcast</a>.</p>
+<div class="entry-content"><p>Python 3.13 just hit feature freeze with <a href="https://www.python.org/downloads/release/python-3130b1/">the first beta release today</a>.</p>
 
-<h2>Github notifications? 🤔</h2>
+<p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
 
-<p>That pull request was quiet for many months, but in the last couple weeks, I started seeing email notifications in my inbox about it.
-I&rsquo;ve never fancied myself a competent C developer and I try to steer clear from understanding TTY magic, so I have <em>no idea</em> what most of the commits do.
-But seeing activity on this pull request rejuvenated my excitement about this upcoming feature!</p>
+<p>This new Python REPL is will likely be my favorite thing about 3.13.
+It&rsquo;s definitely the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.</p>
 
-<p>I also remember reading that the Python 3.13 feature freeze is coming up soon, so I&rsquo;ve been silently cheering for that PR to make the cut before the deadline.</p>
+<p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
 
-<p>In the last few days, I decided that I should try committing to use this new REPL locally as my default Python environment.
-When I type <code>python</code> on my machine, I want to live in this new shiny REPL.
-I figure this will make it easier to spot bugs that might not have been noticed yet&hellip; though honestly it&rsquo;ll mostly just allow me to try out this fancy new REPL first-hand.</p>
+<h2>Little niceties</h2>
 
-<h2>Installing a custom CPython build in pyenv</h2>
+<p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
 
-<p>I use pyenv to manage the many Python versions I have installed on my machine.
-I wondered whether it was possible to install a custom build of CPython with pyenv.</p>
+<p><img src="/images/new-repl-intro.gif"></p>
 
-<p>Instead of going to the pyenv documentation to figure out an answer, I argued with an AI until it gave me a working answer.
-I tried a few AI systems at first, but Claude seemed to give me the most promising-looking answer so it was the one I argued with for 5-10 minutes until I got a working solution.</p>
+<p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
+Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
 
-<p>First, I created this <code>~/.pyenv/plugins/python-build/share/python-build/3.13.0-pyrepl</code> file:</p>
+<p>At this point you might be thinking, &ldquo;wait did I accidentally launch ptpython or some other alternate REPL?&rdquo;
+But it gets even better!</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>prefer_openssl11
-</span><span class='line'>export PYTHON_BUILD_CONFIGURE_WITH_OPENSSL=1
-</span><span class='line'>install_package "pyrepl" "https://github.com/pablogsal/cpython/archive/pyrepl.tar.gz" standard verify_py39 ensurepip</span></code></pre></td></tr></table></div></figure>
+<h2>You can &ldquo;exit&rdquo; now</h2>
 
-
-<p>Then I ran this command, which took a couple minutes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>pyenv install 3.13.0-pyrepl
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After that, <code>pyenv versions</code> showed a new <code>3.13.0-pyrepl</code> version:</p>
+<p>Have you ever typed <code>exit</code> at the Python REPL?
+If so, you&rsquo;ve seen a message like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>pyenv versions
-</span><span class='line'>  system
-</span><span class='line'>* 3.8.18 <span class="o">(</span><span class="nb">set </span>by /home/trey/.pyenv/version<span class="o">)</span>
-</span><span class='line'>* 3.9.18 <span class="o">(</span><span class="nb">set </span>by /home/trey/.pyenv/version<span class="o">)</span>
-</span><span class='line'>* 3.10.13 <span class="o">(</span><span class="nb">set </span>by /home/trey/.pyenv/version<span class="o">)</span>
-</span><span class='line'>* 3.11.6 <span class="o">(</span><span class="nb">set </span>by /home/trey/.pyenv/version<span class="o">)</span>
-</span><span class='line'>* 3.12.0 <span class="o">(</span><span class="nb">set </span>by /home/trey/.pyenv/version<span class="o">)</span>
-</span><span class='line'>  3.13.0-pyrepl
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">exit</span>
+</span><span class='line'><span class="go">Use exit() or Ctrl-D (i.e. EOF) to exit</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>I then added <code>3.13.0-pyrepl</code> to the top of my <code>~/.pyenv/version</code> file to make this my <em>default</em> Python:</p>
+<p>That feels a bit silly, doesn&rsquo;t it?
+Well, typing <code>exit</code> will exit immediately.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>3.13.0-pyrepl
-</span><span class='line'>3.12.0
-</span><span class='line'>3.11.6
-</span><span class='line'>3.10.13
-</span><span class='line'>3.9.18
-</span><span class='line'>3.8.18
-</span></code></pre></td></tr></table></div></figure>
+<p><img src="/images/new-repl-exit.gif"></p>
 
+<p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
 
-<p>And it worked!
-Tying <code>python</code> showed the new colorful prompt.</p>
+<h2>Block-level history</h2>
 
-<p>Is is a bad idea to make this not-even-beta version of CPython the default Python on my machine?
-I have no idea.
-Everything&rsquo;s been fine for the last 10 hours at least&hellip; 🤷</p>
+<p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
 
-<p>If you ever need to try installing a custom CPython build with pyenv, maybe the above instructions will work.
-They&rsquo;re mostly generated by a large language model that didn&rsquo;t give me a working answer until the third response&hellip; so feel free to let me know if it&rsquo;s all wrong (or all right?).</p>
+<p><img src="/images/new-repl-block.gif"></p>
 
-<p>After this adventure, I checked my podcast feed this evening only to realize that there&rsquo;s <a href="https://mastodon.social/@ambv/112378026608575109">a new core.py episode</a> all about exactly this feature!
-If you&rsquo;d like to hear some core developers nerd out about CPython development, give core.py a listen.
-You don&rsquo;t need to understand how CPython development works to enjoy their enthusiasm. 💖</p>
+<p>I make typos all the time while teaching.
+I also often want to re-run a specific block of code with a couple small changes.</p>
+
+<p>The old-style Python REPL stores history line-by-line.
+So editing a block of code in the old REPL required hitting the up arrow many times, hitting Enter, hitting the up arrow many more times, hitting Enter, etc. until each line in a block was chosen.
+At the same time you also needed to make sure to edit your changes along the way&hellip; or you&rsquo;ll end up re-running the same block with the same typo as before!</p>
+
+<p>The ability to edit a previously typed <em>block</em> of code is huge for me.
+For certain sections of my Python curriculum, I hop into <a href="https://github.com/prompt-toolkit/ptpython">ptpython</a> or <a href="https://github.com/ipython/ipython">IPython</a> specifically for this feature.
+Now I&rsquo;ll be able to use the default Python REPL instead.</p>
+
+<h2>Pasting code <em>just works</em></h2>
+
+<p>The next big feature for me is the ability to paste code.</p>
+
+<p>Check this out:</p>
+
+<p><img src="/images/new-repl-paste.gif"></p>
+
+<p>Not impressed?
+Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
+
+<p><img src="/images/old-repl-paste.gif"></p>
+
+<p>The old REPL treated pasted text the same as manually typed text.
+When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>
+
+<p>The new REPL supports <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste</a>, which is was invented in 2002 and has since been adopted by all modern terminal emulators.</p>
+
+<h2>No Windows support? Curses!</h2>
+
+<p>Unfortunately, this new REPL doesn&rsquo;t currently work on Windows.
+This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.
+I&rsquo;m hoping that this new REPL might encourage the addition of <code>curses</code> support on Windows (there are <a href="https://github.com/python/cpython/issues/85796">multiple issues</a> discussing this).</p>
+
+<p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
+
+<h2>Beta test Python 3.13 to try out the new REPL 💖</h2>
+
+<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.
+While the lack of Windows support is disappointing, but I&rsquo;m hopeful that a motivated Windows user will help add support eventually!</p>
+
+<p>Want to try out this new REPL?
+Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
+
+<p>Beta testing new Python releases helps the Python core team ensure the final release of 3.13.0 is as stable and functional as possible.
+If you notice a bug, <a href="https://github.com/python/cpython/issues">check the issue tracker</a> to see if it&rsquo;s been reported yet and if not report it!</p>
 </div>
 
 
@@ -248,7 +249,7 @@ You don&rsquo;t need to understand how CPython development works to enjoy their 
 
 
 
-<time class='entry-date' datetime='2024-05-03T21:26:23-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2024</span></span> <span class='time'>9:26 pm</span></time>
+<time class='entry-date' datetime='2024-05-08T13:30:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>1:30 pm</span></time>
       
 
 <span class="categories">
@@ -262,7 +263,7 @@ You don&rsquo;t need to understand how CPython development works to enjoy their 
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -273,10 +274,8 @@ You don&rsquo;t need to understand how CPython development works to enjoy their 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2024/04/10-years-of-python-conferences/" title="Previous Post: 10 years of Python conferences">&laquo; 10 years of Python conferences</a>
+        <a class="basic-alignment left" href="/2024/05/installing-a-custom-python-build-with-pyenv/" title="Previous Post: Installing a custom Python build with pyenv">&laquo; Installing a custom Python build with pyenv</a>
       
-      
-        <a class="basic-alignment right" href="/2024/05/my-favorite-python-3-dot-13-feature/" title="Next Post: My favorite Python 3.13 feature">My favorite Python 3.13 feature &raquo;</a>
       
     </p>
   </footer>
@@ -402,8 +401,8 @@ You don&rsquo;t need to understand how CPython development works to enjoy their 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/';
-        var disqus_url = 'https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/';
+        var disqus_identifier = 'https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/';
+        var disqus_url = 'https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/';
         var disqus_script = 'embed.js';
       
     (function () {
