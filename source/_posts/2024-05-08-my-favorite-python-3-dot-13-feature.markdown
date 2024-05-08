@@ -96,7 +96,8 @@ The [in-browser Python REPL](https://pym.dev/repl) on Python Morsels also won't 
 
 ## Beta test Python 3.13 to try out the new REPL 💖
 
-Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou [for implementing this new feature](https://docs.python.org/3.13/whatsnew/3.13.html).
+Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou [for implementing this new feature](https://docs.python.org/3.13/whatsnew/3.13.html)!
+And thanks to Michael Hudson-Doyle and Armin Rigo for implementing the original version of this REPL, which was [heavily borrowed from PyPy's pyrepl project](https://github.com/pypy/pyrepl).
 
 The new Python REPL coming in 3.13 is a major improvement over the old REPL.
 While the lack of Windows support is disappointing, but I'm hopeful that a motivated Windows user will help add support eventually!
