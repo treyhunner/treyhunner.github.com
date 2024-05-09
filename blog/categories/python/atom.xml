@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-08T13:59:08-07:00</updated>
+  <updated>2024-05-09T07:35:04-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My favorite Python 3.13 feature]]></title>
+    <title type="html"><![CDATA[The new REPL in Python 3.13]]></title>
     <link href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/"/>
     <updated>2024-05-08T13:30:00-07:00</updated>
     <id>https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature</id>
@@ -22,10 +22,13 @@
 
 <p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
 
-<p>This new Python REPL is will likely be my favorite thing about 3.13.
-It&rsquo;s definitely the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.</p>
+<p>This new Python REPL is the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.
+In terms of improving my quality of life while teaching Python, this new REPL may be my favorite feature since f-strings were added in Python 3.6.</p>
 
 <p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
+
+<p>None of these features will be ground breaking for folks who are already using <a href="https://github.com/ipython/ipython">IPython</a> day-to-day.
+This new REPL really shines when you can&rsquo;t or shouldn&rsquo;t install PyPI packages (as when teaching a brand new Pythonistas in a locked-down corporate environment).</p>
 
 <h2>Little niceties</h2>
 
