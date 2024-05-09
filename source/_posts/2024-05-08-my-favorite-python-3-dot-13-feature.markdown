@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "My favorite Python 3.13 feature"
+title: "The new REPL in Python 3.13"
 date: 2024-05-08 13:30:00 -0700
 comments: true
 categories: python
@@ -11,10 +11,13 @@ Python 3.13 just hit feature freeze with [the first beta release today](https://
 
 Just before the feature freeze, a shiny new feature was added: **a brand new Python REPL**. ✨
 
-This new Python REPL is will likely be my favorite thing about 3.13.
-It's definitely the feature I'm most looking forward to using while teaching after 3.13.0 final is released later this year.
+This new Python REPL is the feature I'm most looking forward to using while teaching after 3.13.0 final is released later this year.
+In terms of improving my quality of life while teaching Python, this new REPL may be my favorite feature since f-strings were added in Python 3.6.
 
 I'd like to share what's so great about this new REPL and what additional improvements I'm hoping we might see in future Python releases.
+
+None of these features will be ground breaking for folks who are already using [IPython][] day-to-day.
+This new REPL really shines when you can't or shouldn't install PyPI packages (as when teaching a brand new Pythonistas in a locked-down corporate environment).
 
 
 ## Little niceties
