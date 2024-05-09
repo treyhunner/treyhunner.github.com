@@ -6,6 +6,9 @@ comments: true
 categories: python favorite
 ---
 
+**Update (2024)**: I've updated the links for PyCon US 2024.
+Also if this isn't your first time attending a conference but it *is* your first PyCon, also see **[Your First PyCon, But Not Your First Convention][sumana]** by Sumana Harihareswara (who is *keynoting PyCon 2024* this year!).
+
 **Update (2019)**: I originally left the sprints out of this article completely!
 To remedy that, I've recently published another article [all about the PyCon sprints][sprints] and why you should consider attending them.
 
@@ -201,13 +204,18 @@ Sometimes people will add each other on LinkedIn or Facebook also.
 But the means of interaction I've noticed most is Twitter.
 I'm unlikely to send most of the people I meet at PyCon an email, but I try to add most of the people I meet to my [PyCon list][] on Twitter.
 
-If you're not completely opposed to it, **I recommend getting a Twitter account to make it easier to passively keep up with folks from PyCon after the conference ends**.
-You don't have to use Twitter all the time to get value from it, you could just use it as a modern day [rolodex][] of sorts.
-Twitter isn't the only way people stay in touch, but it's an extremely easy passive way to stay in touch.
+**2024 note**: Twitter is not nearly as active as it was when I originally wrote this post.
+I now use a mix of Twitter and Mastodon, though I'm sure some folks will be on Threads, Bluesky, or some other real-time online social network as well.
+Unfortunately, there's no one network anymore. 🤷
 
-If you do get a Twitter account, I recommend adding a saved search for "pycon2019 OR pycon" to your Twitter app or to [TweetDeck][] (if you use it) to **follow a bit of the random PyCon-related Twitter chatter during the conference** and to like/reply/interact with others online.
+If you're not completely opposed to it, **I recommend getting Mastodon and/or Twitter accounts to make it easier to passively keep up with folks from PyCon after the conference ends**.
+You don't have to use these networks all the time to get value from it, you could just use it as a modern day [rolodex][] of sorts.
+Online social networks are not the only way people stay in touch, but it's an extremely easy passive way to stay in touch.
 
-Sometimes **people on Twitter will ask if anyone would like to join them for dinner** and you might decide to reply and say you'd like to join.
+If you do get a Mastodon and/or Twitter account, I recommend adding a saved search for "PyCon2024 OR PyCon OR PyConUS OR PyConUS2024" to your to **follow a bit of the random PyCon-related Twitter chatter during the conference** and to like/reply/interact with others online.
+I know I will be adding the `#PyConUS` hashtag to my Mastodon feed while at the conference this year!
+
+Sometimes **people on social networks will ask if anyone would like to join them for dinner** and you might decide to reply and say you'd like to join.
 Sometimes you'll recognize the face or name of someone you met over breakfast or someone you recognize from another part of the internet.
 If you're feeling comfortable with it, you could send a tweet to that person to ask if they'd like to meet up and chat during one of the breaks.
 
@@ -240,8 +248,6 @@ PyCon is a networking event and networking isn't a dirty word.
 I've met a *lot* of people at PyCon who I care deeply about.
 Some of them I haven't seen in years and only keep in touch with sporadically through social media, some I see once or twice each year, and some I chat with on a weekly basis online.
 
-Speaking of networking, there's a [Speed Networking][] event during the opening reception at PyCon this year that I'd recommend going to.
-
 Whatever your goals are at PyCon, try **savor the experiences you have** while there.
 
 
@@ -254,7 +260,7 @@ How should I follow up with people after the conference?
 If you have a good conversation with someone, I'd recommend exchanging information with them.
 I've seen people **write email addresses on napkins**.
 I've also frequently seen people exchange business cards or name cards.
-Sometimes people simply **write down Twitter handles** or even ask to take a picture of a face and a badge.
+Sometimes people simply **write down Twitter/Mastodon/LinkedIn handles** or even ask to take a picture of a face and a badge.
 As I noted above, I like to get people's Twitter handles and add them to a [PyCon list][] I maintain for myself.
 I also exchange business cards and other forms of contact information.
 
@@ -282,7 +288,10 @@ How do I know what's there?
 
 One trick that I've used and I've seen others use: **make a game of inviting people you don't really know well to dinner**.
 If you're nervous about being with lots of new people, **find a couple familiar people and ask each to invite just 1 person**.
-If you'd like to do dinner in a very small group, post on Twitter and say: "I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?".
+If you'd like to do dinner in a very small group, post on one of the more active social networks and say: "I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?".
+
+**Note for 2024**: unfortunately due to the fracturing of Twitter's previous user base into other social networks, posting on social media to ask if folks have plans doesn't work as well as it used to.
+Sadly I don't have a great solution for this in 2024... I'll likely mostly be on Mastodon this year, but I know the activity there will be much more minimal than Twitter's activity used to be.
 
 Sometimes people make a reservation at a restaurant and hope they can find people to join them.
 I'm not that gutsy and I usually prefer to gather people until I have a headcount and then call a nearby restaurant to ask if a reservation is needed.
@@ -317,9 +326,9 @@ If you're the type of person who derives comfort from understanding and being pa
 
 You might think it's premature to volunteer during your first PyCon and for some roles, it likely is.
 You probably shouldn't volunteer to be a session chair during your first PyCon for example because that's a big role.
-But you could absolutely be part of the [swag bag stuffing][], which is a way to see lots friendly of faces while being a smiling cog in a bag-stuff assembly line.
+But you could absolutely be part of the **swag bag stuffing**, which is a way to see lots friendly of faces while being a smiling cog in a bag-stuff assembly line.
 
-You could also volunteer to help [hand out swag bags][], act as a friendly [greeter for folks coming into tutorials][tutorial support], or [help out at the registration desk][reg desk].
+You could also volunteer to help **hand out swag bags**, act as a friendly greeter for folks coming into tutorials, or **help out at the registration desk**.
 These might sound like scary tasks, but from my experience **the folks who coordinate volunteers are happy to answer questions and prepare you for your role** so that you feel comfortable doing the job you've signed up for.
 All three of those tasks are ways to practice being a cheerful and empathetic face, which will help other first-time attendees to feel comfortable too.
 
@@ -384,14 +393,13 @@ I hope you have a lovely PyCon!
 
 
 [weekly python chat]: http://weeklypython.chat
-[open spaces]: https://us.pycon.org/2019/events/open-spaces/
-[newcomer orientation]: https://us.pycon.org/2019/events/newcomer_orientation/
-[speed networking]: https://us.pycon.org/2019/events/speed_networking/
+[open spaces]: https://us.pycon.org/2024/events/open-spaces/
+[newcomer orientation]: https://us.pycon.org/2024/events/newcomer-orientation/
 [hallway track]: http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/
 [pycon list]: https://twitter.com/treyhunner/lists/pycon-2017/members
 [rolodex]: https://en.wikipedia.org/wiki/Rolodex
 [tweetdeck]: https://tweetdeck.twitter.com
-[code of conduct]: https://us.pycon.org/2019/about/code-of-conduct/
+[code of conduct]: https://us.pycon.org/2024/about/code-of-conduct/
 [cabo 1]: https://twitter.com/treyhunner/status/573027732902133760
 [cabo 2]: https://twitter.com/treyhunner/status/587086868396822528
 [cabo 3]: https://twitter.com/algosuna/status/641421944005378048
@@ -400,17 +408,14 @@ I hope you have a lovely PyCon!
 [cabo 6]: https://twitter.com/treyhunner/status/897971022334382080
 [cabo]: http://treyhunner.com/2015/06/cabo-card-game/
 [how to attend a conference]: http://swombat.com/2011/2/25/kevin-mcdonagh-how-to-attend-a-conference
-[volunteering]: https://us.pycon.org/2019/about/volunteers/
-[swag bag stuffing]: https://us.pycon.org/2019/about/volunteers/#swag
-[hand out swag bags]: https://us.pycon.org/2019/about/volunteers/#swag_dist
-[tutorial support]: https://us.pycon.org/2019/about/volunteers/#tutorials
-[reg desk]: https://us.pycon.org/2019/about/volunteers/#registration
+[volunteering]: https://us.pycon.org/2024/volunteers/volunteering/
 [at djangocon 2015]: https://youtu.be/Peo-n4spSRA?t=9m59s
 [beginner's guide to pycon 2015]: https://www.pydanny.com/beginners-guide-pycon-2014.html
 [how to do pycon]: https://automatetheboringstuff.com/how-to-do-pycon.html
 [asking a question]: https://kev.inburke.com/kevin/how-not-to-ask-questions-at-conference/
 [asking a question 2]: https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/
 [pacman]: http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/
-[lightning talk board]: https://us.pycon.org/2019/events/lightning/talks/
+[lightning talk board]: https://us.pycon.org/2024/events/lightning-talks/
 [creating your own open space]: https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html
 [sprints]: https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/
+[sumana]: https://www.harihareswara.net/posts/2023/your-first-pycon-but-not-your-first-convention/
