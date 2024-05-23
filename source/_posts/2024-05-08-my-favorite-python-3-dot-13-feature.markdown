@@ -90,9 +90,11 @@ The new REPL supports [bracketed paste][], which is was invented in 2002 and has
 
 ## No Windows support? Curses!
 
-Unfortunately, this new REPL doesn't currently work on Windows.
+**EDIT**: This whole section is now irrelevant!
+During the PyCon US sprints in late May 2024, the `readline` and `curses` dependencies were removed and [Windows support](https://mastodon.social/@tonybaloney@fosstodon.org/112477098540793635) will be included in the second beta release of Python 3.13.0! 🎉
+
+Unfortunately, this new REPL <strike>doesn't currently work on Windows</strike>.
 This new REPL relies on the `curses` and `readline` modules, neither of which are available on Windows.
-I'm hoping that this new REPL might encourage the addition of `curses` support on Windows (there are [multiple issues](https://github.com/python/cpython/issues/85796) discussing this).
 
 The [in-browser Python REPL](https://pym.dev/repl) on Python Morsels also won't be able to use the new REPL because readline and curses aren't available in the WebAssembly Python build.
 
@@ -103,7 +105,6 @@ Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou [for
 And thanks to Michael Hudson-Doyle and Armin Rigo for implementing the original version of this REPL, which was [heavily borrowed from PyPy's pyrepl project](https://github.com/pypy/pyrepl).
 
 The new Python REPL coming in 3.13 is a major improvement over the old REPL.
-While the lack of Windows support is disappointing, but I'm hopeful that a motivated Windows user will help add support eventually!
 
 Want to try out this new REPL?
 Download and install [Python 3.13.0 beta 1](https://www.python.org/downloads/release/python-3130b1/)!
