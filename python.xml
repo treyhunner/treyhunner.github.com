@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-09T12:55:40-07:00</updated>
+  <updated>2024-05-23T10:11:24-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -98,9 +98,11 @@ When two consecutive newlines were encountered in the old REPL, it would end the
 
 <h2>No Windows support? Curses!</h2>
 
-<p>Unfortunately, this new REPL doesn&rsquo;t currently work on Windows.
-This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.
-I&rsquo;m hoping that this new REPL might encourage the addition of <code>curses</code> support on Windows (there are <a href="https://github.com/python/cpython/issues/85796">multiple issues</a> discussing this).</p>
+<p><strong>EDIT</strong>: This whole section is now irrelevant!
+During the PyCon US sprints in late May 2024, the <code>readline</code> and <code>curses</code> dependencies were removed and <a href="https://mastodon.social/@tonybaloney@fosstodon.org/112477098540793635">Windows support</a> will be included in the second beta release of Python 3.13.0! 🎉</p>
+
+<p>Unfortunately, this new REPL <strike>doesn&rsquo;t currently work on Windows</strike>.
+This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.</p>
 
 <p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
 
@@ -109,8 +111,7 @@ I&rsquo;m hoping that this new REPL might encourage the addition of <code>curses
 <p>Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou <a href="https://docs.python.org/3.13/whatsnew/3.13.html">for implementing this new feature</a>!
 And thanks to Michael Hudson-Doyle and Armin Rigo for implementing the original version of this REPL, which was <a href="https://github.com/pypy/pyrepl">heavily borrowed from PyPy&rsquo;s pyrepl project</a>.</p>
 
-<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.
-While the lack of Windows support is disappointing, but I&rsquo;m hopeful that a motivated Windows user will help add support eventually!</p>
+<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.</p>
 
 <p>Want to try out this new REPL?
 Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
