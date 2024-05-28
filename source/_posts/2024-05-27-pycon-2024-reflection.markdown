@@ -4,11 +4,11 @@ title: "PyCon 2024 Reflection"
 date: 2024-05-28 13:00:00 -0700
 comments: true
 categories: python pycon
+twitter_image: https://treyhunner.com/images/pycon2024-pic.jpg
 ---
 
 I traveled back home from PyCon US 2024 last week.
 This is my reflection on my time at PyCon.
-
 
 ## Attempting to eat vegan
 
@@ -132,3 +132,5 @@ I'd love to attend all of them, but I do have work and personal goals that need 
 
 I hope to see you at PyCon US 2025!
 In the meantime, if you're wishing we'd exchanged contact details or met in-person, please feel free to stay in touch through [Mastodon](https://mastodon.social/@treyhunner), [LinkedIn](https://mastodon.social/@treyhunner), [my weekly emails](https://pym.dev/newsletter), [YouTube](https://www.youtube.com/@PythonMorsels), or [Twitter](http://twitter.com/treyhunner).
+
+{% img "no-border" /images/pycon2024-pic.jpg "" "Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh" %}
