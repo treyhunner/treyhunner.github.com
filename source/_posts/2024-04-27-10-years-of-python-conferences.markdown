@@ -3,7 +3,7 @@ layout: post
 title: "10 years of Python conferences"
 date: 2024-04-27 11:45:00 -0700
 comments: true
-categories: python
+categories: python pycon
 ---
 
 10 years and 10 days ago I flew home from my very first Python conference.

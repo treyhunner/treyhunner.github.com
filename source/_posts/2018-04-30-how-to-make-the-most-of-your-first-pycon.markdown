@@ -3,7 +3,7 @@ layout: post
 title: "How to have a great first PyCon"
 date: 2018-04-30 08:00:00 -0700
 comments: true
-categories: python favorite
+categories: python favorite pycon
 ---
 
 **Update (2024)**: I've updated the links for PyCon US 2024.
