@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-28T13:02:25-07:00</updated>
+  <updated>2024-05-28T13:02:50-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PyCon 2024 Reflection]]></title>
+    <link href="https://treyhunner.com/2024/05/pycon-2024-reflection/"/>
+    <updated>2024-05-28T13:00:00-07:00</updated>
+    <id>https://treyhunner.com/2024/05/pycon-2024-reflection</id>
+    <content type="html"><![CDATA[<p>I traveled back home from PyCon US 2024 last week.
+This is my reflection on my time at PyCon.</p>
+
+<h2>Attempting to eat vegan</h2>
+
+<p>I&rsquo;ve been vegetarian since 2022 and <a href="https://mastodon.social/@treyhunner/111982459215543497">noted a few months ago</a> that I planned to take PyCon as an opportunity to attempt exclusively vegan eating outside my own home.
+As <a href="https://mastodon.social/@treyhunner/112493037289419028">I noted on Mastodon</a>, it was a challenge and I failed every day at least once but I found the experience worthwhile.
+Our food system is <em>very</em> dairy-oriented.</p>
+
+<h2>Staying hydrated and fed</h2>
+
+<p>One of the first things I did before heading to the convention center was walk to Target and buy snacks and drinks.
+When at PyCon, I prefer to spend 30 minutes and $20 to have a backup plan for last minute hydration and calories (even if not the <em>greatest</em> calories).
+I never quite know when I might sleep through breakfast, find lunch lacking, or wish I&rsquo;d eaten more dinner.</p>
+
+<h2>A tutorial, an orientation, a lightning talk, and open spaces</h2>
+
+<p>My responsibilities at PyCon this year included teaching a tutorial and helping run the Newcomer&rsquo;s Orientation with <a href="https://x.com/KojoIdrissa">Kojo</a> and <a href="https://social.coop/@brainwane">Sumana</a>.</p>
+
+<p><a href="https://mastodon.social/@treyhunner/112479031063220835">Yngve and Marie</a> offered to act as teaching assistants during my tutorial and I was very grateful for their help!
+<a href="https://x.com/mathsppblog">Rodrigo</a> and Krishna also offered to TA just before my tutorial started and I was extra grateful to have even more help than I&rsquo;d expected.
+The attendees were mostly better prepared than I expected they would be, which was also great.
+It&rsquo;s always great to spend less time on setup and more time exploring Python together.</p>
+
+<p>The newcomer&rsquo;s orientation the next day went well.
+We kept it fairly brief and were able to address about 10 minutes of audience questions before the opening reception started.</p>
+
+<p>Once my PyCon responsibilities completed, I invented a few more (light) responsibilities for myself. 😅
+I signed up to give a lightning talk on how to give a lightning talk.
+They slotted it as the first talk of the first lightning talk session on Friday night.
+I kept this talk pretty much the same as the one <a href="https://youtu.be/aNHBr7q-KVw?feature=shared&amp;t=915">I presented DjangoCon 2016</a>.
+I could have made the transitions fancier, but I decided to embrace the idea of simplicity with the hope that audience members might think &ldquo;look if that first speaker can give such a simple and succinct presentation, maybe I can too.&rdquo;</p>
+
+<p>On Saturday I ran <a href="https://mastodon.social/@treyhunner/112457077109815019">an open space on Python Learning</a>.
+Some of you showed up because you&rsquo;re on my mailing list or you&rsquo;re paying Python Morsels subscribers.
+Many folks showed up because the topic was interesting, either as a learner or as a teacher.
+I really enjoyed the round-table-style conversation we had.</p>
+
+<p>I also ran a <a href="https://mastodon.social/@treyhunner/112468136603503893">Cabo Card game open space</a> during lunch on Sunday on the 4th floor rooftop.
+Cabo is my usual conference ice breaker game and I played it at least a few nights <a href="https://mas.to/@davidism/112465501797531611">in The Westin lobby</a> as well.</p>
+
+<h2>Seeing conference friends, old and new</h2>
+
+<p>For me, PyCon is largely about having conversations.
+The talks and tutorials are great for starting me thinking about an idea.
+The hallway track, open spaces, and meals are great for continuing conversations about those ideas (or <em>other</em> ideas).</p>
+
+<p>My first morning in Pittsburgh, I chatted with Naomi Ceder and Reuven Lerner.
+I&rsquo;m glad I ran into them before the conference kicked off because (as often happens at PyCon) I only very briefly saw either of them during the rest of PyCon!</p>
+
+<p>After my tutorial that afternoon, I did dinner with Marie, Yngve, and Rodrigo at Rosewater Mediterranean (good vegan options, assuming you enjoy falafel and various sauces).
+As sometimes happens at PyCon, another PyCon attendee, Sachin, joined our table because we noticed him eating on his own at a table near us and invited him to join us.</p>
+
+<p>On Saturday, <a href="https://hachyderm.io/@melaniearbor">Melanie</a>, <a href="https://mas.to/@davidism">David</a>, <a href="https://x.com/kjaymiller">Jay</a>, and I had a sort of mini San Diego Python study group reunion dinner before inviting folks to join us for <a href="https://mastodon.social/@treyhunner/112465503888730383">Cabo and Knucklebones</a> one night.
+The 4 of us originally met each other (along with <a href="https://hachyderm.io/@willingc">Carol</a> and other wonderful Python folks) at the San Diego Python study group about 10 years ago.</p>
+
+<p>I had some wonderful conversations about ways to improve the Python documentation over dinner (at Nicky&rsquo;s Thai) on Sunday night with <em>so</em> many docs-concerned folks who I highly respect.
+I&rsquo;m really excited that Python has <a href="https://peps.python.org/pep-0732/">the documentation editorial board</a> and I&rsquo;m hopeful that that board, with the help of many others community members, will usher in big improvements to the documentation in the coming years.</p>
+
+<p>I also met a number of Internet acquaintances IRL for the first time at PyCon.
+I met <a href="https://www.linkedin.com/in/tereza-iofciu/">Tereza</a> and <a href="https://www.linkedin.com/in/jessica0greene/">Jessica</a>, who I know from our work in the PSF Code of Conduct workgroup.
+I met <a href="https://fosstodon.org/@slott56">Steve Lott</a>, who I originally knew as <a href="https://stackoverflow.com/users/10661/s-lott">a prolific question-answerer</a>.
+I also met <a href="https://github.com/hugovk">Hugo</a>, a CPython core dev, the Python 3.14 &amp; 3.15 release manager, and a <a href="https://mastodon.social/@hugovk">social media user</a> (which is how I&rsquo;ve primarily interacted with him because the Internet is occasionally lovely).
+I was also very excited to meet many <a href="https://www.pythonmorsels.com">Python Morsels members</a> as well as folks who know me through <a href="https://www.pythonmorsels.com/newsletter/">my weekly Python tips newsletter</a>.</p>
+
+<p>I was grateful to chat with <a href="https://mastodon.social/@hynek">Hynek</a> and <a href="https://mastodon.social/@AlSweigart">Al</a> about creating talks, YouTube videos, and other online content.
+I also enjoyed chatting with <a href="https://mastodon.social/@glyph">Glyph</a> a bit about our experiences consulting and training and (in hindsight) wished I&rsquo;d planned an open space for either consultants or trainers, both of which have been held at PyCon before but it just takes someone to stick it on the open space board.</p>
+
+<p>Many folks I only saw very briefly (I said a quick hi and bye to <a href="https://aeracode.org/@andrew">Andrew</a> over lunch during the sprints) and some I didn&rsquo;t see at all (<a href="https://mastodon.social/@frank@frankwiles.social">Frank</a> was at PyCon but we never ran into each other).
+Some I essentially saw through playing a few rounds of Cabo (<a href="https://social.coop/@Yhg1s">Thomas</a> and <a href="https://hachyderm.io/@ethantyping">Ethan</a> among many others).
+We also ran into at least 4 other PyCon attendees in the airport on Tuesday afternoon, including <a href="https://www.linkedin.com/in/bbelderbos/">Bob</a> and <a href="https://www.linkedin.com/in/juliansequeira/">Julian</a>, who it&rsquo;s always a pleasure to see.</p>
+
+<h2>A Mastodon-oriented PyCon</h2>
+
+<p>On Thursday night I had the feeling that the number of Mastodon posts I saw on the <strong>#PyConUS</strong> hashtag was greater than the number of Twitter posts.
+I (very unscientifically) counted up the number of posts I was seeing on each and found that my perception was correct: <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon seemed to slightly overtake Twitter at PyCon this year</a>.</p>
+
+<p>Over dinner on Wednesday, I tried to convince Marie, Yngve, and Rodrigo to get Mastodon accounts just to follow the hashtag during PyCon.
+I succeeded: <a href="https://mastodon.social/@treyhunner/112479031063220835">Marie and Yngve</a> and <a href="https://fosstodon.org/@davep/112458736212760528">Rodrigo</a>!</p>
+
+<p>Mastodon will never be <em>the</em> social media platform.
+Its decentralized nature is too much of a barrier for many folks.
+However, it does seem to be used by <em>enough</em> somewhat nerdy Python folks to now be one the most used social media platform for PyCon posting.</p>
+
+<h2>The talks</h2>
+
+<p>I ended up spending little time in the talks during PyCon.
+This wasn&rsquo;t on purpose.
+I just happened to attend many open spaces, take personal breaks, and end up in hallway conversations often.
+I did see many of the lightning talks live, as well as Jay, Simon, and Sumana&rsquo;s keynotes (all of them were exceptional) and the opening and closing remarks.
+I also watched a few talks from my hotel room while taking breaks.</p>
+
+<p>While I&rsquo;m often a bit light on my talk load at PyCon, I do recommend folks attend a good handful of live talks during PyCon, <a href="https://mastodon.social/@jonafato/112514979873634457">as Jon</a> and <a href="https://hynek.me/articles/hallway-track/">others</a> recommend.
+I wish I had seen more talks live.
+I also wish I had attended a few open spaces that I missed.</p>
+
+<p>At any one time, I know that I&rsquo;m always missing about 90% of what&rsquo;s scheduled during PyCon (if you include the talks <em>and</em> the open spaces).
+That&rsquo;s assuming I don&rsquo;t ditch the conference entirely for a few hours and <a href="https://social.coop/@bitprophet/112452662184950234">walk across a bridge</a> or <a href="https://mastodon.social/@AlSweigart/112514009252817862">ride a funicular</a> (neither of which I did, as I stuck around the venue the whole time this year).
+I am glad I saw, did, and talked about everything I did, but there&rsquo;s always something I wish I&rsquo;d seen/done!</p>
+
+<h2>The sprints</h2>
+
+<p>Thanks to the documentation dinner, I had a couple documentation-related ideas in mind on the first day of sprints.
+But I&rsquo;m also <em>really</em> excited about the new Python REPL coming in Python 3.13 (<a href="https://x.com/treyhunner/status/1720185049461801371">in case</a> you <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">can&rsquo;t tell</a> from <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">how much</a> I <a href="https://x.com/treyhunner/status/1788307498715554160">talk</a> about <a href="https://www.linkedin.com/posts/treyhunner_python-activity-7194082747315859456-qQjk/?utm_source=share&amp;utm_medium=member_desktop">it</a>), so I sprinted on that instead.
+<a href="https://github.com/ambv">Łukasz</a> assigned me the task of researching keyboard shortcuts that the new REPL is missing (compared to the current one on Linux and Mac) so <a href="https://github.com/python/cpython/issues/119034#issuecomment-2121142576">I spent some time researching that</a>.
+I got to see the REPL running on <a href="https://fosstodon.org/@tonybaloney/112477098396842900">Anthony&rsquo;s laptop</a> on Windows and I am <em>so excited</em> that Windows support will be included before 3.13.0 lands! 🎉</p>
+
+<p>Partly inspired by <a href="https://youtu.be/RL3HFj5SDqI?t=1549">Carol Willing&rsquo;s PyCon preview message</a>, I also thanked <a href="https://github.com/pablogsal">Pablo</a>, <a href="https://github.com/ambv">Łukasz</a>, and <a href="https://github.com/lysnikolaou">Lysandros</a> in-person for all their work on the new Python REPL. 🤗</p>
+
+<h2>Until next year</h2>
+
+<p>I&rsquo;ll be <a href="https://www.pyohio.org/2024/program/speakers/keynote-speakers/#trey-hunner">keynoting at PyOhio</a> this year.</p>
+
+<p>Besides PyOhio, I&rsquo;m not sure whether I&rsquo;ll make it to another conference until PyCon US next year.
+I&rsquo;d love to attend all of them, but I do have work and personal goals that need accomplishing too!</p>
+
+<p>I hope to see you at PyCon US 2025!
+In the meantime, if you&rsquo;re wishing we&rsquo;d exchanged contact details or met in-person, please feel free to stay in touch through <a href="https://mastodon.social/@treyhunner">Mastodon</a>, <a href="https://mastodon.social/@treyhunner">LinkedIn</a>, <a href="https://pym.dev/newsletter">my weekly emails</a>, <a href="https://www.youtube.com/@PythonMorsels">YouTube</a>, or <a href="http://twitter.com/treyhunner">Twitter</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The new REPL in Python 3.13]]></title>
@@ -6680,789 +6806,6 @@ I send one exercise every week and the first 3 are free.</p>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The problem with inheriting from dict and list in Python]]></title>
-    <link href="https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python/"/>
-    <updated>2019-04-09T07:00:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/why-you-shouldnt-inherit-from-list-and-dict-in-python</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve created dozens of <a href="https://www.pythonmorsels.com/">Python Morsels</a> since I started it last year.
-At this point at least 10 of these exercises involve making a custom collection: often a dict-like, list-like or set-like class.</p>
-
-<p>Since each Python Morsels solutions email involves a walk-through of many ways to solve the same problem, I&rsquo;ve solved each of these in many ways.</p>
-
-<p>I&rsquo;ve solved these:</p>
-
-<ul>
-<li>manually with <code>__dunder__</code> methods</li>
-<li>with the abstract base classes in <a href="https://docs.python.org/3/library/collections.abc.html">collections.abc</a></li>
-<li>with <a href="https://docs.python.org/3/library/collections.html#collections.UserDict">collections.UserDict</a> and <a href="https://docs.python.org/3/library/collections.html#collections.UserList">collections.UserList</a></li>
-<li>by inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> directly</li>
-</ul>
-
-
-<p>While creating and solving many exercises involving custom collections, I&rsquo;ve realized that inheriting from <code>list</code>, <code>dict</code>, and <code>set</code> is often subtly painful.
-I&rsquo;m writing this article to explain why I often don&rsquo;t recommend inheriting from these built-in classes in Python.</p>
-
-<p>My examples will focus on <code>dict</code> and <code>list</code> since those are likely more commonly sub-classed.</p>
-
-<ul data-toc=".entry-content"></ul>
-
-
-<h2>Making a custom dictionary</h2>
-
-<p>We&rsquo;d like to make a dictionary that&rsquo;s bi-directional.
-When a key-value pair is added, the key maps to the value but the value also maps to the key.</p>
-
-<p>There will always be an even number of elements in this dictionary.
-And if <code>d[k] == v</code> is <code>True</code> then <code>d[v] == k</code> will always be <code>True</code> also.</p>
-
-<p>We could try to implement this by customizing deletion and setting of key-value pairs.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{type(self).__name__}({super().__repr__()})&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here we&rsquo;re ensuring that:</p>
-
-<ul>
-<li>deleting keys will delete their corresponding values as well</li>
-<li>whenever we set a new value for <code>k</code>, that any existing value will be removed properly</li>
-<li>whenever we set a key-value pair, that the corresponding value-key pair will be set too</li>
-</ul>
-
-
-<p>Setting and deleting items from this bi-directional dictionary seems to work as we&rsquo;d expect:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">TwoWayDict</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">3</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">3</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But calling the <code>update</code> method on this dictionary leads to odd behavior:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">3</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="mi">9</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">3</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="mi">7</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Adding <code>9: 7</code> should have removed <code>7: 6</code> and <code>6: 7</code> and adding <code>8: 2</code> should have removed <code>3: 8</code> and <code>8: 3</code>.</p>
-
-<p>We could fix this with a custom <code>update</code> method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">items</span> <span class="o">=</span> <span class="n">items</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-</span><span class='line'>        <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But calling the initializer doesn&rsquo;t work either:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">9</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">9</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So we&rsquo;ll make a custom initializer that calls <code>update</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">()):</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <code>pop</code> doesn&rsquo;t work:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">TwoWayDict</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">9</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">9</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
-</span><span class='line'><span class="mi">7</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">7</span><span class="p">:</span> <span class="mi">9</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And neither does <code>setdefault</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">TwoWayDict</span><span class="p">()</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="mi">2</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="n">TwoWayDict</span><span class="p">({</span><span class="mi">4</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The problem is the <code>pop</code> method doesn&rsquo;t actually call <code>__delitem__</code> and the <code>setdefault</code> method doesn&rsquo;t actually call <code>__setitem__</code>.</p>
-
-<p>If we wanted to fix this problem, we have to completely re-implement <code>pop</code> and <code>setdefault</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-</span><span class='line'>    <span class="c"># ...</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">or</span> <span class="n">default</span> <span class="ow">is</span> <span class="n">DEFAULT</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">value</span>
-</span><span class='line'>        <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">default</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is all very tedious though.
-When inheriting from <code>dict</code> to create a custom dictionary, we&rsquo;d expect <code>update</code> and <code>__init__</code> would call <code>__setitem__</code> and <code>pop</code> and <code>setdefault</code> would call <code>__delitem__</code>.
-But they don&rsquo;t!</p>
-
-<p>Likewise, <code>get</code> and <code>pop</code> don&rsquo;t call <code>__getitem__</code>, as you might expect they would.</p>
-
-<h2>Lists and sets have the same problem</h2>
-
-<p>The <code>list</code> and <code>set</code> classes have similar problems to the <code>dict</code> class.
-Let&rsquo;s take a look at an example.</p>
-
-<p>We&rsquo;ll make a custom list that inherits from the <code>list</code> constructor and overrides the behavior of <code>__delitem__</code>, <code>__iter__</code>, and <code>__eq__</code>.
-This list will customize <code>__delitem__</code> to not actually <em>delete</em> an item but to instead leave a &ldquo;hole&rdquo; where that item used to be.
-The <code>__iter__</code> and <code>__eq__</code> methods will skip over this hole when comparing two <code>HoleList</code> classes as &ldquo;equal&rdquo;.</p>
-
-<p>This class is a bit nonsensical (no it&rsquo;s not a Python Morsels exercise fortunately), but we&rsquo;re focused less on the class itself and more on the issue with inheriting from <code>list</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">HoleList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">HOLE</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">HOLE</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="p">(</span>
-</span><span class='line'>            <span class="n">item</span>
-</span><span class='line'>            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__iter__</span><span class="p">()</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">HOLE</span>
-</span><span class='line'>        <span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HoleList</span><span class="p">):</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
-</span><span class='line'>                <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
-</span><span class='line'>                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">)</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{type(self).__name__}({super().__repr__()})&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unrelated Aside: if you&rsquo;re curious about that <code>object()</code> thing, I explain why it&rsquo;s useful in <a href="https://treyhunner.com/2019/03/unique-and-sentinel-values-in-python/">my article about sentinel values in Python</a>.</p>
-
-<p>If we make two <code>HoleList</code> objects and delete items from them such that they have the same non-hole items:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">HoleList</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">HoleList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">del</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&rsquo;ll see that they&rsquo;re equal:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</span><span class='line'><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But if we then ask them whether they&rsquo;re <em>not equal</em> we&rsquo;ll see that they&rsquo;re both <em>equal</em> and <em>not equal</em>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span>
-</span><span class='line'><span class="bp">True</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</span><span class='line'><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Normally in Python 3, overriding <code>__eq__</code> would customize the behavior of both equality (<code>==</code>) and inequality (<code>!=</code>) checks.
-But not for <code>list</code> or <code>dict</code>: they define both <code>__eq__</code> and <code>__ne__</code> methods which means we need to override both.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Dictionaries suffer from this same problem: <code>__ne__</code> exists which means we need to be careful to override both <code>__eq__</code> and <code>__ne__</code> when inheriting from them.</p>
-
-<p>Also like dictionaries, the <code>remove</code> and <code>pop</code> methods on lists don&rsquo;t call <code>__delitem__</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">y</span>
-</span><span class='line'><span class="n">HoleList</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f56bdf38120</span><span class="o">&gt;</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We could again fix these issues by re-implementing the <code>remove</code> and <code>pop</code> methods:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But this is a pain.
-And who knows whether we&rsquo;re done?</p>
-
-<p>Every time we customize a bit of core functionality on a <code>list</code> or <code>dict</code> subclass, we&rsquo;ll need to make sure we customize other methods that also include exactly the same functionality (but which don&rsquo;t delegate to the method we overrode).</p>
-
-<h2>Why did the Python developers do this?</h2>
-
-<p>From my understanding, the built-in <code>list</code>, <code>dict</code>, and <code>set</code> types have in-lined a lot of code for performance.
-Essentially, they&rsquo;ve copy-pasted the same code between many different functions to avoid extra function calls and make things a tiny bit faster.</p>
-
-<p>I haven&rsquo;t found a reference online that explains why this decision was made and what the consequences of the alternatives to this choice were.
-But I mostly trust that this was done for my benefit as a Python developer.
-If <code>dict</code> and <code>list</code> weren&rsquo;t faster this way, why would the core developers have chosen this odd implementation?</p>
-
-<h2>What&rsquo;s the alternative to inheriting from list and dict?</h2>
-
-<p>So inheriting from <code>list</code> to make a custom list was painful and inheriting from <code>dict</code> to create a custom dictionary was painful.
-What&rsquo;s the alternative?</p>
-
-<p>How can we create a custom dictionary-like object that <em>doesn&rsquo;t</em> inherit from the built-in <code>dict</code>?</p>
-
-<p>There are a few ways to create custom dictionaries:</p>
-
-<ol>
-<li>Fully embrace duck typing: figure out everything you need for your data structure to be <code>dict</code>-like and create a completely custom class (that walks and quacks like a <code>dict</code>)</li>
-<li>Inherit from a helper class that&rsquo;ll point us in the right direction and tell us which methods our object needs to be <code>dict</code>-like</li>
-<li>Find a more extensible re-implementation of <code>dict</code> and inherit from it instead</li>
-</ol>
-
-
-<p>We&rsquo;re going to skip over the first approach: reimplementing everything from scratch will take a while and Python has some helpers that&rsquo;ll make things easier.
-We&rsquo;re going to take a look at those helpers, first the ones that point us in the right direction (2 above) and then the ones that act as full <code>dict</code>-replacements (3 above).</p>
-
-<h3>Abstract base classes: they&rsquo;ll help you quack like a duck</h3>
-
-<p>Python&rsquo;s <a href="https://docs.python.org/3/library/collections.abc.html">collections.abc</a> module includes <strong>abstract base classes</strong> that can help us implement some of the common protocols (<em>interfaces</em> as Java calls them) seen in Python.</p>
-
-<p>We&rsquo;re trying to make a dictionary-like object.
-Dictionaries are <strong>mutable mappings</strong>.
-A dictionary-like object is a mapping.
-That word &ldquo;mapping&rdquo; comes from &ldquo;hash map&rdquo;, which is what many other programming languages call this kind of data structure.</p>
-
-<p>So we want to make a mutable mapping.
-The <code>collections.abc</code> module provides an abstract base class for that: <code>MutableMapping</code>!</p>
-
-<p>If we inherit from this abstract base class, we&rsquo;ll see that we&rsquo;re required to implement certain methods for it to work:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
-</span><span class='line'><span class="o">...</span>     <span class="k">pass</span>
-</span><span class='line'><span class="o">...</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">TwoWayDict</span><span class="p">()</span>
-</span><span class='line'><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">File</span> <span class="s">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-</span><span class='line'><span class="ne">TypeError</span><span class="p">:</span> <span class="n">Can</span><span class="s">&#39;t instantiate abstract class TwoWayDict with abstract methods __delitem__, __getitem__, __iter__, __len__, __setitem__</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>MutableMapping</code> class requires us to say how getting, deleting, and setting items works, how iterating works, and how we get the length of our dictionary.
-But once we do that, we&rsquo;ll get the <code>pop</code>, <code>clear</code>, <code>update</code>, and <code>setdefault</code> methods for free!</p>
-
-<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> using the <code>MutableMapping</code> abstract base class:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">()):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{type(self).__name__}({self.mapping})&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unlike <code>dict</code>, these <code>update</code> and <code>setdefault</code> methods will call our <code>__setitem__</code> method and the <code>pop</code> and <code>clear</code> methods will call our <code>__delitem__</code> method.</p>
-
-<p>Abstract base classes might make you think we&rsquo;re leaving the wonderful land of Python duck typing behind for some sort of strongly-typed <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">OOP</a> land.
-But abstract base classes actually enhance duck typing.
-<strong>Inheriting from abstract base classes helps us be better ducks</strong>.
-We don&rsquo;t have to worry about whether we&rsquo;ve implemented all the behaviors that make a mutable mapping because the abstract base class will yell at us if we forgot to specify some essential behavior.</p>
-
-<p>The <code>HoleList</code> class we made before would need to inherit from the <code>MutableSequence</code> abstract base class.
-A custom set-like class would probably inherit from the <code>MutableSet</code> abstract base class.</p>
-
-<h3>UserList/UserDict: lists and dictionaries that are actually extensible</h3>
-
-<p>When using the collection ABCs, <code>Mapping</code>, <code>Sequence</code>, <code>Set</code> (and their mutable children) you&rsquo;ll often find yourself creating a wrapper around an existing data structure.
-If you&rsquo;re implementing a dictionary-like object, using a dictionary under the hood makes things easier: the same applies for lists and sets.</p>
-
-<p>Python actually includes two even higher level helpers for creating list-like and dictionary-like classes which <strong>wrap around <code>list</code> and <code>dict</code> objects</strong>.
-These two classes live in the <a href="https://docs.python.org/3/library/collections.html">collections</a> module as <a href="https://docs.python.org/3/library/collections.html#collections.UserList">UserList</a> and <a href="https://docs.python.org/3/library/collections.html#collections.UserDict">UserDict</a>.</p>
-
-<p>Here&rsquo;s a re-implementation of <code>TwoWayDict</code> that inherits from <code>UserDict</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserDict</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="n">UserDict</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__delitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{type(self).__name__}({self.data})&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You may notice something interesting about the above code.</p>
-
-<p>That code looks extremely similar to the code we originally wrote (the first version that had lots of bugs) when attempting to inherit from <code>dict</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setitem__</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="s">&quot;{type(self).__name__}({super().__repr__()})&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>__setitem__</code> method is identical, but the <code>__delitem__</code> method has some small differences.</p>
-
-<p>It might seem from these two code blocks that <code>UserDict</code> just a better <code>dict</code>.
-That&rsquo;s not quite right though: <code>UserDict</code> isn&rsquo;t a <code>dict</code> replacement so much as a <code>dict</code> wrapper.</p>
-
-<p>The <code>UserDict</code> class implements the <em>interface</em> that dictionaries are supposed to have, but it wraps around an actual <code>dict</code> object under-the-hood.</p>
-
-<p>Here&rsquo;s another way we could have written the above <code>UserDict</code> code, without any <code>super</code> calls:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">UserDict</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">TwoWayDict</span><span class="p">(</span><span class="n">UserDict</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Both of these methods reference <code>self.data</code>, which we didn&rsquo;t define.</p>
-
-<p>The <code>UserDict</code> class initializer makes a dictionary which it stores in <code>self.data</code>.
-All of the methods on this dictionary-like <code>UserDict</code> class wrap around this <code>self.data</code> dictionary.
-<code>UserList</code> works the same way, except its <code>data</code> attribute wraps around a <code>list</code> object.
-If we want to customize one of the <code>dict</code> or <code>list</code> methods of these classes, we can just override it and change what it does.</p>
-
-<p>You can think of <code>UserDict</code> and <code>UserList</code> as <strong>wrapper classes</strong>.
-When we inherit from these classes, we&rsquo;re wrapping around a <code>data</code> attribute which we proxy all our method lookups to.</p>
-
-<p>In fancy OOP speak, we might consider <code>UserDict</code> and <code>UserList</code> to be <a href="https://en.wikipedia.org/wiki/Adapter_pattern">adapter classes</a>.</p>
-
-<h3>So should I use abstract base classes or UserDict and UserList?</h3>
-
-<p>The <code>UserList</code> and <code>UserDict</code> classes were originally created long before the abstract base classes in <code>collections.abc</code>.
-<code>UserList</code> and <code>UserDict</code> have been around (in some form at least) since before Python 2.0 was even released, but the <code>collections.abc</code> abstract base classes have only been around since Python 2.6.</p>
-
-<p>The <code>UserList</code> and <code>UserDict</code> classes are for when you want something that acts almost identically to a list or a dictionary but you want to customize just a little bit of functionality.</p>
-
-<p>The abstract base classes in <code>collections.abc</code> are useful when you want something that&rsquo;s a <em>sequence</em> or a <em>mapping</em> but is different enough from a list or a dictionary that you really should be making your own custom class.</p>
-
-<h2>Does inheriting from list and dict ever make sense?</h2>
-
-<p>Inheriting from <code>list</code> and <code>dict</code> isn&rsquo;t always bad.</p>
-
-<p>For example, here&rsquo;s a perfectly functional version of a <code>DefaultDict</code> (which acts a little differently from <code>collections.defaultdict</code>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">DefaultDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">default</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__missing__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <code>DefaultDict</code> uses the <code>__missing__</code> method to act as you&rsquo;d expect:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span> <span class="o">=</span> <span class="n">DefaultDict</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">})</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="mi">8</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">d</span>
-</span><span class='line'><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span> <span class="o">=</span> <span class="n">DefaultDict</span><span class="p">({</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="mi">8</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="mi">4</span>
-</span><span class='line'><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span>
-</span><span class='line'><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s no problem with inheriting from <code>dict</code> here because we&rsquo;re not overriding functionality that lives in many different places.</p>
-
-<p>If you&rsquo;re changing functionality that&rsquo;s limited to a single method or adding your own custom method, it&rsquo;s probably worth inheriting from <code>list</code> or <code>dict</code> directly.
-But if your change will require duplicating the same functionality in multiple places (as is often the case), consider reaching for one of the alternatives.</p>
-
-<h2>When making a custom list or dictionary, remember you have options</h2>
-
-<p>When creating your own set-like, list-like, or dictionary-like object, think carefully about how you need your object to work.</p>
-
-<p>If you need to change some core functionality, inheriting from <code>list</code>, <code>dict</code>, or <code>set</code> will be painful and I&rsquo;d recommend against it.</p>
-
-<p>If you&rsquo;re making a variation of <code>list</code> or <code>dict</code> and need to customize just a little bit of core functionality, consider inheriting from <code>collections.UserList</code> or <code>collections.UserDict</code>.</p>
-
-<p>In general, if you&rsquo;re making something custom, you&rsquo;ll often want to reach for the abstract base classes in <code>collections.abc</code>.
-For example if you&rsquo;re making a slightly more custom sequence or mapping (think <code>collections.deque</code>, <code>range</code>, and maybe <code>collections.Counter</code>) you&rsquo;ll want <code>MutableSequence</code> or <code>MutableMapping</code>.
-And if you&rsquo;re making a custom set-like object, your only options are <code>collections.abc.Set</code> or <code>collections.abc.MutableSet</code> (there is no <code>UserSet</code>).</p>
-
-<p>We don&rsquo;t need to create our own data structures very often in Python.
-When you do need to create your own custom collections, wrapping around a data structure is a great idea.
-Remember the <code>collections</code> and <code>collections.abc</code> modules when you need them!</p>
-
-<h2>You don&rsquo;t learn by putting information into your head</h2>
-
-<p>You don&rsquo;t learn by putting information into your head, you learn by trying to retrieve information <em>from</em> your head.
-This knowledge about inheriting from <code>list</code> and <code>dict</code> and the <code>collections.abc</code> classes and <code>collections.UserList</code> and <code>collections.UserDict</code> isn&rsquo;t going to stick unless you try to apply it!</p>
-
-<p>If you use the below form to sign up for Python Morsels, the first exercise you see when you sign up will involve creating your own custom mapping or sequence (it&rsquo;ll be a surprise which one).
-After that first exercise, I&rsquo;ll send you one exercise every week for the next month.
-By default they&rsquo;ll be <strong>intermediate-level</strong> exercises, though you can change your skill level after you sign up.</p>
-
-<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
-    <input type="email" name="email" placeholder="Your email" class="subscribe-email form-big" required>
-    <input type="hidden" name="exercise_track" value="custom collection">
-    <input type="hidden" name="form_id" value="inheriting from builtins">
-    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-    <br>
-
-    <small>
-    I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
-    This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
-    </small>
-
-</form>
-
-
-<p>If you&rsquo;d rather get more beginner-friendly exercises, use the Python Morsels sign up form on the right side of this page instead.</p>
 ]]></content>
   </entry>
   

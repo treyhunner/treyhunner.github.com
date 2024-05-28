@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-28T13:02:25-07:00</updated>
+  <updated>2024-05-28T13:02:50-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PyCon 2024 Reflection]]></title>
+    <link href="https://treyhunner.com/2024/05/pycon-2024-reflection/"/>
+    <updated>2024-05-28T13:00:00-07:00</updated>
+    <id>https://treyhunner.com/2024/05/pycon-2024-reflection</id>
+    <content type="html"><![CDATA[<p>I traveled back home from PyCon US 2024 last week.
+This is my reflection on my time at PyCon.</p>
+
+<h2>Attempting to eat vegan</h2>
+
+<p>I&rsquo;ve been vegetarian since 2022 and <a href="https://mastodon.social/@treyhunner/111982459215543497">noted a few months ago</a> that I planned to take PyCon as an opportunity to attempt exclusively vegan eating outside my own home.
+As <a href="https://mastodon.social/@treyhunner/112493037289419028">I noted on Mastodon</a>, it was a challenge and I failed every day at least once but I found the experience worthwhile.
+Our food system is <em>very</em> dairy-oriented.</p>
+
+<h2>Staying hydrated and fed</h2>
+
+<p>One of the first things I did before heading to the convention center was walk to Target and buy snacks and drinks.
+When at PyCon, I prefer to spend 30 minutes and $20 to have a backup plan for last minute hydration and calories (even if not the <em>greatest</em> calories).
+I never quite know when I might sleep through breakfast, find lunch lacking, or wish I&rsquo;d eaten more dinner.</p>
+
+<h2>A tutorial, an orientation, a lightning talk, and open spaces</h2>
+
+<p>My responsibilities at PyCon this year included teaching a tutorial and helping run the Newcomer&rsquo;s Orientation with <a href="https://x.com/KojoIdrissa">Kojo</a> and <a href="https://social.coop/@brainwane">Sumana</a>.</p>
+
+<p><a href="https://mastodon.social/@treyhunner/112479031063220835">Yngve and Marie</a> offered to act as teaching assistants during my tutorial and I was very grateful for their help!
+<a href="https://x.com/mathsppblog">Rodrigo</a> and Krishna also offered to TA just before my tutorial started and I was extra grateful to have even more help than I&rsquo;d expected.
+The attendees were mostly better prepared than I expected they would be, which was also great.
+It&rsquo;s always great to spend less time on setup and more time exploring Python together.</p>
+
+<p>The newcomer&rsquo;s orientation the next day went well.
+We kept it fairly brief and were able to address about 10 minutes of audience questions before the opening reception started.</p>
+
+<p>Once my PyCon responsibilities completed, I invented a few more (light) responsibilities for myself. 😅
+I signed up to give a lightning talk on how to give a lightning talk.
+They slotted it as the first talk of the first lightning talk session on Friday night.
+I kept this talk pretty much the same as the one <a href="https://youtu.be/aNHBr7q-KVw?feature=shared&amp;t=915">I presented DjangoCon 2016</a>.
+I could have made the transitions fancier, but I decided to embrace the idea of simplicity with the hope that audience members might think &ldquo;look if that first speaker can give such a simple and succinct presentation, maybe I can too.&rdquo;</p>
+
+<p>On Saturday I ran <a href="https://mastodon.social/@treyhunner/112457077109815019">an open space on Python Learning</a>.
+Some of you showed up because you&rsquo;re on my mailing list or you&rsquo;re paying Python Morsels subscribers.
+Many folks showed up because the topic was interesting, either as a learner or as a teacher.
+I really enjoyed the round-table-style conversation we had.</p>
+
+<p>I also ran a <a href="https://mastodon.social/@treyhunner/112468136603503893">Cabo Card game open space</a> during lunch on Sunday on the 4th floor rooftop.
+Cabo is my usual conference ice breaker game and I played it at least a few nights <a href="https://mas.to/@davidism/112465501797531611">in The Westin lobby</a> as well.</p>
+
+<h2>Seeing conference friends, old and new</h2>
+
+<p>For me, PyCon is largely about having conversations.
+The talks and tutorials are great for starting me thinking about an idea.
+The hallway track, open spaces, and meals are great for continuing conversations about those ideas (or <em>other</em> ideas).</p>
+
+<p>My first morning in Pittsburgh, I chatted with Naomi Ceder and Reuven Lerner.
+I&rsquo;m glad I ran into them before the conference kicked off because (as often happens at PyCon) I only very briefly saw either of them during the rest of PyCon!</p>
+
+<p>After my tutorial that afternoon, I did dinner with Marie, Yngve, and Rodrigo at Rosewater Mediterranean (good vegan options, assuming you enjoy falafel and various sauces).
+As sometimes happens at PyCon, another PyCon attendee, Sachin, joined our table because we noticed him eating on his own at a table near us and invited him to join us.</p>
+
+<p>On Saturday, <a href="https://hachyderm.io/@melaniearbor">Melanie</a>, <a href="https://mas.to/@davidism">David</a>, <a href="https://x.com/kjaymiller">Jay</a>, and I had a sort of mini San Diego Python study group reunion dinner before inviting folks to join us for <a href="https://mastodon.social/@treyhunner/112465503888730383">Cabo and Knucklebones</a> one night.
+The 4 of us originally met each other (along with <a href="https://hachyderm.io/@willingc">Carol</a> and other wonderful Python folks) at the San Diego Python study group about 10 years ago.</p>
+
+<p>I had some wonderful conversations about ways to improve the Python documentation over dinner (at Nicky&rsquo;s Thai) on Sunday night with <em>so</em> many docs-concerned folks who I highly respect.
+I&rsquo;m really excited that Python has <a href="https://peps.python.org/pep-0732/">the documentation editorial board</a> and I&rsquo;m hopeful that that board, with the help of many others community members, will usher in big improvements to the documentation in the coming years.</p>
+
+<p>I also met a number of Internet acquaintances IRL for the first time at PyCon.
+I met <a href="https://www.linkedin.com/in/tereza-iofciu/">Tereza</a> and <a href="https://www.linkedin.com/in/jessica0greene/">Jessica</a>, who I know from our work in the PSF Code of Conduct workgroup.
+I met <a href="https://fosstodon.org/@slott56">Steve Lott</a>, who I originally knew as <a href="https://stackoverflow.com/users/10661/s-lott">a prolific question-answerer</a>.
+I also met <a href="https://github.com/hugovk">Hugo</a>, a CPython core dev, the Python 3.14 &amp; 3.15 release manager, and a <a href="https://mastodon.social/@hugovk">social media user</a> (which is how I&rsquo;ve primarily interacted with him because the Internet is occasionally lovely).
+I was also very excited to meet many <a href="https://www.pythonmorsels.com">Python Morsels members</a> as well as folks who know me through <a href="https://www.pythonmorsels.com/newsletter/">my weekly Python tips newsletter</a>.</p>
+
+<p>I was grateful to chat with <a href="https://mastodon.social/@hynek">Hynek</a> and <a href="https://mastodon.social/@AlSweigart">Al</a> about creating talks, YouTube videos, and other online content.
+I also enjoyed chatting with <a href="https://mastodon.social/@glyph">Glyph</a> a bit about our experiences consulting and training and (in hindsight) wished I&rsquo;d planned an open space for either consultants or trainers, both of which have been held at PyCon before but it just takes someone to stick it on the open space board.</p>
+
+<p>Many folks I only saw very briefly (I said a quick hi and bye to <a href="https://aeracode.org/@andrew">Andrew</a> over lunch during the sprints) and some I didn&rsquo;t see at all (<a href="https://mastodon.social/@frank@frankwiles.social">Frank</a> was at PyCon but we never ran into each other).
+Some I essentially saw through playing a few rounds of Cabo (<a href="https://social.coop/@Yhg1s">Thomas</a> and <a href="https://hachyderm.io/@ethantyping">Ethan</a> among many others).
+We also ran into at least 4 other PyCon attendees in the airport on Tuesday afternoon, including <a href="https://www.linkedin.com/in/bbelderbos/">Bob</a> and <a href="https://www.linkedin.com/in/juliansequeira/">Julian</a>, who it&rsquo;s always a pleasure to see.</p>
+
+<h2>A Mastodon-oriented PyCon</h2>
+
+<p>On Thursday night I had the feeling that the number of Mastodon posts I saw on the <strong>#PyConUS</strong> hashtag was greater than the number of Twitter posts.
+I (very unscientifically) counted up the number of posts I was seeing on each and found that my perception was correct: <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon seemed to slightly overtake Twitter at PyCon this year</a>.</p>
+
+<p>Over dinner on Wednesday, I tried to convince Marie, Yngve, and Rodrigo to get Mastodon accounts just to follow the hashtag during PyCon.
+I succeeded: <a href="https://mastodon.social/@treyhunner/112479031063220835">Marie and Yngve</a> and <a href="https://fosstodon.org/@davep/112458736212760528">Rodrigo</a>!</p>
+
+<p>Mastodon will never be <em>the</em> social media platform.
+Its decentralized nature is too much of a barrier for many folks.
+However, it does seem to be used by <em>enough</em> somewhat nerdy Python folks to now be one the most used social media platform for PyCon posting.</p>
+
+<h2>The talks</h2>
+
+<p>I ended up spending little time in the talks during PyCon.
+This wasn&rsquo;t on purpose.
+I just happened to attend many open spaces, take personal breaks, and end up in hallway conversations often.
+I did see many of the lightning talks live, as well as Jay, Simon, and Sumana&rsquo;s keynotes (all of them were exceptional) and the opening and closing remarks.
+I also watched a few talks from my hotel room while taking breaks.</p>
+
+<p>While I&rsquo;m often a bit light on my talk load at PyCon, I do recommend folks attend a good handful of live talks during PyCon, <a href="https://mastodon.social/@jonafato/112514979873634457">as Jon</a> and <a href="https://hynek.me/articles/hallway-track/">others</a> recommend.
+I wish I had seen more talks live.
+I also wish I had attended a few open spaces that I missed.</p>
+
+<p>At any one time, I know that I&rsquo;m always missing about 90% of what&rsquo;s scheduled during PyCon (if you include the talks <em>and</em> the open spaces).
+That&rsquo;s assuming I don&rsquo;t ditch the conference entirely for a few hours and <a href="https://social.coop/@bitprophet/112452662184950234">walk across a bridge</a> or <a href="https://mastodon.social/@AlSweigart/112514009252817862">ride a funicular</a> (neither of which I did, as I stuck around the venue the whole time this year).
+I am glad I saw, did, and talked about everything I did, but there&rsquo;s always something I wish I&rsquo;d seen/done!</p>
+
+<h2>The sprints</h2>
+
+<p>Thanks to the documentation dinner, I had a couple documentation-related ideas in mind on the first day of sprints.
+But I&rsquo;m also <em>really</em> excited about the new Python REPL coming in Python 3.13 (<a href="https://x.com/treyhunner/status/1720185049461801371">in case</a> you <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">can&rsquo;t tell</a> from <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">how much</a> I <a href="https://x.com/treyhunner/status/1788307498715554160">talk</a> about <a href="https://www.linkedin.com/posts/treyhunner_python-activity-7194082747315859456-qQjk/?utm_source=share&amp;utm_medium=member_desktop">it</a>), so I sprinted on that instead.
+<a href="https://github.com/ambv">Łukasz</a> assigned me the task of researching keyboard shortcuts that the new REPL is missing (compared to the current one on Linux and Mac) so <a href="https://github.com/python/cpython/issues/119034#issuecomment-2121142576">I spent some time researching that</a>.
+I got to see the REPL running on <a href="https://fosstodon.org/@tonybaloney/112477098396842900">Anthony&rsquo;s laptop</a> on Windows and I am <em>so excited</em> that Windows support will be included before 3.13.0 lands! 🎉</p>
+
+<p>Partly inspired by <a href="https://youtu.be/RL3HFj5SDqI?t=1549">Carol Willing&rsquo;s PyCon preview message</a>, I also thanked <a href="https://github.com/pablogsal">Pablo</a>, <a href="https://github.com/ambv">Łukasz</a>, and <a href="https://github.com/lysnikolaou">Lysandros</a> in-person for all their work on the new Python REPL. 🤗</p>
+
+<h2>Until next year</h2>
+
+<p>I&rsquo;ll be <a href="https://www.pyohio.org/2024/program/speakers/keynote-speakers/#trey-hunner">keynoting at PyOhio</a> this year.</p>
+
+<p>Besides PyOhio, I&rsquo;m not sure whether I&rsquo;ll make it to another conference until PyCon US next year.
+I&rsquo;d love to attend all of them, but I do have work and personal goals that need accomplishing too!</p>
+
+<p>I hope to see you at PyCon US 2025!
+In the meantime, if you&rsquo;re wishing we&rsquo;d exchanged contact details or met in-person, please feel free to stay in touch through <a href="https://mastodon.social/@treyhunner">Mastodon</a>, <a href="https://mastodon.social/@treyhunner">LinkedIn</a>, <a href="https://pym.dev/newsletter">my weekly emails</a>, <a href="https://www.youtube.com/@PythonMorsels">YouTube</a>, or <a href="http://twitter.com/treyhunner">Twitter</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The new REPL in Python 3.13]]></title>
@@ -398,91 +524,6 @@ This is the best sale I&rsquo;ve ever offered on Python Morsels and I&rsquo;m gu
 And if you have questions about the <a href="https://www.pythonmorsels.com/lifetime-access-sale/"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
 
 <p>Happy Python-ing!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Morsels Cyber Monday sale]]></title>
-    <link href="https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale/"/>
-    <updated>2022-11-25T08:30:00-08:00</updated>
-    <id>https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale</id>
-    <content type="html"><![CDATA[<p>Python Morsels helps Python users <strong>sharpen their Python skills</strong> in a way that writing production code doesn&rsquo;t. If you are:</p>
-
-<ul>
-<li>an experienced developer, frustrated with <strong>gaps in your Python knowledge</strong></li>
-<li>a self-taught programmer seeking <strong>courage and confidence</strong> in your Python abilities</li>
-<li>or an intermediate-level Python learner trying to <strong>deepen your Python skills</strong></li>
-</ul>
-
-
-<p>&hellip;a weekly Python Morsels habit can help you make <strong>consistent progress</strong> and <strong>noticeable growth</strong> in <strong>just a few months</strong>.</p>
-
-<p>Python Morsels is <strong>on sale</strong> through Cyber Monday. <a href="https://www.pythonmorsels.com/all-python-exercises-and-screencasts/">Subscribe</a> now to <strong><a href="https://www.pythonmorsels.com/pricing/">save up to $108 per year</a></strong>.</p>
-
-<h2>Day-to-day coding isn&rsquo;t purposeful learning</h2>
-
-<p>If you write Python frequently, you likely learn new things all the time.
-The learning you get from day-to-day coding is messy and unpredictable. Yes, learning happens, but gradually.</p>
-
-<p>What if you could <strong>learn something unexpected about Python</strong> in <strong>just 30 minutes</strong> a week?</p>
-
-<p>That&rsquo;s what Python Morsels is designed to do: push you <em>just</em> outside your comfort zone to <strong>discover something new</strong> without requiring a big time sink.</p>
-
-<blockquote><p>The time I spent working on Python Morsels problems translates into saved time programming for work. And it&rsquo;s not a grind - it&rsquo;s actually fun. I&rsquo;ve learned advanced Python concepts that I would have never had the opportunity to use in my day to day work.
-<br><span style="float: right;">
-— Eric Pederson, <a href="https://www.pythonmorsels.com/testimonials/#tag:short_on_time">Python Morsels user</a></span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<h2>Guided Python practice every single week</h2>
-
-<p>Python Morsels is <strong>quite different</strong> from many other Python learning systems: you tell me your Python skill level (from <strong>novice</strong> to <strong>advanced</strong>) and I send you small tasks to help you sharpen your Python skills.</p>
-
-<p>Every Monday, you&rsquo;ll receive an email from me with:</p>
-
-<ul>
-<li>a short screencast to watch (or read)</li>
-<li>a multi-part exercise to move you outside your comfort zone (often achievable in 30 minutes)</li>
-<li>a mini exercise that you can accomplish in just 10 minutes</li>
-<li>links to dive deeper into subsequent screencasts and exercises</li>
-</ul>
-
-
-<p>If you&rsquo;d like to nudge your learning in a specific direction, you can always work through a topic-specific exercise path, or watch one of my many screencast series.</p>
-
-<h2>Does this actually work?</h2>
-
-<p>If you use Python Morsels even semi-regularly, I’m confident your Python skills will improve.</p>
-
-<p>Here&rsquo;s what Python Morsels users have to say:</p>
-
-<blockquote><p>I was hesitant about paying for Python Morsels given how many free learning resources there are. But it was definitely worth it. I&rsquo;ve learnt more from Python Morsels than anything else, by far.
-<br><span style="float: right;">
-— Cosmo Grant</span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<blockquote><p>During my study of Python, I used various programming challenge sites. I can say for sure that this is the best challenge site I have ever come across.
-<br><span style="float: right;">
-— Bartosz Chojnacki</span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<p>Not sure? <a href="https://www.pythonmorsels.com/testimonials/">Read more from Python Morsels users here</a>.</p>
-
-<h2>Lock-in your $200/year subscription</h2>
-
-<p>Python Morsels currently includes <strong>over 150 screencasts and articles</strong> and <strong>nearly 200 exercises</strong>, each of which links to over a dozen helpful resources.</p>
-
-<p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
-
-<p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
 ]]></content>
   </entry>
   
