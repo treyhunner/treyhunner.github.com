@@ -12,7 +12,7 @@ This is my reflection on my time at PyCon.
 
 ## Attempting to eat vegan
 
-I've been vegetarian since 2022 and [noted a few months ago](https://mastodon.social/@treyhunner/111982459215543497) that I planned to take PyCon as an opportunity to attempt exclusively vegan eating outside my own home.
+Since 2020, I've been [gradually eating more plant-based](https://mastodon.social/@treyhunner/111794737871397453) and [a few months ago](https://mastodon.social/@treyhunner/111982459215543497) I decided to take PyCon as an opportunity to attempt exclusively vegan eating outside my own home.
 As [I noted on Mastodon](https://mastodon.social/@treyhunner/112493037289419028), it was a challenge and I failed every day at least once but I found the experience worthwhile.
 Our food system is *very* dairy-oriented.
 
