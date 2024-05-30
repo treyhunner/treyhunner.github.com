@@ -26,7 +26,7 @@ I never quite know when I might sleep through breakfast, find lunch lacking, or 
 
 ## A tutorial, an orientation, a lightning talk, and open spaces
 
-My responsibilities at PyCon this year included teaching a tutorial and helping run the Newcomer's Orientation with [Kojo](https://x.com/KojoIdrissa) and [Sumana](https://social.coop/@brainwane).
+My responsibilities at PyCon this year included teaching a tutorial and helping run the Newcomer's Orientation with [Kojo](https://x.com/KojoIdrissa) and [Sumana][].
 
 [Yngve and Marie](https://mastodon.social/@treyhunner/112479031063220835) offered to act as teaching assistants during my tutorial and I was very grateful for their help!
 [Rodrigo](https://x.com/mathsppblog) and Krishna also offered to TA just before my tutorial started and I was extra grateful to have even more help than I'd expected.
@@ -57,13 +57,13 @@ For me, PyCon is largely about having conversations.
 The talks and tutorials are great for starting me thinking about an idea.
 The hallway track, open spaces, and meals are great for continuing conversations about those ideas (or *other* ideas).
 
-My first morning in Pittsburgh, I chatted with Naomi Ceder and Reuven Lerner.
+My first morning in Pittsburgh, I chatted with [Naomi](https://www.linkedin.com/in/naomiceder/) and [Reuven](https://x.com/reuvenmlerner/).
 I'm glad I ran into them before the conference kicked off because (as often happens at PyCon) I only very briefly saw either of them during the rest of PyCon!
 
 After my tutorial that afternoon, I did dinner with Marie, Yngve, and Rodrigo at Rosewater Mediterranean (good vegan options, assuming you enjoy falafel and various sauces).
 As sometimes happens at PyCon, another PyCon attendee, Sachin, joined our table because we noticed him eating on his own at a table near us and invited him to join us.
 
-On Saturday, [Melanie](https://hachyderm.io/@melaniearbor), [David](https://mas.to/@davidism), [Jay](https://x.com/kjaymiller), and I had a sort of mini San Diego Python study group reunion dinner before inviting folks to join us for [Cabo and Knucklebones](https://mastodon.social/@treyhunner/112465503888730383) one night.
+On Saturday, [Melanie](https://hachyderm.io/@melaniearbor), [David](https://mas.to/@davidism), [Jay][], and I had a sort of mini San Diego Python study group reunion dinner before inviting folks to join us for [Cabo and Knucklebones](https://mastodon.social/@treyhunner/112465503888730383) one night.
 The 4 of us originally met each other (along with [Carol](https://hachyderm.io/@willingc) and other wonderful Python folks) at the San Diego Python study group about 10 years ago.
 
 I had some wonderful conversations about ways to improve the Python documentation over dinner (at Nicky's Thai) on Sunday night with *so* many docs-concerned folks who I highly respect.
@@ -101,7 +101,7 @@ However, it does seem to be used by *enough* somewhat nerdy Python folks to now 
 I ended up spending little time in the talks during PyCon.
 This wasn't on purpose.
 I just happened to attend many open spaces, take personal breaks, and end up in hallway conversations often.
-I did see many of the lightning talks live, as well as Jay, Simon, and Sumana's keynotes (all of them were exceptional) and the opening and closing remarks.
+I did see many of the lightning talks live, as well as [Jay][], [Simon][], and [Sumana][]'s keynotes (all of them were exceptional) and the opening and closing remarks.
 I also watched a few talks from my hotel room while taking breaks.
 
 While I'm often a bit light on my talk load at PyCon, I do recommend folks attend a good handful of live talks during PyCon, [as Jon](https://mastodon.social/@jonafato/112514979873634457) and [others](https://hynek.me/articles/hallway-track/) recommend.
@@ -134,3 +134,8 @@ I hope to see you at PyCon US 2025!
 In the meantime, if you're wishing we'd exchanged contact details or met in-person, please feel free to stay in touch through [Mastodon](https://mastodon.social/@treyhunner), [LinkedIn](https://mastodon.social/@treyhunner), [my weekly emails](https://pym.dev/newsletter), [YouTube](https://www.youtube.com/@PythonMorsels), or [Twitter](http://twitter.com/treyhunner).
 
 {% img "no-border" /images/pycon2024-pic.jpg "" "Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh" %}
+
+
+[Jay]: https://x.com/kjaymiller
+[Simon]: https://simonwillison.net/@simon
+[Sumana]: https://social.coop/@brainwane
