@@ -1,25 +1,36 @@
 ---
 layout: post
 title: "A beautiful Python monstrosity"
-date: 2024-06-07 19:58:19 -0700
+date: 2024-06-08 14:30:00 -0700
 comments: true
 categories: python
 ---
 
-[Python Morsels][] exercises that test the performance of code are painful to create.
+Creating performance tests for [Python Morsels][] exercises is a frequent annoyance
 
 I loathe writing automated tests for performance-related exercises because they're *always* flaky.
-How flaky depends on the exercise, what I'm testing, and the time variability inherent in the particular Python features that one of my users is likely to use.
+How flaky depends on the exercise, what I'm testing, and the time variability inherent in the particular Python features that a learner might use.
 
-I came up with a solution for flaky tests recently, but it (unfortunately) makes my tests less readable.
-I then came up with a method for improving the readability, but that has its own trade-offs.
+I came up with a solution for flaky tests recently, but it also makes my tests less readable.
+I then came up with a tool to improve the readability, but that has its own trade-offs.
 
-Both of these approaches are quite weird, but interesting.
+The code I eventually came up with is a **beautiful Python monstrosity**.
+
+```python
+    @attempt_n_times(10)
+    def _():
+        nonlocal micro_time, tiny_time
+        micro_time = time(micro_numbers)
+        tiny_time = time(tiny_numbers)
+        self.assertLess(tiny_time, micro_time*n)
+```
+
+I'll explain what that code does, but first let's talk about why it's needed.
 
 
 ## The flaky performance tests
 
-Here's what my flaky performance tests initially looked like:
+My flaky performance tests initially looked like this:
 
 ```python
 def test_some_test(self):
@@ -42,9 +53,7 @@ def test_some_test(self):
 The first block runs a performance test for the user's function on a very small list and on a slightly larger list and then asserting that the slightly larger list didn't take *too* much longer to run.
 The next two blocks run the same code on even larger lists and make further assertions about the relative times that the code took to run.
 
-This is a way to roughly approximate the [time complexity][] of this code.
-
-**Aside**: To really test time complexity, I would ideally count the number of low-level operations performed to measure time complexity, but that would require instrumenting Python, but my tests need to run on a plain old Python interpreter.
+This roughly approximates the [time complexity][] of this code.
 
 
 ## Running performance checks in a loop
@@ -73,7 +82,7 @@ If `n` and `m` are too small, we'll get false negatives (tests failing when they
 
 To avoid both [Type I and Type II errors][type errors], I decided to keep `n` and `m` small but attempt the assertion block multiple times.
 
-Here's the code I ended up with:
+Here's the (far less flaky) revised code:
 
 ```python
 def test_some_test(self):
@@ -309,7 +318,7 @@ I feel that I've traded "normal code" for a beautiful monstrosity that's easier 
 
 The `attempt_n_times` decorator is pretending that it's a block-level tool by using a function because there's no other way to invent such a tool in Python.
 
-I think abstracting away the `for`-`try`-`break`-`except`-`if`-`raise` pattern is worth it.
+I think abstracting away the `for`-`try`-`break`-`except`-`if`-`raise` pattern was worth it, even though I ended up abusing Python's decorator syntax in the process.
 
 What do you think?
 Was that `attempt_n_times` abstraction worth it?
