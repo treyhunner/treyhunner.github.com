@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>A beautiful Python monstrosity</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Creating performance tests for Python Morsels exercises is a frequent annoyance I loathe writing automated tests for performance-related exercises &hellip;">
+  
+
+  <meta name="twitter:title" content="A beautiful Python monstrosity"/>
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A beautiful Python monstrosity</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2024-06-08T14:30:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>2:30 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>Creating performance tests for <a href="https://www.pythonmorsels.com">Python Morsels</a> exercises is a frequent annoyance</p>
+
+<p>I loathe writing automated tests for performance-related exercises because they&rsquo;re <em>always</em> flaky.
+How flaky depends on the exercise, what I&rsquo;m testing, and the time variability inherent in the particular Python features that a learner might use.</p>
+
+<p>I came up with a solution for flaky tests recently, but it also makes my tests less readable.
+I then came up with a tool to improve the readability, but that has its own trade-offs.</p>
+
+<p>The code I eventually came up with is a <strong>beautiful Python monstrosity</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ll explain what that code does, but first let&rsquo;s talk about why it&rsquo;s needed.</p>
+
+<h2>The flaky performance tests</h2>
+
+<p>My flaky performance tests initially looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first block runs a performance test for the user&rsquo;s function on a very small list and on a slightly larger list and then asserting that the slightly larger list didn&rsquo;t take <em>too</em> much longer to run.
+The next two blocks run the same code on even larger lists and make further assertions about the relative times that the code took to run.</p>
+
+<p>This roughly approximates the <a href="https://www.pythonmorsels.com/time-complexities/">time complexity</a> of this code.</p>
+
+<h2>Running performance checks in a loop</h2>
+
+<p>These performance checks need to:</p>
+
+<ol>
+<li>Predictably fail for inefficient solutions</li>
+<li>Predictably pass for efficient solutions</li>
+<li>Run <em>fast</em> (within just a few seconds) even when the code is inefficient</li>
+<li>Avoid the use of <code>threading</code> because they&rsquo;ll be running on WebAssembly in the browser</li>
+<li>Run consistently on pretty much any computer</li>
+</ol>
+
+
+<p>These 5 requirements together have caused me countless headaches.
+I get the tests passing well, but they don&rsquo;t always fail when they should.
+I get the tests failing and passing when they should, but then they&rsquo;re too slow.
+And so on&hellip;</p>
+
+<p>Notice the <code>n</code> and <code>m</code> factors in the above assertions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If <code>n</code> and <code>m</code> are too big, we&rsquo;ll get false positives (tests passing when they should fail).
+If <code>n</code> and <code>m</code> are too small, we&rsquo;ll get false negatives (tests failing when they should pass).</p>
+
+<p>To avoid both <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I and Type II errors</a>, I decided to keep <code>n</code> and <code>m</code> small but attempt the assertion block multiple times.</p>
+
+<p>Here&rsquo;s the (far less flaky) revised code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">raise</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>for</code> loop runs the code multiple times, the <code>break</code> statement stops the code as soon as the assertions all pass, and the <code>except</code> and <code>if</code> ensure that any assertion errors are suppressed until/unless we&rsquo;re on the final iteration of the loop.</p>
+
+<p>Let&rsquo;s call this a <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.
+It&rsquo;s an absurdly verbose name fitting of absurdly verbose code.</p>
+
+<p>This <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern works pretty well!
+But it&rsquo;s not pretty.</p>
+
+<p>Like many programmers, I believe that <strong>Don&rsquo;t Repeat Yourself</strong> (<a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>) need not apply to tests.
+Tests are <em>allowed</em> to be repetitive if <a href="https://stackoverflow.com/questions/6453235/what-does-damp-not-dry-mean-when-talking-about-unit-tests">the verbosity improves readability</a>.</p>
+
+<p>But there is <em>so much noise</em> in that code!
+I decided that removing some noise might improve readability.
+So I devised a helper utility to reduce the repetition.</p>
+
+<h2>In search of a solution</h2>
+
+<p>While pondering the repetitive noise in this code, I wondered what Python features I could use to abstract away this <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.</p>
+
+<p>Could I make a context manager and use a <code>with</code> block?
+That might help with the <code>try</code>-<code>except</code>, but context managers can&rsquo;t run their code block multiple times, so that wouldn&rsquo;t help with the <code>for</code> and the <code>break</code>.
+So a context manager is out.</p>
+
+<p>Could I abstract this away into a looping helper by implementing a generator function?
+We <em>are</em> looping and generator functions <em>can</em> <code>break</code> early.
+But, a generator function can&rsquo;t catch an exception that&rsquo;s raised within the <em>body</em> of a loop.
+So a generator function wouldn&rsquo;t work either.</p>
+
+<p>What about a decorator? 🤔</p>
+
+<p>Context managers and decorators both sandwich a block of code.
+But decorators sandwich functions and they have the power to run the same function <em>repeatedly</em>.
+A decorator might work!</p>
+
+<p>Here&rsquo;s a decorator that will run a given function up to 10 times (until no <code>AssertionError</code> is raised):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">try_10_times</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                    <span class="k">raise</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">wrapper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To use this decorator, we would need to define a function and then call that function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@try_10_times</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">assertions</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">assertions</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This isn&rsquo;t <em>quite</em> good enough though&hellip;</p>
+
+<ol>
+<li>We need a pattern to run code N times (not necessarily exactly 10)</li>
+<li>We reference the variables defined in each block in later blocks, so <code>micro_time</code> and <code>tiny_time</code> will need to be available <em>outside</em> that function</li>
+<li>We need this function to run just one time right after it&rsquo;s defined&hellip; could we do that automatically?</li>
+</ol>
+
+
+<p>All 3 of these problems are solvable:</p>
+
+<ol>
+<li>We need a decorator that accepts arguments</li>
+<li>We need to use <em>rarely seen</em> <a href="https://stackoverflow.com/a/1261961/98187"><code>nonlocal</code></a> statement</li>
+<li>We could have the decorator automatically call the decorated function</li>
+</ol>
+
+
+<h2>The final <em>weird</em> decorator</h2>
+
+<p>Here&rsquo;s the decorator I ended up with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">attempt_n_times</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">    Run tests multiple times if assertions are raised.</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">    Allows for more forgiving tests when assertions may be a bit flaky.</span>
+</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+</span><span class='line'>        <span class="sd">&quot;&quot;&quot;This looks like a decorator, but it actually runs the function!&quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                    <span class="k">raise</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">decorator</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This decorator accepts an <code>n</code> argument which determines the maximum number of times the decorated function should be called.
+The decorator then <em>calls</em> the function repeatedly in a <code>for</code> loop and a <code>try</code>-<code>except</code> block.
+As soon as an <code>AssertionError</code> is <em>not</em> raised during one of these function calls, the looping stops.</p>
+
+<p>The <em>weirdest</em> part about this decorator is that it calls the decorated function.
+Note that the <code>decorator</code> function doesn&rsquo;t define a <code>wrapper</code> function within itself&hellip; it just runs code right away!</p>
+
+<h2>The resulting beautiful Python monstrosity</h2>
+
+<p>Here&rsquo;s the final refactored test code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">small_time</span> <span class="o">=</span> <span class="n">medium_time</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
+</span><span class='line'>        <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">small_time</span>
+</span><span class='line'>        <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">medium_time</span>
+</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>attempt_n_times</code> decorator <strong>immediately calls the function it decorates</strong>.
+Each function is defined and immediately called one or more times, in a <code>try</code>-<code>except</code> block within a loop.</p>
+
+<p>That&rsquo;s why we&rsquo;ve named these functions with the <a href="https://stackoverflow.com/questions/36315309/how-does-python-throw-away-variable-work">throwaway</a> <code>_</code> name: <strong>we don&rsquo;t care about the name of a function we&rsquo;re never going to refer to again</strong>.</p>
+
+<p>Also note the use of the <code>nonlocal</code> statement.
+Each function in Python has its own scope and all assignments <a href="https://www.pythonmorsels.com/local-and-global-variables/#assigning-to-local-and-global-variables">assign to the local scope</a> by default.
+That <code>nonlocal</code> variable pulls those variables to the scope of the outer function instead.</p>
+
+<p>Compare the above code to the code just before this refactor:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find the refactored version easier to skim.</p>
+
+<p>But that <code>attempt_n_times</code> decorator <em>does</em> abuse the decorator syntax.
+Decorators aren&rsquo;t <em>meant</em> to call the function they&rsquo;re decorating.</p>
+
+<p>Is this misuse of decorators worth it?</p>
+
+<h2>Is this worth it?</h2>
+
+<p>Decorators aren&rsquo;t supposed to immediately call the function they decorate.
+But there&rsquo;s nothing stopping them from doing so.
+I feel that I&rsquo;ve traded &ldquo;normal code&rdquo; for a beautiful monstrosity that&rsquo;s easier to skim at a glance.</p>
+
+<p>The <code>attempt_n_times</code> decorator is pretending that it&rsquo;s a block-level tool by using a function because there&rsquo;s no other way to invent such a tool in Python.</p>
+
+<p>I think abstracting away the <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern was worth it, even though I ended up abusing Python&rsquo;s decorator syntax in the process.</p>
+
+<p>What do you think?
+Was that <code>attempt_n_times</code> abstraction worth it?</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2024-06-08T14:30:00-07:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>2:30 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2024/05/pycon-2024-reflection/" title="Previous Post: PyCon 2024 Reflection">&laquo; PyCon 2024 Reflection</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2024 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/';
+        var disqus_url = 'https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>

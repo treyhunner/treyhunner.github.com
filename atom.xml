@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-30T12:09:40-07:00</updated>
+  <updated>2024-06-08T14:30:41-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,478 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A beautiful Python monstrosity]]></title>
+    <link href="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/"/>
+    <updated>2024-06-08T14:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/06/a-beautiful-python-monstrosity</id>
+    <content type="html"><![CDATA[<p>Creating performance tests for <a href="https://www.pythonmorsels.com">Python Morsels</a> exercises is a frequent annoyance</p>
+
+<p>I loathe writing automated tests for performance-related exercises because they&rsquo;re <em>always</em> flaky.
+How flaky depends on the exercise, what I&rsquo;m testing, and the time variability inherent in the particular Python features that a learner might use.</p>
+
+<p>I came up with a solution for flaky tests recently, but it also makes my tests less readable.
+I then came up with a tool to improve the readability, but that has its own trade-offs.</p>
+
+<p>The code I eventually came up with is a <strong>beautiful Python monstrosity</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ll explain what that code does, but first let&rsquo;s talk about why it&rsquo;s needed.</p>
+
+<h2>The flaky performance tests</h2>
+
+<p>My flaky performance tests initially looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first block runs a performance test for the user&rsquo;s function on a very small list and on a slightly larger list and then asserting that the slightly larger list didn&rsquo;t take <em>too</em> much longer to run.
+The next two blocks run the same code on even larger lists and make further assertions about the relative times that the code took to run.</p>
+
+<p>This roughly approximates the <a href="https://www.pythonmorsels.com/time-complexities/">time complexity</a> of this code.</p>
+
+<h2>Running performance checks in a loop</h2>
+
+<p>These performance checks need to:</p>
+
+<ol>
+<li>Predictably fail for inefficient solutions</li>
+<li>Predictably pass for efficient solutions</li>
+<li>Run <em>fast</em> (within just a few seconds) even when the code is inefficient</li>
+<li>Avoid the use of <code>threading</code> because they&rsquo;ll be running on WebAssembly in the browser</li>
+<li>Run consistently on pretty much any computer</li>
+</ol>
+
+
+<p>These 5 requirements together have caused me countless headaches.
+I get the tests passing well, but they don&rsquo;t always fail when they should.
+I get the tests failing and passing when they should, but then they&rsquo;re too slow.
+And so on&hellip;</p>
+
+<p>Notice the <code>n</code> and <code>m</code> factors in the above assertions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If <code>n</code> and <code>m</code> are too big, we&rsquo;ll get false positives (tests passing when they should fail).
+If <code>n</code> and <code>m</code> are too small, we&rsquo;ll get false negatives (tests failing when they should pass).</p>
+
+<p>To avoid both <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I and Type II errors</a>, I decided to keep <code>n</code> and <code>m</code> small but attempt the assertion block multiple times.</p>
+
+<p>Here&rsquo;s the (far less flaky) revised code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">break</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">raise</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>for</code> loop runs the code multiple times, the <code>break</code> statement stops the code as soon as the assertions all pass, and the <code>except</code> and <code>if</code> ensure that any assertion errors are suppressed until/unless we&rsquo;re on the final iteration of the loop.</p>
+
+<p>Let&rsquo;s call this a <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.
+It&rsquo;s an absurdly verbose name fitting of absurdly verbose code.</p>
+
+<p>This <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern works pretty well!
+But it&rsquo;s not pretty.</p>
+
+<p>Like many programmers, I believe that <strong>Don&rsquo;t Repeat Yourself</strong> (<a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>) need not apply to tests.
+Tests are <em>allowed</em> to be repetitive if <a href="https://stackoverflow.com/questions/6453235/what-does-damp-not-dry-mean-when-talking-about-unit-tests">the verbosity improves readability</a>.</p>
+
+<p>But there is <em>so much noise</em> in that code!
+I decided that removing some noise might improve readability.
+So I devised a helper utility to reduce the repetition.</p>
+
+<h2>In search of a solution</h2>
+
+<p>While pondering the repetitive noise in this code, I wondered what Python features I could use to abstract away this <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.</p>
+
+<p>Could I make a context manager and use a <code>with</code> block?
+That might help with the <code>try</code>-<code>except</code>, but context managers can&rsquo;t run their code block multiple times, so that wouldn&rsquo;t help with the <code>for</code> and the <code>break</code>.
+So a context manager is out.</p>
+
+<p>Could I abstract this away into a looping helper by implementing a generator function?
+We <em>are</em> looping and generator functions <em>can</em> <code>break</code> early.
+But, a generator function can&rsquo;t catch an exception that&rsquo;s raised within the <em>body</em> of a loop.
+So a generator function wouldn&rsquo;t work either.</p>
+
+<p>What about a decorator? 🤔</p>
+
+<p>Context managers and decorators both sandwich a block of code.
+But decorators sandwich functions and they have the power to run the same function <em>repeatedly</em>.
+A decorator might work!</p>
+
+<p>Here&rsquo;s a decorator that will run a given function up to 10 times (until no <code>AssertionError</code> is raised):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">try_10_times</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                    <span class="k">raise</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">wrapper</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To use this decorator, we would need to define a function and then call that function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@try_10_times</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">assertions</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">assertions</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This isn&rsquo;t <em>quite</em> good enough though&hellip;</p>
+
+<ol>
+<li>We need a pattern to run code N times (not necessarily exactly 10)</li>
+<li>We reference the variables defined in each block in later blocks, so <code>micro_time</code> and <code>tiny_time</code> will need to be available <em>outside</em> that function</li>
+<li>We need this function to run just one time right after it&rsquo;s defined&hellip; could we do that automatically?</li>
+</ol>
+
+
+<p>All 3 of these problems are solvable:</p>
+
+<ol>
+<li>We need a decorator that accepts arguments</li>
+<li>We need to use <em>rarely seen</em> <a href="https://stackoverflow.com/a/1261961/98187"><code>nonlocal</code></a> statement</li>
+<li>We could have the decorator automatically call the decorated function</li>
+</ol>
+
+
+<h2>The final <em>weird</em> decorator</h2>
+
+<p>Here&rsquo;s the decorator I ended up with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">attempt_n_times</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="sd">    Run tests multiple times if assertions are raised.</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">    Allows for more forgiving tests when assertions may be a bit flaky.</span>
+</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+</span><span class='line'>        <span class="sd">&quot;&quot;&quot;This looks like a decorator, but it actually runs the function!&quot;&quot;&quot;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                    <span class="k">raise</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">decorator</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This decorator accepts an <code>n</code> argument which determines the maximum number of times the decorated function should be called.
+The decorator then <em>calls</em> the function repeatedly in a <code>for</code> loop and a <code>try</code>-<code>except</code> block.
+As soon as an <code>AssertionError</code> is <em>not</em> raised during one of these function calls, the looping stops.</p>
+
+<p>The <em>weirdest</em> part about this decorator is that it calls the decorated function.
+Note that the <code>decorator</code> function doesn&rsquo;t define a <code>wrapper</code> function within itself&hellip; it just runs code right away!</p>
+
+<h2>The resulting beautiful Python monstrosity</h2>
+
+<p>Here&rsquo;s the final refactored test code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">small_time</span> <span class="o">=</span> <span class="n">medium_time</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
+</span><span class='line'>        <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">small_time</span>
+</span><span class='line'>        <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
+</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">medium_time</span>
+</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>attempt_n_times</code> decorator <strong>immediately calls the function it decorates</strong>.
+Each function is defined and immediately called one or more times, in a <code>try</code>-<code>except</code> block within a loop.</p>
+
+<p>That&rsquo;s why we&rsquo;ve named these functions with the <a href="https://stackoverflow.com/questions/36315309/how-does-python-throw-away-variable-work">throwaway</a> <code>_</code> name: <strong>we don&rsquo;t care about the name of a function we&rsquo;re never going to refer to again</strong>.</p>
+
+<p>Also note the use of the <code>nonlocal</code> statement.
+Each function in Python has its own scope and all assignments <a href="https://www.pythonmorsels.com/local-and-global-variables/#assigning-to-local-and-global-variables">assign to the local scope</a> by default.
+That <code>nonlocal</code> variable pulls those variables to the scope of the outer function instead.</p>
+
+<p>Compare the above code to the code just before this refactor:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">break</span>
+</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span class='line'>                <span class="k">raise</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find the refactored version easier to skim.</p>
+
+<p>But that <code>attempt_n_times</code> decorator <em>does</em> abuse the decorator syntax.
+Decorators aren&rsquo;t <em>meant</em> to call the function they&rsquo;re decorating.</p>
+
+<p>Is this misuse of decorators worth it?</p>
+
+<h2>Is this worth it?</h2>
+
+<p>Decorators aren&rsquo;t supposed to immediately call the function they decorate.
+But there&rsquo;s nothing stopping them from doing so.
+I feel that I&rsquo;ve traded &ldquo;normal code&rdquo; for a beautiful monstrosity that&rsquo;s easier to skim at a glance.</p>
+
+<p>The <code>attempt_n_times</code> decorator is pretending that it&rsquo;s a block-level tool by using a function because there&rsquo;s no other way to invent such a tool in Python.</p>
+
+<p>I think abstracting away the <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern was worth it, even though I ended up abusing Python&rsquo;s decorator syntax in the process.</p>
+
+<p>What do you think?
+Was that <code>attempt_n_times</code> abstraction worth it?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PyCon 2024 Reflection]]></title>
@@ -6187,627 +6659,6 @@ Some people love these built-ins and some people never use them: as you get more
 
 <p>You don&rsquo;t need to learn all the Python built-in functions today.
 Take it slow: focus on those first 25 important built-ins and then work your way into learning about others if and when you eventually need them.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Is it a class or a function? It's a callable!]]></title>
-    <link href="https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable/"/>
-    <updated>2019-04-16T10:20:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/is-it-a-class-or-a-function-its-a-callable</id>
-    <content type="html"><![CDATA[<p><strong>Update</strong>: You can find a <a href="https://www.pythonmorsels.com/built-in-functions-in-python/">newer version of this article on Python Morsels</a>.</p>
-
-<p>If you search course curriculum I&rsquo;ve written, you&rsquo;ll often find phrases like &ldquo;<code>zip</code> function&rdquo;, &ldquo;<code>enumerate</code> function&rdquo;, and &ldquo;<code>list</code> function&rdquo;.
-Those terms are all technically misnomers.</p>
-
-<p>When I use terms like &ldquo;the <code>bool</code> function&rdquo; and &ldquo;the <code>str</code> function&rdquo; I&rsquo;m incorrectly implying that <code>bool</code> and <code>str</code> are functions.
-But these <strong>aren&rsquo;t functions: they&rsquo;re classes</strong>!</p>
-
-<p>I&rsquo;m going to explain why this confusion between classes and functions happens in Python and then explain <strong>why this distinction often doesn&rsquo;t matter</strong>.</p>
-
-<ul data-toc=".entry-content"></ul>
-
-
-<h2>Class or function?</h2>
-
-<p>When I&rsquo;m training a new group of Python developers, there&rsquo;s group activity we often do: the class or function game.</p>
-
-<p>In <strong>the class or function game</strong>, we take something that we &ldquo;call&rdquo; (using parenthesis: <code>()</code>) and we guess whether it&rsquo;s a class or a function.</p>
-
-<p>For example:</p>
-
-<ul>
-<li>We can call <code>zip</code> with a couple iterables and we get another iterable back, so is <code>zip</code> a class or a function?</li>
-<li>When we call <code>len</code>, are we calling a class or a function?</li>
-<li>What about <code>int</code>: when we write <code>int('4')</code> are we calling a class or a function?</li>
-</ul>
-
-
-<p>Python&rsquo;s <code>zip</code>, <code>len</code>, and <code>int</code> are all often guessed to be functions, but <strong>only one of these is really a function</strong>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">zip</span>
-</span><span class='line'><span class="go">&lt;class &#39;zip&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span>
-</span><span class='line'><span class="go">&lt;built-in function len&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span>
-</span><span class='line'><span class="go">&lt;class &#39;int&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While <code>len</code> is a function, <code>zip</code> and <code>int</code> are classes.</p>
-
-<p>The <code>reversed</code>, <code>enumerate</code>, <code>range</code>, and <code>filter</code> &ldquo;functions&rdquo; also aren&rsquo;t really functions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">reversed</span>
-</span><span class='line'><span class="go">&lt;class &#39;reversed&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">enumerate</span>
-</span><span class='line'><span class="go">&lt;class &#39;enumerate&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span>
-</span><span class='line'><span class="go">&lt;class &#39;range&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span>
-</span><span class='line'><span class="go">&lt;class &#39;filter&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After playing the class or function game, we always discuss <strong>callables</strong>, and then we discuss the fact that <strong>we often don&rsquo;t care whether something is a class or a function</strong>.</p>
-
-<h2>What&rsquo;s a callable?</h2>
-
-<p>A <strong>callable</strong> is anything you can <em>call</em>, using parenthesis, and possibly passing arguments.</p>
-
-<p>All three of these lines involve callables:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">something</span><span class="p">()</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">AnotherThing</span><span class="p">()</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">something_else</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We don&rsquo;t know what <code>something</code>, <code>AnotherThing</code>, and <code>something_else</code> do: but we <em>know</em> they&rsquo;re callables.</p>
-
-<p>We have a number of callables in Python:</p>
-
-<ul>
-<li>Functions are callables</li>
-<li>Classes are callables</li>
-<li>Methods (which are functions that hang off of classes) are callables</li>
-<li>Instances of classes can even be turned into callables</li>
-</ul>
-
-
-<p>Callables are a pretty important concept in Python.</p>
-
-<h2>Classes are callables</h2>
-
-<p>Functions are the most obvious callable in Python.
-Functions can be &ldquo;called&rdquo; in every programming language.
-A <em>class</em> being callable is a bit more unique though.</p>
-
-<p>In JavaScript we can make an &ldquo;instance&rdquo; of the <code>Date</code> class like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="mi">2020</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">01</span><span class="nx">T08</span><span class="o">:</span><span class="mi">00</span><span class="o">:</span><span class="mf">00.000</span><span class="nx">Z</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In JavaScript the class instantiation syntax (the way we create an &ldquo;instance&rdquo; of a class) involves the <code>new</code> keyword.
-In Python we don&rsquo;t have a <code>new</code> keyword.</p>
-
-<p>In Python we can make an &ldquo;instance&rdquo; of the <code>datetime</code> class (from <code>datetime</code>) like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="go">datetime.datetime(2020, 1, 1, 0, 0)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Python, the syntax for <strong>instantiating a new class instance</strong> is the same as the syntax for <strong>calling a function</strong>.
-There&rsquo;s no <code>new</code> needed: we just call the class.</p>
-
-<p>When we <strong>call a function</strong>, we get its return value.
-When we <strong>call a class</strong>, we get an &ldquo;instance&rdquo; of that class.</p>
-
-<p><strong>We use the same syntax for constructing objects from classes and for calling functions</strong>: this fact is the main reason the word &ldquo;callable&rdquo; is such an important part of our Python vocabulary.</p>
-
-<h2>Disguising classes as functions</h2>
-
-<p>There are many classes-which-look-like-functions among the Python built-ins and in the Python standard library.</p>
-
-<p>I sometimes explain <strong>decorators</strong> (an intermediate-level Python concept) as &ldquo;functions which accept functions and return functions&rdquo;.</p>
-
-<p>But that&rsquo;s not an entirely accurate explanation.
-There are also <strong>class decorators</strong>: functions which accept classes and return classes.
-And there are also <strong>decorators which are implemented using classes</strong>: classes which accept functions and return objects.</p>
-
-<p>A better explanation of the term decorators might be &ldquo;callables which accept callables and return callables&rdquo; (still not entirely accurate, but good enough for our purposes).</p>
-
-<p>Python&rsquo;s <a href="https://docs.python.org/3/library/functions.html#property">property</a> decorator seems like a function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Circle</span><span class="p">:</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
-</span><span class='line'><span class="gp">... </span>    <span class="nd">@property</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">def</span> <span class="nf">diameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">*</span> <span class="mi">2</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circle</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">diameter</span>
-</span><span class='line'><span class="go">10</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But it&rsquo;s a class:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">property</span>
-</span><span class='line'><span class="go">&lt;class &#39;property&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>classmethod</code> and <code>staticmethod</code> decorators are <em>also</em> classes:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">classmethod</span>
-</span><span class='line'><span class="go">&lt;class &#39;classmethod&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">staticmethod</span>
-</span><span class='line'><span class="go">&lt;class &#39;staticmethod&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What about context managers, like <a href="https://docs.python.org/3.5/library/contextlib.html#contextlib.suppress">suppress</a> and <a href="https://docs.python.org/3/library/contextlib.html#contextlib.redirect_stdout">redirect_stdout</a> from the <code>contextlib</code> module?
-These both use the <a href="https://en.wikipedia.org/wiki/Snake_case">snake_case</a> naming convention, so they seem like functions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><span class='line'><span class="gp">... </span>    <span class="nb">int</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">StringIO</span><span class="p">())</span> <span class="k">as</span> <span class="n">fake_stdout</span><span class="p">:</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="s">&#39;hello!&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fake_stdout</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
-</span><span class='line'><span class="go">&#39;hello!\n&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But they&rsquo;re actually <strong>implemented using classes</strong>, despite the <code>snake_case</code> naming convention:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">suppress</span>
-</span><span class='line'><span class="go">&lt;class &#39;contextlib.suppress&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">redirect_stdout</span>
-</span><span class='line'><span class="go">&lt;class &#39;contextlib.redirect_stdout&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Decorators and context managers are just two places in Python where you&rsquo;ll often see callables which look like functions but aren&rsquo;t.
-Whether a <strong>callable</strong> is a class or a function is often <strong>just an implementation detail</strong>.</p>
-
-<p>It&rsquo;s not really a mistake to refer to <code>property</code> or <code>redirect_stdout</code> as functions because <strong>they may as well be functions</strong>.
-We can <strong>call</strong> them, and that&rsquo;s what we care about.</p>
-
-<h2>Callable objects</h2>
-
-<p>Python&rsquo;s &ldquo;call&rdquo; syntax, those <code>(...)</code> parenthesis, can <strong>create a class instance</strong> or <strong>call a function</strong>.
-But this &ldquo;call&rdquo; syntax can <strong>also be used to call an object</strong>.</p>
-
-<p>Technically, everything in Python &ldquo;is an object&rdquo;:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="nb">object</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But we often use the term &ldquo;object&rdquo; to imply that we&rsquo;re working with an instance of a class (by <em>instance of a class</em> I mean &ldquo;the thing you get back when you call a class&rdquo;).</p>
-
-<p>There&rsquo;s a <a href="https://docs.python.org/3.5/library/functools.html#functools.partial">partial</a> function which lives in the <code>functools</code> module, which can &ldquo;partially evaluate&rdquo; a function by storing arguments to be used when calling the function later.
-This is often used to make Python look a bit more like a functional programming language:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">just_numbers</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="nb">str</span><span class="o">.</span><span class="n">isdigit</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">just_numbers</span><span class="p">([</span><span class="s">&#39;4&#39;</span><span class="p">,</span> <span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;50&#39;</span><span class="p">]))</span>
-</span><span class='line'><span class="go">[&#39;4&#39;, &#39;50&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I said above that Python has &ldquo;a <code>partial</code> function&rdquo;, which is both true and false.</p>
-
-<p>While the phrase &ldquo;a <code>partial</code> function&rdquo; makes sense, the <code>partial</code> callable <strong>isn&rsquo;t implemented using a function</strong>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">partial</span>
-</span><span class='line'><span class="go">&lt;class &#39;__main__.partial&#39;&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The Python core developers <em>could</em> have implemented <code>partial</code> as a function, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return &quot;partially evaluated&quot; version of given function/arguments.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">all_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">all_kwargs</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">wrapper</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But instead they chose to use a class, doing something more like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">partial</span><span class="p">:</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return &quot;partially evaluated&quot; version of given function/arguments.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">all_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">more_kwargs</span><span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">more_args</span><span class="p">,</span> <span class="o">**</span><span class="n">all_kwargs</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That <code>__call__</code> method allows us to <em>call</em> <code>partial</code> objects.
-So the <code>partial</code> class makes a <strong>callable object</strong>.</p>
-
-<p>Adding a <code>__call__</code> method to any class will <strong>make instances of that class callable</strong>.
-In fact, checking for a <code>__call__</code> method is one way to ask the question &ldquo;is this object callable?&rdquo;</p>
-
-<p>All functions, classes, and callable objects have a <code>__call__</code> method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">open</span><span class="p">,</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">hasattr</span><span class="p">({},</span> <span class="s">&#39;__call__&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Though a better way to check for callability than looking for a <code>__call__</code> is to use the built-in <code>callable</code> function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</span><span class='line'><span class="go">True</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">([])</span>
-</span><span class='line'><span class="go">False</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Python, classes, functions, and instances of classes can all be used as &ldquo;callables&rdquo;.</p>
-
-<h2>The distinction between functions and classes often doesn&rsquo;t matter</h2>
-
-<p>The Python documentation has a page called <a href="https://docs.python.org/3/library/functions.html#built-in-funcs">Built-in Functions</a>.
-But this Built-in Functions page <strong>isn&rsquo;t actually for built-in functions</strong>: it&rsquo;s for built-in callables.</p>
-
-<p>Of the 69 &ldquo;built-in functions&rdquo; listed in the Python Built-In Functions page, <strong>only 42 are actually implemented as functions</strong>: 26 are classes and 1 (<code>help</code>) is an instance of a callable class.</p>
-
-<p>Of the 26 classes among those built-in &ldquo;functions&rdquo;, four <em>were</em> actually functions in Python 2 (the now-lazy <code>map</code>, <code>filter</code>, <code>range</code>, and <code>zip</code>) but have since become classes.</p>
-
-<p>The Python built-ins and the standard library are both full of maybe-functions-maybe-classes.</p>
-
-<h3>operator.itemgetter</h3>
-
-<p>The <code>operator</code> module has lots of callables:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">getitem</span><span class="p">,</span> <span class="n">itemgetter</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</span><span class='line'><span class="go">(1, 2)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">getitem</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">),</span> <span class="n">getitem</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="go">(1, 2)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Some of these callables (like <a href="https://docs.python.org/3.5/library/operator.html#operator.itemgetter">itemgetter</a> are <em>callable classes</em>) while others (like <code>getitem</code>) are functions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">itemgetter</span>
-</span><span class='line'><span class="go">&lt;class &#39;operator.itemgetter&#39;&gt;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">get_a_and_b</span>
-</span><span class='line'><span class="go">operator.itemgetter(&#39;a&#39;, &#39;b&#39;)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">getitem</span>
-</span><span class='line'><span class="go">&lt;built-in function getitem&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>itemgetter</code> class <em>could</em> have been implemented as &ldquo;a function that returns a function&rdquo;.
-Instead it&rsquo;s a class which implements a <code>__call__</code> method, so its class instances are callable.</p>
-
-<h3>Iterators</h3>
-
-<p>Generator functions are functions which return iterators when called (<a href="https://youtu.be/V2PkkMS2Ack?t=858">generators are iterators</a>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Generator that counts upward forever.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">yield</span> <span class="n">n</span>
-</span><span class='line'>        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator classes</a> are classes which return iterators when called:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">count</span><span class="p">:</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Iterator that counts upward forever.&quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="bp">self</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">n</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Iterators can be defined using functions or using classes: whichever you choose is an implementation detail.</p>
-
-<h3>The sorted &ldquo;key function&rdquo;</h3>
-
-<p>The built-in <a href="https://docs.python.org/3.5/library/functions.html#sorted">sorted</a> function has an optional <code>key</code> argument, which is called to get &ldquo;comparison keys&rdquo; for sorting (<code>min</code> and <code>max</code> have a similar <code>key</code> argument).</p>
-
-<p>This <code>key</code> argument can be a function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">digit_count</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
-</span><span class='line'><span class="gp">...</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;400&#39;</span><span class="p">,</span> <span class="s">&#39;2_020&#39;</span><span class="p">,</span> <span class="s">&#39;800_000&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">digit_count</span><span class="p">)</span>
-</span><span class='line'><span class="go">[&#39;400&#39;, &#39;2_020&#39;, &#39;800_000&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But it can also be a class:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;400&#39;</span><span class="p">,</span> <span class="s">&#39;2_020&#39;</span><span class="p">,</span> <span class="s">&#39;800_000&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-</span><span class='line'><span class="go">[&#39;400&#39;, &#39;2_020&#39;, &#39;800_000&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The Python documentation says &ldquo;key specifies a function of one argument&hellip;&rdquo;.
-That&rsquo;s not <em>technically</em> correct because key can be any callable, not just a function.
-But <strong>we often use the words &ldquo;function&rdquo; and &ldquo;callable&rdquo; interchangeably</strong> in Python, and that&rsquo;s okay.</p>
-
-<h3>The defaultdict &ldquo;factory function&rdquo;</h3>
-
-<p>The <a href="https://docs.python.org/3/library/collections.html#collections.defaultdict">defaultdict</a> class in the <code>collections</code> module accepts a &ldquo;factory&rdquo; callable, which is used to generate default values for missing dictionary items.</p>
-
-<p>Usually we use a class as a <code>defaultdict</code> factory:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">counts</span><span class="p">[</span><span class="s">&#39;snakes&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">0</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span><span class="p">[</span><span class="s">&#39;newer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;Python 3&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">things</span><span class="p">[</span><span class="s">&#39;newer&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">[&#39;Python 3&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But <code>defaultdict</code> can also accept a function (or any other callable):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;green&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">colors</span><span class="p">))</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span><span class="p">[</span><span class="s">&#39;Kevin&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">&#39;yellow&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">favorite_colors</span><span class="p">[</span><span class="s">&#39;Stacy&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">&#39;green&#39;</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span><span class="p">[</span><span class="s">&#39;having fun&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">0.6714530824158086</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span><span class="p">[</span><span class="s">&#39;seeing a snake&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="go">0.07703364911089605</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty much anywhere a &ldquo;callable&rdquo; is accepted in Python, a function, a class, or some other callable object will work just fine.</p>
-
-<h2>Think in terms of &ldquo;callables&rdquo; not &ldquo;classes&rdquo; or &ldquo;functions&rdquo;</h2>
-
-<p>In the <a href="https://www.pythonmorsels.com/">Python Morsels</a> exercises I send out every week, I often ask learners to make a &ldquo;callable&rdquo;.
-Often I&rsquo;ll say something like &ldquo;this week I&rsquo;d like you to make a callable which returns an iterator&hellip;&rdquo;.</p>
-
-<p>I say &ldquo;callable&rdquo; because I want <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">an iterator</a> back, but I really don&rsquo;t care whether the callable created is a <strong>generator function</strong>, an <strong>iterator class</strong>, or a <strong>function that returns a generator expression</strong>.
-All of these things are <em>callables</em> which return the right type that I&rsquo;m testing for (an iterator).
-It&rsquo;s up to you, the implementor of this callable, to determine how you&rsquo;d like to define it.</p>
-
-<p>We practice <strong>duck typing</strong> in Python: <strong>if it looks like a duck and quacks like a duck, it&rsquo;s a duck</strong>.
-Because of duck typing we tend to use general terms to describe specific things: lists are sequences, iterators are generators, dictionaries are mappings, and functions are callables.</p>
-
-<p>If something looks like a callable and quacks (or rather, calls) like a callable, it&rsquo;s a callable.
-Likewise, if something looks like a function and quacks (calls) like a function, we can call it a function&hellip; <strong>even if it&rsquo;s actually implemented using a class or a callable object</strong>!</p>
-
-<p>Callables accept arguments and return something useful to the caller.
-When we <em>call</em> classes we get instances of that class back.
-When we <em>call</em> functions we get the return value of that function back.
-The distinction between a class and a function is <strong>rarely important from the perspective of the caller</strong>.</p>
-
-<p>When talking about passing functions or class objects around, try to think in terms of <em>callables</em>.
-<strong>What happens when you call something</strong> is often more important than <strong>what that thing actually is</strong>.</p>
-
-<p>More importantly though, if someone mislabels a function as a class or a class as a function, <strong>don&rsquo;t correct them unless the distinction is actually relevant</strong>.
-A function is a callable and a class is a callable: the distinction between these two can often be disregarded.</p>
-
-<h2>Want some practice with callables?</h2>
-
-<p>You don&rsquo;t learn by putting more information into your head.
-You learn through recall, that is trying to retrieve information for your head.</p>
-
-<p>If you&rsquo;d like to get some practice with the <code>__call__</code> method, if you&rsquo;d like to make your own iterable/iterator-returning callables, or if you just want to practice working with &ldquo;callables&rdquo;, I have a Python Morsels exercise for you.</p>
-
-<p>Python Morsels is a weekly Python skill-building service.
-I send one exercise every week and the first 3 are free.</p>
-
-<p>If you sign up for Python Morsels using the below form, I&rsquo;ll send you one callable-related exercise of your choosing (choose using the selection below).</p>
-
-<h4>Which Python exercise would you like right now?</h4>
-
-<form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
-    <label><input type="radio" name="exercise_track" value="callables1"> Novice exercise with a bonus involving callables</label>
-    <br>
-    <label><input type="radio" name="exercise_track" value="callables2"> Making a callable which returns an iterable</label>
-    <br>
-    <label><input type="radio" name="exercise_track" value="callables3"> Making an iterator-returning callable</label>
-    <br>
-    <label><input type="radio" name="exercise_track" value="callables4">Advanced exercise with bonuses showing the downside of `__call__`</label>
-    <br>
-    <br>
-    <input type="hidden" name="form_id" value="callables">
-    <input type="email" name="email" placeholder="Your email address" class="subscribe-email form-big" required>
-    <button type="submit" class="subscribe-btn form-big">Get my Python Morsels exercise</button>
-    <br>
-    <small>
-    I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
-    This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
-    </small>
-</form>
-
-
-
 ]]></content>
   </entry>
   

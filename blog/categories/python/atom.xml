@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-05-30T12:09:40-07:00</updated>
+  <updated>2024-06-08T14:30:41-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,325 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A beautiful Python monstrosity]]></title>
+    <link href="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/"/>
+    <updated>2024-06-08T14:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/06/a-beautiful-python-monstrosity</id>
+    <content type="html"><![CDATA[<p>Creating performance tests for <a href="https://www.pythonmorsels.com">Python Morsels</a> exercises is a frequent annoyance</p>
+
+<p>I loathe writing automated tests for performance-related exercises because they&rsquo;re <em>always</em> flaky.
+How flaky depends on the exercise, what I&rsquo;m testing, and the time variability inherent in the particular Python features that a learner might use.</p>
+
+<p>I came up with a solution for flaky tests recently, but it also makes my tests less readable.
+I then came up with a tool to improve the readability, but that has its own trade-offs.</p>
+
+<p>The code I eventually came up with is a <strong>beautiful Python monstrosity</strong>.</p>
+
+<pre><code class="python">    @attempt_n_times(10)
+    def _():
+        nonlocal micro_time, tiny_time
+        micro_time = time(micro_numbers)
+        tiny_time = time(tiny_numbers)
+        self.assertLess(tiny_time, micro_time*n)
+</code></pre>
+
+<p>I&rsquo;ll explain what that code does, but first let&rsquo;s talk about why it&rsquo;s needed.</p>
+
+<h2>The flaky performance tests</h2>
+
+<p>My flaky performance tests initially looked like this:</p>
+
+<pre><code class="python">def test_some_test(self):
+    n, m = 2.45, 2.04
+
+    micro_time = time(micro_numbers)
+    tiny_time = time(tiny_numbers)
+    self.assertLess(tiny_time, micro_time*n)
+
+    small_time = time(small_numbers)
+    self.assertLess(small_time, tiny_time*n)
+    self.assertLess(small_time, micro_time*n*m)
+
+    medium_time = time(medium_numbers)
+    self.assertLess(medium_time, micro_time*n*m*m)
+    self.assertLess(medium_time, tiny_time*n*m)
+    self.assertLess(medium_time, small_time*n)
+</code></pre>
+
+<p>The first block runs a performance test for the user&rsquo;s function on a very small list and on a slightly larger list and then asserting that the slightly larger list didn&rsquo;t take <em>too</em> much longer to run.
+The next two blocks run the same code on even larger lists and make further assertions about the relative times that the code took to run.</p>
+
+<p>This roughly approximates the <a href="https://www.pythonmorsels.com/time-complexities/">time complexity</a> of this code.</p>
+
+<h2>Running performance checks in a loop</h2>
+
+<p>These performance checks need to:</p>
+
+<ol>
+<li>Predictably fail for inefficient solutions</li>
+<li>Predictably pass for efficient solutions</li>
+<li>Run <em>fast</em> (within just a few seconds) even when the code is inefficient</li>
+<li>Avoid the use of <code>threading</code> because they&rsquo;ll be running on WebAssembly in the browser</li>
+<li>Run consistently on pretty much any computer</li>
+</ol>
+
+
+<p>These 5 requirements together have caused me countless headaches.
+I get the tests passing well, but they don&rsquo;t always fail when they should.
+I get the tests failing and passing when they should, but then they&rsquo;re too slow.
+And so on&hellip;</p>
+
+<p>Notice the <code>n</code> and <code>m</code> factors in the above assertions:</p>
+
+<pre><code class="python">    self.assertLess(small_time, micro_time*n*m)
+</code></pre>
+
+<p>If <code>n</code> and <code>m</code> are too big, we&rsquo;ll get false positives (tests passing when they should fail).
+If <code>n</code> and <code>m</code> are too small, we&rsquo;ll get false negatives (tests failing when they should pass).</p>
+
+<p>To avoid both <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I and Type II errors</a>, I decided to keep <code>n</code> and <code>m</code> small but attempt the assertion block multiple times.</p>
+
+<p>Here&rsquo;s the (far less flaky) revised code:</p>
+
+<pre><code class="python">def test_some_test(self):
+    n, m = 2.45, 2.04
+
+    for attempts_left in reversed(range(10)):
+        try:
+            micro_time = time(micro_numbers)
+            tiny_time = time(tiny_numbers)
+            self.assertLess(tiny_time, micro_time*n)
+            break
+        except AssertionError:
+            if attempts_left == 0:
+                raise
+
+    for attempts_left in reversed(range(5)):
+        try:
+            small_time = time(small_numbers)
+            self.assertLess(small_time, tiny_time*n)
+            self.assertLess(small_time, micro_time*n*m)
+            break
+        except AssertionError:
+            if attempts_left == 0:
+                raise
+
+for attempts_left in reversed(range(3)):
+    try:
+        medium_time = time(medium_numbers)
+        self.assertLess(medium_time, micro_time*n*m*m)
+        self.assertLess(medium_time, tiny_time*n*m)
+        self.assertLess(medium_time, small_time*n)
+        break
+    except AssertionError:
+        if attempts_left == 0:
+            raise
+</code></pre>
+
+<p>The <code>for</code> loop runs the code multiple times, the <code>break</code> statement stops the code as soon as the assertions all pass, and the <code>except</code> and <code>if</code> ensure that any assertion errors are suppressed until/unless we&rsquo;re on the final iteration of the loop.</p>
+
+<p>Let&rsquo;s call this a <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.
+It&rsquo;s an absurdly verbose name fitting of absurdly verbose code.</p>
+
+<p>This <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern works pretty well!
+But it&rsquo;s not pretty.</p>
+
+<p>Like many programmers, I believe that <strong>Don&rsquo;t Repeat Yourself</strong> (<a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>) need not apply to tests.
+Tests are <em>allowed</em> to be repetitive if <a href="https://stackoverflow.com/questions/6453235/what-does-damp-not-dry-mean-when-talking-about-unit-tests">the verbosity improves readability</a>.</p>
+
+<p>But there is <em>so much noise</em> in that code!
+I decided that removing some noise might improve readability.
+So I devised a helper utility to reduce the repetition.</p>
+
+<h2>In search of a solution</h2>
+
+<p>While pondering the repetitive noise in this code, I wondered what Python features I could use to abstract away this <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.</p>
+
+<p>Could I make a context manager and use a <code>with</code> block?
+That might help with the <code>try</code>-<code>except</code>, but context managers can&rsquo;t run their code block multiple times, so that wouldn&rsquo;t help with the <code>for</code> and the <code>break</code>.
+So a context manager is out.</p>
+
+<p>Could I abstract this away into a looping helper by implementing a generator function?
+We <em>are</em> looping and generator functions <em>can</em> <code>break</code> early.
+But, a generator function can&rsquo;t catch an exception that&rsquo;s raised within the <em>body</em> of a loop.
+So a generator function wouldn&rsquo;t work either.</p>
+
+<p>What about a decorator? 🤔</p>
+
+<p>Context managers and decorators both sandwich a block of code.
+But decorators sandwich functions and they have the power to run the same function <em>repeatedly</em>.
+A decorator might work!</p>
+
+<p>Here&rsquo;s a decorator that will run a given function up to 10 times (until no <code>AssertionError</code> is raised):</p>
+
+<pre><code class="python">def try_10_times(function):
+    def wrapper():
+        for attempts_left in reversed(range(10)):
+            try:
+                return function()
+            except AssertionError:
+                if attempts_left == 0:
+                    raise
+    return wrapper
+</code></pre>
+
+<p>To use this decorator, we would need to define a function and then call that function:</p>
+
+<pre><code class="python">@try_10_times
+def assertions():
+    micro_time = time(micro_numbers)
+    tiny_time = time(tiny_numbers)
+    self.assertLess(tiny_time, micro_time*n)
+
+assertions()
+</code></pre>
+
+<p>This isn&rsquo;t <em>quite</em> good enough though&hellip;</p>
+
+<ol>
+<li>We need a pattern to run code N times (not necessarily exactly 10)</li>
+<li>We reference the variables defined in each block in later blocks, so <code>micro_time</code> and <code>tiny_time</code> will need to be available <em>outside</em> that function</li>
+<li>We need this function to run just one time right after it&rsquo;s defined&hellip; could we do that automatically?</li>
+</ol>
+
+
+<p>All 3 of these problems are solvable:</p>
+
+<ol>
+<li>We need a decorator that accepts arguments</li>
+<li>We need to use <em>rarely seen</em> <a href="https://stackoverflow.com/a/1261961/98187"><code>nonlocal</code></a> statement</li>
+<li>We could have the decorator automatically call the decorated function</li>
+</ol>
+
+
+<h2>The final <em>weird</em> decorator</h2>
+
+<p>Here&rsquo;s the decorator I ended up with:</p>
+
+<pre><code class="python">def attempt_n_times(n):
+    """
+    Run tests multiple times if assertions are raised.
+
+    Allows for more forgiving tests when assertions may be a bit flaky.
+    """
+    def decorator(function):
+        """This looks like a decorator, but it actually runs the function!"""
+        for attempts_left in reversed(range(n)):
+            try:
+                return function()
+            except AssertionError:
+                if attempts_left == 0:
+                    raise
+    return decorator
+</code></pre>
+
+<p>This decorator accepts an <code>n</code> argument which determines the maximum number of times the decorated function should be called.
+The decorator then <em>calls</em> the function repeatedly in a <code>for</code> loop and a <code>try</code>-<code>except</code> block.
+As soon as an <code>AssertionError</code> is <em>not</em> raised during one of these function calls, the looping stops.</p>
+
+<p>The <em>weirdest</em> part about this decorator is that it calls the decorated function.
+Note that the <code>decorator</code> function doesn&rsquo;t define a <code>wrapper</code> function within itself&hellip; it just runs code right away!</p>
+
+<h2>The resulting beautiful Python monstrosity</h2>
+
+<p>Here&rsquo;s the final refactored test code:</p>
+
+<pre><code class="python">def test_some_test(self):
+    n, m = 2.45, 2.04
+    micro_time = tiny_time = small_time = medium_time = 0
+
+    @attempt_n_times(10)
+    def _():
+        nonlocal micro_time, tiny_time
+        micro_time = time(micro_numbers)
+        tiny_time = time(tiny_numbers)
+        self.assertLess(tiny_time, micro_time*n)
+
+    @attempt_n_times(5)
+    def _():
+        nonlocal small_time
+        small_time = time(small_numbers)
+        self.assertLess(small_time, tiny_time*n)
+        self.assertLess(small_time, micro_time*n*m)
+
+    @attempt_n_times(3)
+    def _():
+        nonlocal medium_time
+        medium_time = time(medium_numbers)
+        self.assertLess(medium_time, micro_time*n*m*m)
+        self.assertLess(medium_time, tiny_time*n*m)
+        self.assertLess(medium_time, small_time*n)
+</code></pre>
+
+<p>The <code>attempt_n_times</code> decorator <strong>immediately calls the function it decorates</strong>.
+Each function is defined and immediately called one or more times, in a <code>try</code>-<code>except</code> block within a loop.</p>
+
+<p>That&rsquo;s why we&rsquo;ve named these functions with the <a href="https://stackoverflow.com/questions/36315309/how-does-python-throw-away-variable-work">throwaway</a> <code>_</code> name: <strong>we don&rsquo;t care about the name of a function we&rsquo;re never going to refer to again</strong>.</p>
+
+<p>Also note the use of the <code>nonlocal</code> statement.
+Each function in Python has its own scope and all assignments <a href="https://www.pythonmorsels.com/local-and-global-variables/#assigning-to-local-and-global-variables">assign to the local scope</a> by default.
+That <code>nonlocal</code> variable pulls those variables to the scope of the outer function instead.</p>
+
+<p>Compare the above code to the code just before this refactor:</p>
+
+<pre><code class="python">def test_some_test(self):
+    n, m = 2.45, 2.04
+
+    for attempts_left in reversed(range(10)):
+        try:
+            micro_time = time(micro_numbers)
+            tiny_time = time(tiny_numbers)
+            self.assertLess(tiny_time, micro_time*n)
+            break
+        except AssertionError:
+            if attempts_left == 0:
+                raise
+
+    for attempts_left in reversed(range(5)):
+        try:
+            small_time = time(small_numbers)
+            self.assertLess(small_time, tiny_time*n)
+            self.assertLess(small_time, micro_time*n*m)
+            break
+        except AssertionError:
+            if attempts_left == 0:
+                raise
+
+    for attempts_left in reversed(range(3)):
+        try:
+            medium_time = time(medium_numbers)
+            self.assertLess(medium_time, micro_time*n*m*m)
+            self.assertLess(medium_time, tiny_time*n*m)
+            self.assertLess(medium_time, small_time*n)
+            break
+        except AssertionError:
+            if attempts_left == 0:
+                raise
+</code></pre>
+
+<p>I find the refactored version easier to skim.</p>
+
+<p>But that <code>attempt_n_times</code> decorator <em>does</em> abuse the decorator syntax.
+Decorators aren&rsquo;t <em>meant</em> to call the function they&rsquo;re decorating.</p>
+
+<p>Is this misuse of decorators worth it?</p>
+
+<h2>Is this worth it?</h2>
+
+<p>Decorators aren&rsquo;t supposed to immediately call the function they decorate.
+But there&rsquo;s nothing stopping them from doing so.
+I feel that I&rsquo;ve traded &ldquo;normal code&rdquo; for a beautiful monstrosity that&rsquo;s easier to skim at a glance.</p>
+
+<p>The <code>attempt_n_times</code> decorator is pretending that it&rsquo;s a block-level tool by using a function because there&rsquo;s no other way to invent such a tool in Python.</p>
+
+<p>I think abstracting away the <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern was worth it, even though I ended up abusing Python&rsquo;s decorator syntax in the process.</p>
+
+<p>What do you think?
+Was that <code>attempt_n_times</code> abstraction worth it?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PyCon 2024 Reflection]]></title>
@@ -454,78 +773,6 @@ See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-p
 
 <p>Remember that we&rsquo;re all just people though.
 Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2023)]]></title>
-    <link href="https://treyhunner.com/2023/11/python-black-friday-and-cyber-monday-sales-2023/"/>
-    <updated>2023-11-20T08:00:00-08:00</updated>
-    <id>https://treyhunner.com/2023/11/python-black-friday-and-cyber-monday-sales-2023</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s time for my annual compilation post of <strong>Python learning deals</strong>.
-I&rsquo;ve been compiling Python-related Black Friday &amp; Cyber Monday sales <a href="https://treyhunner.com/blog/categories/sales/">since 2018</a> and 2023&rsquo;s Python-related sales are coming up.</p>
-
-<h2>Lifetime Python Morsels access for the price of two years</h2>
-
-<p>I&rsquo;m kicking things off with <a href="https://www.pythonmorsels.com/lifetime-access-sale/">my sale</a> on Python Morsels.
-Python Morsels helps developers <strong>deepen their Python skills</strong> in a way that day-to-day coding simply can&rsquo;t.</p>
-
-<p>Python Morsels is designed for:</p>
-
-<ul>
-<li>experienced developers frustrated with gaps in their Python knowledge</li>
-<li>self-taught programmers seeking courage and confidence in their Python abilities</li>
-<li>experienced Python developers hoping to dive even deeper</li>
-</ul>
-
-
-<p>If you saw yourself in that list and you plan to use Python heavily for at least a few more years, I highly recommend checking out <a href="https://www.pythonmorsels.com/lifetime-access-sale/">the Python Morsels sale</a>.</p>
-
-<p>From now through November 27, you can get <strong>lifetime access</strong> to Python Morsels for a one-time fee.
-Python Morsels usually costs <strong>$240/year</strong> but lifetime access is <strong>only $480</strong>.
-This is the best sale I&rsquo;ve ever offered on Python Morsels and I&rsquo;m guessing this might be the best Python-related deal this year.</p>
-
-<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">💰 See the Python Morsels sale</a></p>
-
-<h2>On sale now</h2>
-
-<p>Here are Python-related sales that are live right now:</p>
-
-<ul>
-<li><strong><a href="https://www.pythonmorsels.com/lifetime-access-sale/">Python Morsels</a></strong>: lifetime access to my Python skill-building platform for the price of 2 years</li>
-<li><strong><a href="https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK23">O'Reilly Media</a></strong>: the first year is $200 off with the coupon <code>CYBERWEEK23</code> ($299 instead of $499)</li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: 50% off 5 of their courses</li>
-<li><strong><a href="https://courses.dataschool.io/black-friday">Data School</a></strong>: 40% off all Kevin Markham&rsquo;s courses</li>
-<li><strong><a href="https://courses.pythontest.com/p/complete-pytest-course?code=BLACKFRIDAY">Brian Okken</a></strong>: 50% off pytest course and community access with coupon code <code>BLACKFRIDAY</code> (ends Nov 30)</li>
-<li><strong><a href="https://lernerpython.com/bfcm-2023/">Reuven Lerner</a></strong>: 40% off Reuven&rsquo;s courses and 25% off a new membership he&rsquo;s launching</li>
-<li><strong><a href="https://www.linkedin.com/feed/update/urn:li:activity:7133217889460883456/">Matt Harrison</a></strong>: 20% off Matt&rsquo;s corporate training</li>
-<li><strong><a href="https://learnbyexample.gumroad.com">Sundeep Agarwal</a></strong>: around 70% off Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all book</a> and <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Python</a> and his <a href="https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer">regex</a> book is free</li>
-<li><strong><a href="https://www.blog.pythonlibrary.org">Mike Driscoll</a></strong>: 33% off Mike&rsquo;s Python <a href="https://driscollis.gumroad.com/">books</a> and <a href="https://www.teachmepython.com/">courses</a> with code <code>black2023</code></li>
-<li><strong><a href="https://thepythoncodingplace.com/membership/">Stephen Gruppetta</a></strong>: 70% off pre-sale on his new Python membership ($95 instead of $395)</li>
-<li><strong><a href="https://mathspp.gumroad.com/">Rodrigo</a></strong>: 40% discount on Rodrigo&rsquo;s upcoming <a href="https://mathspp.gumroad.com/l/pythonbootcamp?code=bootcampbf23">bootcamp</a> and on his <a href="https://mathspp.gumroad.com/l/comprehending-comprehensions?code=presale">comprehensions course</a></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: 35% off with code <code>DEALS4DAYS</code> (Crash Course, Automate The Boring Stuff, etc.)</li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: 40% off <a href="https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/">the pytest book</a> and all other books with code <code>turkeycode2023</code></li>
-<li><strong><a href="https://www.manning.com/catalog#section-50">Manning</a></strong> 50% off eBooks, 40% off print books</li>
-<li><strong><a href="https://udemy.com">Udemy</a></strong>: various <a href="https://www.udemy.com/topic/python/">Python courses</a> are on sale right now</li>
-</ul>
-
-
-<p>If you know of another sale (or a likely sale) <strong>please comment below</strong>.</p>
-
-<h2>Django sales</h2>
-
-<p>Adam Johnson is also compiling many <strong>Django-related Black Friday and Cyber Monday sales</strong> via a <a href="https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/">Django sales post</a>.</p>
-
-<h2>More developer-oriented deals</h2>
-
-<p>For even more Black Friday deals for software developers, see <a href="https://blackfridaydeals.dev">BlackFridayDeals.dev</a>, which I believe launched this year.</p>
-
-<h2>Go get yourself some deals!</h2>
-
-<p>Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)
-And if you have questions about the <a href="https://www.pythonmorsels.com/lifetime-access-sale/"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
-
-<p>Happy Python-ing!</p>
 ]]></content>
   </entry>
   
