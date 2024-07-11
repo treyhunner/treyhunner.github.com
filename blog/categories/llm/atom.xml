@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: llm | Trey Hunner]]></title>
+  <link href="https://treyhunner.com/blog/categories/llm/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2024-07-11T08:54:02-07:00</updated>
+  <id>https://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GPT and Claude from your URL bar]]></title>
+    <link href="https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/"/>
+    <updated>2024-07-11T09:00:00-07:00</updated>
+    <id>https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been playing with using <a href="https://kagi.com">Kagi</a> and <a href="https://www.perplexity.ai">Perplexity</a> as my browser&rsquo;s default search engine recently.</p>
+
+<p>Currently I have Kagi setup as my default search engine and I added a <a href="https://help.kagi.com/kagi/features/bangs.html#custom-bangs">custom bang</a> command in my Kagi account so that <strong>!x</strong> will trigger a search with Perplexity.</p>
+
+<p>This got me thinking&hellip; could I trigger a new <a href="https://chatgpt.com">Chat GPT</a> or <a href="https://claude.ai">Claude</a> chat from my browser&rsquo;s URL bar?</p>
+
+<h2>How browsers query search engines</h2>
+
+<p>Whether you&rsquo;re using <a href="https://superuser.com/questions/1772248/how-to-add-custom-search-engine-to-chrome">Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/change-your-default-search-settings-firefox">Firefox</a>, or some other browser (I&rsquo;m trying <a href="https://vivaldi.com/blog/search-favorite-websites-quickly/">Vivaldi</a>) you can add custom search engines to your browser.</p>
+
+<p>Custom search engines use a template URL that looks something like this:</p>
+
+<p><code>https://duckduckgo.com/?q=%s</code></p>
+
+<p>Note that this URL is a <em>template</em> because of that <code>%s</code>.
+That <code>%s</code> bit will be replaced by the actual query you search for.</p>
+
+<p>So if Chat GPT and Claude have URLs that allow creating a new chat via a URL&rsquo;s query string (the thing after the <code>?</code>), then they could be used as search engines.</p>
+
+<p>And it turns out&hellip; they do!</p>
+
+<h2>Querying Chat GPT via a URL</h2>
+
+<p>To query Chat GPT via a URL query string, use:</p>
+
+<p><code>https://chatgpt.com/?q=%s</code></p>
+
+<p>Set that URL as a custom &ldquo;search engine&rdquo; in your browser.
+Then whenever you&rsquo;d like to start a new Chat GPT conversation, select your browser&rsquo;s URL bar, type the search engine prefix followed by a space, type your query, and hit Enter!</p>
+
+<h2>Querying Claude via a URL</h2>
+
+<p>To query Claude via a URL query string, use:</p>
+
+<p><code>https://claude.ai/new?q=%s</code></p>
+
+<p>It works the same way as the Chat GPT URL.</p>
+
+<h2>Querying Perplexity via a URL</h2>
+
+<p>This may be a bit redundant, as you may have thought to use Perplexity can be used as a &ldquo;search engine&rdquo; in your browser, but here&rsquo;s the URL in case you&rsquo;re looking for it:</p>
+
+<p><code>https://www.perplexity.ai/search?q=%s</code></p>
+
+<h2>Kagi bangs</h2>
+
+<p>If you&rsquo;re a <a href="https://kagi.com">Kagi</a> user, you can setup each of these as a custom bang.</p>
+
+<p><strong>Chat GPT</strong></p>
+
+<p><img src="/images/kagi-chatgpt-bang.png" title="Screenshot of Chat GPT bang settings for Chat GPT" ></p>
+
+<p><strong>Claude</strong></p>
+
+<p><img src="/images/kagi-claude-bang.png" title="Screenshot of Chat GPT bang settings for Claude" ></p>
+
+<p><strong>Perplexity</strong></p>
+
+<p><img src="/images/kagi-perplexity-bang.png" title="Screenshot of Perplexity bang settings for Kagi" ></p>
+
+<p>I&rsquo;m not sure what bangs I ultimately want to use in the long-term.
+Right now I have <strong>!x</strong> set to query Perplexity, <strong>!c</strong> set to query Chat GPT, and <strong>!l</strong> set to query Claude.</p>
+
+<p>I was considering <strong>!g</strong> for Chat <strong>G</strong>PT but that searches Google already and I was considering <strong>!c</strong> for Claude, but I had already set that to search Chat GPT, so I went with <strong>!l</strong> for C<strong>l</strong>aude&hellip; or maybe it&rsquo;s <strong>!l</strong> for <strong>L</strong>LM. 🤔</p>
+
+<h2>No Gemini &ldquo;search&rdquo; support</h2>
+
+<p>So Claude, Chat GPT, and Kagi can all initiate new conversations directly from your browser&rsquo;s URL bar using these 3 URLs:</p>
+
+<ul>
+<li><code>https://chatgpt.com/?q=%s</code></li>
+<li><code>https://claude.ai/new?q=%s</code></li>
+<li><code>https://www.perplexity.ai/search?q=%s</code></li>
+</ul>
+
+
+<p>As far as I can tell, Gemini does not support starting a conversation via a query string.
+Maybe this is related to Google embedding a similar feature <a href="https://chromeunboxed.com/chromes-url-bar-is-getting-quick-access-to-gemini-ai/">directly into Chrome</a>. 🤷</p>
+]]></content>
+  </entry>
+  
+</feed>
