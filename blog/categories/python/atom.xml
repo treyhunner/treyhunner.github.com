@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-07-11T08:54:02-07:00</updated>
+  <updated>2024-08-01T13:57:00-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why does "python -m json" not work? Why is it "json.tool"?]]></title>
+    <link href="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/"/>
+    <updated>2024-08-01T14:00:00-07:00</updated>
+    <id>https://treyhunner.com/2024/08/why-does-python-m-json-not-work</id>
+    <content type="html"><![CDATA[<p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
+
+<p>You can run <code>python -m json.tool</code> against a JSON file and Python will print a nicely formatted version of the file.</p>
+
+<pre><code class="bash">python -m json.tool example.json
+[
+    1,
+    2,
+    3,
+    4
+]
+</code></pre>
+
+<p>Why do we need to run <code>json.tool</code> instead of <code>json</code>?</p>
+
+<h2>The history of <code>python -m</code></h2>
+
+<p>Python 3.5 added the ability to run a module as a command-line script using the <code>-m</code> argument (see <a href="https://peps.python.org/pep-0338/">PEP 338</a>) which was implemented in Python 2.5.
+While that feature was being an additional feature/bug was accidentally added, alowing packages to be run with the <code>-m</code> flag as well.
+When a package was run with the <code>-m</code> flag, the package&rsquo;s <code>__init__.py</code> file would be run, with the <code>__name__</code> variable set to <code>__main__</code>.</p>
+
+<p>This accidental feature/bug was <a href="https://github.com/python/cpython/issues/47000">removed in Python 2.6</a>.</p>
+
+<p>It wasn&rsquo;t until Python 2.7 that the ability to run <code>python -m package</code> was re-added (see below).</p>
+
+<h2>The history of the <code>json</code> module</h2>
+
+<p>The <code>json</code> module was <a href="https://docs.python.org/3/whatsnew/2.6.html#the-json-module-javascript-object-notation">added in Python 2.6</a>.
+It was based on the third-party <code>simplejson</code> library.</p>
+
+<p>That library originally relied on the fact that Python packages could be run with the <code>-m</code> flag to run the package&rsquo;s <code>__init__.py</code> file with <code>__name__</code> set to <code>__main__</code> (see <a href="https://github.com/simplejson/simplejson/blob/v1.8.1/simplejson/__init__.py#L368">this code from version 1.8.1</a>).</p>
+
+<p>When <code>simplejson</code> was added to Python as the <code>json</code> module in Python 2.6, this bug/feature could no longer be relied upon as it was fixed in Python 2.6.
+To continue allowing for a nice command-line interface, it was decided that running a <code>tool</code> submodule would be the way to add a command-line interface to the <code>json</code> package (<a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">discussion here</a>).</p>
+
+<p>Python 2.7 <a href="https://docs.python.org/2.7/using/cmdline.html?highlight=__main__#cmdoption-m">added the ability to run any package as a command-line tool</a>.
+The package would simply need a <code>__main__.py</code> file within it, which Python would run as the entry point to the package.</p>
+
+<p>At this point, <code>json.tool</code> had already been added in Python 2.6 and no attempt was made (as far as I can tell) to allow <code>python -m json</code> to work instead.
+Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
+
+<h2>Could we make <code>python -m json</code> work today?</h2>
+
+<p>We could.
+We would just need to <a href="https://github.com/python/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
+To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
+
+<p>We could even go so far as to <a href="https://github.com/python/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">note that <code>json.tool</code> is deprecated</a>.</p>
+
+<p>Should we do this though? 🤔</p>
+
+<h2>Should we make <code>python -m json</code> work?</h2>
+
+<p>I don&rsquo;t know about you, but I would rather type <code>python -m json</code> than <code>python -m json.tool</code>.
+It&rsquo;s more memorable <em>and</em> easier to guess, if you&rsquo;re not someone who has memorized <a href="https://www.pythonmorsels.com/cli-tools/">all the command-line tools hiding in Python</a>.</p>
+
+<p>But would this actually be used?
+I mean, don&rsquo;t people just use the <a href="https://jqlang.github.io/jq/">jq</a> tool instead?</p>
+
+<p>Well, a <code>sqlite3</code> shell was <a href="https://docs.python.org/3/library/sqlite3.html#command-line-interface">added to Python 3.12</a> despite the fact that third-party interactive sqlite prompts are fairly common.</p>
+
+<p>It is pretty handy to have a access to a tool within an unfamiliar environment where installing yet-another-tool might pose a problem.
+Think Docker, a locked-down Windows machine, or any computer without network or with network restrictions.</p>
+
+<p>Personally, I&rsquo;d like to see <code>python3 -m json</code> work.
+I can&rsquo;t think of any big downsides.
+Can you?</p>
+
+<h2>Too long; didn&rsquo;t read</h2>
+
+<p>The &ldquo;too long didn&rsquo;t read version&rdquo;:</p>
+
+<ul>
+<li>Python 2.5 added support for the <code>-m</code> argument for <em>modules</em>, but not <em>packages</em></li>
+<li>A third-party <code>simplejson</code> app existed with a nice CLI that relied on a <code>-m</code> implementation bug allowing packages to be run using <code>-m</code></li>
+<li>Python 2.6 fixed that implementation quirk and broke the previous ability to run <code>python -m simplejson</code></li>
+<li>Python 2.6 also added the <code>json</code> module, which was based on this third-party <code>simplejson</code> package</li>
+<li>Since <code>python -m json</code> couldn&rsquo;t work anymore, the ability to run <code>python -m json.tool</code> was added</li>
+<li>Python 2.7 added official support for <code>python -m some_package</code> by running a <code>__main__</code> submodule</li>
+<li>The <code>json.tool</code> module already existed in Python 2.6 and the ability to run <code>python -m json</code> was (as far as I can tell) never seriously considered</li>
+</ul>
+
+
+<h2>All thanks to git history and issue trackers</h2>
+
+<p>I discovered this by noting <a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">the first commit</a> that added the <code>tool</code> submodule to <code>simplejson</code>, which notes the fact that this was for consistency with the new <code>json</code> standard library module.</p>
+
+<p>Thank you git history.
+And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A beautiful Python monstrosity]]></title>
@@ -640,139 +737,6 @@ They&rsquo;re mostly generated by a large language model that didn&rsquo;t give 
 <p>After this adventure, I checked my podcast feed this evening only to realize that there&rsquo;s <a href="https://mastodon.social/@ambv/112378026608575109">a new core.py episode</a> all about exactly this feature!
 If you&rsquo;d like to hear some core developers nerd out about CPython development, give core.py a listen.
 You don&rsquo;t need to understand how CPython development works to enjoy their enthusiasm. 💖</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[10 years of Python conferences]]></title>
-    <link href="https://treyhunner.com/2024/04/10-years-of-python-conferences/"/>
-    <updated>2024-04-27T11:45:00-07:00</updated>
-    <id>https://treyhunner.com/2024/04/10-years-of-python-conferences</id>
-    <content type="html"><![CDATA[<p>10 years and 10 days ago I flew home from my very first Python conference.</p>
-
-<p>I left a few days into the PyCon US 2014 sprints and I remember feeling a bit like summer camp was ending.
-I&rsquo;d played board games, contributed to an open source project, seen tons of talks, and met a <em>ton</em> of people.</p>
-
-<h2>My first Python conference: PyCon US 2014</h2>
-
-<p>PyCon 2014 was the first Python conference I attended.</p>
-
-<p>At the start of the conference I only knew a handful of San Diegans.
-I left having met many more folks.
-Some of the folks I met I knew from online forums, GitHub repos, or videos
-I met Kenneth Love, Baptiste Mispelon, Carl Meyer, Eric Holscher in-person, among many others.
-Most folks I met I had never encountered online, but I was glad to have met in person.</p>
-
-<p>For the most part, I had no idea who anyone was, what they did with Python, or what they might be interested in talking about.
-I also had no idea what most of the various non-talk activities were.
-I found out about the Education Summit and hadn&rsquo;t realized that it required pre-registration.
-The open spaces are one of my favorite parts of PyCon and I didn&rsquo;t even they existed until PyCon 2015.</p>
-
-<p>I <em>did</em> stay for a couple days of the sprints and I was grateful for that.
-Most of the memorable human connections I had were during the sprints.
-I helped <a href="https://pyvideo.org">PyVideo</a> upgrade their code base from Python 2 to Python 3 (this was before Will and Sheila <a href="https://pyvideo.org/pages/thanks-will-and-sheila.html">stepped down as maintainers</a>).
-Will guided me through the code base and seemed grateful for the help.</p>
-
-<p>I also got the idea to write front-end JavaScript tests for Django during the sprints and eventually <a href="https://github.com/django/deps/blob/main/final/0003-javascript-tests.rst">started that process</a> after PyCon thanks to Carl Meyer&rsquo;s guidance.</p>
-
-<h2>Attending regional conferences and DjangoCon</h2>
-
-<p>In fall 2014, I attended Django BarCamp at the Eventbrite office.
-That was my first exposure to the idea of an &ldquo;unconference&rdquo;&hellip; which I kept in mind when I spotted the open spaces board at PyCon 2015.</p>
-
-<p>Before coming back to Montreal for <a href="https://twitter.com/treyhunner/status/585969805796212736">PyCon 2015</a>, I emailed Harry Percival to ask if he could use a teaching assistant during his tutorial on writing tests. His reply was much more enthusiastic than I expected: &ldquo;YES YES OH GOD YES THANK YOU THANK YOU THANK YOU TREY&rdquo;.
-I was very honored to be able to help Harry, as my testing workflow was <em>heavily</em> inspired by many blog posts he&rsquo;d written about testing best practices in Django.</p>
-
-<p>I coached at my first Django Girls event in 2015 in Ensenada and then my second at <a href="https://twitter.com/algosuna/status/641421944005378048">DjangoCon 2015</a> in Austin. I gave my first lightning talk at DjangoCon 2015, comparing modern JavaScript to Python. It was a lightning talk I had given at the San Diego JavaScript and <a href="https://www.sandiegopython.org">San Diego Python</a> meetups.</p>
-
-<p>In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of of about a dozen folks who spoke at the conference. I was grateful to get to chat with so many folks whose talks I&rsquo;d attended.</p>
-
-<h2>Presenting talks and tutorials</h2>
-
-<p>I presented my first conference tutorial at <a href="https://twitter.com/treyhunner/status/737069721292439552">PyCon 2016</a> in Portland and <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">my first talk</a> at <a href="https://twitter.com/asendecka/status/756851845012844544">DjangoCon US 2016</a> in Philadelphia.
-I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.</p>
-
-<p>Having presented locally helped, but presenting on a big stage is always scary.</p>
-
-<h2>Volunteering</h2>
-
-<p>I volunteered at some of my first few conferences and found that I really enjoyed it.
-I especially enjoyed running the registration desk, as you&rsquo;re often the first helpful face that people see coming into the conference.</p>
-
-<p>During PyCon 2016, 2017, and 2018, I co-chaired the open spaces thanks to Anna Ossowski inviting me to help.
-I had first attended open spaces during PyCon 2015 and I <em>loved</em> them.
-Talks are great, but so are discussions!</p>
-
-<p>I also ran for the PSF board of directors in 2016 and ended up serving on the board for a few years before stepping down.
-After my board terms, I volunteered for the PSF Code of Conduct working group for about 6 years.
-I didn&rsquo;t even know what the PSF <em>was</em> until PyCon 2015!</p>
-
-<h2>A <em>lot</em> of travel&hellip; maybe too much</h2>
-
-<p>After DjangoCon 2016, I went a bit conference-wild.
-I attended <a href="https://twitter.com/treyhunner/status/829412120370565120">PyTennessee 2017</a>, <a href="https://twitter.com/PythonChat/status/845052805375295488">PyCaribbean 2017</a> in Puerto Rico, <a href="https://twitter.com/loooorenanicole/status/866382369619562496">PyCon US 2017</a> in Portland, <a href="https://twitter.com/asteracode/status/893274761727361024">PyCon Australia 2017</a> in Melbourne, <a href="https://twitter.com/TobiasMcNulty/status/896570680933703681">DjangoCon 2017</a> in Spokane, <a href="https://twitter.com/treyhunner/status/916890505157468160">PyGotham 2017</a> in NYC, and <a href="https://twitter.com/treyhunner/status/937441419966296064">North Bay Python 2017</a> in Petaluma.</p>
-
-<p>In 2018 I sponsored <a href="https://twitter.com/treyhunner/status/962862235734495232">PyTennessee</a> and <a href="https://twitter.com/jmwatt3/status/1023713820752183296">PyOhio</a> and spoke at both.
-I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of <a href="https://www.pythonmorsels.com">Python Morsels</a>.
-I also attended <a href="https://twitter.com/treyhunner/status/996881842820272128">PyCon 2018</a> in Cleveland, <a href="https://www.flickr.com/photos/144080672@N05/31764542868/">DjangoCon 2018</a> in San Diego, <a href="https://twitter.com/treyhunner/status/1048340952451047425">PyGotham 2018</a>, and <a href="https://twitter.com/nnja/status/1058589935618318336">North Bay Python 2018</a>.</p>
-
-<p>I slowed down <em>a bit</em> in 2019, with just <a href="https://twitter.com/LaylaSells_cshs/status/1100058649227972609">PyCascades</a> (Seattle), <a href="https://twitter.com/mariatta/status/1125534406851084288">PyCon US</a> (Cleveland), <a href="https://twitter.com/juliansequeira/status/1157106403598749698">PyCon Australia</a> (Sydney), and DjangoCon US (San Diego, which is home for me).</p>
-
-<h2>Since the pandemic</h2>
-
-<p>Since the start of the pandemic, I&rsquo;ve attended <a href="https://twitter.com/treyhunner/status/1519724687890128899">PyCon US 2022</a>, DjangoCon 2022 in San Diego (in my city for the <em>third</em> time!) and <a href="https://mastodon.social/@treyhunner/110243968672457367">PyCon US 2023</a>.
-Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.</p>
-
-<p>Between client work, I&rsquo;ve been focusing less on conferences and more on blog posts (<a href="https://www.pythonmorsels.com/articles/">over here</a>), <a href="https://www.youtube.com/@PythonMorsels">screencasts</a>, my <a href="https://www.pythonmorsels.com/newsletter/">weekly Python tips</a> emails, and (of course) on <a href="https://www.pythonmorsels.com">Python Morsels</a>.</p>
-
-<h2>My journey started locally</h2>
-
-<p>I became part of the Python community before I knew I was part of it.</p>
-
-<p>I started using Python professionally in December 2009 and I attended my first San Diego Python meetup in March 2012.
-I met the organizers, gave some lightning talks, attended Saturday study group sessions (thanks Carol Willing, Alain Domissy, and others for running these), and volunteered to help organize meetups, study groups, and workshops.</p>
-
-<p>By 2014, I had learned from folks online and in-person and I had helped out at my local Python meetup.
-I had even made a few contributions to some small Django packages I relied on heavily.</p>
-
-<p>I was encouraged to attend PyCon 2014 by others who were attending (thanks Carol, Micah, and Paul among others).
-The conference was well-worth the occasional feeling of overwhelm.</p>
-
-<h2>We&rsquo;re all just people</h2>
-
-<p>The biggest thing I&rsquo;ve repeatedly learned over the past decade of Python conferences is that we&rsquo;re all just people.</p>
-
-<p>Carol Willing keynoted PyCon US 2023.
-But I met Carol as a kind Python user in San Diego who started the first Python study group meetings in Pangea Bakery on Convoy Street.</p>
-
-<p>Jay Miller will be keynoting PyCon US 2024.
-But I met Jay as an attendee of the Python study group, who was enthusiastic about both learning and teaching others.</p>
-
-<p>My partner, Melanie Arbor, keynoted DjangoCon 2022 along with Jay Miller.
-When I met Melanie, she was new to Python and was very eager to both learn and help others.</p>
-
-<p>David Lord has made a huge impact on the maintenance of Flask and other Pallets projects.
-I met David as a Python study group attendee who was an enthusiastic StackOverflow contributor.</p>
-
-<p>I learned a ton from Brandon Rhodes, Ned Batchelder, Russell Keith-Magee, and many others from online videos, forums, and open source projects before I ever met them.
-But each of them are also just Python-loving people like the rest of us.
-Russell gives good hugs, Ned is an organizer of his local Python meetup, and Brandon wears the same brand of shoes as me.</p>
-
-<p>We all have people we&rsquo;ve learned from, we suffer from feelings of inadequacy, we get grumpy sometimes, and we care about the Python language and community in big and small ways.</p>
-
-<h2>What&rsquo;s next for you?</h2>
-
-<p>Will you attend a local meetup?
-Or will you attend an online social event?</p>
-
-<p>If so, consider asking the organize if you can present a 5 minute lightning talk at a future event.
-As I <a href="https://youtu.be/aNHBr7q-KVw?si=Fryj6Ez4Cw7q-RAq">noted in a DjangoCon 2016 lightning talk</a>, lightning talks are a great way to connect with folks.</p>
-
-<p>Will you attend a Python conference one day?
-See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> when/if you do.</p>
-
-<p>Remember that we&rsquo;re all just people though.
-Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
 ]]></content>
   </entry>
   

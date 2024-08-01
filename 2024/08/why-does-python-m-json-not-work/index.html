@@ -17,14 +17,14 @@
 
 <head>
   <meta charset="utf-8">
-  <title>GPT and Claude from your URL bar</title>
+  <title>Why does "python -m json" not work? Why is it "json.tool"?</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I&rsquo;ve been playing with using Kagi and Perplexity as my browser&rsquo;s default search engine recently. Currently I have Kagi setup as my &hellip;">
+  <meta name="description" content="Have you ever used Python&rsquo;s json.tool command-line interface? You can run python -m json.tool against a JSON file and Python will print a &hellip;">
   
 
-  <meta name="twitter:title" content="GPT and Claude from your URL bar"/>
+  <meta name="twitter:title" content="Why does "python -m json" not work? Why is it "json.tool"?"/>
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -41,7 +41,7 @@
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/">
+  <link rel="canonical" href="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -120,7 +120,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">GPT and Claude from your URL bar</h1>
+      <h1 class="entry-title">Why does "python -m json" not work? Why is it "json.tool"?</h1>
     
     
       <p class="meta">
@@ -129,7 +129,7 @@ $(document).ready(function () {
 
 
 
-<time class='entry-date' datetime='2024-07-11T09:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>9:00 am</span></time>
+<time class='entry-date' datetime='2024-08-01T14:00:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2024</span></span> <span class='time'>2:00 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://treyhunner.com">Comments</a>
@@ -140,84 +140,103 @@ $(document).ready(function () {
 
 
 
-<div class="entry-content"><p>I&rsquo;ve been playing with using <a href="https://kagi.com">Kagi</a> and <a href="https://www.perplexity.ai">Perplexity</a> as my browser&rsquo;s default search engine recently.</p>
+<div class="entry-content"><p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
 
-<p>Currently I have Kagi setup as my default search engine and I added a <a href="https://help.kagi.com/kagi/features/bangs.html#custom-bangs">custom bang</a> command in my Kagi account so that <strong>!x</strong> will trigger a search with Perplexity.</p>
+<p>You can run <code>python -m json.tool</code> against a JSON file and Python will print a nicely formatted version of the file.</p>
 
-<p>This got me thinking&hellip; could I trigger a new <a href="https://chatgpt.com">Chat GPT</a> or <a href="https://claude.ai">Claude</a> chat from my browser&rsquo;s URL bar?</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>python -m json.tool example.json
+</span><span class='line'><span class="o">[</span>
+</span><span class='line'>    1,
+</span><span class='line'>    2,
+</span><span class='line'>    3,
+</span><span class='line'>    4
+</span><span class='line'><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h2>How browsers query search engines</h2>
 
-<p>Whether you&rsquo;re using <a href="https://superuser.com/questions/1772248/how-to-add-custom-search-engine-to-chrome">Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/change-your-default-search-settings-firefox">Firefox</a>, or some other browser (I&rsquo;m trying <a href="https://vivaldi.com/blog/search-favorite-websites-quickly/">Vivaldi</a>) you can add custom search engines to your browser.</p>
+<p>Why do we need to run <code>json.tool</code> instead of <code>json</code>?</p>
 
-<p>Custom search engines use a template URL that looks something like this:</p>
+<h2>The history of <code>python -m</code></h2>
 
-<p><code>https://duckduckgo.com/?q=%s</code></p>
+<p>Python 3.5 added the ability to run a module as a command-line script using the <code>-m</code> argument (see <a href="https://peps.python.org/pep-0338/">PEP 338</a>) which was implemented in Python 2.5.
+While that feature was being an additional feature/bug was accidentally added, alowing packages to be run with the <code>-m</code> flag as well.
+When a package was run with the <code>-m</code> flag, the package&rsquo;s <code>__init__.py</code> file would be run, with the <code>__name__</code> variable set to <code>__main__</code>.</p>
 
-<p>Note that this URL is a <em>template</em> because of that <code>%s</code>.
-That <code>%s</code> bit will be replaced by the actual query you search for.</p>
+<p>This accidental feature/bug was <a href="https://github.com/python/cpython/issues/47000">removed in Python 2.6</a>.</p>
 
-<p>So if Chat GPT and Claude have URLs that allow creating a new chat via a URL&rsquo;s query string (the thing after the <code>?</code>), then they could be used as search engines.</p>
+<p>It wasn&rsquo;t until Python 2.7 that the ability to run <code>python -m package</code> was re-added (see below).</p>
 
-<p>And it turns out&hellip; they do!</p>
+<h2>The history of the <code>json</code> module</h2>
 
-<h2>Querying Chat GPT via a URL</h2>
+<p>The <code>json</code> module was <a href="https://docs.python.org/3/whatsnew/2.6.html#the-json-module-javascript-object-notation">added in Python 2.6</a>.
+It was based on the third-party <code>simplejson</code> library.</p>
 
-<p>To query Chat GPT via a URL query string, use:</p>
+<p>That library originally relied on the fact that Python packages could be run with the <code>-m</code> flag to run the package&rsquo;s <code>__init__.py</code> file with <code>__name__</code> set to <code>__main__</code> (see <a href="https://github.com/simplejson/simplejson/blob/v1.8.1/simplejson/__init__.py#L368">this code from version 1.8.1</a>).</p>
 
-<p><code>https://chatgpt.com/?q=%s</code></p>
+<p>When <code>simplejson</code> was added to Python as the <code>json</code> module in Python 2.6, this bug/feature could no longer be relied upon as it was fixed in Python 2.6.
+To continue allowing for a nice command-line interface, it was decided that running a <code>tool</code> submodule would be the way to add a command-line interface to the <code>json</code> package (<a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">discussion here</a>).</p>
 
-<p>Set that URL as a custom &ldquo;search engine&rdquo; in your browser.
-Then whenever you&rsquo;d like to start a new Chat GPT conversation, select your browser&rsquo;s URL bar, type the search engine prefix followed by a space, type your query, and hit Enter!</p>
+<p>Python 2.7 <a href="https://docs.python.org/2.7/using/cmdline.html?highlight=__main__#cmdoption-m">added the ability to run any package as a command-line tool</a>.
+The package would simply need a <code>__main__.py</code> file within it, which Python would run as the entry point to the package.</p>
 
-<h2>Querying Claude via a URL</h2>
+<p>At this point, <code>json.tool</code> had already been added in Python 2.6 and no attempt was made (as far as I can tell) to allow <code>python -m json</code> to work instead.
+Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
 
-<p>To query Claude via a URL query string, use:</p>
+<h2>Could we make <code>python -m json</code> work today?</h2>
 
-<p><code>https://claude.ai/new?q=%s</code></p>
+<p>We could.
+We would just need to <a href="https://github.com/python/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
+To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
 
-<p>It works the same way as the Chat GPT URL.</p>
+<p>We could even go so far as to <a href="https://github.com/python/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">note that <code>json.tool</code> is deprecated</a>.</p>
 
-<h2>Querying Perplexity via a URL</h2>
+<p>Should we do this though? 🤔</p>
 
-<p>This may be a bit redundant, as you may have thought to use Perplexity can be used as a &ldquo;search engine&rdquo; in your browser, but here&rsquo;s the URL in case you&rsquo;re looking for it:</p>
+<h2>Should we make <code>python -m json</code> work?</h2>
 
-<p><code>https://www.perplexity.ai/search?q=%s</code></p>
+<p>I don&rsquo;t know about you, but I would rather type <code>python -m json</code> than <code>python -m json.tool</code>.
+It&rsquo;s more memorable <em>and</em> easier to guess, if you&rsquo;re not someone who has memorized <a href="https://www.pythonmorsels.com/cli-tools/">all the command-line tools hiding in Python</a>.</p>
 
-<h2>Kagi bangs</h2>
+<p>But would this actually be used?
+I mean, don&rsquo;t people just use the <a href="https://jqlang.github.io/jq/">jq</a> tool instead?</p>
 
-<p>If you&rsquo;re a <a href="https://kagi.com">Kagi</a> user, you can setup each of these as a custom bang.</p>
+<p>Well, a <code>sqlite3</code> shell was <a href="https://docs.python.org/3/library/sqlite3.html#command-line-interface">added to Python 3.12</a> despite the fact that third-party interactive sqlite prompts are fairly common.</p>
 
-<p><strong>Chat GPT</strong></p>
+<p>It is pretty handy to have a access to a tool within an unfamiliar environment where installing yet-another-tool might pose a problem.
+Think Docker, a locked-down Windows machine, or any computer without network or with network restrictions.</p>
 
-<p><img src="/images/kagi-chatgpt-bang.png" title="Screenshot of Chat GPT bang settings for Chat GPT" ></p>
+<p>Personally, I&rsquo;d like to see <code>python3 -m json</code> work.
+I can&rsquo;t think of any big downsides.
+Can you?</p>
 
-<p><strong>Claude</strong></p>
+<h2>Too long; didn&rsquo;t read</h2>
 
-<p><img src="/images/kagi-claude-bang.png" title="Screenshot of Chat GPT bang settings for Claude" ></p>
-
-<p><strong>Perplexity</strong></p>
-
-<p><img src="/images/kagi-perplexity-bang.png" title="Screenshot of Perplexity bang settings for Kagi" ></p>
-
-<p>I&rsquo;m not sure what bangs I ultimately want to use in the long-term.
-Right now I have <strong>!x</strong> set to query Perplexity, <strong>!c</strong> set to query Chat GPT, and <strong>!l</strong> set to query Claude.</p>
-
-<p>I was considering <strong>!g</strong> for Chat <strong>G</strong>PT but that searches Google already and I was considering <strong>!c</strong> for Claude, but I had already set that to search Chat GPT, so I went with <strong>!l</strong> for C<strong>l</strong>aude&hellip; or maybe it&rsquo;s <strong>!l</strong> for <strong>L</strong>LM. 🤔</p>
-
-<h2>No Gemini &ldquo;search&rdquo; support</h2>
-
-<p>So Claude, Chat GPT, and Kagi can all initiate new conversations directly from your browser&rsquo;s URL bar using these 3 URLs:</p>
+<p>The &ldquo;too long didn&rsquo;t read version&rdquo;:</p>
 
 <ul>
-<li><code>https://chatgpt.com/?q=%s</code></li>
-<li><code>https://claude.ai/new?q=%s</code></li>
-<li><code>https://www.perplexity.ai/search?q=%s</code></li>
+<li>Python 2.5 added support for the <code>-m</code> argument for <em>modules</em>, but not <em>packages</em></li>
+<li>A third-party <code>simplejson</code> app existed with a nice CLI that relied on a <code>-m</code> implementation bug allowing packages to be run using <code>-m</code></li>
+<li>Python 2.6 fixed that implementation quirk and broke the previous ability to run <code>python -m simplejson</code></li>
+<li>Python 2.6 also added the <code>json</code> module, which was based on this third-party <code>simplejson</code> package</li>
+<li>Since <code>python -m json</code> couldn&rsquo;t work anymore, the ability to run <code>python -m json.tool</code> was added</li>
+<li>Python 2.7 added official support for <code>python -m some_package</code> by running a <code>__main__</code> submodule</li>
+<li>The <code>json.tool</code> module already existed in Python 2.6 and the ability to run <code>python -m json</code> was (as far as I can tell) never seriously considered</li>
 </ul>
 
 
-<p>As far as I can tell, Gemini does not support starting a conversation via a query string.
-Maybe this is related to Google embedding a similar feature <a href="https://chromeunboxed.com/chromes-url-bar-is-getting-quick-access-to-gemini-ai/">directly into Chrome</a>. 🤷</p>
+<h2>All thanks to git history and issue trackers</h2>
+
+<p>I discovered this by noting <a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">the first commit</a> that added the <code>tool</code> submodule to <code>simplejson</code>, which notes the fact that this was for consistency with the new <code>json</code> standard library module.</p>
+
+<p>Thank you git history.
+And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
 </div>
 
 
@@ -234,12 +253,12 @@ Maybe this is related to Google embedding a similar feature <a href="https://chr
 
 
 
-<time class='entry-date' datetime='2024-07-11T09:00:00-07:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>9:00 am</span></time>
+<time class='entry-date' datetime='2024-08-01T14:00:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2024</span></span> <span class='time'>2:00 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/llm/'>llm</a>
+    <a class='category' href='/blog/categories/python/'>python</a>
   
 </span>
 
@@ -248,7 +267,7 @@ Maybe this is related to Google embedding a similar feature <a href="https://chr
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -259,10 +278,8 @@ Maybe this is related to Google embedding a similar feature <a href="https://chr
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2024/06/a-beautiful-python-monstrosity/" title="Previous Post: A beautiful Python monstrosity">&laquo; A beautiful Python monstrosity</a>
+        <a class="basic-alignment left" href="/2024/07/chatgpt-and-claude-from-your-browser-url-bar/" title="Previous Post: GPT and Claude from your URL bar">&laquo; GPT and Claude from your URL bar</a>
       
-      
-        <a class="basic-alignment right" href="/2024/08/why-does-python-m-json-not-work/" title="Next Post: Why does "python -m json" not work? Why is it "json.tool"?">Why does "python -m json" not work? Why is it "json.tool"? &raquo;</a>
       
     </p>
   </footer>
@@ -388,8 +405,8 @@ Maybe this is related to Google embedding a similar feature <a href="https://chr
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/';
-        var disqus_url = 'https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/';
+        var disqus_identifier = 'https://treyhunner.com/2024/08/why-does-python-m-json-not-work/';
+        var disqus_url = 'https://treyhunner.com/2024/08/why-does-python-m-json-not-work/';
         var disqus_script = 'embed.js';
       
     (function () {
