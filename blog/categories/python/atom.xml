@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-01T15:32:47-07:00</updated>
+  <updated>2024-08-02T08:50:39-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -62,10 +62,10 @@ Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
 <h2>Could we make <code>python -m json</code> work today?</h2>
 
 <p>We could.
-We would just need to <a href="https://github.com/python/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
+We would just need to <a href="https://github.com/treyhunner/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
 To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
 
-<p>We could even go so far as to <a href="https://github.com/python/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">note that <code>json.tool</code> is deprecated</a>.</p>
+<p>We could even go so far as to <a href="https://github.com/treyhunner/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">deprecate <code>json.tool</code></a> if we wanted to.</p>
 
 <p>Should we do this though? 🤔</p>
 
@@ -553,7 +553,7 @@ I&rsquo;d love to attend all of them, but I do have work and personal goals that
 <p>I hope to see you at PyCon US 2025!
 In the meantime, if you&rsquo;re wishing we&rsquo;d exchanged contact details or met in-person, please feel free to stay in touch through <a href="https://mastodon.social/@treyhunner">Mastodon</a>, <a href="https://mastodon.social/@treyhunner">LinkedIn</a>, <a href="https://pym.dev/newsletter">my weekly emails</a>, <a href="https://www.youtube.com/@PythonMorsels">YouTube</a>, or <a href="http://twitter.com/treyhunner">Twitter</a>.</p>
 
-<p><img class="&ldquo;no-border&rdquo;" src="/images/pycon2024-pic.jpg" title="&ldquo;&rdquo; &ldquo;Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh&rdquo;" ></p>
+<p>{% img &ldquo;no-border&rdquo; /images/pycon2024-pic.jpg &ldquo;&rdquo; &ldquo;Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh&rdquo; %}</p>
 ]]></content>
   </entry>
   
@@ -578,7 +578,7 @@ This new REPL really shines when you can&rsquo;t or shouldn&rsquo;t install PyPI
 
 <p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
 
-<p><img src="/images/new-repl-intro.gif"></p>
+<p>{% img /images/new-repl-intro.gif %}</p>
 
 <p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
 Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
@@ -598,7 +598,7 @@ Use exit() or Ctrl-D (i.e. EOF) to exit
 <p>That feels a bit silly, doesn&rsquo;t it?
 Well, typing <code>exit</code> will exit immediately.</p>
 
-<p><img src="/images/new-repl-exit.gif"></p>
+<p>{% img /images/new-repl-exit.gif %}</p>
 
 <p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
 
@@ -606,7 +606,7 @@ Well, typing <code>exit</code> will exit immediately.</p>
 
 <p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
 
-<p><img src="/images/new-repl-block.gif"></p>
+<p>{% img /images/new-repl-block.gif %}</p>
 
 <p>I make typos all the time while teaching.
 I also often want to re-run a specific block of code with a couple small changes.</p>
@@ -625,12 +625,12 @@ Now I&rsquo;ll be able to use the default Python REPL instead.</p>
 
 <p>Check this out:</p>
 
-<p><img src="/images/new-repl-paste.gif"></p>
+<p>{% img /images/new-repl-paste.gif %}</p>
 
 <p>Not impressed?
 Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
 
-<p><img src="/images/old-repl-paste.gif"></p>
+<p>{% img /images/old-repl-paste.gif %}</p>
 
 <p>The old REPL treated pasted text the same as manually typed text.
 When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>

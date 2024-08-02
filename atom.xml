@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-01T15:32:47-07:00</updated>
+  <updated>2024-08-01T15:32:50-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -70,10 +70,10 @@ Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
 <h2>Could we make <code>python -m json</code> work today?</h2>
 
 <p>We could.
-We would just need to <a href="https://github.com/python/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
+We would just need to <a href="https://github.com/treyhunner/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
 To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
 
-<p>We could even go so far as to <a href="https://github.com/python/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">note that <code>json.tool</code> is deprecated</a>.</p>
+<p>We could even go so far as to <a href="https://github.com/treyhunner/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">deprecate <code>json.tool</code></a> if we wanted to.</p>
 
 <p>Should we do this though? 🤔</p>
 
