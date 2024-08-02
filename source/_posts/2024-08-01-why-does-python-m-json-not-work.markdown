@@ -54,10 +54,10 @@ Once you've added a feature, removing or changing it can be painful.
 ## Could we make `python -m json` work today?
 
 We could.
-We would just need to [rename `tool.py` to `__main__.py`](https://github.com/python/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e).
+We would just need to [rename `tool.py` to `__main__.py`](https://github.com/treyhunner/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e).
 To allow `json.tool` to still work *also*, would could [make a new `tool.py` module](https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731) that simply imports `json.__main__`.
 
-We could even go so far as to [note that `json.tool` is deprecated](https://github.com/python/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67).
+We could even go so far as to [deprecate `json.tool`](https://github.com/treyhunner/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67) if we wanted to.
 
 Should we do this though? 🤔
 
