@@ -4,7 +4,7 @@
   <title><![CDATA[Category: llm | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/llm/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-02T08:50:39-07:00</updated>
+  <updated>2024-08-03T17:41:24-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -68,15 +68,15 @@ Then whenever you&rsquo;d like to start a new Chat GPT conversation, select your
 
 <p><strong>Chat GPT</strong></p>
 
-<p>{% img /images/kagi-chatgpt-bang.png Screenshot of Chat GPT bang settings for Chat GPT %}</p>
+<p><img src="/images/kagi-chatgpt-bang.png" title="Screenshot of Chat GPT bang settings for Chat GPT" ></p>
 
 <p><strong>Claude</strong></p>
 
-<p>{% img /images/kagi-claude-bang.png Screenshot of Chat GPT bang settings for Claude %}</p>
+<p><img src="/images/kagi-claude-bang.png" title="Screenshot of Chat GPT bang settings for Claude" ></p>
 
 <p><strong>Perplexity</strong></p>
 
-<p>{% img /images/kagi-perplexity-bang.png Screenshot of Perplexity bang settings for Kagi %}</p>
+<p><img src="/images/kagi-perplexity-bang.png" title="Screenshot of Perplexity bang settings for Kagi" ></p>
 
 <p>I&rsquo;m not sure what bangs I ultimately want to use in the long-term.
 Right now I have <strong>!x</strong> set to query Perplexity, <strong>!c</strong> set to query Chat GPT, and <strong>!l</strong> set to query Claude.</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-01T15:32:50-07:00</updated>
+  <updated>2024-08-03T17:41:24-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Quickly find the right datetime format code for your date]]></title>
+    <link href="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/"/>
+    <updated>2024-08-05T11:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date</id>
+    <content type="html"><![CDATA[<p>I often find myself with a string representing a date and time and the need to create a format string that will parse this string into a <code>datetime</code> object.</p>
+
+<p>I decided to make a tool that solves this problem for me: <a href="https://pym.dev/strptime">https://pym.dev/strptime</a></p>
+
+<h2>Finding the code to parse a date format with <code>strptime</code></h2>
+
+<p>Here&rsquo;s how I&rsquo;m now using this new tool.</p>
+
+<p>I find a date string in a random spreadsheet or log file that I need to parse.
+For example, the string <code>30-Jun-2024 20:09</code>, which I recently found in a spreadsheet.</p>
+
+<p>I then paste the string into the tool and watch the format appear:</p>
+
+<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-1.png"></a></p>
+
+<p>Then I click on the date format to copy-paste it.
+That&rsquo;s it!</p>
+
+<p>This tool works by cycling through a number of common formats.
+It also works for dates without a time, like <code>Jul 1, 2024</code>.</p>
+
+<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-2.png"></a></p>
+
+<p>This input field works great when you&rsquo;re in need of a code for the <code>datetime</code> class&rsquo;s <code>strptime</code> method (which <em>parses</em> dates).
+But what if you need a code for <code>strftime</code> (for <em>formatting</em> dates)?</p>
+
+<h2>Finding the code to format a date with <code>strftime</code></h2>
+
+<p>If you don&rsquo;t have a date but instead want to <em>construct</em> a date in a specific common format, scroll down the page a bit.</p>
+
+<p>This page includes a table of common formats.</p>
+
+<p><a href="https://pym.dev/strptime#formats"><img src="https://treyhunner.com/images/strptime-table.png"></a></p>
+
+<p>Click on the format to copy it.
+That&rsquo;s it.</p>
+
+<h2>Playing with format codes</h2>
+
+<p>What if you have a date format already but you&rsquo;re not sure what it represents?</p>
+
+<p>Paste it in the box!</p>
+
+<p>For example if you&rsquo;re wondering what the <code>%B</code> in <code>%B %d, %Y</code> means, paste it in to see what that represent with the current date and time:</p>
+
+<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-reverse.png"></a></p>
+
+<h2>Other features</h2>
+
+<p>There are a few other hidden features in this tool:</p>
+
+<ul>
+<li>After a date or date format is pasted, if it corresponds to one of the formats listed in the table of common formats, that row will be highlighted</li>
+<li>Hitting the <code>Enter</code> key anywhere on the page will select the input field</li>
+<li>Clicking on a date within the format table will fill that date into the input box</li>
+<li>The bottom of the page includes links to other useful datetime formatting/parsing tools as well as a link to the relevant Python documentation</li>
+</ul>
+
+
+<h2>Thoughts? Feature requests?</h2>
+
+<p>What do you think of this tool?</p>
+
+<p>Is this something you&rsquo;d bookmark and use often?
+Is this missing a key feature that you would need for it to be valuable for your use?</p>
+
+<p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
+
+<p>Comment or email me to let me know!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Why does "python -m json" not work? Why is it "json.tool"?]]></title>
@@ -4182,70 +4259,6 @@ It&rsquo;s hard to beat free!</p>
 
 <p>Did I miss a deal that you know about?
 Link to it in the comments!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Black Friday Sale: Gift Python Morsels to a Friend]]></title>
-    <link href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/"/>
-    <updated>2019-11-29T15:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend</id>
-    <content type="html"><![CDATA[<p>From today until the end of Monday December 2nd, I&rsquo;m <a href="http://trey.io/sale2019">selling bundles</a> of two 52-week Python Morsels redemption codes.</p>
-
-<p>You can buy 12 months of Python Morsels for yourself and <strong>gift 12 months of Python Morsels to a friend for free</strong>!</p>
-
-<p>Or, if you&rsquo;re extra generous, you can buy two redemption codes (for the price of one) and gift them both to <em>two friends</em>.</p>
-
-<h3>What is Python Morsels?🐍🍪</h3>
-
-<p><a href="https://pythonmorsels.com">Python Morsels</a> is a weekly Python skill-building service for professional Python developers.
-Subscribers receive one Python exercise every week in the Python skill level of their choosing (novice, intermediate, advanced).</p>
-
-<p>Each exercise is designed to help you <strong>think the way Python thinks</strong>, so you can write your code less like a C/Java/Perl developer would and more like a fluent Pythonista would.
-  Each programming language has its own unique ways of looking at the world: Python Morsels will help you embrace Python&rsquo;s.</p>
-
-<p>One year&rsquo;s worth of Python Morsels will help even experienced Python developers <strong>deepen their Python skills</strong> and <strong>find new insights about Python</strong> to incorporate into their day-to-day work.</p>
-
-<h3>How does this work? 🤔</h3>
-
-<p>Normally a 12 month Python Morsels subscription costs $200.
-For $200, I&rsquo;m instead selling two redemption codes, each of which can be used for 12 months (52 weeks) of Python Morsels exercises.</p>
-
-<p>With this sale, you&rsquo;ll get two 12-month redemption codes for the price of one.
-So you&rsquo;ll get 1 year of Python Morsels for 2 friends for just $200.</p>
-
-<p>These codes can be used at any time and users of these codes will always maintain access to the 52 exercises received over the 12 month period. You can use one of these codes to extend your current subscription, but new users can also use this redemption code without signing up for an ongoing subscription.</p>
-
-<p>Only one of these codes can be used per account (though you can purchase as many as you&rsquo;d like to gift to others).</p>
-
-<h3>What will I (and my friends) get with Python Morsels? 🎁</h3>
-
-<p>With Python Morsels you&rsquo;ll get:</p>
-
-<ul>
-<li><strong>An email every Monday</strong> which includes a detailed problem to solve using Python</li>
-<li>Multiple bonuses for almost every problem (most have 3 bonuses, almost all have 2) so you can <strong>re-adjust your difficulty level on a weekly basis</strong></li>
-<li>Hints for each problem which you can use when you get stuck</li>
-<li>An online progress tracking tool to keep track of which exercises you&rsquo;ve solved and how many bonuses you solved for each exercise</li>
-<li><strong>Automated tests</strong> (to ensure correctness) which you can run locally and which also run automatically when you submit your solutions</li>
-<li>An email every Wednesday with a <strong>detailed walkthrough of various solutions (usually 5-10)</strong> for each problem, including walkthroughs of each bonus and a discussion of why some solutions may be better than others</li>
-<li>A skill level selection tool (novice, intermediate, advanced) which you can adjust based on your Python experience</li>
-<li>A web interface you can come back to even after your 12 months are over</li>
-</ul>
-
-
-<h3>Okay, I&rsquo;m interested. Now what? ✨</h3>
-
-<p>First of all, don&rsquo;t wait. This buy-one-get-one-free sale ends Monday!</p>
-
-<p>You can sign up and purchase 2 redemption codes by visiting <a href="http://trey.io/sale2019">http://trey.io/sale2019</a></p>
-
-<p>Note that you need to create a Python Morsels account to purchase the redemption codes.
-You don&rsquo;t need to have an on-going subscription, you just need an account.</p>
-
-<p>If you have any questions about this sale, please don&rsquo;t hesitate to <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a>.</p>
-
-<p><a href="http://trey.io/sale2019">Go get your Python Morsels redemption codes</a></p>
 ]]></content>
   </entry>
   
