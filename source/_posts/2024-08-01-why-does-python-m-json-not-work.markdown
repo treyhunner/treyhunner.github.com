@@ -6,6 +6,8 @@ comments: true
 categories: python
 ---
 
+**Update**: upon the encouragement of a few CPython core team members, I [opened a pull request](https://github.com/python/cpython/pull/122884) to add this to Python 3.14.
+
 Have you ever used Python's `json.tool` command-line interface?
 
 You can run `python -m json.tool` against a JSON file and Python will print a nicely formatted version of the file.
@@ -79,6 +81,8 @@ Personally, I'd like to see `python3 -m json` work.
 I can't think of any big downsides.
 Can you?
 
+**Update**: [pull request opened](https://github.com/python/cpython/pull/122884).
+
 
 ## Too long; didn't read
 
@@ -99,3 +103,5 @@ I discovered this by noting [the first commit](https://github.com/simplejson/sim
 
 Thank you git history.
 And thank you to the folks who brought us the `simplejson` library, the `json` module, and the ability to use `-m` on both a module and a package!
+
+Also, thank you to Alyssa Coghlan, Hugo van Kemenade, and Adam Turner for reviewing my pull request to add this feature to Python 3.14. 💖
