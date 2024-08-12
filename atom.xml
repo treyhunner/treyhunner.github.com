@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-03T17:41:24-07:00</updated>
+  <updated>2024-08-12T07:14:29-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -95,7 +95,9 @@ Is this missing a key feature that you would need for it to be valuable for your
     <link href="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/"/>
     <updated>2024-08-01T14:00:00-07:00</updated>
     <id>https://treyhunner.com/2024/08/why-does-python-m-json-not-work</id>
-    <content type="html"><![CDATA[<p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
+    <content type="html"><![CDATA[<p><strong>Update</strong>: upon the encouragement of a few CPython core team members, I <a href="https://github.com/python/cpython/pull/122884">opened a pull request</a> to add this to Python 3.14.</p>
+
+<p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
 
 <p>You can run <code>python -m json.tool</code> against a JSON file and Python will print a nicely formatted version of the file.</p>
 
@@ -171,6 +173,8 @@ Think Docker, a locked-down Windows machine, or any computer without network or 
 I can&rsquo;t think of any big downsides.
 Can you?</p>
 
+<p><strong>Update</strong>: <a href="https://github.com/python/cpython/pull/122884">pull request opened</a>.</p>
+
 <h2>Too long; didn&rsquo;t read</h2>
 
 <p>The &ldquo;too long didn&rsquo;t read version&rdquo;:</p>
@@ -192,6 +196,8 @@ Can you?</p>
 
 <p>Thank you git history.
 And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
+
+<p>Also, thank you to Alyssa Coghlan, Hugo van Kemenade, and Adam Turner for reviewing my pull request to add this feature to Python 3.14. 💖</p>
 ]]></content>
   </entry>
   
