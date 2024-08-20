@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-12T07:14:29-07:00</updated>
+  <updated>2024-08-20T14:11:16-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[10-Week Hands-On Python Course]]></title>
+    <link href="https://treyhunner.com/2024/08/python-high-five/"/>
+    <updated>2024-08-20T14:20:00-07:00</updated>
+    <id>https://treyhunner.com/2024/08/python-high-five</id>
+    <content type="html"><![CDATA[<p>Ever wished you could take an <strong>Intro to Python training</strong> with me, but you don&rsquo;t work for a company with a generous training budget?
+I&rsquo;m running a Python-learning program just for this situation.</p>
+
+<p><a href="https://www.pythonmorsels.com/high-five/">Python High Five</a> is a 10-week Python jumpstart program that starts <strong>this September</strong>.</p>
+
+<h2>Set aside the time to learn ⌚</h2>
+
+<p>One of the biggest problems for folks starting to learn Python is <strong>setting aside the time</strong>.
+And even if you <em>do</em> manage to set aside the time, you&rsquo;ll often hit a roadblock where you feel <strong>confused</strong>.</p>
+
+<p>Python High Five is a way to keep a <strong>daily learning habit</strong> <em>and</em> to <strong>get help</strong> when find yourself stuck.</p>
+
+<p>This program is based around <strong>daily practice</strong>.
+Monday through Friday you&rsquo;ll pick <strong>30 minutes</strong> from your schedule, at any time that works you.
+During those 30 minutes, you&rsquo;ll watch a 5 minute video, work on the day&rsquo;s exercise, and reflect on your progress.</p>
+
+<h2>The most effective learning is hands-on 🖐️</h2>
+
+<p>Python High Five is all about learning through <strong>writing Python code</strong>.
+Each week we&rsquo;ll dive deeper into Python, building upon what we&rsquo;ve learned so far.</p>
+
+<p>When you find yourself stuck you can get help through an asynchronous <strong>group chat</strong> and weekly <strong>office hour</strong> sessions.
+In addition to our weekly office hours together, I&rsquo;ll check the chat each day, respond to questions, and provide guidance.</p>
+
+<h2>Proven learning techniques behind the scenes 📝</h2>
+
+<p>The daily check-ins allow for daily <strong>accountability</strong>.
+The group chat also provides both a community of peers to rely on, and <strong>guidance from an experienced Python trainer</strong> (me).</p>
+
+<p>We&rsquo;ll also be using proven learning techniques behind the scenes:</p>
+
+<ul>
+<li><strong>Retrieval practice</strong>: you don&rsquo;t learn by putting information into your head, but by trying to take it out; for Python learning, that means writing code.</li>
+<li><strong>Spaced repetition</strong>: cramming is less effective than learning spaced out over time, which is why we&rsquo;ll spend 30 minutes each weekday instead of spending a few hours every week.</li>
+<li><strong>Interleaving</strong>: each day&rsquo;s exercise isn&rsquo;t predictably themed because a bit of unpredictability can be <em>really</em> improve learning outcomes.</li>
+<li><strong>Elaboration</strong>: your daily check-in isn&rsquo;t <em>just</em> about reflection: it&rsquo;s also a helpful learning tool!</li>
+</ul>
+
+
+<p>Plus, we&rsquo;ll be working through curriculum I&rsquo;ve been developing and iterating on for many years.
+I have taught these topics in many different settings to folks from <em>many</em> different backgrounds.</p>
+
+<h2>Form a daily learning habit 🔁</h2>
+
+<p>Any 10-week program will be <em>just the start</em> of a Python learning habit.
+You&rsquo;ll need to keep up your Python after Python High Five ends, either by promptly applying your skills to a new project or diving deeper into Python with continued daily practice.</p>
+
+<p>That&rsquo;s why I&rsquo;m offering an <strong>80% discount</strong> for High Five attendees on one year of <a href="https://www.pythonmorsels.com">Python Morsels</a>, which is my skill-building service designed to help <strong>deepen your Python skills every week</strong>.
+You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more details on that here</a>.</p>
+
+<h2>Ready to start your Python journey? ⛰️</h2>
+
+<p>Are you ready to start your Python journey with a solid foundation?</p>
+
+<p><a href="https://www.pythonmorsels.com/high-five/">Read more about Python High Five</a> and decide whether this is for you.</p>
+
+<p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
+So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Quickly find the right datetime format code for your date]]></title>
@@ -4194,77 +4260,6 @@ By my count, about 15% of the Python built-ins are meant to accept functions as 
 
 
 <p>This topics goes <em>much deeper</em> than what I&rsquo;ve discussed here, but until you find yourself writing decorator functions, you probably don&rsquo;t need to explore this topic any further.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cyber Monday Python Sales (2019)]]></title>
-    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
-    <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels, weekly skill-building for professional Pythonistas</h3>
-
-<p><a href="https://www.pythonmorsels.com/">Python Morsels</a> is my weekly Python skill-building service.</p>
-
-<p>I&rsquo;m offering something sort of like a &ldquo;buy one get one free&rdquo; sale this year.</p>
-
-<p>You can pay $200 to get 2 redemption codes, each worth 12 months of Python Morsels.</p>
-
-<p>You can use one code for yourself and give one to a friend.
-Or you could be extra generous and give them both away to two friends.
-Either way, 2 people are each getting one year&rsquo;s worth of weekly Python training.</p>
-
-<p>You can find <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">more details on this sale here</a>.</p>
-
-<h3>Data School&rsquo;s Machine Learning course</h3>
-
-<p>Kevin Markham of Data School is selling his &ldquo;Machine Learning with Text in Python&rdquo; course for $195 (it&rsquo;s usually $295).
-You can find more details on this sale <a href="https://www.dataschool.io/black-friday/">on the Data School Black Friday post</a>.</p>
-
-<h3>Talk Python Course Bundle</h3>
-
-<p>Michael Kennedy is selling a bundle that includes <a href="https://training.talkpython.fm/black-friday-2019">every Talk Python course for $250</a>.</p>
-
-<p>There are 20 courses included in this bundle.
-If you&rsquo;re into Python and you don&rsquo;t already own most of these courses, this bundle could be a really good deal for you.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses</h3>
-
-<p>Reuven Lerner is offering a <a href="https://lerner.co.il/2019/11/28/my-black-friday-sale-is-live-take-50-off-any-course-in-python-or-data-science/">50% off sale on his courses</a>.
-Reuven has courses on Python, Git, and regular expressions.</p>
-
-<p>This sale also includes Reuven&rsquo;s <a href="https://store.lerner.co.il/wpe?coupon=BF2019">Weekly Python Exercise</a>, which is similar to <a href="https://www.pythonmorsels.com/">Python Morsels</a>, but has its own flavor.
-You could sign up for both if you want double the weekly learning.</p>
-
-<h3>Real Python courses</h3>
-
-<p>Real Python is also offering <a href="https://realpython.com/account/join/?c=blackfriday2019">$40 off their annual memberships</a>.
-Real Python has many tutorials and courses as well.</p>
-
-<h3>PyBites Code Challenges</h3>
-
-<p>Bob and Julian of PyBites are offering their a <a href="https://gumroad.com/l/Xhxeo/teachingpython">40% discount off their Newbie Bites</a> on their PyBites Code Challenges platform.</p>
-
-<p>If you&rsquo;re new to Python and programming, check out their newbie bites.</p>
-
-<h3>Automate the Boring Stuff Course (for free!)</h3>
-
-<p>Al Sweigart is offering <a href="https://www.udemy.com/course/automate/?couponCode=DEC2019FREE">free lifetime access to his Automate the Boring Stuff with Python course</a> on Udemy until Wednesday.
-It&rsquo;s hard to beat free!</p>
-
-<h3>Other Cyber Monday deals?</h3>
-
-<p>If you have questions about the <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">Python Morsels sale</a>, <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a>.</p>
-
-<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
-
-<p>So go check them out!</p>
-
-<p>Did I miss a deal that you know about?
-Link to it in the comments!</p>
 ]]></content>
   </entry>
   

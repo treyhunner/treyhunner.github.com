@@ -17,11 +17,12 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Quickly find the right datetime format code for your date</title>
+  <title>10-Week Hands-On Python Course</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="I often find myself with a string representing a date and time and the need to create a format string that will parse this string into a datetime &hellip;">
+  <meta name="description" content="Ever wished you could take an Intro to Python training with me, but you don&rsquo;t work for a company with a generous training budget?
+I&rsquo;m &hellip;">
   
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -38,7 +39,7 @@
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/">
+  <link rel="canonical" href="https://treyhunner.com/2024/08/python-high-five/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -117,7 +118,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">Quickly find the right datetime format code for your date</h1>
+      <h1 class="entry-title">10-Week Hands-On Python Course</h1>
     
     
       <p class="meta">
@@ -126,7 +127,7 @@ $(document).ready(function () {
 
 
 
-<time class='entry-date' datetime='2024-08-05T11:30:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>11:30 am</span></time>
+<time class='entry-date' datetime='2024-08-20T14:20:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>2:20 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://treyhunner.com">Comments</a>
@@ -137,75 +138,64 @@ $(document).ready(function () {
 
 
 
-<div class="entry-content"><p>I often find myself with a string representing a date and time and the need to create a format string that will parse this string into a <code>datetime</code> object.</p>
+<div class="entry-content"><p>Ever wished you could take an <strong>Intro to Python training</strong> with me, but you don&rsquo;t work for a company with a generous training budget?
+I&rsquo;m running a Python-learning program just for this situation.</p>
 
-<p>I decided to make a tool that solves this problem for me: <a href="https://pym.dev/strptime">https://pym.dev/strptime</a></p>
+<p><a href="https://www.pythonmorsels.com/high-five/">Python High Five</a> is a 10-week Python jumpstart program that starts <strong>this September</strong>.</p>
 
-<h2>Finding the code to parse a date format with <code>strptime</code></h2>
+<h2>Set aside the time to learn ⌚</h2>
 
-<p>Here&rsquo;s how I&rsquo;m now using this new tool.</p>
+<p>One of the biggest problems for folks starting to learn Python is <strong>setting aside the time</strong>.
+And even if you <em>do</em> manage to set aside the time, you&rsquo;ll often hit a roadblock where you feel <strong>confused</strong>.</p>
 
-<p>I find a date string in a random spreadsheet or log file that I need to parse.
-For example, the string <code>30-Jun-2024 20:09</code>, which I recently found in a spreadsheet.</p>
+<p>Python High Five is a way to keep a <strong>daily learning habit</strong> <em>and</em> to <strong>get help</strong> when find yourself stuck.</p>
 
-<p>I then paste the string into the tool and watch the format appear:</p>
+<p>This program is based around <strong>daily practice</strong>.
+Monday through Friday you&rsquo;ll pick <strong>30 minutes</strong> from your schedule, at any time that works you.
+During those 30 minutes, you&rsquo;ll watch a 5 minute video, work on the day&rsquo;s exercise, and reflect on your progress.</p>
 
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-1.png"></a></p>
+<h2>The most effective learning is hands-on 🖐️</h2>
 
-<p>Then I click on the date format to copy-paste it.
-That&rsquo;s it!</p>
+<p>Python High Five is all about learning through <strong>writing Python code</strong>.
+Each week we&rsquo;ll dive deeper into Python, building upon what we&rsquo;ve learned so far.</p>
 
-<p>This tool works by cycling through a number of common formats.
-It also works for dates without a time, like <code>Jul 1, 2024</code>.</p>
+<p>When you find yourself stuck you can get help through an asynchronous <strong>group chat</strong> and weekly <strong>office hour</strong> sessions.
+In addition to our weekly office hours together, I&rsquo;ll check the chat each day, respond to questions, and provide guidance.</p>
 
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-2.png"></a></p>
+<h2>Proven learning techniques behind the scenes 📝</h2>
 
-<p>This input field works great when you&rsquo;re in need of a code for the <code>datetime</code> class&rsquo;s <code>strptime</code> method (which <em>parses</em> dates).
-But what if you need a code for <code>strftime</code> (for <em>formatting</em> dates)?</p>
+<p>The daily check-ins allow for daily <strong>accountability</strong>.
+The group chat also provides both a community of peers to rely on, and <strong>guidance from an experienced Python trainer</strong> (me).</p>
 
-<h2>Finding the code to format a date with <code>strftime</code></h2>
-
-<p>If you don&rsquo;t have a date but instead want to <em>construct</em> a date in a specific common format, scroll down the page a bit.</p>
-
-<p>This page includes a table of common formats.</p>
-
-<p><a href="https://pym.dev/strptime#formats"><img src="/images/strptime-table.png"></a></p>
-
-<p>Click on the format to copy it.
-That&rsquo;s it.</p>
-
-<h2>Playing with format codes</h2>
-
-<p>What if you have a date format already but you&rsquo;re not sure what it represents?</p>
-
-<p>Paste it in the box!</p>
-
-<p>For example if you&rsquo;re wondering what the <code>%B</code> in <code>%B %d, %Y</code> means, paste it in to see what that represent with the current date and time:</p>
-
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-reverse.png"></a></p>
-
-<h2>Other features</h2>
-
-<p>There are a few other hidden features in this tool:</p>
+<p>We&rsquo;ll also be using proven learning techniques behind the scenes:</p>
 
 <ul>
-<li>After a date or date format is pasted, if it corresponds to one of the formats listed in the table of common formats, that row will be highlighted</li>
-<li>Hitting the <code>Enter</code> key anywhere on the page will select the input field</li>
-<li>Clicking on a date within the format table will fill that date into the input box</li>
-<li>The bottom of the page includes links to other useful datetime formatting/parsing tools as well as a link to the relevant Python documentation</li>
+<li><strong>Retrieval practice</strong>: you don&rsquo;t learn by putting information into your head, but by trying to take it out; for Python learning, that means writing code.</li>
+<li><strong>Spaced repetition</strong>: cramming is less effective than learning spaced out over time, which is why we&rsquo;ll spend 30 minutes each weekday instead of spending a few hours every week.</li>
+<li><strong>Interleaving</strong>: each day&rsquo;s exercise isn&rsquo;t predictably themed because a bit of unpredictability can be <em>really</em> improve learning outcomes.</li>
+<li><strong>Elaboration</strong>: your daily check-in isn&rsquo;t <em>just</em> about reflection: it&rsquo;s also a helpful learning tool!</li>
 </ul>
 
 
-<h2>Thoughts? Feature requests?</h2>
+<p>Plus, we&rsquo;ll be working through curriculum I&rsquo;ve been developing and iterating on for many years.
+I have taught these topics in many different settings to folks from <em>many</em> different backgrounds.</p>
 
-<p>What do you think of this tool?</p>
+<h2>Form a daily learning habit 🔁</h2>
 
-<p>Is this something you&rsquo;d bookmark and use often?
-Is this missing a key feature that you would need for it to be valuable for your use?</p>
+<p>Any 10-week program will be <em>just the start</em> of a Python learning habit.
+You&rsquo;ll need to keep up your Python after Python High Five ends, either by promptly applying your skills to a new project or diving deeper into Python with continued daily practice.</p>
 
-<p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
+<p>That&rsquo;s why I&rsquo;m offering an <strong>80% discount</strong> for High Five attendees on one year of <a href="https://www.pythonmorsels.com">Python Morsels</a>, which is my skill-building service designed to help <strong>deepen your Python skills every week</strong>.
+You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more details on that here</a>.</p>
 
-<p>Comment or email me to let me know!</p>
+<h2>Ready to start your Python journey? ⛰️</h2>
+
+<p>Are you ready to start your Python journey with a solid foundation?</p>
+
+<p><a href="https://www.pythonmorsels.com/high-five/">Read more about Python High Five</a> and decide whether this is for you.</p>
+
+<p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
+So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
 </div>
 
 
@@ -222,7 +212,7 @@ Is this missing a key feature that you would need for it to be valuable for your
 
 
 
-<time class='entry-date' datetime='2024-08-05T11:30:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>11:30 am</span></time>
+<time class='entry-date' datetime='2024-08-20T14:20:00-07:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>2:20 pm</span></time>
       
 
 <span class="categories">
@@ -236,7 +226,7 @@ Is this missing a key feature that you would need for it to be valuable for your
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/08/python-high-five/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/08/python-high-five/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -247,10 +237,8 @@ Is this missing a key feature that you would need for it to be valuable for your
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2024/08/why-does-python-m-json-not-work/" title="Previous Post: Why does "python -m json" not work? Why is it "json.tool"?">&laquo; Why does "python -m json" not work? Why is it "json.tool"?</a>
+        <a class="basic-alignment left" href="/2024/08/find-the-datetime-format-code-for-your-date/" title="Previous Post: Quickly find the right datetime format code for your date">&laquo; Quickly find the right datetime format code for your date</a>
       
-      
-        <a class="basic-alignment right" href="/2024/08/python-high-five/" title="Next Post: 10-Week Hands-On Python Course">10-Week Hands-On Python Course &raquo;</a>
       
     </p>
   </footer>
@@ -376,8 +364,8 @@ Is this missing a key feature that you would need for it to be valuable for your
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/';
-        var disqus_url = 'https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/';
+        var disqus_identifier = 'https://treyhunner.com/2024/08/python-high-five/';
+        var disqus_url = 'https://treyhunner.com/2024/08/python-high-five/';
         var disqus_script = 'embed.js';
       
     (function () {

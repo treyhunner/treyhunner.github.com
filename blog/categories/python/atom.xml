@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-08-12T07:14:29-07:00</updated>
+  <updated>2024-08-20T14:11:16-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[10-Week Hands-On Python Course]]></title>
+    <link href="https://treyhunner.com/2024/08/python-high-five/"/>
+    <updated>2024-08-20T14:20:00-07:00</updated>
+    <id>https://treyhunner.com/2024/08/python-high-five</id>
+    <content type="html"><![CDATA[<p>Ever wished you could take an <strong>Intro to Python training</strong> with me, but you don&rsquo;t work for a company with a generous training budget?
+I&rsquo;m running a Python-learning program just for this situation.</p>
+
+<p><a href="https://www.pythonmorsels.com/high-five/">Python High Five</a> is a 10-week Python jumpstart program that starts <strong>this September</strong>.</p>
+
+<h2>Set aside the time to learn ⌚</h2>
+
+<p>One of the biggest problems for folks starting to learn Python is <strong>setting aside the time</strong>.
+And even if you <em>do</em> manage to set aside the time, you&rsquo;ll often hit a roadblock where you feel <strong>confused</strong>.</p>
+
+<p>Python High Five is a way to keep a <strong>daily learning habit</strong> <em>and</em> to <strong>get help</strong> when find yourself stuck.</p>
+
+<p>This program is based around <strong>daily practice</strong>.
+Monday through Friday you&rsquo;ll pick <strong>30 minutes</strong> from your schedule, at any time that works you.
+During those 30 minutes, you&rsquo;ll watch a 5 minute video, work on the day&rsquo;s exercise, and reflect on your progress.</p>
+
+<h2>The most effective learning is hands-on 🖐️</h2>
+
+<p>Python High Five is all about learning through <strong>writing Python code</strong>.
+Each week we&rsquo;ll dive deeper into Python, building upon what we&rsquo;ve learned so far.</p>
+
+<p>When you find yourself stuck you can get help through an asynchronous <strong>group chat</strong> and weekly <strong>office hour</strong> sessions.
+In addition to our weekly office hours together, I&rsquo;ll check the chat each day, respond to questions, and provide guidance.</p>
+
+<h2>Proven learning techniques behind the scenes 📝</h2>
+
+<p>The daily check-ins allow for daily <strong>accountability</strong>.
+The group chat also provides both a community of peers to rely on, and <strong>guidance from an experienced Python trainer</strong> (me).</p>
+
+<p>We&rsquo;ll also be using proven learning techniques behind the scenes:</p>
+
+<ul>
+<li><strong>Retrieval practice</strong>: you don&rsquo;t learn by putting information into your head, but by trying to take it out; for Python learning, that means writing code.</li>
+<li><strong>Spaced repetition</strong>: cramming is less effective than learning spaced out over time, which is why we&rsquo;ll spend 30 minutes each weekday instead of spending a few hours every week.</li>
+<li><strong>Interleaving</strong>: each day&rsquo;s exercise isn&rsquo;t predictably themed because a bit of unpredictability can be <em>really</em> improve learning outcomes.</li>
+<li><strong>Elaboration</strong>: your daily check-in isn&rsquo;t <em>just</em> about reflection: it&rsquo;s also a helpful learning tool!</li>
+</ul>
+
+
+<p>Plus, we&rsquo;ll be working through curriculum I&rsquo;ve been developing and iterating on for many years.
+I have taught these topics in many different settings to folks from <em>many</em> different backgrounds.</p>
+
+<h2>Form a daily learning habit 🔁</h2>
+
+<p>Any 10-week program will be <em>just the start</em> of a Python learning habit.
+You&rsquo;ll need to keep up your Python after Python High Five ends, either by promptly applying your skills to a new project or diving deeper into Python with continued daily practice.</p>
+
+<p>That&rsquo;s why I&rsquo;m offering an <strong>80% discount</strong> for High Five attendees on one year of <a href="https://www.pythonmorsels.com">Python Morsels</a>, which is my skill-building service designed to help <strong>deepen your Python skills every week</strong>.
+You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more details on that here</a>.</p>
+
+<h2>Ready to start your Python journey? ⛰️</h2>
+
+<p>Are you ready to start your Python journey with a solid foundation?</p>
+
+<p><a href="https://www.pythonmorsels.com/high-five/">Read more about Python High Five</a> and decide whether this is for you.</p>
+
+<p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
+So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Quickly find the right datetime format code for your date]]></title>
@@ -637,111 +703,6 @@ I&rsquo;d love to attend all of them, but I do have work and personal goals that
 In the meantime, if you&rsquo;re wishing we&rsquo;d exchanged contact details or met in-person, please feel free to stay in touch through <a href="https://mastodon.social/@treyhunner">Mastodon</a>, <a href="https://mastodon.social/@treyhunner">LinkedIn</a>, <a href="https://pym.dev/newsletter">my weekly emails</a>, <a href="https://www.youtube.com/@PythonMorsels">YouTube</a>, or <a href="http://twitter.com/treyhunner">Twitter</a>.</p>
 
 <p><img class="&ldquo;no-border&rdquo;" src="/images/pycon2024-pic.jpg" title="&ldquo;&rdquo; &ldquo;Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh&rdquo;" ></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[The new REPL in Python 3.13]]></title>
-    <link href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/"/>
-    <updated>2024-05-08T13:30:00-07:00</updated>
-    <id>https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature</id>
-    <content type="html"><![CDATA[<p>Python 3.13 just hit feature freeze with <a href="https://www.python.org/downloads/release/python-3130b1/">the first beta release today</a>.</p>
-
-<p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
-
-<p>This new Python REPL is the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.
-In terms of improving my quality of life while teaching Python, this new REPL may be my favorite feature since f-strings were added in Python 3.6.</p>
-
-<p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
-
-<p>None of these features will be ground breaking for folks who are already using <a href="https://github.com/ipython/ipython">IPython</a> day-to-day.
-This new REPL really shines when you can&rsquo;t or shouldn&rsquo;t install PyPI packages (as when teaching a brand new Pythonistas in a locked-down corporate environment).</p>
-
-<h2>Little niceties</h2>
-
-<p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
-
-<p><img src="/images/new-repl-intro.gif"></p>
-
-<p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
-Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
-
-<p>At this point you might be thinking, &ldquo;wait did I accidentally launch ptpython or some other alternate REPL?&rdquo;
-But it gets even better!</p>
-
-<h2>You can &ldquo;exit&rdquo; now</h2>
-
-<p>Have you ever typed <code>exit</code> at the Python REPL?
-If so, you&rsquo;ve seen a message like this:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; exit
-Use exit() or Ctrl-D (i.e. EOF) to exit
-</code></pre>
-
-<p>That feels a bit silly, doesn&rsquo;t it?
-Well, typing <code>exit</code> will exit immediately.</p>
-
-<p><img src="/images/new-repl-exit.gif"></p>
-
-<p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
-
-<h2>Block-level history</h2>
-
-<p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
-
-<p><img src="/images/new-repl-block.gif"></p>
-
-<p>I make typos all the time while teaching.
-I also often want to re-run a specific block of code with a couple small changes.</p>
-
-<p>The old-style Python REPL stores history line-by-line.
-So editing a block of code in the old REPL required hitting the up arrow many times, hitting Enter, hitting the up arrow many more times, hitting Enter, etc. until each line in a block was chosen.
-At the same time you also needed to make sure to edit your changes along the way&hellip; or you&rsquo;ll end up re-running the same block with the same typo as before!</p>
-
-<p>The ability to edit a previously typed <em>block</em> of code is huge for me.
-For certain sections of my Python curriculum, I hop into <a href="https://github.com/prompt-toolkit/ptpython">ptpython</a> or <a href="https://github.com/ipython/ipython">IPython</a> specifically for this feature.
-Now I&rsquo;ll be able to use the default Python REPL instead.</p>
-
-<h2>Pasting code <em>just works</em></h2>
-
-<p>The next big feature for me is the ability to paste code.</p>
-
-<p>Check this out:</p>
-
-<p><img src="/images/new-repl-paste.gif"></p>
-
-<p>Not impressed?
-Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
-
-<p><img src="/images/old-repl-paste.gif"></p>
-
-<p>The old REPL treated pasted text the same as manually typed text.
-When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>
-
-<p>The new REPL supports <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste</a>, which is was invented in 2002 and has since been adopted by all modern terminal emulators.</p>
-
-<h2>No Windows support? Curses!</h2>
-
-<p><strong>EDIT</strong>: This whole section is now irrelevant!
-During the PyCon US sprints in late May 2024, the <code>readline</code> and <code>curses</code> dependencies were removed and <a href="https://mastodon.social/@tonybaloney@fosstodon.org/112477098540793635">Windows support</a> will be included in the second beta release of Python 3.13.0! 🎉</p>
-
-<p>Unfortunately, this new REPL <strike>doesn&rsquo;t currently work on Windows</strike>.
-This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.</p>
-
-<p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
-
-<h2>Beta test Python 3.13 to try out the new REPL 💖</h2>
-
-<p>Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou <a href="https://docs.python.org/3.13/whatsnew/3.13.html">for implementing this new feature</a>!
-And thanks to Michael Hudson-Doyle and Armin Rigo for implementing the original version of this REPL, which was <a href="https://github.com/pypy/pyrepl">heavily borrowed from PyPy&rsquo;s pyrepl project</a>.</p>
-
-<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.</p>
-
-<p>Want to try out this new REPL?
-Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
-
-<p>Beta testing new Python releases helps the Python core team ensure the final release of 3.13.0 is as stable and functional as possible.
-If you notice a bug, <a href="https://github.com/python/cpython/issues">check the issue tracker</a> to see if it&rsquo;s been reported yet and if not report it!</p>
 ]]></content>
   </entry>
   
