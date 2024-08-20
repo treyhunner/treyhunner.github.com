@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "10-Week Hands-On Python Course"
-date: 2024-08-21 14:59:37 -0700
+date: 2024-08-20 14:20:00 -0700
 comments: true
 categories: python
 ---
@@ -36,11 +36,11 @@ In addition to our weekly office hours together, I'll check the chat each day, r
 ## Proven learning techniques behind the scenes 📝
 
 The daily check-ins allow for daily **accountability**.
-The group chat also provides both a community of peers to rely on and **guidance from an experienced Python trainer** (me).
+The group chat also provides both a community of peers to rely on, and **guidance from an experienced Python trainer** (me).
 
 We'll also be using proven learning techniques behind the scenes:
 
-- **Retrieval practice**: you don't learn by putting information into your head, but by trying to take it out and for Python learning, that means writing code.
+- **Retrieval practice**: you don't learn by putting information into your head, but by trying to take it out; for Python learning, that means writing code.
 - **Spaced repetition**: cramming is less effective than learning spaced out over time, which is why we'll spend 30 minutes each weekday instead of spending a few hours every week.
 - **Interleaving**: each day's exercise isn't predictably themed because a bit of unpredictability can be *really* improve learning outcomes.
 - **Elaboration**: your daily check-in isn't *just* about reflection: it's also a helpful learning tool!
@@ -54,8 +54,8 @@ I have taught these topics in many different settings to folks from *many* diffe
 Any 10-week program will be *just the start* of a Python learning habit.
 You'll need to keep up your Python after Python High Five ends, either by promptly applying your skills to a new project or diving deeper into Python with continued daily practice.
 
-That's why I'm also offering an **80% discount** on one year of Python Morsels, which is my skill-building service designed to help deepen your Python skills every week.
-[Pricing details here](https://www.pythonmorsels.com/high-five/#apply).
+That's why I'm offering an **80% discount** for High Five attendees on one year of [Python Morsels](https://www.pythonmorsels.com), which is my skill-building service designed to help **deepen your Python skills every week**.
+You can [see more details on that here](https://www.pythonmorsels.com/high-five/#morsels).
 
 
 ## Ready to start your Python journey? ⛰️
