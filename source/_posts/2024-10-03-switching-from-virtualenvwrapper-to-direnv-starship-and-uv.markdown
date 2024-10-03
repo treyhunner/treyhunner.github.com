@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Switching from virtualenvwrapper to direnv, Starship, and uv"
-date: 2024-10-03 13:30:00 -0700
+date: 2024-10-03 14:00:00 -0700
 comments: true
 categories: python direnv uv starship dotfiles
 ---
@@ -118,7 +118,7 @@ Additionally, I thought it would be really handy if I could type `workon <projec
 
 I made two aliases in my `~/.zshrc` configuration for all of this:
 
-```shell
+```bash
 venv() {
     local venv_name=${1:-$(basename "$PWD")}
     local projects_file="$HOME/.projects"
@@ -206,7 +206,7 @@ Another benefit of using `uv`, is that I should also be able to update the `venv
 
 Here are the updated shell aliases for the `~/.zshrc` for `uv`:
 
-```shell
+```bash
 venv() {
     local venv_name
     local dir_name=$(basename "$PWD")
@@ -265,16 +265,13 @@ show_virtual_env() {
 PS1='$(show_virtual_env)'$PS1
 ```
 
-```
+I also switched my `python` layout for direnv to just set the `$VIRTUAL_ENV` variable and add the `$VIRTUAL_ENV/bin` directory to my `PATH`, since the `$VIRTUAL_ENV_PROMPT` variable isn't needed for Starship to pick up the prompt:
+
+```bash
 layout_python() {
     VIRTUAL_ENV="$(pwd)/.venv"
-
-    # These lines work for activating the virtual environment for starship
     PATH_add "$VIRTUAL_ENV/bin"
     export VIRTUAL_ENV
-
-    # This would be necessary or a non-starship shell, to update the prompt
-    # . $VIRTUAL_ENV/bin/activate
 }
 ```
 
