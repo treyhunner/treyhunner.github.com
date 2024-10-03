@@ -349,6 +349,8 @@ The use of uv and Starship were just bonuses.
 
 I *am* also hoping to eventually replace my pipx use with uv and once uv supports [adding python3.x commands][python shims] to my `PATH`, I may replace my use of pyenv with uv as well.
 
+Thanks to all who [participated in my Mastodon thread][mastodon] as I fumbled through discovering this setup.
+
 
 [virtualenvwrapper]: https://virtualenvwrapper.readthedocs.io
 [jeff]: https://micro.webology.dev/2024/03/13/on-environment-variables.html
@@ -359,3 +361,4 @@ I *am* also hoping to eventually replace my pipx use with uv and once uv support
 [starship]: https://starship.rs
 [dotfiles]: https://github.com/treyhunner/dotfiles
 [python shims]: https://github.com/astral-sh/uv/issues/6265
+[mastodon]: https://mastodon.social/@treyhunner/113232640710715449
