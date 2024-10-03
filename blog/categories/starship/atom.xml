@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: starship | Trey Hunner]]></title>
+  <link href="https://treyhunner.com/blog/categories/starship/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2024-10-03T13:28:33-07:00</updated>
+  <id>https://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
+    <link href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/"/>
+    <updated>2024-10-03T13:30:00-07:00</updated>
+    <id>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv</id>
+    <content type="html"><![CDATA[<p>Earlier this week I considered whether I should finally switch away from <a href="https://virtualenvwrapper.readthedocs.io">virtualenvwrapper</a> to using local <code>.venv</code> managed by <a href="https://direnv.net">direnv</a>.</p>
+
+<p>I&rsquo;ve never seriously used direnv, but I&rsquo;ve been hearing <a href="https://micro.webology.dev/2024/03/13/on-environment-variables.html">Jeff</a> and <a href="https://hynek.me/til/python-project-local-venvs/">Hynek</a> talk about their use of direnv for a while.</p>
+
+<p>After a few days, I&rsquo;ve finally stumbled into a setup that works great for me.
+I&rsquo;d like to note the basics of this setup as well as some fancy additions that are specific to my own use case.</p>
+
+<h2>My old virtualenvwrapper workflow</h2>
+
+<p>First, I&rsquo;d like to note my <em>old</em> workflow that I&rsquo;m trying to roughly recreate:</p>
+
+<ol>
+<li>I type <code>mkvenv3 &lt;project_name&gt;</code> to create a new virtual environment for the current project directory and activate it</li>
+<li>I type <code>workon &lt;project_name&gt;</code> when I want to workon that project: this activates the correct virtual environment <em>and</em> changes to the project directory</li>
+</ol>
+
+
+<p>The initial setup I thought of allows me to:</p>
+
+<ol>
+<li>Run <code>echo layout python &gt; .envrc &amp;&amp; direnv allow</code> to create a virtual environment for the current project and activate it</li>
+<li>Change directories into the project directory to automatically activate the virtual environment</li>
+</ol>
+
+
+<p>The more complex setup I eventually settled on allows me to:</p>
+
+<ol>
+<li>Run <code>venv &lt;project_name&gt;</code> to create a virtual environment for the current project and activate it</li>
+<li>Run <code>workon &lt;project_name&gt;</code> to change directories into the project (which automatically activates the virtual environment)</li>
+</ol>
+
+
+<h2>The initial setup</h2>
+
+<p>First, I <a href="https://direnv.net">installed direnv</a> and added this to my <code>~/.zshrc</code> file:</p>
+
+<pre><code class="bash">eval "$(direnv hook zsh)"
+</code></pre>
+
+<p>Then whenever I wanted to create a virtual environment for a new project I created a <code>.envrc</code> file in that directory, which looked like this:</p>
+
+<pre><code class="bash">layout python
+</code></pre>
+
+<p>Then I ran <code>direnv allow</code> to allow, as <code>direnv</code> instructed me to, to allow the new virtual environment to be automatically created and activated.</p>
+
+<p>That&rsquo;s pretty much it.</p>
+
+<p>Unfortunately, I did not like this initial setup.</p>
+
+<h2>No shell prompt?</h2>
+
+<p>The first problem was that the virtual environment&rsquo;s prompt didn&rsquo;t show up in my shell prompt.
+This is due to a <a href="https://github.com/direnv/direnv/issues/529">direnv not allowing modification of the <code>PS1</code> shell prompt</a>.
+That means I&rsquo;d need to modify my shell configuration to show the correct virtual environment name myself.</p>
+
+<p>So I added this to my <code>~/.zshrc</code> file to show the virtual environment name at the beginning of my prompt:</p>
+
+<pre><code class="bash"># Add direnv-activated venv to prompt
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV_PROMPT" &amp;&amp; -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV_PROMPT)) "
+  fi
+}
+PS1='$(show_virtual_env)'$PS1
+</code></pre>
+
+<h2>Wrong virtual environment directory</h2>
+
+<p>The next problem was that the virtual environment was placed in <code>.direnv/python3.12</code>.
+I wanted each virtual environment to be in a <code>.venv</code> directory instead.</p>
+
+<p>To do that, I made a <code>.config/direnv/direnvrc</code> file that customized the python layout:</p>
+
+<pre><code class="bash">layout_python() {
+    if [[ -d ".venv" ]]; then
+        VIRTUAL_ENV="$(pwd)/.venv"
+    fi
+
+    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+        log_status "No virtual environment exists. Executing \`python -m venv .venv\`."
+        python -m venv .venv
+        VIRTUAL_ENV="$(pwd)/.venv"
+    fi
+
+    # Activate the virtual environment
+    . $VIRTUAL_ENV/bin/activate
+}
+</code></pre>
+
+<h2>Loading, unloading, loading, unloading&hellip;</h2>
+
+<p>I also didn&rsquo;t like the loading and unloading messages that showed up each time I changed directories.
+I removed those by clearing the <code>DIRENV_LOG_FORMAT</code> variable in my <code>~/.zshrc</code> configuration:</p>
+
+<pre><code class="bash">export DIRENV_LOG_FORMAT=
+</code></pre>
+
+<h2>The more advanced setup</h2>
+
+<p>I don&rsquo;t like it when all my virtual environment prompts show up as <code>.venv</code>.
+I want ever prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
+
+<p>I also <em>really</em> wanted to be able to type <code>venv</code> to create a new virtual environment, activate it, and create the <code>.envrc</code> file for my <em>automatically</em>.</p>
+
+<p>Additionally, I thought it would be really handy if I could type <code>workon &lt;project_name&gt;</code> to change directories to a specific project.</p>
+
+<p>I made two aliases in my <code>~/.zshrc</code> configuration for all of this:</p>
+
+<pre><code class="shell">venv() {
+    local venv_name=${1:-$(basename "$PWD")}
+    local projects_file="$HOME/.projects"
+
+    # Check if .envrc already exists
+    if [ -f .envrc ]; then
+        echo "Error: .envrc already exists" &gt;&amp;2
+        return 1
+    fi
+
+    # Create venv
+    if ! python3 -m venv --prompt "$venv_name"; then
+        echo "Error: Failed to create venv" &gt;&amp;2
+        return 1
+    fi
+
+    # Create .envrc
+    echo "layout python" &gt; .envrc
+
+    # Append project name and directory to projects file
+    echo "${venv_name} = ${PWD}" &gt;&gt; $projects_file
+
+    # Allow direnv to immediately activate the virtual environment
+    direnv allow
+}
+
+workon() {
+    local project_name="$1"
+    local projects_file="$HOME/.projects"
+    local project_dir
+
+    # Check for projects config file
+    if [[ ! -f "$projects_file" ]]; then
+        echo "Error: $projects_file not found" &gt;&amp;2
+        return 1
+    fi
+
+    # Get the project directory for the given project name
+    project_dir=$(grep -E "^$project_name\s*=" "$projects_file" | sed 's/^[^=]*=\s*//')
+
+    # Ensure a project directory was found
+    if [[ -z "$project_dir" ]]; then
+        echo "Error: Project '$project_name' not found in $projects_file" &gt;&amp;2
+        return 1
+    fi
+
+    # Ensure the project directory exists
+    if [[ ! -d "$project_dir" ]]; then
+        echo "Error: Directory $project_dir does not exist" &gt;&amp;2
+        return 1
+    fi
+
+    # Change directories
+    cd "$project_dir"
+}
+</code></pre>
+
+<p>Now I can type this to create a <code>.venv</code> virtual environment in my current directory, which has a prompt named after the current directory, activate it, and create a <code>.envrc</code> file which will automatically activate that virtual environment (thanks to that <code>~/.config/direnv/direnvrc</code> file) whenever I change into that directory:</p>
+
+<pre><code class="bash">$ venv
+</code></pre>
+
+<p>If I wanted to customized the prompt name for the virtual environment, I could do this:</p>
+
+<pre><code class="bash">$ venv my_project
+</code></pre>
+
+<p>When I wanted to start working on that project later, I can either change into that directory <em>or</em> if I&rsquo;m feeling lazy I can simply type:</p>
+
+<pre><code class="bash">$ workon my_project
+</code></pre>
+
+<p>That reads from my <code>~/.projects</code> file to look up the project directory to switch to.</p>
+
+<h2>Switching to uv</h2>
+
+<p>I also decided to try using <a href="https://docs.astral.sh/uv/">uv</a> for all of this, since it&rsquo;s faster at creating virtual environments.
+One benefit of <code>uv</code> is that it tries to select the correct Python version for the project, if it sees a version noted in a <code>pyproject.toml</code> file.</p>
+
+<p>Another benefit of using <code>uv</code>, is that I should also be able to update the <code>venv</code> to use a specific version of Python with something like <code>--python 3.12</code>.</p>
+
+<p>Here are the updated shell aliases for the <code>~/.zshrc</code> for <code>uv</code>:</p>
+
+<pre><code class="shell">venv() {
+    local venv_name
+    local dir_name=$(basename "$PWD")
+
+    # If there are no arguments or the last argument starts with a dash, use dir_name
+    if [ $# -eq 0 ] || [[ "${!#}" == -* ]]; then
+        venv_name="$dir_name"
+    else
+        venv_name="${!#}"
+        set -- "${@:1:$#-1}"
+    fi
+
+    # Check if .envrc already exists
+    if [ -f .envrc ]; then
+        echo "Error: .envrc already exists" &gt;&amp;2
+        return 1
+    fi
+
+    # Create venv using uv with all passed arguments
+    if ! uv venv --seed --prompt "$@" "$venv_name"; then
+        echo "Error: Failed to create venv" &gt;&amp;2
+        return 1
+    fi
+
+    # Create .envrc
+    echo "layout python" &gt; .envrc
+
+    # Append to ~/.projects
+    echo "${venv_name} = ${PWD}" &gt;&gt; ~/.projects
+
+    # Allow direnv to immediately activate the virtual environment
+    direnv allow
+}
+</code></pre>
+
+<h2>Switching to starship</h2>
+
+<p>I also decided to try out using <a href="https://starship.rs">Starship</a> to customize my shell this week.</p>
+
+<p>I added this to my <code>~/.zshrc</code>:</p>
+
+<pre><code class="bash">eval "$(starship init zsh)"
+</code></pre>
+
+<p>And removed this, which is no longer needed since Starship will be managing the shell for me:</p>
+
+<pre><code class="bash"># Add direnv-activated venv to prompt
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV_PROMPT" &amp;&amp; -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV_PROMPT)) "
+  fi
+}
+PS1='$(show_virtual_env)'$PS1
+</code></pre>
+
+
+
+<pre><code>layout_python() {
+    VIRTUAL_ENV="$(pwd)/.venv"
+
+    # These lines work for activating the virtual environment for starship
+    PATH_add "$VIRTUAL_ENV/bin"
+    export VIRTUAL_ENV
+
+    # This would be necessary or a non-starship shell, to update the prompt
+    # . $VIRTUAL_ENV/bin/activate
+}
+</code></pre>
+
+<p>I also made a <em>very</em> boring Starship configuration in <code>~/.config/starship.toml</code>:</p>
+
+<pre><code class="toml">format = """
+$python\
+$directory\
+$git_branch\
+$git_state\
+$character"""
+
+add_newline = false
+
+[python]
+format = '([(\($virtualenv\) )]($style))'
+style = "bright-black"
+
+[directory]
+style = "bright-blue"
+
+[character]
+success_symbol = "[\\$](black)"
+error_symbol = "[\\$](bright-red)"
+vimcmd_symbol = "[❮](green)"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+style = "bright-purple"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "purple"
+
+[cmd_duration.disabled]
+</code></pre>
+
+<p>I setup such a boring configuration because when I&rsquo;m teaching, I don&rsquo;t want my students to be confused or distracted by a prompt that has considerably more information in it than <em>their</em> default prompt may have.</p>
+
+<p>The biggest downside of switching to Starship has been my own earworm-oriented brain.
+As I update my Starship configuration files, I&rsquo;ve repeatedly heard David Bowie singing &ldquo;I&rsquo;m a Starmaaan&rdquo;. 🎶</p>
+
+<h2>Ground control to major TOML</h2>
+
+<p>After all of that, I realized that I could additionally use different Starship configurations for different directories by putting a <code>STARSHIP_CONFIG</code> variable in specific layouts.
+After that realization, I made my configuration even <em>more</em> vanilla and made some alternative configurations in my <code>~/.config/direnv/direnvrc</code> file:</p>
+
+<pre><code class="bash">layout_python() {
+    VIRTUAL_ENV="$(pwd)/.venv"
+
+    PATH_add "$VIRTUAL_ENV/bin"
+    export VIRTUAL_ENV
+
+    export STARSHIP_CONFIG=/home/trey/.config/starship/python.toml
+}
+
+layout_git() {
+    export STARSHIP_CONFIG=/home/trey/.config/starship/git.toml
+}
+</code></pre>
+
+<p>Those other two configuration files are fancier, as I have no concern about them distracting my students since I&rsquo;ll never be within those directories while teaching.</p>
+
+<p>You can find those files in <a href="https://github.com/treyhunner/dotfiles">my dotfiles repository</a>.</p>
+
+<h2>The necessary tools</h2>
+
+<p>So I replaced virtualenvwrapper with direnv, uv, and Starship.
+Though direnv was is doing most of the important work here.
+The use of uv and Starship were just bonuses.</p>
+
+<p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
+]]></content>
+  </entry>
+  
+</feed>

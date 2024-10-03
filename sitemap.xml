@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/</loc>
+<lastmod>2024-10-03T13:30:00-07:00</lastmod>
+</url>
+<url>
 <loc>https://treyhunner.com/2024/08/python-high-five/</loc>
 <lastmod>2024-08-20T14:20:00-07:00</lastmod>
 </url>
@@ -388,5 +392,17 @@
 </url>
 <url>
 <loc>https://treyhunner.com/blog/categories/llm/</loc>
+</url>
+<url>
+<loc>https://treyhunner.com/blog/categories/direnv/</loc>
+</url>
+<url>
+<loc>https://treyhunner.com/blog/categories/uv/</loc>
+</url>
+<url>
+<loc>https://treyhunner.com/blog/categories/starship/</loc>
+</url>
+<url>
+<loc>https://treyhunner.com/blog/categories/dotfiles/</loc>
 </url>
 </urlset>
