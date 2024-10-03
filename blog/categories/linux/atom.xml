@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:28:33-07:00</updated>
+  <updated>2024-10-03T13:36:10-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -91,7 +91,45 @@ the one above and I have Gnome Terminal set to start with the custom command
 
 <p>I did not find any Linux applications that will capture/upload a screenshot and copy the URL but I discovered <a href="http://forums.dropbox.com/topic.php?id=21735">a thread in the Dropbox forums</a> with a script that does just that.  I added comments to the script, changed the variable names, removed the need for a temporary file, and added a <code>notify-send</code> call as a visual cue (should work on Ubuntu).  I have the script mapped to <kbd>Ctrl-PrtScrn</kbd> in Ubuntu.</p>
 
-<p>{% gist 892492 %}</p>
+<p><div><script src='https://gist.github.com/892492.js'></script>
+<noscript><pre><code>#!/bin/sh
+# Ubuntu-specific modification of http://wiki.dropbox.com/TipsAndTricks/ShareScreenshots
+
+# Change these
+DB_USER_ID=YOURDBUSERID
+BITLY_USERNAME=YOURBITLYUSERNAME
+BITLY_API_KEY=YOURBITLYKEYHERE
+DROPBOX_PUBLIC_DIR=~/Dropbox/Public
+SCREENSHOT_DIR=screenshots
+
+CAPTURE_DELAY=0
+PICTURE_QUALITY=50
+FILE_EXTENSION=png
+TIME=$(date +%Y%m%d%H%M%S)
+FILENAME=$TIME.$FILE_EXTENSION
+
+# Move to the directory where screenshots will be stored
+mkdir -p $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+cd $DROPBOX_PUBLIC_DIR/$SCREENSHOT_DIR
+
+# Take screenshot and save in screenshot directory
+scrot -d $CAPTURE_DELAY -q $PICTURE_QUALITY $FILENAME
+
+# Get Dropbox public URL for screenshot
+DB_URL=&quot;http://dl.dropbox.com/u/$DB_USER_ID/$SCREENSHOT_DIR/$FILENAME&quot;
+
+# Get bit.ly shortened URL for Dropbox URL
+ESCAPED_DB_URL=&quot;$(echo $DB_URL | sed &#39;s,:,%3A,g;s,/,%2F,g&#39;)&quot;
+BITLY_API_CALL=&quot;http://api.bit.ly/v3/shorten?login=$BITLY_USERNAME&amp;apiKey=$BITLY_API_KEY&amp;longUrl=$ESCAPED_DB_URL&amp;format=txt&quot;
+SHORT_URL=$(curl -s -S $BITLY_API_CALL)
+
+# Copy shortened URL to clipboard
+echo $SHORT_URL | xclip -sel clip
+
+# Display message to user (requires libnotify)
+notify-send &quot;Screenshot added&quot; &quot;Screenshot link copied to clipboard: $SHORT_URL&quot;
+</code></pre></noscript></div>
+</p>
 ]]></content>
   </entry>
   

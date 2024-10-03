@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:28:33-07:00</updated>
+  <updated>2024-10-03T13:36:10-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
     <link href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/"/>
-    <updated>2024-10-03T13:30:00-07:00</updated>
+    <updated>2024-10-03T14:00:00-07:00</updated>
     <id>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv</id>
     <content type="html"><![CDATA[<p>Earlier this week I considered whether I should finally switch away from <a href="https://virtualenvwrapper.readthedocs.io">virtualenvwrapper</a> to using local <code>.venv</code> managed by <a href="https://direnv.net">direnv</a>.</p>
 
@@ -128,7 +128,7 @@ I want ever prompt to be the name of the actual project&hellip; which is usually
 
 <p>I made two aliases in my <code>~/.zshrc</code> configuration for all of this:</p>
 
-<pre><code class="shell">venv() {
+<pre><code class="bash">venv() {
     local venv_name=${1:-$(basename "$PWD")}
     local projects_file="$HOME/.projects"
 
@@ -211,7 +211,7 @@ One benefit of <code>uv</code> is that it tries to select the correct Python ver
 
 <p>Here are the updated shell aliases for the <code>~/.zshrc</code> for <code>uv</code>:</p>
 
-<pre><code class="shell">venv() {
+<pre><code class="bash">venv() {
     local venv_name
     local dir_name=$(basename "$PWD")
 
@@ -266,17 +266,12 @@ show_virtual_env() {
 PS1='$(show_virtual_env)'$PS1
 </code></pre>
 
+<p>I also switched my <code>python</code> layout for direnv to just set the <code>$VIRTUAL_ENV</code> variable and add the <code>$VIRTUAL_ENV/bin</code> directory to my <code>PATH</code>, since the <code>$VIRTUAL_ENV_PROMPT</code> variable isn&rsquo;t needed for Starship to pick up the prompt:</p>
 
-
-<pre><code>layout_python() {
+<pre><code class="bash">layout_python() {
     VIRTUAL_ENV="$(pwd)/.venv"
-
-    # These lines work for activating the virtual environment for starship
     PATH_add "$VIRTUAL_ENV/bin"
     export VIRTUAL_ENV
-
-    # This would be necessary or a non-starship shell, to update the prompt
-    # . $VIRTUAL_ENV/bin/activate
 }
 </code></pre>
 
@@ -436,7 +431,7 @@ For example, the string <code>30-Jun-2024 20:09</code>, which I recently found i
 
 <p>I then paste the string into the tool and watch the format appear:</p>
 
-<p><a href="https://pym.dev/strptime">{% img /images/strptime-1.png %}</a></p>
+<p><a href="https://pym.dev/strptime"><img src="/images/strptime-1.png"></a></p>
 
 <p>Then I click on the date format to copy-paste it.
 That&rsquo;s it!</p>
@@ -444,7 +439,7 @@ That&rsquo;s it!</p>
 <p>This tool works by cycling through a number of common formats.
 It also works for dates without a time, like <code>Jul 1, 2024</code>.</p>
 
-<p><a href="https://pym.dev/strptime">{% img /images/strptime-2.png %}</a></p>
+<p><a href="https://pym.dev/strptime"><img src="/images/strptime-2.png"></a></p>
 
 <p>This input field works great when you&rsquo;re in need of a code for the <code>datetime</code> class&rsquo;s <code>strptime</code> method (which <em>parses</em> dates).
 But what if you need a code for <code>strftime</code> (for <em>formatting</em> dates)?</p>
@@ -455,7 +450,7 @@ But what if you need a code for <code>strftime</code> (for <em>formatting</em> d
 
 <p>This page includes a table of common formats.</p>
 
-<p><a href="https://pym.dev/strptime#formats">{% img /images/strptime-table.png %}</a></p>
+<p><a href="https://pym.dev/strptime#formats"><img src="/images/strptime-table.png"></a></p>
 
 <p>Click on the format to copy it.
 That&rsquo;s it.</p>
@@ -468,7 +463,7 @@ That&rsquo;s it.</p>
 
 <p>For example if you&rsquo;re wondering what the <code>%B</code> in <code>%B %d, %Y</code> means, paste it in to see what that represent with the current date and time:</p>
 
-<p><a href="https://pym.dev/strptime">{% img /images/strptime-reverse.png %}</a></p>
+<p><a href="https://pym.dev/strptime"><img src="/images/strptime-reverse.png"></a></p>
 
 <h2>Other features</h2>
 

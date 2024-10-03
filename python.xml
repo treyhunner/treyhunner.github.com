@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:24:35-07:00</updated>
+  <updated>2024-10-03T13:36:10-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,525 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
+    <link href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/"/>
+    <updated>2024-10-03T14:00:00-07:00</updated>
+    <id>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv</id>
+    <content type="html"><![CDATA[<p>Earlier this week I considered whether I should finally switch away from <a href="https://virtualenvwrapper.readthedocs.io">virtualenvwrapper</a> to using local <code>.venv</code> managed by <a href="https://direnv.net">direnv</a>.</p>
+
+<p>I&rsquo;ve never seriously used direnv, but I&rsquo;ve been hearing <a href="https://micro.webology.dev/2024/03/13/on-environment-variables.html">Jeff</a> and <a href="https://hynek.me/til/python-project-local-venvs/">Hynek</a> talk about their use of direnv for a while.</p>
+
+<p>After a few days, I&rsquo;ve finally stumbled into a setup that works great for me.
+I&rsquo;d like to note the basics of this setup as well as some fancy additions that are specific to my own use case.</p>
+
+<h2>My old virtualenvwrapper workflow</h2>
+
+<p>First, I&rsquo;d like to note my <em>old</em> workflow that I&rsquo;m trying to roughly recreate:</p>
+
+<ol>
+<li>I type <code>mkvenv3 &lt;project_name&gt;</code> to create a new virtual environment for the current project directory and activate it</li>
+<li>I type <code>workon &lt;project_name&gt;</code> when I want to workon that project: this activates the correct virtual environment <em>and</em> changes to the project directory</li>
+</ol>
+
+
+<p>The initial setup I thought of allows me to:</p>
+
+<ol>
+<li>Run <code>echo layout python &gt; .envrc &amp;&amp; direnv allow</code> to create a virtual environment for the current project and activate it</li>
+<li>Change directories into the project directory to automatically activate the virtual environment</li>
+</ol>
+
+
+<p>The more complex setup I eventually settled on allows me to:</p>
+
+<ol>
+<li>Run <code>venv &lt;project_name&gt;</code> to create a virtual environment for the current project and activate it</li>
+<li>Run <code>workon &lt;project_name&gt;</code> to change directories into the project (which automatically activates the virtual environment)</li>
+</ol>
+
+
+<h2>The initial setup</h2>
+
+<p>First, I <a href="https://direnv.net">installed direnv</a> and added this to my <code>~/.zshrc</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="s2">&quot;$(direnv hook zsh)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then whenever I wanted to create a virtual environment for a new project I created a <code>.envrc</code> file in that directory, which looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout python
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then I ran <code>direnv allow</code> to allow, as <code>direnv</code> instructed me to, to allow the new virtual environment to be automatically created and activated.</p>
+
+<p>That&rsquo;s pretty much it.</p>
+
+<p>Unfortunately, I did not like this initial setup.</p>
+
+<h2>No shell prompt?</h2>
+
+<p>The first problem was that the virtual environment&rsquo;s prompt didn&rsquo;t show up in my shell prompt.
+This is due to a <a href="https://github.com/direnv/direnv/issues/529">direnv not allowing modification of the <code>PS1</code> shell prompt</a>.
+That means I&rsquo;d need to modify my shell configuration to show the correct virtual environment name myself.</p>
+
+<p>So I added this to my <code>~/.zshrc</code> file to show the virtual environment name at the beginning of my prompt:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add direnv-activated venv to prompt</span>
+</span><span class='line'>show_virtual_env<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;$VIRTUAL_ENV_PROMPT&quot;</span> <span class="o">&amp;&amp;</span> -n <span class="s2">&quot;$DIRENV_DIR&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;($(basename $VIRTUAL_ENV_PROMPT)) &quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;$(show_virtual_env)&#39;</span><span class="nv">$PS1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Wrong virtual environment directory</h2>
+
+<p>The next problem was that the virtual environment was placed in <code>.direnv/python3.12</code>.
+I wanted each virtual environment to be in a <code>.venv</code> directory instead.</p>
+
+<p>To do that, I made a <code>.config/direnv/direnvrc</code> file that customized the python layout:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -d <span class="s2">&quot;.venv&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$VIRTUAL_ENV</span> <span class="o">||</span> ! -d <span class="nv">$VIRTUAL_ENV</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        log_status <span class="s2">&quot;No virtual environment exists. Executing \`python -m venv .venv\`.&quot;</span>
+</span><span class='line'>        python -m venv .venv
+</span><span class='line'>        <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Activate the virtual environment</span>
+</span><span class='line'>    . <span class="nv">$VIRTUAL_ENV</span>/bin/activate
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Loading, unloading, loading, unloading&hellip;</h2>
+
+<p>I also didn&rsquo;t like the loading and unloading messages that showed up each time I changed directories.
+I removed those by clearing the <code>DIRENV_LOG_FORMAT</code> variable in my <code>~/.zshrc</code> configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">DIRENV_LOG_FORMAT</span><span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The more advanced setup</h2>
+
+<p>I don&rsquo;t like it when all my virtual environment prompts show up as <code>.venv</code>.
+I want ever prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
+
+<p>I also <em>really</em> wanted to be able to type <code>venv</code> to create a new virtual environment, activate it, and create the <code>.envrc</code> file for my <em>automatically</em>.</p>
+
+<p>Additionally, I thought it would be really handy if I could type <code>workon &lt;project_name&gt;</code> to change directories to a specific project.</p>
+
+<p>I made two aliases in my <code>~/.zshrc</code> configuration for all of this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>venv<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">venv_name</span><span class="o">=</span><span class="k">${</span><span class="nv">1</span><span class="k">:-$(</span>basename <span class="s2">&quot;$PWD&quot;</span><span class="k">)}</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">projects_file</span><span class="o">=</span><span class="s2">&quot;$HOME/.projects&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Check if .envrc already exists</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> -f .envrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: .envrc already exists&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Create venv</span>
+</span><span class='line'>    <span class="k">if</span> ! python3 -m venv --prompt <span class="s2">&quot;$venv_name&quot;</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Failed to create venv&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Create .envrc</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;layout python&quot;</span> &gt; .envrc
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Append project name and directory to projects file</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${venv_name} = ${PWD}&quot;</span> &gt;&gt; <span class="nv">$projects_file</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Allow direnv to immediately activate the virtual environment</span>
+</span><span class='line'>    direnv allow
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>workon<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">project_name</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">projects_file</span><span class="o">=</span><span class="s2">&quot;$HOME/.projects&quot;</span>
+</span><span class='line'>    <span class="nb">local </span>project_dir
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Check for projects config file</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> ! -f <span class="s2">&quot;$projects_file&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: $projects_file not found&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Get the project directory for the given project name</span>
+</span><span class='line'>    <span class="nv">project_dir</span><span class="o">=</span><span class="k">$(</span>grep -E <span class="s2">&quot;^$project_name\s*=&quot;</span> <span class="s2">&quot;$projects_file&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/^[^=]*=\s*//&#39;</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Ensure a project directory was found</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&quot;$project_dir&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Project &#39;$project_name&#39; not found in $projects_file&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Ensure the project directory exists</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> ! -d <span class="s2">&quot;$project_dir&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Directory $project_dir does not exist&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Change directories</span>
+</span><span class='line'>    <span class="nb">cd</span> <span class="s2">&quot;$project_dir&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I can type this to create a <code>.venv</code> virtual environment in my current directory, which has a prompt named after the current directory, activate it, and create a <code>.envrc</code> file which will automatically activate that virtual environment (thanks to that <code>~/.config/direnv/direnvrc</code> file) whenever I change into that directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>venv
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If I wanted to customized the prompt name for the virtual environment, I could do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>venv my_project
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I wanted to start working on that project later, I can either change into that directory <em>or</em> if I&rsquo;m feeling lazy I can simply type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>workon my_project
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That reads from my <code>~/.projects</code> file to look up the project directory to switch to.</p>
+
+<h2>Switching to uv</h2>
+
+<p>I also decided to try using <a href="https://docs.astral.sh/uv/">uv</a> for all of this, since it&rsquo;s faster at creating virtual environments.
+One benefit of <code>uv</code> is that it tries to select the correct Python version for the project, if it sees a version noted in a <code>pyproject.toml</code> file.</p>
+
+<p>Another benefit of using <code>uv</code>, is that I should also be able to update the <code>venv</code> to use a specific version of Python with something like <code>--python 3.12</code>.</p>
+
+<p>Here are the updated shell aliases for the <code>~/.zshrc</code> for <code>uv</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>venv<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">local </span>venv_name
+</span><span class='line'>    <span class="nb">local </span><span class="nv">dir_name</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$PWD&quot;</span><span class="k">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># If there are no arguments or the last argument starts with a dash, use dir_name</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq <span class="m">0</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[[</span> <span class="s2">&quot;${!#}&quot;</span> <span class="o">==</span> -* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nv">venv_name</span><span class="o">=</span><span class="s2">&quot;$dir_name&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="nv">venv_name</span><span class="o">=</span><span class="s2">&quot;${!#}&quot;</span>
+</span><span class='line'>        <span class="nb">set</span> -- <span class="s2">&quot;${@:1:$#-1}&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Check if .envrc already exists</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> -f .envrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: .envrc already exists&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Create venv using uv with all passed arguments</span>
+</span><span class='line'>    <span class="k">if</span> ! uv venv --seed --prompt <span class="s2">&quot;$@&quot;</span> <span class="s2">&quot;$venv_name&quot;</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Failed to create venv&quot;</span> &gt;<span class="p">&amp;</span>2
+</span><span class='line'>        <span class="k">return</span> 1
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Create .envrc</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;layout python&quot;</span> &gt; .envrc
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Append to ~/.projects</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${venv_name} = ${PWD}&quot;</span> &gt;&gt; ~/.projects
+</span><span class='line'>
+</span><span class='line'>    <span class="c"># Allow direnv to immediately activate the virtual environment</span>
+</span><span class='line'>    direnv allow
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Switching to starship</h2>
+
+<p>I also decided to try out using <a href="https://starship.rs">Starship</a> to customize my shell this week.</p>
+
+<p>I added this to my <code>~/.zshrc</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="s2">&quot;$(starship init zsh)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And removed this, which is no longer needed since Starship will be managing the shell for me:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add direnv-activated venv to prompt</span>
+</span><span class='line'>show_virtual_env<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;$VIRTUAL_ENV_PROMPT&quot;</span> <span class="o">&amp;&amp;</span> -n <span class="s2">&quot;$DIRENV_DIR&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;($(basename $VIRTUAL_ENV_PROMPT)) &quot;</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;$(show_virtual_env)&#39;</span><span class="nv">$PS1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also switched my <code>python</code> layout for direnv to just set the <code>$VIRTUAL_ENV</code> variable and add the <code>$VIRTUAL_ENV/bin</code> directory to my <code>PATH</code>, since the <code>$VIRTUAL_ENV_PROMPT</code> variable isn&rsquo;t needed for Starship to pick up the prompt:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
+</span><span class='line'>    PATH_add <span class="s2">&quot;$VIRTUAL_ENV/bin&quot;</span>
+</span><span class='line'>    <span class="nb">export </span>VIRTUAL_ENV
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also made a <em>very</em> boring Starship configuration in <code>~/.config/starship.toml</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='toml'><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">$python\</span>
+</span><span class='line'><span class="s">$directory\</span>
+</span><span class='line'><span class="s">$git_branch\</span>
+</span><span class='line'><span class="s">$git_state\</span>
+</span><span class='line'><span class="s">$character&quot;&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">add_newline</span> <span class="o">=</span> <span class="kc">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">python</span><span class="p">]</span>
+</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="err">&#39;</span><span class="p">([(</span><span class="err">\</span><span class="p">(</span><span class="err">$</span><span class="n">virtualenv</span><span class="err">\</span><span class="p">)</span> <span class="p">)](</span><span class="err">$</span><span class="n">style</span><span class="p">))</span><span class="err">&#39;</span>
+</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-black&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">directory</span><span class="p">]</span>
+</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-blue&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">character</span><span class="p">]</span>
+</span><span class='line'><span class="n">success_symbol</span> <span class="o">=</span> <span class="s">&quot;[\\$](black)&quot;</span>
+</span><span class='line'><span class="n">error_symbol</span> <span class="o">=</span> <span class="s">&quot;[\\$](bright-red)&quot;</span>
+</span><span class='line'><span class="n">vimcmd_symbol</span> <span class="o">=</span> <span class="s">&quot;[❮](green)&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">git_branch</span><span class="p">]</span>
+</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="s">&quot;[$symbol$branch]($style) &quot;</span>
+</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-purple&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">git_state</span><span class="p">]</span>
+</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="err">&#39;\</span><span class="p">([</span><span class="err">$</span><span class="n">state</span><span class="p">(</span> <span class="err">$</span><span class="n">progress_current</span><span class="err">/$</span><span class="n">progress_total</span><span class="p">)](</span><span class="err">$</span><span class="n">style</span><span class="p">)</span><span class="err">\</span><span class="p">)</span> <span class="err">&#39;</span>
+</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;purple&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="n">cmd_duration</span><span class="p">.</span><span class="n">disabled</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I setup such a boring configuration because when I&rsquo;m teaching, I don&rsquo;t want my students to be confused or distracted by a prompt that has considerably more information in it than <em>their</em> default prompt may have.</p>
+
+<p>The biggest downside of switching to Starship has been my own earworm-oriented brain.
+As I update my Starship configuration files, I&rsquo;ve repeatedly heard David Bowie singing &ldquo;I&rsquo;m a Starmaaan&rdquo;. 🎶</p>
+
+<h2>Ground control to major TOML</h2>
+
+<p>After all of that, I realized that I could additionally use different Starship configurations for different directories by putting a <code>STARSHIP_CONFIG</code> variable in specific layouts.
+After that realization, I made my configuration even <em>more</em> vanilla and made some alternative configurations in my <code>~/.config/direnv/direnvrc</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    PATH_add <span class="s2">&quot;$VIRTUAL_ENV/bin&quot;</span>
+</span><span class='line'>    <span class="nb">export </span>VIRTUAL_ENV
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">export </span><span class="nv">STARSHIP_CONFIG</span><span class="o">=</span>/home/trey/.config/starship/python.toml
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>layout_git<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">export </span><span class="nv">STARSHIP_CONFIG</span><span class="o">=</span>/home/trey/.config/starship/git.toml
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Those other two configuration files are fancier, as I have no concern about them distracting my students since I&rsquo;ll never be within those directories while teaching.</p>
+
+<p>You can find those files in <a href="https://github.com/treyhunner/dotfiles">my dotfiles repository</a>.</p>
+
+<h2>The necessary tools</h2>
+
+<p>So I replaced virtualenvwrapper with direnv, uv, and Starship.
+Though direnv was is doing most of the important work here.
+The use of uv and Starship were just bonuses.</p>
+
+<p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[10-Week Hands-On Python Course]]></title>
@@ -4174,77 +4693,6 @@ By my count, about 15% of the Python built-ins are meant to accept functions as 
 
 
 <p>This topics goes <em>much deeper</em> than what I&rsquo;ve discussed here, but until you find yourself writing decorator functions, you probably don&rsquo;t need to explore this topic any further.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cyber Monday Python Sales (2019)]]></title>
-    <link href="https://treyhunner.com/2019/12/cyber-monday-python-sales/"/>
-    <updated>2019-12-02T02:00:00-08:00</updated>
-    <id>https://treyhunner.com/2019/12/cyber-monday-python-sales</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m running <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">a sale</a> that ends in 24 hours, but I&rsquo;m not the only one.
-This post is a compilation of the different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels, weekly skill-building for professional Pythonistas</h3>
-
-<p><a href="https://www.pythonmorsels.com/">Python Morsels</a> is my weekly Python skill-building service.</p>
-
-<p>I&rsquo;m offering something sort of like a &ldquo;buy one get one free&rdquo; sale this year.</p>
-
-<p>You can pay $200 to get 2 redemption codes, each worth 12 months of Python Morsels.</p>
-
-<p>You can use one code for yourself and give one to a friend.
-Or you could be extra generous and give them both away to two friends.
-Either way, 2 people are each getting one year&rsquo;s worth of weekly Python training.</p>
-
-<p>You can find <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">more details on this sale here</a>.</p>
-
-<h3>Data School&rsquo;s Machine Learning course</h3>
-
-<p>Kevin Markham of Data School is selling his &ldquo;Machine Learning with Text in Python&rdquo; course for $195 (it&rsquo;s usually $295).
-You can find more details on this sale <a href="https://www.dataschool.io/black-friday/">on the Data School Black Friday post</a>.</p>
-
-<h3>Talk Python Course Bundle</h3>
-
-<p>Michael Kennedy is selling a bundle that includes <a href="https://training.talkpython.fm/black-friday-2019">every Talk Python course for $250</a>.</p>
-
-<p>There are 20 courses included in this bundle.
-If you&rsquo;re into Python and you don&rsquo;t already own most of these courses, this bundle could be a really good deal for you.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses</h3>
-
-<p>Reuven Lerner is offering a <a href="https://lerner.co.il/2019/11/28/my-black-friday-sale-is-live-take-50-off-any-course-in-python-or-data-science/">50% off sale on his courses</a>.
-Reuven has courses on Python, Git, and regular expressions.</p>
-
-<p>This sale also includes Reuven&rsquo;s <a href="https://store.lerner.co.il/wpe?coupon=BF2019">Weekly Python Exercise</a>, which is similar to <a href="https://www.pythonmorsels.com/">Python Morsels</a>, but has its own flavor.
-You could sign up for both if you want double the weekly learning.</p>
-
-<h3>Real Python courses</h3>
-
-<p>Real Python is also offering <a href="https://realpython.com/account/join/?c=blackfriday2019">$40 off their annual memberships</a>.
-Real Python has many tutorials and courses as well.</p>
-
-<h3>PyBites Code Challenges</h3>
-
-<p>Bob and Julian of PyBites are offering their a <a href="https://gumroad.com/l/Xhxeo/teachingpython">40% discount off their Newbie Bites</a> on their PyBites Code Challenges platform.</p>
-
-<p>If you&rsquo;re new to Python and programming, check out their newbie bites.</p>
-
-<h3>Automate the Boring Stuff Course (for free!)</h3>
-
-<p>Al Sweigart is offering <a href="https://www.udemy.com/course/automate/?couponCode=DEC2019FREE">free lifetime access to his Automate the Boring Stuff with Python course</a> on Udemy until Wednesday.
-It&rsquo;s hard to beat free!</p>
-
-<h3>Other Cyber Monday deals?</h3>
-
-<p>If you have questions about the <a href="https://treyhunner.com/2019/11/black-friday-sale-gift-python-morsels-to-a-friend/">Python Morsels sale</a>, <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a>.</p>
-
-<p>The Python Morsels sale and likely all the other sales above will end in the next 24 hours, probably sooner depending on when you&rsquo;re reading this.</p>
-
-<p>So go check them out!</p>
-
-<p>Did I miss a deal that you know about?
-Link to it in the comments!</p>
 ]]></content>
   </entry>
   

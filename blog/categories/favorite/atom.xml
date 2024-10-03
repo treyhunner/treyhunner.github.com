@@ -4,7 +4,7 @@
   <title><![CDATA[Category: favorite | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/favorite/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:28:33-07:00</updated>
+  <updated>2024-10-03T13:36:10-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -1173,7 +1173,7 @@ I note in that article that you can copy-paste your way from a <code>for</code> 
 
 <p>You can also copy-paste your way from a generator function to a function that returns a generator expression:</p>
 
-<p>{% img /images/generator-expression-copy-paste.gif %}</p>
+<p><img src="/images/generator-expression-copy-paste.gif"></p>
 
 <p>Generator expressions are to generator functions as list comprehensions are to a simple <code>for</code> loop with an append and a condition.</p>
 
