@@ -4,7 +4,7 @@
   <title><![CDATA[Category: direnv | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/direnv/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:36:10-07:00</updated>
+  <updated>2024-10-03T13:47:03-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -344,6 +344,8 @@ Though direnv was is doing most of the important work here.
 The use of uv and Starship were just bonuses.</p>
 
 <p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
+
+<p>Thanks to all who <a href="https://mastodon.social/@treyhunner/113232640710715449">participated in my Mastodon thread</a> as I fumbled through discovering this setup.</p>
 ]]></content>
   </entry>
   
