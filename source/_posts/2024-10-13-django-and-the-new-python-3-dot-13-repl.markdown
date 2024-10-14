@@ -38,7 +38,7 @@ So I'm fine with a solution that *attempts* to use the new REPL and then falls b
 
 So, let's look at a working solution.
 
-Stick this code in a `management/commands/shell.py` file within one of your Django apps:
+Stick [this code](https://pym.dev/p/2zqeq/) in a `management/commands/shell.py` file within one of your Django apps:
 
 ```python
 """Python 3.13 REPL support using the unsupported _pyrepl module."""
