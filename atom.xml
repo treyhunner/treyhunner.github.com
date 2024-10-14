@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-13T21:03:56-07:00</updated>
+  <updated>2024-10-13T21:12:05-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -48,7 +48,7 @@ So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and
 
 <p>So, let&rsquo;s look at a working solution.</p>
 
-<p>Stick this code in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
+<p>Stick <a href="https://pym.dev/p/2zqeq/">this code</a> in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

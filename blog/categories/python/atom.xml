@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-13T21:03:56-07:00</updated>
+  <updated>2024-10-13T21:12:05-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -48,7 +48,7 @@ So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and
 
 <p>So, let&rsquo;s look at a working solution.</p>
 
-<p>Stick this code in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
+<p>Stick <a href="https://pym.dev/p/2zqeq/">this code</a> in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
 
 <pre><code class="python">"""Python 3.13 REPL support using the unsupported _pyrepl module."""
 from django.core.management.commands.shell import Command as BaseShellCommand
