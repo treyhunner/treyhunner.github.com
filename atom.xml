@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-03T13:47:03-07:00</updated>
+  <updated>2024-10-13T21:03:48-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Django and the new Python 3.13 REPL]]></title>
+    <link href="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/"/>
+    <updated>2024-10-13T21:03:32-07:00</updated>
+    <id>https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl</id>
+    <content type="html"><![CDATA[<p>Your new Django project uses Python 3.13.</p>
+
+<p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
+What gives?</p>
+
+<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <code>code</code> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
+
+<p>So you&rsquo;re out of luck&hellip; or are you?</p>
+
+<h2>How stable do you need your <code>shell</code> command to be?</h2>
+
+<p>The new Python REPL&rsquo;s code lives in a <code>_pyrepl</code> package.
+Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
+
+<p>First, note the <code>_</code> before that package name.
+It&rsquo;s <code>_pyrepl</code>, not <code>pyrepl</code>.</p>
+
+<p>Any solution that relies on this module may break in future Python releases.</p>
+
+<p>So&hellip; should we give up on looking for a solution, if we can&rsquo;t get a &ldquo;stable&rdquo; one?</p>
+
+<p>I don&rsquo;t think so.</p>
+
+<p>My <code>shell</code> command doesn&rsquo;t usually <em>need</em> to be stable in more than one version of Python at a time.
+So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and then falls back to the old REPL if it fails.</p>
+
+<h2>A working solution</h2>
+
+<p>So, let&rsquo;s look at a working solution.</p>
+
+<p>Stick this code in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;Python 3.13 REPL support using the unsupported _pyrepl module.&quot;&quot;&quot;</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.core.management.commands.shell</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">BaseShellCommand</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseShellCommand</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">shells</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;ipython&quot;</span><span class="p">,</span> <span class="s">&quot;bpython&quot;</span><span class="p">,</span> <span class="s">&quot;pyrepl&quot;</span><span class="p">,</span> <span class="s">&quot;python&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">pyrepl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+</span><span class='line'>        <span class="kn">from</span> <span class="nn">_pyrepl.main</span> <span class="kn">import</span> <span class="n">interactive_console</span>
+</span><span class='line'>        <span class="n">interactive_console</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>How it works</h2>
+
+<p>Django&rsquo;s <code>shell</code> command has made it very simple to add support for your favorite REPL of choice.</p>
+
+<p><a href="https://github.com/django/django/blob/5.1.2/django/core/management/commands/shell.py">The code for the <code>shell</code> command</a> loops through the <code>shells</code> list and attempts to run a method with that name on its own class.
+If an <code>ImportError</code> is raised then it attempts the next command, stopping once no exception occurs.</p>
+
+<p>Our new command will try to use IPython and bpython if they&rsquo;re installed and then it will try the new Python 3.13 REPL followed by the old Python REPL.</p>
+
+<p>If Python 3.14 breaks our import by moving the <code>interactive_console</code> function, then an <code>ImportError</code> will be raised, causing us to fall back to the old REPL after we upgrade to Python 3.14 one day.
+If instead, the <code>interactive_console</code> function&rsquo;s usage changes (maybe it will require arguments) then our <code>shell</code> command will completely break and we&rsquo;ll need to manually fix it when we upgrade to Python 3.14.</p>
+
+<h2>What&rsquo;s so great about the new REPL?</h2>
+
+<p>If you&rsquo;re already using IPython or BPython as your REPL and you&rsquo;re enjoying them, I would stick with them.</p>
+
+<p>Third-party libraries move faster than Python itself and they&rsquo;re often more feature-rich.
+IPython has about 20 years worth of feature development and it has features that the built-in Python REPL will likely never have.</p>
+
+<p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
+I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
+See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
@@ -3997,109 +4082,6 @@ What works well with the way you learn and what would you actually make a habit 
 If you have questions about other sales, email the folks running those sales (make sure to do it now in case they take a day or two to get back to you).</p>
 
 <p>Also if you&rsquo;ve found other Python sales I&rsquo;ve missed above, please comment or <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a> to let me know about them.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Short weekly Python screencasts for $50/year]]></title>
-    <link href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/"/>
-    <updated>2020-11-25T09:00:00-08:00</updated>
-    <id>https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m offering a service to help <strong>life-long Python learners</strong> manufacture ah-ha moments.</p>
-
-<p>A few years ago at my local Python meetup I was discussing how function arguments work (they&rsquo;re <a href="https://jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/">call-by-assignment</a> a.k.a. <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">call by object</a>).
-A friend spoke up to clarify: &ldquo;but it doesn&rsquo;t work that way for numbers and strings, right?&rdquo;
-I said &ldquo;I&rsquo;m pretty sure it works like this for everything&rdquo;.</p>
-
-<p>After some quiet Googling, my friend declared &ldquo;I&rsquo;ve been using Python for over a decade and I never knew it worked this way&rdquo;.
-They&rsquo;d suddenly realized <em>their mental model of the Python world</em> differed from Python&rsquo;s model of itself.
-They&rsquo;d experienced an &ldquo;ah-ha moment&rdquo;.</p>
-
-<p>I&rsquo;m going to publish <strong>at least one short Python screencast every week</strong> to help <em>manufacture</em> <strong>Python ah-ha moments</strong>.
-These will be single-topic screencasts that <strong>won&rsquo;t waste your time</strong>.</p>
-
-<p>So, if you&rsquo;re a life-long learner who uses Python and doesn&rsquo;t have a wealth of time for learning, read on.</p>
-
-<h3>What is this?</h3>
-
-<p>With this subscription you&rsquo;ll receive access to a growing archive of Python screencasts (<strong>at least one new screencast each week</strong>).
-If you enjoy my <a href="https://treyhunner.com/blog/categories/python/">articles</a> or my <a href="https://treyhunner.com/talks">talks and tutorials</a>, you&rsquo;ll probably enjoy the format I use in my screencasts.</p>
-
-<p><strong>Don&rsquo;t like video?</strong> That&rsquo;s okay!
-Each screencast is captioned and includes <strong>a mini-blog post</strong> which is nearly <strong>a text-based equivalent</strong> to the video.</p>
-
-<h3>What are the screencasts like?</h3>
-
-<p>Each screencast will be <strong>concise</strong> and short, under 6 minutes.
-Examples include <a href="https://www.pythonmorsels.com/topics/variables-are-pointers/">variables are pointers</a> (2 mins) and <a href="https://www.pythonmorsels.com/topics/2-types-change/">the 2 types of &ldquo;change&rdquo;</a> (3 mins), plus <a href="https://www.pythonmorsels.com/screencasts/">others here</a>.</p>
-
-<p><a href="https://www.pythonmorsels.com/screencasts/"><img src="https://treyhunner.com/images/screencasts.png"></a></p>
-
-<p><strong>What topics will the screencasts be on?</strong>
-Functions, classes, scope, operator overloading, decorators, exception handling, and more.
-Screencasts will focus on Python core, not third-party libraries (no Pandas, Numpy, or Django).
-Topics will range from beginner to advanced.</p>
-
-<p><strong>Will the screencasts be freely shareable?</strong>
-Some screencasts will be limited to subscribers and some will be available to non-subscribers, with a yet-to-be-decided breakdown between the two.</p>
-
-<h3>You&rsquo;ll also get get occasional Python exercises</h3>
-
-<p>This weekly screencast subscription is part of <a href="https://www.pythonmorsels.com/">Python Morsels</a>, an exercise subscription service I run.
-In addition to weekly screencasts, you&rsquo;ll also get <strong>one Python exercise each month</strong>.</p>
-
-<p>If you&rsquo;ve taken <a href="https://treyhunner.com/talks/#tutorials">my PyCon tutorials</a> or attended <a href="https://truthful.technology/">my trainings</a>, you know exercises are the best part of my curriculum.
-I spend a lot of time making new exercises because we learn by attempting to retrieve information from our heads (through practice), not by putting information <em>into</em> our heads.</p>
-
-<p>Python Morsels exercises are both interesting and <strong>complex but not complicated</strong>.
-You don&rsquo;t need to work through the monthly exercises, but I do recommend it.</p>
-
-<h3>This subscription is $50/year for a limited time</h3>
-
-<p>I&rsquo;m offering this service for a comparatively low price of $50/year because I don&rsquo;t have a large archive of screencasts yet.
-I have plans to increase the price in 2021, but as an early user <strong>your price will always be $50/year</strong>.</p>
-
-<p>If you&rsquo;re not sure whether this is for you, <a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">sign up to try it out for free</a>.</p>
-
-<h3>Why pay for this when there&rsquo;s a lot of great free Python videos out there?</h3>
-
-<p>Why am I charging money for this?</p>
-
-<p>There&rsquo;s really one reason: <strong>you&rsquo;re trading money for time</strong>.
-This is a tradeoff I&rsquo;ve grown an appreciation for (one which would baffle a younger version of myself).</p>
-
-<p>This time-money tradeoff comes in a few forms:</p>
-
-<ol>
-<li>You will never see any ads on Python Morsels: you&rsquo;re not the product, the screencasts are</li>
-<li>No filler content or rambling (no ad revenue means no need for long videos)</li>
-<li>I have unique expertise and perspective: teaching Python is my business and I&rsquo;m good at it</li>
-</ol>
-
-
-<p>Watch some of <a href="https://www.pythonmorsels.com/screencasts/">the current screencasts</a> before signing up.
-If my teaching style isn&rsquo;t for you, that&rsquo;s okay!
-But if my teaching style <em>is</em> for you, I think you&rsquo;ll find <strong>the next year&rsquo;s worth of screencasts</strong> will be worthwhile! 😁</p>
-
-<h3>Student discounts? Team subscriptions? Other questions?</h3>
-
-<p>My standard <a href="https://www.pythonmorsels.com/discounts/">discount policy</a> is income-tiered: if you make less than $60,000 USD annually, you&rsquo;re eligible.
-I also offer situation-specific discounts, so please <strong>ask for a discount if you need one</strong>.</p>
-
-<p>If you&rsquo;re paying through your employer, note that there are <strong>team subscriptions</strong> too.
-Just <a href="https://form.jotform.com/201278113533043">fill out this form</a> to get started setting up a subscription for your team.</p>
-
-<h3>Ready to try it out?</h3>
-
-<p>Are you ready to subscribe to a growing collection of short and concise Python screencasts?
-<a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">Let&rsquo;s get learning</a>!</p>
-
-<p><a href="https://www.pythonmorsels.com/accounts/signup/?plan=9" class="subscribe-btn form-big bright">Sign up for weekly Python screencasts now</a></p>
-
-<p>Do you have another question that I haven&rsquo;t answered here?
-Check out the <a href="https://pythonmorsels.helpscoutdocs.com/article/23-lite-plan">Lite plan FAQ</a> or <a href="m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email your question to he&#108;p&#64;pyt&#104;o&#110;morsel&#115;&#46;&#99;o&#109;</a>.</p>
-
-<p>Happy learning!</p>
 ]]></content>
   </entry>
   

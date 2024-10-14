@@ -17,11 +17,11 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Category: django - Trey Hunner</title>
+  <title>Django and the new Python 3.13 REPL</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Category: django">
+  <meta name="description" content="Your new Django project uses Python 3.13. You&rsquo;re really looking forward to using the new REPL&hellip; but python manage.py shell just shows the &hellip;">
   
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -38,7 +38,7 @@
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/blog/categories/django/">
+  <link rel="canonical" href="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -113,160 +113,160 @@ $(document).ready(function () {
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: django</h1>
+    
+      <h1 class="entry-title">Django and the new Python 3.13 REPL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2024-10-13T21:03:32-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>9:03 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
 
-  
-  <h2>2024</h2>
+<div class="entry-content"><p>Your new Django project uses Python 3.13.</p>
 
-<article>
-  
-<h1><a href="/2024/10/django-and-the-new-python-3-dot-13-repl/">Django and the new Python 3.13 REPL</a></h1>
-<time datetime="2024-10-13T21:03:32-07:00" pubdate><span class='month'>Oct</span> <span class='day'>13</span> <span class='year'>2024</span></time>
+<p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
+What gives?</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
+<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <code>code</code> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
 
+<p>So you&rsquo;re out of luck&hellip; or are you?</p>
 
-</article>
+<h2>How stable do you need your <code>shell</code> command to be?</h2>
 
+<p>The new Python REPL&rsquo;s code lives in a <code>_pyrepl</code> package.
+Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
 
+<p>First, note the <code>_</code> before that package name.
+It&rsquo;s <code>_pyrepl</code>, not <code>pyrepl</code>.</p>
 
-  
-  <h2>2014</h2>
+<p>Any solution that relies on this module may break in future Python releases.</p>
 
-<article>
-  
-<h1><a href="/2014/09/adding-css-classes-to-django-form-fields/">CSS classes and Django form fields</a></h1>
-<time datetime="2014-09-30T11:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>30</span> <span class='year'>2014</span></time>
+<p>So&hellip; should we give up on looking for a solution, if we can&rsquo;t get a &ldquo;stable&rdquo; one?</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
+<p>I don&rsquo;t think so.</p>
 
+<p>My <code>shell</code> command doesn&rsquo;t usually <em>need</em> to be stable in more than one version of Python at a time.
+So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and then falls back to the old REPL if it fails.</p>
 
-</article>
+<h2>A working solution</h2>
 
+<p>So, let&rsquo;s look at a working solution.</p>
 
+<p>Stick this code in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
 
-<article>
-  
-<h1><a href="/2014/03/migrating-to-django-1-dot-7/">Supporting both Django 1.7 and South</a></h1>
-<time datetime="2014-03-27T13:05:00-07:00" pubdate><span class='month'>Mar</span> <span class='day'>27</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
-
-
-
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/2013/11/tdd-with-django-workshop/">TDD with Django Tutorial</a></h1>
-<time datetime="2013-11-04T00:00:00-08:00" pubdate><span class='month'>Nov</span> <span class='day'>04</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/testing/'>testing</a></span>
-</footer>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;Python 3.13 REPL support using the unsupported _pyrepl module.&quot;&quot;&quot;</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">django.core.management.commands.shell</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">BaseShellCommand</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseShellCommand</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">shells</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;ipython&quot;</span><span class="p">,</span> <span class="s">&quot;bpython&quot;</span><span class="p">,</span> <span class="s">&quot;pyrepl&quot;</span><span class="p">,</span> <span class="s">&quot;python&quot;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">pyrepl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+</span><span class='line'>        <span class="kn">from</span> <span class="nn">_pyrepl.main</span> <span class="kn">import</span> <span class="n">interactive_console</span>
+</span><span class='line'>        <span class="n">interactive_console</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<h2>How it works</h2>
 
+<p>Django&rsquo;s <code>shell</code> command has made it very simple to add support for your favorite REPL of choice.</p>
 
+<p><a href="https://github.com/django/django/blob/5.1.2/django/core/management/commands/shell.py">The code for the <code>shell</code> command</a> loops through the <code>shells</code> list and attempts to run a method with that name on its own class.
+If an <code>ImportError</code> is raised then it attempts the next command, stopping once no exception occurs.</p>
 
-<article>
-  
-<h1><a href="/2013/10/visual-integration-tests-for-django/">Visual Integration Tests for Django</a></h1>
-<time datetime="2013-10-03T15:19:00-07:00" pubdate><span class='month'>Oct</span> <span class='day'>03</span> <span class='year'>2013</span></time>
+<p>Our new command will try to use IPython and bpython if they&rsquo;re installed and then it will try the new Python 3.13 REPL followed by the old Python REPL.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/testing/'>testing</a></span>
-</footer>
+<p>If Python 3.14 breaks our import by moving the <code>interactive_console</code> function, then an <code>ImportError</code> will be raised, causing us to fall back to the old REPL after we upgrade to Python 3.14 one day.
+If instead, the <code>interactive_console</code> function&rsquo;s usage changes (maybe it will require arguments) then our <code>shell</code> command will completely break and we&rsquo;ll need to manually fix it when we upgrade to Python 3.14.</p>
 
+<h2>What&rsquo;s so great about the new REPL?</h2>
 
-</article>
+<p>If you&rsquo;re already using IPython or BPython as your REPL and you&rsquo;re enjoying them, I would stick with them.</p>
 
+<p>Third-party libraries move faster than Python itself and they&rsquo;re often more feature-rich.
+IPython has about 20 years worth of feature development and it has features that the built-in Python REPL will likely never have.</p>
 
-
-<article>
-  
-<h1><a href="/2013/05/django-email-log/">Log all outgoing emails in Django</a></h1>
-<time datetime="2013-05-20T00:00:00-07:00" pubdate><span class='month'>May</span> <span class='day'>20</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/2013/05/django-simple-history/">django-simple-history is back</a></h1>
-<time datetime="2013-05-01T00:00:00-07:00" pubdate><span class='month'>May</span> <span class='day'>01</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
-
-
-
-  
-  <h2>2011</h2>
-
-<article>
-  
-<h1><a href="/2011/09/django-and-model-history/">Django and model history</a></h1>
-<time datetime="2011-09-29T00:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>29</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
-
-
-
-  
-  <h2>2010</h2>
-
-<article>
-  
-<h1><a href="/2010/12/encrypted-private-keys-in-django/">Encrypted private keys in Django</a></h1>
-<time datetime="2010-12-11T00:00:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>11</span> <span class='year'>2010</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
-
+<p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
+I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
+See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
 </div>
 
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2024-10-13T21:03:32-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>9:03 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/" title="Previous Post: Switching from virtualenvwrapper to direnv, Starship, and uv">&laquo; Switching from virtualenvwrapper to direnv, Starship, and uv</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -381,7 +381,10 @@ $(document).ready(function () {
       var disqus_shortname = 'treyhunner';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/';
+        var disqus_url = 'https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
