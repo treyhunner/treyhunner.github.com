@@ -11,14 +11,14 @@ Your new Django project uses Python 3.13.
 You're really looking forward to using the new REPL... but `python manage.py shell` just shows the same old Python REPL.
 What gives?
 
-Well, Django's management shell uses Python's `code` module to launch a custom REPL, but the `code` module doesn't ([yet](https://github.com/python/cpython/issues/119512)) use the new Python REPL.
+Well, Django's management shell uses Python's [code](https://docs.python.org/3/library/code.html) module to launch a custom REPL, but the `code` module doesn't ([yet](https://github.com/python/cpython/issues/119512)) use the new Python REPL.
 
 So you're out of luck... or are you?
 
 
 ## How stable do you need your `shell` command to be?
 
-The new Python REPL's code lives in a `_pyrepl` package.
+The new Python REPL's code lives in a [_pyrepl](https://github.com/python/cpython/tree/v3.13.0/Lib/_pyrepl) package.
 Surely there must be some way to launch the new REPL using that `_pyrepl` package!
 
 First, note the `_` before that package name.
@@ -77,3 +77,5 @@ IPython has about 20 years worth of feature development and it has features that
 If you're using the default Python REPL though, this new REPL is a *huge* upgrade.
 I've been using it as my default REPL since May and I *love* it.
 See [my screencast on Python 3.13](https://pym.dev/python-313-whats-new/) for my favorite features in the new REPL.
+
+**P.S. for Python Morsels users**: if you want to try using that `code` module, check out the (fairly advanced) [replr](https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced) or (even more advanced) [replsync](https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced) exercises.
