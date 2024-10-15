@@ -267,6 +267,8 @@ destination = Path('new_file.txt')
 copyfile(source, destination)
 ```
 
+**Update**: [Python 3.14 will add](https://docs.python.org/3.14/whatsnew/3.14.html#pathlib) `copy`, `copy_into`, `move`, and `move_into` methods to `pathlib.Path` objects.
+
 There's also no `pathlib` equivalent of `os.chdir`.
 
 This just means you'll need to import `chdir` if you ever need to change the current working directory:
@@ -279,8 +281,9 @@ parent = Path('..')
 chdir(parent)
 ```
 
-The `os.walk` function has no `pathlib` equivalent either.
-Though you can make your own `walk`-like functions using `pathlib` fairly easily.
+<strike>The `os.walk` function has no `pathlib` equivalent either.</strike>
+
+**Update**: [Python 3.12 added a `walk` method](https://docs.python.org/3/library/pathlib.html#pathlib.Path.walk) to `pathlib.Path` objects.
 
 My hope is that `pathlib.Path` objects might eventually include methods for some of these missing operations.
 But even with these missing features, **I still find it much more manageable to use "`pathlib` and friends" than "`os.path` and friends"**.
