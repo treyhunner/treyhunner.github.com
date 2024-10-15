@@ -466,6 +466,8 @@ There are definitely <strong>a few missing features I&rsquo;ve stumbled upon tha
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><strong>Update</strong>: <a href="https://docs.python.org/3.14/whatsnew/3.14.html#pathlib">Python 3.14 will add</a> <code>copy</code>, <code>copy_into</code>, <code>move</code>, and <code>move_into</code> methods to <code>pathlib.Path</code> objects.</p>
+
 <p>There&rsquo;s also no <code>pathlib</code> equivalent of <code>os.chdir</code>.</p>
 
 <p>This just means you&rsquo;ll need to import <code>chdir</code> if you ever need to change the current working directory:</p>
@@ -483,8 +485,9 @@ There are definitely <strong>a few missing features I&rsquo;ve stumbled upon tha
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The <code>os.walk</code> function has no <code>pathlib</code> equivalent either.
-Though you can make your own <code>walk</code>-like functions using <code>pathlib</code> fairly easily.</p>
+<p><strike>The <code>os.walk</code> function has no <code>pathlib</code> equivalent either.</strike></p>
+
+<p><strong>Update</strong>: <a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.walk">Python 3.12 added a <code>walk</code> method</a> to <code>pathlib.Path</code> objects.</p>
 
 <p>My hope is that <code>pathlib.Path</code> objects might eventually include methods for some of these missing operations.
 But even with these missing features, <strong>I still find it much more manageable to use &ldquo;<code>pathlib</code> and friends&rdquo; than &ldquo;<code>os.path</code> and friends&rdquo;</strong>.</p>

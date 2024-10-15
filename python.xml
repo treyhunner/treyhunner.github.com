@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-13T21:12:05-07:00</updated>
+  <updated>2024-10-15T10:59:29-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -23,13 +23,13 @@
 <p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
 What gives?</p>
 
-<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <code>code</code> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
+<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <a href="https://docs.python.org/3/library/code.html">code</a> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
 
 <p>So you&rsquo;re out of luck&hellip; or are you?</p>
 
 <h2>How stable do you need your <code>shell</code> command to be?</h2>
 
-<p>The new Python REPL&rsquo;s code lives in a <code>_pyrepl</code> package.
+<p>The new Python REPL&rsquo;s code lives in a <a href="https://github.com/python/cpython/tree/v3.13.0/Lib/_pyrepl">_pyrepl</a> package.
 Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
 
 <p>First, note the <code>_</code> before that package name.
@@ -95,6 +95,8 @@ IPython has about 20 years worth of feature development and it has features that
 <p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
 I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
 See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
+
+<p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
 ]]></content>
   </entry>
   
