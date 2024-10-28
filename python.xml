@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-28T06:50:02-07:00</updated>
+  <updated>2024-10-28T06:51:29-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -27,6 +27,8 @@ I think it&rsquo;s <strong>awesome</strong>.</p>
 
 <p>In short, we may be getting ourselves into trouble.
 But the result is <em>very</em> neat!</p>
+
+<p>Thanks to Łukasz Llanga for inspiring this post via his excellent <a href="https://youtu.be/dK6HGcSb60Y?si=jWPEa8BcdYGnW9l6">EuroPython keynote talk</a>.</p>
 
 <h2>The goal: keyboard shortcuts in the REPL</h2>
 
