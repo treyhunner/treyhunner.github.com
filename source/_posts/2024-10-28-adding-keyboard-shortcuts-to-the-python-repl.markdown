@@ -16,6 +16,8 @@ This feature involves a `PYTHONSTARTUP` file, use of an unsupported Python modul
 In short, we may be getting ourselves into trouble.
 But the result is *very* neat!
 
+Thanks to Łukasz Llanga for inspiring this post via his excellent [EuroPython keynote talk](https://youtu.be/dK6HGcSb60Y?si=jWPEa8BcdYGnW9l6).
+
 
 ## The goal: keyboard shortcuts in the REPL
 
