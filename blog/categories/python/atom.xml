@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-15T10:59:29-07:00</updated>
+  <updated>2024-10-28T06:50:02-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,282 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding keyboard shortcuts to the Python REPL]]></title>
+    <link href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/"/>
+    <updated>2024-10-28T07:15:00-07:00</updated>
+    <id>https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl</id>
+    <content type="html"><![CDATA[<p>I talked about the new Python 3.13 REPL <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">a few months ago</a> and <a href="https://www.pythonmorsels.com/python-313-whats-new/">after 3.13 was released</a>.
+I think it&rsquo;s <strong>awesome</strong>.</p>
+
+<p>I&rsquo;d like to share a secret feature within the Python 3.13 REPL which I&rsquo;ve been finding useful recently: <strong>adding custom keyboard shortcuts</strong>.</p>
+
+<p>This feature involves a <code>PYTHONSTARTUP</code> file, use of an unsupported Python module, and dynamically evaluating code.</p>
+
+<p>In short, we may be getting ourselves into trouble.
+But the result is <em>very</em> neat!</p>
+
+<h2>The goal: keyboard shortcuts in the REPL</h2>
+
+<p>First, I&rsquo;d like to explain the end result.</p>
+
+<p>Let&rsquo;s say I&rsquo;m in the Python REPL on my machine and I&rsquo;ve typed <code>numbers =</code>:</p>
+
+<pre><code class="pycon">&gt;&gt;&gt; numbers =
+</code></pre>
+
+<p>I can now hit <code>Ctrl-N</code> to enter a list of numbers I often use while teaching (<a href="https://en.wikipedia.org/wiki/Lucas_number">Lucas numbers</a>):</p>
+
+<pre><code class="pycon">numbers = [2, 1, 3, 4, 7, 11, 18, 29]
+</code></pre>
+
+<p>That saved me some typing!</p>
+
+<h2>Getting a prototype working</h2>
+
+<p>First, let&rsquo;s try out an example command.</p>
+
+<p>Copy-paste this into your Python 3.13 REPL:</p>
+
+<pre><code class="python">from _pyrepl.simple_interact import _get_reader
+from _pyrepl.commands import Command
+
+class Lucas(Command):
+
+    def do(self):
+        self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
+
+reader = _get_reader()
+reader.commands["lucas"] = Lucas
+reader.bind(r"\C-n", "lucas")
+</code></pre>
+
+<p>Now hit <code>Ctrl-N</code>.</p>
+
+<p>If all worked as planned, you should see that list of numbers entered into the REPL.</p>
+
+<p>Cool!
+Now let&rsquo;s generalize this trick and make Python run our code whenever it starts.</p>
+
+<p>But first&hellip; a disclaimer.</p>
+
+<h2>Here be dragons 🐉</h2>
+
+<p>Notice that <code>_</code> prefix in the <code>_pyrepl</code> module that we&rsquo;re importing from?
+That means this module is officially unsupported.</p>
+
+<p>The <code>_pyrepl</code> module is an implementation detail and its implementation may change at any time in future Python versions.</p>
+
+<p>In other words: <code>_pyrepl</code> is designed to be used by <em>Python&rsquo;s standard library modules</em> and not anyone else.
+That means that we should assume this code will break in a future Python version.</p>
+
+<p>Will that stop us from playing with this module for the fun of it?</p>
+
+<p>It won&rsquo;t.</p>
+
+<h2>Creating a <code>PYTHONSTARTUP</code> file</h2>
+
+<p>So we&rsquo;ve made <em>one</em> custom key combination for ourselves.
+How can we setup this command automatically whenever the Python REPL starts?</p>
+
+<p>We need a <code>PYTHONSTARTUP</code> file.</p>
+
+<p>When Python launches, if it sees a <code>PYTHONSTARTUP</code> environment variable it will treat that environment variable as a Python file to run on startup.</p>
+
+<p>I&rsquo;ve made a <code>/home/trey/.python_startup.py</code> file and I&rsquo;ve set this environment variable in my shell&rsquo;s configuration file (<code>~/.zshrc</code>):</p>
+
+<pre><code class="bash">export PYTHONSTARTUP=$HOME/.python_startup.py
+</code></pre>
+
+<p>To start, we could put our single custom command in this file:</p>
+
+<pre><code class="python">try:
+    from _pyrepl.simple_interact import _get_reader
+    from _pyrepl.commands import Command
+except ImportError:
+    pass  # Not in the new pyrepl OR _pyrepl implementation changed
+else:
+    class Lucas(Command):
+        def do(self):
+            self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
+
+    reader = _get_reader()
+    reader.commands["lucas"] = Lucas
+    reader.bind(r"\C-n", "lucas")
+</code></pre>
+
+<p>Note that I&rsquo;ve stuck our code in a <code>try</code>-<code>except</code> block.
+Our code <em>only</em> runs if those <code>_pyrepl</code> imports succeed.</p>
+
+<p>Note that this <em>might</em> still raise an exception when Python starts <em>if</em> the reader object&rsquo;s <code>command</code> attribute or <code>bind</code> method change in a way that breaks our code.</p>
+
+<p>Personally, I&rsquo;d like to see those breaking changes occur print out a traceback the next time I upgrade Python.
+So I&rsquo;m going to leave those last few lines <em>without</em> their own catch-all exception handler.</p>
+
+<h2>Generalizing the code</h2>
+
+<p>Here&rsquo;s a <code>PYTHONSTARTUP</code> file with a more generalized solution:</p>
+
+<pre><code class="python">try:
+    from _pyrepl.simple_interact import _get_reader
+    from _pyrepl.commands import Command
+except ImportError:
+    pass
+else:
+    # Hack the new Python 3.13 REPL!
+    cmds = {
+        r"\C-n": "[2, 1, 3, 4, 7, 11, 18, 29]",
+        r"\C-f": '["apples", "oranges", "bananas", "strawberries", "pears"]',
+    }
+    from textwrap import dedent
+    reader = _get_reader()
+    for n, (key, text) in enumerate(cmds.items(), start=1):
+        name = f"CustomCommand{n}"
+        exec(dedent(f"""
+            class _cmds:
+                class {name}(Command):
+                    def do(self):
+                        self.reader.insert({text!r})
+                reader.commands[{name!r}] = {name}
+                reader.bind({key!r}, {name!r})
+        """))
+    # Clean up all the new variables
+    del _get_reader, Command, dedent, reader, cmds, text, key, name, _cmds, n
+</code></pre>
+
+<p>This version uses a dictionary to map keyboard shortcuts to the text they should insert.</p>
+
+<p>Note that we&rsquo;re repeatedly building up a string of <code>Command</code> subclasses for each shortcut, using <code>exec</code> to execute the code for that custom <code>Command</code> subclass, and then binding the keyboard shortcut to that new command class.</p>
+
+<p>At the end we then delete all the variables we&rsquo;ve made so our REPL will start the clean global environment we normally expect it to have:</p>
+
+<pre><code class="pycon">Python 3.13.0 (main, Oct  8 2024, 10:37:56) [GCC 11.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; dir()
+['__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
+</code></pre>
+
+<p>Is this messy?</p>
+
+<p>Yes.</p>
+
+<p>Is that a needless use of a dictionary that could have been a list of 2-item tuples instead?</p>
+
+<p>Yes.</p>
+
+<p>Does this work?</p>
+
+<p>Yes.</p>
+
+<h2>Doing more interesting and risky stuff</h2>
+
+<p>Note that there are many keyboard shortcuts that may cause weird behaviors if you bind them.</p>
+
+<p>For example, if you bind <code>Ctrl-i</code>, your binding may trigger every time you try to indent.
+And if you try to bind <code>Ctrl-m</code>, your binding may be ignored because this is equivalent to hitting the <code>Enter</code> key.</p>
+
+<p>So be sure to test your REPL carefully after each new binding you try to invent.</p>
+
+<p>If you want to do something more interesting, you could poke around in the <code>_pyrepl</code> package to see what existing code you can use/abuse.</p>
+
+<p>For example, here&rsquo;s a very hacky way of making a binding to <code>Ctrl-x</code> followed by <code>Ctrl-r</code> to make this import <code>subprocess</code>, type in a <code>subprocess.run</code> line, and move your cursor between the empty string within the <code>run</code> call:</p>
+
+<pre><code class="python">    class _cmds:
+        class Run(Command):
+            def do(self):
+                from _pyrepl.commands import backward_kill_word, left
+                backward_kill_word(self.reader, self.event_name, self.event).do()
+                self.reader.insert("import subprocess\n")
+                code = 'subprocess.run("", shell=True)'
+                self.reader.insert(code)
+                for _ in range(len(code) - code.index('""') - 1):
+                    left(self.reader, self.event_name, self.event).do()
+    reader.commands["subprocess_run"] = _cmds.Run
+    reader.bind(r"\C-x\C-r", "subprocess_run")
+</code></pre>
+
+<h2>What keyboard shortcuts are available?</h2>
+
+<p>As you play with customizing keyboard shortcuts, you&rsquo;ll likely notice that many key combinations result in strange and undesirable behavior when overridden.</p>
+
+<p>For example, overriding <code>Ctrl-J</code> will also override the <code>Enter</code> key&hellip; at least it does in my terminal.</p>
+
+<p>I&rsquo;ll list the key combinations that seem unproblematic on my setup with Gnome Terminal in Ubuntu Linux.</p>
+
+<p>Here are <code>Control</code> key shortcuts that seem to be complete unused in the Python REPL:</p>
+
+<ul>
+<li><code>Ctrl-N</code></li>
+<li><code>Ctrl-O</code></li>
+<li><code>Ctrl-P</code></li>
+<li><code>Ctrl-Q</code></li>
+<li><code>Ctrl-S</code></li>
+<li><code>Ctrl-V</code></li>
+</ul>
+
+
+<p>Note that overriding <code>Ctrl-H</code> is often an alternative to the backspace key</p>
+
+<p>Here are <code>Alt</code>/<code>Meta</code> key shortcuts that appear unused on my machine:</p>
+
+<ul>
+<li><code>Alt-A</code></li>
+<li><code>Alt-E</code></li>
+<li><code>Alt-G</code></li>
+<li><code>Alt-H</code></li>
+<li><code>Alt-I</code></li>
+<li><code>Alt-J</code></li>
+<li><code>Alt-K</code></li>
+<li><code>Alt-M</code></li>
+<li><code>Alt-N</code></li>
+<li><code>Alt-O</code></li>
+<li><code>Alt-P</code></li>
+<li><code>Alt-Q</code></li>
+<li><code>Alt-S</code></li>
+<li><code>Alt-V</code></li>
+<li><code>Alt-W</code></li>
+<li><code>Alt-X</code></li>
+<li><code>Alt-Z</code></li>
+</ul>
+
+
+<p>You can add an <code>Alt</code> shortcut by using <code>\M</code> (for &ldquo;meta&rdquo;).
+So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</code> would capture <code>Ctrl-A</code>.</p>
+
+<p>Here are keyboard shortcuts that <em>can</em> be customized but you might want to consider whether the current default behavior is worth losing:</p>
+
+<ul>
+<li><code>Alt-B</code>: backward word (same as <code>Ctrl-Left</code>)</li>
+<li><code>Alt-C</code>: capitalize word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-D</code>: kill word (delete to end of word)</li>
+<li><code>Alt-F</code>: forward word (same as <code>Ctrl-Right</code>)</li>
+<li><code>Alt-L</code>: downcase word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-U</code>: upcase word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-Y</code>: yank pop</li>
+<li><code>Ctrl-A</code>: beginning of line (like the <code>Home</code> key)</li>
+<li><code>Ctrl-B</code>: left (like the <code>Left</code> key)</li>
+<li><code>Ctrl-E</code>: end of line (like the <code>End</code> key)</li>
+<li><code>Ctrl-F</code>: right (like the <code>Right</code> key)</li>
+<li><code>Ctrl-G</code>: cancel</li>
+<li><code>Ctrl-H</code>: backspace (same as the <code>Backspace</code> key)</li>
+<li><code>Ctrl-K</code>: kill line (delete to end of line)</li>
+<li><code>Ctrl-T</code>: transpose characters</li>
+<li><code>Ctrl-U</code>: line discard (delete to beginning of line)</li>
+<li><code>Ctrl-W</code>: word discard (delete to beginning of word)</li>
+<li><code>Ctrl-Y</code>: yank</li>
+<li><code>Alt-R</code>: restore history (within history mode)</li>
+</ul>
+
+
+<h2>What fun have you found in <code>_pyrepl</code>?</h2>
+
+<p>Find something fun while playing with the <code>_pyrepl</code> package&rsquo;s inner-workings?</p>
+
+<p>I&rsquo;d love to hear about it!
+Comment below to share what you found.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
@@ -565,109 +841,6 @@ Is this missing a key feature that you would need for it to be valuable for your
 <p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
 
 <p>Comment or email me to let me know!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Why does "python -m json" not work? Why is it "json.tool"?]]></title>
-    <link href="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/"/>
-    <updated>2024-08-01T14:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/08/why-does-python-m-json-not-work</id>
-    <content type="html"><![CDATA[<p><strong>Update</strong>: upon the encouragement of a few CPython core team members, I <a href="https://github.com/python/cpython/pull/122884">opened a pull request</a> to add this to Python 3.14.</p>
-
-<p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
-
-<p>You can run <code>python -m json.tool</code> against a JSON file and Python will print a nicely formatted version of the file.</p>
-
-<pre><code class="bash">python -m json.tool example.json
-[
-    1,
-    2,
-    3,
-    4
-]
-</code></pre>
-
-<p>Why do we need to run <code>json.tool</code> instead of <code>json</code>?</p>
-
-<h2>The history of <code>python -m</code></h2>
-
-<p>Python 3.5 added the ability to run a module as a command-line script using the <code>-m</code> argument (see <a href="https://peps.python.org/pep-0338/">PEP 338</a>) which was implemented in Python 2.5.
-While that feature was being an additional feature/bug was accidentally added, alowing packages to be run with the <code>-m</code> flag as well.
-When a package was run with the <code>-m</code> flag, the package&rsquo;s <code>__init__.py</code> file would be run, with the <code>__name__</code> variable set to <code>__main__</code>.</p>
-
-<p>This accidental feature/bug was <a href="https://github.com/python/cpython/issues/47000">removed in Python 2.6</a>.</p>
-
-<p>It wasn&rsquo;t until Python 2.7 that the ability to run <code>python -m package</code> was re-added (see below).</p>
-
-<h2>The history of the <code>json</code> module</h2>
-
-<p>The <code>json</code> module was <a href="https://docs.python.org/3/whatsnew/2.6.html#the-json-module-javascript-object-notation">added in Python 2.6</a>.
-It was based on the third-party <code>simplejson</code> library.</p>
-
-<p>That library originally relied on the fact that Python packages could be run with the <code>-m</code> flag to run the package&rsquo;s <code>__init__.py</code> file with <code>__name__</code> set to <code>__main__</code> (see <a href="https://github.com/simplejson/simplejson/blob/v1.8.1/simplejson/__init__.py#L368">this code from version 1.8.1</a>).</p>
-
-<p>When <code>simplejson</code> was added to Python as the <code>json</code> module in Python 2.6, this bug/feature could no longer be relied upon as it was fixed in Python 2.6.
-To continue allowing for a nice command-line interface, it was decided that running a <code>tool</code> submodule would be the way to add a command-line interface to the <code>json</code> package (<a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">discussion here</a>).</p>
-
-<p>Python 2.7 <a href="https://docs.python.org/2.7/using/cmdline.html?highlight=__main__#cmdoption-m">added the ability to run any package as a command-line tool</a>.
-The package would simply need a <code>__main__.py</code> file within it, which Python would run as the entry point to the package.</p>
-
-<p>At this point, <code>json.tool</code> had already been added in Python 2.6 and no attempt was made (as far as I can tell) to allow <code>python -m json</code> to work instead.
-Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
-
-<h2>Could we make <code>python -m json</code> work today?</h2>
-
-<p>We could.
-We would just need to <a href="https://github.com/treyhunner/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
-To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
-
-<p>We could even go so far as to <a href="https://github.com/treyhunner/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">deprecate <code>json.tool</code></a> if we wanted to.</p>
-
-<p>Should we do this though? 🤔</p>
-
-<h2>Should we make <code>python -m json</code> work?</h2>
-
-<p>I don&rsquo;t know about you, but I would rather type <code>python -m json</code> than <code>python -m json.tool</code>.
-It&rsquo;s more memorable <em>and</em> easier to guess, if you&rsquo;re not someone who has memorized <a href="https://www.pythonmorsels.com/cli-tools/">all the command-line tools hiding in Python</a>.</p>
-
-<p>But would this actually be used?
-I mean, don&rsquo;t people just use the <a href="https://jqlang.github.io/jq/">jq</a> tool instead?</p>
-
-<p>Well, a <code>sqlite3</code> shell was <a href="https://docs.python.org/3/library/sqlite3.html#command-line-interface">added to Python 3.12</a> despite the fact that third-party interactive sqlite prompts are fairly common.</p>
-
-<p>It is pretty handy to have a access to a tool within an unfamiliar environment where installing yet-another-tool might pose a problem.
-Think Docker, a locked-down Windows machine, or any computer without network or with network restrictions.</p>
-
-<p>Personally, I&rsquo;d like to see <code>python3 -m json</code> work.
-I can&rsquo;t think of any big downsides.
-Can you?</p>
-
-<p><strong>Update</strong>: <a href="https://github.com/python/cpython/pull/122884">pull request opened</a>.</p>
-
-<h2>Too long; didn&rsquo;t read</h2>
-
-<p>The &ldquo;too long didn&rsquo;t read version&rdquo;:</p>
-
-<ul>
-<li>Python 2.5 added support for the <code>-m</code> argument for <em>modules</em>, but not <em>packages</em></li>
-<li>A third-party <code>simplejson</code> app existed with a nice CLI that relied on a <code>-m</code> implementation bug allowing packages to be run using <code>-m</code></li>
-<li>Python 2.6 fixed that implementation quirk and broke the previous ability to run <code>python -m simplejson</code></li>
-<li>Python 2.6 also added the <code>json</code> module, which was based on this third-party <code>simplejson</code> package</li>
-<li>Since <code>python -m json</code> couldn&rsquo;t work anymore, the ability to run <code>python -m json.tool</code> was added</li>
-<li>Python 2.7 added official support for <code>python -m some_package</code> by running a <code>__main__</code> submodule</li>
-<li>The <code>json.tool</code> module already existed in Python 2.6 and the ability to run <code>python -m json</code> was (as far as I can tell) never seriously considered</li>
-</ul>
-
-
-<h2>All thanks to git history and issue trackers</h2>
-
-<p>I discovered this by noting <a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">the first commit</a> that added the <code>tool</code> submodule to <code>simplejson</code>, which notes the fact that this was for consistency with the new <code>json</code> standard library module.</p>
-
-<p>Thank you git history.
-And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
-
-<p>Also, thank you to Alyssa Coghlan, Hugo van Kemenade, and Adam Turner for reviewing my pull request to add this feature to Python 3.14. 💖</p>
 ]]></content>
   </entry>
   

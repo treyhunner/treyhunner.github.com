@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-15T10:59:29-07:00</updated>
+  <updated>2024-10-28T06:50:02-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,358 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding keyboard shortcuts to the Python REPL]]></title>
+    <link href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/"/>
+    <updated>2024-10-28T07:15:00-07:00</updated>
+    <id>https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl</id>
+    <content type="html"><![CDATA[<p>I talked about the new Python 3.13 REPL <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">a few months ago</a> and <a href="https://www.pythonmorsels.com/python-313-whats-new/">after 3.13 was released</a>.
+I think it&rsquo;s <strong>awesome</strong>.</p>
+
+<p>I&rsquo;d like to share a secret feature within the Python 3.13 REPL which I&rsquo;ve been finding useful recently: <strong>adding custom keyboard shortcuts</strong>.</p>
+
+<p>This feature involves a <code>PYTHONSTARTUP</code> file, use of an unsupported Python module, and dynamically evaluating code.</p>
+
+<p>In short, we may be getting ourselves into trouble.
+But the result is <em>very</em> neat!</p>
+
+<h2>The goal: keyboard shortcuts in the REPL</h2>
+
+<p>First, I&rsquo;d like to explain the end result.</p>
+
+<p>Let&rsquo;s say I&rsquo;m in the Python REPL on my machine and I&rsquo;ve typed <code>numbers =</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I can now hit <code>Ctrl-N</code> to enter a list of numbers I often use while teaching (<a href="https://en.wikipedia.org/wiki/Lucas_number">Lucas numbers</a>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">numbers = [2, 1, 3, 4, 7, 11, 18, 29]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That saved me some typing!</p>
+
+<h2>Getting a prototype working</h2>
+
+<p>First, let&rsquo;s try out an example command.</p>
+
+<p>Copy-paste this into your Python 3.13 REPL:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">_pyrepl.simple_interact</span> <span class="kn">import</span> <span class="n">_get_reader</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">_pyrepl.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Lucas</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">reader</span> <span class="o">=</span> <span class="n">_get_reader</span><span class="p">()</span>
+</span><span class='line'><span class="n">reader</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="s">&quot;lucas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Lucas</span>
+</span><span class='line'><span class="n">reader</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">r&quot;\C-n&quot;</span><span class="p">,</span> <span class="s">&quot;lucas&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now hit <code>Ctrl-N</code>.</p>
+
+<p>If all worked as planned, you should see that list of numbers entered into the REPL.</p>
+
+<p>Cool!
+Now let&rsquo;s generalize this trick and make Python run our code whenever it starts.</p>
+
+<p>But first&hellip; a disclaimer.</p>
+
+<h2>Here be dragons 🐉</h2>
+
+<p>Notice that <code>_</code> prefix in the <code>_pyrepl</code> module that we&rsquo;re importing from?
+That means this module is officially unsupported.</p>
+
+<p>The <code>_pyrepl</code> module is an implementation detail and its implementation may change at any time in future Python versions.</p>
+
+<p>In other words: <code>_pyrepl</code> is designed to be used by <em>Python&rsquo;s standard library modules</em> and not anyone else.
+That means that we should assume this code will break in a future Python version.</p>
+
+<p>Will that stop us from playing with this module for the fun of it?</p>
+
+<p>It won&rsquo;t.</p>
+
+<h2>Creating a <code>PYTHONSTARTUP</code> file</h2>
+
+<p>So we&rsquo;ve made <em>one</em> custom key combination for ourselves.
+How can we setup this command automatically whenever the Python REPL starts?</p>
+
+<p>We need a <code>PYTHONSTARTUP</code> file.</p>
+
+<p>When Python launches, if it sees a <code>PYTHONSTARTUP</code> environment variable it will treat that environment variable as a Python file to run on startup.</p>
+
+<p>I&rsquo;ve made a <code>/home/trey/.python_startup.py</code> file and I&rsquo;ve set this environment variable in my shell&rsquo;s configuration file (<code>~/.zshrc</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">PYTHONSTARTUP</span><span class="o">=</span><span class="nv">$HOME</span>/.python_startup.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To start, we could put our single custom command in this file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">_pyrepl.simple_interact</span> <span class="kn">import</span> <span class="n">_get_reader</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">_pyrepl.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">pass</span>  <span class="c"># Not in the new pyrepl OR _pyrepl implementation changed</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Lucas</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">reader</span> <span class="o">=</span> <span class="n">_get_reader</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="s">&quot;lucas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Lucas</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">r&quot;\C-n&quot;</span><span class="p">,</span> <span class="s">&quot;lucas&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that I&rsquo;ve stuck our code in a <code>try</code>-<code>except</code> block.
+Our code <em>only</em> runs if those <code>_pyrepl</code> imports succeed.</p>
+
+<p>Note that this <em>might</em> still raise an exception when Python starts <em>if</em> the reader object&rsquo;s <code>command</code> attribute or <code>bind</code> method change in a way that breaks our code.</p>
+
+<p>Personally, I&rsquo;d like to see those breaking changes occur print out a traceback the next time I upgrade Python.
+So I&rsquo;m going to leave those last few lines <em>without</em> their own catch-all exception handler.</p>
+
+<h2>Generalizing the code</h2>
+
+<p>Here&rsquo;s a <code>PYTHONSTARTUP</code> file with a more generalized solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">_pyrepl.simple_interact</span> <span class="kn">import</span> <span class="n">_get_reader</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">_pyrepl.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">pass</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="c"># Hack the new Python 3.13 REPL!</span>
+</span><span class='line'>    <span class="n">cmds</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="s">r&quot;\C-n&quot;</span><span class="p">:</span> <span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">r&quot;\C-f&quot;</span><span class="p">:</span> <span class="s">&#39;[&quot;apples&quot;, &quot;oranges&quot;, &quot;bananas&quot;, &quot;strawberries&quot;, &quot;pears&quot;]&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">dedent</span>
+</span><span class='line'>    <span class="n">reader</span> <span class="o">=</span> <span class="n">_get_reader</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cmds</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">name</span> <span class="o">=</span> <span class="n">f</span><span class="s">&quot;CustomCommand{n}&quot;</span>
+</span><span class='line'>        <span class="k">exec</span><span class="p">(</span><span class="n">dedent</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;&quot;&quot;</span>
+</span><span class='line'><span class="s">            class _cmds:</span>
+</span><span class='line'><span class="s">                class {name}(Command):</span>
+</span><span class='line'><span class="s">                    def do(self):</span>
+</span><span class='line'><span class="s">                        self.reader.insert({text!r})</span>
+</span><span class='line'><span class="s">                reader.commands[{name!r}] = {name}</span>
+</span><span class='line'><span class="s">                reader.bind({key!r}, {name!r})</span>
+</span><span class='line'><span class="s">        &quot;&quot;&quot;</span><span class="p">))</span>
+</span><span class='line'>    <span class="c"># Clean up all the new variables</span>
+</span><span class='line'>    <span class="k">del</span> <span class="n">_get_reader</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="n">dedent</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">cmds</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_cmds</span><span class="p">,</span> <span class="n">n</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This version uses a dictionary to map keyboard shortcuts to the text they should insert.</p>
+
+<p>Note that we&rsquo;re repeatedly building up a string of <code>Command</code> subclasses for each shortcut, using <code>exec</code> to execute the code for that custom <code>Command</code> subclass, and then binding the keyboard shortcut to that new command class.</p>
+
+<p>At the end we then delete all the variables we&rsquo;ve made so our REPL will start the clean global environment we normally expect it to have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">Python 3.13.0 (main, Oct  8 2024, 10:37:56) [GCC 11.4.0] on linux</span>
+</span><span class='line'><span class="go">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span>
+</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span><span class="p">()</span>
+</span><span class='line'><span class="go">[&#39;__annotations__&#39;, &#39;__builtins__&#39;, &#39;__cached__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__loader__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;__spec__&#39;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Is this messy?</p>
+
+<p>Yes.</p>
+
+<p>Is that a needless use of a dictionary that could have been a list of 2-item tuples instead?</p>
+
+<p>Yes.</p>
+
+<p>Does this work?</p>
+
+<p>Yes.</p>
+
+<h2>Doing more interesting and risky stuff</h2>
+
+<p>Note that there are many keyboard shortcuts that may cause weird behaviors if you bind them.</p>
+
+<p>For example, if you bind <code>Ctrl-i</code>, your binding may trigger every time you try to indent.
+And if you try to bind <code>Ctrl-m</code>, your binding may be ignored because this is equivalent to hitting the <code>Enter</code> key.</p>
+
+<p>So be sure to test your REPL carefully after each new binding you try to invent.</p>
+
+<p>If you want to do something more interesting, you could poke around in the <code>_pyrepl</code> package to see what existing code you can use/abuse.</p>
+
+<p>For example, here&rsquo;s a very hacky way of making a binding to <code>Ctrl-x</code> followed by <code>Ctrl-r</code> to make this import <code>subprocess</code>, type in a <code>subprocess.run</code> line, and move your cursor between the empty string within the <code>run</code> call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">class</span> <span class="nc">_cmds</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">Run</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class='line'>            <span class="kn">from</span> <span class="nn">_pyrepl.commands</span> <span class="kn">import</span> <span class="n">backward_kill_word</span><span class="p">,</span> <span class="n">left</span>
+</span><span class='line'>            <span class="n">backward_kill_word</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">()</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;import subprocess</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;subprocess.run(&quot;&quot;, shell=True)&#39;</span>
+</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">-</span> <span class="n">code</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;&quot;&quot;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>                <span class="n">left</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">()</span>
+</span><span class='line'><span class="n">reader</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="s">&quot;subprocess_run&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_cmds</span><span class="o">.</span><span class="n">Run</span>
+</span><span class='line'><span class="n">reader</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">r&quot;\C-x\C-r&quot;</span><span class="p">,</span> <span class="s">&quot;subprocess_run&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>What keyboard shortcuts are available?</h2>
+
+<p>As you play with customizing keyboard shortcuts, you&rsquo;ll likely notice that many key combinations result in strange and undesirable behavior when overridden.</p>
+
+<p>For example, overriding <code>Ctrl-J</code> will also override the <code>Enter</code> key&hellip; at least it does in my terminal.</p>
+
+<p>I&rsquo;ll list the key combinations that seem unproblematic on my setup with Gnome Terminal in Ubuntu Linux.</p>
+
+<p>Here are <code>Control</code> key shortcuts that seem to be complete unused in the Python REPL:</p>
+
+<ul>
+<li><code>Ctrl-N</code></li>
+<li><code>Ctrl-O</code></li>
+<li><code>Ctrl-P</code></li>
+<li><code>Ctrl-Q</code></li>
+<li><code>Ctrl-S</code></li>
+<li><code>Ctrl-V</code></li>
+</ul>
+
+
+<p>Note that overriding <code>Ctrl-H</code> is often an alternative to the backspace key</p>
+
+<p>Here are <code>Alt</code>/<code>Meta</code> key shortcuts that appear unused on my machine:</p>
+
+<ul>
+<li><code>Alt-A</code></li>
+<li><code>Alt-E</code></li>
+<li><code>Alt-G</code></li>
+<li><code>Alt-H</code></li>
+<li><code>Alt-I</code></li>
+<li><code>Alt-J</code></li>
+<li><code>Alt-K</code></li>
+<li><code>Alt-M</code></li>
+<li><code>Alt-N</code></li>
+<li><code>Alt-O</code></li>
+<li><code>Alt-P</code></li>
+<li><code>Alt-Q</code></li>
+<li><code>Alt-S</code></li>
+<li><code>Alt-V</code></li>
+<li><code>Alt-W</code></li>
+<li><code>Alt-X</code></li>
+<li><code>Alt-Z</code></li>
+</ul>
+
+
+<p>You can add an <code>Alt</code> shortcut by using <code>\M</code> (for &ldquo;meta&rdquo;).
+So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</code> would capture <code>Ctrl-A</code>.</p>
+
+<p>Here are keyboard shortcuts that <em>can</em> be customized but you might want to consider whether the current default behavior is worth losing:</p>
+
+<ul>
+<li><code>Alt-B</code>: backward word (same as <code>Ctrl-Left</code>)</li>
+<li><code>Alt-C</code>: capitalize word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-D</code>: kill word (delete to end of word)</li>
+<li><code>Alt-F</code>: forward word (same as <code>Ctrl-Right</code>)</li>
+<li><code>Alt-L</code>: downcase word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-U</code>: upcase word (does nothing on my machine&hellip;)</li>
+<li><code>Alt-Y</code>: yank pop</li>
+<li><code>Ctrl-A</code>: beginning of line (like the <code>Home</code> key)</li>
+<li><code>Ctrl-B</code>: left (like the <code>Left</code> key)</li>
+<li><code>Ctrl-E</code>: end of line (like the <code>End</code> key)</li>
+<li><code>Ctrl-F</code>: right (like the <code>Right</code> key)</li>
+<li><code>Ctrl-G</code>: cancel</li>
+<li><code>Ctrl-H</code>: backspace (same as the <code>Backspace</code> key)</li>
+<li><code>Ctrl-K</code>: kill line (delete to end of line)</li>
+<li><code>Ctrl-T</code>: transpose characters</li>
+<li><code>Ctrl-U</code>: line discard (delete to beginning of line)</li>
+<li><code>Ctrl-W</code>: word discard (delete to beginning of word)</li>
+<li><code>Ctrl-Y</code>: yank</li>
+<li><code>Alt-R</code>: restore history (within history mode)</li>
+</ul>
+
+
+<h2>What fun have you found in <code>_pyrepl</code>?</h2>
+
+<p>Find something fun while playing with the <code>_pyrepl</code> package&rsquo;s inner-workings?</p>
+
+<p>I&rsquo;d love to hear about it!
+Comment below to share what you found.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
@@ -3998,109 +4350,6 @@ What works well with the way you learn and what would you actually make a habit 
 If you have questions about other sales, email the folks running those sales (make sure to do it now in case they take a day or two to get back to you).</p>
 
 <p>Also if you&rsquo;ve found other Python sales I&rsquo;ve missed above, please comment or <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a> to let me know about them.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Short weekly Python screencasts for $50/year]]></title>
-    <link href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/"/>
-    <updated>2020-11-25T09:00:00-08:00</updated>
-    <id>https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year</id>
-    <content type="html"><![CDATA[<p>I&rsquo;m offering a service to help <strong>life-long Python learners</strong> manufacture ah-ha moments.</p>
-
-<p>A few years ago at my local Python meetup I was discussing how function arguments work (they&rsquo;re <a href="https://jeffknupp.com/blog/2012/11/13/is-python-callbyvalue-or-callbyreference-neither/">call-by-assignment</a> a.k.a. <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_sharing">call by object</a>).
-A friend spoke up to clarify: &ldquo;but it doesn&rsquo;t work that way for numbers and strings, right?&rdquo;
-I said &ldquo;I&rsquo;m pretty sure it works like this for everything&rdquo;.</p>
-
-<p>After some quiet Googling, my friend declared &ldquo;I&rsquo;ve been using Python for over a decade and I never knew it worked this way&rdquo;.
-They&rsquo;d suddenly realized <em>their mental model of the Python world</em> differed from Python&rsquo;s model of itself.
-They&rsquo;d experienced an &ldquo;ah-ha moment&rdquo;.</p>
-
-<p>I&rsquo;m going to publish <strong>at least one short Python screencast every week</strong> to help <em>manufacture</em> <strong>Python ah-ha moments</strong>.
-These will be single-topic screencasts that <strong>won&rsquo;t waste your time</strong>.</p>
-
-<p>So, if you&rsquo;re a life-long learner who uses Python and doesn&rsquo;t have a wealth of time for learning, read on.</p>
-
-<h3>What is this?</h3>
-
-<p>With this subscription you&rsquo;ll receive access to a growing archive of Python screencasts (<strong>at least one new screencast each week</strong>).
-If you enjoy my <a href="https://treyhunner.com/blog/categories/python/">articles</a> or my <a href="https://treyhunner.com/talks">talks and tutorials</a>, you&rsquo;ll probably enjoy the format I use in my screencasts.</p>
-
-<p><strong>Don&rsquo;t like video?</strong> That&rsquo;s okay!
-Each screencast is captioned and includes <strong>a mini-blog post</strong> which is nearly <strong>a text-based equivalent</strong> to the video.</p>
-
-<h3>What are the screencasts like?</h3>
-
-<p>Each screencast will be <strong>concise</strong> and short, under 6 minutes.
-Examples include <a href="https://www.pythonmorsels.com/topics/variables-are-pointers/">variables are pointers</a> (2 mins) and <a href="https://www.pythonmorsels.com/topics/2-types-change/">the 2 types of &ldquo;change&rdquo;</a> (3 mins), plus <a href="https://www.pythonmorsels.com/screencasts/">others here</a>.</p>
-
-<p><a href="https://www.pythonmorsels.com/screencasts/"><img src="https://treyhunner.com/images/screencasts.png"></a></p>
-
-<p><strong>What topics will the screencasts be on?</strong>
-Functions, classes, scope, operator overloading, decorators, exception handling, and more.
-Screencasts will focus on Python core, not third-party libraries (no Pandas, Numpy, or Django).
-Topics will range from beginner to advanced.</p>
-
-<p><strong>Will the screencasts be freely shareable?</strong>
-Some screencasts will be limited to subscribers and some will be available to non-subscribers, with a yet-to-be-decided breakdown between the two.</p>
-
-<h3>You&rsquo;ll also get get occasional Python exercises</h3>
-
-<p>This weekly screencast subscription is part of <a href="https://www.pythonmorsels.com/">Python Morsels</a>, an exercise subscription service I run.
-In addition to weekly screencasts, you&rsquo;ll also get <strong>one Python exercise each month</strong>.</p>
-
-<p>If you&rsquo;ve taken <a href="https://treyhunner.com/talks/#tutorials">my PyCon tutorials</a> or attended <a href="https://truthful.technology/">my trainings</a>, you know exercises are the best part of my curriculum.
-I spend a lot of time making new exercises because we learn by attempting to retrieve information from our heads (through practice), not by putting information <em>into</em> our heads.</p>
-
-<p>Python Morsels exercises are both interesting and <strong>complex but not complicated</strong>.
-You don&rsquo;t need to work through the monthly exercises, but I do recommend it.</p>
-
-<h3>This subscription is $50/year for a limited time</h3>
-
-<p>I&rsquo;m offering this service for a comparatively low price of $50/year because I don&rsquo;t have a large archive of screencasts yet.
-I have plans to increase the price in 2021, but as an early user <strong>your price will always be $50/year</strong>.</p>
-
-<p>If you&rsquo;re not sure whether this is for you, <a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">sign up to try it out for free</a>.</p>
-
-<h3>Why pay for this when there&rsquo;s a lot of great free Python videos out there?</h3>
-
-<p>Why am I charging money for this?</p>
-
-<p>There&rsquo;s really one reason: <strong>you&rsquo;re trading money for time</strong>.
-This is a tradeoff I&rsquo;ve grown an appreciation for (one which would baffle a younger version of myself).</p>
-
-<p>This time-money tradeoff comes in a few forms:</p>
-
-<ol>
-<li>You will never see any ads on Python Morsels: you&rsquo;re not the product, the screencasts are</li>
-<li>No filler content or rambling (no ad revenue means no need for long videos)</li>
-<li>I have unique expertise and perspective: teaching Python is my business and I&rsquo;m good at it</li>
-</ol>
-
-
-<p>Watch some of <a href="https://www.pythonmorsels.com/screencasts/">the current screencasts</a> before signing up.
-If my teaching style isn&rsquo;t for you, that&rsquo;s okay!
-But if my teaching style <em>is</em> for you, I think you&rsquo;ll find <strong>the next year&rsquo;s worth of screencasts</strong> will be worthwhile! 😁</p>
-
-<h3>Student discounts? Team subscriptions? Other questions?</h3>
-
-<p>My standard <a href="https://www.pythonmorsels.com/discounts/">discount policy</a> is income-tiered: if you make less than $60,000 USD annually, you&rsquo;re eligible.
-I also offer situation-specific discounts, so please <strong>ask for a discount if you need one</strong>.</p>
-
-<p>If you&rsquo;re paying through your employer, note that there are <strong>team subscriptions</strong> too.
-Just <a href="https://form.jotform.com/201278113533043">fill out this form</a> to get started setting up a subscription for your team.</p>
-
-<h3>Ready to try it out?</h3>
-
-<p>Are you ready to subscribe to a growing collection of short and concise Python screencasts?
-<a href="https://www.pythonmorsels.com/accounts/signup/?plan=9">Let&rsquo;s get learning</a>!</p>
-
-<p><a href="https://www.pythonmorsels.com/accounts/signup/?plan=9" class="subscribe-btn form-big bright">Sign up for weekly Python screencasts now</a></p>
-
-<p>Do you have another question that I haven&rsquo;t answered here?
-Check out the <a href="https://pythonmorsels.helpscoutdocs.com/article/23-lite-plan">Lite plan FAQ</a> or <a href="m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email your question to he&#108;p&#64;pyt&#104;o&#110;morsel&#115;&#46;&#99;o&#109;</a>.</p>
-
-<p>Happy learning!</p>
 ]]></content>
   </entry>
   
