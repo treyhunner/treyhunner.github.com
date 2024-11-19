@@ -1,0 +1,58 @@
+---
+layout: post
+title: "Python Black Friday &amp; Cyber Monday sales (2024)"
+date: 2024-11-21 10:00:00 -0800
+comments: true
+categories: python sales
+---
+
+Ready for some Python skill-building sales?
+
+This is my **[seventh](https://treyhunner.com/blog/categories/sales/)** annual compilation of **Python learning deals**.
+
+I'm publishing this post *extra* early this year, so bookmark this page and set a calendar event for yourself to **check back on Friday November 29**.
+
+
+## Anticipated sales
+
+Here are Python-related sales that are live right now:
+
+- **[Rodrigo][]** 50% off [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
+- **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024)
+- **[Sundeep Agarwal][sundeep]**: around 50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles
+- **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
+
+Here are sales that will be live *soon*:
+
+- **Python Jumpstart** with Python Morsels: 50% off my brand new hands-on intro to Python course: $99 instead of $199 (details to come)
+- **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
+- **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
+
+Here are some sales I expect to see, but which haven't been announced yet:
+
+- **[Talk Python][]**: usually holds a sale on a variety of courses
+- **[Brian Okken][]**: often holds a sale on his pytest course
+- **[Reuven Lerner][reuven]**: usually holds a sale
+- **[Pragmatic Bookshelf][]**: I'm *guessing* they'll hold a 40% off sale with code `turkeycode2024`
+
+Also see Adam Johnson's [Django-related Deals for Black Friday 2024][adam post] for sales on Adam's books, courses from the folks at Test Driven, Django templates, and various other Django-related deals.
+
+If you know of another sale (or a likely sale) **please comment below** or email me.
+
+
+[adam post]: https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/
+[oreilly]: https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24
+[talk python]: http://talkpython.fm/black-friday
+[data school]: https://courses.dataschool.io/black-friday
+[brian okken]: https://courses.pythontest.com/
+[reuven]: https://lernerpython.com/
+[driscoll]: https://www.blog.pythonlibrary.org
+[mike books]: https://driscollis.gumroad.com/
+[mike courses]: https://www.teachmepython.com/
+[rodrigo]: https://mathspp.gumroad.com/
+[sundeep]: https://learnbyexample.gumroad.com
+[all book bundle]: https://learnbyexample.gumroad.com/l/all-books/FestiveOffer
+[python bundle]: https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer
+[regex]: https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer
+[pragmatic bookshelf]: https://pragprog.com/
+[The Python Coding Place]: https://thepythoncodingplace.com/membership/
