@@ -38,7 +38,12 @@ Here are some sales I expect to see, but which haven't been announced yet:
 - **[Reuven Lerner][reuven]**: usually holds a sale
 - **[Pragmatic Bookshelf][]**: I'm *guessing* they'll hold a 40% off sale with code `turkeycode2024`
 
+
+## Even more sales
+
 Also see Adam Johnson's [Django-related Deals for Black Friday 2024][adam post] for sales on Adam's books, courses from the folks at Test Driven, Django templates, and various other Django-related deals.
+
+And for non-Python/Django Python deals, see the [Awesome Black Friday / Cyber Monday deals](https://github.com/trungdq88/Awesome-Black-Friday-Cyber-Monday#readme) GitHub repository and the [BlackFridayDeals.dev](https://blackfridaydeals.dev) website.
 
 If you know of another sale (or a likely sale) **please comment below** or email me.
 
