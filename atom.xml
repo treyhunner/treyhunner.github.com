@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-28T06:51:29-07:00</updated>
+  <updated>2024-11-20T10:11:56-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
+    <link href="https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024/"/>
+    <updated>2024-11-20T11:00:00-08:00</updated>
+    <id>https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024</id>
+    <content type="html"><![CDATA[<p>Ready for some Python skill-building sales?</p>
+
+<p>This is my <strong><a href="https://treyhunner.com/blog/categories/sales/">seventh</a></strong> annual compilation of <strong>Python learning deals</strong>.</p>
+
+<p>I&rsquo;m publishing this post <em>extra</em> early this year, so bookmark this page and set a calendar event for yourself to <strong>check back on Friday November 29</strong>.</p>
+
+<h2>Currently live sales</h2>
+
+<p>Here are Python-related sales that are live right now:</p>
+
+<ul>
+<li><strong><a href="https://www.pythonmorsels.com/courses/jumpstart/overview/">Python Jumpstart</a></strong> with Python Morsels: <strong>50% off</strong> my brand new Python course, an introduction to Python that&rsquo;s <em>very</em> hands-on (<strong>$99</strong> instead of <strong>$199</strong>)</li>
+<li><strong><a href="https://mathspp.gumroad.com/">Rodrigo</a></strong> 50% off Rodrigo&rsquo;s <a href="https://mathspp.gumroad.com/l/all-books-bundle/BF24">all books bundle</a> with code <code>BF24</code></li>
+<li><strong><a href="https://thepythoncodingplace.com/membership/">The Python Coding Place</a></strong>: 40% off <a href="https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024">The Python Coding Book</a> and 40% off a lifetime membership to <a href="https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&amp;coupon=black2024">The Python Coding Place</a> with code <code>black2024</code></li>
+<li><strong><a href="https://learnbyexample.gumroad.com">Sundeep Agarwal</a></strong>: ~50% off Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all book</a> and <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Python</a> bundles with code <code>FestiveOffer</code></li>
+<li><strong><a href="https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24">O'Reilly Media</a></strong>: 40% off the first year with code <code>CYBERWEEK24</code> ($299 instead of $499)</li>
+</ul>
+
+
+<h2>Anticipated sales</h2>
+
+<p>Here are sales that will be live <em>soon</em>:</p>
+
+<ul>
+<li><strong><a href="https://courses.dataschool.io/black-friday">Data School</a></strong> 40% off all Kevin&rsquo;s courses or get a bundle with all 5 of his courses</li>
+<li><strong><a href="https://www.blog.pythonlibrary.org">Mike Driscoll</a></strong>: 35% off Mike&rsquo;s Python <a href="https://driscollis.gumroad.com/">books</a> and <a href="https://www.teachmepython.com/">courses</a> with code <code>BF24</code></li>
+</ul>
+
+
+<p>Here are some sales I expect to see, but which haven&rsquo;t been announced yet:</p>
+
+<ul>
+<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: usually holds a sale on a variety of courses</li>
+<li><strong><a href="https://courses.pythontest.com/">Brian Okken</a></strong>: often holds a sale on his pytest course</li>
+<li><strong><a href="https://lernerpython.com/">Reuven Lerner</a></strong>: usually holds a sale</li>
+<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: I&rsquo;m <em>guessing</em> they&rsquo;ll hold a 40% off sale with code <code>turkeycode2024</code></li>
+</ul>
+
+
+<p>Also see Adam Johnson&rsquo;s <a href="https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/">Django-related Deals for Black Friday 2024</a> for sales on Adam&rsquo;s books, courses from the folks at Test Driven, Django templates, and various other Django-related deals.</p>
+
+<p>If you know of another sale (or a likely sale) <strong>please comment below</strong> or email me.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Adding keyboard shortcuts to the Python REPL]]></title>
@@ -3919,440 +3969,6 @@ In <a href="https://www.youtube.com/watch?v=duvZ-2UK0fc">Big-O</a> terms (for th
 
 
 <p>Happy list flattening!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What's great about Python 3.10?]]></title>
-    <link href="https://treyhunner.com/2021/10/whats-great-about-python-3-dot-10/"/>
-    <updated>2021-10-08T08:30:30-07:00</updated>
-    <id>https://treyhunner.com/2021/10/whats-great-about-python-3-dot-10</id>
-    <content type="html"><![CDATA[<p>What changed in Python 3.10 and which of those changes matter for you?</p>
-
-<p>I&rsquo;ve spent this week playing with Python 3.10.
-I&rsquo;ve primarily been working on solutions to Python Morsels exercises that embrace new Python 3.10 features.
-I&rsquo;d like to share what I&rsquo;ve found.</p>
-
-<h2>Easier troubleshooting with improved error messages</h2>
-
-<p>The biggest Python 3.10 improvements by far are all related improved error messages.
-I make typos all the time.
-Error messages that help me quickly figure out what&rsquo;s wrong are <em>really</em> important.</p>
-
-<p>I&rsquo;ve already grown accustom to the process of deciphering many of Python&rsquo;s more cryptic error messages.
-So while improved error messages <em>are</em> great for me, this change is <em>especially</em> big for new Python learners.</p>
-
-<p>When I teach an introduction to Python course, some of the most common errors I help folks debug are:</p>
-
-<ol>
-<li>Missing colons at the end of a block of code</li>
-<li>Missing indentation or incorrect indentation in a block of code</li>
-<li>Misspelled variable names</li>
-<li>Brackets and braces that were never closed</li>
-</ol>
-
-
-<p>Python 3.10 makes all of these errors (and more) much clearer for Python learners.</p>
-
-<p>New Python users often forget to put a <code>:</code> to begin their code blocks.
-In Python 3.9 users would see this cryptic error message:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.9 temp.py 70
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 4
-</span><span class='line'>    <span class="k">if</span> temperature &lt; 65
-</span><span class='line'>                       ^
-</span><span class='line'>SyntaxError: invalid syntax
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Python 3.10 makes this much clearer:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 temp.py 70
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 4
-</span><span class='line'>    <span class="k">if</span> temperature &lt; 65
-</span><span class='line'>                       ^
-</span><span class='line'>SyntaxError: expected <span class="s1">&#39;:&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Indentation errors are clearer too (that <code>after 'if' statement on line 4</code> is new):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 temp.py 70
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 5
-</span><span class='line'>    print<span class="o">(</span><span class="s2">&quot;Too cold&quot;</span><span class="o">)</span>
-</span><span class='line'>    ^
-</span><span class='line'>IndentationError: expected an indented block after <span class="s1">&#39;if&#39;</span> statement on line 4
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And incorrect variable and attribute names now show a suggestion:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 temp.py 70
-</span><span class='line'>Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 4, in &lt;module&gt;
-</span><span class='line'>    <span class="k">if</span> temparature &lt; 65:
-</span><span class='line'>NameError: name <span class="s1">&#39;temparature&#39;</span> is not defined. Did you mean: <span class="s1">&#39;temperature&#39;</span>?
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;m really excited about that one because I make typos in variable names pretty much daily.</p>
-
-<p>The error message shown for unclosed brackets, braces, and parentheses is also <em>much</em> more helpful.</p>
-
-<p>Python used to show us the <em>next</em> line of code after an unclosed brace:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.9 temp.py 70
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 6
-</span><span class='line'>    <span class="k">elif</span> temperature &gt; 80:
-</span><span class='line'>    ^
-</span><span class='line'>SyntaxError: invalid syntax
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now it instead points to the opening brace that was left unclosed:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 temp.py 70
-</span><span class='line'>  File <span class="s2">&quot;/home/trey/temp.py&quot;</span>, line 5
-</span><span class='line'>    print<span class="o">(</span><span class="s2">&quot;Too cold&quot;</span>
-</span><span class='line'>         ^
-</span><span class='line'>SyntaxError: <span class="s1">&#39;(&#39;</span> was never closed
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can find more details on these improved error messages in the <a href="https://docs.python.org/3.10/whatsnew/3.10.html#better-error-messages">better error messages</a> section of the &ldquo;What&rsquo;s new in Python 3.10&rdquo; documentation.</p>
-
-<p>While Python 3.10 does include other changes (read on if you&rsquo;re interested), these improved error messages are the one 3.10 improvement that <strong>all Python users will notice</strong>.</p>
-
-<h2>IDLE is more visually consistent</h2>
-
-<p>Here&rsquo;s another feature that affects new Python users: the look of IDLE <a href="https://twitter.com/sjoerdjob/status/1446172628922867712">improved a bit</a>.
-IDLE now uses spaces for indentation instead of tabs (unlike the built-in REPL) and the familiar <code>...</code> in front of REPL continuation lines is now present in IDLE within a sidebar.</p>
-
-<p>Before IDLE looked like this:</p>
-
-<p><img src="https://treyhunner.com/images/idle3.9.png" title="An IDLE Shell window with an if-else block that has no ... prefixes and uses tabs for indentation" ></p>
-
-<p>Now IDLE looks like this:</p>
-
-<p><img src="https://treyhunner.com/images/idle3.10.png" title="An IDLE Shell window with an if-else block that has ... prefixes and uses 4 spaces for indentation" ></p>
-
-<p>Looks a lot more like the Python REPL on the command-prompt, right?</p>
-
-<h2>Length-checking for the zip function</h2>
-
-<p>There&rsquo;s a Python Morsels exercise called <code>strict_zip</code>.
-It&rsquo;s now become a &ldquo;re-implement this already built-in functionality&rdquo; exercise.
-Still useful for the sake of learning how <code>zip</code> is implemented, but no longer useful day-to-day code.</p>
-
-<p>Why isn&rsquo;t it useful?
-Because <code>zip</code> now accepts a <code>strict</code> argument!
-So if you&rsquo;re working with iterables that <em>might</em> be different lengths but <em>shouldn&rsquo;t</em> be, passing <code>strict=True</code> is now <a href="https://docs.python.org/3.10/library/functions.html#zip">recommended when using zip</a>.</p>
-
-<h2>Structural pattern matching</h2>
-
-<p>The big Python 3.10 feature everyone is talking about is structural pattern matching.
-This feature is very powerful but probably not very relevant for most Python users.</p>
-
-<p>One important note about this feature: <code>match</code> and <code>case</code> are still allowable variable names so all your existing code should keep working (they&rsquo;re <a href="https://www.python.org/dev/peps/pep-0622/#the-match-statement">soft keywords</a>).</p>
-
-<h3>Matching the shape and contents of an iterable</h3>
-
-<p>You could look at the new <code>match</code>/<code>case</code> statement as <strong>like tuple unpacking with a lot more than just length-checking</strong>.</p>
-
-<p>Compare this snippet of code <a href="https://github.com/django/django/blob/main/django/templatetags/i18n.py#L243..L246">from a Django template tag</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">args</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">split_contents</span><span class="p">()</span>
-</span><span class='line'><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span> <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;for&#39;</span> <span class="ow">or</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;as&#39;</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">raise</span> <span class="n">TemplateSyntaxError</span><span class="p">(</span><span class="s">&quot;&#39;</span><span class="si">%s</span><span class="s">&#39; requires &#39;for string as variable&#39; (got </span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
-</span><span class='line'><span class="k">return</span> <span class="n">GetLanguageInfoNode</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">compile_filter</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">args</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To the same snippet refactored to use structural pattern matching:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">match</span> <span class="n">token</span><span class="o">.</span><span class="n">split_contents</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">case</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;for&quot;</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="s">&quot;as&quot;</span><span class="p">,</span> <span class="n">info</span><span class="p">]:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">GetLanguageInfoNode</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">compile_filter</span><span class="p">(</span><span class="n">code</span><span class="p">),</span> <span class="n">info</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">]:</span>
-</span><span class='line'>        <span class="k">raise</span> <span class="n">TemplateSyntaxError</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;&#39;{name}&#39; requires &#39;for string as variable&#39; (got {rest!r})&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice that the second approach allows us to describe both the number of variables we&rsquo;re unpacking our data into and the names to unpack into (just like tuple unpacking) while also matching the second and third values against the strings <code>for</code> and <code>as</code>.
-If those strings don&rsquo;t show up in the expected positions, we raise an appropriate exception.</p>
-
-<p>Structural pattern matching is <em>really</em> handy for implementing simple parsers, like Django&rsquo;s template language.
-I&rsquo;m looking forward to seeing Django&rsquo;s refactored template code in 2025 (after Python 3.9 support ends).</p>
-
-<h3>Complex type checking</h3>
-
-<p>Structural pattern matching also excels at type checking.
-Strong type checking is usually discouraged in Python, but it does come crop up from time to time.</p>
-
-<p>The most common place I see <code>isinstance</code> checks is in operator overloading dunder methods (<code>__eq__</code>, <code>__lt__</code>, <code>__add__</code>, <code>__sub__</code>, etc).
-I&rsquo;ve already upgraded some Python Morsels solutions to compare and contrast <code>match</code>-<code>case</code> and <code>isinstance</code> and I&rsquo;m finding it more verbose in some cases but also occasionally somewhat clearer.</p>
-
-<p>For example this code snippet (again <a href="https://github.com/django/django/blob/3.2/django/utils/formats.py#L195..L209">from Django</a>):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>  <span class="c"># Handle strings first for performance reasons.</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">value</span>
-</span><span class='line'><span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>  <span class="c"># Make sure booleans don&#39;t get treated as numbers</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'><span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">use_l10n</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">number_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'><span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">date_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;DATETIME_FORMAT&#39;</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'><span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">date_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'><span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">time_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;TIME_FORMAT&#39;</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'><span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Can be replaced by this code snippet instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">match</span> <span class="n">value</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">case</span> <span class="nb">str</span><span class="p">():</span>  <span class="c"># Handle strings first for performance reasons.</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">value</span>
-</span><span class='line'>    <span class="n">case</span> <span class="nb">bool</span><span class="p">():</span>  <span class="c"># Make sure booleans don&#39;t get treated as numbers</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="n">decimal</span><span class="o">.</span><span class="n">Decimal</span><span class="p">()</span> <span class="o">|</span> <span class="nb">float</span><span class="p">()</span> <span class="o">|</span> <span class="nb">int</span><span class="p">():</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">use_l10n</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">number_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">():</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">date_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;DATETIME_FORMAT&#39;</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">():</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">date_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="n">datetime</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">time_format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;TIME_FORMAT&#39;</span><span class="p">,</span> <span class="n">use_l10n</span><span class="o">=</span><span class="n">use_l10n</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">case</span> <span class="n">_</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">value</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note how much shorter each condition is.
-That <code>case</code> syntax definitely takes some getting used to, but I do find it a bit easier to read in long <code>isinstance</code> chains like this.</p>
-
-<h2>Bisecting with a key</h2>
-
-<p>Python&rsquo;s <code>bisect</code> module is really handy for quickly finding an item within a sorted list.</p>
-
-<p>For me, the <code>bisect</code> module is mostly a reminder of how infrequently I need to care about the <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm">binary search</a> algorithms I learned in Computer Science classes.
-But for those times you do need to find an item in a sorted list, <code>bisect</code> is great.</p>
-
-<p>As of Python 3.10, all the binary search helpers in the <code>bisect</code> module now accept a <code>key</code> argument.
-So you can now quickly search within a case insensitively-sorted list of strings for the string you&rsquo;re looking for.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="s">&#39;Watermelon&#39;</span><span class="p">,</span><span class="s">&#39;loquat&#39;</span><span class="p">,</span> <span class="s">&#39;Apple&#39;</span><span class="p">,</span> <span class="s">&#39;jujube&#39;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span>
-</span><span class='line'><span class="go">[&#39;Apple&#39;, &#39;jujube&#39;, &#39;loquat&#39;, &#39;Watermelon&#39;]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">bisect</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="s">&#39;Lemon&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span>
-</span><span class='line'><span class="go">[&#39;Apple&#39;, &#39;jujube&#39;, &#39;Lemon&#39;, &#39;loquat&#39;, &#39;Watermelon&#39;]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">bisect</span><span class="p">(</span><span class="n">fruits</span><span class="p">,</span> <span class="s">&#39;lime&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;lime&#39;</span>
-</span><span class='line'><span class="go">False</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</span><span class='line'><span class="go">&#39;loquat&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Doing a search that involved a <code>key</code> function was <a href="https://stackoverflow.com/a/55007379/98187">surprisingly tricky</a> before Python 3.10.</p>
-
-<h2>Slots for data classes</h2>
-
-<p>Have a data class (especially a frozen one) and want to make it more memory-efficient?
-You can add a <code>__slots__</code> attribute but you&rsquo;ll need to type all the field names out yourself.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@dataclass</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
-</span><span class='line'>    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In Python 3.10 you can now use <code>slots=True</code> instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-</span><span class='line'>
-</span><span class='line'><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Point</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span>
-</span><span class='line'>    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This feature was actually included in the original dataclass implementation but <a href="https://github.com/ericvsmith/dataclasses/issues/28">removed</a> before Python 3.7&rsquo;s release (Guido suggested including it in a later Python version if users expressed interest and we did).</p>
-
-<p>Creating a dataclass with <code>__slots__</code> added manually <a href="https://stackoverflow.com/questions/50180735/how-can-dataclasses-be-made-to-work-better-with-slots">won&rsquo;t allow for default field values</a>, which is why <code>slots=True</code> is so handy.
-There&rsquo;s a very smaller quirk with <code>slots=True</code> though: <code>super</code> calls break when <code>slots=True</code> is used because this causes a <em>new</em> class object to be created which breaks the <a href="https://stackoverflow.com/questions/19608134/why-is-python-3-xs-super-magic/19609168#19609168">magic of super</a>.
-But unless you&rsquo;re using calling <code>super().__setattr__</code> in the <code>__post_init__</code> method of a frozen dataclass <a href="https://stackoverflow.com/a/54119384/98187">instead of</a> calling <code>object.__setattr__</code>, this quirk likely won&rsquo;t affect you.</p>
-
-<h3>Type annotation improvements</h3>
-
-<p>If you use type annotations, <a href="https://docs.python.org/3.10/whatsnew/3.10.html#pep-604-new-type-union-operator">type unions</a> are even easier now using the <code>|</code> operator (in addition to <code>typing.Union</code>).
-Other big additions in type annotation land include <a href="https://docs.python.org/3.10/whatsnew/3.10.html#pep-612-parameter-specification-variables">parameter specification variables</a>, <a href="https://docs.python.org/3.10/whatsnew/3.10.html#pep-613-typealias">type aliases</a>, and <a href="https://docs.python.org/3.10/whatsnew/3.10.html#pep-647-user-defined-type-guards">user-defined type guards</a>.
-I still don&rsquo;t use type annotations often, but these features are a pretty big deal for Python devs who do.</p>
-
-<p>Also if you&rsquo;re introspecting annotations, calling the <code>inspect.get_annotations</code> function is <a href="https://docs.python.org/3/howto/annotations.html#accessing-the-annotations-dict-of-an-object-in-python-3-10-and-newer">recommended</a> over accessing <code>__annotations__</code> directly or calling the <code>typing.get_type_hints</code> function.</p>
-
-<h3>Checking for default file encoding issues</h3>
-
-<p>You can also now ask Python to emit warnings when you fail to specify an explicit file encoding (this is <em>very</em> relevant when writing cross operating system compatible code).</p>
-
-<p>Just run Python with <code>-X warn_default_encoding</code> and you&rsquo;ll see a loud error message if you&rsquo;re not specifying encodings everywhere you open files up:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python3.10 -X warn_default_encoding count_lines.py declaration-of-independence.txt
-</span><span class='line'>/home/trey/count_lines.py:3: EncodingWarning: <span class="s1">&#39;encoding&#39;</span> argument not specified
-</span><span class='line'>  with open<span class="o">(</span>sys.argv<span class="o">[</span>1<span class="o">])</span> as f:
-</span><span class='line'>67
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Plus lots more</h2>
-
-<p>The changes above are the main ones I&rsquo;ve found useful when updating Python Morsels exercises over the last week.
-There are many more changes in Python 3.10 though.</p>
-
-<p>Here are a few more things I looked into, and plan to play with later:</p>
-
-<ul>
-<li><a href="https://docs.python.org/3.10/whatsnew/3.10.html#keyword-only-fields">keyword-only</a> dataclass fields</li>
-<li>The <code>fileinput.input</code> (handy for handling standard input <em>or</em> a file) function <a href="https://docs.python.org/3.10/whatsnew/3.10.html#fileinput">now accepts</a> an <code>encoding</code> argument</li>
-<li><code>importlib</code> <a href="https://docs.python.org/3.10/whatsnew/3.10.html#deprecated">deprecations</a>: some of my dynamic module importing code was using features that are now deprecated in Python 3.10 (you&rsquo;ll notice obvious deprecation warnings if your code needs updating too)</li>
-<li><a href="https://docs.python.org/3.10/library/stdtypes.html#dict-views">Dictionary views</a> have a <code>mapping</code> attribute now: if you&rsquo;re making your own dictionary-like objects, you should probably add a <code>mapping</code> attribute to your <code>keys</code>/<code>values</code>/<code>items</code> views as well (this will definitely crop up in Python Morsels exercises in the future)</li>
-<li>When using multiple context managers in a single <code>with</code> block, parentheses can now be used to wrap them onto the next line (this was actually added in Python 3.9 <a href="https://bugs.python.org/issue12782">but unofficially</a>)</li>
-<li>The names of <a href="https://docs.python.org/3.10/library/sys.html#sys.stdlib_module_names">standard library modules</a> and built-in modules are now included in <code>sys.stdlib_module_names</code> and <code>sys.builtin_module_names</code>: I&rsquo;ve occasionally needed to distinguish between third party and standard library modules dynamically and this makes that a lot easier</li>
-<li><code>sys.orig_argv</code> includes the <a href="https://docs.python.org/3.10/library/sys.html#sys.orig_argv">full list of command-line arguments</a> (including the Python interpreter and all arguments passed to it) which could be useful when inspecting how your Python process was launched or when re-launching your Python process with the same arguments</li>
-</ul>
-
-
-<h2>Summary</h2>
-
-<p>Structural pattern matching is great and the various other syntax, standard library, and builtins improvements are lovely too.
-But the biggest improvement by far are the new error messages.</p>
-
-<p>And you know what&rsquo;s even better news than the new errors in Python 3.10?
-<a href="https://docs.python.org/3.11/whatsnew/3.11.html#enhanced-error-locations-in-tracebacks">Python 3.11 will include even better error messages</a>!</p>
-
-<h2>Get practice with Python 3.10</h2>
-
-<p>Want to try out Python 3.10?
-Try out the <a href="https://www.pythonmorsels.com/exercises/paths/#path-14">Python 3.10 exercise path</a> on Python Morsels.
-It&rsquo;s free for <a href="https://www.pythonmorsels.com/">Python Morsels</a> subscribers and $17 for non-subscribers.</p>
-
-<p>Python Morsels currently includes <strong>170 Python exercises</strong> and <strong>80 Python screencasts</strong> with a new short screencast/article hybrid added each week.
-This service is all about hands-on skill building (we learn and grow through doing, not just reading/watching).</p>
-
-<p>I&rsquo;d love for you to <a href="https://www.pythonmorsels.com/exercises/paths/#path-14">come learn Python (3.10) with me</a>! 💖</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-10-28T06:51:29-07:00</updated>
+  <updated>2024-11-20T10:11:56-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
+    <link href="https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024/"/>
+    <updated>2024-11-20T11:00:00-08:00</updated>
+    <id>https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024</id>
+    <content type="html"><![CDATA[<p>Ready for some Python skill-building sales?</p>
+
+<p>This is my <strong><a href="https://treyhunner.com/blog/categories/sales/">seventh</a></strong> annual compilation of <strong>Python learning deals</strong>.</p>
+
+<p>I&rsquo;m publishing this post <em>extra</em> early this year, so bookmark this page and set a calendar event for yourself to <strong>check back on Friday November 29</strong>.</p>
+
+<h2>Currently live sales</h2>
+
+<p>Here are Python-related sales that are live right now:</p>
+
+<ul>
+<li><strong><a href="https://www.pythonmorsels.com/courses/jumpstart/overview/">Python Jumpstart</a></strong> with Python Morsels: <strong>50% off</strong> my brand new Python course, an introduction to Python that&rsquo;s <em>very</em> hands-on (<strong>$99</strong> instead of <strong>$199</strong>)</li>
+<li><strong><a href="https://mathspp.gumroad.com/">Rodrigo</a></strong> 50% off Rodrigo&rsquo;s <a href="https://mathspp.gumroad.com/l/all-books-bundle/BF24">all books bundle</a> with code <code>BF24</code></li>
+<li><strong><a href="https://thepythoncodingplace.com/membership/">The Python Coding Place</a></strong>: 40% off <a href="https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024">The Python Coding Book</a> and 40% off a lifetime membership to <a href="https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&amp;coupon=black2024">The Python Coding Place</a> with code <code>black2024</code></li>
+<li><strong><a href="https://learnbyexample.gumroad.com">Sundeep Agarwal</a></strong>: ~50% off Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all book</a> and <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Python</a> bundles with code <code>FestiveOffer</code></li>
+<li><strong><a href="https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24">O'Reilly Media</a></strong>: 40% off the first year with code <code>CYBERWEEK24</code> ($299 instead of $499)</li>
+</ul>
+
+
+<h2>Anticipated sales</h2>
+
+<p>Here are sales that will be live <em>soon</em>:</p>
+
+<ul>
+<li><strong><a href="https://courses.dataschool.io/black-friday">Data School</a></strong> 40% off all Kevin&rsquo;s courses or get a bundle with all 5 of his courses</li>
+<li><strong><a href="https://www.blog.pythonlibrary.org">Mike Driscoll</a></strong>: 35% off Mike&rsquo;s Python <a href="https://driscollis.gumroad.com/">books</a> and <a href="https://www.teachmepython.com/">courses</a> with code <code>BF24</code></li>
+</ul>
+
+
+<p>Here are some sales I expect to see, but which haven&rsquo;t been announced yet:</p>
+
+<ul>
+<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: usually holds a sale on a variety of courses</li>
+<li><strong><a href="https://courses.pythontest.com/">Brian Okken</a></strong>: often holds a sale on his pytest course</li>
+<li><strong><a href="https://lernerpython.com/">Reuven Lerner</a></strong>: usually holds a sale</li>
+<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: I&rsquo;m <em>guessing</em> they&rsquo;ll hold a 40% off sale with code <code>turkeycode2024</code></li>
+</ul>
+
+
+<p>Also see Adam Johnson&rsquo;s <a href="https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/">Django-related Deals for Black Friday 2024</a> for sales on Adam&rsquo;s books, courses from the folks at Test Driven, Django templates, and various other Django-related deals.</p>
+
+<p>If you know of another sale (or a likely sale) <strong>please comment below</strong> or email me.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Adding keyboard shortcuts to the Python REPL]]></title>
@@ -766,83 +816,6 @@ You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more deta
 
 <p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
 So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Quickly find the right datetime format code for your date]]></title>
-    <link href="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/"/>
-    <updated>2024-08-05T11:30:00-07:00</updated>
-    <id>https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date</id>
-    <content type="html"><![CDATA[<p>I often find myself with a string representing a date and time and the need to create a format string that will parse this string into a <code>datetime</code> object.</p>
-
-<p>I decided to make a tool that solves this problem for me: <a href="https://pym.dev/strptime">https://pym.dev/strptime</a></p>
-
-<h2>Finding the code to parse a date format with <code>strptime</code></h2>
-
-<p>Here&rsquo;s how I&rsquo;m now using this new tool.</p>
-
-<p>I find a date string in a random spreadsheet or log file that I need to parse.
-For example, the string <code>30-Jun-2024 20:09</code>, which I recently found in a spreadsheet.</p>
-
-<p>I then paste the string into the tool and watch the format appear:</p>
-
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-1.png"></a></p>
-
-<p>Then I click on the date format to copy-paste it.
-That&rsquo;s it!</p>
-
-<p>This tool works by cycling through a number of common formats.
-It also works for dates without a time, like <code>Jul 1, 2024</code>.</p>
-
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-2.png"></a></p>
-
-<p>This input field works great when you&rsquo;re in need of a code for the <code>datetime</code> class&rsquo;s <code>strptime</code> method (which <em>parses</em> dates).
-But what if you need a code for <code>strftime</code> (for <em>formatting</em> dates)?</p>
-
-<h2>Finding the code to format a date with <code>strftime</code></h2>
-
-<p>If you don&rsquo;t have a date but instead want to <em>construct</em> a date in a specific common format, scroll down the page a bit.</p>
-
-<p>This page includes a table of common formats.</p>
-
-<p><a href="https://pym.dev/strptime#formats"><img src="/images/strptime-table.png"></a></p>
-
-<p>Click on the format to copy it.
-That&rsquo;s it.</p>
-
-<h2>Playing with format codes</h2>
-
-<p>What if you have a date format already but you&rsquo;re not sure what it represents?</p>
-
-<p>Paste it in the box!</p>
-
-<p>For example if you&rsquo;re wondering what the <code>%B</code> in <code>%B %d, %Y</code> means, paste it in to see what that represent with the current date and time:</p>
-
-<p><a href="https://pym.dev/strptime"><img src="/images/strptime-reverse.png"></a></p>
-
-<h2>Other features</h2>
-
-<p>There are a few other hidden features in this tool:</p>
-
-<ul>
-<li>After a date or date format is pasted, if it corresponds to one of the formats listed in the table of common formats, that row will be highlighted</li>
-<li>Hitting the <code>Enter</code> key anywhere on the page will select the input field</li>
-<li>Clicking on a date within the format table will fill that date into the input box</li>
-<li>The bottom of the page includes links to other useful datetime formatting/parsing tools as well as a link to the relevant Python documentation</li>
-</ul>
-
-
-<h2>Thoughts? Feature requests?</h2>
-
-<p>What do you think of this tool?</p>
-
-<p>Is this something you&rsquo;d bookmark and use often?
-Is this missing a key feature that you would need for it to be valuable for your use?</p>
-
-<p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
-
-<p>Comment or email me to let me know!</p>
 ]]></content>
   </entry>
   
