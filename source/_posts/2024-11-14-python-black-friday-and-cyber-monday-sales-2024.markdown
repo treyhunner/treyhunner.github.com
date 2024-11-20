@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python Black Friday &amp; Cyber Monday sales (2024)"
-date: 2024-11-21 10:00:00 -0800
+date: 2024-11-20 11:00:00 -0800
 comments: true
 categories: python sales
 ---
@@ -13,20 +13,23 @@ This is my **[seventh](https://treyhunner.com/blog/categories/sales/)** annual c
 I'm publishing this post *extra* early this year, so bookmark this page and set a calendar event for yourself to **check back on Friday November 29**.
 
 
-## Anticipated sales
+## Currently live sales
 
 Here are Python-related sales that are live right now:
 
-- **[Rodrigo][]** 50% off [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
-- **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024)
-- **[Sundeep Agarwal][sundeep]**: around 50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles
+- **[Python Jumpstart][]** with Python Morsels: **50% off** my brand new Python course, an introduction to Python that's *very* hands-on (**$99** instead of **$199**)
+- **[Rodrigo][]** 50% off Rodrigo's [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
+- **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024) with code `black2024`
+- **[Sundeep Agarwal][sundeep]**: ~50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles with code `FestiveOffer`
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
+
+
+## Anticipated sales
 
 Here are sales that will be live *soon*:
 
-- **Python Jumpstart** with Python Morsels: 50% off my brand new hands-on intro to Python course: $99 instead of $199 (details to come)
-- **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
 - **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
+- **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
 
 Here are some sales I expect to see, but which haven't been announced yet:
 
@@ -40,6 +43,7 @@ Also see Adam Johnson's [Django-related Deals for Black Friday 2024][adam post] 
 If you know of another sale (or a likely sale) **please comment below** or email me.
 
 
+[python jumpstart]: https://www.pythonmorsels.com/courses/jumpstart/overview/
 [adam post]: https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/
 [oreilly]: https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24
 [talk python]: http://talkpython.fm/black-friday
