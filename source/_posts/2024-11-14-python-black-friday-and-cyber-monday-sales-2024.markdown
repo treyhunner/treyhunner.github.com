@@ -24,6 +24,7 @@ Here are Python-related sales that are live right now:
 - **[Sundeep Agarwal][sundeep]**: ~50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles with code `FestiveOffer`
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
 - **[Matplotlib Journey](http://Matplotlib-journey.com)**: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)
+- **[Python Done Right](https://nodeledge.ai/courses/python-done-right)**: beta sale on this course ($99 instead of the eventual price of $299)
 
 
 ## Anticipated sales
