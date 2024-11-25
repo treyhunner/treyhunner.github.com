@@ -19,9 +19,11 @@ Here are Python-related sales that are live right now:
 
 - **[Python Jumpstart][]** with Python Morsels: **50% off** my brand new Python course, an introduction to Python that's *very* hands-on (**$99** instead of **$199**)
 - **[Rodrigo][]** 50% off Rodrigo's [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
+- **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
 - **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024) with code `black2024`
 - **[Sundeep Agarwal][sundeep]**: ~50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles with code `FestiveOffer`
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
+- **[Matplotlib Journey](http://Matplotlib-journey.com)**: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)
 
 
 ## Anticipated sales
@@ -29,7 +31,6 @@ Here are Python-related sales that are live right now:
 Here are sales that will be live *soon*:
 
 - **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
-- **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
 
 Here are some sales I expect to see, but which haven't been announced yet:
 
