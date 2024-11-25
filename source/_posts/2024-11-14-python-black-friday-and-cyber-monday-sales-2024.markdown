@@ -48,6 +48,13 @@ And for non-Python/Django Python deals, see the [Awesome Black Friday / Cyber Mo
 If you know of another sale (or a likely sale) **please comment below** or email me.
 
 
+## Read more about Python Jumpstart
+
+Want to read more about my new self-paced Intro to Python course that's on sale?
+See [this blog post](https://treyhunner.com/2024/11/new-python-jumpstart-course/) on why I made Python Jumpstart and how it's structured.
+Get it by Monday to **save $100**.
+
+
 [python jumpstart]: https://www.pythonmorsels.com/courses/jumpstart/overview/
 [adam post]: https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/
 [oreilly]: https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24
