@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-11-20T10:12:39-08:00</updated>
+  <updated>2024-11-25T07:33:41-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[New Python Jumpstart course]]></title>
+    <link href="https://treyhunner.com/2024/11/new-python-jumpstart-course/"/>
+    <updated>2024-11-25T08:08:08-08:00</updated>
+    <id>https://treyhunner.com/2024/11/new-python-jumpstart-course</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve just recently launched a self-paced introduction to Python that is <strong>extremely hands-on</strong>.
+It&rsquo;s called <strong><a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a></strong> and it&rsquo;s based on introductory Python curriculum that I have been iterating on for years.</p>
+
+<h2>Learn Python by writing Python code ✍</h2>
+
+<p>We <em>do not</em> learn by putting information into the brain.
+Our brains simply don&rsquo;t retain knowledge that way.</p>
+
+<p>Learning happens from repeatedly attempting to retrieve information <em>from</em> the brain.
+When it comes to Python, that means <strong>writing Python code</strong>.</p>
+
+<p>So unlike most Python courses, Python Jumpstart is <em>not</em> focused on watching videos and rewriting code seen within videos.
+Instead, this new Python course is based around <strong>learning Python by writing Python code</strong>.</p>
+
+<h2>How Python Jumpstart is structured 🔬</h2>
+
+<p>Python Jumpstart includes learning Python by solving <strong>46 short Python exercises</strong>.</p>
+
+<p>Before each exercise, you&rsquo;ll watch a 5 minute video explaining a new Python topic.
+You&rsquo;ll then attempt the exercise to put one or more Python topics into practice.</p>
+
+<p>You won&rsquo;t solve many of the exercises on your first try and <em>that&rsquo;s okay</em>.
+These exercises are designed to be revisited a few times over the course of weeks, until you&rsquo;re satisfied with your solution.</p>
+
+<h2>This is not a sprint 📆</h2>
+
+<p>This structured path to Python proficiency, includes:</p>
+
+<ul>
+<li>Carefully crafted exercises that build real understanding</li>
+<li>Short, detailed explanations that <em>won&rsquo;t</em> waste your time</li>
+<li>A proven teaching approach that focuses on active learning</li>
+<li>Spaced repetition to help concepts stick</li>
+</ul>
+
+
+<p>This is not a course for impatient or passive learners.
+Learning takes <strong>repetitive effort</strong> spaced over many days and this course is structured to embrace that fact.</p>
+
+<p>If you spend <strong>30 minutes</strong> on Python Jumpstart each day, I estimate that you&rsquo;ll complete this course in <strong>about 7 weeks</strong>.
+You&rsquo;ll spend the large majority of that time writing Python code.</p>
+
+<p>This course <em>will</em> take time, but it will be time well-spent.</p>
+
+<h2>Launch week special: 50% off until December 2 ⏰</h2>
+
+<p>Through Monday December 2, 2024, you can get lifetime access to <a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a> for <strong>$99</strong>.
+After this launch week, Python Jumpstart will be <strong>$199</strong>.</p>
+
+<p>Ready to jumpstart your Python learning journey?</p>
+
+<p><a href="https://pym.dev/courses/jumpstart/overview" class="subscribe-btn form-big">Get Python Jumpstart for $99</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
@@ -754,72 +814,6 @@ The use of uv and Starship were just bonuses.</p>
 <p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
 
 <p>Thanks to all who <a href="https://mastodon.social/@treyhunner/113232640710715449">participated in my Mastodon thread</a> as I fumbled through discovering this setup.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[10-Week Hands-On Python Course]]></title>
-    <link href="https://treyhunner.com/2024/08/python-high-five/"/>
-    <updated>2024-08-20T14:20:00-07:00</updated>
-    <id>https://treyhunner.com/2024/08/python-high-five</id>
-    <content type="html"><![CDATA[<p>Ever wished you could take an <strong>Intro to Python training</strong> with me, but you don&rsquo;t work for a company with a generous training budget?
-I&rsquo;m running a Python-learning program just for this situation.</p>
-
-<p><a href="https://www.pythonmorsels.com/high-five/">Python High Five</a> is a 10-week Python jumpstart program that starts <strong>this September</strong>.</p>
-
-<h2>Set aside the time to learn ⌚</h2>
-
-<p>One of the biggest problems for folks starting to learn Python is <strong>setting aside the time</strong>.
-And even if you <em>do</em> manage to set aside the time, you&rsquo;ll often hit a roadblock where you feel <strong>confused</strong>.</p>
-
-<p>Python High Five is a way to keep a <strong>daily learning habit</strong> <em>and</em> to <strong>get help</strong> when find yourself stuck.</p>
-
-<p>This program is based around <strong>daily practice</strong>.
-Monday through Friday you&rsquo;ll pick <strong>30 minutes</strong> from your schedule, at any time that works you.
-During those 30 minutes, you&rsquo;ll watch a 5 minute video, work on the day&rsquo;s exercise, and reflect on your progress.</p>
-
-<h2>The most effective learning is hands-on 🖐️</h2>
-
-<p>Python High Five is all about learning through <strong>writing Python code</strong>.
-Each week we&rsquo;ll dive deeper into Python, building upon what we&rsquo;ve learned so far.</p>
-
-<p>When you find yourself stuck you can get help through an asynchronous <strong>group chat</strong> and weekly <strong>office hour</strong> sessions.
-In addition to our weekly office hours together, I&rsquo;ll check the chat each day, respond to questions, and provide guidance.</p>
-
-<h2>Proven learning techniques behind the scenes 📝</h2>
-
-<p>The daily check-ins allow for daily <strong>accountability</strong>.
-The group chat also provides both a community of peers to rely on, and <strong>guidance from an experienced Python trainer</strong> (me).</p>
-
-<p>We&rsquo;ll also be using proven learning techniques behind the scenes:</p>
-
-<ul>
-<li><strong>Retrieval practice</strong>: you don&rsquo;t learn by putting information into your head, but by trying to take it out; for Python learning, that means writing code.</li>
-<li><strong>Spaced repetition</strong>: cramming is less effective than learning spaced out over time, which is why we&rsquo;ll spend 30 minutes each weekday instead of spending a few hours every week.</li>
-<li><strong>Interleaving</strong>: each day&rsquo;s exercise isn&rsquo;t predictably themed because a bit of unpredictability can be <em>really</em> improve learning outcomes.</li>
-<li><strong>Elaboration</strong>: your daily check-in isn&rsquo;t <em>just</em> about reflection: it&rsquo;s also a helpful learning tool!</li>
-</ul>
-
-
-<p>Plus, we&rsquo;ll be working through curriculum I&rsquo;ve been developing and iterating on for many years.
-I have taught these topics in many different settings to folks from <em>many</em> different backgrounds.</p>
-
-<h2>Form a daily learning habit 🔁</h2>
-
-<p>Any 10-week program will be <em>just the start</em> of a Python learning habit.
-You&rsquo;ll need to keep up your Python after Python High Five ends, either by promptly applying your skills to a new project or diving deeper into Python with continued daily practice.</p>
-
-<p>That&rsquo;s why I&rsquo;m offering an <strong>80% discount</strong> for High Five attendees on one year of <a href="https://www.pythonmorsels.com">Python Morsels</a>, which is my skill-building service designed to help <strong>deepen your Python skills every week</strong>.
-You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more details on that here</a>.</p>
-
-<h2>Ready to start your Python journey? ⛰️</h2>
-
-<p>Are you ready to start your Python journey with a solid foundation?</p>
-
-<p><a href="https://www.pythonmorsels.com/high-five/">Read more about Python High Five</a> and decide whether this is for you.</p>
-
-<p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
-So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
 ]]></content>
   </entry>
   

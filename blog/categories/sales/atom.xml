@@ -4,7 +4,7 @@
   <title><![CDATA[Category: sales | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/sales/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-11-20T10:12:39-08:00</updated>
+  <updated>2024-11-25T07:33:41-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[New Python Jumpstart course]]></title>
+    <link href="https://treyhunner.com/2024/11/new-python-jumpstart-course/"/>
+    <updated>2024-11-25T08:08:08-08:00</updated>
+    <id>https://treyhunner.com/2024/11/new-python-jumpstart-course</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve just recently launched a self-paced introduction to Python that is <strong>extremely hands-on</strong>.
+It&rsquo;s called <strong><a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a></strong> and it&rsquo;s based on introductory Python curriculum that I have been iterating on for years.</p>
+
+<h2>Learn Python by writing Python code ✍</h2>
+
+<p>We <em>do not</em> learn by putting information into the brain.
+Our brains simply don&rsquo;t retain knowledge that way.</p>
+
+<p>Learning happens from repeatedly attempting to retrieve information <em>from</em> the brain.
+When it comes to Python, that means <strong>writing Python code</strong>.</p>
+
+<p>So unlike most Python courses, Python Jumpstart is <em>not</em> focused on watching videos and rewriting code seen within videos.
+Instead, this new Python course is based around <strong>learning Python by writing Python code</strong>.</p>
+
+<h2>How Python Jumpstart is structured 🔬</h2>
+
+<p>Python Jumpstart includes learning Python by solving <strong>46 short Python exercises</strong>.</p>
+
+<p>Before each exercise, you&rsquo;ll watch a 5 minute video explaining a new Python topic.
+You&rsquo;ll then attempt the exercise to put one or more Python topics into practice.</p>
+
+<p>You won&rsquo;t solve many of the exercises on your first try and <em>that&rsquo;s okay</em>.
+These exercises are designed to be revisited a few times over the course of weeks, until you&rsquo;re satisfied with your solution.</p>
+
+<h2>This is not a sprint 📆</h2>
+
+<p>This structured path to Python proficiency, includes:</p>
+
+<ul>
+<li>Carefully crafted exercises that build real understanding</li>
+<li>Short, detailed explanations that <em>won&rsquo;t</em> waste your time</li>
+<li>A proven teaching approach that focuses on active learning</li>
+<li>Spaced repetition to help concepts stick</li>
+</ul>
+
+
+<p>This is not a course for impatient or passive learners.
+Learning takes <strong>repetitive effort</strong> spaced over many days and this course is structured to embrace that fact.</p>
+
+<p>If you spend <strong>30 minutes</strong> on Python Jumpstart each day, I estimate that you&rsquo;ll complete this course in <strong>about 7 weeks</strong>.
+You&rsquo;ll spend the large majority of that time writing Python code.</p>
+
+<p>This course <em>will</em> take time, but it will be time well-spent.</p>
+
+<h2>Launch week special: 50% off until December 2 ⏰</h2>
+
+<p>Through Monday December 2, 2024, you can get lifetime access to <a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a> for <strong>$99</strong>.
+After this launch week, Python Jumpstart will be <strong>$199</strong>.</p>
+
+<p>Ready to jumpstart your Python learning journey?</p>
+
+<p><a href="https://pym.dev/courses/jumpstart/overview" class="subscribe-btn form-big">Get Python Jumpstart for $99</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
@@ -336,91 +396,6 @@ You could <a href="https://psfmember.org/">become a PSF member</a> or give to hi
 If you have a question about the other sales, reach out to the folks running it.</p>
 
 <p>Happy coding!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Cyber Monday Sales (2020)]]></title>
-    <link href="https://treyhunner.com/2020/11/python-cyber-monday-sales/"/>
-    <updated>2020-11-27T13:20:00-08:00</updated>
-    <id>https://treyhunner.com/2020/11/python-cyber-monday-sales</id>
-    <content type="html"><![CDATA[<p>This post is a compilation of different Cyber Monday deals I&rsquo;ve found related to Python and Python learning.</p>
-
-<h3>Python Morsels weekly screencasts</h3>
-
-<p>Let&rsquo;s get the self-promotion out of the way first.</p>
-
-<p>I <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">announced a couple days ago</a> that you can now get <strong>one year of Python screencasts</strong> as well as mini-blog posts for <strong>$50/year</strong> (with at least one new screencast each week).
-This also includes one Python exercise each month.
-I haven&rsquo;t set a concrete end date to this &ldquo;sale&rdquo; (it&rsquo;s actually more of a newly announced service that will be increasing in price in early 2021).</p>
-
-<p>You can <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">find my article on the Python Morsels screencasts sale here</a>.</p>
-
-<h3>Talk Python course bundle</h3>
-
-<p>You can get every Talk Python course that&rsquo;s been made so far <a href="https://training.talkpython.fm/black-friday-2020">for just $250</a>.
-There&rsquo;s 28 courses currently and the bundle also includes courses published through October 2021.</p>
-
-<h3>PyBites sales</h3>
-
-<p>PyBites is offering PyBites Premium+ Access for 2 months for $24 and Introductory Bites Course for $15 (both effectively 70% off) during their <a href="https://pybit.es/blackfriday">Black Friday and Cyber Monday sale</a>.</p>
-
-<h3>Reuven Lerner&rsquo;s Python courses and exercises</h3>
-
-<p>Reuven Lerner is offering <a href="https://store.lerner.co.il/?coupon=BF2020">40% off all his products</a> (Python courses, Weekly Python Exercises, and product bundles) through Monday.</p>
-
-<h3>Matt Harrison&rsquo;s Modern Python workshop</h3>
-
-<p>Matt Harrison&rsquo;s <a href="https://mattharrison.podia.com/modern-python-a-hands-on-approach-to-idiomatic-python-projects">Modern Python workshop</a> is $500 (50%) off through Monday with coupon code EARLYBIRD and and <a href="https://mattharrison.podia.com/courses">his other courses</a> (including Python data science and pandas courses) are 40% off through Monday with code BLACKFRIDAY.</p>
-
-<h3>Speed Up Your Django book</h3>
-
-<p>Adam Johnson&rsquo;s <a href="https://adamj.eu/tech/2020/11/28/speed-up-your-django-tests-cyber-monday-deal/">Speed Up Your Django book</a> is 50% off through Monday.
-Python Morsels is a Django-powered site and I could use this book, so I&rsquo;ll be buying a copy for myself as well.</p>
-
-<h3>Mike Driscoll&rsquo;s Python books</h3>
-
-<p>Mike Driscoll is <a href="https://www.blog.pythonlibrary.org/2020/11/25/black-friday-cyber-monday-comes-early-in-2020/">offering a sale on all his Python books</a> (each is $15 or less during the sale).</p>
-
-<h3>Brian Okken&rsquo;s Pytest book (Pragmatic Bookshelf)</h3>
-
-<p>Pragmatic Bookshelf is offering 40% off all books with the code turkeysale2020, including <a href="https://pragprog.com/titles/bopytest/python-testing-with-pytest/">Brian Okken&rsquo;s Pytest book</a> which is just under $15 with the coupon.</p>
-
-<h3>No Starch Press Python books</h3>
-
-<p>No Starch Press is also running <a href="https://nostarch.com/catalog/python">a 33% off sale</a> on their Python books (with books by Al Sweigart, Eric Matthes, and many others), though the sale ends before Monday.</p>
-
-<h3>Real Python subscription</h3>
-
-<p>Real Python is offering an annual subscription for <a href="https://realpython.com/account/join/?c=blackfriday2020">$200/year</a> and 20% of that goes to the Python Software Foundation.</p>
-
-<h3>Pluralsight subscription</h3>
-
-<p>We&rsquo;re now moving into &ldquo;I&rsquo;m really not actually sure what you&rsquo;re getting&rdquo; sales.
-Pluralsight is running a Black Friday sale this year: <a href="https://www.pluralsight.com/offer/2020/bf-cm-40-off">$180/year for a subscription</a>.
-I&rsquo;m not sure whether this is one year for $180 but the subscription renews at the regular price of $300/year or whether it&rsquo;s $180/year indefinitely (the fact that they don&rsquo;t specify is a bit concerning).</p>
-
-<h3>100 Days of Code Python and other Udemy courses</h3>
-
-<p>There&rsquo;s a <a href="https://www.udemy.com/course/100-days-of-code/?couponCode=DCF8D1FDCAA3CE660C34">100 Days of Code Python course</a> course on sale for just $13 on Udemy through mid next week.
-I haven&rsquo;t heard anything about it but it looks like it includes <em>a lot</em>.</p>
-
-<p>There are also various other Udemy Python courses on sale, like <a href="https://www.udemy.com/course/automate/">Automate The Boring Stuff</a>, though many of these sales end within the next 24 hours (through Black Friday only).</p>
-
-<h3>Lots of courses, books, screencasts, exercises, live workshops on sale</h3>
-
-<p>Don&rsquo;t go too wild on sales.</p>
-
-<p>I know that I wouldn&rsquo;t want anyone subscribing to Python Morsels unless they think they&rsquo;ll actually commit at least an hour over the next year to watch screencasts.
-I imagine many other Python educators feel similar about purchases that go to waste.</p>
-
-<p>Look through the sales above and think about what you could use.
-What works well with the way you learn and what would you actually make a habit to use after you&rsquo;ve purchased it?</p>
-
-<p>If you have a question about the <a href="https://treyhunner.com/2020/11/short-python-screencasts-for-$50-slash-year/">Python Morsels screencasts/exercises</a>, email me.
-If you have questions about other sales, email the folks running those sales (make sure to do it now in case they take a day or two to get back to you).</p>
-
-<p>Also if you&rsquo;ve found other Python sales I&rsquo;ve missed above, please comment or <a href='m&amp;#97;&amp;#105;l&amp;#116;o&amp;#58;he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m'>email me</a> to let me know about them.</p>
 ]]></content>
   </entry>
   

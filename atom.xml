@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-11-20T10:12:39-08:00</updated>
+  <updated>2024-11-25T07:33:41-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[New Python Jumpstart course]]></title>
+    <link href="https://treyhunner.com/2024/11/new-python-jumpstart-course/"/>
+    <updated>2024-11-25T08:08:08-08:00</updated>
+    <id>https://treyhunner.com/2024/11/new-python-jumpstart-course</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve just recently launched a self-paced introduction to Python that is <strong>extremely hands-on</strong>.
+It&rsquo;s called <strong><a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a></strong> and it&rsquo;s based on introductory Python curriculum that I have been iterating on for years.</p>
+
+<h2>Learn Python by writing Python code ✍</h2>
+
+<p>We <em>do not</em> learn by putting information into the brain.
+Our brains simply don&rsquo;t retain knowledge that way.</p>
+
+<p>Learning happens from repeatedly attempting to retrieve information <em>from</em> the brain.
+When it comes to Python, that means <strong>writing Python code</strong>.</p>
+
+<p>So unlike most Python courses, Python Jumpstart is <em>not</em> focused on watching videos and rewriting code seen within videos.
+Instead, this new Python course is based around <strong>learning Python by writing Python code</strong>.</p>
+
+<h2>How Python Jumpstart is structured 🔬</h2>
+
+<p>Python Jumpstart includes learning Python by solving <strong>46 short Python exercises</strong>.</p>
+
+<p>Before each exercise, you&rsquo;ll watch a 5 minute video explaining a new Python topic.
+You&rsquo;ll then attempt the exercise to put one or more Python topics into practice.</p>
+
+<p>You won&rsquo;t solve many of the exercises on your first try and <em>that&rsquo;s okay</em>.
+These exercises are designed to be revisited a few times over the course of weeks, until you&rsquo;re satisfied with your solution.</p>
+
+<h2>This is not a sprint 📆</h2>
+
+<p>This structured path to Python proficiency, includes:</p>
+
+<ul>
+<li>Carefully crafted exercises that build real understanding</li>
+<li>Short, detailed explanations that <em>won&rsquo;t</em> waste your time</li>
+<li>A proven teaching approach that focuses on active learning</li>
+<li>Spaced repetition to help concepts stick</li>
+</ul>
+
+
+<p>This is not a course for impatient or passive learners.
+Learning takes <strong>repetitive effort</strong> spaced over many days and this course is structured to embrace that fact.</p>
+
+<p>If you spend <strong>30 minutes</strong> on Python Jumpstart each day, I estimate that you&rsquo;ll complete this course in <strong>about 7 weeks</strong>.
+You&rsquo;ll spend the large majority of that time writing Python code.</p>
+
+<p>This course <em>will</em> take time, but it will be time well-spent.</p>
+
+<h2>Launch week special: 50% off until December 2 ⏰</h2>
+
+<p>Through Monday December 2, 2024, you can get lifetime access to <a href="https://pym.dev/courses/jumpstart/overview">Python Jumpstart</a> for <strong>$99</strong>.
+After this launch week, Python Jumpstart will be <strong>$199</strong>.</p>
+
+<p>Ready to jumpstart your Python learning journey?</p>
+
+<p><a href="https://pym.dev/courses/jumpstart/overview" class="subscribe-btn form-big">Get Python Jumpstart for $99</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
@@ -3620,359 +3680,6 @@ So the keys in your dictionary will remain in the order they were added to the d
 
 <p>But remember, it&rsquo;s not often that we care about the order of a dictionary.
 Whenever you&rsquo;re sorting a dictionary, please remember to ask yourself <strong>do I really need to sort this data structure</strong> and <strong>would a list of tuples be more suitable than a dictionary here</strong>?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to flatten a list in Python]]></title>
-    <link href="https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python/"/>
-    <updated>2021-11-01T08:00:00-07:00</updated>
-    <id>https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve somehow ended up with lists nested inside of lists, possibly like this one:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But you <em>want</em> just a single list (without the nesting) like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">expected_output</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">,</span> <span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">,</span> <span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You need to flatten your list-of-lists.</p>
-
-<h3>We&rsquo;re looking for a &ldquo;shallow&rdquo; flatten</h3>
-
-<p>We can think of this as a <strong>shallow flatten</strong> operation, meaning we&rsquo;re flattening this list by one level.
-A <strong>deep flatten</strong> operation would handle lists-of-lists-of-lists-of-lists (and so on) and that&rsquo;s a bit more than we need for our use case.</p>
-
-<p>The flattening strategy we come up with should work on lists-of-lists as well as any other type of <a href="https://www.pythonmorsels.com/topics/iterable/">iterable</a>-of-iterables.
-For example lists of tuples should be flattenable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And even an odd type like a <code>dict_items</code> object (which we get from asking a dictionary for its items) should be flattenable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;lime&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&quot;watermelon&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;mandarin&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'><span class="go">dict_items([(&#39;apple&#39;, 3), (&#39;lime&#39;, 2), (&#39;watermelon&#39;, 1), (&#39;mandarin&#39;, 4)])</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened_counts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;apple&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;lime&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;mandarin&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Flattening iterables-of-iterables with a <code>for</code> loop</h3>
-
-<p>One way to flatten an iterable-of-iterables is with a <code>for</code> loop.
-We can loop one level deep to get each of the inner iterables.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then we loop a second level deep to get each item from each inner iterable.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then append each item to a new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s also a list method that makes this a bit shorter, the <code>extend</code> method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The list <code>extend</code> method accepts an iterable and appends every item in the iterable you give to it.</p>
-
-<p>Or we could use the <code>+=</code> operator to concatenate each list to our new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can think of <code>+=</code> on lists as calling the <code>extend</code> method.
-With lists these two operations (<code>+=</code> and <code>extend</code>) are equivalent.</p>
-
-<h3>Flattening iterables-of-iterables with a comprehension</h3>
-
-<p>This nested <code>for</code> loop with an <code>append</code> call might look familiar:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The structure of this code looks like something we could <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste into a list comprehension</a>.</p>
-
-<p>Inside our square brackets we&rsquo;d copy the thing we&rsquo;re appending first, and then the logic for our first loop, and then the logic for our second loop:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This comprehension loops two levels deep, just like our nested <code>for</code> loops did.
-Note that the order of the <code>for</code> clauses in the comprehension <strong>must remain the same as the order of the <code>for</code> loops</strong>.</p>
-
-<p>The (sometimes confusing) order of those <code>for</code> clauses is partly why I recommend <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-pasting into a comprehension</a>.
-When turning a <code>for</code> loop into a comprehension, the <code>for</code> and <code>if</code> clauses remain in the same relative place, but the thing you&rsquo;re appending moves from the end to the beginning.</p>
-
-<h3>Could we flatten with <code>*</code> in a comprehension?</h3>
-
-<p>But what about Python&rsquo;s <code>*</code> operator?
-I&rsquo;ve written about the many uses for <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">the prefixed asterisk symbol in Python</a>.</p>
-
-<p>We can use <code>*</code> in Python&rsquo;s list literal syntax (<code>[</code>&hellip;<code>]</code>) to unpack an iterable into a new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span>
-</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Could we use that <code>*</code> operator to unpack an iterable within a comprehension?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="o">*</span><span class="n">group</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can&rsquo;t.
-If we try to do this Python will specifically tell us that the <code>*</code> operator can&rsquo;t be used like this in a comprehension:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'><span class="gp">... </span>    <span class="o">*</span><span class="n">group</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'><span class="gp">... </span><span class="p">]</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>
-</span><span class='line'>    <span class="p">]</span>
-</span><span class='line'>     <span class="o">^</span>
-</span><span class='line'><span class="gr">SyntaxError</span>: <span class="n">iterable unpacking cannot be used in comprehension</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This feature was specifically excluded from <a href="https://www.python.org/dev/peps/pep-0448/#variations">PEP 448</a>, the Python Enhancement Proposal that added this <code>*</code>-in-list-literal syntax to Python due to readability concerns.</p>
-
-<h3>Can&rsquo;t we use <code>sum</code>?</h3>
-
-<p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="p">[])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <em>does</em> work:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I find this technique pretty unintuitive.</p>
-
-<p>We use the <code>+</code> operator in Python for both adding numbers and concatenating sequences and the <code>sum</code> function happens to work with anything that supports the <code>+</code> operator (thanks to <a href="https://www.pythonmorsels.com/topics/duck-typing/">duck typing</a>).
-But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
-
-<p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
-
-<p><strong>Quick Aside</strong>: The algorithm <code>sum</code> uses also makes list flattening <em>really</em> slow (<a href="https://gist.github.com/treyhunner/f0c069496a1e41aadcf0d7050e475eb3">timing comparison here</a>).
-In <a href="https://www.youtube.com/watch?v=duvZ-2UK0fc">Big-O</a> terms (for the time complexity nerds), <code>sum</code> with lists is <code>O(n**2)</code> instead of <code>O(n)</code>.</p>
-
-<h3>What about <code>itertools.chain</code>?</h3>
-
-<p>There is one more tool that&rsquo;s often used for flattening: the <code>chain</code> utility in the <code>itertools</code> module.</p>
-
-<p><code>chain</code> accepts any number arguments and it returns an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;itertools.chain object at 0x7fc1b2d65bb0&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can loop over that iterator or turn it into another iterable, like a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">))</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s actually a method on <code>chain</code> that&rsquo;s specifically for flattening a single iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using <code>chain.from_iterable</code> is more performant than using <code>chain</code> with <code>*</code> because <code>*</code> unpacks the whole iterable immediately when <code>chain</code> is called.</p>
-
-<h3>Recap: comparing list flattening techniques</h3>
-
-<p>If you want to flatten an iterable-of-iterables lazily, I would use <code>itertools.chain.from_iterable</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This will return an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>, meaning no work will be done until the returned iterable is looped over:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And it will be consumed as we loop, so looping twice will result in an empty iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
-</span><span class='line'><span class="go">[]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you find <code>itertools.chain</code> a bit too cryptic, you might prefer a <code>for</code> loop that calls the <code>extend</code> method on a new list to repeatedly extend the values in each iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or a <code>for</code> loop that uses the <code>+=</code> operator on our new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unlike <code>chain.from_iterable</code>, both of these <code>for</code> loops build up new list rather than a lazy iterator object.</p>
-
-<p>If you find list comprehensions readable (I love them for signaling &ldquo;look we&rsquo;re building up a list&rdquo;) then you might prefer a comprehension instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does the same thing as <code>itertools.chain.from_iterable</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Happy list flattening!</p>
 ]]></content>
   </entry>
   
