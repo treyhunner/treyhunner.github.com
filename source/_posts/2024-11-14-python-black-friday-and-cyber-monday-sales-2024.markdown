@@ -22,8 +22,10 @@ Here are Python-related sales that are live right now:
 - **[Brian Okken](https://courses.pythontest.com)**: is offering 20% off his courses with code TURKEYSALE2024
 - **[Rodrigo][]** 50% off Rodrigo's [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
 - **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
+- **[Test Driven][]**: get the Flask course bundle for 30% off
 - **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024) with code `black2024`
 - **[Sundeep Agarwal][sundeep]**: ~50% off Sundeep's [all book][all book bundle] and [Python][python bundle] bundles with code `FestiveOffer`
+- **[Benjamin Bennett Alexander][]**: 60% off his Mastering Python Fundamentals book with code `BLACK60`
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
 - **[Matplotlib Journey](http://Matplotlib-journey.com)**: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)
 - **[Python Done Right](https://nodeledge.ai/courses/python-done-right)**: beta sale on this course ($99 instead of the eventual price of $299)
@@ -68,3 +70,5 @@ Get it by Monday to **save $100**.
 [pragmatic bookshelf]: https://pragprog.com/
 [manning]: https://www.manning.com/catalog#section-50
 [no starch]: https://nostarch.com/catalog/python
+[Test Driven]: https://testdriven.io/bundle/flask-black-friday/?ref=blackfridaydealsdotdev
+[benjamin bennett alexander]: https://benjaminb.gumroad.com/l/xjgtb/bLACK60
