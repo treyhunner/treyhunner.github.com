@@ -10,14 +10,16 @@ Ready for some Python skill-building sales?
 
 This is my **[seventh](https://treyhunner.com/blog/categories/sales/)** annual compilation of **Python learning deals**.
 
-I'm publishing this post *extra* early this year, so bookmark this page and set a calendar event for yourself to **check back on Friday November 29**.
 
-
-## Currently live sales
+## Lots of Python sales
 
 Here are Python-related sales that are live right now:
 
 - **[Python Jumpstart][]** with Python Morsels: **50% off** my brand new Python course, an introduction to Python that's *very* hands-on (**$99** instead of **$199**)
+- **[Talk Python][]**: the annual everything bundle includes all courses for $240
+- **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
+- **[Reuven Lerner][reuven]**: get 20% off [Bamboo Weekly](https://www.bambooweekly.com/bf2024) or 30% off any of his Weekly Python Exercise [courses](https://lernerpython.com) with code BF2024
+- **[Brian Okken](https://courses.pythontest.com)**: is offering 20% off his courses with code TURKEYSALE2024
 - **[Rodrigo][]** 50% off Rodrigo's [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
 - **[Mike Driscoll][driscoll]**: 35% off Mike's Python [books][mike books] and [courses][mike courses] with code `BF24`
 - **[The Python Coding Place][]**: 40% off [The Python Coding Book](https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024) and 40% off a lifetime membership to [The Python Coding Place](https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&coupon=black2024) with code `black2024`
@@ -25,20 +27,9 @@ Here are Python-related sales that are live right now:
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
 - **[Matplotlib Journey](http://Matplotlib-journey.com)**: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)
 - **[Python Done Right](https://nodeledge.ai/courses/python-done-right)**: beta sale on this course ($99 instead of the eventual price of $299)
-
-
-## Anticipated sales
-
-Here are sales that will be live *soon*:
-
-- **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
-
-Here are some sales I expect to see, but which haven't been announced yet:
-
-- **[Talk Python][]**: usually holds a sale on a variety of courses
-- **[Brian Okken][]**: often holds a sale on his pytest course
-- **[Reuven Lerner][reuven]**: usually holds a sale
-- **[Pragmatic Bookshelf][]**: I'm *guessing* they'll hold a 40% off sale with code `turkeycode2024`
+- **[Pragmatic Bookshelf][]**: 40% off sale with code `turkeycode2024`
+- **[No Starch][]**: 35% off with code `BLACKHATFRIDAY` (Crash Course, Automate The Boring Stuff, etc.)
+- **[Manning][]** is offering 50% off if you buy two items
 
 
 ## Even more sales
@@ -74,3 +65,6 @@ Get it by Monday to **save $100**.
 [regex]: https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer
 [pragmatic bookshelf]: https://pragprog.com/
 [The Python Coding Place]: https://thepythoncodingplace.com/membership/
+[pragmatic bookshelf]: https://pragprog.com/
+[manning]: https://www.manning.com/catalog#section-50
+[no starch]: https://nostarch.com/catalog/python
