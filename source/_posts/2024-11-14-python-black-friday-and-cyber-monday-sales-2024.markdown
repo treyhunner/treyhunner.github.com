@@ -30,7 +30,7 @@ Here are Python-related sales that are live right now:
 - **[O'Reilly Media][oreilly]**: 40% off the first year with code `CYBERWEEK24` ($299 instead of $499)
 - **[Matplotlib Journey](http://Matplotlib-journey.com)**: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)
 - **[Python Done Right](https://nodeledge.ai/courses/python-done-right)**: beta sale on this course ($99 instead of the eventual price of $299)
-- **[Pragmatic Bookshelf][]**: 40% off sale with code `turkeycode2024`
+- **[Pragmatic Bookshelf][]**: 40% off sale with code `turkeysale2024`
 - **[No Starch][]**: 35% off with code `BLACKHATFRIDAY` (Crash Course, Automate The Boring Stuff, etc.)
 - **[Manning][]** is offering 50% off if you buy two items
 
