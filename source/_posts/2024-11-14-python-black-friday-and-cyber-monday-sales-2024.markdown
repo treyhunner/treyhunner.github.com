@@ -18,7 +18,7 @@ Here are Python-related sales that are live right now:
 - **[Python Jumpstart][]** with Python Morsels: **50% off** my brand new Python course, an introduction to Python that's *very* hands-on (**$99** instead of **$199**)
 - **[Talk Python][]**: the annual everything bundle includes all courses for $240
 - **[Data School][]** 40% off all Kevin's courses or get a bundle with all 5 of his courses
-- **[Matt Harrison][]**: get 40% off all Matt's courses with code `EMAIL40`
+- **[Matt Harrison][]**: get 25% off with GIVING25 plus every purchase will open a product for a scholarship recipient
 - **[Reuven Lerner][reuven]**: get 20% off [Bamboo Weekly](https://www.bambooweekly.com/bf2024) or 30% off any of his Weekly Python Exercise [courses](https://lernerpython.com) with code BF2024
 - **[Brian Okken](https://courses.pythontest.com)**: is offering 20% off his courses with code TURKEYSALE2024
 - **[Rodrigo][]** 50% off Rodrigo's [all books bundle](https://mathspp.gumroad.com/l/all-books-bundle/BF24) with code `BF24`
