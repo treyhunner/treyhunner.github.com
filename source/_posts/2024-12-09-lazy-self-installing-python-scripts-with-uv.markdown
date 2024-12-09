@@ -133,6 +133,8 @@ Each time uv runs the script, it quickly checks that all listed dependencies are
 Another script I use this for is [caption](https://github.com/treyhunner/dotfiles/blob/main/bin/caption), which uses whisper (via the Open AI API) to quickly caption my screencasts just after I record and edit them.
 The caption quality very rarely need more than a very minor edit or two (for my personal accent of English at least) even for technical like "dunder method" and via the API the captions generate very quickly.
 
+See the [inline script metadata](https://packaging.python.org/en/latest/specifications/inline-script-metadata/) page of the Python packaging users guide for more details on that format that uv is using (honestly I always just copy-paste an example myself).
+
 
 ## uv everywhere?
 
