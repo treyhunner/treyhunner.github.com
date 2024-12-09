@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-12-02T12:03:30-08:00</updated>
+  <updated>2024-12-09T10:53:31-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,212 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Lazy self-installing Python scripts with uv]]></title>
+    <link href="https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv/"/>
+    <updated>2024-12-09T11:15:10-08:00</updated>
+    <id>https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv</id>
+    <content type="html"><![CDATA[<p>I frequently find myself writing my own short command-line scripts in Python that help me with day-to-day tasks.</p>
+
+<p>It&rsquo;s <em>so</em> easy to throw together a single-file Python command-line script and throw it in my <code>~/bin</code> directory!</p>
+
+<p>Well&hellip; it&rsquo;s easy, <em>unless</em> the script requires anything outside of the Python standard library.</p>
+
+<p>Recently I&rsquo;ve started using uv and my <em>primary</em> for use for it has been fixing Python&rsquo;s &ldquo;just manage the dependencies automatically&rdquo; problem.</p>
+
+<p>I&rsquo;ll share how I&rsquo;ve been using uv&hellip; first first let&rsquo;s look at the problem.</p>
+
+<h2>A script without dependencies</h2>
+
+<p>If I have a Python script that I want to be easily usable from anywhere on my system, I typically follow these steps:</p>
+
+<ol>
+<li>Add an appropriate shebang line above the first line in the file (e.g. <code>#!/usr/bin/env python3</code>)</li>
+<li>Aet an executable bit on the file (<code>chmod a+x my_script.py</code>)</li>
+<li>Place the script in a directory that&rsquo;s in my shell&rsquo;s <code>PATH</code> variable (e.g. <code>cp my_script.py ~/bin/my_script</code>)</li>
+</ol>
+
+
+<p>For example, here&rsquo;s a script I use to print out 80 zeroes (or a specific number of zeroes) to check whether my terminal&rsquo;s font size is large enough when I&rsquo;m teaching:</p>
+
+<pre><code class="python">#!/usr/bin/env python3
+import sys
+
+numbers = sys.argv[1:] or [80]
+for n in numbers:
+    print("0" * int(n))
+</code></pre>
+
+<p>This file lives at <code>/home/trey/bin/0</code> so I can run the command <code>0</code> from my system prompt to see 80 <code>0</code> characters printed in my terminal.</p>
+
+<p>This works great!
+But this script doesn&rsquo;t have any dependencies.</p>
+
+<h2>The problem: a script with dependencies</h2>
+
+<p>Here&rsquo;s a Python script that normalizes the audio of a given video file and writes a new audio-normalized version of the video to a new file:</p>
+
+<pre><code class="python">"""Normalize audio in input video file."""
+from argparse import ArgumentParser
+from pathlib import Path
+
+from ffmpeg_normalize import FFmpegNormalize
+
+
+def normalize_audio_for(video_path, audio_normalized_path):
+    """Return audio-normalized video file saved in the given directory."""
+    ffmpeg_normalize = FFmpegNormalize(audio_codec="aac", audio_bitrate="192k", target_level=-17)
+    ffmpeg_normalize.add_media_file(str(video_path), audio_normalized_path)
+    ffmpeg_normalize.run_normalization()
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("video_file", type=Path)
+    parser.add_argument("output_file", type=Path)
+    args = parser.parse_args()
+    normalize_audio_for(args.video_file, args.output_file)
+
+
+if __name__ == "__main__":
+    main()
+</code></pre>
+
+<p>This script depends on the <a href="https://github.com/slhck/ffmpeg-normalize">ffmpeg-normalize</a> Python package and the <a href="https://ffmpeg.org">ffmpeg</a> utility.
+I already have <code>ffmpeg</code> installed, but I prefer <em>not</em> to globally install Python packages.
+I install all Python packages within virtual environments and I install global Python scripts using <a href="https://pipx.pypa.io">pipx</a>.</p>
+
+<p>At this point I <em>could</em> choose to either:</p>
+
+<ol>
+<li>Create a virtual environment, install <code>ffmpeg-normalize</code> in it, and put a shebang line referencing that virtual environment&rsquo;s Python binary at the top of my script file</li>
+<li>Turn my script into a <code>pip</code>-installable Python package with a <code>pyproject.toml</code> that lists <code>ffmpeg-normalize</code> as a dependency and use <code>pipx</code> to install it</li>
+</ol>
+
+
+<p>That first solution requires me to keep track of virtual environments that exist for specific scripts to work.
+That sounds painful.</p>
+
+<p>The second solution involves making a Python package and then upgrading that Python package whenever I need to make a change to this script.
+That&rsquo;s definitely going to be painful.</p>
+
+<h2>The solution: let uv handle it</h2>
+
+<p>A few months ago, my friend <a href="https://micro.webology.dev">Jeff Triplett</a> showed me that <code>uv</code> can work within a shebang line and can read a special comment at the top of a Python file that tells uv which Python version to run a script with and which dependencies it needs.</p>
+
+<p>Here&rsquo;s a shebang line that would work for the above script:</p>
+
+<pre><code class="python">#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = "&gt;=3.12"
+# dependencies = [
+#     "ffmpeg-normalize",
+# ]
+# ///
+</code></pre>
+
+<p>That tells uv that this script should be run on Python 3.12 and that it depends on the <code>ffmpeg-normalize</code> package.</p>
+
+<p>Neat&hellip; but what does that do?</p>
+
+<p>Well, the first time this script is run, uv will create a virtual environment for it, install <code>ffmpeg-normalize</code> into that venv, and then run the script:</p>
+
+<pre><code class="bash">$ normalize
+Reading inline script metadata from `/home/trey/bin/normalize`
+Installed 4 packages in 5ms
+usage: normalize [-h] video_file output_file
+normalize: error: the following arguments are required: video_file, output_file
+</code></pre>
+
+<p>Every time the script is run after that, uv finds and reuses the same virtual environment:</p>
+
+<pre><code class="bash">$ normalize
+Reading inline script metadata from `/home/trey/bin/normalize`
+usage: normalize [-h] video_file output_file
+normalize: error: the following arguments are required: video_file, output_file
+</code></pre>
+
+<p>Each time uv runs the script, it quickly checks that all listed dependencies are properly installed with their correct versions.</p>
+
+<h2>uv everywhere?</h2>
+
+<p>I haven&rsquo;t yet fully embraced uv everywhere.</p>
+
+<p>I don&rsquo;t manage my Python projects with uv, though I do use it to create new virtual environments (with <code>--seed</code> to ensure the <code>pip</code> command is available) as a <a href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/">virtualenvwrapper replacement, along with direnv</a>.</p>
+
+<p>I have also started using <a href="https://docs.astral.sh/uv/concepts/tools/">uv tool</a> as a <a href="https://pipx.pypa.io">pipx</a> replacement and I&rsquo;ve considered replacing <a href="https://pipx.pypa.io/stable/">pyenv</a> with uv.</p>
+
+<h2>uv instead of pipx</h2>
+
+<p>When I want to install a command-line tool that happens to be Python powered, I used to do this:</p>
+
+<pre><code class="bash">$ pipx countdown-cli
+</code></pre>
+
+<p>Now I do this instead:</p>
+
+<pre><code class="bash">$ uv tool install countdown-cli
+</code></pre>
+
+<p>Either way, I end up with a <code>countdown</code> script in my <code>PATH</code> that automatically uses its own separate virtual environment for its dependencies:</p>
+
+<pre><code class="bash">$ countdown --help
+Usage: countdown [OPTIONS] DURATION
+
+  Countdown from the given duration to 0.
+
+  DURATION should be a number followed by m or s for minutes or seconds.
+
+  Examples of DURATION:
+
+  - 5m (5 minutes)
+  - 45s (45 seconds)
+  - 2m30s (2 minutes and 30 seconds)
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+</code></pre>
+
+<h2>uv instead of pyenv</h2>
+
+<p>For years, I&rsquo;ve used pyenv to manage multiple versions of Python on my machine.</p>
+
+<pre><code class="bash">$ pyenv install 3.13.0
+</code></pre>
+
+<p>Now I could do this:</p>
+
+<pre><code class="bash">$ uv python install --preview 3.13.0
+</code></pre>
+
+<p>Or I could make a <code>~/.config/uv/uv.toml</code> file containing this:</p>
+
+<pre><code>preview = true
+</code></pre>
+
+<p>And then run the same thing without the <code>--preview</code> flag:</p>
+
+<pre><code class="bash">$ uv python install 3.13.0
+</code></pre>
+
+<p>This puts a <code>python3.10</code> binary in my <code>~/.local/bin directory</code>, which is on my <code>PATH</code>.</p>
+
+<p>Why &ldquo;preview&rdquo;?
+Well, without it uv doesn&rsquo;t (<a href="https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903">yet</a>) place <code>python3.13</code> in my <code>PATH</code> by default, as this feature is currently in testing/development.</p>
+
+<h2>Self-installing Python scripts are the big win</h2>
+
+<p>I still prefer pyenv for its ability to <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">install custom Python builds</a> and I don&rsquo;t have a preference between <code>uv tool</code> and <code>pipx</code>.</p>
+
+<p>The biggest win that I&rsquo;ve experienced from uv so far is the ability to run an executable script and have any necessary dependencies install automagically.</p>
+
+<p>This doesn&rsquo;t mean that I <em>never</em> make Python package out of my Python scripts anymore&hellip; but I do so much more rarely.
+I used to create a Python package out of a script as soon as it required third-party dependencies.
+Now my &ldquo;do I <em>really</em> need to turn this into a proper package&rdquo; bar is set much higher.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[New Python Jumpstart course]]></title>
@@ -475,342 +681,6 @@ I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
 See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
 
 <p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
-    <link href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/"/>
-    <updated>2024-10-03T14:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv</id>
-    <content type="html"><![CDATA[<p>Earlier this week I considered whether I should finally switch away from <a href="https://virtualenvwrapper.readthedocs.io">virtualenvwrapper</a> to using local <code>.venv</code> managed by <a href="https://direnv.net">direnv</a>.</p>
-
-<p>I&rsquo;ve never seriously used direnv, but I&rsquo;ve been hearing <a href="https://micro.webology.dev/2024/03/13/on-environment-variables.html">Jeff</a> and <a href="https://hynek.me/til/python-project-local-venvs/">Hynek</a> talk about their use of direnv for a while.</p>
-
-<p>After a few days, I&rsquo;ve finally stumbled into a setup that works great for me.
-I&rsquo;d like to note the basics of this setup as well as some fancy additions that are specific to my own use case.</p>
-
-<h2>My old virtualenvwrapper workflow</h2>
-
-<p>First, I&rsquo;d like to note my <em>old</em> workflow that I&rsquo;m trying to roughly recreate:</p>
-
-<ol>
-<li>I type <code>mkvenv3 &lt;project_name&gt;</code> to create a new virtual environment for the current project directory and activate it</li>
-<li>I type <code>workon &lt;project_name&gt;</code> when I want to workon that project: this activates the correct virtual environment <em>and</em> changes to the project directory</li>
-</ol>
-
-
-<p>The initial setup I thought of allows me to:</p>
-
-<ol>
-<li>Run <code>echo layout python &gt; .envrc &amp;&amp; direnv allow</code> to create a virtual environment for the current project and activate it</li>
-<li>Change directories into the project directory to automatically activate the virtual environment</li>
-</ol>
-
-
-<p>The more complex setup I eventually settled on allows me to:</p>
-
-<ol>
-<li>Run <code>venv &lt;project_name&gt;</code> to create a virtual environment for the current project and activate it</li>
-<li>Run <code>workon &lt;project_name&gt;</code> to change directories into the project (which automatically activates the virtual environment)</li>
-</ol>
-
-
-<h2>The initial setup</h2>
-
-<p>First, I <a href="https://direnv.net">installed direnv</a> and added this to my <code>~/.zshrc</code> file:</p>
-
-<pre><code class="bash">eval "$(direnv hook zsh)"
-</code></pre>
-
-<p>Then whenever I wanted to create a virtual environment for a new project I created a <code>.envrc</code> file in that directory, which looked like this:</p>
-
-<pre><code class="bash">layout python
-</code></pre>
-
-<p>Then I ran <code>direnv allow</code> to allow, as <code>direnv</code> instructed me to, to allow the new virtual environment to be automatically created and activated.</p>
-
-<p>That&rsquo;s pretty much it.</p>
-
-<p>Unfortunately, I did not like this initial setup.</p>
-
-<h2>No shell prompt?</h2>
-
-<p>The first problem was that the virtual environment&rsquo;s prompt didn&rsquo;t show up in my shell prompt.
-This is due to a <a href="https://github.com/direnv/direnv/issues/529">direnv not allowing modification of the <code>PS1</code> shell prompt</a>.
-That means I&rsquo;d need to modify my shell configuration to show the correct virtual environment name myself.</p>
-
-<p>So I added this to my <code>~/.zshrc</code> file to show the virtual environment name at the beginning of my prompt:</p>
-
-<pre><code class="bash"># Add direnv-activated venv to prompt
-show_virtual_env() {
-  if [[ -n "$VIRTUAL_ENV_PROMPT" &amp;&amp; -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV_PROMPT)) "
-  fi
-}
-PS1='$(show_virtual_env)'$PS1
-</code></pre>
-
-<h2>Wrong virtual environment directory</h2>
-
-<p>The next problem was that the virtual environment was placed in <code>.direnv/python3.12</code>.
-I wanted each virtual environment to be in a <code>.venv</code> directory instead.</p>
-
-<p>To do that, I made a <code>.config/direnv/direnvrc</code> file that customized the python layout:</p>
-
-<pre><code class="bash">layout_python() {
-    if [[ -d ".venv" ]]; then
-        VIRTUAL_ENV="$(pwd)/.venv"
-    fi
-
-    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
-        log_status "No virtual environment exists. Executing \`python -m venv .venv\`."
-        python -m venv .venv
-        VIRTUAL_ENV="$(pwd)/.venv"
-    fi
-
-    # Activate the virtual environment
-    . $VIRTUAL_ENV/bin/activate
-}
-</code></pre>
-
-<h2>Loading, unloading, loading, unloading&hellip;</h2>
-
-<p>I also didn&rsquo;t like the loading and unloading messages that showed up each time I changed directories.
-I removed those by clearing the <code>DIRENV_LOG_FORMAT</code> variable in my <code>~/.zshrc</code> configuration:</p>
-
-<pre><code class="bash">export DIRENV_LOG_FORMAT=
-</code></pre>
-
-<h2>The more advanced setup</h2>
-
-<p>I don&rsquo;t like it when all my virtual environment prompts show up as <code>.venv</code>.
-I want ever prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
-
-<p>I also <em>really</em> wanted to be able to type <code>venv</code> to create a new virtual environment, activate it, and create the <code>.envrc</code> file for my <em>automatically</em>.</p>
-
-<p>Additionally, I thought it would be really handy if I could type <code>workon &lt;project_name&gt;</code> to change directories to a specific project.</p>
-
-<p>I made two aliases in my <code>~/.zshrc</code> configuration for all of this:</p>
-
-<pre><code class="bash">venv() {
-    local venv_name=${1:-$(basename "$PWD")}
-    local projects_file="$HOME/.projects"
-
-    # Check if .envrc already exists
-    if [ -f .envrc ]; then
-        echo "Error: .envrc already exists" &gt;&amp;2
-        return 1
-    fi
-
-    # Create venv
-    if ! python3 -m venv --prompt "$venv_name"; then
-        echo "Error: Failed to create venv" &gt;&amp;2
-        return 1
-    fi
-
-    # Create .envrc
-    echo "layout python" &gt; .envrc
-
-    # Append project name and directory to projects file
-    echo "${venv_name} = ${PWD}" &gt;&gt; $projects_file
-
-    # Allow direnv to immediately activate the virtual environment
-    direnv allow
-}
-
-workon() {
-    local project_name="$1"
-    local projects_file="$HOME/.projects"
-    local project_dir
-
-    # Check for projects config file
-    if [[ ! -f "$projects_file" ]]; then
-        echo "Error: $projects_file not found" &gt;&amp;2
-        return 1
-    fi
-
-    # Get the project directory for the given project name
-    project_dir=$(grep -E "^$project_name\s*=" "$projects_file" | sed 's/^[^=]*=\s*//')
-
-    # Ensure a project directory was found
-    if [[ -z "$project_dir" ]]; then
-        echo "Error: Project '$project_name' not found in $projects_file" &gt;&amp;2
-        return 1
-    fi
-
-    # Ensure the project directory exists
-    if [[ ! -d "$project_dir" ]]; then
-        echo "Error: Directory $project_dir does not exist" &gt;&amp;2
-        return 1
-    fi
-
-    # Change directories
-    cd "$project_dir"
-}
-</code></pre>
-
-<p>Now I can type this to create a <code>.venv</code> virtual environment in my current directory, which has a prompt named after the current directory, activate it, and create a <code>.envrc</code> file which will automatically activate that virtual environment (thanks to that <code>~/.config/direnv/direnvrc</code> file) whenever I change into that directory:</p>
-
-<pre><code class="bash">$ venv
-</code></pre>
-
-<p>If I wanted to customized the prompt name for the virtual environment, I could do this:</p>
-
-<pre><code class="bash">$ venv my_project
-</code></pre>
-
-<p>When I wanted to start working on that project later, I can either change into that directory <em>or</em> if I&rsquo;m feeling lazy I can simply type:</p>
-
-<pre><code class="bash">$ workon my_project
-</code></pre>
-
-<p>That reads from my <code>~/.projects</code> file to look up the project directory to switch to.</p>
-
-<h2>Switching to uv</h2>
-
-<p>I also decided to try using <a href="https://docs.astral.sh/uv/">uv</a> for all of this, since it&rsquo;s faster at creating virtual environments.
-One benefit of <code>uv</code> is that it tries to select the correct Python version for the project, if it sees a version noted in a <code>pyproject.toml</code> file.</p>
-
-<p>Another benefit of using <code>uv</code>, is that I should also be able to update the <code>venv</code> to use a specific version of Python with something like <code>--python 3.12</code>.</p>
-
-<p>Here are the updated shell aliases for the <code>~/.zshrc</code> for <code>uv</code>:</p>
-
-<pre><code class="bash">venv() {
-    local venv_name
-    local dir_name=$(basename "$PWD")
-
-    # If there are no arguments or the last argument starts with a dash, use dir_name
-    if [ $# -eq 0 ] || [[ "${!#}" == -* ]]; then
-        venv_name="$dir_name"
-    else
-        venv_name="${!#}"
-        set -- "${@:1:$#-1}"
-    fi
-
-    # Check if .envrc already exists
-    if [ -f .envrc ]; then
-        echo "Error: .envrc already exists" &gt;&amp;2
-        return 1
-    fi
-
-    # Create venv using uv with all passed arguments
-    if ! uv venv --seed --prompt "$@" "$venv_name"; then
-        echo "Error: Failed to create venv" &gt;&amp;2
-        return 1
-    fi
-
-    # Create .envrc
-    echo "layout python" &gt; .envrc
-
-    # Append to ~/.projects
-    echo "${venv_name} = ${PWD}" &gt;&gt; ~/.projects
-
-    # Allow direnv to immediately activate the virtual environment
-    direnv allow
-}
-</code></pre>
-
-<h2>Switching to starship</h2>
-
-<p>I also decided to try out using <a href="https://starship.rs">Starship</a> to customize my shell this week.</p>
-
-<p>I added this to my <code>~/.zshrc</code>:</p>
-
-<pre><code class="bash">eval "$(starship init zsh)"
-</code></pre>
-
-<p>And removed this, which is no longer needed since Starship will be managing the shell for me:</p>
-
-<pre><code class="bash"># Add direnv-activated venv to prompt
-show_virtual_env() {
-  if [[ -n "$VIRTUAL_ENV_PROMPT" &amp;&amp; -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV_PROMPT)) "
-  fi
-}
-PS1='$(show_virtual_env)'$PS1
-</code></pre>
-
-<p>I also switched my <code>python</code> layout for direnv to just set the <code>$VIRTUAL_ENV</code> variable and add the <code>$VIRTUAL_ENV/bin</code> directory to my <code>PATH</code>, since the <code>$VIRTUAL_ENV_PROMPT</code> variable isn&rsquo;t needed for Starship to pick up the prompt:</p>
-
-<pre><code class="bash">layout_python() {
-    VIRTUAL_ENV="$(pwd)/.venv"
-    PATH_add "$VIRTUAL_ENV/bin"
-    export VIRTUAL_ENV
-}
-</code></pre>
-
-<p>I also made a <em>very</em> boring Starship configuration in <code>~/.config/starship.toml</code>:</p>
-
-<pre><code class="toml">format = """
-$python\
-$directory\
-$git_branch\
-$git_state\
-$character"""
-
-add_newline = false
-
-[python]
-format = '([(\($virtualenv\) )]($style))'
-style = "bright-black"
-
-[directory]
-style = "bright-blue"
-
-[character]
-success_symbol = "[\\$](black)"
-error_symbol = "[\\$](bright-red)"
-vimcmd_symbol = "[❮](green)"
-
-[git_branch]
-format = "[$symbol$branch]($style) "
-style = "bright-purple"
-
-[git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "purple"
-
-[cmd_duration.disabled]
-</code></pre>
-
-<p>I setup such a boring configuration because when I&rsquo;m teaching, I don&rsquo;t want my students to be confused or distracted by a prompt that has considerably more information in it than <em>their</em> default prompt may have.</p>
-
-<p>The biggest downside of switching to Starship has been my own earworm-oriented brain.
-As I update my Starship configuration files, I&rsquo;ve repeatedly heard David Bowie singing &ldquo;I&rsquo;m a Starmaaan&rdquo;. 🎶</p>
-
-<h2>Ground control to major TOML</h2>
-
-<p>After all of that, I realized that I could additionally use different Starship configurations for different directories by putting a <code>STARSHIP_CONFIG</code> variable in specific layouts.
-After that realization, I made my configuration even <em>more</em> vanilla and made some alternative configurations in my <code>~/.config/direnv/direnvrc</code> file:</p>
-
-<pre><code class="bash">layout_python() {
-    VIRTUAL_ENV="$(pwd)/.venv"
-
-    PATH_add "$VIRTUAL_ENV/bin"
-    export VIRTUAL_ENV
-
-    export STARSHIP_CONFIG=/home/trey/.config/starship/python.toml
-}
-
-layout_git() {
-    export STARSHIP_CONFIG=/home/trey/.config/starship/git.toml
-}
-</code></pre>
-
-<p>Those other two configuration files are fancier, as I have no concern about them distracting my students since I&rsquo;ll never be within those directories while teaching.</p>
-
-<p>You can find those files in <a href="https://github.com/treyhunner/dotfiles">my dotfiles repository</a>.</p>
-
-<h2>The necessary tools</h2>
-
-<p>So I replaced virtualenvwrapper with direnv, uv, and Starship.
-Though direnv was is doing most of the important work here.
-The use of uv and Starship were just bonuses.</p>
-
-<p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
-
-<p>Thanks to all who <a href="https://mastodon.social/@treyhunner/113232640710715449">participated in my Mastodon thread</a> as I fumbled through discovering this setup.</p>
 ]]></content>
   </entry>
   

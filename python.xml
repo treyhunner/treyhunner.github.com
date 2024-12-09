@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-12-02T12:03:30-08:00</updated>
+  <updated>2024-12-09T10:53:31-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,292 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Lazy self-installing Python scripts with uv]]></title>
+    <link href="https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv/"/>
+    <updated>2024-12-09T11:15:10-08:00</updated>
+    <id>https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv</id>
+    <content type="html"><![CDATA[<p>I frequently find myself writing my own short command-line scripts in Python that help me with day-to-day tasks.</p>
+
+<p>It&rsquo;s <em>so</em> easy to throw together a single-file Python command-line script and throw it in my <code>~/bin</code> directory!</p>
+
+<p>Well&hellip; it&rsquo;s easy, <em>unless</em> the script requires anything outside of the Python standard library.</p>
+
+<p>Recently I&rsquo;ve started using uv and my <em>primary</em> for use for it has been fixing Python&rsquo;s &ldquo;just manage the dependencies automatically&rdquo; problem.</p>
+
+<p>I&rsquo;ll share how I&rsquo;ve been using uv&hellip; first first let&rsquo;s look at the problem.</p>
+
+<h2>A script without dependencies</h2>
+
+<p>If I have a Python script that I want to be easily usable from anywhere on my system, I typically follow these steps:</p>
+
+<ol>
+<li>Add an appropriate shebang line above the first line in the file (e.g. <code>#!/usr/bin/env python3</code>)</li>
+<li>Aet an executable bit on the file (<code>chmod a+x my_script.py</code>)</li>
+<li>Place the script in a directory that&rsquo;s in my shell&rsquo;s <code>PATH</code> variable (e.g. <code>cp my_script.py ~/bin/my_script</code>)</li>
+</ol>
+
+
+<p>For example, here&rsquo;s a script I use to print out 80 zeroes (or a specific number of zeroes) to check whether my terminal&rsquo;s font size is large enough when I&rsquo;m teaching:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python3</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">numbers</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="ow">or</span> <span class="p">[</span><span class="mi">80</span><span class="p">]</span>
+</span><span class='line'><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span class='line'>    <span class="k">print</span><span class="p">(</span><span class="s">&quot;0&quot;</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This file lives at <code>/home/trey/bin/0</code> so I can run the command <code>0</code> from my system prompt to see 80 <code>0</code> characters printed in my terminal.</p>
+
+<p>This works great!
+But this script doesn&rsquo;t have any dependencies.</p>
+
+<h2>The problem: a script with dependencies</h2>
+
+<p>Here&rsquo;s a Python script that normalizes the audio of a given video file and writes a new audio-normalized version of the video to a new file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;Normalize audio in input video file.&quot;&quot;&quot;</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">from</span> <span class="nn">ffmpeg_normalize</span> <span class="kn">import</span> <span class="n">FFmpegNormalize</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">normalize_audio_for</span><span class="p">(</span><span class="n">video_path</span><span class="p">,</span> <span class="n">audio_normalized_path</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Return audio-normalized video file saved in the given directory.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">ffmpeg_normalize</span> <span class="o">=</span> <span class="n">FFmpegNormalize</span><span class="p">(</span><span class="n">audio_codec</span><span class="o">=</span><span class="s">&quot;aac&quot;</span><span class="p">,</span> <span class="n">audio_bitrate</span><span class="o">=</span><span class="s">&quot;192k&quot;</span><span class="p">,</span> <span class="n">target_level</span><span class="o">=-</span><span class="mi">17</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">ffmpeg_normalize</span><span class="o">.</span><span class="n">add_media_file</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">video_path</span><span class="p">),</span> <span class="n">audio_normalized_path</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">ffmpeg_normalize</span><span class="o">.</span><span class="n">run_normalization</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span><span class='line'>    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;video_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;output_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Path</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">normalize_audio_for</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">video_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_file</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This script depends on the <a href="https://github.com/slhck/ffmpeg-normalize">ffmpeg-normalize</a> Python package and the <a href="https://ffmpeg.org">ffmpeg</a> utility.
+I already have <code>ffmpeg</code> installed, but I prefer <em>not</em> to globally install Python packages.
+I install all Python packages within virtual environments and I install global Python scripts using <a href="https://pipx.pypa.io">pipx</a>.</p>
+
+<p>At this point I <em>could</em> choose to either:</p>
+
+<ol>
+<li>Create a virtual environment, install <code>ffmpeg-normalize</code> in it, and put a shebang line referencing that virtual environment&rsquo;s Python binary at the top of my script file</li>
+<li>Turn my script into a <code>pip</code>-installable Python package with a <code>pyproject.toml</code> that lists <code>ffmpeg-normalize</code> as a dependency and use <code>pipx</code> to install it</li>
+</ol>
+
+
+<p>That first solution requires me to keep track of virtual environments that exist for specific scripts to work.
+That sounds painful.</p>
+
+<p>The second solution involves making a Python package and then upgrading that Python package whenever I need to make a change to this script.
+That&rsquo;s definitely going to be painful.</p>
+
+<h2>The solution: let uv handle it</h2>
+
+<p>A few months ago, my friend <a href="https://micro.webology.dev">Jeff Triplett</a> showed me that <code>uv</code> can work within a shebang line and can read a special comment at the top of a Python file that tells uv which Python version to run a script with and which dependencies it needs.</p>
+
+<p>Here&rsquo;s a shebang line that would work for the above script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env -S uv run --script</span>
+</span><span class='line'><span class="c"># /// script</span>
+</span><span class='line'><span class="c"># requires-python = &quot;&gt;=3.12&quot;</span>
+</span><span class='line'><span class="c"># dependencies = [</span>
+</span><span class='line'><span class="c">#     &quot;ffmpeg-normalize&quot;,</span>
+</span><span class='line'><span class="c"># ]</span>
+</span><span class='line'><span class="c"># ///</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That tells uv that this script should be run on Python 3.12 and that it depends on the <code>ffmpeg-normalize</code> package.</p>
+
+<p>Neat&hellip; but what does that do?</p>
+
+<p>Well, the first time this script is run, uv will create a virtual environment for it, install <code>ffmpeg-normalize</code> into that venv, and then run the script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>normalize
+</span><span class='line'>Reading inline script metadata from <span class="sb">`</span>/home/trey/bin/normalize<span class="sb">`</span>
+</span><span class='line'>Installed <span class="m">4</span> packages in 5ms
+</span><span class='line'>usage: normalize <span class="o">[</span>-h<span class="o">]</span> video_file output_file
+</span><span class='line'>normalize: error: the following arguments are required: video_file, output_file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Every time the script is run after that, uv finds and reuses the same virtual environment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>normalize
+</span><span class='line'>Reading inline script metadata from <span class="sb">`</span>/home/trey/bin/normalize<span class="sb">`</span>
+</span><span class='line'>usage: normalize <span class="o">[</span>-h<span class="o">]</span> video_file output_file
+</span><span class='line'>normalize: error: the following arguments are required: video_file, output_file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Each time uv runs the script, it quickly checks that all listed dependencies are properly installed with their correct versions.</p>
+
+<h2>uv everywhere?</h2>
+
+<p>I haven&rsquo;t yet fully embraced uv everywhere.</p>
+
+<p>I don&rsquo;t manage my Python projects with uv, though I do use it to create new virtual environments (with <code>--seed</code> to ensure the <code>pip</code> command is available) as a <a href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/">virtualenvwrapper replacement, along with direnv</a>.</p>
+
+<p>I have also started using <a href="https://docs.astral.sh/uv/concepts/tools/">uv tool</a> as a <a href="https://pipx.pypa.io">pipx</a> replacement and I&rsquo;ve considered replacing <a href="https://pipx.pypa.io/stable/">pyenv</a> with uv.</p>
+
+<h2>uv instead of pipx</h2>
+
+<p>When I want to install a command-line tool that happens to be Python powered, I used to do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>pipx countdown-cli
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I do this instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>uv tool install countdown-cli
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Either way, I end up with a <code>countdown</code> script in my <code>PATH</code> that automatically uses its own separate virtual environment for its dependencies:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>countdown --help
+</span><span class='line'>Usage: countdown <span class="o">[</span>OPTIONS<span class="o">]</span> DURATION
+</span><span class='line'>
+</span><span class='line'>  Countdown from the given duration to 0.
+</span><span class='line'>
+</span><span class='line'>  DURATION should be a number followed by m or s <span class="k">for</span> minutes or seconds.
+</span><span class='line'>
+</span><span class='line'>  Examples of DURATION:
+</span><span class='line'>
+</span><span class='line'>  - 5m <span class="o">(</span><span class="m">5</span> minutes<span class="o">)</span>
+</span><span class='line'>  - 45s <span class="o">(</span><span class="m">45</span> seconds<span class="o">)</span>
+</span><span class='line'>  - 2m30s <span class="o">(</span><span class="m">2</span> minutes and <span class="m">30</span> seconds<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>Options:
+</span><span class='line'>  --version  Show the version and exit.
+</span><span class='line'>  --help     Show this message and exit.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>uv instead of pyenv</h2>
+
+<p>For years, I&rsquo;ve used pyenv to manage multiple versions of Python on my machine.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>pyenv install 3.13.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I could do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>uv python install --preview 3.13.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or I could make a <code>~/.config/uv/uv.toml</code> file containing this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">preview</span> <span class="o">=</span> <span class="nb">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then run the same thing without the <code>--preview</code> flag:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>uv python install 3.13.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This puts a <code>python3.10</code> binary in my <code>~/.local/bin directory</code>, which is on my <code>PATH</code>.</p>
+
+<p>Why &ldquo;preview&rdquo;?
+Well, without it uv doesn&rsquo;t (<a href="https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903">yet</a>) place <code>python3.13</code> in my <code>PATH</code> by default, as this feature is currently in testing/development.</p>
+
+<h2>Self-installing Python scripts are the big win</h2>
+
+<p>I still prefer pyenv for its ability to <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">install custom Python builds</a> and I don&rsquo;t have a preference between <code>uv tool</code> and <code>pipx</code>.</p>
+
+<p>The biggest win that I&rsquo;ve experienced from uv so far is the ability to run an executable script and have any necessary dependencies install automagically.</p>
+
+<p>This doesn&rsquo;t mean that I <em>never</em> make Python package out of my Python scripts anymore&hellip; but I do so much more rarely.
+I used to create a Python package out of a script as soon as it required third-party dependencies.
+Now my &ldquo;do I <em>really</em> need to turn this into a proper package&rdquo; bar is set much higher.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[New Python Jumpstart course]]></title>
@@ -3591,359 +3877,6 @@ So the keys in your dictionary will remain in the order they were added to the d
 
 <p>But remember, it&rsquo;s not often that we care about the order of a dictionary.
 Whenever you&rsquo;re sorting a dictionary, please remember to ask yourself <strong>do I really need to sort this data structure</strong> and <strong>would a list of tuples be more suitable than a dictionary here</strong>?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to flatten a list in Python]]></title>
-    <link href="https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python/"/>
-    <updated>2021-11-01T08:00:00-07:00</updated>
-    <id>https://treyhunner.com/2021/11/how-to-flatten-a-list-in-python</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve somehow ended up with lists nested inside of lists, possibly like this one:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But you <em>want</em> just a single list (without the nesting) like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">expected_output</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">,</span> <span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">,</span> <span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You need to flatten your list-of-lists.</p>
-
-<h3>We&rsquo;re looking for a &ldquo;shallow&rdquo; flatten</h3>
-
-<p>We can think of this as a <strong>shallow flatten</strong> operation, meaning we&rsquo;re flattening this list by one level.
-A <strong>deep flatten</strong> operation would handle lists-of-lists-of-lists-of-lists (and so on) and that&rsquo;s a bit more than we need for our use case.</p>
-
-<p>The flattening strategy we come up with should work on lists-of-lists as well as any other type of <a href="https://www.pythonmorsels.com/topics/iterable/">iterable</a>-of-iterables.
-For example lists of tuples should be flattenable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">groups</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&quot;Hong&quot;</span><span class="p">,</span> <span class="s">&quot;Ryan&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Anthony&quot;</span><span class="p">,</span> <span class="s">&quot;Wilhelmina&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;Margaret&quot;</span><span class="p">,</span> <span class="s">&quot;Adrian&quot;</span><span class="p">)]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And even an odd type like a <code>dict_items</code> object (which we get from asking a dictionary for its items) should be flattenable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;lime&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&quot;watermelon&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;mandarin&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">fruit_counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-</span><span class='line'><span class="go">dict_items([(&#39;apple&#39;, 3), (&#39;lime&#39;, 2), (&#39;watermelon&#39;, 1), (&#39;mandarin&#39;, 4)])</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened_counts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;apple&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;lime&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;watermelon&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;mandarin&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Flattening iterables-of-iterables with a <code>for</code> loop</h3>
-
-<p>One way to flatten an iterable-of-iterables is with a <code>for</code> loop.
-We can loop one level deep to get each of the inner iterables.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then we loop a second level deep to get each item from each inner iterable.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then append each item to a new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s also a list method that makes this a bit shorter, the <code>extend</code> method:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The list <code>extend</code> method accepts an iterable and appends every item in the iterable you give to it.</p>
-
-<p>Or we could use the <code>+=</code> operator to concatenate each list to our new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can think of <code>+=</code> on lists as calling the <code>extend</code> method.
-With lists these two operations (<code>+=</code> and <code>extend</code>) are equivalent.</p>
-
-<h3>Flattening iterables-of-iterables with a comprehension</h3>
-
-<p>This nested <code>for</code> loop with an <code>append</code> call might look familiar:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The structure of this code looks like something we could <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-paste into a list comprehension</a>.</p>
-
-<p>Inside our square brackets we&rsquo;d copy the thing we&rsquo;re appending first, and then the logic for our first loop, and then the logic for our second loop:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This comprehension loops two levels deep, just like our nested <code>for</code> loops did.
-Note that the order of the <code>for</code> clauses in the comprehension <strong>must remain the same as the order of the <code>for</code> loops</strong>.</p>
-
-<p>The (sometimes confusing) order of those <code>for</code> clauses is partly why I recommend <a href="https://treyhunner.com/2015/12/python-list-comprehensions-now-in-color/">copy-pasting into a comprehension</a>.
-When turning a <code>for</code> loop into a comprehension, the <code>for</code> and <code>if</code> clauses remain in the same relative place, but the thing you&rsquo;re appending moves from the end to the beginning.</p>
-
-<h3>Could we flatten with <code>*</code> in a comprehension?</h3>
-
-<p>But what about Python&rsquo;s <code>*</code> operator?
-I&rsquo;ve written about the many uses for <a href="https://treyhunner.com/2018/10/asterisks-in-python-what-they-are-and-how-to-use-them/">the prefixed asterisk symbol in Python</a>.</p>
-
-<p>We can use <code>*</code> in Python&rsquo;s list literal syntax (<code>[</code>&hellip;<code>]</code>) to unpack an iterable into a new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">numbers</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">more_numbers</span>
-</span><span class='line'><span class="go">[2, 1, 3, 4, 7, 11, 18]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Could we use that <code>*</code> operator to unpack an iterable within a comprehension?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="o">*</span><span class="n">group</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can&rsquo;t.
-If we try to do this Python will specifically tell us that the <code>*</code> operator can&rsquo;t be used like this in a comprehension:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'><span class="gp">... </span>    <span class="o">*</span><span class="n">group</span>
-</span><span class='line'><span class="gp">... </span>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'><span class="gp">... </span><span class="p">]</span>
-</span><span class='line'>  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">2</span>
-</span><span class='line'>    <span class="p">]</span>
-</span><span class='line'>     <span class="o">^</span>
-</span><span class='line'><span class="gr">SyntaxError</span>: <span class="n">iterable unpacking cannot be used in comprehension</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This feature was specifically excluded from <a href="https://www.python.org/dev/peps/pep-0448/#variations">PEP 448</a>, the Python Enhancement Proposal that added this <code>*</code>-in-list-literal syntax to Python due to readability concerns.</p>
-
-<h3>Can&rsquo;t we use <code>sum</code>?</h3>
-
-<p>Here&rsquo;s another list flattening trick I&rsquo;ve seen a few times:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="p">[])</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This <em>does</em> work:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I find this technique pretty unintuitive.</p>
-
-<p>We use the <code>+</code> operator in Python for both adding numbers and concatenating sequences and the <code>sum</code> function happens to work with anything that supports the <code>+</code> operator (thanks to <a href="https://www.pythonmorsels.com/topics/duck-typing/">duck typing</a>).
-But in my mind, the word &ldquo;sum&rdquo; implies arithmetic: <strong>summing adds numbers together</strong>.</p>
-
-<p>I find it confusing to &ldquo;sum&rdquo; lists, so <strong>I don&rsquo;t recommend this approach</strong>.</p>
-
-<p><strong>Quick Aside</strong>: The algorithm <code>sum</code> uses also makes list flattening <em>really</em> slow (<a href="https://gist.github.com/treyhunner/f0c069496a1e41aadcf0d7050e475eb3">timing comparison here</a>).
-In <a href="https://www.youtube.com/watch?v=duvZ-2UK0fc">Big-O</a> terms (for the time complexity nerds), <code>sum</code> with lists is <code>O(n**2)</code> instead of <code>O(n)</code>.</p>
-
-<h3>What about <code>itertools.chain</code>?</h3>
-
-<p>There is one more tool that&rsquo;s often used for flattening: the <code>chain</code> utility in the <code>itertools</code> module.</p>
-
-<p><code>chain</code> accepts any number arguments and it returns an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">)</span>
-</span><span class='line'><span class="go">&lt;itertools.chain object at 0x7fc1b2d65bb0&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We can loop over that iterator or turn it into another iterable, like a list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">groups</span><span class="p">))</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&rsquo;s actually a method on <code>chain</code> that&rsquo;s specifically for flattening a single iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using <code>chain.from_iterable</code> is more performant than using <code>chain</code> with <code>*</code> because <code>*</code> unpacks the whole iterable immediately when <code>chain</code> is called.</p>
-
-<h3>Recap: comparing list flattening techniques</h3>
-
-<p>If you want to flatten an iterable-of-iterables lazily, I would use <code>itertools.chain.from_iterable</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
-</span><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="n">flattened</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This will return an <a href="https://treyhunner.com/2018/06/how-to-make-an-iterator-in-python/">iterator</a>, meaning no work will be done until the returned iterable is looped over:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
-</span><span class='line'><span class="go">[&#39;Hong&#39;, &#39;Ryan&#39;, &#39;Anthony&#39;, &#39;Wilhelmina&#39;, &#39;Margaret&#39;, &#39;Adrian&#39;]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And it will be consumed as we loop, so looping twice will result in an empty iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">flattened</span><span class="p">)</span>
-</span><span class='line'><span class="go">[]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you find <code>itertools.chain</code> a bit too cryptic, you might prefer a <code>for</code> loop that calls the <code>extend</code> method on a new list to repeatedly extend the values in each iterable:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or a <code>for</code> loop that uses the <code>+=</code> operator on our new list:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span class='line'><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">names</span> <span class="o">+=</span> <span class="n">group</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Unlike <code>chain.from_iterable</code>, both of these <code>for</code> loops build up new list rather than a lazy iterator object.</p>
-
-<p>If you find list comprehensions readable (I love them for signaling &ldquo;look we&rsquo;re building up a list&rdquo;) then you might prefer a comprehension instead:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And if you <em>do</em> want laziness (an iterator) but you don&rsquo;t like <code>itertools.chain</code> you could make a <a href="https://www.pythonmorsels.com/topics/how-write-generator-expression/">generator expression</a> that does the same thing as <code>itertools.chain.from_iterable</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>    <span class="n">name</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">group</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Happy list flattening!</p>
 ]]></content>
   </entry>
   
