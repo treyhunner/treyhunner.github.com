@@ -130,6 +130,9 @@ normalize: error: the following arguments are required: video_file, output_file
 
 Each time uv runs the script, it quickly checks that all listed dependencies are properly installed with their correct versions.
 
+Another script I use this for is [caption](https://github.com/treyhunner/dotfiles/blob/main/bin/caption), which uses whisper (via the Open AI API) to quickly caption my screencasts just after I record and edit them.
+The caption quality very rarely need more than a very minor edit or two (for my personal accent of English at least) even for technical like "dunder method" and via the API the captions generate very quickly.
+
 
 ## uv everywhere?
 
