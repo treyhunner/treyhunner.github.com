@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-12-09T10:53:55-08:00</updated>
+  <updated>2024-12-09T15:12:22-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -193,6 +193,8 @@ That&rsquo;s definitely going to be painful.</p>
 
 <p>Another script I use this for is <a href="https://github.com/treyhunner/dotfiles/blob/main/bin/caption">caption</a>, which uses whisper (via the Open AI API) to quickly caption my screencasts just after I record and edit them.
 The caption quality very rarely need more than a very minor edit or two (for my personal accent of English at least) even for technical like &ldquo;dunder method&rdquo; and via the API the captions generate very quickly.</p>
+
+<p>See the <a href="https://packaging.python.org/en/latest/specifications/inline-script-metadata/">inline script metadata</a> page of the Python packaging users guide for more details on that format that uv is using (honestly I always just copy-paste an example myself).</p>
 
 <h2>uv everywhere?</h2>
 
