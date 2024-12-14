@@ -344,7 +344,7 @@ You can find those files in [my dotfiles repository][dotfiles].
 ## The necessary tools
 
 So I replaced virtualenvwrapper with direnv, uv, and Starship.
-Though direnv was is doing most of the important work here.
+Though direnv is doing most of the important work here.
 The use of uv and Starship were just bonuses.
 
 I *am* also hoping to eventually replace my pipx use with uv and once uv supports [adding python3.x commands][python shims] to my `PATH`, I may replace my use of pyenv with uv as well.
