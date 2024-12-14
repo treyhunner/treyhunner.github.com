@@ -4,7 +4,7 @@
   <title><![CDATA[Category: uv | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/uv/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-12-09T15:12:22-08:00</updated>
+  <updated>2024-12-13T16:32:00-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -551,7 +551,7 @@ layout_git() {
 <h2>The necessary tools</h2>
 
 <p>So I replaced virtualenvwrapper with direnv, uv, and Starship.
-Though direnv was is doing most of the important work here.
+Though direnv is doing most of the important work here.
 The use of uv and Starship were just bonuses.</p>
 
 <p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
