@@ -22,7 +22,7 @@ I'll share how I've been using uv... first first let's look at the problem.
 If I have a Python script that I want to be easily usable from anywhere on my system, I typically follow these steps:
 
 1. Add an appropriate shebang line above the first line in the file (e.g. `#!/usr/bin/env python3`)
-2. Aet an executable bit on the file (`chmod a+x my_script.py`)
+2. Set an executable bit on the file (`chmod a+x my_script.py`)
 3. Place the script in a directory that's in my shell's `PATH` variable (e.g. `cp my_script.py ~/bin/my_script`)
 
 For example, here's a script I use to print out 80 zeroes (or a specific number of zeroes) to check whether my terminal's font size is large enough when I'm teaching:
