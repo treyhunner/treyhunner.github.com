@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2024-12-13T16:32:00-08:00</updated>
+  <updated>2024-12-23T09:41:10-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -34,7 +34,7 @@
 
 <ol>
 <li>Add an appropriate shebang line above the first line in the file (e.g. <code>#!/usr/bin/env python3</code>)</li>
-<li>Aet an executable bit on the file (<code>chmod a+x my_script.py</code>)</li>
+<li>Set an executable bit on the file (<code>chmod a+x my_script.py</code>)</li>
 <li>Place the script in a directory that&rsquo;s in my shell&rsquo;s <code>PATH</code> variable (e.g. <code>cp my_script.py ~/bin/my_script</code>)</li>
 </ol>
 
