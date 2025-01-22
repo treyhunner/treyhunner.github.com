@@ -21,7 +21,7 @@ I'd love a free audiobook if you end up switching from Audible to Libro.fm. 💗
 - ✍ Writing: Obsidian + Vim
 - 🧑‍💻 Code Editor: Vim
 - 📼 Screencasting: OBS + Kdenlive + [Whisper API](https://github.com/treyhunner/dotfiles/blob/0ab0a3d2df45940e38aad5729f5cdc1c72932226/bin/caption) + [Custom Python scripts](https://github.com/treyhunner/dotfiles/blob/0ab0a3d2df45940e38aad5729f5cdc1c72932226/bin/normalize)
-- 📚 Audiobooks: Libby (💖), Spotify (meh), [Libro](https://libro.fm/referral?rf_code=lfm240965) (💖), Audible (yuck)
+- 📚 Audiobooks: Libby (💖), Spotify (meh), Libro (💖), Audible (yuck)
 - 🎤 Podcasts: Pocket Casts, though I wish I had a better alternative
 - 🎵 Music: Spotify
 - 📁 Cloud File Storage: a mix of Git, Dropbox, Google Drive
