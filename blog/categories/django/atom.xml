@@ -4,7 +4,7 @@
   <title><![CDATA[Category: django | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/django/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-01-22T14:29:34-08:00</updated>
+  <updated>2025-03-15T20:31:53-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,298 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Django components: sometimes an include doesn't cut it]]></title>
+    <link href="https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/"/>
+    <updated>2025-03-15T21:00:00-07:00</updated>
+    <id>https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it</id>
+    <content type="html"><![CDATA[<p>Have you ever wished that Django&rsquo;s <code>include</code> template tag could accept blocks of content?</p>
+
+<p>I have.</p>
+
+<p>Unfortunately, Django&rsquo;s <code>{% include %}</code> tag doesn&rsquo;t accept blocks of text.</p>
+
+<p>Let&rsquo;s look at a few possible solutions to this problem.</p>
+
+<h2>The Problem: Hack Include Workarounds</h2>
+
+<p>Let&rsquo;s say we have HTML and CSS that make up a modal that is powered by Alpine.js and HTMX and we want to include this base modal template into many different templates for many different actions.</p>
+
+<p>The problem is that the main content of our modal changes for different use cases.</p>
+
+<p>We could try to fix this problem by breaking up our &ldquo;include&rdquo; into two parts (a top and a bottom).</p>
+
+<p>Here&rsquo;s the top include (<code>_modal_top.html</code>):</p>
+
+<pre><code>&lt;div
+  x-data="{}"
+  id="base-modal"
+  ="$dispatch('close-modal')"
+  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+  x-on:close-modal.stop="$el.remove()"
+  role="dialog"
+  aria-modal="true"
+  x-id="['modal-title']"
+  :aria-labelledby="$id('modal-title')"
+  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+  style="z-index: 2000;"
+&gt;
+  &lt;!-- Overlay --&gt;
+  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+
+  &lt;!-- Panel --&gt;
+  &lt;form
+    id="modal-panel"
+    hx-=""
+    hx-select="#modal-panel"
+    hx-swap="outerHTML"
+    x-transition
+    x-on:click="$dispatch('close-modal')"
+    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+  &gt;
+    &lt;div
+        x-on:click.stop
+        x-trap.noscroll.inert="true"
+        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+    &gt;
+      &lt;!-- Title --&gt;
+      &lt;h5 h:id="$id('modal-title')"&gt;&lt;/h5&gt;
+</code></pre>
+
+<p>And here&rsquo;s the bottom include (<code>_modal_bottom.html</code>):</p>
+
+<pre><code>    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>This is how we might use these modals:</p>
+
+<pre><code>{% url "api:delete" object.pk as delete_url %}
+{% include "_modal_top.html" title="Delete Object" close_event="@solution-deleted.window" htmx_method="delete" htmx_action=delete_url %}
+
+&lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+  &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+  &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+  &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+&lt;/div&gt;
+
+{% include "_modal_bottom.html" %}
+
+</code></pre>
+
+<p>This is pretty awful.</p>
+
+<p>What other solutions are there?</p>
+
+<h2>One Solution: Just Copy-Paste</h2>
+
+<p>Instead of messy with includes, we could just copy-paste the HTML we need every time we need it:</p>
+
+<pre><code>&lt;div
+  x-data="{}"
+  id="base-modal"
+  @solution-deleted.window="$dispatch('close-modal')"
+  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+  x-on:close-modal.stop="$el.remove()"
+  role="dialog"
+  aria-modal="true"
+  x-id="['modal-title']"
+  :aria-labelledby="$id('modal-title')"
+  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+  style="z-index: 2000;"
+&gt;
+  &lt;!-- Overlay --&gt;
+  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+
+  &lt;!-- Panel --&gt;
+  &lt;form
+    id="modal-panel"
+    hx-delete="{% url "api:delete" object.pk %}"
+    hx-select="#modal-panel"
+    hx-swap="outerHTML"
+    x-transition
+    x-on:click="$dispatch('close-modal')"
+    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+  &gt;
+    &lt;div
+        x-on:click.stop
+        x-trap.noscroll.inert="true"
+        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+    &gt;
+      &lt;!-- Title --&gt;
+      &lt;h5 h:id="$id('modal-title')"&gt;Delete Object&lt;/h5&gt;
+
+      &lt;!-- Content --&gt;
+      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+        &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Buttons --&gt;
+      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+        &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+        &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Honestly, I think this solution isn&rsquo;t a bad one.
+Yes it is repetitive, but it&rsquo;s <em>so</em> much easier to understand and maintain this big block of fairly straightforward HTML.</p>
+
+<p>The biggest downside to this approach is that enhancements made to one of the styling and features of these various copy-pasted modals will likely diverge over time if we&rsquo;re not careful to update all of them whenever we update one of them.</p>
+
+<h2>A Better Solution: Components</h2>
+
+<p>If I was using a component-based front-end web framework, I might be tempted to push all this logic into that front-end framework.
+But I&rsquo;m not using a component-based front-end front-end web framework <em>and</em> I don&rsquo;t want to be forced to push any component-ish logic into the front-end.</p>
+
+<p>Fortunately, in 2025, Django has <a href="https://djangopackages.org/grids/g/components/">a number of component frameworks</a>.</p>
+
+<p>If we setup <a href="https://django-cotton.com">django-cotton</a>, we could make a <code>cotton/modal.html</code> file like this:</p>
+
+<pre><code>&lt;div
+  x-data="{}"
+  id="base-modal"
+  {{ close_event }}="$dispatch('close-modal')"
+  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+  x-on:close-modal.stop="$el.remove()"
+  role="dialog"
+  aria-modal="true"
+  x-id="['modal-title']"
+  :aria-labelledby="$id('modal-title')"
+  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+  style="z-index: 2000;"
+&gt;
+  &lt;!-- Overlay --&gt;
+  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+
+  &lt;!-- Panel --&gt;
+  &lt;form
+    id="modal-panel"
+    hx-{{ htmx_method }}="{{ htmx_action }}"
+    hx-select="#modal-panel"
+    hx-swap="outerHTML"
+    x-transition
+    x-on:click="$dispatch('close-modal')"
+    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+  &gt;
+    &lt;div
+        x-on:click.stop
+        x-trap.noscroll.inert="true"
+        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+    &gt;
+      &lt;!-- Title --&gt;
+      &lt;h5 h:id="$id('modal-title')"&gt;{{ title }}&lt;/h5&gt;
+
+      &lt;!-- Content --&gt;
+      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+        {{ slot }}
+      &lt;/div&gt;
+
+      &lt;!-- Buttons --&gt;
+      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+        {{ buttons }}
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>We can then use our modal component like this:</p>
+
+<pre><code>&lt;c-modal
+  title="Delete Object"
+  close_event="@solution-deleted.window"
+  htmx_method="delete"
+  htmx_action={% url "api:delete" object.pk %}
+&gt;
+  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;c-slot name="buttons"&gt;
+    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+  &lt;/c-slot&gt;
+&lt;/c-modal&gt;
+</code></pre>
+
+<p>I find this a <em>lot</em> easier to read than the <code>include</code> approach and a lot easier to maintain than the copy-pasted approach.</p>
+
+<h2>The Downsides: Too Much Magic</h2>
+
+<p>The biggest downside I see to <a href="https://django-cotton.com">django-cotton</a> is that it&rsquo;s a bit magical.</p>
+
+<p>If you see <code>&lt;c-some-name&gt;</code> in a template, you need to know that this includes things from <code>cotton/some_name.html</code>.</p>
+
+<p>There are lots of <a href="https://en.wikipedia.org/wiki/Action_at_a_distance">action at a distance</a> issues that come up with Django, which can make it feel a bit magical but which are nonetheless worthwhile tradeoffs.
+But this one also doesn&rsquo;t look like a Django template tag, filter, or variable.
+That feels <em>very</em> magical to me.</p>
+
+<p>I&rsquo;ve been enjoying trying out django-cotton over the past week and enjoying it.</p>
+
+<p>Here are 2 other Django component libraries I have considered trying:</p>
+
+<ul>
+<li><a href="https://github.com/joshuadavidthomas/django-bird">django-bird</a></li>
+<li><a href="https://github.com/mixxorz/slippers">slippers</a></li>
+</ul>
+
+
+<p>I doubt I will try these 3, as they require writing Python code for each new component, which I would rather avoid:</p>
+
+<ul>
+<li><a href="https://github.com/django-components/django-components">django-components</a></li>
+<li><a href="https://github.com/Xzya/django-web-components">django-web-components</a></li>
+<li><a href="https://github.com/rails-inspire-django/django-viewcomponent">django-viewcomponent</a></li>
+</ul>
+
+
+<p>All Django component libraries (except for django-cotton) disallow line breaks between passed-in attributes due to a limitation of Django&rsquo;s template tags (see below).</p>
+
+<h2>The Future: Multi-line Django Template Tags?</h2>
+
+<p>If Django&rsquo;s template tags could be wrapped over multiple lines, we could create a library that worked like this:</p>
+
+<pre><code>{% url "api:delete" object.pk as delete_url %}
+{% component "_modal.html"
+  title="Delete Object"
+  close_event="@solution-deleted.window"
+  htmx_method="delete"
+  htmx_action=delete_ul
+%}
+  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+  &lt;/div&gt;
+
+  {% slot "buttons" %}
+    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+  {% endslot %}
+{% endcomponent %}
+</code></pre>
+
+<p>But that first multi-line <code>{% component %}</code> tag is a big problem.
+This is invalid in Django&rsquo;s template language because tags cannot have linebreaks within them (see <a href="https://code.djangoproject.com/ticket/8652">this old ticket</a>, <a href="https://forum.djangoproject.com/t/allow-newlines-inside-tags/36040">this discussion</a>, and <a href="https://code.djangoproject.com/ticket/35899">this new ticket</a>):</p>
+
+<pre><code>{% component "_modal.html"
+  title="Delete Object"
+  close_event="@solution-deleted.window"
+  htmx_method="delete"
+  htmx_action=delete_ul
+%}
+</code></pre>
+
+<p>Until Django&rsquo;s template language allows tags to span over multiple lines, we&rsquo;re stuck with hacks like the ones that django-cotton uses.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
@@ -308,59 +600,6 @@ For South support, customize the SOUTH_MIGRATION_MODULES setting like so:
 <p>You can find the tutorials at <a href="http://bit.ly/pysd-tdd">http://bit.ly/pysd-tdd</a> .  The tutorials are provided under a <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA license</a> so you can reuse and modify them for your own purposes.</p>
 
 <p>Tutorial markdown files and working source code may be found on <a href="https://github.com/pythonsd/test-driven-django-development">Github</a>.  We plan to improve and extend these tutorials for a future workshop.  If you have ideas for improvements/additions or if you notice a bug, please submit an issue or open a pull request.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Visual Integration Tests for Django]]></title>
-    <link href="https://treyhunner.com/2013/10/visual-integration-tests-for-django/"/>
-    <updated>2013-10-03T15:19:00-07:00</updated>
-    <id>https://treyhunner.com/2013/10/visual-integration-tests-for-django</id>
-    <content type="html"><![CDATA[<p>I recently added a new type of test to my testing arsenal: visual tests.  Visual tests ensure the CSS, markup, and JavaScript produce a webpage that looks right.</p>
-
-<h2>Visual testing frameworks</h2>
-
-<p>Visual testing tools compare screenshots to ensure tested webpages look pixel perfect.  Capturing webpage screenshots requires a full-featured web browser to render CSS and execute JavaScript.  All three of the visual testing tools I found rely on Selenium or PhantomJS for rendering.</p>
-
-<h3>PhantomCSS</h3>
-
-<p><a href="https://github.com/Huddle/PhantomCSS">PhantomCSS</a> uses PhantomJS for screenshot differencing.  PhantomCSS won&rsquo;t integrate directly with the Django live server or your Python test suite, so if you want to run a visual integration test, you&rsquo;d need to manually start and stop the test server between tests.  I might eventually try out PhantomCSS for CSS unit tests, but I wanted to visually test my full website so I needed integration with the Django live server.</p>
-
-<h3>Django-casper</h3>
-
-<p><a href="https://github.com/dobarkod/django-casper">Django-casper</a> uses Django live server tests to execute CasperJS test files (which use PhantomJS) to compare screenshots.  Each test requires an additional Python test which references a JavaScript file that executes the navigation and screenshotting code.  I found this approach messy and difficult to setup.</p>
-
-<h3>Needle</h3>
-
-<p>The <a href="https://github.com/bfirsh/needle">needle</a> Python library uses Selenium to navigate your website and screenshot rendered pages.  Unfortunately needle has poor test coverage, a seemingly failing test suite, and no change log.  Despite these shortcomings, I went with needle for my visual integration tests because it got the job done.</p>
-
-<h2>Django and Needle</h2>
-
-<p>I used the following mixin to integrate the Django live server with needle.  I used PhantomJS, but Firefox or another Selenium web driver should work as well.</p>
-
-<pre><code class="python">from django.test import LiveServerTestCase
-from needle.cases import NeedleTestCase
-from selenium.webdriver import PhantomJS
-
-
-class DjangoNeedleTestCase(NeedleTestCase, LiveServerTestCase):
-
-    """Needle test case for use with Django live server"""
-
-    driver = PhantomJS
-
-    @classmethod
-    def get_web_driver(cls):
-        return type('NeedleWebDriver', (NeedleWebDriverMixin, cls.driver), {})()
-</code></pre>
-
-<p>Unfortunately the above code only works with the version of needle on Github.  The PyPI version does not yet include the <code>NeedleWebDriverMixin</code> (which I contributed recently for Django support).  I have created <a href="https://github.com/bfirsh/needle/issues/13">an issue</a> suggesting a new PyPI release be made to resolve this problem.</p>
-
-<h2>Room for improvement</h2>
-
-<p>Currently I only run my visual tests manually.  Visual tests are very brittle and occasionally they just break without any changes.  If I manage to stabilize my visual tests so that they pass consistently on different platforms, I may run them during continuous integration.</p>
-
-<p>Do you have another solution for visual integration testing?  Let me know in the comments.</p>
 ]]></content>
   </entry>
   

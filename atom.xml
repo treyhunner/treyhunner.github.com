@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-01-22T14:29:34-08:00</updated>
+  <updated>2025-03-15T20:31:53-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,479 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Django components: sometimes an include doesn't cut it]]></title>
+    <link href="https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/"/>
+    <updated>2025-03-15T21:00:00-07:00</updated>
+    <id>https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it</id>
+    <content type="html"><![CDATA[<p>Have you ever wished that Django&rsquo;s <code>include</code> template tag could accept blocks of content?</p>
+
+<p>I have.</p>
+
+<p>Unfortunately, Django&rsquo;s <code>{% include %}</code> tag doesn&rsquo;t accept blocks of text.</p>
+
+<p>Let&rsquo;s look at a few possible solutions to this problem.</p>
+
+<h2>The Problem: Hack Include Workarounds</h2>
+
+<p>Let&rsquo;s say we have HTML and CSS that make up a modal that is powered by Alpine.js and HTMX and we want to include this base modal template into many different templates for many different actions.</p>
+
+<p>The problem is that the main content of our modal changes for different use cases.</p>
+
+<p>We could try to fix this problem by breaking up our &ldquo;include&rdquo; into two parts (a top and a bottom).</p>
+
+<p>Here&rsquo;s the top include (<code>_modal_top.html</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  ="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-=""
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;&lt;/h5&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And here&rsquo;s the bottom include (<code>_modal_bottom.html</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is how we might use these modals:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% url "api:delete" object.pk as delete_url %}
+</span><span class='line'>{% include "_modal_top.html" title="Delete Object" close_event="@solution-deleted.window" htmx_method="delete" htmx_action=delete_url %}
+</span><span class='line'>
+</span><span class='line'>&lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>  &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>  &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>  &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>{% include "_modal_bottom.html" %}
+</span><span class='line'></span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is pretty awful.</p>
+
+<p>What other solutions are there?</p>
+
+<h2>One Solution: Just Copy-Paste</h2>
+
+<p>Instead of messy with includes, we could just copy-paste the HTML we need every time we need it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  @solution-deleted.window="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-delete="{% url "api:delete" object.pk %}"
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;Delete Object&lt;/h5&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Content --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>        &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Buttons --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>        &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>        &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>    &lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Honestly, I think this solution isn&rsquo;t a bad one.
+Yes it is repetitive, but it&rsquo;s <em>so</em> much easier to understand and maintain this big block of fairly straightforward HTML.</p>
+
+<p>The biggest downside to this approach is that enhancements made to one of the styling and features of these various copy-pasted modals will likely diverge over time if we&rsquo;re not careful to update all of them whenever we update one of them.</p>
+
+<h2>A Better Solution: Components</h2>
+
+<p>If I was using a component-based front-end web framework, I might be tempted to push all this logic into that front-end framework.
+But I&rsquo;m not using a component-based front-end front-end web framework <em>and</em> I don&rsquo;t want to be forced to push any component-ish logic into the front-end.</p>
+
+<p>Fortunately, in 2025, Django has <a href="https://djangopackages.org/grids/g/components/">a number of component frameworks</a>.</p>
+
+<p>If we setup <a href="https://django-cotton.com">django-cotton</a>, we could make a <code>cotton/modal.html</code> file like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  {{ close_event }}="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-{{ htmx_method }}="{{ htmx_action }}"
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;{{ title }}&lt;/h5&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Content --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>        {{ slot }}
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Buttons --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>        {{ buttons }}
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can then use our modal component like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;c-modal
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action={% url "api:delete" object.pk %}
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>  &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;c-slot name="buttons"&gt;
+</span><span class='line'>    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>  &lt;/c-slot&gt;
+</span><span class='line'>&lt;/c-modal&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find this a <em>lot</em> easier to read than the <code>include</code> approach and a lot easier to maintain than the copy-pasted approach.</p>
+
+<h2>The Downsides: Too Much Magic</h2>
+
+<p>The biggest downside I see to <a href="https://django-cotton.com">django-cotton</a> is that it&rsquo;s a bit magical.</p>
+
+<p>If you see <code>&lt;c-some-name&gt;</code> in a template, you need to know that this includes things from <code>cotton/some_name.html</code>.</p>
+
+<p>There are lots of <a href="https://en.wikipedia.org/wiki/Action_at_a_distance">action at a distance</a> issues that come up with Django, which can make it feel a bit magical but which are nonetheless worthwhile tradeoffs.
+But this one also doesn&rsquo;t look like a Django template tag, filter, or variable.
+That feels <em>very</em> magical to me.</p>
+
+<p>I&rsquo;ve been enjoying trying out django-cotton over the past week and enjoying it.</p>
+
+<p>Here are 2 other Django component libraries I have considered trying:</p>
+
+<ul>
+<li><a href="https://github.com/joshuadavidthomas/django-bird">django-bird</a></li>
+<li><a href="https://github.com/mixxorz/slippers">slippers</a></li>
+</ul>
+
+
+<p>I doubt I will try these 3, as they require writing Python code for each new component, which I would rather avoid:</p>
+
+<ul>
+<li><a href="https://github.com/django-components/django-components">django-components</a></li>
+<li><a href="https://github.com/Xzya/django-web-components">django-web-components</a></li>
+<li><a href="https://github.com/rails-inspire-django/django-viewcomponent">django-viewcomponent</a></li>
+</ul>
+
+
+<p>All Django component libraries (except for django-cotton) disallow line breaks between passed-in attributes due to a limitation of Django&rsquo;s template tags (see below).</p>
+
+<h2>The Future: Multi-line Django Template Tags?</h2>
+
+<p>If Django&rsquo;s template tags could be wrapped over multiple lines, we could create a library that worked like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% url "api:delete" object.pk as delete_url %}
+</span><span class='line'>{% component "_modal.html"
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action=delete_ul
+</span><span class='line'>%}
+</span><span class='line'>  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>  &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  {% slot "buttons" %}
+</span><span class='line'>    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>  {% endslot %}
+</span><span class='line'>{% endcomponent %}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But that first multi-line <code>{% component %}</code> tag is a big problem.
+This is invalid in Django&rsquo;s template language because tags cannot have linebreaks within them (see <a href="https://code.djangoproject.com/ticket/8652">this old ticket</a>, <a href="https://forum.djangoproject.com/t/allow-newlines-inside-tags/36040">this discussion</a>, and <a href="https://code.djangoproject.com/ticket/35899">this new ticket</a>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% component "_modal.html"
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action=delete_ul
+</span><span class='line'>%}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Until Django&rsquo;s template language allows tags to span over multiple lines, we&rsquo;re stuck with hacks like the ones that django-cotton uses.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My default apps of 2024]]></title>
@@ -3117,96 +3590,6 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 <p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
 
 <p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2022)]]></title>
-    <link href="https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022/"/>
-    <updated>2022-11-22T10:15:00-08:00</updated>
-    <id>https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s that time of year again… time for my annual compilation post of <strong>Black Friday and Cyber Monday deals for learning Python</strong>.</p>
-
-<h2>Save up to $108 a year on Python Morsels</h2>
-
-<p>Of course I&rsquo;m going to kick things off with my own sale. 😉</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> helps developers <strong>deepen their Python skills</strong> in a way that day-to-day coding simply can&rsquo;t.</p>
-
-<p>Python Morsels is specifically crafted for:</p>
-
-<ul>
-<li>experienced developers frustrated with gaps in their Python knowledge</li>
-<li>self-taught programmers seeking courage and confidence in their Python abilities</li>
-<li>intermediate-level Python learners trying to deepen skills</li>
-</ul>
-
-
-<p>If you saw yourself in that list, subscribe now before prices increase on November 29, 2022!</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022" class="subscribe-btn form-big">💰 See the Python Morsels sale</a></p>
-
-<h2>Python books, courses, templates, and exercises</h2>
-
-<p>There are a <em>lot</em> of Python-related sales going on this year.
-Note that some of the below sales include courses, some include books, some include templates (Itamar&rsquo;s Docker templates for example) and some include a mix of different learning products.</p>
-
-<ul>
-<li><strong><a href="https://store.lerner.co.il/?coupon=BF2022">Reuven Lerner</a></strong>: Reuven&rsquo;s Python courses are 40% off this week with the coupon <code>BF2022</code></li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: Get all Talk Python courses in one $249 bundle</li>
-<li><strong>Sundeep Agarwal</strong>: Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all books bundle is 64% off</a> (it&rsquo;s $10), the <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Learn by example Python bundle</a> is 80% off (it&rsquo;s $3), and <a href="https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer">Practice Python Projects</a> is free!</li>
-<li><strong><a href="https://store.metasnake.com/?coupon=PANDAS30">Matt Harrison</a></strong>: Matt&rsquo;s offering 30% off his Effective Pandas book on Friday <strong>only</strong></li>
-<li><strong><a href="https://pythonspeed.com/products/docker/">Itamar Turner-Trauring</a></strong>: Itamar&rsquo;s Docker packaging products for Python are all 25% off through November with the code <code>FALL22</code></li>
-<li><strong><a href="https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/">Mike Driscoll</a></strong>: Mike is offering $10 off any of his books this year with the coupon code <code>black2022</code></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: books are 35% off with the coupon <code>HOLIDAYDEALS</code></li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: save 40% on Brian Okken&rsquo;s PyTest book or any other Pragmatic Bookshelf book with the coupon code <code>turkeysale2022</code></li>
-<li><strong><a href="https://udemy.com">Udemy</a></strong>: various Python courses are also on sale on Udemy right now, including Al Sweigart&rsquo;s <a href="https://www.udemy.com/course/automate/">Automate the Boring Stuff with Python course</a></li>
-</ul>
-
-
-<h2>Python learning subscriptions</h2>
-
-<p>I use a subscription model for <a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.
-But Python Morsels isn&rsquo;t the only subscription-based Python learning platform.</p>
-
-<p>Here sales on other learning subscriptions:</p>
-
-<ul>
-<li><strong><a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">O'Reilly Media</a></strong> subscriptions are $200 off with the coupon <a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">CYBERWEEK22</a></li>
-<li><strong><a href="https://www.dunderdata.com/black-friday">Dunder Data</a></strong> subscriptions (by Ted Petrou) are 40% off (normally $399), plus an extra 50% off for completing 3 certificates within 3 months</li>
-<li><strong><a href="https://www.datacamp.com/promo/black-friday-2022">DataCamp</a></strong> has a 50% off sale on their annual subscriptions right now as well</li>
-</ul>
-
-
-<p>Also here&rsquo;s a Python-related service that&rsquo;s on sale (a subscription product, not a learning service):</p>
-
-<ul>
-<li><strong>Sourcery</strong>: <a href="https://sourcery.ai/pricing/">Sourcery Pro</a> is 33% off for the first 12 months with coupon <code>BLACKFRIDAY2022</code></li>
-</ul>
-
-
-<h2>Django sales</h2>
-
-<p>Adam Johnson compiled many <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/"><strong>Django-related Black Friday and Cyber Monday sales</strong></a>.</p>
-
-<p>Here&rsquo;s a quick summary:</p>
-
-<ul>
-<li>Will Vincent is offering 50% off a bundle for newer Django developers (<a href="https://wsvincent.gumroad.com/l/bhylo/blackfriday2022">sale</a>)</li>
-<li>Adam Johnson is offering 50% off his books for experienced Django developers (<a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">announcement</a>)</li>
-<li>Test Driven is selling a discounted bundle of courses on Django REST Framework, Celery, and search (<a href="https://testdriven.io/bundle/django-black-friday/">sale</a>)</li>
-</ul>
-
-
-<p>Plus other discounted books, apps, templates, and services from others: <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">read Adam&rsquo;s full post</a> for more details on the Django-related sales this year.</p>
-
-<h2>Go get yourself some deals!</h2>
-
-<p>Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)</p>
-
-<p>And if you have questions about the <a href="https://trey.io/cyber-monday-sale-2022"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
-
-<p>Happy Python-ing!</p>
 ]]></content>
   </entry>
   

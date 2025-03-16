@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>Django components: sometimes an include doesn't cut it</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Have you ever wished that Django&rsquo;s include template tag could accept blocks of content? I have. Unfortunately, Django&rsquo;s {% include %} tag &hellip;">
+  
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Django components: sometimes an include doesn't cut it</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2025-03-15T21:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>9:00 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>Have you ever wished that Django&rsquo;s <code>include</code> template tag could accept blocks of content?</p>
+
+<p>I have.</p>
+
+<p>Unfortunately, Django&rsquo;s <code>{% include %}</code> tag doesn&rsquo;t accept blocks of text.</p>
+
+<p>Let&rsquo;s look at a few possible solutions to this problem.</p>
+
+<h2>The Problem: Hack Include Workarounds</h2>
+
+<p>Let&rsquo;s say we have HTML and CSS that make up a modal that is powered by Alpine.js and HTMX and we want to include this base modal template into many different templates for many different actions.</p>
+
+<p>The problem is that the main content of our modal changes for different use cases.</p>
+
+<p>We could try to fix this problem by breaking up our &ldquo;include&rdquo; into two parts (a top and a bottom).</p>
+
+<p>Here&rsquo;s the top include (<code>_modal_top.html</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  ="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-=""
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;&lt;/h5&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And here&rsquo;s the bottom include (<code>_modal_bottom.html</code>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is how we might use these modals:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% url "api:delete" object.pk as delete_url %}
+</span><span class='line'>{% include "_modal_top.html" title="Delete Object" close_event="@solution-deleted.window" htmx_method="delete" htmx_action=delete_url %}
+</span><span class='line'>
+</span><span class='line'>&lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>  &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>  &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>  &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>{% include "_modal_bottom.html" %}
+</span><span class='line'></span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is pretty awful.</p>
+
+<p>What other solutions are there?</p>
+
+<h2>One Solution: Just Copy-Paste</h2>
+
+<p>Instead of messy with includes, we could just copy-paste the HTML we need every time we need it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  @solution-deleted.window="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-delete="{% url "api:delete" object.pk %}"
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;Delete Object&lt;/h5&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Content --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>        &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Buttons --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>        &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>        &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>    &lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Honestly, I think this solution isn&rsquo;t a bad one.
+Yes it is repetitive, but it&rsquo;s <em>so</em> much easier to understand and maintain this big block of fairly straightforward HTML.</p>
+
+<p>The biggest downside to this approach is that enhancements made to one of the styling and features of these various copy-pasted modals will likely diverge over time if we&rsquo;re not careful to update all of them whenever we update one of them.</p>
+
+<h2>A Better Solution: Components</h2>
+
+<p>If I was using a component-based front-end web framework, I might be tempted to push all this logic into that front-end framework.
+But I&rsquo;m not using a component-based front-end front-end web framework <em>and</em> I don&rsquo;t want to be forced to push any component-ish logic into the front-end.</p>
+
+<p>Fortunately, in 2025, Django has <a href="https://djangopackages.org/grids/g/components/">a number of component frameworks</a>.</p>
+
+<p>If we setup <a href="https://django-cotton.com">django-cotton</a>, we could make a <code>cotton/modal.html</code> file like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div
+</span><span class='line'>  x-data="{}"
+</span><span class='line'>  id="base-modal"
+</span><span class='line'>  {{ close_event }}="$dispatch('close-modal')"
+</span><span class='line'>  x-on:keydown.escape.prevent.stop="$dispatch('close-modal')"
+</span><span class='line'>  x-on:close-modal.stop="$el.remove()"
+</span><span class='line'>  role="dialog"
+</span><span class='line'>  aria-modal="true"
+</span><span class='line'>  x-id="['modal-title']"
+</span><span class='line'>  :aria-labelledby="$id('modal-title')"
+</span><span class='line'>  class="tw-fixed tw-inset-0 tw-z-10 tw-overflow-y-auto"
+</span><span class='line'>  style="z-index: 2000;"
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;!-- Overlay --&gt;
+</span><span class='line'>  &lt;div x-transition.opacity class="tw-fixed tw-inset-0 tw-bg-black tw-bg-opacity-50"&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;!-- Panel --&gt;
+</span><span class='line'>  &lt;form
+</span><span class='line'>    id="modal-panel"
+</span><span class='line'>    hx-{{ htmx_method }}="{{ htmx_action }}"
+</span><span class='line'>    hx-select="#modal-panel"
+</span><span class='line'>    hx-swap="outerHTML"
+</span><span class='line'>    x-transition
+</span><span class='line'>    x-on:click="$dispatch('close-modal')"
+</span><span class='line'>    class="tw-relative tw-flex tw-min-h-screen tw-items-center tw-justify-center tw-p-4"
+</span><span class='line'>  &gt;
+</span><span class='line'>    &lt;div
+</span><span class='line'>        x-on:click.stop
+</span><span class='line'>        x-trap.noscroll.inert="true"
+</span><span class='line'>        class="tw-relative tw-w-full tw-max-w-lg tw-overflow-y-auto tw-rounded-xl tw-bg-white tw-p-6 tw-shadow-lg"
+</span><span class='line'>    &gt;
+</span><span class='line'>      &lt;!-- Title --&gt;
+</span><span class='line'>      &lt;h5 h:id="$id('modal-title')"&gt;{{ title }}&lt;/h5&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Content --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>        {{ slot }}
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>      &lt;!-- Buttons --&gt;
+</span><span class='line'>      &lt;div class="tw-mt-9 tw-flex tw-justify-end tw-space-x-2"&gt;
+</span><span class='line'>        {{ buttons }}
+</span><span class='line'>      &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>    &lt;/div&gt;
+</span><span class='line'>  &lt;/form&gt;
+</span><span class='line'>&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can then use our modal component like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;c-modal
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action={% url "api:delete" object.pk %}
+</span><span class='line'>&gt;
+</span><span class='line'>  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>  &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;c-slot name="buttons"&gt;
+</span><span class='line'>    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>  &lt;/c-slot&gt;
+</span><span class='line'>&lt;/c-modal&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I find this a <em>lot</em> easier to read than the <code>include</code> approach and a lot easier to maintain than the copy-pasted approach.</p>
+
+<h2>The Downsides: Too Much Magic</h2>
+
+<p>The biggest downside I see to <a href="https://django-cotton.com">django-cotton</a> is that it&rsquo;s a bit magical.</p>
+
+<p>If you see <code>&lt;c-some-name&gt;</code> in a template, you need to know that this includes things from <code>cotton/some_name.html</code>.</p>
+
+<p>There are lots of <a href="https://en.wikipedia.org/wiki/Action_at_a_distance">action at a distance</a> issues that come up with Django, which can make it feel a bit magical but which are nonetheless worthwhile tradeoffs.
+But this one also doesn&rsquo;t look like a Django template tag, filter, or variable.
+That feels <em>very</em> magical to me.</p>
+
+<p>I&rsquo;ve been enjoying trying out django-cotton over the past week and enjoying it.</p>
+
+<p>Here are 2 other Django component libraries I have considered trying:</p>
+
+<ul>
+<li><a href="https://github.com/joshuadavidthomas/django-bird">django-bird</a></li>
+<li><a href="https://github.com/mixxorz/slippers">slippers</a></li>
+</ul>
+
+
+<p>I doubt I will try these 3, as they require writing Python code for each new component, which I would rather avoid:</p>
+
+<ul>
+<li><a href="https://github.com/django-components/django-components">django-components</a></li>
+<li><a href="https://github.com/Xzya/django-web-components">django-web-components</a></li>
+<li><a href="https://github.com/rails-inspire-django/django-viewcomponent">django-viewcomponent</a></li>
+</ul>
+
+
+<p>All Django component libraries (except for django-cotton) disallow line breaks between passed-in attributes due to a limitation of Django&rsquo;s template tags (see below).</p>
+
+<h2>The Future: Multi-line Django Template Tags?</h2>
+
+<p>If Django&rsquo;s template tags could be wrapped over multiple lines, we could create a library that worked like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% url "api:delete" object.pk as delete_url %}
+</span><span class='line'>{% component "_modal.html"
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action=delete_ul
+</span><span class='line'>%}
+</span><span class='line'>  &lt;div class="tw-mt-7 tw-text-gray-600"&gt;
+</span><span class='line'>    &lt;p&gt;Are you sure you want to delete &lt;strong&gt;{{ object }}&lt;/strong&gt;?&lt;/p&gt;
+</span><span class='line'>  &lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>  {% slot "buttons" %}
+</span><span class='line'>    &lt;button class="btn btn-danger" type="submit"&gt;Delete&lt;/button&gt;
+</span><span class='line'>    &lt;button class="btn btn-secondary" type="reset" x-on:click.prevent="$dispatch('close-modal')" data-dismiss="modal"&gt;Cancel&lt;/button&gt;
+</span><span class='line'>  {% endslot %}
+</span><span class='line'>{% endcomponent %}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But that first multi-line <code>{% component %}</code> tag is a big problem.
+This is invalid in Django&rsquo;s template language because tags cannot have linebreaks within them (see <a href="https://code.djangoproject.com/ticket/8652">this old ticket</a>, <a href="https://forum.djangoproject.com/t/allow-newlines-inside-tags/36040">this discussion</a>, and <a href="https://code.djangoproject.com/ticket/35899">this new ticket</a>):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{% component "_modal.html"
+</span><span class='line'>  title="Delete Object"
+</span><span class='line'>  close_event="@solution-deleted.window"
+</span><span class='line'>  htmx_method="delete"
+</span><span class='line'>  htmx_action=delete_ul
+</span><span class='line'>%}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Until Django&rsquo;s template language allows tags to span over multiple lines, we&rsquo;re stuck with hacks like the ones that django-cotton uses.</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2025-03-15T21:00:00-07:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>9:00 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/django/'>django</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/" data-via="treyhunner" data-counturl="https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2025/01/my-default-apps-of-2024/" title="Previous Post: My default apps of 2024">&laquo; My default apps of 2024</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/';
+        var disqus_url = 'https://treyhunner.com/2025/03/django-components-sometimes-an-include-doesnt-cut-it/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>
