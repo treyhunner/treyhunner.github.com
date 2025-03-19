@@ -251,6 +251,7 @@ Here are 2 other Django component libraries I have considered trying:
 
 - [django-bird](https://github.com/joshuadavidthomas/django-bird) 
 - [slippers](https://github.com/mixxorz/slippers)
+- [django-includecontents](https://github.com/SmileyChris/django-includecontents)
 
 I doubt I will try these 3, as they require writing Python code for each new component, which I would rather avoid:
 
