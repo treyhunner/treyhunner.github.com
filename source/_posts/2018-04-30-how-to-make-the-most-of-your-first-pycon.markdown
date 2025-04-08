@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to have a great first PyCon"
+title: "How to have a great first PyCon (updated for 2025)"
 date: 2018-04-30 08:00:00 -0700
 comments: true
 categories: python favorite pycon
