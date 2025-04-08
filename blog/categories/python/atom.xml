@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-03-18T17:02:52-07:00</updated>
+  <updated>2025-04-08T10:28:13-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Which social network are we using for PyCon?]]></title>
+    <link href="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/"/>
+    <updated>2025-04-04T08:47:28-07:00</updated>
+    <id>https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon</id>
+    <content type="html"><![CDATA[<p>Last year I updated my [having a great first PyCon][pycon post] post to note that Mastodon would likely be more popular than Twitter at PyCon.</p>
+
+<p>My guess was correct.
+During PyCon US 2024, <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon overtook Twitter</a> for the most posts on the <code>#PyConUS</code> hashtag.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lazy self-installing Python scripts with uv]]></title>
@@ -610,82 +622,6 @@ So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</
 
 <p>I&rsquo;d love to hear about it!
 Comment below to share what you found.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
-    <link href="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/"/>
-    <updated>2024-10-13T21:03:32-07:00</updated>
-    <id>https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl</id>
-    <content type="html"><![CDATA[<p>Your new Django project uses Python 3.13.</p>
-
-<p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
-What gives?</p>
-
-<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <a href="https://docs.python.org/3/library/code.html">code</a> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
-
-<p>So you&rsquo;re out of luck&hellip; or are you?</p>
-
-<h2>How stable do you need your <code>shell</code> command to be?</h2>
-
-<p>The new Python REPL&rsquo;s code lives in a <a href="https://github.com/python/cpython/tree/v3.13.0/Lib/_pyrepl">_pyrepl</a> package.
-Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
-
-<p>First, note the <code>_</code> before that package name.
-It&rsquo;s <code>_pyrepl</code>, not <code>pyrepl</code>.</p>
-
-<p>Any solution that relies on this module may break in future Python releases.</p>
-
-<p>So&hellip; should we give up on looking for a solution, if we can&rsquo;t get a &ldquo;stable&rdquo; one?</p>
-
-<p>I don&rsquo;t think so.</p>
-
-<p>My <code>shell</code> command doesn&rsquo;t usually <em>need</em> to be stable in more than one version of Python at a time.
-So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and then falls back to the old REPL if it fails.</p>
-
-<h2>A working solution</h2>
-
-<p>So, let&rsquo;s look at a working solution.</p>
-
-<p>Stick <a href="https://pym.dev/p/2zqeq/">this code</a> in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
-
-<pre><code class="python">"""Python 3.13 REPL support using the unsupported _pyrepl module."""
-from django.core.management.commands.shell import Command as BaseShellCommand
-
-
-class Command(BaseShellCommand):
-    shells = ["ipython", "bpython", "pyrepl", "python"]
-
-    def pyrepl(self, options):
-        from _pyrepl.main import interactive_console
-        interactive_console()
-</code></pre>
-
-<h2>How it works</h2>
-
-<p>Django&rsquo;s <code>shell</code> command has made it very simple to add support for your favorite REPL of choice.</p>
-
-<p><a href="https://github.com/django/django/blob/5.1.2/django/core/management/commands/shell.py">The code for the <code>shell</code> command</a> loops through the <code>shells</code> list and attempts to run a method with that name on its own class.
-If an <code>ImportError</code> is raised then it attempts the next command, stopping once no exception occurs.</p>
-
-<p>Our new command will try to use IPython and bpython if they&rsquo;re installed and then it will try the new Python 3.13 REPL followed by the old Python REPL.</p>
-
-<p>If Python 3.14 breaks our import by moving the <code>interactive_console</code> function, then an <code>ImportError</code> will be raised, causing us to fall back to the old REPL after we upgrade to Python 3.14 one day.
-If instead, the <code>interactive_console</code> function&rsquo;s usage changes (maybe it will require arguments) then our <code>shell</code> command will completely break and we&rsquo;ll need to manually fix it when we upgrade to Python 3.14.</p>
-
-<h2>What&rsquo;s so great about the new REPL?</h2>
-
-<p>If you&rsquo;re already using IPython or BPython as your REPL and you&rsquo;re enjoying them, I would stick with them.</p>
-
-<p>Third-party libraries move faster than Python itself and they&rsquo;re often more feature-rich.
-IPython has about 20 years worth of feature development and it has features that the built-in Python REPL will likely never have.</p>
-
-<p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
-I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
-See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
-
-<p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
 ]]></content>
   </entry>
   
