@@ -390,6 +390,8 @@ Also, if you see me in the hallway at PyCon (I have a face that looks like me an
 
 I hope you have a lovely PyCon!
 
+P.S. If you want a short URL for this article, you can use https://trey.io/pycon-tips
+
 
 [weekly python chat]: http://weeklypython.chat
 [open spaces]: https://us.pycon.org/2025/events/open-spaces/
