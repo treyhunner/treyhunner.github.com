@@ -4,6 +4,7 @@ title: "Which social network are we using for PyCon US this year?"
 date: 2025-04-18 11:45:00 -0700
 comments: true
 categories: python pycon
+twitter_image: https://treyhunner.com/images/pycon-poll-mastodon-2025.png
 ---
 
 Last year I updated my [having a great first PyCon][pycon post] post to note that Mastodon would likely be more popular than Twitter at PyCon.
