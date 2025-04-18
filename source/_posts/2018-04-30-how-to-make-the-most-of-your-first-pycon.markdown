@@ -409,7 +409,7 @@ P.S. If you want a short URL for this article, you can use https://trey.io/pycon
 [cabo 6]: https://twitter.com/treyhunner/status/897971022334382080
 [cabo]: http://treyhunner.com/2015/06/cabo-card-game/
 [sumana]: https://www.harihareswara.net/posts/2023/your-first-pycon-but-not-your-first-convention/
-[volunteering]: https://us.pycon.org/2024/volunteers/volunteering/
+[volunteering]: https://us.pycon.org/2025/volunteer/volunteering/
 [at djangocon 2015]: https://youtu.be/Peo-n4spSRA?t=9m59s
 [beginner's guide to pycon 2015]: https://www.pydanny.com/beginners-guide-pycon-2014.html
 [al]: https://automatetheboringstuff.com/how-to-do-pycon.html
