@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-04-18T07:43:35-07:00</updated>
+  <updated>2025-04-18T11:34:17-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Which social network are we using for PyCon US this year?]]></title>
+    <link href="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/"/>
+    <updated>2025-04-18T11:45:00-07:00</updated>
+    <id>https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon</id>
+    <content type="html"><![CDATA[<p>Last year I updated my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> post to note that Mastodon would likely be more popular than Twitter at PyCon.</p>
+
+<p>My guess was correct.
+During PyCon US 2024, <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon overtook Twitter</a> for the most posts on the <code>#PyConUS</code> hashtag.</p>
+
+<p>In the fall of 2024, Bluesky really took off.
+It currently seems like Bluesky is now a bit more popular than Mastodon for Python posts in general&hellip; but that doesn&rsquo;t necessarily mean it will be the most popular social media network during the conference.</p>
+
+<p>This year I&rsquo;m guessing that Mastodon will still be the most popular network for <code>#PyConUS</code> posts, though I wouldn&rsquo;t be very surprised if Bluesky took the lead instead.</p>
+
+<h2>What do the social networks think?</h2>
+
+<p>I decided to pose this question to the various social networks via a poll. I made sure to share these polls using both the <code>#Python</code> and <code>#PyConUS</code> hashtags for visibility&rsquo;s sake.</p>
+
+<p>The results?</p>
+
+<ul>
+<li><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/">LinkedIn poll</a>: LinkedIn isn&rsquo;t sure whether Twitter is the new Twitter</li>
+<li><a href="https://x.com/treyhunner/status/1908187705965703323">Twitter poll</a> Twitter (mostly) knows that Bluesky is the new Twitter</li>
+<li><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h">Bluesky poll</a> Bluesky knows the really nerdy tech folks hang out on Mastodon</li>
+<li><a href="https://mastodon.social/@treyhunner/114280595068705311">Mastodon poll</a> Mastodon loves itself above all else</li>
+</ul>
+
+
+<p>In other words, LinkedIn leans more toward Bluesky being the leader than Mastodon, Twitter leans toward Bluesky, but Bluesky and Mastodon both lean toward Mastodon being the leader during PyCon.</p>
+
+<p>I didn&rsquo;t mention Threads or other platforms because they didn&rsquo;t seem like real contenders given where the most active PyCon-attending Python-posting folks seem to hang out in 2025.</p>
+
+<h2>The actual results</h2>
+
+<p>Here are the actual results of the polls.</p>
+
+<h3>LinkedIn</h3>
+
+<p><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/"><img src="/images/pycon-poll-linkedin-2025.png" title="LinkedIn poll results" ></a></p>
+
+<h3>Twitter</h3>
+
+<p><a href="https://x.com/treyhunner/status/1908187705965703323"><img src="/images/pycon-poll-twitter-2025.png" title="Twitter poll results" ></a></p>
+
+<h3>Bluesky</h3>
+
+<p><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h"><img src="/images/pycon-poll-bluesky-2025.png" title="Bluesky poll results" ></a></p>
+
+<h3>Mastodon</h3>
+
+<p><a href="https://mastodon.social/@treyhunner/114280595068705311"><img src="/images/pycon-poll-mastodon-2025.png" title="Mastodon poll results" ></a></p>
+
+<h2>We&rsquo;re still fragmented</h2>
+
+<p>Unfortunately, regardless of which network is the leader this year during PyCon US, we&rsquo;re still going to be much more fragmented than we used to be. Twitter <em>was</em> the clear leader years ago and it very clearly isn&rsquo;t anymore&hellip; at least not for PyCon US conference chatter.</p>
+
+<p>I&rsquo;ll be checking Mastodon and Bluesky and will post on <em>at least</em> Mastodon and possibly also Bluesky. I hope that other folks will also use one of these 2 social networks to organize dinners and gatherings! 🤞</p>
+
+<p>Feel free to follow me <a href="https://mastodon.social/@treyhunner">on Mastodon</a> and <a href="https://mastodon.social/@treyhunner">Bluesky</a> during the conference.</p>
+
+<p>Also let me know if you&rsquo;d like to join my <a href="https://bsky.app/profile/trey.io/post/3ln45jpzmik2c">PyCon US starter pack</a> on Bluesky.
+Lists on Mastodon require following and I prefer not to follow everyone I meet at PyCon so, unfortunately, I probably won&rsquo;t have a Mastodon equivalent of this. 😢</p>
+
+<p>I recommend checking the <code>#PyConUS</code> hashtag on both networks as well.
+Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty neat!</p>
+
+<h2>See you at PyCon!</h2>
+
+<p>If this will be your first PyCon US, I recommend signing up for both Mastodon and Bluesky and checking the <code>#PyConUS</code> hashtag during the conference.</p>
+
+<p>Also, be sure to see my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">post on having a great first PyCon</a> and <a href="https://mastodon.social/@treyhunner/112448459788776426">see this additional tips</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lazy self-installing Python scripts with uv]]></title>
@@ -610,82 +685,6 @@ So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</
 
 <p>I&rsquo;d love to hear about it!
 Comment below to share what you found.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
-    <link href="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/"/>
-    <updated>2024-10-13T21:03:32-07:00</updated>
-    <id>https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl</id>
-    <content type="html"><![CDATA[<p>Your new Django project uses Python 3.13.</p>
-
-<p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
-What gives?</p>
-
-<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <a href="https://docs.python.org/3/library/code.html">code</a> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
-
-<p>So you&rsquo;re out of luck&hellip; or are you?</p>
-
-<h2>How stable do you need your <code>shell</code> command to be?</h2>
-
-<p>The new Python REPL&rsquo;s code lives in a <a href="https://github.com/python/cpython/tree/v3.13.0/Lib/_pyrepl">_pyrepl</a> package.
-Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
-
-<p>First, note the <code>_</code> before that package name.
-It&rsquo;s <code>_pyrepl</code>, not <code>pyrepl</code>.</p>
-
-<p>Any solution that relies on this module may break in future Python releases.</p>
-
-<p>So&hellip; should we give up on looking for a solution, if we can&rsquo;t get a &ldquo;stable&rdquo; one?</p>
-
-<p>I don&rsquo;t think so.</p>
-
-<p>My <code>shell</code> command doesn&rsquo;t usually <em>need</em> to be stable in more than one version of Python at a time.
-So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and then falls back to the old REPL if it fails.</p>
-
-<h2>A working solution</h2>
-
-<p>So, let&rsquo;s look at a working solution.</p>
-
-<p>Stick <a href="https://pym.dev/p/2zqeq/">this code</a> in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
-
-<pre><code class="python">"""Python 3.13 REPL support using the unsupported _pyrepl module."""
-from django.core.management.commands.shell import Command as BaseShellCommand
-
-
-class Command(BaseShellCommand):
-    shells = ["ipython", "bpython", "pyrepl", "python"]
-
-    def pyrepl(self, options):
-        from _pyrepl.main import interactive_console
-        interactive_console()
-</code></pre>
-
-<h2>How it works</h2>
-
-<p>Django&rsquo;s <code>shell</code> command has made it very simple to add support for your favorite REPL of choice.</p>
-
-<p><a href="https://github.com/django/django/blob/5.1.2/django/core/management/commands/shell.py">The code for the <code>shell</code> command</a> loops through the <code>shells</code> list and attempts to run a method with that name on its own class.
-If an <code>ImportError</code> is raised then it attempts the next command, stopping once no exception occurs.</p>
-
-<p>Our new command will try to use IPython and bpython if they&rsquo;re installed and then it will try the new Python 3.13 REPL followed by the old Python REPL.</p>
-
-<p>If Python 3.14 breaks our import by moving the <code>interactive_console</code> function, then an <code>ImportError</code> will be raised, causing us to fall back to the old REPL after we upgrade to Python 3.14 one day.
-If instead, the <code>interactive_console</code> function&rsquo;s usage changes (maybe it will require arguments) then our <code>shell</code> command will completely break and we&rsquo;ll need to manually fix it when we upgrade to Python 3.14.</p>
-
-<h2>What&rsquo;s so great about the new REPL?</h2>
-
-<p>If you&rsquo;re already using IPython or BPython as your REPL and you&rsquo;re enjoying them, I would stick with them.</p>
-
-<p>Third-party libraries move faster than Python itself and they&rsquo;re often more feature-rich.
-IPython has about 20 years worth of feature development and it has features that the built-in Python REPL will likely never have.</p>
-
-<p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
-I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
-See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
-
-<p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
 ]]></content>
   </entry>
   

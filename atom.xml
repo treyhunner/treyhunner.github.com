@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-04-18T07:43:35-07:00</updated>
+  <updated>2025-04-18T11:34:17-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Which social network are we using for PyCon US this year?]]></title>
+    <link href="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/"/>
+    <updated>2025-04-18T11:45:00-07:00</updated>
+    <id>https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon</id>
+    <content type="html"><![CDATA[<p>Last year I updated my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> post to note that Mastodon would likely be more popular than Twitter at PyCon.</p>
+
+<p>My guess was correct.
+During PyCon US 2024, <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon overtook Twitter</a> for the most posts on the <code>#PyConUS</code> hashtag.</p>
+
+<p>In the fall of 2024, Bluesky really took off.
+It currently seems like Bluesky is now a bit more popular than Mastodon for Python posts in general&hellip; but that doesn&rsquo;t necessarily mean it will be the most popular social media network during the conference.</p>
+
+<p>This year I&rsquo;m guessing that Mastodon will still be the most popular network for <code>#PyConUS</code> posts, though I wouldn&rsquo;t be very surprised if Bluesky took the lead instead.</p>
+
+<h2>What do the social networks think?</h2>
+
+<p>I decided to pose this question to the various social networks via a poll. I made sure to share these polls using both the <code>#Python</code> and <code>#PyConUS</code> hashtags for visibility&rsquo;s sake.</p>
+
+<p>The results?</p>
+
+<ul>
+<li><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/">LinkedIn poll</a>: LinkedIn isn&rsquo;t sure whether Twitter is the new Twitter</li>
+<li><a href="https://x.com/treyhunner/status/1908187705965703323">Twitter poll</a> Twitter (mostly) knows that Bluesky is the new Twitter</li>
+<li><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h">Bluesky poll</a> Bluesky knows the really nerdy tech folks hang out on Mastodon</li>
+<li><a href="https://mastodon.social/@treyhunner/114280595068705311">Mastodon poll</a> Mastodon loves itself above all else</li>
+</ul>
+
+
+<p>In other words, LinkedIn leans more toward Bluesky being the leader than Mastodon, Twitter leans toward Bluesky, but Bluesky and Mastodon both lean toward Mastodon being the leader during PyCon.</p>
+
+<p>I didn&rsquo;t mention Threads or other platforms because they didn&rsquo;t seem like real contenders given where the most active PyCon-attending Python-posting folks seem to hang out in 2025.</p>
+
+<h2>The actual results</h2>
+
+<p>Here are the actual results of the polls.</p>
+
+<h3>LinkedIn</h3>
+
+<p><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/"><img src="https://treyhunner.com/images/pycon-poll-linkedin-2025.png" title="LinkedIn poll results" ></a></p>
+
+<h3>Twitter</h3>
+
+<p><a href="https://x.com/treyhunner/status/1908187705965703323"><img src="https://treyhunner.com/images/pycon-poll-twitter-2025.png" title="Twitter poll results" ></a></p>
+
+<h3>Bluesky</h3>
+
+<p><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h"><img src="https://treyhunner.com/images/pycon-poll-bluesky-2025.png" title="Bluesky poll results" ></a></p>
+
+<h3>Mastodon</h3>
+
+<p><a href="https://mastodon.social/@treyhunner/114280595068705311"><img src="https://treyhunner.com/images/pycon-poll-mastodon-2025.png" title="Mastodon poll results" ></a></p>
+
+<h2>We&rsquo;re still fragmented</h2>
+
+<p>Unfortunately, regardless of which network is the leader this year during PyCon US, we&rsquo;re still going to be much more fragmented than we used to be. Twitter <em>was</em> the clear leader years ago and it very clearly isn&rsquo;t anymore&hellip; at least not for PyCon US conference chatter.</p>
+
+<p>I&rsquo;ll be checking Mastodon and Bluesky and will post on <em>at least</em> Mastodon and possibly also Bluesky. I hope that other folks will also use one of these 2 social networks to organize dinners and gatherings! 🤞</p>
+
+<p>Feel free to follow me <a href="https://mastodon.social/@treyhunner">on Mastodon</a> and <a href="https://mastodon.social/@treyhunner">Bluesky</a> during the conference.</p>
+
+<p>Also let me know if you&rsquo;d like to join my <a href="https://bsky.app/profile/trey.io/post/3ln45jpzmik2c">PyCon US starter pack</a> on Bluesky.
+Lists on Mastodon require following and I prefer not to follow everyone I meet at PyCon so, unfortunately, I probably won&rsquo;t have a Mastodon equivalent of this. 😢</p>
+
+<p>I recommend checking the <code>#PyConUS</code> hashtag on both networks as well.
+Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty neat!</p>
+
+<h2>See you at PyCon!</h2>
+
+<p>If this will be your first PyCon US, I recommend signing up for both Mastodon and Bluesky and checking the <code>#PyConUS</code> hashtag during the conference.</p>
+
+<p>Also, be sure to see my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">post on having a great first PyCon</a> and <a href="https://mastodon.social/@treyhunner/112448459788776426">see this additional tips</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Django components: sometimes an include doesn't cut it]]></title>
@@ -3506,91 +3581,6 @@ This is the best sale I&rsquo;ve ever offered on Python Morsels and I&rsquo;m gu
 And if you have questions about the <a href="https://www.pythonmorsels.com/lifetime-access-sale/"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
 
 <p>Happy Python-ing!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Morsels Cyber Monday sale]]></title>
-    <link href="https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale/"/>
-    <updated>2022-11-25T08:30:00-08:00</updated>
-    <id>https://treyhunner.com/2022/11/python-morsels-cyber-monday-sale</id>
-    <content type="html"><![CDATA[<p>Python Morsels helps Python users <strong>sharpen their Python skills</strong> in a way that writing production code doesn&rsquo;t. If you are:</p>
-
-<ul>
-<li>an experienced developer, frustrated with <strong>gaps in your Python knowledge</strong></li>
-<li>a self-taught programmer seeking <strong>courage and confidence</strong> in your Python abilities</li>
-<li>or an intermediate-level Python learner trying to <strong>deepen your Python skills</strong></li>
-</ul>
-
-
-<p>&hellip;a weekly Python Morsels habit can help you make <strong>consistent progress</strong> and <strong>noticeable growth</strong> in <strong>just a few months</strong>.</p>
-
-<p>Python Morsels is <strong>on sale</strong> through Cyber Monday. <a href="https://www.pythonmorsels.com/all-python-exercises-and-screencasts/">Subscribe</a> now to <strong><a href="https://www.pythonmorsels.com/pricing/">save up to $108 per year</a></strong>.</p>
-
-<h2>Day-to-day coding isn&rsquo;t purposeful learning</h2>
-
-<p>If you write Python frequently, you likely learn new things all the time.
-The learning you get from day-to-day coding is messy and unpredictable. Yes, learning happens, but gradually.</p>
-
-<p>What if you could <strong>learn something unexpected about Python</strong> in <strong>just 30 minutes</strong> a week?</p>
-
-<p>That&rsquo;s what Python Morsels is designed to do: push you <em>just</em> outside your comfort zone to <strong>discover something new</strong> without requiring a big time sink.</p>
-
-<blockquote><p>The time I spent working on Python Morsels problems translates into saved time programming for work. And it&rsquo;s not a grind - it&rsquo;s actually fun. I&rsquo;ve learned advanced Python concepts that I would have never had the opportunity to use in my day to day work.
-<br><span style="float: right;">
-— Eric Pederson, <a href="https://www.pythonmorsels.com/testimonials/#tag:short_on_time">Python Morsels user</a></span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<h2>Guided Python practice every single week</h2>
-
-<p>Python Morsels is <strong>quite different</strong> from many other Python learning systems: you tell me your Python skill level (from <strong>novice</strong> to <strong>advanced</strong>) and I send you small tasks to help you sharpen your Python skills.</p>
-
-<p>Every Monday, you&rsquo;ll receive an email from me with:</p>
-
-<ul>
-<li>a short screencast to watch (or read)</li>
-<li>a multi-part exercise to move you outside your comfort zone (often achievable in 30 minutes)</li>
-<li>a mini exercise that you can accomplish in just 10 minutes</li>
-<li>links to dive deeper into subsequent screencasts and exercises</li>
-</ul>
-
-
-<p>If you&rsquo;d like to nudge your learning in a specific direction, you can always work through a topic-specific exercise path, or watch one of my many screencast series.</p>
-
-<h2>Does this actually work?</h2>
-
-<p>If you use Python Morsels even semi-regularly, I’m confident your Python skills will improve.</p>
-
-<p>Here&rsquo;s what Python Morsels users have to say:</p>
-
-<blockquote><p>I was hesitant about paying for Python Morsels given how many free learning resources there are. But it was definitely worth it. I&rsquo;ve learnt more from Python Morsels than anything else, by far.
-<br><span style="float: right;">
-— Cosmo Grant</span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<blockquote><p>During my study of Python, I used various programming challenge sites. I can say for sure that this is the best challenge site I have ever come across.
-<br><span style="float: right;">
-— Bartosz Chojnacki</span>
-<br></p></blockquote>
-
-<div class="clearfix"></div>
-
-
-<p>Not sure? <a href="https://www.pythonmorsels.com/testimonials/">Read more from Python Morsels users here</a>.</p>
-
-<h2>Lock-in your $200/year subscription</h2>
-
-<p>Python Morsels currently includes <strong>over 150 screencasts and articles</strong> and <strong>nearly 200 exercises</strong>, each of which links to over a dozen helpful resources.</p>
-
-<p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
-
-<p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
 ]]></content>
   </entry>
   
