@@ -17,19 +17,19 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Which social network are we using for PyCon US this year?</title>
+  <title>How to give a great PyCon tutorial</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Last year I updated my having a great first PyCon post to note that Mastodon would likely be more popular than Twitter at PyCon. My guess was correct &hellip;">
+  <meta name="description" content="You&rsquo;ve submitted a tutorial to PyCon and it was accepted.
+Uh oh. Now what? In this post I&rsquo;ll be sharing my thoughts on giving a great &hellip;">
   
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
   
-    <!-- Twitter summary card with large image must be at least 280x150px -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:image:src" content="https://treyhunner.com/images/pycon-poll-mastodon-2025.png"/>
-    <meta name="image" property="og:image" content="https://treyhunner.com/images/pycon-poll-mastodon-2025.png"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -39,7 +39,7 @@
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/">
+  <link rel="canonical" href="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -118,7 +118,7 @@ $(document).ready(function () {
   
   <header>
     
-      <h1 class="entry-title">Which social network are we using for PyCon US this year?</h1>
+      <h1 class="entry-title">How to give a great PyCon tutorial</h1>
     
     
       <p class="meta">
@@ -127,7 +127,7 @@ $(document).ready(function () {
 
 
 
-<time class='entry-date' datetime='2025-04-18T11:45:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>11:45 am</span></time>
+<time class='entry-date' datetime='2025-05-01T16:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2025</span></span> <span class='time'>4:00 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="https://treyhunner.com">Comments</a>
@@ -138,73 +138,185 @@ $(document).ready(function () {
 
 
 
-<div class="entry-content"><p>Last year I updated my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> post to note that Mastodon would likely be more popular than Twitter at PyCon.</p>
+<div class="entry-content"><p>You&rsquo;ve submitted a tutorial to PyCon and it was accepted.
+Uh oh.</p>
 
-<p>My guess was correct.
-During PyCon US 2024, <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon overtook Twitter</a> for the most posts on the <code>#PyConUS</code> hashtag.</p>
+<p>Now what?</p>
 
-<p>In the fall of 2024, Bluesky really took off.
-It currently seems like Bluesky is now a bit more popular than Mastodon for Python posts in general&hellip; but that doesn&rsquo;t necessarily mean it will be the most popular social media network during the conference.</p>
+<p>In this post I&rsquo;ll be sharing my thoughts on giving a great PyCon tutorial.</p>
 
-<p>This year I&rsquo;m guessing that Mastodon will still be the most popular network for <code>#PyConUS</code> posts, though I wouldn&rsquo;t be very surprised if Bluesky took the lead instead.</p>
+<h2>Readability counts</h2>
 
-<h2>What do the social networks think?</h2>
+<p>Be sure to consider readability when teaching a tutorial.
+Talks usually involve slides and the default font size in presentation software is often pretty readable on a projector.
+That&rsquo;s <em>not</em> usually the case for code editors, web browsers, and terminals.</p>
 
-<p>I decided to pose this question to the various social networks via a poll. I made sure to share these polls using both the <code>#Python</code> and <code>#PyConUS</code> hashtags for visibility&rsquo;s sake.</p>
+<p>Consider the size of the text you&rsquo;ll be displaying.
+I tend to zoom in until my screen can just barely fit about 80 characters of text.</p>
 
-<p>The results?</p>
+<p>Also consider your color scheme.
+When reading from a projector, black text on a white background is usually easier to read than black text on a white background.
+So I recommend using a <strong>light mode</strong> color scheme even if you <em>usually</em> prefer dark mode.
+And be sure to use a high contract color scheme!</p>
+
+<p>Also consider how you&rsquo;ll share URLs.
+Shortened URLs are easier to type.
+QR codes can also help, but be sure to share the <em>actual</em> URL as some may not be able to scan QR codes.</p>
+
+<h2>Engage students in attempted information retrieval</h2>
+
+<p>Have you ever heard the phrase &ldquo;in one ear and the other&rdquo;?
+That&rsquo;s how lectures usually work.
+Lectures tend to focus on putting information into our heads.
+Unfortunately, our brain isn&rsquo;t designed to remember information that&rsquo;s presented to it.</p>
+
+<p>We don&rsquo;t learn by putting information into our heads; we learn by trying to retrieve information from our heads.
+Information retrieval attempts, even somewhat unsuccessful ones, are <em>very important</em> for helping our brain retain information.</p>
+
+<p>So, how will your tutorial engage students in the act of attempted information retrieval?</p>
+
+<p>You could:</p>
 
 <ul>
-<li><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/">LinkedIn poll</a>: LinkedIn isn&rsquo;t sure whether Twitter is the new Twitter</li>
-<li><a href="https://x.com/treyhunner/status/1908187705965703323">Twitter poll</a> Twitter (mostly) knows that Bluesky is the new Twitter</li>
-<li><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h">Bluesky poll</a> Bluesky knows the really nerdy tech folks hang out on Mastodon</li>
-<li><a href="https://mastodon.social/@treyhunner/114280595068705311">Mastodon poll</a> Mastodon loves itself above all else</li>
+<li>Group quiz: &ldquo;what do you think might happen if&hellip;?&rdquo;</li>
+<li>Silently quiz: present a quiz question every few minutes to work on individually</li>
+<li>Take 10 minute exercise breaks every 20 minutes so students can write code to apply what they&rsquo;ve just seen</li>
 </ul>
 
 
-<p>In other words, LinkedIn leans more toward Bluesky being the leader than Mastodon, Twitter leans toward Bluesky, but Bluesky and Mastodon both lean toward Mastodon being the leader during PyCon.</p>
+<p>Give students a way to know whether they &ldquo;did it right&rdquo; as well.
+But also keep in mind that the focus of any sort of quizzing should be on <strong>taking a guess</strong>, not on getting a grade.</p>
 
-<p>I didn&rsquo;t mention Threads or other platforms because they didn&rsquo;t seem like real contenders given where the most active PyCon-attending Python-posting folks seem to hang out in 2025.</p>
+<p>We don&rsquo;t learn by watching, but by <em>doing</em>, so I recommend planning your tutorial around a <em>lot</em> of recall.</p>
 
-<h2>The actual results</h2>
+<h2>Prepare for the unprepared</h2>
 
-<p>Here are the actual results of the polls.</p>
+<p>Since your tutorial is going to be hands-on (see the previous section), you&rsquo;ll probably need your students to set things up on their machines.</p>
 
-<h3>LinkedIn</h3>
+<p>You could set aside the first 30 minutes of your 3 hour tutorial for setup steps, but I wouldn&rsquo;t recommend that.
+Setup will take some students 5 minutes and others 25 minutes.
+Expecting folks who are quick to idle for many minutes isn&rsquo;t ideal.</p>
 
-<p><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/"><img src="/images/pycon-poll-linkedin-2025.png" title="LinkedIn poll results" ></a></p>
+<p>If possible, I would recommend writing up prerequisite setup instructions and asking students to perform necessary setup steps <em>before</em> PyCon.
+A week or two before PyCon, email those installation and/or setup instructions.
+Then email those instructions a couple more times.
+Yes, that may seem redundant, but redundant reminders can be very helpful.</p>
 
-<h3>Twitter</h3>
+<p>Some attendees will register after you send out your first instructions email, some will ignore or skip over emails, and some may even register for your tutorial <em>on the day of your tutorial</em>.</p>
 
-<p><a href="https://x.com/treyhunner/status/1908187705965703323"><img src="/images/pycon-poll-twitter-2025.png" title="Twitter poll results" ></a></p>
+<p>It&rsquo;s helpful to give any unprepared students some escape hatches to get caught up.</p>
 
-<h3>Bluesky</h3>
+<p>For example, you could let attendees know that:</p>
 
-<p><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h"><img src="/images/pycon-poll-bluesky-2025.png" title="Bluesky poll results" ></a></p>
+<ol>
+<li>You would like them to work through setup instructions by X date</li>
+<li>You be available for asynchronous email-based assistance and they should email you if they get stuck</li>
+<li>You will be in your tutorial room early and you can help anyone who also shows up 15 minutes early get setup</li>
+</ol>
 
-<h3>Mastodon</h3>
 
-<p><a href="https://mastodon.social/@treyhunner/114280595068705311"><img src="/images/pycon-poll-mastodon-2025.png" title="Mastodon poll results" ></a></p>
+<p>Inevitably, somewhere around 10% of your attendees will <em>not</em> work through the setup instructions in full before the start of your tutorial.</p>
 
-<h2>We&rsquo;re still fragmented</h2>
+<p>Please <em>do</em> provide help to these unprepared attendees, but don&rsquo;t punish the prepared ones, at least not too much.
+For example, if you have a 15 minute exercise section near the beginning of your tutorial, float around the room during that time and make sure everyone has their machines setup.</p>
 
-<p>Unfortunately, regardless of which network is the leader this year during PyCon US, we&rsquo;re still going to be much more fragmented than we used to be. Twitter <em>was</em> the clear leader years ago and it very clearly isn&rsquo;t anymore&hellip; at least not for PyCon US conference chatter.</p>
+<h2>Expect the unexpected</h2>
 
-<p>I&rsquo;ll be checking Mastodon and Bluesky and will post on <em>at least</em> Mastodon and possibly also Bluesky. I hope that other folks will also use one of these 2 social networks to organize dinners and gatherings! 🤞</p>
+<p>What happens if an attendee&rsquo;s work laptop doesn&rsquo;t allow them to install or run certain programs?
+What if an attendee brings a Chromebook and your installation instructions assume Linux, Mac, or Windows?
+What if an attendee didn&rsquo;t bring a laptop?</p>
 
-<p>Feel free to follow me <a href="https://mastodon.social/@treyhunner">on Mastodon</a> and <a href="https://mastodon.social/@treyhunner">Bluesky</a> during the conference.</p>
+<p>What&rsquo;s your backup plan?</p>
 
-<p>Also let me know if you&rsquo;d like to join my <a href="https://bsky.app/profile/trey.io/post/3ln45jpzmik2c">PyCon US starter pack</a> on Bluesky.
-Lists on Mastodon require following and I prefer not to follow everyone I meet at PyCon so, unfortunately, I probably won&rsquo;t have a Mastodon equivalent of this. 😢</p>
+<p>Can attendees use an online interface instead of working locally?
+Do you have a spare laptop with a guest account they could use?
+Could another attendee volunteer to have someone pair up with them?</p>
 
-<p>I recommend checking the <code>#PyConUS</code> hashtag on both networks as well.
-Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty neat!</p>
+<p>And what happens if the Internet drops out?
+Internet issues have plagued <em>many</em> a tutorial presenter in the past, especially for tutorials that involve dozens of attendees all downloading many megabytes at the same time.
+Consider bringing a pre-loaded USB thumb drive or two as a backup plan.</p>
 
-<h2>See you at PyCon!</h2>
+<h2>Have helpers, if you can</h2>
 
-<p>If this will be your first PyCon US, I recommend signing up for both Mastodon and Bluesky and checking the <code>#PyConUS</code> hashtag during the conference.</p>
+<p>Having an exercise &ldquo;break&rdquo; early on allows those in need of extra setup help to catch up.</p>
 
-<p>Also, be sure to see my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">post on having a great first PyCon</a> and <a href="https://mastodon.social/@treyhunner/112448459788776426">see this additional tips</a>.</p>
+<p>I also like to encouraging attendees to try helping each other out.
+This can set a sort of &ldquo;we&rsquo;re all in this together&rdquo; atmosphere.
+When an attendee helps a neighbor understand the instructions for an exercise, that may also help them solidify their understanding as well.</p>
+
+<p>If you can find a volunteer <strong>teaching assistant</strong> (TA) or two who can familiarize themselves with your material even <em>just a little bit</em>, that can be very handy.
+The primary role of a TA is to simply to act as another set of eyes and ears for attendees who need a bit of extra help.
+This is <em>especially</em> helpful during the first exercise section or two, when everyone is getting setup and wading into the material.</p>
+
+<p>During exercise breaks in my recorded PyCon tutorials (e.g. <a href="https://youtu.be/_6U1XoxyyBY?feature=shared&amp;t=2310">here</a> or <a href="https://youtu.be/ixiRkUwPI2A?feature=shared&amp;t=1078">here</a> or <a href="https://youtu.be/6zu8lrYn6t8?feature=shared&amp;t=1605">here</a>) you may notice me and my TAs wondering around the room helping folks who have stickies up (more on that below) and generally checking in on folks who have confused expressions on their faces.</p>
+
+<p>For both you <em>and</em> your helpers, consider what it means to be a helpful helper.
+You may want to watch my <a href="https://treyhunner.com/mentoring/resources.html">Meaningful Mentoring Moments</a> talk or review some of the materials I link to in that talk.</p>
+
+<h2>Seek advice from others</h2>
+
+<p>In each of my tutorials I give every attendee a sticky note.
+I either put a sticky note at each chair before we begin, have a TA give a sticky notes to each person as they walk in, or I walk around the room and say hi to each person while giving them a sticky note.</p>
+
+<p>After everyone has a sticky note, I explain their purpose: to flag down me (or a TA) during exercises when help is needed.
+It&rsquo;s difficult to type on your keyboard while keeping a hand raised in the air for many many minutes.
+Sticky notes allow attendees to signal that they need help <em>and</em> they allow me to quickly scan the room and see how many folks need help.</p>
+
+<p>You probably wouldn&rsquo;t have thought of sticky notes.
+I wouldn&rsquo;t have either!
+I saw them used in an Open Hatch workshop many years ago and thought &ldquo;that&rsquo;s genius&rdquo;.</p>
+
+<p>Ask for advice from others who have taught live tutorials, workshops, and classes.
+You may not find every bit of advice helpful, but most of us who have taught before are happy to share what works for us.</p>
+
+<h2>Envision the moment</h2>
+
+<p>If we learn solely from experience, then the first time we do something we&rsquo;d expect to fail miserably.
+But that&rsquo;s (obviously) not what we <em>want</em> to happen.
+We want our first tutorial to be a reasonably successful experience.</p>
+
+<p>Fortunately, our brains are half decent reality simulators.
+Let&rsquo;s use our brain&rsquo;s ability to simulate future possibilities to our advantage.</p>
+
+<p>Imagine the world from the perspective of your attendees.
+Where might they get stuck or frustrated?
+If they don&rsquo;t feel comfortable speaking up, will you know about their frustrations?
+Will you be deliberately polling the room to see how they&rsquo;re feeling?
+When?
+How often?
+What will trigger you to poll the room?</p>
+
+<p>Imagine when pulse checks might be helpful to see how your audience members are feeling.</p>
+
+<p>Also, imagine how much of your curriculum you&rsquo;ll get through.
+How might you meet your attendees' expectations if it takes twice the time to get through curriculum?
+Is there anything that can be skipped?</p>
+
+<p>What happens if you get to the end and you have 30 minutes left?
+Could you add extra material that&rsquo;s <em>expected</em> to be skipped, but could be worked through if there&rsquo;s additional time?</p>
+
+<p>What will the call-to-action be at the end of your tutorial?
+Are there future projects attendees could work through?
+Are there specific actions you would recommend attendees take next?</p>
+
+<h2>Use checklists</h2>
+
+<p>One time I forgot to pack sticky notes and found myself frantically looking for a nearby office supplies store the morning of my tutorial.
+And then I did that 2 more times. 😬</p>
+
+<p>You can&rsquo;t keep everything in your head.
+Use a checklist to keep yourself on track during your tutorial <em>and</em> leading up to your tutorial.</p>
+
+<h2>Have compassion</h2>
+
+<p>Doing hard things is hard.
+Explaining hard things is even harder.</p>
+
+<p>Learning isn&rsquo;t easy either.</p>
+
+<p>Be kind to your attendees and <strong>be kind to yourself</strong>.
+Mistakes will happen.
+Try to keep moving forward and do your best to make good use of the time you have.</p>
 </div>
 
 
@@ -221,12 +333,12 @@ Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty nea
 
 
 
-<time class='entry-date' datetime='2025-04-18T11:45:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>11:45 am</span></time>
+<time class='entry-date' datetime='2025-05-01T16:00:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2025</span></span> <span class='time'>4:00 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/pycon/'>pycon</a>, <a class='category' href='/blog/categories/python/'>python</a>
+    <a class='category' href='/blog/categories/pycon/'>pycon</a>
   
 </span>
 
@@ -235,7 +347,7 @@ Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty nea
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/" data-via="treyhunner" data-counturl="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/" data-via="treyhunner" data-counturl="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -246,10 +358,8 @@ Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty nea
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2025/03/django-components-sometimes-an-include-doesnt-cut-it/" title="Previous Post: Django components: sometimes an include doesn't cut it">&laquo; Django components: sometimes an include doesn't cut it</a>
+        <a class="basic-alignment left" href="/2025/04/which-social-network-are-we-using-for-pycon/" title="Previous Post: Which social network are we using for PyCon US this year?">&laquo; Which social network are we using for PyCon US this year?</a>
       
-      
-        <a class="basic-alignment right" href="/2025/05/how-to-give-a-great-pycon-tutorial/" title="Next Post: How to give a great PyCon tutorial">How to give a great PyCon tutorial &raquo;</a>
       
     </p>
   </footer>
@@ -375,8 +485,8 @@ Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty nea
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/';
-        var disqus_url = 'https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/';
+        var disqus_identifier = 'https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/';
+        var disqus_url = 'https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/';
         var disqus_script = 'embed.js';
       
     (function () {
