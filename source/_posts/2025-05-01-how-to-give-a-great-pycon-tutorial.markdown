@@ -4,6 +4,7 @@ title: "Tips for PyCon tutorial presenters"
 date: 2025-05-01 16:00:00 -0700
 comments: true
 categories: pycon
+twitter_image: https://treyhunner.com/images/pycon-tutorial-tips.png
 ---
 
 You've submitted a tutorial to PyCon and it was accepted.
