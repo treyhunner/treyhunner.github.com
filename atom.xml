@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-05-01T15:37:03-07:00</updated>
+  <updated>2025-05-02T08:29:35-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -14,18 +14,16 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How to give a great PyCon tutorial]]></title>
+    <title type="html"><![CDATA[Tips for PyCon tutorial presenters]]></title>
     <link href="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/"/>
     <updated>2025-05-01T16:00:00-07:00</updated>
     <id>https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial</id>
     <content type="html"><![CDATA[<p>You&rsquo;ve submitted a tutorial to PyCon and it was accepted.
-Uh oh.</p>
-
-<p>Now what?</p>
+Now what?</p>
 
 <p>In this post I&rsquo;ll be sharing my thoughts on giving a great PyCon tutorial.</p>
 
-<h2>Readability counts</h2>
+<h2>Screen readability 👓</h2>
 
 <p>Be sure to consider readability when teaching a tutorial.
 Talks usually involve slides and the default font size in presentation software is often pretty readable on a projector.
@@ -35,7 +33,7 @@ That&rsquo;s <em>not</em> usually the case for code editors, web browsers, and t
 I tend to zoom in until my screen can just barely fit about 80 characters of text.</p>
 
 <p>Also consider your color scheme.
-When reading from a projector, black text on a white background is usually easier to read than black text on a white background.
+When reading from a projector, black text on a white background is usually easier to read than white text on a black background.
 So I recommend using a <strong>light mode</strong> color scheme even if you <em>usually</em> prefer dark mode.
 And be sure to use a high contract color scheme!</p>
 
@@ -43,7 +41,7 @@ And be sure to use a high contract color scheme!</p>
 Shortened URLs are easier to type.
 QR codes can also help, but be sure to share the <em>actual</em> URL as some may not be able to scan QR codes.</p>
 
-<h2>Engage students in attempted information retrieval</h2>
+<h2>Engage attendees in attempted information retrieval 🧠</h2>
 
 <p>Have you ever heard the phrase &ldquo;in one ear and the other&rdquo;?
 That&rsquo;s how lectures usually work.
@@ -53,38 +51,38 @@ Unfortunately, our brain isn&rsquo;t designed to remember information that&rsquo
 <p>We don&rsquo;t learn by putting information into our heads; we learn by trying to retrieve information from our heads.
 Information retrieval attempts, even somewhat unsuccessful ones, are <em>very important</em> for helping our brain retain information.</p>
 
-<p>So, how will your tutorial engage students in the act of attempted information retrieval?</p>
+<p>So, how will your tutorial engage attendees in the act of attempted information retrieval?</p>
 
 <p>You could:</p>
 
 <ul>
 <li>Group quiz: &ldquo;what do you think might happen if&hellip;?&rdquo;</li>
 <li>Silently quiz: present a quiz question every few minutes to work on individually</li>
-<li>Take 10 minute exercise breaks every 20 minutes so students can write code to apply what they&rsquo;ve just seen</li>
+<li>Take 10 minute exercise breaks every 20 minutes so attendees can write code to apply what they&rsquo;ve just seen</li>
 </ul>
 
 
-<p>Give students a way to know whether they &ldquo;did it right&rdquo; as well.
+<p>Give attendees a way to know whether they &ldquo;did it right&rdquo; as well.
 But also keep in mind that the focus of any sort of quizzing should be on <strong>taking a guess</strong>, not on getting a grade.</p>
 
 <p>We don&rsquo;t learn by watching, but by <em>doing</em>, so I recommend planning your tutorial around a <em>lot</em> of recall.</p>
 
-<h2>Prepare for the unprepared</h2>
+<h2>Prepare for the unprepared 😦</h2>
 
-<p>Since your tutorial is going to be hands-on (see the previous section), you&rsquo;ll probably need your students to set things up on their machines.</p>
+<p>Since your tutorial is going to be hands-on (see the previous section), you&rsquo;ll probably need your attendees to set things up on their machines.</p>
 
 <p>You could set aside the first 30 minutes of your 3 hour tutorial for setup steps, but I wouldn&rsquo;t recommend that.
-Setup will take some students 5 minutes and others 25 minutes.
+Setup will take some attendees 5 minutes and others 25 minutes.
 Expecting folks who are quick to idle for many minutes isn&rsquo;t ideal.</p>
 
-<p>If possible, I would recommend writing up prerequisite setup instructions and asking students to perform necessary setup steps <em>before</em> PyCon.
+<p>If possible, I would recommend writing up prerequisite setup instructions and asking attendees to perform necessary setup steps <em>before</em> PyCon.
 A week or two before PyCon, email those installation and/or setup instructions.
 Then email those instructions a couple more times.
 Yes, that may seem redundant, but redundant reminders can be very helpful.</p>
 
 <p>Some attendees will register after you send out your first instructions email, some will ignore or skip over emails, and some may even register for your tutorial <em>on the day of your tutorial</em>.</p>
 
-<p>It&rsquo;s helpful to give any unprepared students some escape hatches to get caught up.</p>
+<p>It&rsquo;s helpful to give any unprepared attendees some escape hatches to get caught up.</p>
 
 <p>For example, you could let attendees know that:</p>
 
@@ -100,7 +98,7 @@ Yes, that may seem redundant, but redundant reminders can be very helpful.</p>
 <p>Please <em>do</em> provide help to these unprepared attendees, but don&rsquo;t punish the prepared ones, at least not too much.
 For example, if you have a 15 minute exercise section near the beginning of your tutorial, float around the room during that time and make sure everyone has their machines setup.</p>
 
-<h2>Expect the unexpected</h2>
+<h2>Expect the unexpected 🚨</h2>
 
 <p>What happens if an attendee&rsquo;s work laptop doesn&rsquo;t allow them to install or run certain programs?
 What if an attendee brings a Chromebook and your installation instructions assume Linux, Mac, or Windows?
@@ -116,7 +114,7 @@ Could another attendee volunteer to have someone pair up with them?</p>
 Internet issues have plagued <em>many</em> a tutorial presenter in the past, especially for tutorials that involve dozens of attendees all downloading many megabytes at the same time.
 Consider bringing a pre-loaded USB thumb drive or two as a backup plan.</p>
 
-<h2>Have helpers, if you can</h2>
+<h2>Have helpers, if you can 🧷</h2>
 
 <p>Having an exercise &ldquo;break&rdquo; early on allows those in need of extra setup help to catch up.</p>
 
@@ -133,7 +131,7 @@ This is <em>especially</em> helpful during the first exercise section or two, wh
 <p>For both you <em>and</em> your helpers, consider what it means to be a helpful helper.
 You may want to watch my <a href="https://treyhunner.com/mentoring/resources.html">Meaningful Mentoring Moments</a> talk or review some of the materials I link to in that talk.</p>
 
-<h2>Seek advice from others</h2>
+<h2>Seek advice from others 🧑‍🏫</h2>
 
 <p>In each of my tutorials I give every attendee a sticky note.
 I either put a sticky note at each chair before we begin, have a TA give a sticky notes to each person as they walk in, or I walk around the room and say hi to each person while giving them a sticky note.</p>
@@ -149,7 +147,7 @@ I saw them used in an Open Hatch workshop many years ago and thought &ldquo;that
 <p>Ask for advice from others who have taught live tutorials, workshops, and classes.
 You may not find every bit of advice helpful, but most of us who have taught before are happy to share what works for us.</p>
 
-<h2>Envision the moment</h2>
+<h2>Envision the moment 💭</h2>
 
 <p>If we learn solely from experience, then the first time we do something we&rsquo;d expect to fail miserably.
 But that&rsquo;s (obviously) not what we <em>want</em> to happen.
@@ -179,7 +177,7 @@ Could you add extra material that&rsquo;s <em>expected</em> to be skipped, but c
 Are there future projects attendees could work through?
 Are there specific actions you would recommend attendees take next?</p>
 
-<h2>Use checklists</h2>
+<h2>Use checklists ✅</h2>
 
 <p>One time I forgot to pack sticky notes and found myself frantically looking for a nearby office supplies store the morning of my tutorial.
 And then I did that 2 more times. 😬</p>
@@ -187,7 +185,22 @@ And then I did that 2 more times. 😬</p>
 <p>You can&rsquo;t keep everything in your head.
 Use a checklist to keep yourself on track during your tutorial <em>and</em> leading up to your tutorial.</p>
 
-<h2>Have compassion</h2>
+<p>Here&rsquo;s a checklist with much of the advice in this post:</p>
+
+<ol>
+<li>Use a large font and a highly readable color scheme</li>
+<li>Be sure your curriculum facilitates active recall</li>
+<li>Nudge attendees to work through setup instructions before your tutorial</li>
+<li>Be prepared to help a portion of the room with setup instructions <em>during</em> the tutorial</li>
+<li>Try to find teaching assistants if you can</li>
+<li>Wander around the room to help during exercise sections</li>
+<li>Consider using sticky notes so attendees can flag down help during exercise sections</li>
+<li>Ask other tutorial presenters and teachers for advice</li>
+<li>Mentally walk through the day and consider what might go differently than planned</li>
+</ol>
+
+
+<h2>Have compassion 💖</h2>
 
 <p>Doing hard things is hard.
 Explaining hard things is even harder.</p>
