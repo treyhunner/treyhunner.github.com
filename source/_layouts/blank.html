@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>{% if page.title %}{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}{% if page.hide_site_in_title != true %} - {% endif %}{% endif %}{% if page.hide_site_in_title != true %}{{ site.title }}{% endif %}</title>
+  <meta name="author" content="{{ site.author }}">
+
+  {% capture description %}{% if page.description %}{{ page.description }}{% else %}{{ content | raw_content }}{% endif %}{% endcapture %}
+  <meta name="description" content="{{ description | strip_html | condense_spaces | truncate:150 }}">
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  <style>
+  :root {
+    --accent-success: #218838;
+    --accent-success-hover: #28a745;
+  }
+  button.success, .button.success {
+    background-color: var(--accent-success);
+    border: var(--border-width)solid var(--accent-success)
+  }
+  button.success:hover, .button.success:hover {
+    background-color: var(--accent-success-hover);
+    border: var(--border-width)solid var(--accent-success-hover)
+  }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <div id="content">
+      {{ content | expand_urls: root_url }}
+    </div>
+  </div>
+</body>
+</html>
