@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>Make a cutting room floor</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="All writers need a cutting room floor. I have never written a book, an academic paper, or a journal article.
+And yet I do write. I write emails, I &hellip;">
+  
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2025/05/make-a-cutting-room-floor/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Make a cutting room floor</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2025-05-22T07:40:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2025</span></span> <span class='time'>7:40 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>All writers need a <strong>cutting room floor</strong>.</p>
+
+<p>I have never written a book, an academic paper, or a journal article.
+And yet I <em>do</em> write.</p>
+
+<p>I write emails, I write blog posts, I write screencast scripts, I journal, I write talks, and I write curriculum for my Python trainings.</p>
+
+<p>When I write, I need a place to put text that <em>may</em> not make the cut in a final draft.
+I call this place the &ldquo;cutting room floor&rdquo;.</p>
+
+<h2>How I write: draft, research, edit</h2>
+
+<p>Before sharing what I mean by a &ldquo;cutting room floor&rdquo;, I need to explain <em>how</em> I write.</p>
+
+<p>I tend to write in 2-3 stages:</p>
+
+<ol>
+<li>Draft: writing <em>more</em> words, ideally without deleting or modifying</li>
+<li>Research: discovering facts playing with possible examples</li>
+<li>Edit: deleting, rearranging, and modifying words</li>
+</ol>
+
+
+<p>When <strong>drafting</strong>, I try to barf out words quickly and, ideally, without any editing at all.
+I often do this by setting a 25 - 60 minute timer and then writing thoughts as they pour out of my head.</p>
+
+<p>When <strong>researching</strong>, I&rsquo;m looking things up online, trying out code in a text editor, and sometimes playing with ideas in an abstract way.
+This phase sometimes looks like traditional &ldquo;research&rdquo; and sometimes includes a mix of research and brainstorming.</p>
+
+<p>When <strong>editing</strong>, I&rsquo;m re-reading my words and attempting to turn them into something <em>good</em>.
+The first draft is sometimes pretty close to what I ultimately end up with, but sometimes it&rsquo;s <em>very different</em> from what I eventually publish.</p>
+
+<p>Sometimes I draft and then edit without any research.
+Sometimes I research first.
+And often I bounce back and forth between these different tasks.</p>
+
+<p>I try to keep my drafting time <em>distinct</em> from my research and editing time.
+When drafting, my thoughts aren&rsquo;t always sensible, but they&rsquo;re <em>something</em>.
+It&rsquo;s often easier to edit a bunch of <em>something</em> into something <em>sensible</em> than it is to write something sensible in the first place.</p>
+
+<p>It&rsquo;s <em>very</em> tempting to start researching or editing while I&rsquo;m drafting.
+I try to counter that temptation by writing <code>TODO insert blah here</code> whenever I feel that something is needed but that <em>thing</em> needs further research before I can write a certain paragraph or so about it.</p>
+
+<h2>The &ldquo;cutting room floor&rdquo; is about editing</h2>
+
+<p>When I&rsquo;m <strong>editing</strong> my writing, I frequently find it challenging to remove certain sections.
+I often feel like I wrote something important, even while acknowledging that it may not fit well within the larger piece I&rsquo;m writing.
+I often don&rsquo;t realize that an idea or a bit of writing doesn&rsquo;t fit until I&rsquo;m far into editing.</p>
+
+<p>The <strong>cutting room floor</strong> is a way to <strong>save</strong> a specific bit of writing while also acknowledging that I may never use it.</p>
+
+<p>When using a &ldquo;cutting room floor&rdquo;, I select a paragraph or a whole section of text and I &ldquo;cut&rdquo; it out of my writing and then &ldquo;paste&rdquo; it at the bottom of the document under a &ldquo;Cutting room floor&rdquo; section.
+Or sometimes I&rsquo;ll paste it in a separate file, called something like <code>cutting-room-floor.md</code>.</p>
+
+<p>I <em>do</em> usually delete that file or that section from my text, but not until the end.
+Even when my text is all version-controlled, it feels much less <em>final</em> and <em>scary</em> to move some text into a (possibly temporary) &ldquo;cutting room floor&rdquo; than it feels to delete the text entirely.</p>
+
+<h2>Kill your darlings&hellip; or set them aside?</h2>
+
+<p>The noun &ldquo;<a href="https://en.wikipedia.org/wiki/Deleted_scene#%22Cutting_room_floor%22">cutting room floor</a>&rdquo; relates to the verb &ldquo;<a href="https://idioms.thefreedictionary.com/Kill+Your+Darlings">kill your darlings</a>&rdquo;.</p>
+
+<p>While &ldquo;kill your darlings&rdquo; may sound like a violent phrase, it essentially means &ldquo;don&rsquo;t be afraid to remove things you like&rdquo;.</p>
+
+<p>In my <a href="https://trey.io/pyohio2024">PyOhio keynote</a> in 2024, I originally had a whole section on cognitive dissonance.
+This section involved my own personal experience with cognitive dissonance and I spent a lot of time trying to make this section coherent, thoughtful, and impactful.
+That was originally my favorite section of the talk, but I eventually <strong>deleted that entire section from the talk</strong>.</p>
+
+<p>As I iterated versions of the talk, that &ldquo;darling&rdquo; section made less and less sense within the context of the whole talk.
+At some point I realized that the section was only <em>in</em> the talk because it was a <strong>darling</strong> for me.</p>
+
+<p>That section meant something special to me, but it just didn&rsquo;t fit.
+Reluctantly, I moved it to the cutting room floor.
+I kept iterating and the eventual talk was <em>better</em> because I cut that &ldquo;darling&rdquo; section out.</p>
+
+<p>My <strong>cutting room floor</strong> allowed me to <strong>kill a darling</strong> by setting it to the side.
+I could always add it back in later, but ultimately, I never did.
+Once it was removed, I knew the talk made more sense.</p>
+
+<h2>Allow yourself to delete everything</h2>
+
+<p>Having a &ldquo;cutting room floor&rdquo; gives me <strong>permission to delete</strong> any section of any talk, screencast, or article I write.</p>
+
+<p>A &ldquo;cut&rdquo; section isn&rsquo;t <em>gone</em>.
+It&rsquo;s just been moved to the cutting room floor&hellip; possibly just temporarily!
+I can always add the section back in later if I want.</p>
+
+<p>The cutting room floor could be thought of as a sort of graveyard, but it can <em>also</em> be a place of inspiration.
+I <em>rarely</em> add sections back into my talk after I cut them, but I <em>do</em> often spend time re-drafting a new section that replaces a section that I had cut.
+Sometimes I&rsquo;ll even look at the text in my cutting room floor, borrowing the words I like as I write replacement text.</p>
+
+<p>Instead of saying an emphatic &ldquo;NO&rdquo; by deleting permanently, I can say &ldquo;not right now&rdquo; by moving text to the cutting room floor.
+For me, &ldquo;not right now&rdquo; is often a lot easier for me to say than &ldquo;no&rdquo;.</p>
+
+<p>So during <em>your</em> editing session, give yourself permission to cut by <strong>making a cutting room floor</strong>.</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2025-05-22T07:40:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2025</span></span> <span class='time'>7:40 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/writing/'>writing</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2025/05/make-a-cutting-room-floor/" data-via="treyhunner" data-counturl="https://treyhunner.com/2025/05/make-a-cutting-room-floor/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2025/05/how-to-give-a-great-pycon-tutorial/" title="Previous Post: Tips for PyCon tutorial presenters">&laquo; Tips for PyCon tutorial presenters</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2025/05/make-a-cutting-room-floor/';
+        var disqus_url = 'https://treyhunner.com/2025/05/make-a-cutting-room-floor/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>

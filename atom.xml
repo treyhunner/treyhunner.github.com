@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-05-12T11:00:03-07:00</updated>
+  <updated>2025-05-22T07:20:34-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Make a cutting room floor]]></title>
+    <link href="https://treyhunner.com/2025/05/make-a-cutting-room-floor/"/>
+    <updated>2025-05-22T07:40:00-07:00</updated>
+    <id>https://treyhunner.com/2025/05/make-a-cutting-room-floor</id>
+    <content type="html"><![CDATA[<p>All writers need a <strong>cutting room floor</strong>.</p>
+
+<p>I have never written a book, an academic paper, or a journal article.
+And yet I <em>do</em> write.</p>
+
+<p>I write emails, I write blog posts, I write screencast scripts, I journal, I write talks, and I write curriculum for my Python trainings.</p>
+
+<p>When I write, I need a place to put text that <em>may</em> not make the cut in a final draft.
+I call this place the &ldquo;cutting room floor&rdquo;.</p>
+
+<h2>How I write: draft, research, edit</h2>
+
+<p>Before sharing what I mean by a &ldquo;cutting room floor&rdquo;, I need to explain <em>how</em> I write.</p>
+
+<p>I tend to write in 2-3 stages:</p>
+
+<ol>
+<li>Draft: writing <em>more</em> words, ideally without deleting or modifying</li>
+<li>Research: discovering facts playing with possible examples</li>
+<li>Edit: deleting, rearranging, and modifying words</li>
+</ol>
+
+
+<p>When <strong>drafting</strong>, I try to barf out words quickly and, ideally, without any editing at all.
+I often do this by setting a 25 - 60 minute timer and then writing thoughts as they pour out of my head.</p>
+
+<p>When <strong>researching</strong>, I&rsquo;m looking things up online, trying out code in a text editor, and sometimes playing with ideas in an abstract way.
+This phase sometimes looks like traditional &ldquo;research&rdquo; and sometimes includes a mix of research and brainstorming.</p>
+
+<p>When <strong>editing</strong>, I&rsquo;m re-reading my words and attempting to turn them into something <em>good</em>.
+The first draft is sometimes pretty close to what I ultimately end up with, but sometimes it&rsquo;s <em>very different</em> from what I eventually publish.</p>
+
+<p>Sometimes I draft and then edit without any research.
+Sometimes I research first.
+And often I bounce back and forth between these different tasks.</p>
+
+<p>I try to keep my drafting time <em>distinct</em> from my research and editing time.
+When drafting, my thoughts aren&rsquo;t always sensible, but they&rsquo;re <em>something</em>.
+It&rsquo;s often easier to edit a bunch of <em>something</em> into something <em>sensible</em> than it is to write something sensible in the first place.</p>
+
+<p>It&rsquo;s <em>very</em> tempting to start researching or editing while I&rsquo;m drafting.
+I try to counter that temptation by writing <code>TODO insert blah here</code> whenever I feel that something is needed but that <em>thing</em> needs further research before I can write a certain paragraph or so about it.</p>
+
+<h2>The &ldquo;cutting room floor&rdquo; is about editing</h2>
+
+<p>When I&rsquo;m <strong>editing</strong> my writing, I frequently find it challenging to remove certain sections.
+I often feel like I wrote something important, even while acknowledging that it may not fit well within the larger piece I&rsquo;m writing.
+I often don&rsquo;t realize that an idea or a bit of writing doesn&rsquo;t fit until I&rsquo;m far into editing.</p>
+
+<p>The <strong>cutting room floor</strong> is a way to <strong>save</strong> a specific bit of writing while also acknowledging that I may never use it.</p>
+
+<p>When using a &ldquo;cutting room floor&rdquo;, I select a paragraph or a whole section of text and I &ldquo;cut&rdquo; it out of my writing and then &ldquo;paste&rdquo; it at the bottom of the document under a &ldquo;Cutting room floor&rdquo; section.
+Or sometimes I&rsquo;ll paste it in a separate file, called something like <code>cutting-room-floor.md</code>.</p>
+
+<p>I <em>do</em> usually delete that file or that section from my text, but not until the end.
+Even when my text is all version-controlled, it feels much less <em>final</em> and <em>scary</em> to move some text into a (possibly temporary) &ldquo;cutting room floor&rdquo; than it feels to delete the text entirely.</p>
+
+<h2>Kill your darlings&hellip; or set them aside?</h2>
+
+<p>The noun &ldquo;<a href="https://en.wikipedia.org/wiki/Deleted_scene#%22Cutting_room_floor%22">cutting room floor</a>&rdquo; relates to the verb &ldquo;<a href="https://idioms.thefreedictionary.com/Kill+Your+Darlings">kill your darlings</a>&rdquo;.</p>
+
+<p>While &ldquo;kill your darlings&rdquo; may sound like a violent phrase, it essentially means &ldquo;don&rsquo;t be afraid to remove things you like&rdquo;.</p>
+
+<p>In my <a href="https://trey.io/pyohio2024">PyOhio keynote</a> in 2024, I originally had a whole section on cognitive dissonance.
+This section involved my own personal experience with cognitive dissonance and I spent a lot of time trying to make this section coherent, thoughtful, and impactful.
+That was originally my favorite section of the talk, but I eventually <strong>deleted that entire section from the talk</strong>.</p>
+
+<p>As I iterated versions of the talk, that &ldquo;darling&rdquo; section made less and less sense within the context of the whole talk.
+At some point I realized that the section was only <em>in</em> the talk because it was a <strong>darling</strong> for me.</p>
+
+<p>That section meant something special to me, but it just didn&rsquo;t fit.
+Reluctantly, I moved it to the cutting room floor.
+I kept iterating and the eventual talk was <em>better</em> because I cut that &ldquo;darling&rdquo; section out.</p>
+
+<p>My <strong>cutting room floor</strong> allowed me to <strong>kill a darling</strong> by setting it to the side.
+I could always add it back in later, but ultimately, I never did.
+Once it was removed, I knew the talk made more sense.</p>
+
+<h2>Allow yourself to delete everything</h2>
+
+<p>Having a &ldquo;cutting room floor&rdquo; gives me <strong>permission to delete</strong> any section of any talk, screencast, or article I write.</p>
+
+<p>A &ldquo;cut&rdquo; section isn&rsquo;t <em>gone</em>.
+It&rsquo;s just been moved to the cutting room floor&hellip; possibly just temporarily!
+I can always add the section back in later if I want.</p>
+
+<p>The cutting room floor could be thought of as a sort of graveyard, but it can <em>also</em> be a place of inspiration.
+I <em>rarely</em> add sections back into my talk after I cut them, but I <em>do</em> often spend time re-drafting a new section that replaces a section that I had cut.
+Sometimes I&rsquo;ll even look at the text in my cutting room floor, borrowing the words I like as I write replacement text.</p>
+
+<p>Instead of saying an emphatic &ldquo;NO&rdquo; by deleting permanently, I can say &ldquo;not right now&rdquo; by moving text to the cutting room floor.
+For me, &ldquo;not right now&rdquo; is often a lot easier for me to say than &ldquo;no&rdquo;.</p>
+
+<p>So during <em>your</em> editing session, give yourself permission to cut by <strong>making a cutting room floor</strong>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tips for PyCon tutorial presenters]]></title>
@@ -3576,139 +3678,6 @@ They&rsquo;re mostly generated by a large language model that didn&rsquo;t give 
 <p>After this adventure, I checked my podcast feed this evening only to realize that there&rsquo;s <a href="https://mastodon.social/@ambv/112378026608575109">a new core.py episode</a> all about exactly this feature!
 If you&rsquo;d like to hear some core developers nerd out about CPython development, give core.py a listen.
 You don&rsquo;t need to understand how CPython development works to enjoy their enthusiasm. 💖</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[10 years of Python conferences]]></title>
-    <link href="https://treyhunner.com/2024/04/10-years-of-python-conferences/"/>
-    <updated>2024-04-27T11:45:00-07:00</updated>
-    <id>https://treyhunner.com/2024/04/10-years-of-python-conferences</id>
-    <content type="html"><![CDATA[<p>10 years and 10 days ago I flew home from my very first Python conference.</p>
-
-<p>I left a few days into the PyCon US 2014 sprints and I remember feeling a bit like summer camp was ending.
-I&rsquo;d played board games, contributed to an open source project, seen tons of talks, and met a <em>ton</em> of people.</p>
-
-<h2>My first Python conference: PyCon US 2014</h2>
-
-<p>PyCon 2014 was the first Python conference I attended.</p>
-
-<p>At the start of the conference I only knew a handful of San Diegans.
-I left having met many more folks.
-Some of the folks I met I knew from online forums, GitHub repos, or videos
-I met Kenneth Love, Baptiste Mispelon, Carl Meyer, Eric Holscher in-person, among many others.
-Most folks I met I had never encountered online, but I was glad to have met in person.</p>
-
-<p>For the most part, I had no idea who anyone was, what they did with Python, or what they might be interested in talking about.
-I also had no idea what most of the various non-talk activities were.
-I found out about the Education Summit and hadn&rsquo;t realized that it required pre-registration.
-The open spaces are one of my favorite parts of PyCon and I didn&rsquo;t even they existed until PyCon 2015.</p>
-
-<p>I <em>did</em> stay for a couple days of the sprints and I was grateful for that.
-Most of the memorable human connections I had were during the sprints.
-I helped <a href="https://pyvideo.org">PyVideo</a> upgrade their code base from Python 2 to Python 3 (this was before Will and Sheila <a href="https://pyvideo.org/pages/thanks-will-and-sheila.html">stepped down as maintainers</a>).
-Will guided me through the code base and seemed grateful for the help.</p>
-
-<p>I also got the idea to write front-end JavaScript tests for Django during the sprints and eventually <a href="https://github.com/django/deps/blob/main/final/0003-javascript-tests.rst">started that process</a> after PyCon thanks to Carl Meyer&rsquo;s guidance.</p>
-
-<h2>Attending regional conferences and DjangoCon</h2>
-
-<p>In fall 2014, I attended Django BarCamp at the Eventbrite office.
-That was my first exposure to the idea of an &ldquo;unconference&rdquo;&hellip; which I kept in mind when I spotted the open spaces board at PyCon 2015.</p>
-
-<p>Before coming back to Montreal for <a href="https://twitter.com/treyhunner/status/585969805796212736">PyCon 2015</a>, I emailed Harry Percival to ask if he could use a teaching assistant during his tutorial on writing tests. His reply was much more enthusiastic than I expected: &ldquo;YES YES OH GOD YES THANK YOU THANK YOU THANK YOU TREY&rdquo;.
-I was very honored to be able to help Harry, as my testing workflow was <em>heavily</em> inspired by many blog posts he&rsquo;d written about testing best practices in Django.</p>
-
-<p>I coached at my first Django Girls event in 2015 in Ensenada and then my second at <a href="https://twitter.com/algosuna/status/641421944005378048">DjangoCon 2015</a> in Austin. I gave my first lightning talk at DjangoCon 2015, comparing modern JavaScript to Python. It was a lightning talk I had given at the San Diego JavaScript and <a href="https://www.sandiegopython.org">San Diego Python</a> meetups.</p>
-
-<p>In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of of about a dozen folks who spoke at the conference. I was grateful to get to chat with so many folks whose talks I&rsquo;d attended.</p>
-
-<h2>Presenting talks and tutorials</h2>
-
-<p>I presented my first conference tutorial at <a href="https://twitter.com/treyhunner/status/737069721292439552">PyCon 2016</a> in Portland and <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">my first talk</a> at <a href="https://twitter.com/asendecka/status/756851845012844544">DjangoCon US 2016</a> in Philadelphia.
-I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.</p>
-
-<p>Having presented locally helped, but presenting on a big stage is always scary.</p>
-
-<h2>Volunteering</h2>
-
-<p>I volunteered at some of my first few conferences and found that I really enjoyed it.
-I especially enjoyed running the registration desk, as you&rsquo;re often the first helpful face that people see coming into the conference.</p>
-
-<p>During PyCon 2016, 2017, and 2018, I co-chaired the open spaces thanks to Anna Ossowski inviting me to help.
-I had first attended open spaces during PyCon 2015 and I <em>loved</em> them.
-Talks are great, but so are discussions!</p>
-
-<p>I also ran for the PSF board of directors in 2016 and ended up serving on the board for a few years before stepping down.
-After my board terms, I volunteered for the PSF Code of Conduct working group for about 6 years.
-I didn&rsquo;t even know what the PSF <em>was</em> until PyCon 2015!</p>
-
-<h2>A <em>lot</em> of travel&hellip; maybe too much</h2>
-
-<p>After DjangoCon 2016, I went a bit conference-wild.
-I attended <a href="https://twitter.com/treyhunner/status/829412120370565120">PyTennessee 2017</a>, <a href="https://twitter.com/PythonChat/status/845052805375295488">PyCaribbean 2017</a> in Puerto Rico, <a href="https://twitter.com/loooorenanicole/status/866382369619562496">PyCon US 2017</a> in Portland, <a href="https://twitter.com/asteracode/status/893274761727361024">PyCon Australia 2017</a> in Melbourne, <a href="https://twitter.com/TobiasMcNulty/status/896570680933703681">DjangoCon 2017</a> in Spokane, <a href="https://twitter.com/treyhunner/status/916890505157468160">PyGotham 2017</a> in NYC, and <a href="https://twitter.com/treyhunner/status/937441419966296064">North Bay Python 2017</a> in Petaluma.</p>
-
-<p>In 2018 I sponsored <a href="https://twitter.com/treyhunner/status/962862235734495232">PyTennessee</a> and <a href="https://twitter.com/jmwatt3/status/1023713820752183296">PyOhio</a> and spoke at both.
-I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of <a href="https://www.pythonmorsels.com">Python Morsels</a>.
-I also attended <a href="https://twitter.com/treyhunner/status/996881842820272128">PyCon 2018</a> in Cleveland, <a href="https://www.flickr.com/photos/144080672@N05/31764542868/">DjangoCon 2018</a> in San Diego, <a href="https://twitter.com/treyhunner/status/1048340952451047425">PyGotham 2018</a>, and <a href="https://twitter.com/nnja/status/1058589935618318336">North Bay Python 2018</a>.</p>
-
-<p>I slowed down <em>a bit</em> in 2019, with just <a href="https://twitter.com/LaylaSells_cshs/status/1100058649227972609">PyCascades</a> (Seattle), <a href="https://twitter.com/mariatta/status/1125534406851084288">PyCon US</a> (Cleveland), <a href="https://twitter.com/juliansequeira/status/1157106403598749698">PyCon Australia</a> (Sydney), and DjangoCon US (San Diego, which is home for me).</p>
-
-<h2>Since the pandemic</h2>
-
-<p>Since the start of the pandemic, I&rsquo;ve attended <a href="https://twitter.com/treyhunner/status/1519724687890128899">PyCon US 2022</a>, DjangoCon 2022 in San Diego (in my city for the <em>third</em> time!) and <a href="https://mastodon.social/@treyhunner/110243968672457367">PyCon US 2023</a>.
-Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.</p>
-
-<p>Between client work, I&rsquo;ve been focusing less on conferences and more on blog posts (<a href="https://www.pythonmorsels.com/articles/">over here</a>), <a href="https://www.youtube.com/@PythonMorsels">screencasts</a>, my <a href="https://www.pythonmorsels.com/newsletter/">weekly Python tips</a> emails, and (of course) on <a href="https://www.pythonmorsels.com">Python Morsels</a>.</p>
-
-<h2>My journey started locally</h2>
-
-<p>I became part of the Python community before I knew I was part of it.</p>
-
-<p>I started using Python professionally in December 2009 and I attended my first San Diego Python meetup in March 2012.
-I met the organizers, gave some lightning talks, attended Saturday study group sessions (thanks Carol Willing, Alain Domissy, and others for running these), and volunteered to help organize meetups, study groups, and workshops.</p>
-
-<p>By 2014, I had learned from folks online and in-person and I had helped out at my local Python meetup.
-I had even made a few contributions to some small Django packages I relied on heavily.</p>
-
-<p>I was encouraged to attend PyCon 2014 by others who were attending (thanks Carol, Micah, and Paul among others).
-The conference was well-worth the occasional feeling of overwhelm.</p>
-
-<h2>We&rsquo;re all just people</h2>
-
-<p>The biggest thing I&rsquo;ve repeatedly learned over the past decade of Python conferences is that we&rsquo;re all just people.</p>
-
-<p>Carol Willing keynoted PyCon US 2023.
-But I met Carol as a kind Python user in San Diego who started the first Python study group meetings in Pangea Bakery on Convoy Street.</p>
-
-<p>Jay Miller will be keynoting PyCon US 2024.
-But I met Jay as an attendee of the Python study group, who was enthusiastic about both learning and teaching others.</p>
-
-<p>My partner, Melanie Arbor, keynoted DjangoCon 2022 along with Jay Miller.
-When I met Melanie, she was new to Python and was very eager to both learn and help others.</p>
-
-<p>David Lord has made a huge impact on the maintenance of Flask and other Pallets projects.
-I met David as a Python study group attendee who was an enthusiastic StackOverflow contributor.</p>
-
-<p>I learned a ton from Brandon Rhodes, Ned Batchelder, Russell Keith-Magee, and many others from online videos, forums, and open source projects before I ever met them.
-But each of them are also just Python-loving people like the rest of us.
-Russell gives good hugs, Ned is an organizer of his local Python meetup, and Brandon wears the same brand of shoes as me.</p>
-
-<p>We all have people we&rsquo;ve learned from, we suffer from feelings of inadequacy, we get grumpy sometimes, and we care about the Python language and community in big and small ways.</p>
-
-<h2>What&rsquo;s next for you?</h2>
-
-<p>Will you attend a local meetup?
-Or will you attend an online social event?</p>
-
-<p>If so, consider asking the organize if you can present a 5 minute lightning talk at a future event.
-As I <a href="https://youtu.be/aNHBr7q-KVw?si=Fryj6Ez4Cw7q-RAq">noted in a DjangoCon 2016 lightning talk</a>, lightning talks are a great way to connect with folks.</p>
-
-<p>Will you attend a Python conference one day?
-See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> when/if you do.</p>
-
-<p>Remember that we&rsquo;re all just people though.
-Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
 ]]></content>
   </entry>
   

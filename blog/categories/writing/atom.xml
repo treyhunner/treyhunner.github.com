@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: writing | Trey Hunner]]></title>
+  <link href="https://treyhunner.com/blog/categories/writing/atom.xml" rel="self"/>
+  <link href="https://treyhunner.com/"/>
+  <updated>2025-05-22T07:20:34-07:00</updated>
+  <id>https://treyhunner.com/</id>
+  <author>
+    <name><![CDATA[Trey Hunner]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Make a cutting room floor]]></title>
+    <link href="https://treyhunner.com/2025/05/make-a-cutting-room-floor/"/>
+    <updated>2025-05-22T07:40:00-07:00</updated>
+    <id>https://treyhunner.com/2025/05/make-a-cutting-room-floor</id>
+    <content type="html"><![CDATA[<p>All writers need a <strong>cutting room floor</strong>.</p>
+
+<p>I have never written a book, an academic paper, or a journal article.
+And yet I <em>do</em> write.</p>
+
+<p>I write emails, I write blog posts, I write screencast scripts, I journal, I write talks, and I write curriculum for my Python trainings.</p>
+
+<p>When I write, I need a place to put text that <em>may</em> not make the cut in a final draft.
+I call this place the &ldquo;cutting room floor&rdquo;.</p>
+
+<h2>How I write: draft, research, edit</h2>
+
+<p>Before sharing what I mean by a &ldquo;cutting room floor&rdquo;, I need to explain <em>how</em> I write.</p>
+
+<p>I tend to write in 2-3 stages:</p>
+
+<ol>
+<li>Draft: writing <em>more</em> words, ideally without deleting or modifying</li>
+<li>Research: discovering facts playing with possible examples</li>
+<li>Edit: deleting, rearranging, and modifying words</li>
+</ol>
+
+
+<p>When <strong>drafting</strong>, I try to barf out words quickly and, ideally, without any editing at all.
+I often do this by setting a 25 - 60 minute timer and then writing thoughts as they pour out of my head.</p>
+
+<p>When <strong>researching</strong>, I&rsquo;m looking things up online, trying out code in a text editor, and sometimes playing with ideas in an abstract way.
+This phase sometimes looks like traditional &ldquo;research&rdquo; and sometimes includes a mix of research and brainstorming.</p>
+
+<p>When <strong>editing</strong>, I&rsquo;m re-reading my words and attempting to turn them into something <em>good</em>.
+The first draft is sometimes pretty close to what I ultimately end up with, but sometimes it&rsquo;s <em>very different</em> from what I eventually publish.</p>
+
+<p>Sometimes I draft and then edit without any research.
+Sometimes I research first.
+And often I bounce back and forth between these different tasks.</p>
+
+<p>I try to keep my drafting time <em>distinct</em> from my research and editing time.
+When drafting, my thoughts aren&rsquo;t always sensible, but they&rsquo;re <em>something</em>.
+It&rsquo;s often easier to edit a bunch of <em>something</em> into something <em>sensible</em> than it is to write something sensible in the first place.</p>
+
+<p>It&rsquo;s <em>very</em> tempting to start researching or editing while I&rsquo;m drafting.
+I try to counter that temptation by writing <code>TODO insert blah here</code> whenever I feel that something is needed but that <em>thing</em> needs further research before I can write a certain paragraph or so about it.</p>
+
+<h2>The &ldquo;cutting room floor&rdquo; is about editing</h2>
+
+<p>When I&rsquo;m <strong>editing</strong> my writing, I frequently find it challenging to remove certain sections.
+I often feel like I wrote something important, even while acknowledging that it may not fit well within the larger piece I&rsquo;m writing.
+I often don&rsquo;t realize that an idea or a bit of writing doesn&rsquo;t fit until I&rsquo;m far into editing.</p>
+
+<p>The <strong>cutting room floor</strong> is a way to <strong>save</strong> a specific bit of writing while also acknowledging that I may never use it.</p>
+
+<p>When using a &ldquo;cutting room floor&rdquo;, I select a paragraph or a whole section of text and I &ldquo;cut&rdquo; it out of my writing and then &ldquo;paste&rdquo; it at the bottom of the document under a &ldquo;Cutting room floor&rdquo; section.
+Or sometimes I&rsquo;ll paste it in a separate file, called something like <code>cutting-room-floor.md</code>.</p>
+
+<p>I <em>do</em> usually delete that file or that section from my text, but not until the end.
+Even when my text is all version-controlled, it feels much less <em>final</em> and <em>scary</em> to move some text into a (possibly temporary) &ldquo;cutting room floor&rdquo; than it feels to delete the text entirely.</p>
+
+<h2>Kill your darlings&hellip; or set them aside?</h2>
+
+<p>The noun &ldquo;<a href="https://en.wikipedia.org/wiki/Deleted_scene#%22Cutting_room_floor%22">cutting room floor</a>&rdquo; relates to the verb &ldquo;<a href="https://idioms.thefreedictionary.com/Kill+Your+Darlings">kill your darlings</a>&rdquo;.</p>
+
+<p>While &ldquo;kill your darlings&rdquo; may sound like a violent phrase, it essentially means &ldquo;don&rsquo;t be afraid to remove things you like&rdquo;.</p>
+
+<p>In my <a href="https://trey.io/pyohio2024">PyOhio keynote</a> in 2024, I originally had a whole section on cognitive dissonance.
+This section involved my own personal experience with cognitive dissonance and I spent a lot of time trying to make this section coherent, thoughtful, and impactful.
+That was originally my favorite section of the talk, but I eventually <strong>deleted that entire section from the talk</strong>.</p>
+
+<p>As I iterated versions of the talk, that &ldquo;darling&rdquo; section made less and less sense within the context of the whole talk.
+At some point I realized that the section was only <em>in</em> the talk because it was a <strong>darling</strong> for me.</p>
+
+<p>That section meant something special to me, but it just didn&rsquo;t fit.
+Reluctantly, I moved it to the cutting room floor.
+I kept iterating and the eventual talk was <em>better</em> because I cut that &ldquo;darling&rdquo; section out.</p>
+
+<p>My <strong>cutting room floor</strong> allowed me to <strong>kill a darling</strong> by setting it to the side.
+I could always add it back in later, but ultimately, I never did.
+Once it was removed, I knew the talk made more sense.</p>
+
+<h2>Allow yourself to delete everything</h2>
+
+<p>Having a &ldquo;cutting room floor&rdquo; gives me <strong>permission to delete</strong> any section of any talk, screencast, or article I write.</p>
+
+<p>A &ldquo;cut&rdquo; section isn&rsquo;t <em>gone</em>.
+It&rsquo;s just been moved to the cutting room floor&hellip; possibly just temporarily!
+I can always add the section back in later if I want.</p>
+
+<p>The cutting room floor could be thought of as a sort of graveyard, but it can <em>also</em> be a place of inspiration.
+I <em>rarely</em> add sections back into my talk after I cut them, but I <em>do</em> often spend time re-drafting a new section that replaces a section that I had cut.
+Sometimes I&rsquo;ll even look at the text in my cutting room floor, borrowing the words I like as I write replacement text.</p>
+
+<p>Instead of saying an emphatic &ldquo;NO&rdquo; by deleting permanently, I can say &ldquo;not right now&rdquo; by moving text to the cutting room floor.
+For me, &ldquo;not right now&rdquo; is often a lot easier for me to say than &ldquo;no&rdquo;.</p>
+
+<p>So during <em>your</em> editing session, give yourself permission to cut by <strong>making a cutting room floor</strong>.</p>
+]]></content>
+  </entry>
+  
+</feed>
