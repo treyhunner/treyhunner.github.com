@@ -16,7 +16,7 @@ Folks with kidney failure *really need* a new kidney, but most will never receiv
 So regular dialysis is a life-long state for many.
 
 More than 100,000 patients in the United States are on the kidney transplant list, but fewer than 20,000 kidneys are transplanted from deceased donors each year and fewer than 10,000 kidneys are transplanted from living donors.
-Over a dozen people die each day waiting for a kidney.
+About [40,000 people](https://reason.com/volokh/2025/04/10/end-kidney-deaths-act-reintroduced-in-congress/) die in the US each year from kidney failure.
 
 
 ## The beauty of non-directed kidney donations
