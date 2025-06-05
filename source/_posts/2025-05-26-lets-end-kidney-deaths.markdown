@@ -117,5 +117,18 @@ What do you think?
 
 Is this something you would [write your representative about](https://democracy.io)?
 
+## Please join this effort
+
+[The podcast episode](https://cnliberalism.org/posts/podcast-should-we-pay-kidney-donors-ft-elaine-perlman) with Elaine Perlman is what inspired me to spend a couple hours researching and writing this post.
+
+Since originally publishing this post, I clicked the "join the team" button at [EndKidneyDeathsAct.org](https://www.endkidneydeathsact.org).
+The form took only a minute to fill out, I've received a few emails since then, including an email thread with a few others in my congressional district, and I'm now considering writing an op-ed in a newspaper about this.
+
+If, like me, you feel that this is a *very* sensible idea, so much so that you would spend a few minutes or a few hours of time to try to make this happen, please get involved a bit more deeply.
+You can click the "contact your leaders" button at [EndKidneyDeathsAct.org](https://www.endkidneydeathsact.org) or, like me, you could click "join the team".
+
+I'm glad to now be a small part of this very important effort.
+I think you will be glad to be part of this too.
+
 
 [end kidney deaths act]: https://www.congress.gov/bill/119th-congress/house-bill/2687/text
