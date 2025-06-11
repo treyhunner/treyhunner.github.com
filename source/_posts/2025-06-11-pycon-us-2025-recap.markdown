@@ -1,0 +1,147 @@
+---
+layout: post
+title: "My PyCon US 2025 recap"
+date: 2025-06-11 16:45:00 -0700
+comments: true
+categories: pycon, python
+---
+
+I'm pretty much fully back to normal life after PyCon US 2025.
+
+I started writing this post shortly after PyCon, got side-tracked, and now I'm finally publishing it.
+
+**My very quick recap**: I spent a ton of time at PyCon chatting with folks and I *really* enjoyed it.
+As Ned wrote, [it's like summer camp](https://nedbatchelder.com/blog/202505/pycon_summer_camp.html).
+
+
+## My pre-conference (Monday and Tuesday)
+
+I flew in a couple days early (Monday May 12) because Breeze airlines had a non-stop flight from San Diego to Pittsburgh that only ran on Monday or Friday.
+I listened to [The Upswing](http://robertdputnam.com/the-upswing/) as I flew in and wondered [how we can make our community less individualistic](https://mastodon.social/@treyhunner/114496799621377766).
+
+On Tuesday, I went on [a walking tour](https://mastodon.social/@treyhunner/114495825740774796) of downtown Pittsburgh.
+Then I ate Indian food for lunch at Sree's, which I chose because I saw they had great vegan lunch options and weren't open for dinner.
+I was eating vegan during PyCon US (as I *mostly* do at home) and I remembered to do [some research on vegan dinner restaurants in the area](https://mastodon.social/@treyhunner/114506541091205849) this year.
+
+On Tuesday night, as CPython core devs started showing up in the Westin lobby, I went on a walk with Anthony Shaw.
+Anthony asked whether I was up for "an adventure" and I said yes without asking questions.
+We walked across the river to Randyland (a.k.a. "the mattress factory").
+It was fun, interesting, and quite odd.
+We were the only ones there and had plenty of time to look around at all the interesting items and art pieces that Randy had collected.
+
+Anthony and I did dinner at Condado's and ran into more conference friends at the bar (Kattni, Rose, and Kojo).
+
+## My tutorial on decorators (Wednesday)
+
+Wednesday was my tutorial day.
+
+Attendees used sticky notes during the exercise sections to note when they needed help.
+I wrote about this system in my [blog post of tips for giving a good PyCon tutorial](https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/).
+
+The tutorial went well and the attendees seemed to enjoy it.
+
+
+## The newcomer's orientation & education summit (Thursday)
+
+Just before the opening reception on Thursday evening, Kojo, Sumana, and I ran the [newcomer's orientation](https://mastodon.social/@pycon@fosstodon.org/114512798321665686).
+Figuring out what exactly we want to say to help orient folks to PyCon is always a bit challenging.
+A first-time PyCon attendee gave me some ideas for how we could do it even better next year.
+I've taken notes and will revisit them later.
+
+I also attended a few talks during education summit earlier in the day.
+Reuven Lerner gave a talk on how he recommends his students use LLMs and I was pleased to hear many suggestions that are closely aligned with what I recommend as well as a few insights I hadn't heard before.
+
+
+## My lightning talk (Friday)
+
+I gave a lightning talk on Friday evening (the first talk day).
+I called it [Systems, gates, and rage](https://youtu.be/Uuhu-F05A7k?feature=shared&t=3174).
+It seemed to go over well.
+Folks occasionally told me throughout the conference that they enjoyed it.
+I won't spoil the topic of my lightning talk (you'll need to watch it) but it's a topic that I'd been thinking about for a few months.
+
+Rodrigo gave a [meta lightning talk](https://mastodon.social/@treyhunner/114519939925398070) as the first talk of the first day.
+I gave a meta lightning talk last year in the same slot.
+I hope this becomes a tradition, where the first lightning talk is a talk about someone explaining how to give a lightning talk.
+
+
+## The keynotes
+
+I really enjoyed the keynotes this year.
+
+[Cory Doctorow's opening keynote](https://youtu.be/ydVmzg_SJLw?feature=shared) was [*really* thought-provoking](https://mastodon.social/@treyhunner/114519939925398070) and [Lynn Root's keynote](https://youtu.be/Bglsof9b23k?feature=shared) was on the importance [of "play"](https://mastodon.social/@treyhunner/114519939925398070), which is a topic I've written about before to my [mailing list](https://pym.dev/newsletter).
+
+[The Marshall project](https://youtu.be/qog-dGVhSBI?feature=shared) keynote and [The Carpentries](https://youtu.be/3UOLpTA7pRI?feature=shared) keynote were also great, though I missed portions of each (beginning of one and end of another) and ended up watching the full videos online after the conference.
+
+
+## The hallway track
+
+The "hallway track" is the way many PyCon attendees describe **the discussions that happen organically in the hallway**.
+
+These discussions can happen at any time, including breaks, breakfast, lunch, and even during talks. I missed at least 3 talks this year because I was having a great discussion in the hallway and time got away from me.
+
+PyCon's venue in Pittsburgh included a great [rooftop](https://mastodon.social/@treyhunner/114512971414412295) so the **rooftop track** / **garden track** was a lovely spin in the hallway track this year.
+
+
+## The open spaces
+
+The open spaces are a very important part of PyCon for me.
+
+Like the hallway track, the open spaces are mostly (usually) about having a conversation.
+Unlike the hallway track, the open spaces have a **set topic**.
+
+I attended open spaces (and [ran my own](https://mastodon.social/@treyhunner/114526876252905533)):
+
+- **Education and Outreach Working Group Open Space**: I'm part of this newly revived work group and we held this to hear topics that community members are interested in seeing the PSF focus on more deliberately
+- **t-strings: Let's build powerful templating together**: I am interested in the new t-string feature in Python 3.14 and wanted to listen to this conversation (I contributed *a little bit* too)
+- **Computer Assisted Reporting and Investigative journalism**: I was curious to hear this conversation, which included journalists, government employees who respond to information requests, and many others
+- **Python Skill-Building**: I ran this open space on the roof during lunch time to chat about different Python skill-building services, including my own ([Python Morsels](https://pym.dev))
+- **Ask a Friendly Meat-Loving Vegan**: I also ran this open space, inspired by a conversation I had the night before in a hotel lobby about animal farming, veganism, nutrition, and other related topics I've thought/read a lot about
+
+I enjoyed meeting folks with similar interests and having fun and productive conversations (or at least listening to interesting conversations) in those open spaces.
+
+
+## Dinners, games, and hotel lobby conversations
+
+I ate at Bae Bae's, Rosewater Grill, and APTEKA during the conference.
+I also ate at Condado's at least 3 nights.
+
+APTEKA was a fun trek for [vegan PierogiCon](https://mastodon.social/@pythonbynight@fosstodon.org/114525581821316666) with mostly non-vegan folks.
+I'm sure the pierogis weren't authentic, but we all loved the food.
+
+After dinner every night I went to the Westin lobby and either played [the Cabo card game](https://treyhunner.com/2015/06/cabo-card-game/) or chatted with folks ([1](https://mastodon.social/@treyhunner/114509076754402356), [2](https://mastodon.social/@treyhunner/114514682814457694), [3](https://mastodon.social/@treyhunner/114525878624139679)).
+
+
+## On missing talks
+
+The keynotes and lightning talks are usually my favorite parts of PyCon.
+I tried to watch as many live keynotes and lightning talk sessions as I could this year.
+The morning lightning talks were hard to make it to because I kept sleeping in late enough that I missed most of them.
+
+Ultimately, I watched *very few* live talks.
+I missed talks due to sleeping in, attending open spaces, visiting booths in the exhibit hall, getting lost in conversations in the hallway, and mid-day taking naps (in my hotel room, not during talks!).
+
+Hynek has [written about the downside of the hallway track and the importance of attending talks](https://hynek.me/articles/hallway-track/).
+I sympathize with Hynek's argument that the hallway track is a trade off and there are downsides to missing talks, for both attendees and speakers.
+I am grateful that folks give talks and I want to support folks who do give talks, and yet, I often find myself attending few talks.
+
+Ironically, the one talk I ended up taking a nap through (again, in my hotel room, not *in the talk*) was Hynek's.
+My brain was fried by the time of his talk and I'm glad I was able to watch it online the week after PyCon.
+He apparently had a completely packed room as it was!
+
+I did make sure to show up to a talk by a conference friend who I wanted to support (Michael Dahlberg's [talk on honeybee swarms](https://youtu.be/LseCKvrp6og?feature=shared)).
+I have also binge-watched a dozen or so talks online that I had planned to attend but missed during PyCon.
+
+You can [watch all talks online now](https://www.youtube.com/@PyConUS/videos) (at least I *think* they're all up now?).
+
+
+## Attend a Python event
+
+I'm looking forward to PyCon coming to Long Beach next year.
+I'm in San Diego and it will be nice to *not fly* to a PyCon for once!
+
+I highly recommend attending local Python meetups, attending regional Python conferences, and/or attending PyCon US.
+Most in-person Python community events are *pretty lovely*.
+The Python community generally goes out of its way to be more welcoming than most tech events.
+
+See you in Long Beach!
