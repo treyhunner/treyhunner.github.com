@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-06-05T06:58:54-07:00</updated>
+  <updated>2025-06-11T16:41:27-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,147 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My PyCon US 2025 recap]]></title>
+    <link href="https://treyhunner.com/2025/06/pycon-us-2025-recap/"/>
+    <updated>2025-06-11T16:45:00-07:00</updated>
+    <id>https://treyhunner.com/2025/06/pycon-us-2025-recap</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m pretty much fully back to normal life after PyCon US 2025.</p>
+
+<p>I started writing this post shortly after PyCon, got side-tracked, and now I&rsquo;m finally publishing it.</p>
+
+<p><strong>My very quick recap</strong>: I spent a ton of time at PyCon chatting with folks and I <em>really</em> enjoyed it.
+As Ned wrote, <a href="https://nedbatchelder.com/blog/202505/pycon_summer_camp.html">it&rsquo;s like summer camp</a>.</p>
+
+<h2>My pre-conference (Monday and Tuesday)</h2>
+
+<p>I flew in a couple days early (Monday May 12) because Breeze airlines had a non-stop flight from San Diego to Pittsburgh that only ran on Monday or Friday.
+I listened to <a href="http://robertdputnam.com/the-upswing/">The Upswing</a> as I flew in and wondered <a href="https://mastodon.social/@treyhunner/114496799621377766">how we can make our community less individualistic</a>.</p>
+
+<p>On Tuesday, I went on <a href="https://mastodon.social/@treyhunner/114495825740774796">a walking tour</a> of downtown Pittsburgh.
+Then I ate Indian food for lunch at Sree&rsquo;s, which I chose because I saw they had great vegan lunch options and weren&rsquo;t open for dinner.
+I was eating vegan during PyCon US (as I <em>mostly</em> do at home) and I remembered to do <a href="https://mastodon.social/@treyhunner/114506541091205849">some research on vegan dinner restaurants in the area</a> this year.</p>
+
+<p>On Tuesday night, as CPython core devs started showing up in the Westin lobby, I went on a walk with Anthony Shaw.
+Anthony asked whether I was up for &ldquo;an adventure&rdquo; and I said yes without asking questions.
+We walked across the river to Randyland (a.k.a. &ldquo;the mattress factory&rdquo;).
+It was fun, interesting, and quite odd.
+We were the only ones there and had plenty of time to look around at all the interesting items and art pieces that Randy had collected.</p>
+
+<p>Anthony and I did dinner at Condado&rsquo;s and ran into more conference friends at the bar (Kattni, Rose, and Kojo).</p>
+
+<h2>My tutorial on decorators (Wednesday)</h2>
+
+<p>Wednesday was my tutorial day.</p>
+
+<p>Attendees used sticky notes during the exercise sections to note when they needed help.
+I wrote about this system in my <a href="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/">blog post of tips for giving a good PyCon tutorial</a>.</p>
+
+<p>The tutorial went well and the attendees seemed to enjoy it.</p>
+
+<h2>The newcomer&rsquo;s orientation &amp; education summit (Thursday)</h2>
+
+<p>Just before the opening reception on Thursday evening, Kojo, Sumana, and I ran the <a href="https://mastodon.social/@pycon@fosstodon.org/114512798321665686">newcomer&rsquo;s orientation</a>.
+Figuring out what exactly we want to say to help orient folks to PyCon is always a bit challenging.
+A first-time PyCon attendee gave me some ideas for how we could do it even better next year.
+I&rsquo;ve taken notes and will revisit them later.</p>
+
+<p>I also attended a few talks during education summit earlier in the day.
+Reuven Lerner gave a talk on how he recommends his students use LLMs and I was pleased to hear many suggestions that are closely aligned with what I recommend as well as a few insights I hadn&rsquo;t heard before.</p>
+
+<h2>My lightning talk (Friday)</h2>
+
+<p>I gave a lightning talk on Friday evening (the first talk day).
+I called it <a href="https://youtu.be/Uuhu-F05A7k?feature=shared&amp;t=3174">Systems, gates, and rage</a>.
+It seemed to go over well.
+Folks occasionally told me throughout the conference that they enjoyed it.
+I won&rsquo;t spoil the topic of my lightning talk (you&rsquo;ll need to watch it) but it&rsquo;s a topic that I&rsquo;d been thinking about for a few months.</p>
+
+<p>Rodrigo gave a <a href="https://mastodon.social/@treyhunner/114519939925398070">meta lightning talk</a> as the first talk of the first day.
+I gave a meta lightning talk last year in the same slot.
+I hope this becomes a tradition, where the first lightning talk is a talk about someone explaining how to give a lightning talk.</p>
+
+<h2>The keynotes</h2>
+
+<p>I really enjoyed the keynotes this year.</p>
+
+<p><a href="https://youtu.be/ydVmzg_SJLw?feature=shared">Cory Doctorow&rsquo;s opening keynote</a> was <a href="https://mastodon.social/@treyhunner/114519939925398070"><em>really</em> thought-provoking</a> and <a href="https://youtu.be/Bglsof9b23k?feature=shared">Lynn Root&rsquo;s keynote</a> was on the importance <a href="https://mastodon.social/@treyhunner/114519939925398070">of &ldquo;play&rdquo;</a>, which is a topic I&rsquo;ve written about before to my <a href="https://pym.dev/newsletter">mailing list</a>.</p>
+
+<p><a href="https://youtu.be/qog-dGVhSBI?feature=shared">The Marshall project</a> keynote and <a href="https://youtu.be/3UOLpTA7pRI?feature=shared">The Carpentries</a> keynote were also great, though I missed portions of each (beginning of one and end of another) and ended up watching the full videos online after the conference.</p>
+
+<h2>The hallway track</h2>
+
+<p>The &ldquo;hallway track&rdquo; is the way many PyCon attendees describe <strong>the discussions that happen organically in the hallway</strong>.</p>
+
+<p>These discussions can happen at any time, including breaks, breakfast, lunch, and even during talks. I missed at least 3 talks this year because I was having a great discussion in the hallway and time got away from me.</p>
+
+<p>PyCon&rsquo;s venue in Pittsburgh included a great <a href="https://mastodon.social/@treyhunner/114512971414412295">rooftop</a> so the <strong>rooftop track</strong> / <strong>garden track</strong> was a lovely spin in the hallway track this year.</p>
+
+<h2>The open spaces</h2>
+
+<p>The open spaces are a very important part of PyCon for me.</p>
+
+<p>Like the hallway track, the open spaces are mostly (usually) about having a conversation.
+Unlike the hallway track, the open spaces have a <strong>set topic</strong>.</p>
+
+<p>I attended open spaces (and <a href="https://mastodon.social/@treyhunner/114526876252905533">ran my own</a>):</p>
+
+<ul>
+<li><strong>Education and Outreach Working Group Open Space</strong>: I&rsquo;m part of this newly revived work group and we held this to hear topics that community members are interested in seeing the PSF focus on more deliberately</li>
+<li><strong>t-strings: Let&rsquo;s build powerful templating together</strong>: I am interested in the new t-string feature in Python 3.14 and wanted to listen to this conversation (I contributed <em>a little bit</em> too)</li>
+<li><strong>Computer Assisted Reporting and Investigative journalism</strong>: I was curious to hear this conversation, which included journalists, government employees who respond to information requests, and many others</li>
+<li><strong>Python Skill-Building</strong>: I ran this open space on the roof during lunch time to chat about different Python skill-building services, including my own (<a href="https://pym.dev">Python Morsels</a>)</li>
+<li><strong>Ask a Friendly Meat-Loving Vegan</strong>: I also ran this open space, inspired by a conversation I had the night before in a hotel lobby about animal farming, veganism, nutrition, and other related topics I&rsquo;ve thought/read a lot about</li>
+</ul>
+
+
+<p>I enjoyed meeting folks with similar interests and having fun and productive conversations (or at least listening to interesting conversations) in those open spaces.</p>
+
+<h2>Dinners, games, and hotel lobby conversations</h2>
+
+<p>I ate at Bae Bae&rsquo;s, Rosewater Grill, and APTEKA during the conference.
+I also ate at Condado&rsquo;s at least 3 nights.</p>
+
+<p>APTEKA was a fun trek for <a href="https://mastodon.social/@pythonbynight@fosstodon.org/114525581821316666">vegan PierogiCon</a> with mostly non-vegan folks.
+I&rsquo;m sure the pierogis weren&rsquo;t authentic, but we all loved the food.</p>
+
+<p>After dinner every night I went to the Westin lobby and either played <a href="https://treyhunner.com/2015/06/cabo-card-game/">the Cabo card game</a> or chatted with folks (<a href="https://mastodon.social/@treyhunner/114509076754402356">1</a>, <a href="https://mastodon.social/@treyhunner/114514682814457694">2</a>, <a href="https://mastodon.social/@treyhunner/114525878624139679">3</a>).</p>
+
+<h2>On missing talks</h2>
+
+<p>The keynotes and lightning talks are usually my favorite parts of PyCon.
+I tried to watch as many live keynotes and lightning talk sessions as I could this year.
+The morning lightning talks were hard to make it to because I kept sleeping in late enough that I missed most of them.</p>
+
+<p>Ultimately, I watched <em>very few</em> live talks.
+I missed talks due to sleeping in, attending open spaces, visiting booths in the exhibit hall, getting lost in conversations in the hallway, and mid-day taking naps (in my hotel room, not during talks!).</p>
+
+<p>Hynek has <a href="https://hynek.me/articles/hallway-track/">written about the downside of the hallway track and the importance of attending talks</a>.
+I sympathize with Hynek&rsquo;s argument that the hallway track is a trade off and there are downsides to missing talks, for both attendees and speakers.
+I am grateful that folks give talks and I want to support folks who do give talks, and yet, I often find myself attending few talks.</p>
+
+<p>Ironically, the one talk I ended up taking a nap through (again, in my hotel room, not <em>in the talk</em>) was Hynek&rsquo;s.
+My brain was fried by the time of his talk and I&rsquo;m glad I was able to watch it online the week after PyCon.
+He apparently had a completely packed room as it was!</p>
+
+<p>I did make sure to show up to a talk by a conference friend who I wanted to support (Michael Dahlberg&rsquo;s <a href="https://youtu.be/LseCKvrp6og?feature=shared">talk on honeybee swarms</a>).
+I have also binge-watched a dozen or so talks online that I had planned to attend but missed during PyCon.</p>
+
+<p>You can <a href="https://www.youtube.com/@PyConUS/videos">watch all talks online now</a> (at least I <em>think</em> they&rsquo;re all up now?).</p>
+
+<h2>Attend a Python event</h2>
+
+<p>I&rsquo;m looking forward to PyCon coming to Long Beach next year.
+I&rsquo;m in San Diego and it will be nice to <em>not fly</em> to a PyCon for once!</p>
+
+<p>I highly recommend attending local Python meetups, attending regional Python conferences, and/or attending PyCon US.
+Most in-person Python community events are <em>pretty lovely</em>.
+The Python community generally goes out of its way to be more welcoming than most tech events.</p>
+
+<p>See you in Long Beach!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Which social network are we using for PyCon US this year?]]></title>
@@ -407,284 +548,6 @@ After this launch week, Python Jumpstart will be <strong>$199</strong>.</p>
 <p>Want to read more about my new self-paced Intro to Python course that&rsquo;s on sale?
 See <a href="https://treyhunner.com/2024/11/new-python-jumpstart-course/">this blog post</a> on why I made Python Jumpstart and how it&rsquo;s structured.
 Get it by Monday to <strong>save $100</strong>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Adding keyboard shortcuts to the Python REPL]]></title>
-    <link href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/"/>
-    <updated>2024-10-28T07:15:00-07:00</updated>
-    <id>https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl</id>
-    <content type="html"><![CDATA[<p>I talked about the new Python 3.13 REPL <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">a few months ago</a> and <a href="https://www.pythonmorsels.com/python-313-whats-new/">after 3.13 was released</a>.
-I think it&rsquo;s <strong>awesome</strong>.</p>
-
-<p>I&rsquo;d like to share a secret feature within the Python 3.13 REPL which I&rsquo;ve been finding useful recently: <strong>adding custom keyboard shortcuts</strong>.</p>
-
-<p>This feature involves a <code>PYTHONSTARTUP</code> file, use of an unsupported Python module, and dynamically evaluating code.</p>
-
-<p>In short, we may be getting ourselves into trouble.
-But the result is <em>very</em> neat!</p>
-
-<p>Thanks to Łukasz Llanga for inspiring this post via his excellent <a href="https://youtu.be/dK6HGcSb60Y?si=jWPEa8BcdYGnW9l6">EuroPython keynote talk</a>.</p>
-
-<h2>The goal: keyboard shortcuts in the REPL</h2>
-
-<p>First, I&rsquo;d like to explain the end result.</p>
-
-<p>Let&rsquo;s say I&rsquo;m in the Python REPL on my machine and I&rsquo;ve typed <code>numbers =</code>:</p>
-
-<pre><code class="pycon">&gt;&gt;&gt; numbers =
-</code></pre>
-
-<p>I can now hit <code>Ctrl-N</code> to enter a list of numbers I often use while teaching (<a href="https://en.wikipedia.org/wiki/Lucas_number">Lucas numbers</a>):</p>
-
-<pre><code class="pycon">numbers = [2, 1, 3, 4, 7, 11, 18, 29]
-</code></pre>
-
-<p>That saved me some typing!</p>
-
-<h2>Getting a prototype working</h2>
-
-<p>First, let&rsquo;s try out an example command.</p>
-
-<p>Copy-paste this into your Python 3.13 REPL:</p>
-
-<pre><code class="python">from _pyrepl.simple_interact import _get_reader
-from _pyrepl.commands import Command
-
-class Lucas(Command):
-
-    def do(self):
-        self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
-
-reader = _get_reader()
-reader.commands["lucas"] = Lucas
-reader.bind(r"\C-n", "lucas")
-</code></pre>
-
-<p>Now hit <code>Ctrl-N</code>.</p>
-
-<p>If all worked as planned, you should see that list of numbers entered into the REPL.</p>
-
-<p>Cool!
-Now let&rsquo;s generalize this trick and make Python run our code whenever it starts.</p>
-
-<p>But first&hellip; a disclaimer.</p>
-
-<h2>Here be dragons 🐉</h2>
-
-<p>Notice that <code>_</code> prefix in the <code>_pyrepl</code> module that we&rsquo;re importing from?
-That means this module is officially unsupported.</p>
-
-<p>The <code>_pyrepl</code> module is an implementation detail and its implementation may change at any time in future Python versions.</p>
-
-<p>In other words: <code>_pyrepl</code> is designed to be used by <em>Python&rsquo;s standard library modules</em> and not anyone else.
-That means that we should assume this code will break in a future Python version.</p>
-
-<p>Will that stop us from playing with this module for the fun of it?</p>
-
-<p>It won&rsquo;t.</p>
-
-<h2>Creating a <code>PYTHONSTARTUP</code> file</h2>
-
-<p>So we&rsquo;ve made <em>one</em> custom key combination for ourselves.
-How can we setup this command automatically whenever the Python REPL starts?</p>
-
-<p>We need a <code>PYTHONSTARTUP</code> file.</p>
-
-<p>When Python launches, if it sees a <code>PYTHONSTARTUP</code> environment variable it will treat that environment variable as a Python file to run on startup.</p>
-
-<p>I&rsquo;ve made a <code>/home/trey/.python_startup.py</code> file and I&rsquo;ve set this environment variable in my shell&rsquo;s configuration file (<code>~/.zshrc</code>):</p>
-
-<pre><code class="bash">export PYTHONSTARTUP=$HOME/.python_startup.py
-</code></pre>
-
-<p>To start, we could put our single custom command in this file:</p>
-
-<pre><code class="python">try:
-    from _pyrepl.simple_interact import _get_reader
-    from _pyrepl.commands import Command
-except ImportError:
-    pass  # Not in the new pyrepl OR _pyrepl implementation changed
-else:
-    class Lucas(Command):
-        def do(self):
-            self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
-
-    reader = _get_reader()
-    reader.commands["lucas"] = Lucas
-    reader.bind(r"\C-n", "lucas")
-</code></pre>
-
-<p>Note that I&rsquo;ve stuck our code in a <code>try</code>-<code>except</code> block.
-Our code <em>only</em> runs if those <code>_pyrepl</code> imports succeed.</p>
-
-<p>Note that this <em>might</em> still raise an exception when Python starts <em>if</em> the reader object&rsquo;s <code>command</code> attribute or <code>bind</code> method change in a way that breaks our code.</p>
-
-<p>Personally, I&rsquo;d like to see those breaking changes occur print out a traceback the next time I upgrade Python.
-So I&rsquo;m going to leave those last few lines <em>without</em> their own catch-all exception handler.</p>
-
-<h2>Generalizing the code</h2>
-
-<p>Here&rsquo;s a <code>PYTHONSTARTUP</code> file with a more generalized solution:</p>
-
-<pre><code class="python">try:
-    from _pyrepl.simple_interact import _get_reader
-    from _pyrepl.commands import Command
-except ImportError:
-    pass
-else:
-    # Hack the new Python 3.13 REPL!
-    cmds = {
-        r"\C-n": "[2, 1, 3, 4, 7, 11, 18, 29]",
-        r"\C-f": '["apples", "oranges", "bananas", "strawberries", "pears"]',
-    }
-    from textwrap import dedent
-    reader = _get_reader()
-    for n, (key, text) in enumerate(cmds.items(), start=1):
-        name = f"CustomCommand{n}"
-        exec(dedent(f"""
-            class _cmds:
-                class {name}(Command):
-                    def do(self):
-                        self.reader.insert({text!r})
-                reader.commands[{name!r}] = {name}
-                reader.bind({key!r}, {name!r})
-        """))
-    # Clean up all the new variables
-    del _get_reader, Command, dedent, reader, cmds, text, key, name, _cmds, n
-</code></pre>
-
-<p>This version uses a dictionary to map keyboard shortcuts to the text they should insert.</p>
-
-<p>Note that we&rsquo;re repeatedly building up a string of <code>Command</code> subclasses for each shortcut, using <code>exec</code> to execute the code for that custom <code>Command</code> subclass, and then binding the keyboard shortcut to that new command class.</p>
-
-<p>At the end we then delete all the variables we&rsquo;ve made so our REPL will start the clean global environment we normally expect it to have:</p>
-
-<pre><code class="pycon">Python 3.13.0 (main, Oct  8 2024, 10:37:56) [GCC 11.4.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; dir()
-['__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
-</code></pre>
-
-<p>Is this messy?</p>
-
-<p>Yes.</p>
-
-<p>Is that a needless use of a dictionary that could have been a list of 2-item tuples instead?</p>
-
-<p>Yes.</p>
-
-<p>Does this work?</p>
-
-<p>Yes.</p>
-
-<h2>Doing more interesting and risky stuff</h2>
-
-<p>Note that there are many keyboard shortcuts that may cause weird behaviors if you bind them.</p>
-
-<p>For example, if you bind <code>Ctrl-i</code>, your binding may trigger every time you try to indent.
-And if you try to bind <code>Ctrl-m</code>, your binding may be ignored because this is equivalent to hitting the <code>Enter</code> key.</p>
-
-<p>So be sure to test your REPL carefully after each new binding you try to invent.</p>
-
-<p>If you want to do something more interesting, you could poke around in the <code>_pyrepl</code> package to see what existing code you can use/abuse.</p>
-
-<p>For example, here&rsquo;s a very hacky way of making a binding to <code>Ctrl-x</code> followed by <code>Ctrl-r</code> to make this import <code>subprocess</code>, type in a <code>subprocess.run</code> line, and move your cursor between the empty string within the <code>run</code> call:</p>
-
-<pre><code class="python">    class _cmds:
-        class Run(Command):
-            def do(self):
-                from _pyrepl.commands import backward_kill_word, left
-                backward_kill_word(self.reader, self.event_name, self.event).do()
-                self.reader.insert("import subprocess\n")
-                code = 'subprocess.run("", shell=True)'
-                self.reader.insert(code)
-                for _ in range(len(code) - code.index('""') - 1):
-                    left(self.reader, self.event_name, self.event).do()
-    reader.commands["subprocess_run"] = _cmds.Run
-    reader.bind(r"\C-x\C-r", "subprocess_run")
-</code></pre>
-
-<h2>What keyboard shortcuts are available?</h2>
-
-<p>As you play with customizing keyboard shortcuts, you&rsquo;ll likely notice that many key combinations result in strange and undesirable behavior when overridden.</p>
-
-<p>For example, overriding <code>Ctrl-J</code> will also override the <code>Enter</code> key&hellip; at least it does in my terminal.</p>
-
-<p>I&rsquo;ll list the key combinations that seem unproblematic on my setup with Gnome Terminal in Ubuntu Linux.</p>
-
-<p>Here are <code>Control</code> key shortcuts that seem to be complete unused in the Python REPL:</p>
-
-<ul>
-<li><code>Ctrl-N</code></li>
-<li><code>Ctrl-O</code></li>
-<li><code>Ctrl-P</code></li>
-<li><code>Ctrl-Q</code></li>
-<li><code>Ctrl-S</code></li>
-<li><code>Ctrl-V</code></li>
-</ul>
-
-
-<p>Note that overriding <code>Ctrl-H</code> is often an alternative to the backspace key</p>
-
-<p>Here are <code>Alt</code>/<code>Meta</code> key shortcuts that appear unused on my machine:</p>
-
-<ul>
-<li><code>Alt-A</code></li>
-<li><code>Alt-E</code></li>
-<li><code>Alt-G</code></li>
-<li><code>Alt-H</code></li>
-<li><code>Alt-I</code></li>
-<li><code>Alt-J</code></li>
-<li><code>Alt-K</code></li>
-<li><code>Alt-M</code></li>
-<li><code>Alt-N</code></li>
-<li><code>Alt-O</code></li>
-<li><code>Alt-P</code></li>
-<li><code>Alt-Q</code></li>
-<li><code>Alt-S</code></li>
-<li><code>Alt-V</code></li>
-<li><code>Alt-W</code></li>
-<li><code>Alt-X</code></li>
-<li><code>Alt-Z</code></li>
-</ul>
-
-
-<p>You can add an <code>Alt</code> shortcut by using <code>\M</code> (for &ldquo;meta&rdquo;).
-So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</code> would capture <code>Ctrl-A</code>.</p>
-
-<p>Here are keyboard shortcuts that <em>can</em> be customized but you might want to consider whether the current default behavior is worth losing:</p>
-
-<ul>
-<li><code>Alt-B</code>: backward word (same as <code>Ctrl-Left</code>)</li>
-<li><code>Alt-C</code>: capitalize word (does nothing on my machine&hellip;)</li>
-<li><code>Alt-D</code>: kill word (delete to end of word)</li>
-<li><code>Alt-F</code>: forward word (same as <code>Ctrl-Right</code>)</li>
-<li><code>Alt-L</code>: downcase word (does nothing on my machine&hellip;)</li>
-<li><code>Alt-U</code>: upcase word (does nothing on my machine&hellip;)</li>
-<li><code>Alt-Y</code>: yank pop</li>
-<li><code>Ctrl-A</code>: beginning of line (like the <code>Home</code> key)</li>
-<li><code>Ctrl-B</code>: left (like the <code>Left</code> key)</li>
-<li><code>Ctrl-E</code>: end of line (like the <code>End</code> key)</li>
-<li><code>Ctrl-F</code>: right (like the <code>Right</code> key)</li>
-<li><code>Ctrl-G</code>: cancel</li>
-<li><code>Ctrl-H</code>: backspace (same as the <code>Backspace</code> key)</li>
-<li><code>Ctrl-K</code>: kill line (delete to end of line)</li>
-<li><code>Ctrl-T</code>: transpose characters</li>
-<li><code>Ctrl-U</code>: line discard (delete to beginning of line)</li>
-<li><code>Ctrl-W</code>: word discard (delete to beginning of word)</li>
-<li><code>Ctrl-Y</code>: yank</li>
-<li><code>Alt-R</code>: restore history (within history mode)</li>
-</ul>
-
-
-<h2>What fun have you found in <code>_pyrepl</code>?</h2>
-
-<p>Find something fun while playing with the <code>_pyrepl</code> package&rsquo;s inner-workings?</p>
-
-<p>I&rsquo;d love to hear about it!
-Comment below to share what you found.</p>
 ]]></content>
   </entry>
   

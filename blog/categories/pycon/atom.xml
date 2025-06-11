@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: pycon | Trey Hunner]]></title>
+  <title><![CDATA[Category: pycon, | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-06-05T06:58:54-07:00</updated>
+  <updated>2025-06-11T16:41:27-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -14,902 +14,143 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Tips for PyCon tutorial presenters]]></title>
-    <link href="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/"/>
-    <updated>2025-05-01T16:00:00-07:00</updated>
-    <id>https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial</id>
-    <content type="html"><![CDATA[<p>You&rsquo;ve submitted a tutorial to PyCon and it was accepted.
-Now what?</p>
+    <title type="html"><![CDATA[My PyCon US 2025 recap]]></title>
+    <link href="https://treyhunner.com/2025/06/pycon-us-2025-recap/"/>
+    <updated>2025-06-11T16:45:00-07:00</updated>
+    <id>https://treyhunner.com/2025/06/pycon-us-2025-recap</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m pretty much fully back to normal life after PyCon US 2025.</p>
 
-<p>In this post I&rsquo;ll be sharing my thoughts on giving a great PyCon tutorial.</p>
+<p>I started writing this post shortly after PyCon, got side-tracked, and now I&rsquo;m finally publishing it.</p>
 
-<h2>Screen readability 👓</h2>
+<p><strong>My very quick recap</strong>: I spent a ton of time at PyCon chatting with folks and I <em>really</em> enjoyed it.
+As Ned wrote, <a href="https://nedbatchelder.com/blog/202505/pycon_summer_camp.html">it&rsquo;s like summer camp</a>.</p>
 
-<p>Be sure to consider readability when teaching a tutorial.
-Talks usually involve slides and the default font size in presentation software is often pretty readable on a projector.
-That&rsquo;s <em>not</em> usually the case for code editors, web browsers, and terminals.</p>
+<h2>My pre-conference (Monday and Tuesday)</h2>
 
-<p>Consider the size of the text you&rsquo;ll be displaying.
-I tend to zoom in until my screen can just barely fit about 80 characters of text.</p>
+<p>I flew in a couple days early (Monday May 12) because Breeze airlines had a non-stop flight from San Diego to Pittsburgh that only ran on Monday or Friday.
+I listened to <a href="http://robertdputnam.com/the-upswing/">The Upswing</a> as I flew in and wondered <a href="https://mastodon.social/@treyhunner/114496799621377766">how we can make our community less individualistic</a>.</p>
 
-<p>Also consider your color scheme.
-When reading from a projector, black text on a white background is usually easier to read than white text on a black background.
-So I recommend using a <strong>light mode</strong> color scheme even if you <em>usually</em> prefer dark mode.
-And be sure to use a high contract color scheme!</p>
+<p>On Tuesday, I went on <a href="https://mastodon.social/@treyhunner/114495825740774796">a walking tour</a> of downtown Pittsburgh.
+Then I ate Indian food for lunch at Sree&rsquo;s, which I chose because I saw they had great vegan lunch options and weren&rsquo;t open for dinner.
+I was eating vegan during PyCon US (as I <em>mostly</em> do at home) and I remembered to do <a href="https://mastodon.social/@treyhunner/114506541091205849">some research on vegan dinner restaurants in the area</a> this year.</p>
 
-<p>Also consider how you&rsquo;ll share URLs.
-Shortened URLs are easier to type.
-QR codes can also help, but be sure to share the <em>actual</em> URL as some may not be able to scan QR codes.</p>
+<p>On Tuesday night, as CPython core devs started showing up in the Westin lobby, I went on a walk with Anthony Shaw.
+Anthony asked whether I was up for &ldquo;an adventure&rdquo; and I said yes without asking questions.
+We walked across the river to Randyland (a.k.a. &ldquo;the mattress factory&rdquo;).
+It was fun, interesting, and quite odd.
+We were the only ones there and had plenty of time to look around at all the interesting items and art pieces that Randy had collected.</p>
 
-<h2>Engage attendees in attempted information retrieval 🧠</h2>
+<p>Anthony and I did dinner at Condado&rsquo;s and ran into more conference friends at the bar (Kattni, Rose, and Kojo).</p>
 
-<p>Have you ever heard the phrase &ldquo;in one ear and the other&rdquo;?
-That&rsquo;s how lectures usually work.
-Lectures tend to focus on putting information into our heads.
-Unfortunately, our brain isn&rsquo;t designed to remember information that&rsquo;s presented to it.</p>
+<h2>My tutorial on decorators (Wednesday)</h2>
 
-<p>We don&rsquo;t learn by putting information into our heads; we learn by trying to retrieve information from our heads.
-Information retrieval attempts, even somewhat unsuccessful ones, are <em>very important</em> for helping our brain retain information.</p>
+<p>Wednesday was my tutorial day.</p>
 
-<p>So, how will your tutorial engage attendees in the act of attempted information retrieval?</p>
+<p>Attendees used sticky notes during the exercise sections to note when they needed help.
+I wrote about this system in my <a href="https://treyhunner.com/2025/05/how-to-give-a-great-pycon-tutorial/">blog post of tips for giving a good PyCon tutorial</a>.</p>
 
-<p>You could:</p>
+<p>The tutorial went well and the attendees seemed to enjoy it.</p>
+
+<h2>The newcomer&rsquo;s orientation &amp; education summit (Thursday)</h2>
+
+<p>Just before the opening reception on Thursday evening, Kojo, Sumana, and I ran the <a href="https://mastodon.social/@pycon@fosstodon.org/114512798321665686">newcomer&rsquo;s orientation</a>.
+Figuring out what exactly we want to say to help orient folks to PyCon is always a bit challenging.
+A first-time PyCon attendee gave me some ideas for how we could do it even better next year.
+I&rsquo;ve taken notes and will revisit them later.</p>
+
+<p>I also attended a few talks during education summit earlier in the day.
+Reuven Lerner gave a talk on how he recommends his students use LLMs and I was pleased to hear many suggestions that are closely aligned with what I recommend as well as a few insights I hadn&rsquo;t heard before.</p>
+
+<h2>My lightning talk (Friday)</h2>
+
+<p>I gave a lightning talk on Friday evening (the first talk day).
+I called it <a href="https://youtu.be/Uuhu-F05A7k?feature=shared&amp;t=3174">Systems, gates, and rage</a>.
+It seemed to go over well.
+Folks occasionally told me throughout the conference that they enjoyed it.
+I won&rsquo;t spoil the topic of my lightning talk (you&rsquo;ll need to watch it) but it&rsquo;s a topic that I&rsquo;d been thinking about for a few months.</p>
+
+<p>Rodrigo gave a <a href="https://mastodon.social/@treyhunner/114519939925398070">meta lightning talk</a> as the first talk of the first day.
+I gave a meta lightning talk last year in the same slot.
+I hope this becomes a tradition, where the first lightning talk is a talk about someone explaining how to give a lightning talk.</p>
+
+<h2>The keynotes</h2>
+
+<p>I really enjoyed the keynotes this year.</p>
+
+<p><a href="https://youtu.be/ydVmzg_SJLw?feature=shared">Cory Doctorow&rsquo;s opening keynote</a> was <a href="https://mastodon.social/@treyhunner/114519939925398070"><em>really</em> thought-provoking</a> and <a href="https://youtu.be/Bglsof9b23k?feature=shared">Lynn Root&rsquo;s keynote</a> was on the importance <a href="https://mastodon.social/@treyhunner/114519939925398070">of &ldquo;play&rdquo;</a>, which is a topic I&rsquo;ve written about before to my <a href="https://pym.dev/newsletter">mailing list</a>.</p>
+
+<p><a href="https://youtu.be/qog-dGVhSBI?feature=shared">The Marshall project</a> keynote and <a href="https://youtu.be/3UOLpTA7pRI?feature=shared">The Carpentries</a> keynote were also great, though I missed portions of each (beginning of one and end of another) and ended up watching the full videos online after the conference.</p>
+
+<h2>The hallway track</h2>
+
+<p>The &ldquo;hallway track&rdquo; is the way many PyCon attendees describe <strong>the discussions that happen organically in the hallway</strong>.</p>
+
+<p>These discussions can happen at any time, including breaks, breakfast, lunch, and even during talks. I missed at least 3 talks this year because I was having a great discussion in the hallway and time got away from me.</p>
+
+<p>PyCon&rsquo;s venue in Pittsburgh included a great <a href="https://mastodon.social/@treyhunner/114512971414412295">rooftop</a> so the <strong>rooftop track</strong> / <strong>garden track</strong> was a lovely spin in the hallway track this year.</p>
+
+<h2>The open spaces</h2>
+
+<p>The open spaces are a very important part of PyCon for me.</p>
+
+<p>Like the hallway track, the open spaces are mostly (usually) about having a conversation.
+Unlike the hallway track, the open spaces have a <strong>set topic</strong>.</p>
+
+<p>I attended open spaces (and <a href="https://mastodon.social/@treyhunner/114526876252905533">ran my own</a>):</p>
 
 <ul>
-<li>Group quiz: &ldquo;what do you think might happen if&hellip;?&rdquo;</li>
-<li>Silently quiz: present a quiz question every few minutes to work on individually</li>
-<li>Take 10 minute exercise breaks every 20 minutes so attendees can write code to apply what they&rsquo;ve just seen</li>
+<li><strong>Education and Outreach Working Group Open Space</strong>: I&rsquo;m part of this newly revived work group and we held this to hear topics that community members are interested in seeing the PSF focus on more deliberately</li>
+<li><strong>t-strings: Let&rsquo;s build powerful templating together</strong>: I am interested in the new t-string feature in Python 3.14 and wanted to listen to this conversation (I contributed <em>a little bit</em> too)</li>
+<li><strong>Computer Assisted Reporting and Investigative journalism</strong>: I was curious to hear this conversation, which included journalists, government employees who respond to information requests, and many others</li>
+<li><strong>Python Skill-Building</strong>: I ran this open space on the roof during lunch time to chat about different Python skill-building services, including my own (<a href="https://pym.dev">Python Morsels</a>)</li>
+<li><strong>Ask a Friendly Meat-Loving Vegan</strong>: I also ran this open space, inspired by a conversation I had the night before in a hotel lobby about animal farming, veganism, nutrition, and other related topics I&rsquo;ve thought/read a lot about</li>
 </ul>
 
 
-<p>Give attendees a way to know whether they &ldquo;did it right&rdquo; as well.
-But also keep in mind that the focus of any sort of quizzing should be on <strong>taking a guess</strong>, not on getting a grade.</p>
+<p>I enjoyed meeting folks with similar interests and having fun and productive conversations (or at least listening to interesting conversations) in those open spaces.</p>
 
-<p>We don&rsquo;t learn by watching, but by <em>doing</em>, so I recommend planning your tutorial around a <em>lot</em> of recall.</p>
+<h2>Dinners, games, and hotel lobby conversations</h2>
 
-<h2>Prepare for the unprepared 😦</h2>
+<p>I ate at Bae Bae&rsquo;s, Rosewater Grill, and APTEKA during the conference.
+I also ate at Condado&rsquo;s at least 3 nights.</p>
 
-<p>Since your tutorial is going to be hands-on (see the previous section), you&rsquo;ll probably need your attendees to set things up on their machines.</p>
+<p>APTEKA was a fun trek for <a href="https://mastodon.social/@pythonbynight@fosstodon.org/114525581821316666">vegan PierogiCon</a> with mostly non-vegan folks.
+I&rsquo;m sure the pierogis weren&rsquo;t authentic, but we all loved the food.</p>
 
-<p>You could set aside the first 30 minutes of your 3 hour tutorial for setup steps, but I wouldn&rsquo;t recommend that.
-Setup will take some attendees 5 minutes and others 25 minutes.
-Expecting folks who are quick to idle for many minutes isn&rsquo;t ideal.</p>
+<p>After dinner every night I went to the Westin lobby and either played <a href="https://treyhunner.com/2015/06/cabo-card-game/">the Cabo card game</a> or chatted with folks (<a href="https://mastodon.social/@treyhunner/114509076754402356">1</a>, <a href="https://mastodon.social/@treyhunner/114514682814457694">2</a>, <a href="https://mastodon.social/@treyhunner/114525878624139679">3</a>).</p>
 
-<p>If possible, I would recommend writing up prerequisite setup instructions and asking attendees to perform necessary setup steps <em>before</em> PyCon.
-A week or two before PyCon, email those installation and/or setup instructions.
-Then email those instructions a couple more times.
-Yes, that may seem redundant, but redundant reminders can be very helpful.</p>
+<h2>On missing talks</h2>
 
-<p>Some attendees will register after you send out your first instructions email, some will ignore or skip over emails, and some may even register for your tutorial <em>on the day of your tutorial</em>.</p>
+<p>The keynotes and lightning talks are usually my favorite parts of PyCon.
+I tried to watch as many live keynotes and lightning talk sessions as I could this year.
+The morning lightning talks were hard to make it to because I kept sleeping in late enough that I missed most of them.</p>
 
-<p>It&rsquo;s helpful to give any unprepared attendees some escape hatches to get caught up.</p>
+<p>Ultimately, I watched <em>very few</em> live talks.
+I missed talks due to sleeping in, attending open spaces, visiting booths in the exhibit hall, getting lost in conversations in the hallway, and mid-day taking naps (in my hotel room, not during talks!).</p>
 
-<p>For example, you could let attendees know that:</p>
+<p>Hynek has <a href="https://hynek.me/articles/hallway-track/">written about the downside of the hallway track and the importance of attending talks</a>.
+I sympathize with Hynek&rsquo;s argument that the hallway track is a trade off and there are downsides to missing talks, for both attendees and speakers.
+I am grateful that folks give talks and I want to support folks who do give talks, and yet, I often find myself attending few talks.</p>
 
-<ol>
-<li>You would like them to work through setup instructions by X date</li>
-<li>You be available for asynchronous email-based assistance and they should email you if they get stuck</li>
-<li>You will be in your tutorial room early and you can help anyone who also shows up 15 minutes early get setup</li>
-</ol>
+<p>Ironically, the one talk I ended up taking a nap through (again, in my hotel room, not <em>in the talk</em>) was Hynek&rsquo;s.
+My brain was fried by the time of his talk and I&rsquo;m glad I was able to watch it online the week after PyCon.
+He apparently had a completely packed room as it was!</p>
 
+<p>I did make sure to show up to a talk by a conference friend who I wanted to support (Michael Dahlberg&rsquo;s <a href="https://youtu.be/LseCKvrp6og?feature=shared">talk on honeybee swarms</a>).
+I have also binge-watched a dozen or so talks online that I had planned to attend but missed during PyCon.</p>
 
-<p>Inevitably, somewhere around 10% of your attendees will <em>not</em> work through the setup instructions in full before the start of your tutorial.</p>
+<p>You can <a href="https://www.youtube.com/@PyConUS/videos">watch all talks online now</a> (at least I <em>think</em> they&rsquo;re all up now?).</p>
 
-<p>Please <em>do</em> provide help to these unprepared attendees, but don&rsquo;t punish the prepared ones, at least not too much.
-For example, if you have a 15 minute exercise section near the beginning of your tutorial, float around the room during that time and make sure everyone has their machines setup.</p>
+<h2>Attend a Python event</h2>
 
-<h2>Expect the unexpected 🚨</h2>
+<p>I&rsquo;m looking forward to PyCon coming to Long Beach next year.
+I&rsquo;m in San Diego and it will be nice to <em>not fly</em> to a PyCon for once!</p>
 
-<p>What happens if an attendee&rsquo;s work laptop doesn&rsquo;t allow them to install or run certain programs?
-What if an attendee brings a Chromebook and your installation instructions assume Linux, Mac, or Windows?
-What if an attendee didn&rsquo;t bring a laptop?</p>
+<p>I highly recommend attending local Python meetups, attending regional Python conferences, and/or attending PyCon US.
+Most in-person Python community events are <em>pretty lovely</em>.
+The Python community generally goes out of its way to be more welcoming than most tech events.</p>
 
-<p>What&rsquo;s your backup plan?</p>
-
-<p>Can attendees use an online interface instead of working locally?
-Do you have a spare laptop with a guest account they could use?
-Could another attendee volunteer to have someone pair up with them?</p>
-
-<p>And what happens if the Internet drops out?
-Internet issues have plagued <em>many</em> a tutorial presenter in the past, especially for tutorials that involve dozens of attendees all downloading many megabytes at the same time.
-Consider bringing a pre-loaded USB thumb drive or two as a backup plan.</p>
-
-<h2>Have helpers, if you can 🧷</h2>
-
-<p>Having an exercise &ldquo;break&rdquo; early on allows those in need of extra setup help to catch up.</p>
-
-<p>I also like to encouraging attendees to try helping each other out.
-This can set a sort of &ldquo;we&rsquo;re all in this together&rdquo; atmosphere.
-When an attendee helps a neighbor understand the instructions for an exercise, that may also help them solidify their understanding as well.</p>
-
-<p>If you can find a volunteer <strong>teaching assistant</strong> (TA) or two who can familiarize themselves with your material even <em>just a little bit</em>, that can be very handy.
-The primary role of a TA is to simply to act as another set of eyes and ears for attendees who need a bit of extra help.
-This is <em>especially</em> helpful during the first exercise section or two, when everyone is getting setup and wading into the material.</p>
-
-<p>During exercise breaks in my recorded PyCon tutorials (e.g. <a href="https://youtu.be/_6U1XoxyyBY?feature=shared&amp;t=2310">here</a> or <a href="https://youtu.be/ixiRkUwPI2A?feature=shared&amp;t=1078">here</a> or <a href="https://youtu.be/6zu8lrYn6t8?feature=shared&amp;t=1605">here</a>) you may notice me and my TAs wondering around the room helping folks who have stickies up (more on that below) and generally checking in on folks who have confused expressions on their faces.</p>
-
-<p>For both you <em>and</em> your helpers, consider what it means to be a helpful helper.
-You may want to watch my <a href="https://treyhunner.com/mentoring/resources.html">Meaningful Mentoring Moments</a> talk or review some of the materials I link to in that talk.</p>
-
-<h2>Seek advice from others 🧑‍🏫</h2>
-
-<p>In each of my tutorials I give every attendee a sticky note.
-I either put a sticky note at each chair before we begin, have a TA give a sticky notes to each person as they walk in, or I walk around the room and say hi to each person while giving them a sticky note.</p>
-
-<p>After everyone has a sticky note, I explain their purpose: to flag down me (or a TA) during exercises when help is needed.
-It&rsquo;s difficult to type on your keyboard while keeping a hand raised in the air for many many minutes.
-Sticky notes allow attendees to signal that they need help <em>and</em> they allow me to quickly scan the room and see how many folks need help.</p>
-
-<p>You probably wouldn&rsquo;t have thought of sticky notes.
-I wouldn&rsquo;t have either!
-I saw them used in an Open Hatch workshop many years ago and thought &ldquo;that&rsquo;s genius&rdquo;.</p>
-
-<p>Ask for advice from others who have taught live tutorials, workshops, and classes.
-You may not find every bit of advice helpful, but most of us who have taught before are happy to share what works for us.</p>
-
-<h2>Envision the moment 💭</h2>
-
-<p>If we learn solely from experience, then the first time we do something we&rsquo;d expect to fail miserably.
-But that&rsquo;s (obviously) not what we <em>want</em> to happen.
-We want our first tutorial to be a reasonably successful experience.</p>
-
-<p>Fortunately, our brains are half decent reality simulators.
-Let&rsquo;s use our brain&rsquo;s ability to simulate future possibilities to our advantage.</p>
-
-<p>Imagine the world from the perspective of your attendees.
-Where might they get stuck or frustrated?
-If they don&rsquo;t feel comfortable speaking up, will you know about their frustrations?
-Will you be deliberately polling the room to see how they&rsquo;re feeling?
-When?
-How often?
-What will trigger you to poll the room?</p>
-
-<p>Imagine when pulse checks might be helpful to see how your audience members are feeling.</p>
-
-<p>Also, imagine how much of your curriculum you&rsquo;ll get through.
-How might you meet your attendees' expectations if it takes twice the time to get through curriculum?
-Is there anything that can be skipped?</p>
-
-<p>What happens if you get to the end and you have 30 minutes left?
-Could you add extra material that&rsquo;s <em>expected</em> to be skipped, but could be worked through if there&rsquo;s additional time?</p>
-
-<p>What will the call-to-action be at the end of your tutorial?
-Are there future projects attendees could work through?
-Are there specific actions you would recommend attendees take next?</p>
-
-<h2>Use checklists ✅</h2>
-
-<p>One time I forgot to pack sticky notes and found myself frantically looking for a nearby office supplies store the morning of my tutorial.
-And then I did that 2 more times. 😬</p>
-
-<p>You can&rsquo;t keep everything in your head.
-Use a checklist to keep yourself on track during your tutorial <em>and</em> leading up to your tutorial.</p>
-
-<p>Here&rsquo;s a checklist with much of the advice in this post:</p>
-
-<ol>
-<li>Use a large font and a highly readable color scheme</li>
-<li>Be sure your curriculum facilitates active recall</li>
-<li>Nudge attendees to work through setup instructions before your tutorial</li>
-<li>Be prepared to help a portion of the room with setup instructions <em>during</em> the tutorial</li>
-<li>Try to find teaching assistants if you can</li>
-<li>Wander around the room to help during exercise sections</li>
-<li>Consider using sticky notes so attendees can flag down help during exercise sections</li>
-<li>Ask other tutorial presenters and teachers for advice</li>
-<li>Mentally walk through the day and consider what might go differently than planned</li>
-</ol>
-
-
-<h2>Have compassion 💖</h2>
-
-<p>Doing hard things is hard.
-Explaining hard things is even harder.</p>
-
-<p>Learning isn&rsquo;t easy either.</p>
-
-<p>Be kind to your attendees and <strong>be kind to yourself</strong>.
-Mistakes will happen.
-Try to keep moving forward and do your best to make good use of the time you have.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Which social network are we using for PyCon US this year?]]></title>
-    <link href="https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon/"/>
-    <updated>2025-04-18T11:45:00-07:00</updated>
-    <id>https://treyhunner.com/2025/04/which-social-network-are-we-using-for-pycon</id>
-    <content type="html"><![CDATA[<p>Last year I updated my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> post to note that Mastodon would likely be more popular than Twitter at PyCon.</p>
-
-<p>My guess was correct.
-During PyCon US 2024, <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon overtook Twitter</a> for the most posts on the <code>#PyConUS</code> hashtag.</p>
-
-<p>In the fall of 2024, Bluesky really took off.
-It currently seems like Bluesky is now a bit more popular than Mastodon for Python posts in general&hellip; but that doesn&rsquo;t necessarily mean it will be the most popular social media network during the conference.</p>
-
-<p>This year I&rsquo;m guessing that Mastodon will still be the most popular network for <code>#PyConUS</code> posts, though I wouldn&rsquo;t be very surprised if Bluesky took the lead instead.</p>
-
-<h2>What do the social networks think?</h2>
-
-<p>I decided to pose this question to the various social networks via a poll. I made sure to share these polls using both the <code>#Python</code> and <code>#PyConUS</code> hashtags for visibility&rsquo;s sake.</p>
-
-<p>The results?</p>
-
-<ul>
-<li><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/">LinkedIn poll</a>: LinkedIn isn&rsquo;t sure whether Twitter is the new Twitter</li>
-<li><a href="https://x.com/treyhunner/status/1908187705965703323">Twitter poll</a> Twitter (mostly) knows that Bluesky is the new Twitter</li>
-<li><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h">Bluesky poll</a> Bluesky knows the really nerdy tech folks hang out on Mastodon</li>
-<li><a href="https://mastodon.social/@treyhunner/114280595068705311">Mastodon poll</a> Mastodon loves itself above all else</li>
-</ul>
-
-
-<p>In other words, LinkedIn leans more toward Bluesky being the leader than Mastodon, Twitter leans toward Bluesky, but Bluesky and Mastodon both lean toward Mastodon being the leader during PyCon.</p>
-
-<p>I didn&rsquo;t mention Threads or other platforms because they didn&rsquo;t seem like real contenders given where the most active PyCon-attending Python-posting folks seem to hang out in 2025.</p>
-
-<h2>The actual results</h2>
-
-<p>Here are the actual results of the polls.</p>
-
-<h3>LinkedIn</h3>
-
-<p><a href="https://www.linkedin.com/posts/treyhunner_pyconus-python-activity-7313960284581216256-DdzA/"><img src="/images/pycon-poll-linkedin-2025.png" title="LinkedIn poll results" ></a></p>
-
-<h3>Twitter</h3>
-
-<p><a href="https://x.com/treyhunner/status/1908187705965703323"><img src="/images/pycon-poll-twitter-2025.png" title="Twitter poll results" ></a></p>
-
-<h3>Bluesky</h3>
-
-<p><a href="https://bsky.app/profile/trey.io/post/3llyswsgkut2h"><img src="/images/pycon-poll-bluesky-2025.png" title="Bluesky poll results" ></a></p>
-
-<h3>Mastodon</h3>
-
-<p><a href="https://mastodon.social/@treyhunner/114280595068705311"><img src="/images/pycon-poll-mastodon-2025.png" title="Mastodon poll results" ></a></p>
-
-<h2>We&rsquo;re still fragmented</h2>
-
-<p>Unfortunately, regardless of which network is the leader this year during PyCon US, we&rsquo;re still going to be much more fragmented than we used to be. Twitter <em>was</em> the clear leader years ago and it very clearly isn&rsquo;t anymore&hellip; at least not for PyCon US conference chatter.</p>
-
-<p>I&rsquo;ll be checking Mastodon and Bluesky and will post on <em>at least</em> Mastodon and possibly also Bluesky. I hope that other folks will also use one of these 2 social networks to organize dinners and gatherings! 🤞</p>
-
-<p>Feel free to follow me <a href="https://mastodon.social/@treyhunner">on Mastodon</a> and <a href="https://mastodon.social/@treyhunner">Bluesky</a> during the conference.</p>
-
-<p>Also let me know if you&rsquo;d like to join my <a href="https://bsky.app/profile/trey.io/post/3ln45jpzmik2c">PyCon US starter pack</a> on Bluesky.
-Lists on Mastodon require following and I prefer not to follow everyone I meet at PyCon so, unfortunately, I probably won&rsquo;t have a Mastodon equivalent of this. 😢</p>
-
-<p>I recommend checking the <code>#PyConUS</code> hashtag on both networks as well.
-Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty neat!</p>
-
-<h2>See you at PyCon!</h2>
-
-<p>If this will be your first PyCon US, I recommend signing up for both Mastodon and Bluesky and checking the <code>#PyConUS</code> hashtag during the conference.</p>
-
-<p>Also, be sure to see my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">post on having a great first PyCon</a> and <a href="https://mastodon.social/@treyhunner/112448459788776426">see this additional tips</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PyCon 2024 Reflection]]></title>
-    <link href="https://treyhunner.com/2024/05/pycon-2024-reflection/"/>
-    <updated>2024-05-28T13:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/05/pycon-2024-reflection</id>
-    <content type="html"><![CDATA[<p>I traveled back home from PyCon US 2024 last week.
-This is my reflection on my time at PyCon.</p>
-
-<h2>Attempting to eat vegan</h2>
-
-<p>Since 2020, I&rsquo;ve been <a href="https://mastodon.social/@treyhunner/111794737871397453">gradually eating more plant-based</a> and <a href="https://mastodon.social/@treyhunner/111982459215543497">a few months ago</a> I decided to take PyCon as an opportunity to attempt exclusively vegan eating outside my own home.
-As <a href="https://mastodon.social/@treyhunner/112493037289419028">I noted on Mastodon</a>, it was a challenge and I failed every day at least once but I found the experience worthwhile.
-Our food system is <em>very</em> dairy-oriented.</p>
-
-<h2>Staying hydrated and fed</h2>
-
-<p>One of the first things I did before heading to the convention center was walk to Target and buy snacks and drinks.
-When at PyCon, I prefer to spend 30 minutes and $20 to have a backup plan for last minute hydration and calories (even if not the <em>greatest</em> calories).
-I never quite know when I might sleep through breakfast, find lunch lacking, or wish I&rsquo;d eaten more dinner.</p>
-
-<h2>A tutorial, an orientation, a lightning talk, and open spaces</h2>
-
-<p>My responsibilities at PyCon this year included teaching a tutorial and helping run the Newcomer&rsquo;s Orientation with <a href="https://x.com/KojoIdrissa">Kojo</a> and <a href="https://social.coop/@brainwane">Sumana</a>.</p>
-
-<p><a href="https://mastodon.social/@treyhunner/112479031063220835">Yngve and Marie</a> offered to act as teaching assistants during my tutorial and I was very grateful for their help!
-<a href="https://x.com/mathsppblog">Rodrigo</a> and Krishna also offered to TA just before my tutorial started and I was extra grateful to have even more help than I&rsquo;d expected.
-The attendees were mostly better prepared than I expected they would be, which was also great.
-It&rsquo;s always great to spend less time on setup and more time exploring Python together.</p>
-
-<p>The newcomer&rsquo;s orientation the next day went well.
-We kept it fairly brief and were able to address about 10 minutes of audience questions before the opening reception started.</p>
-
-<p>Once my PyCon responsibilities completed, I invented a few more (light) responsibilities for myself. 😅
-I signed up to give a lightning talk on how to give a lightning talk.
-They slotted it as the first talk of the first lightning talk session on Friday night.
-I kept this talk pretty much the same as the one <a href="https://youtu.be/aNHBr7q-KVw?feature=shared&amp;t=915">I presented DjangoCon 2016</a>.
-I could have made the transitions fancier, but I decided to embrace the idea of simplicity with the hope that audience members might think &ldquo;look if that first speaker can give such a simple and succinct presentation, maybe I can too.&rdquo;</p>
-
-<p>On Saturday I ran <a href="https://mastodon.social/@treyhunner/112457077109815019">an open space on Python Learning</a>.
-Some of you showed up because you&rsquo;re on my mailing list or you&rsquo;re paying Python Morsels subscribers.
-Many folks showed up because the topic was interesting, either as a learner or as a teacher.
-I really enjoyed the round-table-style conversation we had.</p>
-
-<p>I also ran a <a href="https://mastodon.social/@treyhunner/112468136603503893">Cabo Card game open space</a> during lunch on Sunday on the 4th floor rooftop.
-Cabo is my usual conference ice breaker game and I played it at least a few nights <a href="https://mas.to/@davidism/112465501797531611">in The Westin lobby</a> as well.</p>
-
-<h2>Seeing conference friends, old and new</h2>
-
-<p>For me, PyCon is largely about having conversations.
-The talks and tutorials are great for starting me thinking about an idea.
-The hallway track, open spaces, and meals are great for continuing conversations about those ideas (or <em>other</em> ideas).</p>
-
-<p>My first morning in Pittsburgh, I chatted with <a href="https://www.linkedin.com/in/naomiceder/">Naomi</a> and <a href="https://x.com/reuvenmlerner/">Reuven</a>.
-I&rsquo;m glad I ran into them before the conference kicked off because (as often happens at PyCon) I only very briefly saw either of them during the rest of PyCon!</p>
-
-<p>After my tutorial that afternoon, I did dinner with Marie, Yngve, and Rodrigo at Rosewater Mediterranean (good vegan options, assuming you enjoy falafel and various sauces).
-As sometimes happens at PyCon, another PyCon attendee, Sachin, joined our table because we noticed him eating on his own at a table near us and invited him to join us.</p>
-
-<p>On Saturday, <a href="https://hachyderm.io/@melaniearbor">Melanie</a>, <a href="https://mas.to/@davidism">David</a>, <a href="https://x.com/kjaymiller">Jay</a>, and I had a sort of mini San Diego Python study group reunion dinner before inviting folks to join us for <a href="https://mastodon.social/@treyhunner/112465503888730383">Cabo and Knucklebones</a> one night.
-The 4 of us originally met each other (along with <a href="https://hachyderm.io/@willingc">Carol</a> and other wonderful Python folks) at the San Diego Python study group about 10 years ago.</p>
-
-<p>I had some wonderful conversations about ways to improve the Python documentation over dinner (at Nicky&rsquo;s Thai) on Sunday night with <em>so</em> many docs-concerned folks who I highly respect.
-I&rsquo;m really excited that Python has <a href="https://peps.python.org/pep-0732/">the documentation editorial board</a> and I&rsquo;m hopeful that that board, with the help of many others community members, will usher in big improvements to the documentation in the coming years.</p>
-
-<p>I also met a number of Internet acquaintances IRL for the first time at PyCon.
-I met <a href="https://www.linkedin.com/in/tereza-iofciu/">Tereza</a> and <a href="https://www.linkedin.com/in/jessica0greene/">Jessica</a>, who I know from our work in the PSF Code of Conduct workgroup.
-I met <a href="https://fosstodon.org/@slott56">Steve Lott</a>, who I originally knew as <a href="https://stackoverflow.com/users/10661/s-lott">a prolific question-answerer</a>.
-I also met <a href="https://github.com/hugovk">Hugo</a>, a CPython core dev, the Python 3.14 &amp; 3.15 release manager, and a <a href="https://mastodon.social/@hugovk">social media user</a> (which is how I&rsquo;ve primarily interacted with him because the Internet is occasionally lovely).
-I was also very excited to meet many <a href="https://www.pythonmorsels.com">Python Morsels members</a> as well as folks who know me through <a href="https://www.pythonmorsels.com/newsletter/">my weekly Python tips newsletter</a>.</p>
-
-<p>I was grateful to chat with <a href="https://mastodon.social/@hynek">Hynek</a> and <a href="https://mastodon.social/@AlSweigart">Al</a> about creating talks, YouTube videos, and other online content.
-I also enjoyed chatting with <a href="https://mastodon.social/@glyph">Glyph</a> a bit about our experiences consulting and training and (in hindsight) wished I&rsquo;d planned an open space for either consultants or trainers, both of which have been held at PyCon before but it just takes someone to stick it on the open space board.</p>
-
-<p>Many folks I only saw very briefly (I said a quick hi and bye to <a href="https://aeracode.org/@andrew">Andrew</a> over lunch during the sprints) and some I didn&rsquo;t see at all (<a href="https://mastodon.social/@frank@frankwiles.social">Frank</a> was at PyCon but we never ran into each other).
-Some I essentially saw through playing a few rounds of Cabo (<a href="https://social.coop/@Yhg1s">Thomas</a> and <a href="https://hachyderm.io/@ethantyping">Ethan</a> among many others).
-We also ran into at least 4 other PyCon attendees in the airport on Tuesday afternoon, including <a href="https://www.linkedin.com/in/bbelderbos/">Bob</a> and <a href="https://www.linkedin.com/in/juliansequeira/">Julian</a>, who it&rsquo;s always a pleasure to see.</p>
-
-<h2>A Mastodon-oriented PyCon</h2>
-
-<p>On Thursday night I had the feeling that the number of Mastodon posts I saw on the <strong>#PyConUS</strong> hashtag was greater than the number of Twitter posts.
-I (very unscientifically) counted up the number of posts I was seeing on each and found that my perception was correct: <a href="https://mastodon.social/@treyhunner/112453920848761679">Mastodon seemed to slightly overtake Twitter at PyCon this year</a>.</p>
-
-<p>Over dinner on Wednesday, I tried to convince Marie, Yngve, and Rodrigo to get Mastodon accounts just to follow the hashtag during PyCon.
-I succeeded: <a href="https://mastodon.social/@treyhunner/112479031063220835">Marie and Yngve</a> and <a href="https://fosstodon.org/@davep/112458736212760528">Rodrigo</a>!</p>
-
-<p>Mastodon will never be <em>the</em> social media platform.
-Its decentralized nature is too much of a barrier for many folks.
-However, it does seem to be used by <em>enough</em> somewhat nerdy Python folks to now be one the most used social media platform for PyCon posting.</p>
-
-<h2>The talks</h2>
-
-<p>I ended up spending little time in the talks during PyCon.
-This wasn&rsquo;t on purpose.
-I just happened to attend many open spaces, take personal breaks, and end up in hallway conversations often.
-I did see many of the lightning talks live, as well as <a href="https://x.com/kjaymiller">Jay</a>, <a href="https://simonwillison.net/@simon">Simon</a>, and <a href="https://social.coop/@brainwane">Sumana</a>&rsquo;s keynotes (all of them were exceptional) and the opening and closing remarks.
-I also watched a few talks from my hotel room while taking breaks.</p>
-
-<p>While I&rsquo;m often a bit light on my talk load at PyCon, I do recommend folks attend a good handful of live talks during PyCon, <a href="https://mastodon.social/@jonafato/112514979873634457">as Jon</a> and <a href="https://hynek.me/articles/hallway-track/">others</a> recommend.
-I wish I had seen more talks live.
-I also wish I had attended a few open spaces that I missed.</p>
-
-<p>At any one time, I know that I&rsquo;m always missing about 90% of what&rsquo;s scheduled during PyCon (if you include the talks <em>and</em> the open spaces).
-That&rsquo;s assuming I don&rsquo;t ditch the conference entirely for a few hours and <a href="https://social.coop/@bitprophet/112452662184950234">walk across a bridge</a> or <a href="https://mastodon.social/@AlSweigart/112514009252817862">ride a funicular</a> (neither of which I did, as I stuck around the venue the whole time this year).
-I am glad I saw, did, and talked about everything I did, but there&rsquo;s always something I wish I&rsquo;d seen/done!</p>
-
-<h2>The sprints</h2>
-
-<p>Thanks to the documentation dinner, I had a couple documentation-related ideas in mind on the first day of sprints.
-But I&rsquo;m also <em>really</em> excited about the new Python REPL coming in Python 3.13 (<a href="https://x.com/treyhunner/status/1720185049461801371">in case</a> you <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">can&rsquo;t tell</a> from <a href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">how much</a> I <a href="https://x.com/treyhunner/status/1788307498715554160">talk</a> about <a href="https://www.linkedin.com/posts/treyhunner_python-activity-7194082747315859456-qQjk/?utm_source=share&amp;utm_medium=member_desktop">it</a>), so I sprinted on that instead.
-<a href="https://github.com/ambv">Łukasz</a> assigned me the task of researching keyboard shortcuts that the new REPL is missing (compared to the current one on Linux and Mac) so <a href="https://github.com/python/cpython/issues/119034#issuecomment-2121142576">I spent some time researching that</a>.
-I got to see the REPL running on <a href="https://fosstodon.org/@tonybaloney/112477098396842900">Anthony&rsquo;s laptop</a> on Windows and I am <em>so excited</em> that Windows support will be included before 3.13.0 lands! 🎉</p>
-
-<p>Partly inspired by <a href="https://youtu.be/RL3HFj5SDqI?t=1549">Carol Willing&rsquo;s PyCon preview message</a>, I also thanked <a href="https://github.com/pablogsal">Pablo</a>, <a href="https://github.com/ambv">Łukasz</a>, and <a href="https://github.com/lysnikolaou">Lysandros</a> in-person for all their work on the new Python REPL. 🤗</p>
-
-<h2>Until next year</h2>
-
-<p>I&rsquo;ll be <a href="https://www.pyohio.org/2024/program/speakers/keynote-speakers/#trey-hunner">keynoting at PyOhio</a> this year.</p>
-
-<p>Besides PyOhio, I&rsquo;m not sure whether I&rsquo;ll make it to another conference until PyCon US next year.
-I&rsquo;d love to attend all of them, but I do have work and personal goals that need accomplishing too!</p>
-
-<p>I hope to see you at PyCon US 2025!
-In the meantime, if you&rsquo;re wishing we&rsquo;d exchanged contact details or met in-person, please feel free to stay in touch through <a href="https://mastodon.social/@treyhunner">Mastodon</a>, <a href="https://mastodon.social/@treyhunner">LinkedIn</a>, <a href="https://pym.dev/newsletter">my weekly emails</a>, <a href="https://www.youtube.com/@PythonMorsels">YouTube</a>, or <a href="http://twitter.com/treyhunner">Twitter</a>.</p>
-
-<p><img class="&ldquo;no-border&rdquo;" src="/images/pycon2024-pic.jpg" title="&ldquo;&rdquo; &ldquo;Yellow bridges over a river just outside the PyCon 2024 conference center in Pittsburgh&rdquo;" ></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[10 years of Python conferences]]></title>
-    <link href="https://treyhunner.com/2024/04/10-years-of-python-conferences/"/>
-    <updated>2024-04-27T11:45:00-07:00</updated>
-    <id>https://treyhunner.com/2024/04/10-years-of-python-conferences</id>
-    <content type="html"><![CDATA[<p>10 years and 10 days ago I flew home from my very first Python conference.</p>
-
-<p>I left a few days into the PyCon US 2014 sprints and I remember feeling a bit like summer camp was ending.
-I&rsquo;d played board games, contributed to an open source project, seen tons of talks, and met a <em>ton</em> of people.</p>
-
-<h2>My first Python conference: PyCon US 2014</h2>
-
-<p>PyCon 2014 was the first Python conference I attended.</p>
-
-<p>At the start of the conference I only knew a handful of San Diegans.
-I left having met many more folks.
-Some of the folks I met I knew from online forums, GitHub repos, or videos
-I met Kenneth Love, Baptiste Mispelon, Carl Meyer, Eric Holscher in-person, among many others.
-Most folks I met I had never encountered online, but I was glad to have met in person.</p>
-
-<p>For the most part, I had no idea who anyone was, what they did with Python, or what they might be interested in talking about.
-I also had no idea what most of the various non-talk activities were.
-I found out about the Education Summit and hadn&rsquo;t realized that it required pre-registration.
-The open spaces are one of my favorite parts of PyCon and I didn&rsquo;t even they existed until PyCon 2015.</p>
-
-<p>I <em>did</em> stay for a couple days of the sprints and I was grateful for that.
-Most of the memorable human connections I had were during the sprints.
-I helped <a href="https://pyvideo.org">PyVideo</a> upgrade their code base from Python 2 to Python 3 (this was before Will and Sheila <a href="https://pyvideo.org/pages/thanks-will-and-sheila.html">stepped down as maintainers</a>).
-Will guided me through the code base and seemed grateful for the help.</p>
-
-<p>I also got the idea to write front-end JavaScript tests for Django during the sprints and eventually <a href="https://github.com/django/deps/blob/main/final/0003-javascript-tests.rst">started that process</a> after PyCon thanks to Carl Meyer&rsquo;s guidance.</p>
-
-<h2>Attending regional conferences and DjangoCon</h2>
-
-<p>In fall 2014, I attended Django BarCamp at the Eventbrite office.
-That was my first exposure to the idea of an &ldquo;unconference&rdquo;&hellip; which I kept in mind when I spotted the open spaces board at PyCon 2015.</p>
-
-<p>Before coming back to Montreal for <a href="https://twitter.com/treyhunner/status/585969805796212736">PyCon 2015</a>, I emailed Harry Percival to ask if he could use a teaching assistant during his tutorial on writing tests. His reply was much more enthusiastic than I expected: &ldquo;YES YES OH GOD YES THANK YOU THANK YOU THANK YOU TREY&rdquo;.
-I was very honored to be able to help Harry, as my testing workflow was <em>heavily</em> inspired by many blog posts he&rsquo;d written about testing best practices in Django.</p>
-
-<p>I coached at my first Django Girls event in 2015 in Ensenada and then my second at <a href="https://twitter.com/algosuna/status/641421944005378048">DjangoCon 2015</a> in Austin. I gave my first lightning talk at DjangoCon 2015, comparing modern JavaScript to Python. It was a lightning talk I had given at the San Diego JavaScript and <a href="https://www.sandiegopython.org">San Diego Python</a> meetups.</p>
-
-<p>In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of of about a dozen folks who spoke at the conference. I was grateful to get to chat with so many folks whose talks I&rsquo;d attended.</p>
-
-<h2>Presenting talks and tutorials</h2>
-
-<p>I presented my first conference tutorial at <a href="https://twitter.com/treyhunner/status/737069721292439552">PyCon 2016</a> in Portland and <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">my first talk</a> at <a href="https://twitter.com/asendecka/status/756851845012844544">DjangoCon US 2016</a> in Philadelphia.
-I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.</p>
-
-<p>Having presented locally helped, but presenting on a big stage is always scary.</p>
-
-<h2>Volunteering</h2>
-
-<p>I volunteered at some of my first few conferences and found that I really enjoyed it.
-I especially enjoyed running the registration desk, as you&rsquo;re often the first helpful face that people see coming into the conference.</p>
-
-<p>During PyCon 2016, 2017, and 2018, I co-chaired the open spaces thanks to Anna Ossowski inviting me to help.
-I had first attended open spaces during PyCon 2015 and I <em>loved</em> them.
-Talks are great, but so are discussions!</p>
-
-<p>I also ran for the PSF board of directors in 2016 and ended up serving on the board for a few years before stepping down.
-After my board terms, I volunteered for the PSF Code of Conduct working group for about 6 years.
-I didn&rsquo;t even know what the PSF <em>was</em> until PyCon 2015!</p>
-
-<h2>A <em>lot</em> of travel&hellip; maybe too much</h2>
-
-<p>After DjangoCon 2016, I went a bit conference-wild.
-I attended <a href="https://twitter.com/treyhunner/status/829412120370565120">PyTennessee 2017</a>, <a href="https://twitter.com/PythonChat/status/845052805375295488">PyCaribbean 2017</a> in Puerto Rico, <a href="https://twitter.com/loooorenanicole/status/866382369619562496">PyCon US 2017</a> in Portland, <a href="https://twitter.com/asteracode/status/893274761727361024">PyCon Australia 2017</a> in Melbourne, <a href="https://twitter.com/TobiasMcNulty/status/896570680933703681">DjangoCon 2017</a> in Spokane, <a href="https://twitter.com/treyhunner/status/916890505157468160">PyGotham 2017</a> in NYC, and <a href="https://twitter.com/treyhunner/status/937441419966296064">North Bay Python 2017</a> in Petaluma.</p>
-
-<p>In 2018 I sponsored <a href="https://twitter.com/treyhunner/status/962862235734495232">PyTennessee</a> and <a href="https://twitter.com/jmwatt3/status/1023713820752183296">PyOhio</a> and spoke at both.
-I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of <a href="https://www.pythonmorsels.com">Python Morsels</a>.
-I also attended <a href="https://twitter.com/treyhunner/status/996881842820272128">PyCon 2018</a> in Cleveland, <a href="https://www.flickr.com/photos/144080672@N05/31764542868/">DjangoCon 2018</a> in San Diego, <a href="https://twitter.com/treyhunner/status/1048340952451047425">PyGotham 2018</a>, and <a href="https://twitter.com/nnja/status/1058589935618318336">North Bay Python 2018</a>.</p>
-
-<p>I slowed down <em>a bit</em> in 2019, with just <a href="https://twitter.com/LaylaSells_cshs/status/1100058649227972609">PyCascades</a> (Seattle), <a href="https://twitter.com/mariatta/status/1125534406851084288">PyCon US</a> (Cleveland), <a href="https://twitter.com/juliansequeira/status/1157106403598749698">PyCon Australia</a> (Sydney), and DjangoCon US (San Diego, which is home for me).</p>
-
-<h2>Since the pandemic</h2>
-
-<p>Since the start of the pandemic, I&rsquo;ve attended <a href="https://twitter.com/treyhunner/status/1519724687890128899">PyCon US 2022</a>, DjangoCon 2022 in San Diego (in my city for the <em>third</em> time!) and <a href="https://mastodon.social/@treyhunner/110243968672457367">PyCon US 2023</a>.
-Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.</p>
-
-<p>Between client work, I&rsquo;ve been focusing less on conferences and more on blog posts (<a href="https://www.pythonmorsels.com/articles/">over here</a>), <a href="https://www.youtube.com/@PythonMorsels">screencasts</a>, my <a href="https://www.pythonmorsels.com/newsletter/">weekly Python tips</a> emails, and (of course) on <a href="https://www.pythonmorsels.com">Python Morsels</a>.</p>
-
-<h2>My journey started locally</h2>
-
-<p>I became part of the Python community before I knew I was part of it.</p>
-
-<p>I started using Python professionally in December 2009 and I attended my first San Diego Python meetup in March 2012.
-I met the organizers, gave some lightning talks, attended Saturday study group sessions (thanks Carol Willing, Alain Domissy, and others for running these), and volunteered to help organize meetups, study groups, and workshops.</p>
-
-<p>By 2014, I had learned from folks online and in-person and I had helped out at my local Python meetup.
-I had even made a few contributions to some small Django packages I relied on heavily.</p>
-
-<p>I was encouraged to attend PyCon 2014 by others who were attending (thanks Carol, Micah, and Paul among others).
-The conference was well-worth the occasional feeling of overwhelm.</p>
-
-<h2>We&rsquo;re all just people</h2>
-
-<p>The biggest thing I&rsquo;ve repeatedly learned over the past decade of Python conferences is that we&rsquo;re all just people.</p>
-
-<p>Carol Willing keynoted PyCon US 2023.
-But I met Carol as a kind Python user in San Diego who started the first Python study group meetings in Pangea Bakery on Convoy Street.</p>
-
-<p>Jay Miller will be keynoting PyCon US 2024.
-But I met Jay as an attendee of the Python study group, who was enthusiastic about both learning and teaching others.</p>
-
-<p>My partner, Melanie Arbor, keynoted DjangoCon 2022 along with Jay Miller.
-When I met Melanie, she was new to Python and was very eager to both learn and help others.</p>
-
-<p>David Lord has made a huge impact on the maintenance of Flask and other Pallets projects.
-I met David as a Python study group attendee who was an enthusiastic StackOverflow contributor.</p>
-
-<p>I learned a ton from Brandon Rhodes, Ned Batchelder, Russell Keith-Magee, and many others from online videos, forums, and open source projects before I ever met them.
-But each of them are also just Python-loving people like the rest of us.
-Russell gives good hugs, Ned is an organizer of his local Python meetup, and Brandon wears the same brand of shoes as me.</p>
-
-<p>We all have people we&rsquo;ve learned from, we suffer from feelings of inadequacy, we get grumpy sometimes, and we care about the Python language and community in big and small ways.</p>
-
-<h2>What&rsquo;s next for you?</h2>
-
-<p>Will you attend a local meetup?
-Or will you attend an online social event?</p>
-
-<p>If so, consider asking the organize if you can present a 5 minute lightning talk at a future event.
-As I <a href="https://youtu.be/aNHBr7q-KVw?si=Fryj6Ez4Cw7q-RAq">noted in a DjangoCon 2016 lightning talk</a>, lightning talks are a great way to connect with folks.</p>
-
-<p>Will you attend a Python conference one day?
-See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> when/if you do.</p>
-
-<p>Remember that we&rsquo;re all just people though.
-Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Making the most of the PyCon sprints]]></title>
-    <link href="https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/"/>
-    <updated>2019-04-02T09:45:00-07:00</updated>
-    <id>https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints</id>
-    <content type="html"><![CDATA[<p>I wrote a blog post last year, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">How to have a great first PyCon</a>, in which I gave quite a few tips for <strong>making the most of your time at PyCon</strong> (if you&rsquo;re a first time PyCon attendee, <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">go read it</a>).
-One thing I didn&rsquo;t mention <em>at all</em> in that article on PyCon was <a href="https://us.pycon.org/2019/community/sprints/">the sprints</a>.</p>
-
-<p>I didn&rsquo;t mention the sprints not because I don&rsquo;t like them (I actually love the sprints and I usually attend at least the first two days of sprints every year), but because <strong>first-time PyCon attendees often don&rsquo;t stay for the sprints</strong>.
-This is partly because the sprints can be very intimidating for first-time PyCon attendees.
-The fear that <strong>the sprints aren&rsquo;t for me</strong> is a very real one.</p>
-
-<p>This year PyCon has multiple options to help you have a successful sprint, including their annual &ldquo;Introduction to Sprinting Workshop&rdquo; on Sunday and, brand-new this year, the <a href="https://us.pycon.org/2019/hatchery/mentoredsprints/">mentored sprints</a> a hatchery track for underrepresented beginners.
-The applications for the mentored sprints have closed for PyCon 2019, but that&rsquo;s something to keep an eye on for future PyCons.</p>
-
-<p>In this post I&rsquo;m going to share some advice for <strong>how to get the most out of the PyCon sprints</strong> and I hope to <strong>address the fears that folks often feel</strong>. I&rsquo;m hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.</p>
-
-<p>The sprints are a very different experience from the talk days at PyCon and <strong>they&rsquo;re hard to compare to the rest of PyCon</strong>.
-Some people like the talks better, but I&rsquo;ve also talked to first time sprinters who said <strong>the sprints were their favorite part of the conference</strong>.</p>
-
-<p>In this post I&rsquo;m going to share some advice for <strong>how to get the most out of the PyCon sprints</strong>.
-I&rsquo;m hoping this post might encourage you to add an extra day or two to your PyCon trip and give the sprints a try.</p>
-
-<ol data-toc=".entry-content"></ol>
-
-
-<h2>Your fears going into the sprints</h2>
-
-<p>We&rsquo;re going to start by addressing some common concerns.
-I&rsquo;ve heard these concerns from folks I&rsquo;ve encouraged to stay for the sprints and from folks I&rsquo;ve interviewed about their advice for first-time sprinters.</p>
-
-<h3>I&rsquo;m not experienced enough</h3>
-
-<p>I&rsquo;ve <strong>never contributed to an open source project before</strong> and I don&rsquo;t really know what to do.
-I&rsquo;m a <strong>junior programmer</strong> and I&rsquo;m afraid I&rsquo;m not experienced enough.
-I <strong>don&rsquo;t write code for a living</strong> and I&rsquo;m afraid I won&rsquo;t be able to get anything done because I don&rsquo;t know how to <em>do</em> much yet.</p>
-
-<p>The sprints are a great place for a first-time open source contributor.
-Making a contribution to an open source project <strong>while sitting next to the maintainer</strong> is a unique experience.
-If you contribute to open source at home or at work, you&rsquo;re unlikely to have a project maintainer nearby.</p>
-
-<p>If you&rsquo;re a junior programmer or you don&rsquo;t code for a living <strong>you might be afraid of your inexperience</strong>: maybe you&rsquo;re pretty new to coding in general and you don&rsquo;t understand git, testing, version control, and GitHub.
-But there&rsquo;s very likely a project for <em>you</em> to contribute to.
-The sprints include sprint coordinators who can help <strong>point you to projects they&rsquo;ve heard are particularly beginner-friendly</strong> or who have quite a bit of <strong>low-hanging fruit in their issue tracker for newcomers to dig into</strong> (something as simple as updating the on-boarding documentation can be a great benefit to maintainers).</p>
-
-<h3>It&rsquo;ll be too fast-paced for me</h3>
-
-<p>You might think the sprints involve smart people coding for many hours on end, racing against the clock.
-This is false.
-From my experience, sprints usually aren&rsquo;t like that at all.</p>
-
-<p>There are some very smart people at the sprints, but there are a lot of newcomers too.
-Everyone at the sprints is new to <em>something</em> and most of us are <a href="https://youtu.be/hIJdFxYlEKE?t=333">mediocre programmers</a> (who are more skilled in some areas and less skilled in others).</p>
-
-<p>The &ldquo;pace&rdquo; of the sprints is really up to you.
-The name &ldquo;sprints&rdquo; is kind of a misnomer: <strong>I never find myself <em>sprinting</em> while at the sprints</strong>.</p>
-
-<p>I&rsquo;ve attended at least one day of sprints at PyCon US for each of the last 5 years and my sprint experience has almost always consisted of:</p>
-
-<ul>
-<li>Some <strong>high level conversation</strong> about an intriguing feature, topic, or idea</li>
-<li>Some <strong>low level conversation</strong> about how pieces of a project work (conversations about the inner-workings of a project are so much easier to have in-person)</li>
-<li>Some <strong>writing time</strong>.  Sometimes this is writing code.  Sometimes this is writing text copy for documentation or marketing material.  Sometimes it&rsquo;s my own writing time for a talk or article I&rsquo;m working on.</li>
-<li>Some <strong>rubber duck time</strong>.  I often wander around asking people what they&rsquo;re working on and sometimes act as their <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a>.  I also often wander around seeking my own rubber duck if I get stuck on a particular topic or idea (whether on my own personal project or an open source project I&rsquo;m contributing to).</li>
-<li>Plenty of <strong>personal break time</strong>.  I very often take mental breaks during the sprints to wander the halls, often aimlessly.  Breaks feel great, but they also often help my subconscious work on a task for a bit while my conscious mind rests.</li>
-</ul>
-
-
-<p>Sprints are what you make them: some people prefer many hours of furious coding with their earbuds in most of the day but many people prefer something that looks a bit more like <strong>coworking with new friends in a coffee shop</strong>. Sprints are an intense experience for some people, but they don&rsquo;t have to be intense for you.</p>
-
-<p>My sprints are often more relaxed than the conference and many of the best conversations I have during PyCon come out of the sprints.</p>
-
-<h3>I won&rsquo;t be able to get enough done while I&rsquo;m there</h3>
-
-<p>If you&rsquo;re only planning to be at the sprints for one day, <strong>can you really expect to get up to speed quickly enough to accomplish something meaningful</strong>?</p>
-
-<p>This fear is very real for all sprint attendees.</p>
-
-<p>If you&rsquo;re just getting started on contributing to a new (to you) code base, <strong>you may not be able to submit a viable change (often in the form of a pull request) by the end of the day</strong>.</p>
-
-<p>This fear is about framing: <strong>what is your goal at the sprints</strong>?</p>
-
-<p>If your goal is to get a pull request merged into an open source project by the end of the day, try to find something minor that needs fixing in the documentation, website styling, or something else that the project maintainer agrees needs fixing.
-It&rsquo;s much easier to <strong>get a minor change merged</strong> if you get an early start and pick a small issue.</p>
-
-<p>But if your goal is to make a more substantial improvement to a project, then you probably won&rsquo;t get much code merged (if any) by the end of the day.
-For bigger changes, you&rsquo;ll likely <strong>start your work at the sprints and continue it at home</strong>, often with help from the project maintainers (via comments on pull request and/or emails).</p>
-
-<h2>What to expect from the sprints</h2>
-
-<p>What can you really expect while attending the sprints?
-What is sprinting really like?</p>
-
-<h3>Some projects are easier to sprint on than others</h3>
-
-<p>Different projects sprint in different ways.
-Many projects <strong>go out of their way to welcome contributions from newcomers</strong>, some projects may struggle a little in welcoming newcomers, and a few projects might hold a sprint that&rsquo;s focused entirely on engaging existing contributors since they might not meet to work in-person often (but you&rsquo;re unlikely to stumble upon those).</p>
-
-<p>If you&rsquo;re not sure what project you&rsquo;d like to sprint on during first day at the sprints, <strong>I recommend picking a project to sprint on that seems particularly newcomer friendly</strong>.
-The <a href="https://us.pycon.org/2019/community/sprints/">Pycon Sprints page</a> has several projects that will be sprinting and after the conference ends on Sunday evening you&rsquo;ll get a chance to hear many of the sprinting projects come on stage and tell you who they are and how you can help.
-Alternatively (or additionally), if you&rsquo;ve identified a project that particularly suits your interests, <strong>talk to the maintainers</strong> and see if they think (and you think) their project would be a good fit for you.</p>
-
-<p>Keep in mind that <strong>newer projects and smaller projects often have more to be done</strong>.
-It can be quite challenging to find issues that need fixing in big and stable projects like CPython and Django, but newer or smaller projects often need more help.</p>
-
-<p>It&rsquo;s also usually more fun to be <strong>a big fish in a small pond</strong> rather than a small fish in a big pond.
-It might take you the same amount of effort to make a small improvement to a big project as it takes to make a big change to a small project.</p>
-
-<h3>The maintainers are there to help you</h3>
-
-<p>During the sprints, project maintainers are there to help you.
-Project maintainers can quietly write code at home, but it&rsquo;s hard for them to encourage <em>you</em> to quietly write code at home.
-So <strong>many project maintainers consider it their primary responsibility to help you contribute to their project during the sprints</strong>.</p>
-
-<p>The maintainers of projects are usually focused on <strong>enabling your contributions during the sprints</strong> because they want your help.
-If you contribute to a project during the sprints, it&rsquo;s more likely you&rsquo;ll decide to contribute to the project again <em>after</em> the sprints.
-That would be great for the maintainers (they&rsquo;re getting your help) and might be quite fun for you too.</p>
-
-<p>You might be thinking &ldquo;surely, the maintainers can&rsquo;t be there entirely to help me&rdquo;.
-And you&rsquo;re right: a number of maintainers do contribute code to their own projects during the sprints.
-Generally the amount of code maintainers commit to their projects increases as the sprints stretch on.
-There are far fewer people on the third and fourth days of sprints than on the first and second days.
-If a maintainer stays for all four days of the sprints, they&rsquo;re much more likely to commit code to their own project as the number of sprinters working on their project dwindles and as those still working start to need a bit less help than they did on the first day.
-<strong>During the first couple days of the sprints, most maintainers are there primarily to help you</strong>.</p>
-
-<h3>The sprints can be more relaxing than the talks</h3>
-
-<p>The talk days of PyCon can be pretty overwhelming.
-<strong>The sprints are a bit more structured</strong> (in a sort of odd semi-structured way) because everyone at the sprints is working on something together (or at least they&rsquo;re working on something <em>and</em> they&rsquo;re together).</p>
-
-<p>The sprints are <strong>sort of like an introvert party</strong>: everyone is sitting at tables next to each other, sometimes talking and sometimes working quietly, but always sitting next to other humans without the need to constantly talk and interact.
-And even if you&rsquo;re <em>not</em> working on the same thing as someone else, <strong>you&rsquo;re still a PyCon person in a room with other PyCon people, doing whatever it is you&rsquo;re all doing</strong>.</p>
-
-<p>For some people the sprints really are a sprint, but for most of us <strong>the sprints are more like an endurance run</strong>, one with <em>plenty</em> of breaks.</p>
-
-<h3>Contributing at the sprints is often easier than online</h3>
-
-<p><strong>Contributing to open source projects at the sprints is usually easier than contributing online</strong>.
-The ease of in-person communication often makes the experience less intimidating.</p>
-
-<p>It&rsquo;s easier to express oneself and empathize during face-to-face communication than over text-based communication.
-Emoji are great, but they&rsquo;re not a substitute for body language and tone of voice.</p>
-
-<p>It feels less awkward to chat with a project maintainer about your goals and your skill level in-person than via a GitHub pull request.</p>
-
-<p>Little bits of seemingly meaningless conversation happen while folks sit next to each other for hours: conversation about weather, hobbies, what we thought of our lunch, pop culture, and whatever else comes up.
-That kind of natural conversation brings people closer together and makes us feel more comfortable communicating later, whether in-person or online.</p>
-
-<p>Continued communication online is also often easier <em>after</em> face-to-face communication.
-After you&rsquo;ve met a project maintainer in-person, you&rsquo;ll likely find communicating online via their issue tracker less intimidating because <strong>you and the maintainer already know each other</strong>.</p>
-
-<p>The in-person nature of the sprints makes them a uniquely favorable place for your first open source contribution.</p>
-
-<h2>How to get the most out of the sprints</h2>
-
-<p>The sprints are a unique experience that <em>might</em> give you a greater sense of community, purpose, and belonging than the (often not quite as communal) talk days of the conference.</p>
-
-<p>What steps can you take to increase the likelihood that you&rsquo;ll have a wonderful time at the PyCon sprints?</p>
-
-<h3>Don&rsquo;t underestimate your skills</h3>
-
-<p>If you&rsquo;re trying to get a feel for what project might be a good fit for you, let the maintainers know what skills you do and don&rsquo;t have and <strong>see if you get a good vibe</strong> from both the maintainers and the project.
-If you do, run with it!</p>
-
-<p>If you&rsquo;re afraid you won&rsquo;t have something to contribute, remember that, like businesses, <strong>open source projects have a wide variety of needs</strong>.</p>
-
-<p>If you know something about marketing, you can offer to sit with project maintainers and <strong>help them improve their marketing materials</strong>.
-At PyCon 2016 I interviewed some project maintainers and then crafted slogans and wrote marketing copy that explained what problem their project solved and who needed it.
-I feel those were some of the most valuable contributions I made in a pretty short amount of time.</p>
-
-<p>If you&rsquo;re pretty good at design, you could offer to <strong>create visuals for projects</strong> (maybe logos, diagrams, or other visualizations).</p>
-
-<p>If you know CSS or JavaScript, you could find <strong>a web-based project that needs help with their front-end</strong>.
-Being the &ldquo;front-end dev among Pythonistas&rdquo; or the &ldquo;UX person among developers&rdquo; can really help you make uniquely helpful contributions to projects.</p>
-
-<p>Also keep in mind that there are often small projects that you can make big contributions to at the sprints simply because they&rsquo;re in great need.
-Sometimes people even start a project <em>at the sprints</em> because it&rsquo;s easier to get help from others when <strong>you&rsquo;re in a room full of folks who might know a few things about the technology you&rsquo;re using</strong>.
-If you join a newer or smaller project at the sprints (or start your own), you&rsquo;ll often be able to find a whole bunch of low-hanging fruit that hasn&rsquo;t been taken care of only because no one has had the time to work on it yet.</p>
-
-<h3>Attend the intro to the sprints the night before</h3>
-
-<p>Some maintainers list their projects on the <a href="https://us.pycon.org/2019/community/sprints/">PyCon sprints page</a> to note that they&rsquo;ll be attending the sprints.
-Some maintainers simply announce their project during <strong>the sprint pitches after</strong> the main conference closing, on the last day of talks (Sunday).
-If you are looking for a project, stick around after the last talk of the day and dozens of maintainers will walk up on the big stage to give an elevator pitch for the project they&rsquo;re sprinting on, with each pitch taking about a minute.</p>
-
-<p>During the sprint pitches, each maintainer will talk about what their project is, what kind of help they&rsquo;re most in need of (fitting as much as they can in the very few seconds they have) and generally close with some commentary on whether their project is a good fit for newcomers.
-You don&rsquo;t have to attend the sprint pitches, but doing so will increase your chances of hearing about <strong>a project that you&rsquo;d actually really like to work on</strong>.</p>
-
-<p>Another thing to pay attention to on the last day of talks is the hands-on <strong>Introduction to Sprinting tutorial</strong> on Sunday evening.
-The Intro to Sprinting tutorial is open to walk-ins (first-come, first-served) and is purposely held after the main conference closing so you won&rsquo;t need to miss any talks.</p>
-
-<p>Last year the Intro to Sprinting tutorial room filled up pretty quickly, so rest assured you won&rsquo;t be alone.
-Definitely try to get the Intro to Sprinting workshop on your calendar (once the room and time are announced) and show up on-time if you can.</p>
-
-<h3>Try to prepare yourself for the setup time</h3>
-
-<p>Getting started on a new project can take a lot of time, so try to prepare yourself and your development environment as much as you can early on.</p>
-
-<p>Make sure you have git, GitHub, a code editor, and a modern version (maybe multiple versions) of Python installed on your machine.</p>
-
-<p><strong>Get an early start if possible</strong>.
-The setup process can take a long time for some projects. Many projects will have a documentation page set up with instructions on what to install and how to install it. But be aware&hellip; sometimes the setup process is a little buggy and <strong>the first pull request you make to a project may be related to improving the setup instructions</strong>.</p>
-
-<p>If you show up to sprints early, you might be able to pick a project and get that project setup on your machine before break time.
-If you&rsquo;re feeling extra ambitious, <strong>you could even get a head start and prepare your machine the night before the sprints</strong>.
-I&rsquo;ve never done this because I&rsquo;m rarely feeling ambitious, but I know some folks do this to make sure they can get in a little more quality sprinting time on the first day.</p>
-
-<p>Another way to prepare yourself for setup time is to stay longer.
-If you&rsquo;re staying for 2 or 3 days of sprints, you can take it easy and spend more time on setup and getting your footing during the first day.
-That way you&rsquo;ll feel <strong>more confident and more independent on the second day</strong>.
-If you stay more than one day, you might also get the opportunity to <strong>sprint on two different projects</strong> if you decide you&rsquo;d like to switch projects on day 2 (or even mid-day if you&rsquo;d like).</p>
-
-<p>Oh and another way to prepare yourself: remember your laptop and your laptop charger (and if you&rsquo;re from outside the US, a power adapter if needed).</p>
-
-<h3>Ask for help</h3>
-
-<p>If the maintainer of the project your sprinting on is in the room they&rsquo;re likely there because <strong>they want to help you contribute to their project</strong>.
-On day 1 of sprints, project maintainers tend to prioritize helping you, over writing their own code.
-<strong>Please don&rsquo;t forget to ask for help when you need it</strong>.</p>
-
-<p>Also if you&rsquo;re stuck on laptop setup issues, the PyCon sprint coordinators will be hosting <strong>a help desk during the first day of sprints</strong> (on Monday).
-The help desk is a great place to get yourself unstuck when you have a general issue that could use another set of eyes.</p>
-
-<p>If you&rsquo;re at the sprints to learn, you do want to struggle <em>some</em>.
-Struggling is a great way to learn, but don&rsquo;t let yourself flounder for too long on issues that aren&rsquo;t your area of expertise.
-If you get stuck, attempt to fix your problem by trial-and-error and Googling, talk to your neighbor or your <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck</a> and <strong>after you&rsquo;ve given yourself some time to troubleshoot, ask for help</strong>!</p>
-
-<h3>Plan to follow-through when home (if you&rsquo;d like)</h3>
-
-<p>Keep in mind that you may not complete your work at the sprints.
-You&rsquo;re likely to find yourself <strong>still in the middle of a pull request back-and-forth at the end of your sprints</strong>.
-Pull requests often require more work before merging.
-Expect to get started at the sprints, but not necessarily to finish while you&rsquo;re there.</p>
-
-<p>If you plan to complete your pull request at home, <strong>ask the project maintainer what form of remote communication would be best for questions you have regarding contributions</strong>.</p>
-
-<h3>Empathize with others</h3>
-
-<p>Your project maintainer may not show up early on day 1 and they might even leave early, depending on what their plans and schedule look like.
-If they&rsquo;re at the Sunday night pitches or if you interact with them during PyCon, you might consider asking them when they plan to be present and how they plan to operate (will they be writing code or helping others write code or both).</p>
-
-<p>When sprinting, try to empathize with your project maintainer.
-Empathy is challenging during remote open source contributions, but it can be a struggle even for in-person contributions.</p>
-
-<p>Consider what your project maintainer&rsquo;s motivations likely are and remember that they&rsquo;re often trying to balance <strong>getting many new contributors to their project</strong>, <strong>getting bugs fixed</strong>, and <strong>maintaining the quality and consistency of their code base</strong>.
-Balancing multiple goals which sometimes compete with each other can be a challenge.</p>
-
-<p>Text-based communication is hard, so <strong>seize your face-to-face communication while you&rsquo;re at the sprints</strong> and try to get a sense for how your project maintainer thinks.
-If you do decide to contribute more after the sprints are over, <strong>that in-person empathy can help you continue to empathize remotely as well</strong>.</p>
-
-<p>Some other places you may want to use empathy: empathizing with users of your code/documentation/design (someone is going to use your work) and the other sprinters in the room with you.
-It&rsquo;s nice to congratulate your fellow sprinters when they get their code working or if they get a pull request accepted.</p>
-
-<p>If you bring snacks, candy, donuts, or a small power strip to expand one power strip port into multiple, <strong>your kindness might give you happy neighbors at the sprints</strong>.</p>
-
-<h3>Be kind to yourself</h3>
-
-<p>Don&rsquo;t go into the sprints with a very specific thing that you absolutely must do: have a goal but <strong>allow yourself to change your goal</strong> as you learn new information about your environment.
-<strong>Be flexible and be forgiving with yourself</strong>.</p>
-
-<p>You&rsquo;re allowed to <strong>switch projects</strong> at any time, as often as you like, and for any reason you like (i.e. the project isn&rsquo;t as interesting as you hoped, the onboarding process isn&rsquo;t as smooth as you expected, or the project isn&rsquo;t a good fit for you).
-If you need to switch projects, don&rsquo;t feel you need to offer elaborate explanations.</p>
-
-<p>You&rsquo;re allowed to <strong>stop sprinting</strong> at any time and <strong>take a break</strong>.
-You aren&rsquo;t obligated to follow through on a pull request you opened (it&rsquo;d be lovely if you did, but you don&rsquo;t <em>have</em> to).</p>
-
-<p>Time-wise, there&rsquo;s lots of flexibility at the sprints.
-The maintainer of the project you&rsquo;re sprinting on might get an early start or they might not show up until later on the first day of sprints.
-You need to give yourself flexibility as well.</p>
-
-<p>Don&rsquo;t feel obligated at the sprints: you don&rsquo;t have to make a code change, <strong>you don&rsquo;t have to be productive</strong>, you don&rsquo;t have to show up at a certain time or stay for a certain amount of time, and <strong>you don&rsquo;t even have to sprint on an open source project</strong> (I frequently don&rsquo;t).</p>
-
-<p>If you&rsquo;d like to take half of a sprint day to explore the city you&rsquo;re in with a new friend (or on your own because you need personal time), go for it!</p>
-
-<p>Embrace self-care at the sprints, whatever that means for you.</p>
-
-<h3>Remember that sprints are lots of things to lots of people</h3>
-
-<p>During my first PyCon sprint in 2014, I helped a project figure out how to migrate from Python 2 to Python 3.
-The project maintainer wasn&rsquo;t looking forward to that migration so they were grateful to have another brain troubleshooting with them.</p>
-
-<p>But during that sprint I also got an idea for a contribution to another project (Django), was encouraged to pursue the idea, and <a href="https://github.com/django/deps/pull/4">a few weeks after the sprints</a> I proposed the idea publicly.
-After my suggestion sat without feedback, I sort of abandoned it.</p>
-
-<p>But at the PyCon 2015 sprints the next year, I brought up my abandoned idea to a Django core developer and they offered to shepherd my change through, so I <a href="https://github.com/django/deps/pull/13">continued my efforts</a> during the sprints.
-A couple weeks after the sprints ended I <a href="https://github.com/django/deps/pull/14">finished up the idea at home</a> and finally <a href="https://github.com/django/django/pull/4573">implemented the changes</a>, which were eventually merged (after <a href="https://github.com/django/deps/pull/15/files">some scope tweaks</a>).</p>
-
-<p>My first two years of PyCon sprints involved some substantial code contributions that I hadn&rsquo;t expected to make.
-Most of the changes I made were <strong>started at the sprints but finished at home</strong>.</p>
-
-<p>The sprints were a source of idea generation and inspiration, not a place to get lots of work done.
-Since 2015 I&rsquo;ve started sprinting on <em>ideas</em> more than code.</p>
-
-<p>During my PyCon 2016 sprints I helped a few open source projects improve their marketing copy (so someone hitting their website would better understand what their project did and who it was for).
-My pull requests during these sprints were text-based changes, not code changes.</p>
-
-<p>My PyCon 2017 sprints involved a lot of community work: discussions with folks about the PSF and the new Code of Conduct working group.
-I spent much more time in Google Docs tweaking documents than I did using git.</p>
-
-<p>My sprints at PyCon 2018 involved writing talk proposals, meeting with new friends, and chatting with core developers about the soon-to-be-written <a href="https://www.python.org/dev/peps/pep-0582/">PEP 582</a>.
-I don&rsquo;t think I made any contributions to open source projects (outside of possibly inspiring a bullet point or two in that PEP).
-But I had a great time and sitting quietly in the sprint rooms helped me get a lot of work done on my talk proposals.</p>
-
-<p><strong>The sprints aren&rsquo;t one thing</strong>.
-If you&rsquo;re not feeling like a code contribution is the thing you&rsquo;d like to do during the sprints, get creative!
-<strong>Your time at the sprints can be spent however you&rsquo;d like it to be</strong>.</p>
-
-<h2>Running your own sprint</h2>
-
-<p>This could be a whole article on its own, but I want to give a few quick tips for folks who might be attempting to run a sprint for their own project.</p>
-
-<p>While I&rsquo;ve maintained open source projects remotely, I haven&rsquo;t run an in-person sprint on my own projects.
-So my tips on running a sprint on your own project come from the perspective of a contributor and a floating helper for maintainers who needed an extra hand.</p>
-
-<p>As a project maintainer on day 1 of sprints, <strong>I&rsquo;d consider your primary responsibility to be one of helping encourage other contributors</strong>.
-You want to help folks get their environment setup, help folks identify good issues to work on, help folks with their code contributions, and even help other contributors as they help out their neighbors.</p>
-
-<p><strong>Your job often isn&rsquo;t to write code</strong>, it&rsquo;s to be <em>interrupted</em> by people who are trying to make contributions but need your help.</p>
-
-<p>For the in-person, in-the-moment part of running a sprint I have <a href="http://trey.io/pycascades2019">a whole talk and a bunch of related resources</a> for folks who are coaching others in-person.
-But your job doesn&rsquo;t start <em>at the sprints</em>.
-Ideally, you&rsquo;ll want to <strong>prepare your project for the sprints</strong> a while before the sprints even start.</p>
-
-<p>Many projects use issue labels to indicate <strong>issues which are specifically good for first-time contributors</strong> (something like &ldquo;newcomer&rdquo;, &ldquo;good first issue&rdquo;, &ldquo;first-timers only&rdquo;, etc.).
-I&rsquo;d recommend looking at <a href="https://github.com/MunGell/awesome-for-beginners#python">the many other contributor-friendly projects</a>, studying what they do, and figuring out <strong>how you can make your project more friendly to new sprinters</strong>.</p>
-
-<p>The PyCon sprints page also recommends this <a href="https://opensourceevents.github.io/">in-person events handbook</a> made by the OpenHatch folks.
-Take a look at it!
-And if you can, <strong>ask questions of other project maintainers you admire who will also be sprinting</strong>: how do they ensure newcomers feel appreciated, how do they help folks feel accomplished, what do they do to get their project and their minds ready?</p>
-
-<h2>Take note of the key events</h2>
-
-<p>Put the events you&rsquo;ll be attending for the PyCon 2019 sprints in your calendar!</p>
-
-<p>The sprint pitches are on the last talk day at PyCon, just after the closing of the main conference.
-The Intro to Sprints tutorial usually starts just after that.
-And during the first day of sprints the next day, the sprint help desk will be available to help you get some extra help on day 1.</p>
-
-<p>Also remember the mentored sprints (if you&rsquo;ve gone through the application process already) which are designed for underrepresented groups and are on Saturday during the talks.</p>
-
-<h2>Ask others what they think of the sprints</h2>
-
-<p>Much of the above advice was borrowed or enhanced by wisdom from others.
-I&rsquo;ve held interviews with folks during the last few PyCon sprints, I&rsquo;ve asked folks online what they think of the sprints, and I&rsquo;ve chatted with first-time sprinters about what their concerns were going into the sprints.
-If you shared your sprint experiences with me in the past, thank you.</p>
-
-<p>If you&rsquo;re still uncertain about whether you should attend a sprint, please talk to others about what they think of the PyCon sprints.
-I&rsquo;ve found that most PyCon attendees are more than happy to talk about their perspective on the various parts of the conference they&rsquo;ve partaken in.</p>
-
-<p>If you can&rsquo;t afford to stay for the sprints, I completely understand.
-Most PyCon attendees will not be staying for the sprints.
-But if you&rsquo;re lucky enough to have the time and resources to stay, I&rsquo;d suggest giving it a try.</p>
-
-<p>If you can afford to schedule some extra time to attend a day or two of sprints and then decide that the sprints aren&rsquo;t for you, that time could always be spent exploring the city you&rsquo;re in, working, or doing something else that makes you feel whole.</p>
-
-<p>And if you&rsquo;re from an underrepresented or marginalized group in tech and you&rsquo;re new to sprinting, consider applying for the <a href="https://us.pycon.org/2019/hatchery/mentoredsprints/">mentored sprints</a> for PyCon 2020.</p>
-
-<p>Whatever you decide, have a lovely PyCon! 💖</p>
-
-<p>Thanks to Asheesh Laroia for encouraging this post and Chalmer Lowe for quite a bit of helpful feedback while I was writing it.
-Thanks also to the many folks who sent me ideas and shared their perspective and advice about the sprints.</p>
+<p>See you in Long Beach!</p>
 ]]></content>
   </entry>
   
