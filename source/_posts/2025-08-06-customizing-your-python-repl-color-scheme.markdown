@@ -8,7 +8,10 @@ categories: python repl
 
 Did you know that Python 3.14 will include [syntax highlighting](https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pyrepl-highlighting) in the REPL?
 
-{% img /images/python3.14-repl-syntax-highlighting.png "Python 3.14 REPL with syntax highlighting using custom color scheme" %}
+Python 3.14 is due to be [officially released](https://peps.python.org/pep-0745/) in about a month.
+I recommended tweaking your Python setup now so you'll have your ideal color scheme on release day.
+
+{% img /images/python3.14-repl-syntax-highlighting.png Python 3.14 REPL with syntax highlighting using custom color scheme %}
 
 But... what if the default syntax colors don't match the colors that your text editor uses?
 
@@ -18,13 +21,28 @@ Well, fortunately you can customize your color scheme!
 Do not use this module in production code.
 
 
+## Installing Python 3.14
+
+Don't have Python 3.14 installed yet?
+
+If you have [uv](https://docs.astral.sh/uv/) installed, you can run this command to launch Python 3.14:
+
+```bash
+$ uv run --python 3.14 python
+```
+
+That will automatically install 3.14 (if you don't have it yet) and run it.
+
+
 ## Setting a theme
 
 I have my terminal colors set to the Solarized Light color palette and I have Vim use a Solarized Light color scheme as well.
 
 The REPL doesn't *quite* match my text editor by default:
 
-{% img /images/python3.14-repl-default-color-scheme.png "Python 3.14 REPL with default syntax highlighting" %}
+{% img /images/python3.14-repl-default-color-scheme.png Python 3.14 REPL with default syntax highlighting %}
+
+The numbers, comments, strings, and keywords are all different colors than my text editor.
 
 This code makes the Python REPL use *nearly* the same syntax highlighting as my text editor:
 
@@ -46,7 +64,11 @@ set_theme(default_theme.copy_with(
 ))
 ```
 
-Neat.
+Check it out:
+
+{% img /images/python3.14-repl-syntax-highlighting.png Python 3.14 REPL with syntax highlighting using custom color scheme %}
+
+Neat, right?
 
 But... I want this to be enabled by default!
 
