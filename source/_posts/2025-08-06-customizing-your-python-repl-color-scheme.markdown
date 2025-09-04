@@ -4,6 +4,7 @@ title: "Customizing your Python REPL's color scheme (Python 3.14+)"
 date: 2025-09-04 14:00:00 -0700
 comments: true
 categories: python repl
+twitter_image: https://treyhunner.com/images/python3.14-repl-syntax-highlighting.png
 ---
 
 Did you know that Python 3.14 will include [syntax highlighting](https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pyrepl-highlighting) in the REPL?
