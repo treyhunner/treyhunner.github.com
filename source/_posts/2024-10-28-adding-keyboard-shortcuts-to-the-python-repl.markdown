@@ -3,7 +3,7 @@ layout: post
 title: "Adding keyboard shortcuts to the Python REPL"
 date: 2024-10-28 07:15:00 -0700
 comments: true
-categories: python
+categories: python repl
 ---
 
 I talked about the new Python 3.13 REPL [a few months ago][3.13 repl] and [after 3.13 was released][3.13 features].

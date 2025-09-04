@@ -3,7 +3,7 @@ layout: post
 title: "The new REPL in Python 3.13"
 date: 2024-05-08 13:30:00 -0700
 comments: true
-categories: python
+categories: python repl
 twitter_image: https://treyhunner.com/images/new-repl-demo.gif
 ---
 

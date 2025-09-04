@@ -3,7 +3,7 @@ layout: post
 title: "Django and the Python 3.13 REPL"
 date: 2024-10-13 21:03:32 -0700
 comments: true
-categories: python django
+categories: python django repl
 ---
 
 Your new Django project uses Python 3.13.
