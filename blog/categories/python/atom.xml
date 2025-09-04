@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-06-11T16:41:27-07:00</updated>
+  <updated>2025-09-04T10:43:01-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Customizing your Python REPL's color scheme (Python 3.14+)]]></title>
+    <link href="https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme/"/>
+    <updated>2025-09-04T14:00:00-07:00</updated>
+    <id>https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme</id>
+    <content type="html"><![CDATA[<p>Did you know that Python 3.14 will include <a href="https://docs.python.org/3.14/whatsnew/3.14.html#whatsnew314-pyrepl-highlighting">syntax highlighting</a> in the REPL?</p>
+
+<p>Python 3.14 is due to be <a href="https://peps.python.org/pep-0745/">officially released</a> in about a month.
+I recommended tweaking your Python setup now so you&rsquo;ll have your ideal color scheme on release day.</p>
+
+<p><img src="/images/python3.14-repl-syntax-highlighting.png" title="Python 3.14 REPL with syntax highlighting using custom color scheme" ></p>
+
+<p>But&hellip; what if the default syntax colors don&rsquo;t match the colors that your text editor uses?</p>
+
+<p>Well, fortunately you can customize your color scheme!</p>
+
+<p><strong>Warning</strong>: I am recommending using an undocumented private module (it has an <code>_</code>-prefixed name) which may change in future Python versions.
+Do not use this module in production code.</p>
+
+<h2>Installing Python 3.14</h2>
+
+<p>Don&rsquo;t have Python 3.14 installed yet?</p>
+
+<p>If you have <a href="https://docs.astral.sh/uv/">uv</a> installed, you can run this command to launch Python 3.14:</p>
+
+<pre><code class="bash">$ uv run --python 3.14 python
+</code></pre>
+
+<p>That will automatically install 3.14 (if you don&rsquo;t have it yet) and run it.</p>
+
+<h2>Setting a theme</h2>
+
+<p>I have my terminal colors set to the Solarized Light color palette and I have Vim use a Solarized Light color scheme as well.</p>
+
+<p>The REPL doesn&rsquo;t <em>quite</em> match my text editor by default:</p>
+
+<p><img src="/images/python3.14-repl-default-color-scheme.png" title="Python 3.14 REPL with default syntax highlighting" ></p>
+
+<p>The numbers, comments, strings, and keywords are all different colors than my text editor.</p>
+
+<p>This code makes the Python REPL use <em>nearly</em> the same syntax highlighting as my text editor:</p>
+
+<pre><code class="python">from _colorize import set_theme, default_theme, Syntax, ANSIColors
+
+set_theme(default_theme.copy_with(
+    syntax=Syntax(
+        keyword=ANSIColors.GREEN,
+        builtin=ANSIColors.BLUE,
+        comment=ANSIColors.INTENSE_BLUE,
+        string=ANSIColors.CYAN,
+        number=ANSIColors.CYAN,
+        definition=ANSIColors.BLUE,
+        soft_keyword=ANSIColors.BOLD_GREEN,
+        op=ANSIColors.INTENSE_GREEN,
+        reset=ANSIColors.RESET + ANSIColors.INTENSE_GREEN,
+    ),
+))
+</code></pre>
+
+<p>Check it out:</p>
+
+<p><img src="/images/python3.14-repl-syntax-highlighting.png" title="Python 3.14 REPL with syntax highlighting using custom color scheme" ></p>
+
+<p>Neat, right?</p>
+
+<p>But&hellip; I want this to be enabled by default!</p>
+
+<h2>Using a <code>PYTHONSTARTUP</code> file</h2>
+
+<p>You can use a <code>PYTHONSTARTUP</code> file to run code every time a new Python process starts.</p>
+
+<p>If Python sees a <code>PYTHONSTARTUP</code> environment variable when it starts up, it will open that file and evaluate the code within it.</p>
+
+<p>I have this in my <code>~/.zshrc</code> file to set the <code>PYTHONSTARTUP</code> environment variable to <code>~/.startup.py</code>:</p>
+
+<pre><code class="bash"># Setup python-launcher to use startup file
+export PYTHONSTARTUP=$HOME/.startup.py
+</code></pre>
+
+<p>In my <code>~/.startup.py</code> file, I have this code:</p>
+
+<pre><code class="python">def _main():
+    """Everything's in a function to avoid polluting the global scope."""
+    try:
+        from _colorize import set_theme, default_theme, Syntax, ANSIColors
+    except ImportError:
+        pass  # Python 3.13 and below
+    else:
+        # Define Solarized Light colors
+        solarized_light_theme = default_theme.copy_with(
+            syntax=Syntax(
+                keyword=ANSIColors.GREEN,
+                builtin=ANSIColors.BLUE,
+                comment=ANSIColors.INTENSE_BLUE,
+                string=ANSIColors.CYAN,
+                number=ANSIColors.CYAN,
+                definition=ANSIColors.BLUE,
+                soft_keyword=ANSIColors.BOLD_GREEN,
+                op=ANSIColors.INTENSE_GREEN,
+                reset=ANSIColors.RESET + ANSIColors.INTENSE_GREEN,
+            ),
+        )
+        set_theme(solarized_light_theme)
+
+_main()  # _main avoids name collision, in case python -i is used
+del _main  # Delete _main from global scope
+</code></pre>
+
+<p>Note that:</p>
+
+<ol>
+<li>I put all relevant code within a <code>_main</code> function so that the variables I set don&rsquo;t remain in the global scope of the Python REPL (they will by default)</li>
+<li>I call the <code>_main</code> function and then delete the function afterward, again so the <code>_main</code> variable doesn&rsquo;t stay floating around in my REPL</li>
+<li>I use <code>try</code>-<code>except</code>-<code>else</code> to ensure errors don&rsquo;t occur on Python 3.13 and below</li>
+</ol>
+
+
+<p>Also note that the syntax highlighting in the new REPL is <a href="https://github.com/python/cpython/issues/134953">not as fine-grained</a> as many other syntax highlighting tools.
+I suspect that it may become a bit more granular over time, <strong>which may break the above code</strong>.</p>
+
+<p>The <code>_colorize</code> module is currently an internal implementation detail and is deliberately undocumented.
+Its API may change at any time, so <strong>the above code may break in Python 3.15</strong>.
+If that happens, I&rsquo;ll just update my <code>PYTHONSTARTUP</code> file at that point.</p>
+
+<h2>Packaging themes</h2>
+
+<p>I&rsquo;ve stuck all of the above code in a <code>~/.startup.py</code> file and I set the <code>PYTHONSTARTUP</code> environment variable on my system to point to this file.</p>
+
+<p>Instead of manually updating a startup file, is there any way to make these themes <em>installable</em>?</p>
+
+<p>Well, if a <code>.pth</code> file is included in Python&rsquo;s <code>site-packages</code> directory, that file (which must be a single line) will be run whenever Python starts up.
+In theory, a package could use such a file to import a module and then call a function that would set the color scheme for the REPL.
+My <a href="https://github.com/treyhunner/dramatic">dramatic</a> package uses (<em>cough</em> abuses <em>cough</em>) <code>.pth</code> files in this way.</p>
+
+<p>This sounds like a somewhat bad idea, but maybe not a <em>horrible</em> idea.</p>
+
+<p>If you do this, let me know.</p>
+
+<h2>What&rsquo;s your theme?</h2>
+
+<p>Have you played with setting a theme in your own Python REPL?</p>
+
+<p>What theme are you using?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My PyCon US 2025 recap]]></title>
@@ -497,57 +643,6 @@ After this launch week, Python Jumpstart will be <strong>$199</strong>.</p>
 <p>Ready to jumpstart your Python learning journey?</p>
 
 <p><a href="https://pym.dev/courses/jumpstart/overview" class="subscribe-btn form-big">Get Python Jumpstart for $99</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2024)]]></title>
-    <link href="https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024/"/>
-    <updated>2024-11-20T11:00:00-08:00</updated>
-    <id>https://treyhunner.com/2024/11/python-black-friday-and-cyber-monday-sales-2024</id>
-    <content type="html"><![CDATA[<p>Ready for some Python skill-building sales?</p>
-
-<p>This is my <strong><a href="https://treyhunner.com/blog/categories/sales/">seventh</a></strong> annual compilation of <strong>Python learning deals</strong>.</p>
-
-<h2>Lots of Python sales</h2>
-
-<p>Here are Python-related sales that are live right now:</p>
-
-<ul>
-<li><strong><a href="https://www.pythonmorsels.com/courses/jumpstart/overview/">Python Jumpstart</a></strong> with Python Morsels: <strong>50% off</strong> my brand new Python course, an introduction to Python that&rsquo;s <em>very</em> hands-on (<strong>$99</strong> instead of <strong>$199</strong>)</li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: the annual everything bundle includes all courses for $240</li>
-<li><strong><a href="https://courses.dataschool.io/black-friday">Data School</a></strong> 40% off all Kevin&rsquo;s courses or get a bundle with all 5 of his courses</li>
-<li><strong><a href="https://store.metasnake.com/?coupon=EMAIL40">Matt Harrison</a></strong>: get 25% off with GIVING25 plus every purchase will open a product for a scholarship recipient</li>
-<li><strong><a href="https://lernerpython.com/">Reuven Lerner</a></strong>: get 20% off <a href="https://www.bambooweekly.com/bf2024">Bamboo Weekly</a> or 30% off any of his Weekly Python Exercise <a href="https://lernerpython.com">courses</a> with code BF2024</li>
-<li><strong><a href="https://courses.pythontest.com">Brian Okken</a></strong>: is offering 20% off his courses with code TURKEYSALE2024</li>
-<li><strong><a href="https://mathspp.gumroad.com/">Rodrigo</a></strong> 50% off Rodrigo&rsquo;s <a href="https://mathspp.gumroad.com/l/all-books-bundle/BF24">all books bundle</a> with code <code>BF24</code></li>
-<li><strong><a href="https://www.blog.pythonlibrary.org">Mike Driscoll</a></strong>: 35% off Mike&rsquo;s Python <a href="https://driscollis.gumroad.com/">books</a> and <a href="https://www.teachmepython.com/">courses</a> with code <code>BF24</code></li>
-<li><strong><a href="https://testdriven.io/bundle/flask-black-friday/?ref=blackfridaydealsdotdev">Test Driven</a></strong>: get the Flask course bundle for 30% off</li>
-<li><strong><a href="https://thepythoncodingplace.com/membership/">The Python Coding Place</a></strong>: 40% off <a href="https://thepythoncodingplace.thinkific.com/enroll/2906653?coupon=black2024">The Python Coding Book</a> and 40% off a lifetime membership to <a href="https://thepythoncodingplace.thinkific.com/cart/add_product/2731141?price_id=3865919&amp;coupon=black2024">The Python Coding Place</a> with code <code>black2024</code></li>
-<li><strong><a href="https://learnbyexample.gumroad.com">Sundeep Agarwal</a></strong>: ~50% off Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all book</a> and <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Python</a> bundles with code <code>FestiveOffer</code></li>
-<li><strong><a href="https://benjaminb.gumroad.com/l/xjgtb/bLACK60">Benjamin Bennett Alexander</a></strong>: 60% off his Mastering Python Fundamentals book with code <code>BLACK60</code></li>
-<li><strong><a href="https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK24">O'Reilly Media</a></strong>: 40% off the first year with code <code>CYBERWEEK24</code> ($299 instead of $499)</li>
-<li><strong><a href="http://Matplotlib-journey.com">Matplotlib Journey</a></strong>: a Python dataviz course that has a pre-launch promo right now (69€ instead of 149€)</li>
-<li><strong><a href="https://nodeledge.ai/courses/python-done-right">Python Done Right</a></strong>: beta sale on this course ($99 instead of the eventual price of $299)</li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: 40% off sale with code <code>turkeysale2024</code></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: 35% off with code <code>BLACKHATFRIDAY</code> (Crash Course, Automate The Boring Stuff, etc.)</li>
-<li><strong><a href="https://www.manning.com/catalog#section-50">Manning</a></strong> is offering 50% off if you buy two items</li>
-</ul>
-
-
-<h2>Even more sales</h2>
-
-<p>Also see Adam Johnson&rsquo;s <a href="https://adamj.eu/tech/2024/11/18/django-black-friday-deals-2024/">Django-related Deals for Black Friday 2024</a> for sales on Adam&rsquo;s books, courses from the folks at Test Driven, Django templates, and various other Django-related deals.</p>
-
-<p>And for non-Python/Django Python deals, see the <a href="https://github.com/trungdq88/Awesome-Black-Friday-Cyber-Monday#readme">Awesome Black Friday / Cyber Monday deals</a> GitHub repository and the <a href="https://blackfridaydeals.dev">BlackFridayDeals.dev</a> website.</p>
-
-<p>If you know of another sale (or a likely sale) <strong>please comment below</strong> or email me.</p>
-
-<h2>Read more about Python Jumpstart</h2>
-
-<p>Want to read more about my new self-paced Intro to Python course that&rsquo;s on sale?
-See <a href="https://treyhunner.com/2024/11/new-python-jumpstart-course/">this blog post</a> on why I made Python Jumpstart and how it&rsquo;s structured.
-Get it by Monday to <strong>save $100</strong>.</p>
 ]]></content>
   </entry>
   

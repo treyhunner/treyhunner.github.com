@@ -17,19 +17,18 @@
 
 <head>
   <meta charset="utf-8">
-  <title>The new REPL in Python 3.13</title>
+  <title>Category: repl - Trey Hunner</title>
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Python 3.13 just hit feature freeze with the first beta release today. Just before the feature freeze, a shiny new feature was added: a brand new &hellip;">
+  <meta name="description" content="Category: repl">
   
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
   
-    <!-- Twitter summary card with large image must be at least 280x150px -->
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:image:src" content="https://treyhunner.com/images/new-repl-demo.gif"/>
-    <meta name="image" property="og:image" content="https://treyhunner.com/images/new-repl-demo.gif"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -39,7 +38,7 @@
 
   
   
-  <link rel="canonical" href="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/">
+  <link rel="canonical" href="https://treyhunner.com/blog/categories/repl/">
   
   <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -114,185 +113,81 @@ $(document).ready(function () {
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">The new REPL in Python 3.13</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2024-05-08T13:30:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>1:30 pm</span></time>
-        
-           | <a href="#disqus_thread"
-             data-disqus-identifier="https://treyhunner.com">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: repl</h1>
     
   </header>
-
-
-
-<div class="entry-content"><p>Python 3.13 just hit feature freeze with <a href="https://www.python.org/downloads/release/python-3130b1/">the first beta release today</a>.</p>
-
-<p>Just before the feature freeze, a shiny new feature was added: <strong>a brand new Python REPL</strong>. ✨</p>
-
-<p>This new Python REPL is the feature I&rsquo;m most looking forward to using while teaching after 3.13.0 final is released later this year.
-In terms of improving my quality of life while teaching Python, this new REPL may be my favorite feature since f-strings were added in Python 3.6.</p>
-
-<p>I&rsquo;d like to share what&rsquo;s so great about this new REPL and what additional improvements I&rsquo;m hoping we might see in future Python releases.</p>
-
-<p>None of these features will be ground breaking for folks who are already using <a href="https://github.com/ipython/ipython">IPython</a> day-to-day.
-This new REPL really shines when you can&rsquo;t or shouldn&rsquo;t install PyPI packages (as when teaching a brand new Pythonistas in a locked-down corporate environment).</p>
-
-<h2>Little niceties</h2>
-
-<p>The first thing you&rsquo;ll notice when you launch the new REPL is the colored prompt.</p>
-
-<p><img src="/images/new-repl-intro.gif"></p>
-
-<p>You may also notice that as you type a block of code, after the first indented line, the next line will be auto-indented!
-Additionally, hitting the Tab key inserts 4 spaces now, which means there&rsquo;s no more need to ever hit <code>Space Space Space Space</code> to indent ever again.</p>
-
-<p>At this point you might be thinking, &ldquo;wait did I accidentally launch ptpython or some other alternate REPL?&rdquo;
-But it gets even better!</p>
-
-<h2>You can &ldquo;exit&rdquo; now</h2>
-
-<p>Have you ever typed <code>exit</code> at the Python REPL?
-If so, you&rsquo;ve seen a message like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="gp">&gt;&gt;&gt; </span><span class="nb">exit</span>
-</span><span class='line'><span class="go">Use exit() or Ctrl-D (i.e. EOF) to exit</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That feels a bit silly, doesn&rsquo;t it?
-Well, typing <code>exit</code> will exit immediately.</p>
-
-<p><img src="/images/new-repl-exit.gif"></p>
-
-<p>Typing <code>help</code> also enters help mode now (previously you needed to call <code>help()</code> as a function).</p>
-
-<h2>Block-level history</h2>
-
-<p>The feature that will make the biggest different in my own usage of the Python REPL is block-level history.</p>
-
-<p><img src="/images/new-repl-block.gif"></p>
-
-<p>I make typos all the time while teaching.
-I also often want to re-run a specific block of code with a couple small changes.</p>
-
-<p>The old-style Python REPL stores history line-by-line.
-So editing a block of code in the old REPL required hitting the up arrow many times, hitting Enter, hitting the up arrow many more times, hitting Enter, etc. until each line in a block was chosen.
-At the same time you also needed to make sure to edit your changes along the way&hellip; or you&rsquo;ll end up re-running the same block with the same typo as before!</p>
-
-<p>The ability to edit a previously typed <em>block</em> of code is huge for me.
-For certain sections of my Python curriculum, I hop into <a href="https://github.com/prompt-toolkit/ptpython">ptpython</a> or <a href="https://github.com/ipython/ipython">IPython</a> specifically for this feature.
-Now I&rsquo;ll be able to use the default Python REPL instead.</p>
-
-<h2>Pasting code <em>just works</em></h2>
-
-<p>The next big feature for me is the ability to paste code.</p>
-
-<p>Check this out:</p>
-
-<p><img src="/images/new-repl-paste.gif"></p>
-
-<p>Not impressed?
-Well, watch what happens when we paste that same block of code into the old Python REPL:</p>
-
-<p><img src="/images/old-repl-paste.gif"></p>
-
-<p>The old REPL treated pasted text the same as manually typed text.
-When two consecutive newlines were encountered in the old REPL, it would end the current block of code because it assumed the Enter key had been pressed twice.</p>
-
-<p>The new REPL supports <a href="https://en.wikipedia.org/wiki/Bracketed-paste">bracketed paste</a>, which is was invented in 2002 and has since been adopted by all modern terminal emulators.</p>
-
-<h2>No Windows support? Curses!</h2>
-
-<p><strong>EDIT</strong>: This whole section is now irrelevant!
-During the PyCon US sprints in late May 2024, the <code>readline</code> and <code>curses</code> dependencies were removed and <a href="https://mastodon.social/@tonybaloney@fosstodon.org/112477098540793635">Windows support</a> will be included in the second beta release of Python 3.13.0! 🎉</p>
-
-<p>Unfortunately, this new REPL <strike>doesn&rsquo;t currently work on Windows</strike>.
-This new REPL relies on the <code>curses</code> and <code>readline</code> modules, neither of which are available on Windows.</p>
-
-<p>The <a href="https://pym.dev/repl">in-browser Python REPL</a> on Python Morsels also won&rsquo;t be able to use the new REPL because readline and curses aren&rsquo;t available in the WebAssembly Python build.</p>
-
-<h2>Beta test Python 3.13 to try out the new REPL 💖</h2>
-
-<p>Huge thanks to Pablo Galindo Salgado, Łukasz Langa, and Lysandros Nikolaou <a href="https://docs.python.org/3.13/whatsnew/3.13.html">for implementing this new feature</a>!
-And thanks to Michael Hudson-Doyle and Armin Rigo for implementing the original version of this REPL, which was <a href="https://github.com/pypy/pyrepl">heavily borrowed from PyPy&rsquo;s pyrepl project</a>.</p>
-
-<p>The new Python REPL coming in 3.13 is a major improvement over the old REPL.</p>
-
-<p>Want to try out this new REPL?
-Download and install <a href="https://www.python.org/downloads/release/python-3130b1/">Python 3.13.0 beta 1</a>!</p>
-
-<p>Beta testing new Python releases helps the Python core team ensure the final release of 3.13.0 is as stable and functional as possible.
-If you notice a bug, <a href="https://github.com/python/cpython/issues">check the issue tracker</a> to see if it&rsquo;s been reported yet and if not report it!</p>
-</div>
-
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
-
-      
+  <div id="blog-archives" class="category">
 
 
 
-
-<time class='entry-date' datetime='2024-05-08T13:30:00-07:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2024</span></span> <span class='time'>1:30 pm</span></time>
-      
-
-<span class="categories">
   
-    <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a>
+  <h2>2025</h2>
+
+<article>
   
-</span>
+<h1><a href="/2025/09/customizing-your-python-repl-color-scheme/">Customizing your Python REPL's color scheme (Python 3.14+)</a></h1>
+<time datetime="2025-09-04T14:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>04</span> <span class='year'>2025</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a></span>
+</footer>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/" data-via="treyhunner" data-counturl="https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/2024/05/installing-a-custom-python-build-with-pyenv/" title="Previous Post: Installing a custom Python build with pyenv">&laquo; Installing a custom Python build with pyenv</a>
-      
-      
-        <a class="basic-alignment right" href="/2024/05/pycon-2024-reflection/" title="Next Post: PyCon 2024 Reflection">PyCon 2024 Reflection &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+  <h2>2024</h2>
+
+<article>
+  
+<h1><a href="/2024/10/adding-keyboard-shortcuts-to-the-python-repl/">Adding keyboard shortcuts to the Python REPL</a></h1>
+<time datetime="2024-10-28T07:15:00-07:00" pubdate><span class='month'>Oct</span> <span class='day'>28</span> <span class='year'>2024</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/2024/10/django-and-the-new-python-3-dot-13-repl/">Django and the Python 3.13 REPL</a></h1>
+<time datetime="2024-10-13T21:03:32-07:00" pubdate><span class='month'>Oct</span> <span class='day'>13</span> <span class='year'>2024</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/django/'>django</a>, <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a></span>
+</footer>
+
+
+</article>
+
+
+
+<article>
+  
+<h1><a href="/2024/05/my-favorite-python-3-dot-13-feature/">The new REPL in Python 3.13</a></h1>
+<time datetime="2024-05-08T13:30:00-07:00" pubdate><span class='month'>May</span> <span class='day'>08</span> <span class='year'>2024</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a></span>
+</footer>
+
+
+</article>
+
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -407,10 +302,7 @@ If you notice a bug, <a href="https://github.com/python/cpython/issues">check th
       var disqus_shortname = 'treyhunner';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/';
-        var disqus_url = 'https://treyhunner.com/2024/05/my-favorite-python-3-dot-13-feature/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
