@@ -10,6 +10,7 @@ I find myself in the Python REPL *a lot*.
 
 I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, to record a screencast, to come up with a code example for an article, and (most importantly for me) to teach Python.
 My Python courses and workshops are based largely around writing code together to guess how something works, try it out, and repeat.
+If you spend time in the Python REPL and wish it behaved a little more **like your favorite editor**, these tricks might help.
 
 As I've written about before, you can [add custom keyboard shortcuts][shortcuts] to the new Python REPL (since 3.13) and [customize the REPL syntax highlighting][colors] (since 3.14).
 
@@ -106,7 +107,7 @@ else:
 
 That's pretty short!
 
-But how wait... won't this fail unless pyrepl-hacks is installed in every virtual environment *and* installed globally for every Python version on my machine?
+But wait... won't this fail unless pyrepl-hacks is installed in every virtual environment *and* installed globally for every Python version on my machine?
 
 That's where that `sys.path.append` trick comes in handy...
 
@@ -136,7 +137,7 @@ $ python -m pip install pyrepl-hacks --target ~/.pyhacks
 In order for the `pyrepl_hacks` Python package to work, it needs to available within every Python REPL I might launch.
 Normally that would mean that it needs to be installed in every virtual environment that Python runs within.
 
-When tries to import a module, it iterates through the `sys.path` directory list.
+When Python tries to import a module, it iterates through the `sys.path` directory list.
 Any Python packages found *within* any of the `sys.path` directories may be imported.
 
 So monkey patching `sys.path` within my PYTHONSTARTUP file allows `pyrepl_hacks` to be imported in every Python interpreter I launch:
@@ -194,7 +195,7 @@ Read on...
 
 ## My original PYTHONSTARTUP file (without pyrepl-hacks)
 
-Without pyrepl-hacks, here's what my PYTHONSTARTUP file looked pretty much like:
+Without pyrepl-hacks, [here's](https://pym.dev/p/35q9e/) what my PYTHONSTARTUP file looked pretty much like:
 
 ```python
 try:
@@ -286,13 +287,13 @@ else:
             # Move cursor to same column in the moved line (one line up)
             r.pos -= len(lines[y])
 
-    class number_list(Command):
+    class number_list(EditCommand):
         def do(self):
             self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
 
-    class fruits_list(Command):
+    class fruits_list(EditCommand):
         def do(self):
-            self.reader.insert("["apples", "oranges", "bananas", "strawberries", "pears"]")
+            self.reader.insert('["apples", "oranges", "bananas", "strawberries", "pears"]')
 
     reader = _get_reader()
     reader.commands["move-to-indentation"] = move_to_indentation
@@ -305,7 +306,7 @@ else:
     reader.bind(r"\<home>", "home")  # "home" command is already in _pyrepl
     reader.bind(r"\<end>", "end")  # "end" command is already in _pyrepl
     reader.bind(r"\M-m", "move-to-indentation")  # Alt+M
-    reader.bind(r"\e[Z", "dedent-block")  # Shift+Tabe
+    reader.bind(r"\e[Z", "dedent-block")  # Shift+Tab
     reader.bind(r"\e[1;3B", "move-line-down")  # Alt+Down
     reader.bind(r"\e[1;3A", "move-line-up")  # Alt+Up
     reader.bind(r"\C-n", "number-list")  # Ctrl+N
@@ -349,15 +350,16 @@ This longer one is over 100 lines longer!
 ## Try pyrepl-hacks and leave feedback
 
 My hope is that the [pyrepl-hacks][] library will be obsolete one day.
-
-One day, the `_pyrepl` module might be renamed to `pyrepl` (or maybe just `repl`?) and it will have a well-documented friendly-ish public interface.
+Eventually the `_pyrepl` module might be renamed to `pyrepl` (or maybe just `repl`?) and it will have a well-documented friendly-ish public interface.
 
 In the meantime, I plan to maintain pyrepl-hacks.
-As Python 3.15 is developed, I'll make sure it works in 3.15 as well.
+As Python 3.15 is developed, I'll make sure it continues to work.
+And I may add more useful commands if I think of any.
 
-If I think of useful commands to add to pyrepl-hacks, I may add those as well.
+If you hack your own REPL, I'd love to hear what modifications you come up with.
+And if you have thoughts on how to improve pyrepl-hacks, please open an issue or get in touch.
 
-Contributions (and ideas!) welcome.
+Contributions and ideas welcome!
 
 
 [shortcuts]: https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/
