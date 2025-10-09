@@ -56,12 +56,14 @@ I already use those instead of the Home and End keys, so I decided to rebind Hom
 
 The **Shift+Tab** functionality is basically a fancy wrapper around [using `textwrap.dedent`][dedent]: it dedents the current code block while keeping the cursor over the same character it was at before.
 
+The **Ctrl+N** and **Ctrl+F** shortcuts make it easier for me to grab an example data structure to work with when teaching.
+
 In addition to the above changes, I also modify my color scheme to work nicely with my Solarized Light color scheme in Vim.
         
 
 ## I created a pyrepl-hacks library for this
 
-My PYTHONSTARTUP file became so messy that I ended up creating a [pyrepl-hacks library][] to help me with these modifications.
+My PYTHONSTARTUP file became so messy that I ended up creating a [pyrepl-hacks library][pyrepl-hacks] to help me with these modifications.
 
 [My PYTHONSTARTUP file][my pythonstartup] now looks pretty much like this:
 
@@ -188,163 +190,9 @@ Three reasons:
 2. To make creating new commands *a bit* easier (functions can be used instead of classes)
 3. To make the key bindings look a bit nicer (I prefer `"Ctrl+M"` over `r"\C-M")
 
-Want to see the original code?
+Before I made pyrepl-hacks, I implemented these commands directly within my PYTHONSTARTUP file by reaching into the internals of `_pyrepl` directly.
 
-Read on...
-
-
-## My original PYTHONSTARTUP file (without pyrepl-hacks)
-
-Without pyrepl-hacks, [here's](https://pym.dev/p/35q9e/) what my PYTHONSTARTUP file looked pretty much like:
-
-```python
-try:
-    from _pyrepl.simple_interact import _get_reader
-    from _pyrepl.commands import EditCommand, MotionCommand
-except ImportError:
-    pass  # Python 3.12 and below
-else:
-    class move_to_indentation(MotionCommand):
-        """Move to the start of indentation for the current line."""
-        def do(self):
-            import re
-            x, y = self.reader.pos2xy()
-            lines = self.reader.get_unicode().splitlines(keepends=True)
-            line = lines[y]
-            if match := re.search(r"^\s+", line):
-                index = match.end()
-            else:
-                index = 0
-            self.reader.pos = self.reader.bol() + index
-
-    class dedent_block(EditCommand):
-        """Dedent the current code block."""
-        def do(self):
-            import textwrap
-            r = self.reader
-            x, y = self.reader.pos2xy()
-            original_text = r.get_unicode()
-            dedented_text = textwrap.dedent(original_text)
-
-            # Dedent buffer and invalidate cache
-            r.buffer[:] = list(dedented_text)
-            r.last_refresh_cache.invalidated = True
-            r.dirty = True
-
-            # Reposition cursor correctly
-            original_lines = original_text.splitlines()
-            dedented_lines = dedented_text.splitlines()
-            removed_characters = sum(
-                len(old) - len(new)
-                for old, new in zip(original_lines[:y+1], dedented_lines)
-            )
-            r.pos -= removed_characters
-
-    class move_line_down(EditCommand):
-        """Move the current line down."""
-        def do(self):
-            r = self.reader
-            x, y = r.pos2xy()
-            lines = r.get_unicode().splitlines(keepends=True)
-
-            # Can't move down if we're on the last line
-            if y >= len(lines) - 1:
-                return
-
-            # Swap current line with next line
-            lines[y], lines[y+1] = lines[y+1], lines[y]
-
-            if not lines[y].endswith("\n"):
-                lines[y] += "\n"
-
-            # Update buffer with swapped lines
-            r.buffer[:] = list("".join(lines))
-            r.last_refresh_cache.invalidated = True
-            r.dirty = True
-
-            # Move cursor to same column in the moved line (one line up)
-            r.pos += len(lines[y])
-
-    class move_line_up(EditCommand):
-        """Move the current line up."""
-        def do(self):
-            r = self.reader
-            x, y = r.pos2xy()
-            lines = r.get_unicode().splitlines(keepends=True)
-
-            # Can't move up if we're on the first line
-            if y <= 0:
-                return
-
-            # Swap current line with previous line
-            lines[y-1], lines[y] = lines[y], lines[y-1]
-
-            # Update buffer with swapped lines
-            r.buffer[:] = list("".join(lines))
-            r.last_refresh_cache.invalidated = True
-            r.dirty = True
-
-            # Move cursor to same column in the moved line (one line up)
-            r.pos -= len(lines[y])
-
-    class number_list(EditCommand):
-        def do(self):
-            self.reader.insert("[2, 1, 3, 4, 7, 11, 18, 29]")
-
-    class fruits_list(EditCommand):
-        def do(self):
-            self.reader.insert('["apples", "oranges", "bananas", "strawberries", "pears"]')
-
-    reader = _get_reader()
-    reader.commands["move-to-indentation"] = move_to_indentation
-    reader.commands["dedent-block"] = dedent_block
-    reader.commands["move-line-down"] = move_line_down
-    reader.commands["move-line-up"] = move_line_up
-    reader.commands["number-list"] = number_list
-    reader.commands["fruits-list"] = fruits_list
-
-    reader.bind(r"\<home>", "home")  # "home" command is already in _pyrepl
-    reader.bind(r"\<end>", "end")  # "end" command is already in _pyrepl
-    reader.bind(r"\M-m", "move-to-indentation")  # Alt+M
-    reader.bind(r"\e[Z", "dedent-block")  # Shift+Tab
-    reader.bind(r"\e[1;3B", "move-line-down")  # Alt+Down
-    reader.bind(r"\e[1;3A", "move-line-up")  # Alt+Up
-    reader.bind(r"\C-n", "number-list")  # Ctrl+N
-    reader.bind(r"\C-f", "fruits-list")  # Ctrl+F
-
-    del (
-        reader, _get_reader, EditCommand, MotionCommand, move_to_indentation,
-        dedent_block, move_line_down, move_line_up, number_list, fruits_list
-    )
-
-try:
-    import _colorize
-except ImportError:
-    pass  # Python 3.13 and below
-else:
-    # Solarized Light theme to match vim
-    ANSIColors = _colorize.ANSIColors
-    solarized_light_theme = _colorize.default_theme.copy_with(
-        syntax=_colorize.Syntax(
-            keyword=ANSIColors.GREEN,
-            builtin=ANSIColors.BLUE,
-            comment=ANSIColors.INTENSE_BLUE,
-            string=ANSIColors.CYAN,
-            number=ANSIColors.CYAN,
-            definition=ANSIColors.BLUE,
-            soft_keyword=ANSIColors.BOLD_GREEN,
-            op=ANSIColors.INTENSE_GREEN,
-            reset=ANSIColors.RESET + ANSIColors.INTENSE_GREEN,
-        ),
-    )
-    _colorize.set_theme(solarized_light_theme)
-
-    del _colorize, ANSIColors
-```
-
-Compare this *long* PYTHONSTARTUP file to the shorter one from before that uses `pyrepl_hacks`.
-
-This longer one is over 100 lines longer!
+My PYTHONSTARTUP file before pyrepl-hacks was [over 100 lines longer](https://pym.dev/p/35q9e/).
 
 
 ## Try pyrepl-hacks and leave feedback
