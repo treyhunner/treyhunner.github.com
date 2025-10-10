@@ -10,9 +10,9 @@ I find myself in the Python REPL *a lot*.
 
 I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, to record a screencast, to come up with a code example for an article, and (most importantly for me) to teach Python.
 My Python courses and workshops are based largely around writing code together to guess how something works, try it out, and repeat.
-If you spend time in the Python REPL and wish it behaved a little more **like your favorite editor**, these tricks might help.
 
 As I've written about before, you can [add custom keyboard shortcuts][shortcuts] to the new Python REPL (since 3.13) and [customize the REPL syntax highlighting][colors] (since 3.14).
+If you spend time in the Python REPL and wish it behaved a little more **like your favorite editor**, these tricks can come in handy.
 
 I have added **custom keyboard shortcuts** to my REPL and other modifications to help me **more quickly write and edit code in my REPL**.
 I'd like to share some of the modifications that I've found helpful in my own Python REPL.
@@ -20,9 +20,9 @@ I'd like to share some of the modifications that I've found helpful in my own Py
 
 ## Creating a PYTHONSTARTUP file
 
-If you want to run Python code every time an interactive prompt starts, you can make a PYTHONSTARTUP file.
+If you want to run Python code every time an interactive prompt (a REPL) starts, you can make a PYTHONSTARTUP file.
 
-When Python launches an interactive prompt, it checks for `PYTHONSTARTUP` environment variable.
+When Python launches an interactive prompt, it checks for a `PYTHONSTARTUP` environment variable.
 If it finds one, it treats it as a filename that contains Python code and it **runs all the code in that file**, as if you had copy-pasted the code into the REPL.
 
 So all of the modifications I have made to my Python REPL rely on this `PYTHONSTARTUP` variable in my `~/.zshenv` file:
@@ -51,8 +51,10 @@ The quick summary of my *current* modifications are:
 - Pressing **Ctrl+N** inserts **a specific list of numbers**
 - Pressing **Ctrl+F** inserts **a specific list of strings**
 
-If you've read [my Python REPL shortcuts][repl shortcuts] article, you know that we can already use **Ctrl+A** to move to the beginning of the line and **Ctrl+E** to move to the end of the line.
+If you've read [my Python REPL shortcuts][repl shortcuts] article, you know that we can use **Ctrl+A** to move to the beginning of the line and **Ctrl+E** to move to the end of the line.
 I already use those instead of the Home and End keys, so I decided to rebind Home and End to do something different.
+
+The **Alt+M** key combination is essentially the same as `Alt+M` in Emacs or `^` in Vim. I usually prefer to move to the beginning of the non-whitespace in a line rather than to the beginning of the *entire* line.
 
 The **Shift+Tab** functionality is basically a fancy wrapper around [using `textwrap.dedent`][dedent]: it dedents the current code block while keeping the cursor over the same character it was at before.
 
@@ -74,7 +76,7 @@ _sys.path.append(str(_pathlib.Path.home() / ".pyhacks"))
 try:
     import pyrepl_hacks as _repl
 except ImportError:
-    pass  # We're on Python 3.12 or below
+    _repl = None  # We're on Python 3.12 or below
 else:
     _repl.bind("Home", "home")
     _repl.bind("End", "end")
@@ -104,7 +106,7 @@ else:
     except ImportError:
         pass  # We're on Python 3.13 or below
 
-    del _repl, _pathlib, _sys  # Avoid global REPL namespace pollution
+del _repl, _pathlib, _sys  # Avoid global REPL namespace pollution
 ```
 
 That's pretty short!
@@ -120,14 +122,16 @@ At this point I'd like to pause to note that all of this relies on using an impl
 
 The above code all relies on the `_pyrepl` module that was added in Python 3.13 (and optionally the `_colorize` module that was added in Python 3.14).
 
-When we upgrade to a newer Python (for example Python 3.15) this solution may break.
+When I run a new future version of Python (for example Python 3.15) this solution may break.
 I'm willing to take that risk, as I know that I can always unset my shell's `PYTHONSTARTUP` variable or clear out my startup file.
+
+So, just be aware... here be (private undocumented implementation detail) dragons.
 
 
 ## Monkey patching `sys.path` to allow importing `pyrepl_hacks`
 
 I didn't install pyrepl-hacks *the usual way*.
-Instead, I installed in a very specific location.
+Instead, I installed it in a very specific location.
 
 I created a `~/.pyhacks` directory and then installed `pyrepl-hacks` *into* that directory:
 
@@ -138,6 +142,7 @@ $ python -m pip install pyrepl-hacks --target ~/.pyhacks
 
 In order for the `pyrepl_hacks` Python package to work, it needs to available within every Python REPL I might launch.
 Normally that would mean that it needs to be installed in every virtual environment that Python runs within.
+This trick avoids that constraint.
 
 When Python tries to import a module, it iterates through the `sys.path` directory list.
 Any Python packages found *within* any of the `sys.path` directories may be imported.
@@ -158,7 +163,7 @@ With those 3 lines (or something like them) placed in my PYTHONSTARTUP file, all
 That's pretty neat.
 But what if you want to invent your own REPL commands?
 
-Well, the `bind` utility within the `pyrepl_hacks` module can be used as a decorator for that.
+Well, the `bind` utility I've created in the `pyrepl_hacks` module can be used as a decorator for that.
 
 This will make Ctrl+X followed by Ctrl+R insert `import subprocess` followed by `subprocess.run("", shell=True)` with the cursor positioned in between the double quotes after it's all inserted:
 
@@ -175,7 +180,7 @@ def subprocess_run(reader, event_name, event):
         _repl.commands.left(reader, event_name, event)
 ```
 
-You can read more about the package [in the readme file][readme].
+You can read more about the ins and outs of the pyrepl-hacks package [in the readme file][readme].
 
 
 ## pyrepl-hacks is just a fancy wrapper
@@ -186,9 +191,9 @@ Why did I make a whole package and then modify my `sys.path` to use it, when I c
 
 Three reasons:
 
-1. To hide the hairiness of the solution
-2. To make creating new commands *a bit* easier (functions can be used instead of classes)
-3. To make the key bindings look a bit nicer (I prefer `"Ctrl+M"` over `r"\C-M")
+1. To make creating new commands *a bit* easier (functions can be used instead of classes)
+2. To make the key bindings look a bit nicer (I prefer `"Ctrl+M"` over `r"\C-M"`)
+3. To hide my hairy hacks behind a shiny API ✨
 
 Before I made pyrepl-hacks, I implemented these commands directly within my PYTHONSTARTUP file by reaching into the internals of `_pyrepl` directly.
 
@@ -206,6 +211,8 @@ And I may add more useful commands if I think of any.
 
 If you hack your own REPL, I'd love to hear what modifications you come up with.
 And if you have thoughts on how to improve pyrepl-hacks, please open an issue or get in touch.
+
+Also, **if you use Windows**, [please help me](https://github.com/treyhunner/pyrepl-hacks/issues/1) confirm **whether certain keys work on Windows**. Thanks!
 
 Contributions and ideas welcome!
 
