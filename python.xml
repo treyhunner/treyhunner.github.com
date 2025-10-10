@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-09-04T10:46:34-07:00</updated>
+  <updated>2025-10-10T12:34:13-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,274 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Handy Python REPL Modifications]]></title>
+    <link href="https://treyhunner.com/2025/10/handy-python-repl-modifications/"/>
+    <updated>2025-10-08T19:59:20-07:00</updated>
+    <id>https://treyhunner.com/2025/10/handy-python-repl-modifications</id>
+    <content type="html"><![CDATA[<p>I find myself in the Python REPL <em>a lot</em>.</p>
+
+<p>I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, to record a screencast, to come up with a code example for an article, and (most importantly for me) to teach Python.
+My Python courses and workshops are based largely around writing code together to guess how something works, try it out, and repeat.</p>
+
+<p>As I&rsquo;ve written about before, you can <a href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/">add custom keyboard shortcuts</a> to the new Python REPL (since 3.13) and <a href="https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme/">customize the REPL syntax highlighting</a> (since 3.14).
+If you spend time in the Python REPL and wish it behaved a little more <strong>like your favorite editor</strong>, these tricks can come in handy.</p>
+
+<p>I have added <strong>custom keyboard shortcuts</strong> to my REPL and other modifications to help me <strong>more quickly write and edit code in my REPL</strong>.
+I&rsquo;d like to share some of the modifications that I&rsquo;ve found helpful in my own Python REPL.</p>
+
+<h2>Creating a PYTHONSTARTUP file</h2>
+
+<p>If you want to run Python code every time an interactive prompt (a REPL) starts, you can make a PYTHONSTARTUP file.</p>
+
+<p>When Python launches an interactive prompt, it checks for a <code>PYTHONSTARTUP</code> environment variable.
+If it finds one, it treats it as a filename that contains Python code and it <strong>runs all the code in that file</strong>, as if you had copy-pasted the code into the REPL.</p>
+
+<p>So all of the modifications I have made to my Python REPL rely on this <code>PYTHONSTARTUP</code> variable in my <code>~/.zshenv</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">PYTHONSTARTUP</span><span class="o">=</span><span class="nv">$HOME</span>/.startup.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you use bash, you&rsquo;ll put that in your <code>~/.bashrc</code> file.
+If you&rsquo;re on Windows <a href="https://gist.github.com/mitchmindtree/92c8e37fa80c8dddee5b94fc88d1288b">you&rsquo;ll need to set an environment variable the Windows way</a>.</p>
+
+<p>With that variable set, I can now create a <code>~/.startup.py</code> file that has Python code in it.
+That code will automatically run every time I launch a new Python REPL, whether within a virtual environment or outside of one.</p>
+
+<h2>My REPL keyboard shortcuts</h2>
+
+<p>The quick summary of my <em>current</em> modifications are:</p>
+
+<ul>
+<li>Pressing <strong>Home</strong> moves to the <strong>first character in the code block</strong></li>
+<li>Pressing <strong>End</strong> moves to the <strong>last character in the code block</strong></li>
+<li>Pressing <strong>Alt+M</strong> moves to the <strong>first character</strong> on the current line</li>
+<li>Pressing <strong>Shift+Tab</strong> removes <strong>common indentation</strong> from the code block</li>
+<li>Pressing <strong>Alt+Up</strong> swaps the current line with <strong>the line above it</strong></li>
+<li>Pressing <strong>Alt+Down</strong> swaps the current line with <strong>the line below it</strong></li>
+<li>Pressing <strong>Ctrl+N</strong> inserts <strong>a specific list of numbers</strong></li>
+<li>Pressing <strong>Ctrl+F</strong> inserts <strong>a specific list of strings</strong></li>
+</ul>
+
+
+<p>If you&rsquo;ve read <a href="https://www.pythonmorsels.com/repl-features/">my Python REPL shortcuts</a> article, you know that we can use <strong>Ctrl+A</strong> to move to the beginning of the line and <strong>Ctrl+E</strong> to move to the end of the line.
+I already use those instead of the Home and End keys, so I decided to rebind Home and End to do something different.</p>
+
+<p>The <strong>Alt+M</strong> key combination is essentially the same as <code>Alt+M</code> in Emacs or <code>^</code> in Vim. I usually prefer to move to the beginning of the non-whitespace in a line rather than to the beginning of the <em>entire</em> line.</p>
+
+<p>The <strong>Shift+Tab</strong> functionality is basically a fancy wrapper around <a href="https://www.pythonmorsels.com/dedent/">using <code>textwrap.dedent</code></a>: it dedents the current code block while keeping the cursor over the same character it was at before.</p>
+
+<p>The <strong>Ctrl+N</strong> and <strong>Ctrl+F</strong> shortcuts make it easier for me to grab an example data structure to work with when teaching.</p>
+
+<p>In addition to the above changes, I also modify my color scheme to work nicely with my Solarized Light color scheme in Vim.</p>
+
+<h2>I created a pyrepl-hacks library for this</h2>
+
+<p>My PYTHONSTARTUP file became so messy that I ended up creating a <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks library</a> to help me with these modifications.</p>
+
+<p><a href="https://github.com/treyhunner/dotfiles/commits/main/startup.py">My PYTHONSTARTUP file</a> now looks pretty much like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pathlib</span> <span class="kn">as</span> <span class="nn">_pathlib</span><span class="o">,</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">_sys</span>
+</span><span class='line'><span class="n">_sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># We&#39;re on Python 3.12 or below</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span> <span class="s">&quot;home&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;End&quot;</span><span class="p">,</span> <span class="s">&quot;end&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+M&quot;</span><span class="p">,</span> <span class="s">&quot;move-to-indentation&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Shift+Tab&quot;</span><span class="p">,</span> <span class="s">&quot;dedent&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Down&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-down&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Up&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-up&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span><span class="s">&quot;Ctrl+N&quot;</span><span class="p">,</span> <span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span>
+</span><span class='line'>        <span class="s">&quot;Ctrl+F&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&#39;[&quot;apples&quot;, &quot;oranges&quot;, &quot;bananas&quot;, &quot;strawberries&quot;, &quot;pears&quot;]&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># Solarized Light theme to match vim</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">update_theme</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">keyword</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">builtin</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">comment</span><span class="o">=</span><span class="s">&quot;intense blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">string</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">number</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">definition</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">soft_keyword</span><span class="o">=</span><span class="s">&quot;bold green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">op</span><span class="o">=</span><span class="s">&quot;intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">reset</span><span class="o">=</span><span class="s">&quot;reset, intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">pass</span>  <span class="c"># We&#39;re on Python 3.13 or below</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">del</span> <span class="n">_repl</span><span class="p">,</span> <span class="n">_pathlib</span><span class="p">,</span> <span class="n">_sys</span>  <span class="c"># Avoid global REPL namespace pollution</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s pretty short!</p>
+
+<p>But wait&hellip; won&rsquo;t this fail unless pyrepl-hacks is installed in every virtual environment <em>and</em> installed globally for every Python version on my machine?</p>
+
+<p>That&rsquo;s where that <code>sys.path.append</code> trick comes in handy&hellip;</p>
+
+<h2>Wait&hellip; let&rsquo;s acknowledge the dragons 🐲</h2>
+
+<p>At this point I&rsquo;d like to pause to note that all of this relies on using an implementation detail of Python that is deliberately undocumented because it <em>is not designed</em> to be used by end users.</p>
+
+<p>The above code all relies on the <code>_pyrepl</code> module that was added in Python 3.13 (and optionally the <code>_colorize</code> module that was added in Python 3.14).</p>
+
+<p>When I run a new future version of Python (for example Python 3.15) this solution may break.
+I&rsquo;m willing to take that risk, as I know that I can always unset my shell&rsquo;s <code>PYTHONSTARTUP</code> variable or clear out my startup file.</p>
+
+<p>So, just be aware&hellip; here be (private undocumented implementation detail) dragons.</p>
+
+<h2>Monkey patching <code>sys.path</code> to allow importing <code>pyrepl_hacks</code></h2>
+
+<p>I didn&rsquo;t install pyrepl-hacks <em>the usual way</em>.
+Instead, I installed it in a very specific location.</p>
+
+<p>I created a <code>~/.pyhacks</code> directory and then installed <code>pyrepl-hacks</code> <em>into</em> that directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir -p ~/.pyhacks
+</span><span class='line'><span class="nv">$ </span>python -m pip install pyrepl-hacks --target ~/.pyhacks
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order for the <code>pyrepl_hacks</code> Python package to work, it needs to available within every Python REPL I might launch.
+Normally that would mean that it needs to be installed in every virtual environment that Python runs within.
+This trick avoids that constraint.</p>
+
+<p>When Python tries to import a module, it iterates through the <code>sys.path</code> directory list.
+Any Python packages found <em>within</em> any of the <code>sys.path</code> directories may be imported.</p>
+
+<p>So monkey patching <code>sys.path</code> within my PYTHONSTARTUP file allows <code>pyrepl_hacks</code> to be imported in every Python interpreter I launch:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With those 3 lines (or something like them) placed in my PYTHONSTARTUP file, all interactive Python interpreters I launch will be able to import modules that are located in my <code>~/.pyhacks</code> directory.</p>
+
+<h2>Creating your own custom REPL commands</h2>
+
+<p>That&rsquo;s pretty neat.
+But what if you want to invent your own REPL commands?</p>
+
+<p>Well, the <code>bind</code> utility I&rsquo;ve created in the <code>pyrepl_hacks</code> module can be used as a decorator for that.</p>
+
+<p>This will make Ctrl+X followed by Ctrl+R insert <code>import subprocess</code> followed by <code>subprocess.run("", shell=True)</code> with the cursor positioned in between the double quotes after it&rsquo;s all inserted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@_repl.bind</span><span class="p">(</span><span class="s">r&quot;Ctrl+X Ctrl+R&quot;</span><span class="p">,</span> <span class="n">with_event</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">subprocess_run</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Ctrl+X followed by Ctrl+R will insert a subprocess.run command.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;import subprocess</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;subprocess.run(&quot;&quot;, shell=True)&#39;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">-</span> <span class="n">code</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;&quot;&quot;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can read more about the ins and outs of the pyrepl-hacks package <a href="https://github.com/treyhunner/pyrepl-hacks#readme">in the readme file</a>.</p>
+
+<h2>pyrepl-hacks is just a fancy wrapper</h2>
+
+<p>The pyrepl-hacks package is really just a fancy wrapper around Python&rsquo;s <code>_pyrepl</code> and <code>_colorize</code> modules.</p>
+
+<p>Why did I make a whole package and then modify my <code>sys.path</code> to use it, when I could have just used <code>_pyrepl</code> directly?</p>
+
+<p>Three reasons:</p>
+
+<ol>
+<li>To make creating new commands <em>a bit</em> easier (functions can be used instead of classes)</li>
+<li>To make the key bindings look a bit nicer (I prefer <code>"Ctrl+M"</code> over <code>r"\C-M"</code>)</li>
+<li>To hide my hairy hacks behind a shiny API ✨</li>
+</ol>
+
+
+<p>Before I made pyrepl-hacks, I implemented these commands directly within my PYTHONSTARTUP file by reaching into the internals of <code>_pyrepl</code> directly.</p>
+
+<p>My PYTHONSTARTUP file before pyrepl-hacks was <a href="https://pym.dev/p/35q9e/">over 100 lines longer</a>.</p>
+
+<h2>Try pyrepl-hacks and leave feedback</h2>
+
+<p>My hope is that the <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks</a> library will be obsolete one day.
+Eventually the <code>_pyrepl</code> module might be renamed to <code>pyrepl</code> (or maybe just <code>repl</code>?) and it will have a well-documented friendly-ish public interface.</p>
+
+<p>In the meantime, I plan to maintain pyrepl-hacks.
+As Python 3.15 is developed, I&rsquo;ll make sure it continues to work.
+And I may add more useful commands if I think of any.</p>
+
+<p>If you hack your own REPL, I&rsquo;d love to hear what modifications you come up with.
+And if you have thoughts on how to improve pyrepl-hacks, please open an issue or get in touch.</p>
+
+<p>Also, <strong>if you use Windows</strong>, <a href="https://github.com/treyhunner/pyrepl-hacks/issues/1">please help me</a> confirm <strong>whether certain keys work on Windows</strong>. Thanks!</p>
+
+<p>Contributions and ideas welcome!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Customizing your Python REPL's color scheme (Python 3.14+)]]></title>
@@ -3134,96 +3402,6 @@ The learning you get from day-to-day coding is messy and unpredictable. Yes, lea
 <p>Subscribe before November 29, 2022 to lock-in your subscription at $200/year.</p>
 
 <p><a href="https://www.pythonmorsels.com/pricing" class="subscribe-btn form-big">Subscribe to Python Morsels 💰</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2022)]]></title>
-    <link href="https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022/"/>
-    <updated>2022-11-22T10:15:00-08:00</updated>
-    <id>https://treyhunner.com/2022/11/python-black-friday-and-cyber-monday-sales-2022</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s that time of year again… time for my annual compilation post of <strong>Black Friday and Cyber Monday deals for learning Python</strong>.</p>
-
-<h2>Save up to $108 a year on Python Morsels</h2>
-
-<p>Of course I&rsquo;m going to kick things off with my own sale. 😉</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> helps developers <strong>deepen their Python skills</strong> in a way that day-to-day coding simply can&rsquo;t.</p>
-
-<p>Python Morsels is specifically crafted for:</p>
-
-<ul>
-<li>experienced developers frustrated with gaps in their Python knowledge</li>
-<li>self-taught programmers seeking courage and confidence in their Python abilities</li>
-<li>intermediate-level Python learners trying to deepen skills</li>
-</ul>
-
-
-<p>If you saw yourself in that list, subscribe now before prices increase on November 29, 2022!</p>
-
-<p><a href="https://trey.io/cyber-monday-sale-2022" class="subscribe-btn form-big">💰 See the Python Morsels sale</a></p>
-
-<h2>Python books, courses, templates, and exercises</h2>
-
-<p>There are a <em>lot</em> of Python-related sales going on this year.
-Note that some of the below sales include courses, some include books, some include templates (Itamar&rsquo;s Docker templates for example) and some include a mix of different learning products.</p>
-
-<ul>
-<li><strong><a href="https://store.lerner.co.il/?coupon=BF2022">Reuven Lerner</a></strong>: Reuven&rsquo;s Python courses are 40% off this week with the coupon <code>BF2022</code></li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: Get all Talk Python courses in one $249 bundle</li>
-<li><strong>Sundeep Agarwal</strong>: Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all books bundle is 64% off</a> (it&rsquo;s $10), the <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Learn by example Python bundle</a> is 80% off (it&rsquo;s $3), and <a href="https://learnbyexample.gumroad.com/l/py_projects/FestiveOffer">Practice Python Projects</a> is free!</li>
-<li><strong><a href="https://store.metasnake.com/?coupon=PANDAS30">Matt Harrison</a></strong>: Matt&rsquo;s offering 30% off his Effective Pandas book on Friday <strong>only</strong></li>
-<li><strong><a href="https://pythonspeed.com/products/docker/">Itamar Turner-Trauring</a></strong>: Itamar&rsquo;s Docker packaging products for Python are all 25% off through November with the code <code>FALL22</code></li>
-<li><strong><a href="https://www.blog.pythonlibrary.org/2022/11/22/python-black-friday-cyber-monday-sales-2022/">Mike Driscoll</a></strong>: Mike is offering $10 off any of his books this year with the coupon code <code>black2022</code></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: books are 35% off with the coupon <code>HOLIDAYDEALS</code></li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: save 40% on Brian Okken&rsquo;s PyTest book or any other Pragmatic Bookshelf book with the coupon code <code>turkeysale2022</code></li>
-<li><strong><a href="https://udemy.com">Udemy</a></strong>: various Python courses are also on sale on Udemy right now, including Al Sweigart&rsquo;s <a href="https://www.udemy.com/course/automate/">Automate the Boring Stuff with Python course</a></li>
-</ul>
-
-
-<h2>Python learning subscriptions</h2>
-
-<p>I use a subscription model for <a href="https://trey.io/cyber-monday-sale-2022">Python Morsels</a> because subscriptions (when done well) can encourage habitual learning, which is often more effective than binge-learning.
-But Python Morsels isn&rsquo;t the only subscription-based Python learning platform.</p>
-
-<p>Here sales on other learning subscriptions:</p>
-
-<ul>
-<li><strong><a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">O'Reilly Media</a></strong> subscriptions are $200 off with the coupon <a href="https://www.oreilly.com/online-learning/cyber-monday-2022.html">CYBERWEEK22</a></li>
-<li><strong><a href="https://www.dunderdata.com/black-friday">Dunder Data</a></strong> subscriptions (by Ted Petrou) are 40% off (normally $399), plus an extra 50% off for completing 3 certificates within 3 months</li>
-<li><strong><a href="https://www.datacamp.com/promo/black-friday-2022">DataCamp</a></strong> has a 50% off sale on their annual subscriptions right now as well</li>
-</ul>
-
-
-<p>Also here&rsquo;s a Python-related service that&rsquo;s on sale (a subscription product, not a learning service):</p>
-
-<ul>
-<li><strong>Sourcery</strong>: <a href="https://sourcery.ai/pricing/">Sourcery Pro</a> is 33% off for the first 12 months with coupon <code>BLACKFRIDAY2022</code></li>
-</ul>
-
-
-<h2>Django sales</h2>
-
-<p>Adam Johnson compiled many <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/"><strong>Django-related Black Friday and Cyber Monday sales</strong></a>.</p>
-
-<p>Here&rsquo;s a quick summary:</p>
-
-<ul>
-<li>Will Vincent is offering 50% off a bundle for newer Django developers (<a href="https://wsvincent.gumroad.com/l/bhylo/blackfriday2022">sale</a>)</li>
-<li>Adam Johnson is offering 50% off his books for experienced Django developers (<a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">announcement</a>)</li>
-<li>Test Driven is selling a discounted bundle of courses on Django REST Framework, Celery, and search (<a href="https://testdriven.io/bundle/django-black-friday/">sale</a>)</li>
-</ul>
-
-
-<p>Plus other discounted books, apps, templates, and services from others: <a href="https://adamj.eu/tech/2022/11/21/django-black-friday-deals-2022/">read Adam&rsquo;s full post</a> for more details on the Django-related sales this year.</p>
-
-<h2>Go get yourself some deals!</h2>
-
-<p>Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)</p>
-
-<p>And if you have questions about the <a href="https://trey.io/cyber-monday-sale-2022"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
-
-<p>Happy Python-ing!</p>
 ]]></content>
   </entry>
   

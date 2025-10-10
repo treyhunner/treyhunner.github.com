@@ -1,0 +1,658 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>Handy Python REPL Modifications</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="I find myself in the Python REPL a lot. I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, &hellip;">
+  
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2025/10/handy-python-repl-modifications/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Handy Python REPL Modifications</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2025-10-08T19:59:20-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>7:59 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>I find myself in the Python REPL <em>a lot</em>.</p>
+
+<p>I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, to record a screencast, to come up with a code example for an article, and (most importantly for me) to teach Python.
+My Python courses and workshops are based largely around writing code together to guess how something works, try it out, and repeat.</p>
+
+<p>As I&rsquo;ve written about before, you can <a href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/">add custom keyboard shortcuts</a> to the new Python REPL (since 3.13) and <a href="https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme/">customize the REPL syntax highlighting</a> (since 3.14).
+If you spend time in the Python REPL and wish it behaved a little more <strong>like your favorite editor</strong>, these tricks can come in handy.</p>
+
+<p>I have added <strong>custom keyboard shortcuts</strong> to my REPL and other modifications to help me <strong>more quickly write and edit code in my REPL</strong>.
+I&rsquo;d like to share some of the modifications that I&rsquo;ve found helpful in my own Python REPL.</p>
+
+<h2>Creating a PYTHONSTARTUP file</h2>
+
+<p>If you want to run Python code every time an interactive prompt (a REPL) starts, you can make a PYTHONSTARTUP file.</p>
+
+<p>When Python launches an interactive prompt, it checks for a <code>PYTHONSTARTUP</code> environment variable.
+If it finds one, it treats it as a filename that contains Python code and it <strong>runs all the code in that file</strong>, as if you had copy-pasted the code into the REPL.</p>
+
+<p>So all of the modifications I have made to my Python REPL rely on this <code>PYTHONSTARTUP</code> variable in my <code>~/.zshenv</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">PYTHONSTARTUP</span><span class="o">=</span><span class="nv">$HOME</span>/.startup.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you use bash, you&rsquo;ll put that in your <code>~/.bashrc</code> file.
+If you&rsquo;re on Windows <a href="https://gist.github.com/mitchmindtree/92c8e37fa80c8dddee5b94fc88d1288b">you&rsquo;ll need to set an environment variable the Windows way</a>.</p>
+
+<p>With that variable set, I can now create a <code>~/.startup.py</code> file that has Python code in it.
+That code will automatically run every time I launch a new Python REPL, whether within a virtual environment or outside of one.</p>
+
+<h2>My REPL keyboard shortcuts</h2>
+
+<p>The quick summary of my <em>current</em> modifications are:</p>
+
+<ul>
+<li>Pressing <strong>Home</strong> moves to the <strong>first character in the code block</strong></li>
+<li>Pressing <strong>End</strong> moves to the <strong>last character in the code block</strong></li>
+<li>Pressing <strong>Alt+M</strong> moves to the <strong>first character</strong> on the current line</li>
+<li>Pressing <strong>Shift+Tab</strong> removes <strong>common indentation</strong> from the code block</li>
+<li>Pressing <strong>Alt+Up</strong> swaps the current line with <strong>the line above it</strong></li>
+<li>Pressing <strong>Alt+Down</strong> swaps the current line with <strong>the line below it</strong></li>
+<li>Pressing <strong>Ctrl+N</strong> inserts <strong>a specific list of numbers</strong></li>
+<li>Pressing <strong>Ctrl+F</strong> inserts <strong>a specific list of strings</strong></li>
+</ul>
+
+
+<p>If you&rsquo;ve read <a href="https://www.pythonmorsels.com/repl-features/">my Python REPL shortcuts</a> article, you know that we can use <strong>Ctrl+A</strong> to move to the beginning of the line and <strong>Ctrl+E</strong> to move to the end of the line.
+I already use those instead of the Home and End keys, so I decided to rebind Home and End to do something different.</p>
+
+<p>The <strong>Alt+M</strong> key combination is essentially the same as <code>Alt+M</code> in Emacs or <code>^</code> in Vim. I usually prefer to move to the beginning of the non-whitespace in a line rather than to the beginning of the <em>entire</em> line.</p>
+
+<p>The <strong>Shift+Tab</strong> functionality is basically a fancy wrapper around <a href="https://www.pythonmorsels.com/dedent/">using <code>textwrap.dedent</code></a>: it dedents the current code block while keeping the cursor over the same character it was at before.</p>
+
+<p>The <strong>Ctrl+N</strong> and <strong>Ctrl+F</strong> shortcuts make it easier for me to grab an example data structure to work with when teaching.</p>
+
+<p>In addition to the above changes, I also modify my color scheme to work nicely with my Solarized Light color scheme in Vim.</p>
+
+<h2>I created a pyrepl-hacks library for this</h2>
+
+<p>My PYTHONSTARTUP file became so messy that I ended up creating a <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks library</a> to help me with these modifications.</p>
+
+<p><a href="https://github.com/treyhunner/dotfiles/commits/main/startup.py">My PYTHONSTARTUP file</a> now looks pretty much like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pathlib</span> <span class="kn">as</span> <span class="nn">_pathlib</span><span class="o">,</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">_sys</span>
+</span><span class='line'><span class="n">_sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># We&#39;re on Python 3.12 or below</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span> <span class="s">&quot;home&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;End&quot;</span><span class="p">,</span> <span class="s">&quot;end&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+M&quot;</span><span class="p">,</span> <span class="s">&quot;move-to-indentation&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Shift+Tab&quot;</span><span class="p">,</span> <span class="s">&quot;dedent&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Down&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-down&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Up&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-up&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span><span class="s">&quot;Ctrl+N&quot;</span><span class="p">,</span> <span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span>
+</span><span class='line'>        <span class="s">&quot;Ctrl+F&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&#39;[&quot;apples&quot;, &quot;oranges&quot;, &quot;bananas&quot;, &quot;strawberries&quot;, &quot;pears&quot;]&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># Solarized Light theme to match vim</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">update_theme</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">keyword</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">builtin</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">comment</span><span class="o">=</span><span class="s">&quot;intense blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">string</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">number</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">definition</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">soft_keyword</span><span class="o">=</span><span class="s">&quot;bold green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">op</span><span class="o">=</span><span class="s">&quot;intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">reset</span><span class="o">=</span><span class="s">&quot;reset, intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">pass</span>  <span class="c"># We&#39;re on Python 3.13 or below</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">del</span> <span class="n">_repl</span><span class="p">,</span> <span class="n">_pathlib</span><span class="p">,</span> <span class="n">_sys</span>  <span class="c"># Avoid global REPL namespace pollution</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s pretty short!</p>
+
+<p>But wait&hellip; won&rsquo;t this fail unless pyrepl-hacks is installed in every virtual environment <em>and</em> installed globally for every Python version on my machine?</p>
+
+<p>That&rsquo;s where that <code>sys.path.append</code> trick comes in handy&hellip;</p>
+
+<h2>Wait&hellip; let&rsquo;s acknowledge the dragons 🐲</h2>
+
+<p>At this point I&rsquo;d like to pause to note that all of this relies on using an implementation detail of Python that is deliberately undocumented because it <em>is not designed</em> to be used by end users.</p>
+
+<p>The above code all relies on the <code>_pyrepl</code> module that was added in Python 3.13 (and optionally the <code>_colorize</code> module that was added in Python 3.14).</p>
+
+<p>When I run a new future version of Python (for example Python 3.15) this solution may break.
+I&rsquo;m willing to take that risk, as I know that I can always unset my shell&rsquo;s <code>PYTHONSTARTUP</code> variable or clear out my startup file.</p>
+
+<p>So, just be aware&hellip; here be (private undocumented implementation detail) dragons.</p>
+
+<h2>Monkey patching <code>sys.path</code> to allow importing <code>pyrepl_hacks</code></h2>
+
+<p>I didn&rsquo;t install pyrepl-hacks <em>the usual way</em>.
+Instead, I installed it in a very specific location.</p>
+
+<p>I created a <code>~/.pyhacks</code> directory and then installed <code>pyrepl-hacks</code> <em>into</em> that directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir -p ~/.pyhacks
+</span><span class='line'><span class="nv">$ </span>python -m pip install pyrepl-hacks --target ~/.pyhacks
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order for the <code>pyrepl_hacks</code> Python package to work, it needs to available within every Python REPL I might launch.
+Normally that would mean that it needs to be installed in every virtual environment that Python runs within.
+This trick avoids that constraint.</p>
+
+<p>When Python tries to import a module, it iterates through the <code>sys.path</code> directory list.
+Any Python packages found <em>within</em> any of the <code>sys.path</code> directories may be imported.</p>
+
+<p>So monkey patching <code>sys.path</code> within my PYTHONSTARTUP file allows <code>pyrepl_hacks</code> to be imported in every Python interpreter I launch:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With those 3 lines (or something like them) placed in my PYTHONSTARTUP file, all interactive Python interpreters I launch will be able to import modules that are located in my <code>~/.pyhacks</code> directory.</p>
+
+<h2>Creating your own custom REPL commands</h2>
+
+<p>That&rsquo;s pretty neat.
+But what if you want to invent your own REPL commands?</p>
+
+<p>Well, the <code>bind</code> utility I&rsquo;ve created in the <code>pyrepl_hacks</code> module can be used as a decorator for that.</p>
+
+<p>This will make Ctrl+X followed by Ctrl+R insert <code>import subprocess</code> followed by <code>subprocess.run("", shell=True)</code> with the cursor positioned in between the double quotes after it&rsquo;s all inserted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@_repl.bind</span><span class="p">(</span><span class="s">r&quot;Ctrl+X Ctrl+R&quot;</span><span class="p">,</span> <span class="n">with_event</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">subprocess_run</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Ctrl+X followed by Ctrl+R will insert a subprocess.run command.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;import subprocess</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;subprocess.run(&quot;&quot;, shell=True)&#39;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">-</span> <span class="n">code</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;&quot;&quot;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can read more about the ins and outs of the pyrepl-hacks package <a href="https://github.com/treyhunner/pyrepl-hacks#readme">in the readme file</a>.</p>
+
+<h2>pyrepl-hacks is just a fancy wrapper</h2>
+
+<p>The pyrepl-hacks package is really just a fancy wrapper around Python&rsquo;s <code>_pyrepl</code> and <code>_colorize</code> modules.</p>
+
+<p>Why did I make a whole package and then modify my <code>sys.path</code> to use it, when I could have just used <code>_pyrepl</code> directly?</p>
+
+<p>Three reasons:</p>
+
+<ol>
+<li>To make creating new commands <em>a bit</em> easier (functions can be used instead of classes)</li>
+<li>To make the key bindings look a bit nicer (I prefer <code>"Ctrl+M"</code> over <code>r"\C-M"</code>)</li>
+<li>To hide my hairy hacks behind a shiny API ✨</li>
+</ol>
+
+
+<p>Before I made pyrepl-hacks, I implemented these commands directly within my PYTHONSTARTUP file by reaching into the internals of <code>_pyrepl</code> directly.</p>
+
+<p>My PYTHONSTARTUP file before pyrepl-hacks was <a href="https://pym.dev/p/35q9e/">over 100 lines longer</a>.</p>
+
+<h2>Try pyrepl-hacks and leave feedback</h2>
+
+<p>My hope is that the <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks</a> library will be obsolete one day.
+Eventually the <code>_pyrepl</code> module might be renamed to <code>pyrepl</code> (or maybe just <code>repl</code>?) and it will have a well-documented friendly-ish public interface.</p>
+
+<p>In the meantime, I plan to maintain pyrepl-hacks.
+As Python 3.15 is developed, I&rsquo;ll make sure it continues to work.
+And I may add more useful commands if I think of any.</p>
+
+<p>If you hack your own REPL, I&rsquo;d love to hear what modifications you come up with.
+And if you have thoughts on how to improve pyrepl-hacks, please open an issue or get in touch.</p>
+
+<p>Also, <strong>if you use Windows</strong>, <a href="https://github.com/treyhunner/pyrepl-hacks/issues/1">please help me</a> confirm <strong>whether certain keys work on Windows</strong>. Thanks!</p>
+
+<p>Contributions and ideas welcome!</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2025-10-08T19:59:20-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2025</span></span> <span class='time'>7:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/repl/'>repl</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2025/10/handy-python-repl-modifications/" data-via="treyhunner" data-counturl="https://treyhunner.com/2025/10/handy-python-repl-modifications/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2025/09/customizing-your-python-repl-color-scheme/" title="Previous Post: Customizing your Python REPL's color scheme (Python 3.14+)">&laquo; Customizing your Python REPL's color scheme (Python 3.14+)</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2025 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2025/10/handy-python-repl-modifications/';
+        var disqus_url = 'https://treyhunner.com/2025/10/handy-python-repl-modifications/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>

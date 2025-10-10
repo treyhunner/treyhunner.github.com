@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-09-04T10:46:34-07:00</updated>
+  <updated>2025-10-10T12:34:13-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,274 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Handy Python REPL Modifications]]></title>
+    <link href="https://treyhunner.com/2025/10/handy-python-repl-modifications/"/>
+    <updated>2025-10-08T19:59:20-07:00</updated>
+    <id>https://treyhunner.com/2025/10/handy-python-repl-modifications</id>
+    <content type="html"><![CDATA[<p>I find myself in the Python REPL <em>a lot</em>.</p>
+
+<p>I open up the REPL to play with an idea, to use Python as a calculator or quick and dirty text parsing tool, to record a screencast, to come up with a code example for an article, and (most importantly for me) to teach Python.
+My Python courses and workshops are based largely around writing code together to guess how something works, try it out, and repeat.</p>
+
+<p>As I&rsquo;ve written about before, you can <a href="https://treyhunner.com/2024/10/adding-keyboard-shortcuts-to-the-python-repl/">add custom keyboard shortcuts</a> to the new Python REPL (since 3.13) and <a href="https://treyhunner.com/2025/09/customizing-your-python-repl-color-scheme/">customize the REPL syntax highlighting</a> (since 3.14).
+If you spend time in the Python REPL and wish it behaved a little more <strong>like your favorite editor</strong>, these tricks can come in handy.</p>
+
+<p>I have added <strong>custom keyboard shortcuts</strong> to my REPL and other modifications to help me <strong>more quickly write and edit code in my REPL</strong>.
+I&rsquo;d like to share some of the modifications that I&rsquo;ve found helpful in my own Python REPL.</p>
+
+<h2>Creating a PYTHONSTARTUP file</h2>
+
+<p>If you want to run Python code every time an interactive prompt (a REPL) starts, you can make a PYTHONSTARTUP file.</p>
+
+<p>When Python launches an interactive prompt, it checks for a <code>PYTHONSTARTUP</code> environment variable.
+If it finds one, it treats it as a filename that contains Python code and it <strong>runs all the code in that file</strong>, as if you had copy-pasted the code into the REPL.</p>
+
+<p>So all of the modifications I have made to my Python REPL rely on this <code>PYTHONSTARTUP</code> variable in my <code>~/.zshenv</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nb">export </span><span class="nv">PYTHONSTARTUP</span><span class="o">=</span><span class="nv">$HOME</span>/.startup.py
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you use bash, you&rsquo;ll put that in your <code>~/.bashrc</code> file.
+If you&rsquo;re on Windows <a href="https://gist.github.com/mitchmindtree/92c8e37fa80c8dddee5b94fc88d1288b">you&rsquo;ll need to set an environment variable the Windows way</a>.</p>
+
+<p>With that variable set, I can now create a <code>~/.startup.py</code> file that has Python code in it.
+That code will automatically run every time I launch a new Python REPL, whether within a virtual environment or outside of one.</p>
+
+<h2>My REPL keyboard shortcuts</h2>
+
+<p>The quick summary of my <em>current</em> modifications are:</p>
+
+<ul>
+<li>Pressing <strong>Home</strong> moves to the <strong>first character in the code block</strong></li>
+<li>Pressing <strong>End</strong> moves to the <strong>last character in the code block</strong></li>
+<li>Pressing <strong>Alt+M</strong> moves to the <strong>first character</strong> on the current line</li>
+<li>Pressing <strong>Shift+Tab</strong> removes <strong>common indentation</strong> from the code block</li>
+<li>Pressing <strong>Alt+Up</strong> swaps the current line with <strong>the line above it</strong></li>
+<li>Pressing <strong>Alt+Down</strong> swaps the current line with <strong>the line below it</strong></li>
+<li>Pressing <strong>Ctrl+N</strong> inserts <strong>a specific list of numbers</strong></li>
+<li>Pressing <strong>Ctrl+F</strong> inserts <strong>a specific list of strings</strong></li>
+</ul>
+
+
+<p>If you&rsquo;ve read <a href="https://www.pythonmorsels.com/repl-features/">my Python REPL shortcuts</a> article, you know that we can use <strong>Ctrl+A</strong> to move to the beginning of the line and <strong>Ctrl+E</strong> to move to the end of the line.
+I already use those instead of the Home and End keys, so I decided to rebind Home and End to do something different.</p>
+
+<p>The <strong>Alt+M</strong> key combination is essentially the same as <code>Alt+M</code> in Emacs or <code>^</code> in Vim. I usually prefer to move to the beginning of the non-whitespace in a line rather than to the beginning of the <em>entire</em> line.</p>
+
+<p>The <strong>Shift+Tab</strong> functionality is basically a fancy wrapper around <a href="https://www.pythonmorsels.com/dedent/">using <code>textwrap.dedent</code></a>: it dedents the current code block while keeping the cursor over the same character it was at before.</p>
+
+<p>The <strong>Ctrl+N</strong> and <strong>Ctrl+F</strong> shortcuts make it easier for me to grab an example data structure to work with when teaching.</p>
+
+<p>In addition to the above changes, I also modify my color scheme to work nicely with my Solarized Light color scheme in Vim.</p>
+
+<h2>I created a pyrepl-hacks library for this</h2>
+
+<p>My PYTHONSTARTUP file became so messy that I ended up creating a <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks library</a> to help me with these modifications.</p>
+
+<p><a href="https://github.com/treyhunner/dotfiles/commits/main/startup.py">My PYTHONSTARTUP file</a> now looks pretty much like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pathlib</span> <span class="kn">as</span> <span class="nn">_pathlib</span><span class="o">,</span> <span class="nn">sys</span> <span class="kn">as</span> <span class="nn">_sys</span>
+</span><span class='line'><span class="n">_sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">_pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">try</span><span class="p">:</span>
+</span><span class='line'>    <span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># We&#39;re on Python 3.12 or below</span>
+</span><span class='line'><span class="k">else</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Home&quot;</span><span class="p">,</span> <span class="s">&quot;home&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;End&quot;</span><span class="p">,</span> <span class="s">&quot;end&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+M&quot;</span><span class="p">,</span> <span class="s">&quot;move-to-indentation&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Shift+Tab&quot;</span><span class="p">,</span> <span class="s">&quot;dedent&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Down&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-down&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;Alt+Up&quot;</span><span class="p">,</span> <span class="s">&quot;move-line-up&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span><span class="s">&quot;Ctrl+N&quot;</span><span class="p">,</span> <span class="s">&quot;[2, 1, 3, 4, 7, 11, 18, 29]&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">_repl</span><span class="o">.</span><span class="n">bind_to_insert</span><span class="p">(</span>
+</span><span class='line'>        <span class="s">&quot;Ctrl+F&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&#39;[&quot;apples&quot;, &quot;oranges&quot;, &quot;bananas&quot;, &quot;strawberries&quot;, &quot;pears&quot;]&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="c"># Solarized Light theme to match vim</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">update_theme</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">keyword</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">builtin</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">comment</span><span class="o">=</span><span class="s">&quot;intense blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">string</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">number</span><span class="o">=</span><span class="s">&quot;cyan&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">definition</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">soft_keyword</span><span class="o">=</span><span class="s">&quot;bold green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">op</span><span class="o">=</span><span class="s">&quot;intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">reset</span><span class="o">=</span><span class="s">&quot;reset, intense green&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">pass</span>  <span class="c"># We&#39;re on Python 3.13 or below</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">del</span> <span class="n">_repl</span><span class="p">,</span> <span class="n">_pathlib</span><span class="p">,</span> <span class="n">_sys</span>  <span class="c"># Avoid global REPL namespace pollution</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s pretty short!</p>
+
+<p>But wait&hellip; won&rsquo;t this fail unless pyrepl-hacks is installed in every virtual environment <em>and</em> installed globally for every Python version on my machine?</p>
+
+<p>That&rsquo;s where that <code>sys.path.append</code> trick comes in handy&hellip;</p>
+
+<h2>Wait&hellip; let&rsquo;s acknowledge the dragons 🐲</h2>
+
+<p>At this point I&rsquo;d like to pause to note that all of this relies on using an implementation detail of Python that is deliberately undocumented because it <em>is not designed</em> to be used by end users.</p>
+
+<p>The above code all relies on the <code>_pyrepl</code> module that was added in Python 3.13 (and optionally the <code>_colorize</code> module that was added in Python 3.14).</p>
+
+<p>When I run a new future version of Python (for example Python 3.15) this solution may break.
+I&rsquo;m willing to take that risk, as I know that I can always unset my shell&rsquo;s <code>PYTHONSTARTUP</code> variable or clear out my startup file.</p>
+
+<p>So, just be aware&hellip; here be (private undocumented implementation detail) dragons.</p>
+
+<h2>Monkey patching <code>sys.path</code> to allow importing <code>pyrepl_hacks</code></h2>
+
+<p>I didn&rsquo;t install pyrepl-hacks <em>the usual way</em>.
+Instead, I installed it in a very specific location.</p>
+
+<p>I created a <code>~/.pyhacks</code> directory and then installed <code>pyrepl-hacks</code> <em>into</em> that directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>mkdir -p ~/.pyhacks
+</span><span class='line'><span class="nv">$ </span>python -m pip install pyrepl-hacks --target ~/.pyhacks
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order for the <code>pyrepl_hacks</code> Python package to work, it needs to available within every Python REPL I might launch.
+Normally that would mean that it needs to be installed in every virtual environment that Python runs within.
+This trick avoids that constraint.</p>
+
+<p>When Python tries to import a module, it iterates through the <code>sys.path</code> directory list.
+Any Python packages found <em>within</em> any of the <code>sys.path</code> directories may be imported.</p>
+
+<p>So monkey patching <code>sys.path</code> within my PYTHONSTARTUP file allows <code>pyrepl_hacks</code> to be imported in every Python interpreter I launch:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span> <span class="o">/</span> <span class="s">&quot;.pyhacks&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With those 3 lines (or something like them) placed in my PYTHONSTARTUP file, all interactive Python interpreters I launch will be able to import modules that are located in my <code>~/.pyhacks</code> directory.</p>
+
+<h2>Creating your own custom REPL commands</h2>
+
+<p>That&rsquo;s pretty neat.
+But what if you want to invent your own REPL commands?</p>
+
+<p>Well, the <code>bind</code> utility I&rsquo;ve created in the <code>pyrepl_hacks</code> module can be used as a decorator for that.</p>
+
+<p>This will make Ctrl+X followed by Ctrl+R insert <code>import subprocess</code> followed by <code>subprocess.run("", shell=True)</code> with the cursor positioned in between the double quotes after it&rsquo;s all inserted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">pyrepl_hacks</span> <span class="kn">as</span> <span class="nn">_repl</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@_repl.bind</span><span class="p">(</span><span class="s">r&quot;Ctrl+X Ctrl+R&quot;</span><span class="p">,</span> <span class="n">with_event</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">subprocess_run</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Ctrl+X followed by Ctrl+R will insert a subprocess.run command.&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&quot;import subprocess</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;subprocess.run(&quot;&quot;, shell=True)&#39;</span>
+</span><span class='line'>    <span class="n">reader</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">-</span> <span class="n">code</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;&quot;&quot;&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">_repl</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">event_name</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can read more about the ins and outs of the pyrepl-hacks package <a href="https://github.com/treyhunner/pyrepl-hacks#readme">in the readme file</a>.</p>
+
+<h2>pyrepl-hacks is just a fancy wrapper</h2>
+
+<p>The pyrepl-hacks package is really just a fancy wrapper around Python&rsquo;s <code>_pyrepl</code> and <code>_colorize</code> modules.</p>
+
+<p>Why did I make a whole package and then modify my <code>sys.path</code> to use it, when I could have just used <code>_pyrepl</code> directly?</p>
+
+<p>Three reasons:</p>
+
+<ol>
+<li>To make creating new commands <em>a bit</em> easier (functions can be used instead of classes)</li>
+<li>To make the key bindings look a bit nicer (I prefer <code>"Ctrl+M"</code> over <code>r"\C-M"</code>)</li>
+<li>To hide my hairy hacks behind a shiny API ✨</li>
+</ol>
+
+
+<p>Before I made pyrepl-hacks, I implemented these commands directly within my PYTHONSTARTUP file by reaching into the internals of <code>_pyrepl</code> directly.</p>
+
+<p>My PYTHONSTARTUP file before pyrepl-hacks was <a href="https://pym.dev/p/35q9e/">over 100 lines longer</a>.</p>
+
+<h2>Try pyrepl-hacks and leave feedback</h2>
+
+<p>My hope is that the <a href="https://github.com/treyhunner/pyrepl-hacks">pyrepl-hacks</a> library will be obsolete one day.
+Eventually the <code>_pyrepl</code> module might be renamed to <code>pyrepl</code> (or maybe just <code>repl</code>?) and it will have a well-documented friendly-ish public interface.</p>
+
+<p>In the meantime, I plan to maintain pyrepl-hacks.
+As Python 3.15 is developed, I&rsquo;ll make sure it continues to work.
+And I may add more useful commands if I think of any.</p>
+
+<p>If you hack your own REPL, I&rsquo;d love to hear what modifications you come up with.
+And if you have thoughts on how to improve pyrepl-hacks, please open an issue or get in touch.</p>
+
+<p>Also, <strong>if you use Windows</strong>, <a href="https://github.com/treyhunner/pyrepl-hacks/issues/1">please help me</a> confirm <strong>whether certain keys work on Windows</strong>. Thanks!</p>
+
+<p>Contributions and ideas welcome!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Customizing your Python REPL's color scheme (Python 3.14+)]]></title>
@@ -3336,478 +3604,6 @@ Right now I have <strong>!x</strong> set to query Perplexity, <strong>!c</strong
 
 <p>As far as I can tell, Gemini does not support starting a conversation via a query string.
 Maybe this is related to Google embedding a similar feature <a href="https://chromeunboxed.com/chromes-url-bar-is-getting-quick-access-to-gemini-ai/">directly into Chrome</a>. 🤷</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A beautiful Python monstrosity]]></title>
-    <link href="https://treyhunner.com/2024/06/a-beautiful-python-monstrosity/"/>
-    <updated>2024-06-08T14:30:00-07:00</updated>
-    <id>https://treyhunner.com/2024/06/a-beautiful-python-monstrosity</id>
-    <content type="html"><![CDATA[<p>Creating performance tests for <a href="https://www.pythonmorsels.com">Python Morsels</a> exercises is a frequent annoyance</p>
-
-<p>I loathe writing automated tests for performance-related exercises because they&rsquo;re <em>always</em> flaky.
-How flaky depends on the exercise, what I&rsquo;m testing, and the time variability inherent in the particular Python features that a learner might use.</p>
-
-<p>I came up with a solution for flaky tests recently, but it also makes my tests less readable.
-I then came up with a tool to improve the readability, but that has its own trade-offs.</p>
-
-<p>The code I eventually came up with is a <strong>beautiful Python monstrosity</strong>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
-</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;ll explain what that code does, but first let&rsquo;s talk about why it&rsquo;s needed.</p>
-
-<h2>The flaky performance tests</h2>
-
-<p>My flaky performance tests initially looked like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The first block runs a performance test for the user&rsquo;s function on a very small list and on a slightly larger list and then asserting that the slightly larger list didn&rsquo;t take <em>too</em> much longer to run.
-The next two blocks run the same code on even larger lists and make further assertions about the relative times that the code took to run.</p>
-
-<p>This roughly approximates the <a href="https://www.pythonmorsels.com/time-complexities/">time complexity</a> of this code.</p>
-
-<h2>Running performance checks in a loop</h2>
-
-<p>These performance checks need to:</p>
-
-<ol>
-<li>Predictably fail for inefficient solutions</li>
-<li>Predictably pass for efficient solutions</li>
-<li>Run <em>fast</em> (within just a few seconds) even when the code is inefficient</li>
-<li>Avoid the use of <code>threading</code> because they&rsquo;ll be running on WebAssembly in the browser</li>
-<li>Run consistently on pretty much any computer</li>
-</ol>
-
-
-<p>These 5 requirements together have caused me countless headaches.
-I get the tests passing well, but they don&rsquo;t always fail when they should.
-I get the tests failing and passing when they should, but then they&rsquo;re too slow.
-And so on&hellip;</p>
-
-<p>Notice the <code>n</code> and <code>m</code> factors in the above assertions:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If <code>n</code> and <code>m</code> are too big, we&rsquo;ll get false positives (tests passing when they should fail).
-If <code>n</code> and <code>m</code> are too small, we&rsquo;ll get false negatives (tests failing when they should pass).</p>
-
-<p>To avoid both <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I and Type II errors</a>, I decided to keep <code>n</code> and <code>m</code> small but attempt the assertion block multiple times.</p>
-
-<p>Here&rsquo;s the (far less flaky) revised code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">raise</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">raise</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
-</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>        <span class="k">break</span>
-</span><span class='line'>    <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>        <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">raise</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>for</code> loop runs the code multiple times, the <code>break</code> statement stops the code as soon as the assertions all pass, and the <code>except</code> and <code>if</code> ensure that any assertion errors are suppressed until/unless we&rsquo;re on the final iteration of the loop.</p>
-
-<p>Let&rsquo;s call this a <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.
-It&rsquo;s an absurdly verbose name fitting of absurdly verbose code.</p>
-
-<p>This <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern works pretty well!
-But it&rsquo;s not pretty.</p>
-
-<p>Like many programmers, I believe that <strong>Don&rsquo;t Repeat Yourself</strong> (<a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>) need not apply to tests.
-Tests are <em>allowed</em> to be repetitive if <a href="https://stackoverflow.com/questions/6453235/what-does-damp-not-dry-mean-when-talking-about-unit-tests">the verbosity improves readability</a>.</p>
-
-<p>But there is <em>so much noise</em> in that code!
-I decided that removing some noise might improve readability.
-So I devised a helper utility to reduce the repetition.</p>
-
-<h2>In search of a solution</h2>
-
-<p>While pondering the repetitive noise in this code, I wondered what Python features I could use to abstract away this <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern.</p>
-
-<p>Could I make a context manager and use a <code>with</code> block?
-That might help with the <code>try</code>-<code>except</code>, but context managers can&rsquo;t run their code block multiple times, so that wouldn&rsquo;t help with the <code>for</code> and the <code>break</code>.
-So a context manager is out.</p>
-
-<p>Could I abstract this away into a looping helper by implementing a generator function?
-We <em>are</em> looping and generator functions <em>can</em> <code>break</code> early.
-But, a generator function can&rsquo;t catch an exception that&rsquo;s raised within the <em>body</em> of a loop.
-So a generator function wouldn&rsquo;t work either.</p>
-
-<p>What about a decorator? 🤔</p>
-
-<p>Context managers and decorators both sandwich a block of code.
-But decorators sandwich functions and they have the power to run the same function <em>repeatedly</em>.
-A decorator might work!</p>
-
-<p>Here&rsquo;s a decorator that will run a given function up to 10 times (until no <code>AssertionError</code> is raised):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">try_10_times</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
-</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                    <span class="k">raise</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">wrapper</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To use this decorator, we would need to define a function and then call that function:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="nd">@try_10_times</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">assertions</span><span class="p">():</span>
-</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">assertions</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This isn&rsquo;t <em>quite</em> good enough though&hellip;</p>
-
-<ol>
-<li>We need a pattern to run code N times (not necessarily exactly 10)</li>
-<li>We reference the variables defined in each block in later blocks, so <code>micro_time</code> and <code>tiny_time</code> will need to be available <em>outside</em> that function</li>
-<li>We need this function to run just one time right after it&rsquo;s defined&hellip; could we do that automatically?</li>
-</ol>
-
-
-<p>All 3 of these problems are solvable:</p>
-
-<ol>
-<li>We need a decorator that accepts arguments</li>
-<li>We need to use <em>rarely seen</em> <a href="https://stackoverflow.com/a/1261961/98187"><code>nonlocal</code></a> statement</li>
-<li>We could have the decorator automatically call the decorated function</li>
-</ol>
-
-
-<h2>The final <em>weird</em> decorator</h2>
-
-<p>Here&rsquo;s the decorator I ended up with:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">attempt_n_times</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-</span><span class='line'>    <span class="sd">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="sd">    Run tests multiple times if assertions are raised.</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">    Allows for more forgiving tests when assertions may be a bit flaky.</span>
-</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-</span><span class='line'>        <span class="sd">&quot;&quot;&quot;This looks like a decorator, but it actually runs the function!&quot;&quot;&quot;</span>
-</span><span class='line'>        <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
-</span><span class='line'>            <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">return</span> <span class="n">function</span><span class="p">()</span>
-</span><span class='line'>            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                    <span class="k">raise</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">decorator</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This decorator accepts an <code>n</code> argument which determines the maximum number of times the decorated function should be called.
-The decorator then <em>calls</em> the function repeatedly in a <code>for</code> loop and a <code>try</code>-<code>except</code> block.
-As soon as an <code>AssertionError</code> is <em>not</em> raised during one of these function calls, the looping stops.</p>
-
-<p>The <em>weirdest</em> part about this decorator is that it calls the decorated function.
-Note that the <code>decorator</code> function doesn&rsquo;t define a <code>wrapper</code> function within itself&hellip; it just runs code right away!</p>
-
-<h2>The resulting beautiful Python monstrosity</h2>
-
-<p>Here&rsquo;s the final refactored test code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
-</span><span class='line'>    <span class="n">micro_time</span> <span class="o">=</span> <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">small_time</span> <span class="o">=</span> <span class="n">medium_time</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
-</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">micro_time</span><span class="p">,</span> <span class="n">tiny_time</span>
-</span><span class='line'>        <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
-</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">small_time</span>
-</span><span class='line'>        <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nd">@attempt_n_times</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">_</span><span class="p">():</span>
-</span><span class='line'>        <span class="n">nonlocal</span> <span class="n">medium_time</span>
-</span><span class='line'>        <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>        <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>attempt_n_times</code> decorator <strong>immediately calls the function it decorates</strong>.
-Each function is defined and immediately called one or more times, in a <code>try</code>-<code>except</code> block within a loop.</p>
-
-<p>That&rsquo;s why we&rsquo;ve named these functions with the <a href="https://stackoverflow.com/questions/36315309/how-does-python-throw-away-variable-work">throwaway</a> <code>_</code> name: <strong>we don&rsquo;t care about the name of a function we&rsquo;re never going to refer to again</strong>.</p>
-
-<p>Also note the use of the <code>nonlocal</code> statement.
-Each function in Python has its own scope and all assignments <a href="https://www.pythonmorsels.com/local-and-global-variables/#assigning-to-local-and-global-variables">assign to the local scope</a> by default.
-That <code>nonlocal</code> variable pulls those variables to the scope of the outer function instead.</p>
-
-<p>Compare the above code to the code just before this refactor:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">test_some_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">n</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">2.45</span><span class="p">,</span> <span class="mf">2.04</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">micro_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">micro_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="n">tiny_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">tiny_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">tiny_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">raise</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)):</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">small_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">small_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">small_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">raise</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">for</span> <span class="n">attempts_left</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
-</span><span class='line'>        <span class="k">try</span><span class="p">:</span>
-</span><span class='line'>            <span class="n">medium_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">medium_numbers</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">micro_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">tiny_time</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="p">)</span>
-</span><span class='line'>            <span class="bp">self</span><span class="o">.</span><span class="n">assertLess</span><span class="p">(</span><span class="n">medium_time</span><span class="p">,</span> <span class="n">small_time</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>            <span class="k">break</span>
-</span><span class='line'>        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">if</span> <span class="n">attempts_left</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span><span class='line'>                <span class="k">raise</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I find the refactored version easier to skim.</p>
-
-<p>But that <code>attempt_n_times</code> decorator <em>does</em> abuse the decorator syntax.
-Decorators aren&rsquo;t <em>meant</em> to call the function they&rsquo;re decorating.</p>
-
-<p>Is this misuse of decorators worth it?</p>
-
-<h2>Is this worth it?</h2>
-
-<p>Decorators aren&rsquo;t supposed to immediately call the function they decorate.
-But there&rsquo;s nothing stopping them from doing so.
-I feel that I&rsquo;ve traded &ldquo;normal code&rdquo; for a beautiful monstrosity that&rsquo;s easier to skim at a glance.</p>
-
-<p>The <code>attempt_n_times</code> decorator is pretending that it&rsquo;s a block-level tool by using a function because there&rsquo;s no other way to invent such a tool in Python.</p>
-
-<p>I think abstracting away the <code>for</code>-<code>try</code>-<code>break</code>-<code>except</code>-<code>if</code>-<code>raise</code> pattern was worth it, even though I ended up abusing Python&rsquo;s decorator syntax in the process.</p>
-
-<p>What do you think?
-Was that <code>attempt_n_times</code> abstraction worth it?</p>
 ]]></content>
   </entry>
   
