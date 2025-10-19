@@ -207,7 +207,7 @@ And then run the same thing without the `--preview` flag:
 $ uv python install 3.13.0
 ```
 
-This puts a `python3.10` binary in my `~/.local/bin directory`, which is on my `PATH`.
+This puts a `python3.13` binary in my `~/.local/bin directory`, which is on my `PATH`.
 
 Why "preview"?
 Well, without it uv doesn't ([yet](https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903)) place `python3.13` in my `PATH` by default, as this feature is currently in testing/development.
