@@ -4,7 +4,7 @@
   <title><![CDATA[Category: uv | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/uv/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-10-10T12:34:13-07:00</updated>
+  <updated>2025-10-18T20:00:56-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -207,7 +207,7 @@ Options:
 <pre><code class="bash">$ uv python install 3.13.0
 </code></pre>
 
-<p>This puts a <code>python3.10</code> binary in my <code>~/.local/bin directory</code>, which is on my <code>PATH</code>.</p>
+<p>This puts a <code>python3.13</code> binary in my <code>~/.local/bin directory</code>, which is on my <code>PATH</code>.</p>
 
 <p>Why &ldquo;preview&rdquo;?
 Well, without it uv doesn&rsquo;t (<a href="https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903">yet</a>) place <code>python3.13</code> in my <code>PATH</code> by default, as this feature is currently in testing/development.</p>
