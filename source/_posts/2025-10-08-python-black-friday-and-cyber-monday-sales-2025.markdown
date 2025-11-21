@@ -16,13 +16,13 @@ This is my **[eighth annual compilation](https://treyhunner.com/blog/categories/
 This year, I know that the following folks are offering Black Friday sales:
 
 - **[Python Morsels][]**: I'm offering lifetime access for the second time ever (more details below)
+- **[Data School][]**: subscribe for $99/year to access Kevin's current 7 courses plus all his upcoming courses
 - **[Talk Python][]**: the annual everything bundle, a special AI course bundle, and a discount on Michael Kennedy's Talk Python in Production book
 - **[Mike Driscoll][]**: use code `BLACKISBACK` to get 50% off all his Python books and courses
 - **[Reuven Lerner][]**: use code `BF2025` to get 20% off **annual subscriptions** to the **LernerPython+data** subscription tier
 
 Likely additional sales:
 
-- **[Data School][]**
 - **[Brian Okken](https://courses.pythontest.com)**
 - **[Matt Harrison][]**
 - **[Rodrigo][]**
@@ -50,7 +50,7 @@ TODO
 [mike driscoll]: https://www.blog.pythonlibrary.org/2025/11/18/black-friday-python-deals-came-early/
 [reuven lerner]: https://lernerpython.com/pricing/
 
-[data school]: https://courses.dataschool.io
+[data school]: https://courses.dataschool.io/pass
 [brian okken]: https://courses.pythontest.com/
 [rodrigo]: https://mathspp.gumroad.com/
 [Test Driven]: https://testdriven.io
