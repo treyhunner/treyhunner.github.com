@@ -26,7 +26,7 @@ Python Morsels gives you **a structured, hands-on way to improve your Python ski
 
 Python Morsels is a subscription service because **I'm adding new learning resources almost every week**.
 
-But through December 1st, you can get **lifetime access** for a one-time payment.
+But through December 1st, you can get **[lifetime access][]** for a one-time payment.
 
 
 ## How it works
@@ -76,4 +76,5 @@ If you've been on the fence about subscribing to Python Morsels or want to inves
 If you have questions about the sale, please comment below or [email me][].
 
 
+[lifetime access]: https://pythonmorsels.com/lifetime-access-sale/
 [email me]: mailto:he&#108;p&#64;&#112;%7&#57;th%6Fnmo&#114;s%6&#53;ls&#46;&#99;&#111;m
