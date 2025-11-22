@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-10-18T20:00:56-07:00</updated>
+  <updated>2025-11-21T16:51:16-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Morsels Lifetime Access Sale]]></title>
+    <link href="https://treyhunner.com/2025/11/lifetime-access-sale-2025/"/>
+    <updated>2025-11-21T14:42:36-08:00</updated>
+    <id>https://treyhunner.com/2025/11/lifetime-access-sale-2025</id>
+    <content type="html"><![CDATA[<p>If you code in Python regularly, you&rsquo;re already learning new things everyday.</p>
+
+<p>You hit a wall, or something breaks. Then you search around, spend some hours on Stack Overflow, and eventually, you figure it out.</p>
+
+<p><strong>But this kind of learning is unstructured. It&rsquo;s reactive, instead of intentional.</strong></p>
+
+<p>You fix the problem at hand, but the underlying gaps in your knowledge remain unaddressed.</p>
+
+<h2>A more structured way to improve your Python skills</h2>
+
+<p>Python Morsels gives you <strong>a structured, hands-on way to improve your Python skills</strong> through weekly practice:</p>
+
+<ul>
+<li>Notice significant progress with as little as 30 minutes a week</li>
+<li>Learn to naturally think more Pythonically</li>
+<li>Explore new approaches to problem-solving</li>
+<li>Challenge yourself to get outside your comfort zone regularly</li>
+</ul>
+
+
+<p>Python Morsels is a subscription service because <strong>I&rsquo;m adding new learning resources almost every week</strong>.</p>
+
+<p>But through December 1st, you can get <strong>lifetime access</strong> for a one-time payment.</p>
+
+<h2>How it works</h2>
+
+<p>When you sign up for Python Morsels, you&rsquo;ll choose your current Python skill level, from novice to advanced.</p>
+
+<p>Based on your skill level, <strong>each Monday I&rsquo;ll send you a personalized routine</strong> with:</p>
+
+<ul>
+<li>a short screencast to watch (or read)</li>
+<li>a multi-part exercise to move you outside your comfort zone</li>
+<li>a mini exercise that you can accomplish in just 10 minutes</li>
+<li>links to dive deeper into subsequent screencasts and exercises</li>
+</ul>
+
+
+<p>Think of Python Morsels as a gym for your Python skills: you come in for quick training sessions, put in the reps, and make a little more progress each time.</p>
+
+<p>All these resources are accessible to you forever, and with lifetime access you&rsquo;ll never pay another subscription fee.</p>
+
+<h2>What Python Morsels includes</h2>
+
+<p>Python Morsels has grown a lot over the past 8 years. Currently, Python Morsels has:</p>
+
+<ul>
+<li>235+ Video Lessons (or screencasts, as I call them)</li>
+<li>262+ Hands-On Exercises (with solution walkthroughs)</li>
+<li>500+ Optional Bonuses (to challenge every skill level)</li>
+<li>303+ Articles Organized Topic-Wise (if you prefer reading)</li>
+</ul>
+
+
+<p>I&rsquo;ll be sending you personalized recommendations every week, but you can use these resources however they fit your routine: as learning guides, hands-on practice sessions, quick cheatsheets, long-term reference material, or quick Python workouts.</p>
+
+<p>In addition to this, Python Morsels also gives you access to:</p>
+
+<ul>
+<li>Python Jumpstart - a structured course for beginners</li>
+<li>Additional Deep-Dive Courses - structured tracks to master a concept</li>
+<li>Exercise Paths - topic-based exercises to strengthen a specific skill</li>
+</ul>
+
+
+<p>Because Python Morsels runs as an active subscription service, I&rsquo;m always adding new screencasts, new exercises, and updated material on a weekly or monthly cycle. I also keep everything up-to-date with each new Python release, incorporating newly added features and retiring end-of-life&rsquo;d Python versions.</p>
+
+<h2>Lock in lifetime access</h2>
+
+<p>Python Morsels usually costs <strong>$240/year</strong> but you can get <strong>lifetime access</strong> through December 1st for a one-time payment. I&rsquo;ve only offered lifetime access <strong>once before</strong> in 8 years.</p>
+
+<p>If you&rsquo;ve been on the fence about subscribing to Python Morsels or want to invest in building a daily learning habit, this is a good time to do it.</p>
+
+<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">Get lifetime access to Python Morsels</a></p>
+
+<p>If you have questions about the sale, please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Handy Python REPL Modifications]]></title>
@@ -582,217 +666,6 @@ Note that you can <em>subscribe</em> to hashtags on Mastodon which is pretty nea
 <p>If this will be your first PyCon US, I recommend signing up for both Mastodon and Bluesky and checking the <code>#PyConUS</code> hashtag during the conference.</p>
 
 <p>Also, be sure to see my <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">post on having a great first PyCon</a> and <a href="https://mastodon.social/@treyhunner/112448459788776426">see this additional tips</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Lazy self-installing Python scripts with uv]]></title>
-    <link href="https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv/"/>
-    <updated>2024-12-09T11:15:10-08:00</updated>
-    <id>https://treyhunner.com/2024/12/lazy-self-installing-python-scripts-with-uv</id>
-    <content type="html"><![CDATA[<p>I frequently find myself writing my own short command-line scripts in Python that help me with day-to-day tasks.</p>
-
-<p>It&rsquo;s <em>so</em> easy to throw together a single-file Python command-line script and throw it in my <code>~/bin</code> directory!</p>
-
-<p>Well&hellip; it&rsquo;s easy, <em>unless</em> the script requires anything outside of the Python standard library.</p>
-
-<p>Recently I&rsquo;ve started using uv and my <em>primary</em> for use for it has been fixing Python&rsquo;s &ldquo;just manage the dependencies automatically&rdquo; problem.</p>
-
-<p>I&rsquo;ll share how I&rsquo;ve been using uv&hellip; first first let&rsquo;s look at the problem.</p>
-
-<h2>A script without dependencies</h2>
-
-<p>If I have a Python script that I want to be easily usable from anywhere on my system, I typically follow these steps:</p>
-
-<ol>
-<li>Add an appropriate shebang line above the first line in the file (e.g. <code>#!/usr/bin/env python3</code>)</li>
-<li>Set an executable bit on the file (<code>chmod a+x my_script.py</code>)</li>
-<li>Place the script in a directory that&rsquo;s in my shell&rsquo;s <code>PATH</code> variable (e.g. <code>cp my_script.py ~/bin/my_script</code>)</li>
-</ol>
-
-
-<p>For example, here&rsquo;s a script I use to print out 80 zeroes (or a specific number of zeroes) to check whether my terminal&rsquo;s font size is large enough when I&rsquo;m teaching:</p>
-
-<pre><code class="python">#!/usr/bin/env python3
-import sys
-
-numbers = sys.argv[1:] or [80]
-for n in numbers:
-    print("0" * int(n))
-</code></pre>
-
-<p>This file lives at <code>/home/trey/bin/0</code> so I can run the command <code>0</code> from my system prompt to see 80 <code>0</code> characters printed in my terminal.</p>
-
-<p>This works great!
-But this script doesn&rsquo;t have any dependencies.</p>
-
-<h2>The problem: a script with dependencies</h2>
-
-<p>Here&rsquo;s a Python script that normalizes the audio of a given video file and writes a new audio-normalized version of the video to a new file:</p>
-
-<pre><code class="python">"""Normalize audio in input video file."""
-from argparse import ArgumentParser
-from pathlib import Path
-
-from ffmpeg_normalize import FFmpegNormalize
-
-
-def normalize_audio_for(video_path, audio_normalized_path):
-    """Return audio-normalized video file saved in the given directory."""
-    ffmpeg_normalize = FFmpegNormalize(audio_codec="aac", audio_bitrate="192k", target_level=-17)
-    ffmpeg_normalize.add_media_file(str(video_path), audio_normalized_path)
-    ffmpeg_normalize.run_normalization()
-
-
-def main():
-    parser = ArgumentParser()
-    parser.add_argument("video_file", type=Path)
-    parser.add_argument("output_file", type=Path)
-    args = parser.parse_args()
-    normalize_audio_for(args.video_file, args.output_file)
-
-
-if __name__ == "__main__":
-    main()
-</code></pre>
-
-<p>This script depends on the <a href="https://github.com/slhck/ffmpeg-normalize">ffmpeg-normalize</a> Python package and the <a href="https://ffmpeg.org">ffmpeg</a> utility.
-I already have <code>ffmpeg</code> installed, but I prefer <em>not</em> to globally install Python packages.
-I install all Python packages within virtual environments and I install global Python scripts using <a href="https://pipx.pypa.io">pipx</a>.</p>
-
-<p>At this point I <em>could</em> choose to either:</p>
-
-<ol>
-<li>Create a virtual environment, install <code>ffmpeg-normalize</code> in it, and put a shebang line referencing that virtual environment&rsquo;s Python binary at the top of my script file</li>
-<li>Turn my script into a <code>pip</code>-installable Python package with a <code>pyproject.toml</code> that lists <code>ffmpeg-normalize</code> as a dependency and use <code>pipx</code> to install it</li>
-</ol>
-
-
-<p>That first solution requires me to keep track of virtual environments that exist for specific scripts to work.
-That sounds painful.</p>
-
-<p>The second solution involves making a Python package and then upgrading that Python package whenever I need to make a change to this script.
-That&rsquo;s definitely going to be painful.</p>
-
-<h2>The solution: let uv handle it</h2>
-
-<p>A few months ago, my friend <a href="https://micro.webology.dev">Jeff Triplett</a> showed me that <code>uv</code> can work within a shebang line and can read a special comment at the top of a Python file that tells uv which Python version to run a script with and which dependencies it needs.</p>
-
-<p>Here&rsquo;s a shebang line that would work for the above script:</p>
-
-<pre><code class="python">#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = "&gt;=3.12"
-# dependencies = [
-#     "ffmpeg-normalize",
-# ]
-# ///
-</code></pre>
-
-<p>That tells uv that this script should be run on Python 3.12 and that it depends on the <code>ffmpeg-normalize</code> package.</p>
-
-<p>Neat&hellip; but what does that do?</p>
-
-<p>Well, the first time this script is run, uv will create a virtual environment for it, install <code>ffmpeg-normalize</code> into that venv, and then run the script:</p>
-
-<pre><code class="bash">$ normalize
-Reading inline script metadata from `/home/trey/bin/normalize`
-Installed 4 packages in 5ms
-usage: normalize [-h] video_file output_file
-normalize: error: the following arguments are required: video_file, output_file
-</code></pre>
-
-<p>Every time the script is run after that, uv finds and reuses the same virtual environment:</p>
-
-<pre><code class="bash">$ normalize
-Reading inline script metadata from `/home/trey/bin/normalize`
-usage: normalize [-h] video_file output_file
-normalize: error: the following arguments are required: video_file, output_file
-</code></pre>
-
-<p>Each time uv runs the script, it quickly checks that all listed dependencies are properly installed with their correct versions.</p>
-
-<p>Another script I use this for is <a href="https://github.com/treyhunner/dotfiles/blob/main/bin/caption">caption</a>, which uses whisper (via the Open AI API) to quickly caption my screencasts just after I record and edit them.
-The caption quality very rarely need more than a very minor edit or two (for my personal accent of English at least) even for technical like &ldquo;dunder method&rdquo; and via the API the captions generate very quickly.</p>
-
-<p>See the <a href="https://packaging.python.org/en/latest/specifications/inline-script-metadata/">inline script metadata</a> page of the Python packaging users guide for more details on that format that uv is using (honestly I always just copy-paste an example myself).</p>
-
-<h2>uv everywhere?</h2>
-
-<p>I haven&rsquo;t yet fully embraced uv everywhere.</p>
-
-<p>I don&rsquo;t manage my Python projects with uv, though I do use it to create new virtual environments (with <code>--seed</code> to ensure the <code>pip</code> command is available) as a <a href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/">virtualenvwrapper replacement, along with direnv</a>.</p>
-
-<p>I have also started using <a href="https://docs.astral.sh/uv/concepts/tools/">uv tool</a> as a <a href="https://pipx.pypa.io">pipx</a> replacement and I&rsquo;ve considered replacing <a href="https://pipx.pypa.io/stable/">pyenv</a> with uv.</p>
-
-<h2>uv instead of pipx</h2>
-
-<p>When I want to install a command-line tool that happens to be Python powered, I used to do this:</p>
-
-<pre><code class="bash">$ pipx countdown-cli
-</code></pre>
-
-<p>Now I do this instead:</p>
-
-<pre><code class="bash">$ uv tool install countdown-cli
-</code></pre>
-
-<p>Either way, I end up with a <code>countdown</code> script in my <code>PATH</code> that automatically uses its own separate virtual environment for its dependencies:</p>
-
-<pre><code class="bash">$ countdown --help
-Usage: countdown [OPTIONS] DURATION
-
-  Countdown from the given duration to 0.
-
-  DURATION should be a number followed by m or s for minutes or seconds.
-
-  Examples of DURATION:
-
-  - 5m (5 minutes)
-  - 45s (45 seconds)
-  - 2m30s (2 minutes and 30 seconds)
-
-Options:
-  --version  Show the version and exit.
-  --help     Show this message and exit.
-</code></pre>
-
-<h2>uv instead of pyenv</h2>
-
-<p>For years, I&rsquo;ve used pyenv to manage multiple versions of Python on my machine.</p>
-
-<pre><code class="bash">$ pyenv install 3.13.0
-</code></pre>
-
-<p>Now I could do this:</p>
-
-<pre><code class="bash">$ uv python install --preview 3.13.0
-</code></pre>
-
-<p>Or I could make a <code>~/.config/uv/uv.toml</code> file containing this:</p>
-
-<pre><code>preview = true
-</code></pre>
-
-<p>And then run the same thing without the <code>--preview</code> flag:</p>
-
-<pre><code class="bash">$ uv python install 3.13.0
-</code></pre>
-
-<p>This puts a <code>python3.13</code> binary in my <code>~/.local/bin directory</code>, which is on my <code>PATH</code>.</p>
-
-<p>Why &ldquo;preview&rdquo;?
-Well, without it uv doesn&rsquo;t (<a href="https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903">yet</a>) place <code>python3.13</code> in my <code>PATH</code> by default, as this feature is currently in testing/development.</p>
-
-<h2>Self-installing Python scripts are the big win</h2>
-
-<p>I still prefer pyenv for its ability to <a href="https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/">install custom Python builds</a> and I don&rsquo;t have a preference between <code>uv tool</code> and <code>pipx</code>.</p>
-
-<p>The biggest win that I&rsquo;ve experienced from uv so far is the ability to run an executable script and have any necessary dependencies install automagically.</p>
-
-<p>This doesn&rsquo;t mean that I <em>never</em> make Python package out of my Python scripts anymore&hellip; but I do so much more rarely.
-I used to create a Python package out of a script as soon as it required third-party dependencies.
-Now my &ldquo;do I <em>really</em> need to turn this into a proper package&rdquo; bar is set much higher.</p>
 ]]></content>
   </entry>
   

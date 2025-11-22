@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-10-18T20:00:56-07:00</updated>
+  <updated>2025-11-21T16:51:16-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,90 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Morsels Lifetime Access Sale]]></title>
+    <link href="https://treyhunner.com/2025/11/lifetime-access-sale-2025/"/>
+    <updated>2025-11-21T14:42:36-08:00</updated>
+    <id>https://treyhunner.com/2025/11/lifetime-access-sale-2025</id>
+    <content type="html"><![CDATA[<p>If you code in Python regularly, you&rsquo;re already learning new things everyday.</p>
+
+<p>You hit a wall, or something breaks. Then you search around, spend some hours on Stack Overflow, and eventually, you figure it out.</p>
+
+<p><strong>But this kind of learning is unstructured. It&rsquo;s reactive, instead of intentional.</strong></p>
+
+<p>You fix the problem at hand, but the underlying gaps in your knowledge remain unaddressed.</p>
+
+<h2>A more structured way to improve your Python skills</h2>
+
+<p>Python Morsels gives you <strong>a structured, hands-on way to improve your Python skills</strong> through weekly practice:</p>
+
+<ul>
+<li>Notice significant progress with as little as 30 minutes a week</li>
+<li>Learn to naturally think more Pythonically</li>
+<li>Explore new approaches to problem-solving</li>
+<li>Challenge yourself to get outside your comfort zone regularly</li>
+</ul>
+
+
+<p>Python Morsels is a subscription service because <strong>I&rsquo;m adding new learning resources almost every week</strong>.</p>
+
+<p>But through December 1st, you can get <strong>lifetime access</strong> for a one-time payment.</p>
+
+<h2>How it works</h2>
+
+<p>When you sign up for Python Morsels, you&rsquo;ll choose your current Python skill level, from novice to advanced.</p>
+
+<p>Based on your skill level, <strong>each Monday I&rsquo;ll send you a personalized routine</strong> with:</p>
+
+<ul>
+<li>a short screencast to watch (or read)</li>
+<li>a multi-part exercise to move you outside your comfort zone</li>
+<li>a mini exercise that you can accomplish in just 10 minutes</li>
+<li>links to dive deeper into subsequent screencasts and exercises</li>
+</ul>
+
+
+<p>Think of Python Morsels as a gym for your Python skills: you come in for quick training sessions, put in the reps, and make a little more progress each time.</p>
+
+<p>All these resources are accessible to you forever, and with lifetime access you&rsquo;ll never pay another subscription fee.</p>
+
+<h2>What Python Morsels includes</h2>
+
+<p>Python Morsels has grown a lot over the past 8 years. Currently, Python Morsels has:</p>
+
+<ul>
+<li>235+ Video Lessons (or screencasts, as I call them)</li>
+<li>262+ Hands-On Exercises (with solution walkthroughs)</li>
+<li>500+ Optional Bonuses (to challenge every skill level)</li>
+<li>303+ Articles Organized Topic-Wise (if you prefer reading)</li>
+</ul>
+
+
+<p>I&rsquo;ll be sending you personalized recommendations every week, but you can use these resources however they fit your routine: as learning guides, hands-on practice sessions, quick cheatsheets, long-term reference material, or quick Python workouts.</p>
+
+<p>In addition to this, Python Morsels also gives you access to:</p>
+
+<ul>
+<li>Python Jumpstart - a structured course for beginners</li>
+<li>Additional Deep-Dive Courses - structured tracks to master a concept</li>
+<li>Exercise Paths - topic-based exercises to strengthen a specific skill</li>
+</ul>
+
+
+<p>Because Python Morsels runs as an active subscription service, I&rsquo;m always adding new screencasts, new exercises, and updated material on a weekly or monthly cycle. I also keep everything up-to-date with each new Python release, incorporating newly added features and retiring end-of-life&rsquo;d Python versions.</p>
+
+<h2>Lock in lifetime access</h2>
+
+<p>Python Morsels usually costs <strong>$240/year</strong> but you can get <strong>lifetime access</strong> through December 1st for a one-time payment. I&rsquo;ve only offered lifetime access <strong>once before</strong> in 8 years.</p>
+
+<p>If you&rsquo;ve been on the fence about subscribing to Python Morsels or want to invest in building a daily learning habit, this is a good time to do it.</p>
+
+<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">Get lifetime access to Python Morsels</a></p>
+
+<p>If you have questions about the sale, please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Handy Python REPL Modifications]]></title>
@@ -3518,92 +3602,6 @@ Can you?</p>
 And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
 
 <p>Also, thank you to Alyssa Coghlan, Hugo van Kemenade, and Adam Turner for reviewing my pull request to add this feature to Python 3.14. 💖</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GPT and Claude from your URL bar]]></title>
-    <link href="https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar/"/>
-    <updated>2024-07-11T09:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/07/chatgpt-and-claude-from-your-browser-url-bar</id>
-    <content type="html"><![CDATA[<p>I&rsquo;ve been playing with using <a href="https://kagi.com">Kagi</a> and <a href="https://www.perplexity.ai">Perplexity</a> as my browser&rsquo;s default search engine recently.</p>
-
-<p>Currently I have Kagi setup as my default search engine and I added a <a href="https://help.kagi.com/kagi/features/bangs.html#custom-bangs">custom bang</a> command in my Kagi account so that <strong>!x</strong> will trigger a search with Perplexity.</p>
-
-<p>This got me thinking&hellip; could I trigger a new <a href="https://chatgpt.com">Chat GPT</a> or <a href="https://claude.ai">Claude</a> chat from my browser&rsquo;s URL bar?</p>
-
-<h2>How browsers query search engines</h2>
-
-<p>Whether you&rsquo;re using <a href="https://superuser.com/questions/1772248/how-to-add-custom-search-engine-to-chrome">Chrome</a>, <a href="https://support.mozilla.org/en-US/kb/change-your-default-search-settings-firefox">Firefox</a>, or some other browser (I&rsquo;m trying <a href="https://vivaldi.com/blog/search-favorite-websites-quickly/">Vivaldi</a>) you can add custom search engines to your browser.</p>
-
-<p>Custom search engines use a template URL that looks something like this:</p>
-
-<p><code>https://duckduckgo.com/?q=%s</code></p>
-
-<p>Note that this URL is a <em>template</em> because of that <code>%s</code>.
-That <code>%s</code> bit will be replaced by the actual query you search for.</p>
-
-<p>So if Chat GPT and Claude have URLs that allow creating a new chat via a URL&rsquo;s query string (the thing after the <code>?</code>), then they could be used as search engines.</p>
-
-<p>And it turns out&hellip; they do!</p>
-
-<h2>Querying Chat GPT via a URL</h2>
-
-<p>To query Chat GPT via a URL query string, use:</p>
-
-<p><code>https://chatgpt.com/?q=%s</code></p>
-
-<p>Set that URL as a custom &ldquo;search engine&rdquo; in your browser.
-Then whenever you&rsquo;d like to start a new Chat GPT conversation, select your browser&rsquo;s URL bar, type the search engine prefix followed by a space, type your query, and hit Enter!</p>
-
-<h2>Querying Claude via a URL</h2>
-
-<p>To query Claude via a URL query string, use:</p>
-
-<p><code>https://claude.ai/new?q=%s</code></p>
-
-<p>It works the same way as the Chat GPT URL.</p>
-
-<h2>Querying Perplexity via a URL</h2>
-
-<p>This may be a bit redundant, as you may have thought to use Perplexity can be used as a &ldquo;search engine&rdquo; in your browser, but here&rsquo;s the URL in case you&rsquo;re looking for it:</p>
-
-<p><code>https://www.perplexity.ai/search?q=%s</code></p>
-
-<h2>Kagi bangs</h2>
-
-<p>If you&rsquo;re a <a href="https://kagi.com">Kagi</a> user, you can setup each of these as a custom bang.</p>
-
-<p><strong>Chat GPT</strong></p>
-
-<p><img src="https://treyhunner.com/images/kagi-chatgpt-bang.png" title="Screenshot of Chat GPT bang settings for Chat GPT" ></p>
-
-<p><strong>Claude</strong></p>
-
-<p><img src="https://treyhunner.com/images/kagi-claude-bang.png" title="Screenshot of Chat GPT bang settings for Claude" ></p>
-
-<p><strong>Perplexity</strong></p>
-
-<p><img src="https://treyhunner.com/images/kagi-perplexity-bang.png" title="Screenshot of Perplexity bang settings for Kagi" ></p>
-
-<p>I&rsquo;m not sure what bangs I ultimately want to use in the long-term.
-Right now I have <strong>!x</strong> set to query Perplexity, <strong>!c</strong> set to query Chat GPT, and <strong>!l</strong> set to query Claude.</p>
-
-<p>I was considering <strong>!g</strong> for Chat <strong>G</strong>PT but that searches Google already and I was considering <strong>!c</strong> for Claude, but I had already set that to search Chat GPT, so I went with <strong>!l</strong> for C<strong>l</strong>aude&hellip; or maybe it&rsquo;s <strong>!l</strong> for <strong>L</strong>LM. 🤔</p>
-
-<h2>No Gemini &ldquo;search&rdquo; support</h2>
-
-<p>So Claude, Chat GPT, and Kagi can all initiate new conversations directly from your browser&rsquo;s URL bar using these 3 URLs:</p>
-
-<ul>
-<li><code>https://chatgpt.com/?q=%s</code></li>
-<li><code>https://claude.ai/new?q=%s</code></li>
-<li><code>https://www.perplexity.ai/search?q=%s</code></li>
-</ul>
-
-
-<p>As far as I can tell, Gemini does not support starting a conversation via a query string.
-Maybe this is related to Google embedding a similar feature <a href="https://chromeunboxed.com/chromes-url-bar-is-getting-quick-access-to-gemini-ai/">directly into Chrome</a>. 🤷</p>
 ]]></content>
   </entry>
   
