@@ -18,8 +18,9 @@ It's not even Black Friday yet, but the following Python-related Black Friday sa
 - **[Python Morsels][]**: I'm offering **lifetime access** for the second time ever (more details below)
 - **[Data School][]**: a new subscription to access all of Kevin's **7 courses plus all upcoming courses**
 - **[Talk Python][]**: AI Python bundle, the Everything Bundle, and Michael's Talk Python in Production
-- **[Mike Driscoll][]**: get 50% off all his **Python books and courses** (code `BLACKISBACK`)
 - **[Reuven Lerner][]**: get 20% off **your first year** of the **LernerPython+data** tier (code `BF2025`)
+- **[Rodrigo][]**: get 50% off all his books including his all books bundle (code `BF202550`)
+- **[Mike Driscoll][]**: get 50% off all his **Python books and courses** (code `BLACKISBACK`)
 - **[The Python Coding Place][]**: get 50% the **all course bundle** of 12 courses
 - **[Sundeep Agarwal][sundeep]**: ~55% off Sundeep's **all books bundle** with code `FestiveOffer`
 - **[O'Reilly Media][oreilly]**: 40% off **the first year** with code `CYBERWEEK25` ($299 instead of $499)
