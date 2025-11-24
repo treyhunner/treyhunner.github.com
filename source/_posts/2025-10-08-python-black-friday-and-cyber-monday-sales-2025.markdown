@@ -79,6 +79,6 @@ It's **about 50% cheaper than paying annually for five years**.
 [manning]: https://www.manning.com/catalog/programming-languages-and-styles/python
 [sundeep]: https://learnbyexample.gumroad.com/l/all-books/FestiveOffer
 
-[adam post]: https://adamj.eu/tech/2025/11/11/django-black-friday-deals-2025/
+[adam post]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/
 [wizard zines]: https://mastodon.social/@b0rk@jvns.ca/115571664177415123
 [sale post]: https://treyhunner.com/2025/11/lifetime-access-sale-2025/
