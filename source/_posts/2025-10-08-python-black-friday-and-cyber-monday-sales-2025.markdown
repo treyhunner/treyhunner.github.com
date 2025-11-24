@@ -3,7 +3,7 @@ layout: post
 title: "Python Black Friday &amp; Cyber Monday sales (2025)"
 date: 2025-11-24 09:00:00 -0700
 comments: true
-categories: 
+categories: python sales
 ---
 
 It's time for some **discounted** Python-related skill-building.
