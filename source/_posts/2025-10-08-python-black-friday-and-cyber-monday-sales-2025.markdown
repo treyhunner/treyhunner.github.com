@@ -13,7 +13,7 @@ If you find a Python-related deal in the next week that isn't on this list, plea
 
 ## Python-related sales
 
-It's not even Black Friday yet, but the following Python-related Black Friday sales are **already live**:
+It's not even Black Friday yet, but most of these Python-related Black Friday sales are **already live**:
 
 - **[Python Morsels][]**: I'm offering **lifetime access** for the second time ever (more details below)
 - **[Data School][]**: a new subscription to access all of Kevin's **7 courses plus all upcoming courses**
@@ -25,6 +25,7 @@ It's not even Black Friday yet, but the following Python-related Black Friday sa
 - **[Sundeep Agarwal][sundeep]**: ~55% off Sundeep's **all books bundle** with code `FestiveOffer`
 - **[Nodeledge](https://nodeledge.ai/learn/paths/essential-python-for-data-science-and-ml)**: get 20% off your first payment (code `BF2025`)
 - **[O'Reilly Media][oreilly]**: 40% off **the first year** with code `CYBERWEEK25` ($299 instead of $499)
+- **[Manning][]** is offering 50% off from Nov 25 to Dec 1
 - **[Wizard Zines][]**: 50% all of Julia Evan's *great* **zines on various tech topics** that I personally find both fun and useful (not Python-related, but one of my favorite annual sales)... this is a one-day Black Friday exclusive sale
 
 <!--
@@ -68,7 +69,7 @@ It's **about 50% cheaper than paying annually for five years**.
 
 [data school]: https://courses.dataschool.io/pass
 [brian okken]: https://courses.pythontest.com/
-[rodrigo]: https://mathspp.gumroad.com/
+[rodrigo]: https://mathspp.gumroad.com/l/all-books-bundle/BF202550
 [Test Driven]: https://testdriven.io
 [matt harrison]: https://store.metasnake.com/
 [The Python Coding Place]: https://thepythoncodingplace.thinkific.com/bundles/the-python-coding-place-membership?coupon=black50
