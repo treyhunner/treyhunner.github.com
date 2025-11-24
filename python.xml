@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-11-24T08:36:51-08:00</updated>
+  <updated>2025-11-24T08:39:45-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2025)]]></title>
+    <link href="https://treyhunner.com/2025/11/python-black-friday-and-cyber-monday-sales-2025/"/>
+    <updated>2025-11-24T09:00:00-07:00</updated>
+    <id>https://treyhunner.com/2025/11/python-black-friday-and-cyber-monday-sales-2025</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s time for some <strong>discounted</strong> Python-related skill-building.
+This is my <strong><a href="https://treyhunner.com/blog/categories/sales/">eighth annual compilation</a></strong> of Python learning-related Black Friday &amp; Cyber Monday deals.
+If you find a Python-related deal in the next week that isn&rsquo;t on this list, please contact me.</p>
+
+<h2>Python-related sales</h2>
+
+<p>It&rsquo;s not even Black Friday yet, but the following Python-related Black Friday sales are <strong>already live</strong>:</p>
+
+<ul>
+<li><strong><a href="https://www.pythonmorsels.com/lifetime-access-sale">Python Morsels</a></strong>: I&rsquo;m offering <strong>lifetime access</strong> for the second time ever (more details below)</li>
+<li><strong><a href="https://courses.dataschool.io/pass">Data School</a></strong>: a new subscription to access all of Kevin&rsquo;s <strong>7 courses plus all upcoming courses</strong></li>
+<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: AI Python bundle, the Everything Bundle, and Michael&rsquo;s Talk Python in Production</li>
+<li><strong><a href="https://www.blog.pythonlibrary.org/2025/11/18/black-friday-python-deals-came-early/">Mike Driscoll</a></strong>: get 50% off all his <strong>Python books and courses</strong> (code <code>BLACKISBACK</code>)</li>
+<li><strong><a href="https://lernerpython.com/pricing/">Reuven Lerner</a></strong>: get 20% off <strong>your first year</strong> of the <strong>LernerPython+data</strong> tier (code <code>BF2025</code>)</li>
+<li><strong><a href="https://thepythoncodingplace.thinkific.com/bundles/the-python-coding-place-membership?coupon=black50">The Python Coding Place</a></strong>: get 50% the <strong>all course bundle</strong> of 12 courses</li>
+<li><strong><a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">Sundeep Agarwal</a></strong>: ~55% off Sundeep&rsquo;s <strong>all books bundle</strong> with code <code>FestiveOffer</code></li>
+<li><strong><a href="https://www.oreilly.com/online-learning/2025-cyber-sale.html?code=CYBERSAVE25">O'Reilly Media</a></strong>: 40% off <strong>the first year</strong> with code <code>CYBERWEEK25</code> ($299 instead of $499)</li>
+<li><strong><a href="https://mastodon.social/@b0rk@jvns.ca/115571664177415123">Wizard Zines</a></strong>: 50% all of Julia Evan&rsquo;s <em>great</em> <strong>zines on various tech topics</strong> that I personally find both fun and useful (not Python-related, but one of my favorite annual sales)</li>
+</ul>
+
+
+<!--
+Likely additional sales:
+
+- **[Brian Okken](https://courses.pythontest.com)**
+- **[Matt Harrison][]**
+- **[Rodrigo][]**
+- **[Test Driven][]**
+- **[Pragmatic Bookshelf][]**
+- **[No Starch][]**
+- **[Manning][]**
+-->
+
+
+<p>I will be keeping an idea on other potential sales and updating this post as I find them.
+If you&rsquo;ve seen a sale that I haven&rsquo;t, please contact me or comment below.</p>
+
+<h2>Django-related sales</h2>
+
+<p>Adam Johnson has also published a list of <a href="https://adamj.eu/tech/2025/11/11/django-black-friday-deals-2025/">Django-related deals for Black Friday</a> (which he&rsquo;s been doing for a few years now).</p>
+
+<h2>More on my sale: Python Morsels Lifetime Access</h2>
+
+<p>Python Morsels is a hands-on, <strong>exercise-driven</strong> Python skill-building platform designed to help developers <strong>write cleaner, more idiomatic Python</strong> through real-world practice.
+This growing library of exercises, videos, and courses is aimed primarily at intermediate and professional developers.
+If you haven&rsquo;t used Python Morsels, you can read about it <a href="https://treyhunner.com/2025/11/lifetime-access-sale-2025/">in my sale announcement post</a>.</p>
+
+<p>This Black Friday / Cyber Monday, I&rsquo;m offering <a href="https://www.pythonmorsels.com/lifetime-access-sale">lifetime access</a>: all current and future content for in a single payment.
+If you&rsquo;d like to build confidence in your everyday Python skills, consider this sale.
+It&rsquo;s <strong>about 50% cheaper than paying annually for five years</strong>.</p>
+
+<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">Get lifetime access to Python Morsels</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Morsels Lifetime Access Sale]]></title>
@@ -3329,78 +3389,6 @@ See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-p
 
 <p>Remember that we&rsquo;re all just people though.
 Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2023)]]></title>
-    <link href="https://treyhunner.com/2023/11/python-black-friday-and-cyber-monday-sales-2023/"/>
-    <updated>2023-11-20T08:00:00-08:00</updated>
-    <id>https://treyhunner.com/2023/11/python-black-friday-and-cyber-monday-sales-2023</id>
-    <content type="html"><![CDATA[<p>It&rsquo;s time for my annual compilation post of <strong>Python learning deals</strong>.
-I&rsquo;ve been compiling Python-related Black Friday &amp; Cyber Monday sales <a href="https://treyhunner.com/blog/categories/sales/">since 2018</a> and 2023&rsquo;s Python-related sales are coming up.</p>
-
-<h2>Lifetime Python Morsels access for the price of two years</h2>
-
-<p>I&rsquo;m kicking things off with <a href="https://www.pythonmorsels.com/lifetime-access-sale/">my sale</a> on Python Morsels.
-Python Morsels helps developers <strong>deepen their Python skills</strong> in a way that day-to-day coding simply can&rsquo;t.</p>
-
-<p>Python Morsels is designed for:</p>
-
-<ul>
-<li>experienced developers frustrated with gaps in their Python knowledge</li>
-<li>self-taught programmers seeking courage and confidence in their Python abilities</li>
-<li>experienced Python developers hoping to dive even deeper</li>
-</ul>
-
-
-<p>If you saw yourself in that list and you plan to use Python heavily for at least a few more years, I highly recommend checking out <a href="https://www.pythonmorsels.com/lifetime-access-sale/">the Python Morsels sale</a>.</p>
-
-<p>From now through November 27, you can get <strong>lifetime access</strong> to Python Morsels for a one-time fee.
-Python Morsels usually costs <strong>$240/year</strong> but lifetime access is <strong>only $480</strong>.
-This is the best sale I&rsquo;ve ever offered on Python Morsels and I&rsquo;m guessing this might be the best Python-related deal this year.</p>
-
-<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">💰 See the Python Morsels sale</a></p>
-
-<h2>On sale now</h2>
-
-<p>Here are Python-related sales that are live right now:</p>
-
-<ul>
-<li><strong><a href="https://www.pythonmorsels.com/lifetime-access-sale/">Python Morsels</a></strong>: lifetime access to my Python skill-building platform for the price of 2 years</li>
-<li><strong><a href="https://learning.oreilly.com/signup/?promotion_code=CYBERWEEK23">O'Reilly Media</a></strong>: the first year is $200 off with the coupon <code>CYBERWEEK23</code> ($299 instead of $499)</li>
-<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: 50% off 5 of their courses</li>
-<li><strong><a href="https://courses.dataschool.io/black-friday">Data School</a></strong>: 40% off all Kevin Markham&rsquo;s courses</li>
-<li><strong><a href="https://courses.pythontest.com/p/complete-pytest-course?code=BLACKFRIDAY">Brian Okken</a></strong>: 50% off pytest course and community access with coupon code <code>BLACKFRIDAY</code> (ends Nov 30)</li>
-<li><strong><a href="https://lernerpython.com/bfcm-2023/">Reuven Lerner</a></strong>: 40% off Reuven&rsquo;s courses and 25% off a new membership he&rsquo;s launching</li>
-<li><strong><a href="https://www.linkedin.com/feed/update/urn:li:activity:7133217889460883456/">Matt Harrison</a></strong>: 20% off Matt&rsquo;s corporate training</li>
-<li><strong><a href="https://learnbyexample.gumroad.com">Sundeep Agarwal</a></strong>: around 70% off Sundeep&rsquo;s <a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">all book</a> and <a href="https://learnbyexample.gumroad.com/l/python-bundle/FestiveOffer">Python</a> and his <a href="https://learnbyexample.gumroad.com/l/py_regex/FestiveOffer">regex</a> book is free</li>
-<li><strong><a href="https://www.blog.pythonlibrary.org">Mike Driscoll</a></strong>: 33% off Mike&rsquo;s Python <a href="https://driscollis.gumroad.com/">books</a> and <a href="https://www.teachmepython.com/">courses</a> with code <code>black2023</code></li>
-<li><strong><a href="https://thepythoncodingplace.com/membership/">Stephen Gruppetta</a></strong>: 70% off pre-sale on his new Python membership ($95 instead of $395)</li>
-<li><strong><a href="https://mathspp.gumroad.com/">Rodrigo</a></strong>: 40% discount on Rodrigo&rsquo;s upcoming <a href="https://mathspp.gumroad.com/l/pythonbootcamp?code=bootcampbf23">bootcamp</a> and on his <a href="https://mathspp.gumroad.com/l/comprehending-comprehensions?code=presale">comprehensions course</a></li>
-<li><strong><a href="https://nostarch.com/catalog/python">No Starch</a></strong>: 35% off with code <code>DEALS4DAYS</code> (Crash Course, Automate The Boring Stuff, etc.)</li>
-<li><strong><a href="https://pragprog.com/">Pragmatic Bookshelf</a></strong>: 40% off <a href="https://pragprog.com/titles/bopytest2/python-testing-with-pytest-second-edition/">the pytest book</a> and all other books with code <code>turkeycode2023</code></li>
-<li><strong><a href="https://www.manning.com/catalog#section-50">Manning</a></strong> 50% off eBooks, 40% off print books</li>
-<li><strong><a href="https://udemy.com">Udemy</a></strong>: various <a href="https://www.udemy.com/topic/python/">Python courses</a> are on sale right now</li>
-</ul>
-
-
-<p>If you know of another sale (or a likely sale) <strong>please comment below</strong>.</p>
-
-<h2>Django sales</h2>
-
-<p>Adam Johnson is also compiling many <strong>Django-related Black Friday and Cyber Monday sales</strong> via a <a href="https://adamj.eu/tech/2023/11/20/django-black-friday-deals-2023/">Django sales post</a>.</p>
-
-<h2>More developer-oriented deals</h2>
-
-<p>For even more Black Friday deals for software developers, see <a href="https://blackfridaydeals.dev">BlackFridayDeals.dev</a>, which I believe launched this year.</p>
-
-<h2>Go get yourself some deals!</h2>
-
-<p>Go hop on those sales! (But make sure to put an event in your calendar to actually use what you purchase. 😉)
-And if you have questions about the <a href="https://www.pythonmorsels.com/lifetime-access-sale/"><strong>Python Morsels Cyber Monday sale</strong></a> please comment below or <a href="mailto:he&amp;#108;p&amp;#64;&amp;#112;%7&amp;#57;th%6Fnmo&amp;#114;s%6&amp;#53;ls&amp;#46;&amp;#99;&amp;#111;m">email me</a>.</p>
-
-<p>Happy Python-ing!</p>
 ]]></content>
   </entry>
   
