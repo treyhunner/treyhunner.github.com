@@ -24,7 +24,7 @@ It's not even Black Friday yet, but the following Python-related Black Friday sa
 - **[The Python Coding Place][]**: get 50% the **all course bundle** of 12 courses
 - **[Sundeep Agarwal][sundeep]**: ~55% off Sundeep's **all books bundle** with code `FestiveOffer`
 - **[O'Reilly Media][oreilly]**: 40% off **the first year** with code `CYBERWEEK25` ($299 instead of $499)
-- **[Wizard Zines][]**: 50% all of Julia Evan's *great* **zines on various tech topics** that I personally find both fun and useful (not Python-related, but one of my favorite annual sales)
+- **[Wizard Zines][]**: 50% all of Julia Evan's *great* **zines on various tech topics** that I personally find both fun and useful (not Python-related, but one of my favorite annual sales)... this is a one-day Black Friday exclusive sale
 
 <!--
 Likely additional sales:
