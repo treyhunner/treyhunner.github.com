@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-11-21T16:51:41-08:00</updated>
+  <updated>2025-11-24T08:36:51-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -362,6 +362,66 @@ And if you have thoughts on how to improve pyrepl-hacks, please open an issue or
 <p>Also, <strong>if you use Windows</strong>, <a href="https://github.com/treyhunner/pyrepl-hacks/issues/1">please help me</a> confirm <strong>whether certain keys work on Windows</strong>. Thanks!</p>
 
 <p>Contributions and ideas welcome!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2025)]]></title>
+    <link href="https://treyhunner.com/2025/10/python-black-friday-and-cyber-monday-sales-2025/"/>
+    <updated>2025-10-08T14:25:28-07:00</updated>
+    <id>https://treyhunner.com/2025/10/python-black-friday-and-cyber-monday-sales-2025</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s time for some <strong>discounted</strong> Python-related skill-building.
+This is my <strong><a href="https://treyhunner.com/blog/categories/sales/">eighth annual compilation</a></strong> of Python learning-related Black Friday &amp; Cyber Monday deals.
+If you find a Python-related deal in the next week that isn&rsquo;t on this list, please contact me.</p>
+
+<h2>Python-related sales</h2>
+
+<p>It&rsquo;s not even Black Friday yet, but the following Python-related Black Friday sales are <strong>already live</strong>:</p>
+
+<ul>
+<li><strong><a href="https://www.pythonmorsels.com/lifetime-access-sale">Python Morsels</a></strong>: I&rsquo;m offering <strong>lifetime access</strong> for the second time ever (more details below)</li>
+<li><strong><a href="https://courses.dataschool.io/pass">Data School</a></strong>: a new subscription to access all of Kevin&rsquo;s <strong>7 courses plus all upcoming courses</strong></li>
+<li><strong><a href="http://talkpython.fm/black-friday">Talk Python</a></strong>: AI Python bundle, the Everything Bundle, and Michael&rsquo;s Talk Python in Production</li>
+<li><strong><a href="https://www.blog.pythonlibrary.org/2025/11/18/black-friday-python-deals-came-early/">Mike Driscoll</a></strong>: get 50% off all his <strong>Python books and courses</strong> (code <code>BLACKISBACK</code>)</li>
+<li><strong><a href="https://lernerpython.com/pricing/">Reuven Lerner</a></strong>: get 20% off <strong>your first year</strong> of the <strong>LernerPython+data</strong> tier (code <code>BF2025</code>)</li>
+<li><strong><a href="https://thepythoncodingplace.thinkific.com/bundles/the-python-coding-place-membership?coupon=black50">The Python Coding Place</a></strong>: get 50% the <strong>all course bundle</strong> of 12 courses</li>
+<li><strong><a href="https://learnbyexample.gumroad.com/l/all-books/FestiveOffer">Sundeep Agarwal</a></strong>: ~55% off Sundeep&rsquo;s <strong>all books bundle</strong> with code <code>FestiveOffer</code></li>
+<li><strong><a href="https://www.oreilly.com/online-learning/2025-cyber-sale.html?code=CYBERSAVE25">O'Reilly Media</a></strong>: 40% off <strong>the first year</strong> with code <code>CYBERWEEK25</code> ($299 instead of $499)</li>
+<li><strong><a href="https://mastodon.social/@b0rk@jvns.ca/115571664177415123">Wizard Zines</a></strong>: 50% all of Julia Evan&rsquo;s <em>great</em> <strong>zines on various tech topics</strong> that I personally find both fun and useful (not Python-related, but one of my favorite annual sales)</li>
+</ul>
+
+
+<!--
+Likely additional sales:
+
+- **[Brian Okken](https://courses.pythontest.com)**
+- **[Matt Harrison][]**
+- **[Rodrigo][]**
+- **[Test Driven][]**
+- **[Pragmatic Bookshelf][]**
+- **[No Starch][]**
+- **[Manning][]**
+-->
+
+
+<p>I will be keeping an idea on other potential sales and updating this post as I find them.
+If you&rsquo;ve seen a sale that I haven&rsquo;t, please contact me or comment below.</p>
+
+<h2>Django-related sales</h2>
+
+<p>Adam Johnson has also published a list of <a href="https://adamj.eu/tech/2025/11/11/django-black-friday-deals-2025/">Django-related deals for Black Friday</a> (which he&rsquo;s been doing for a few years now).</p>
+
+<h2>More on my sale: Python Morsels Lifetime Access</h2>
+
+<p>Python Morsels is a hands-on, <strong>exercise-driven</strong> Python skill-building platform designed to help developers <strong>write cleaner, more idiomatic Python</strong> through real-world practice.
+This growing library of exercises, videos, and courses is aimed primarily at intermediate and professional developers.
+If you haven&rsquo;t used Python Morsels, you can read about it <a href="https://treyhunner.com/2025/11/lifetime-access-sale-2025/">in my sale announcement post</a>.</p>
+
+<p>This Black Friday / Cyber Monday, I&rsquo;m offering <a href="https://www.pythonmorsels.com/lifetime-access-sale">lifetime access</a>: all current and future content for in a single payment.
+If you&rsquo;d like to build confidence in your everyday Python skills, consider this sale.
+It&rsquo;s <strong>about 50% cheaper than paying annually for five years</strong>.</p>
+
+<p><a href="https://pythonmorsels.com/lifetime-access-sale/" class="subscribe-btn form-big">Get lifetime access to Python Morsels</a></p>
 ]]></content>
   </entry>
   
@@ -3491,117 +3551,6 @@ Is this missing a key feature that you would need for it to be valuable for your
 <p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
 
 <p>Comment or email me to let me know!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Why does "python -m json" not work? Why is it "json.tool"?]]></title>
-    <link href="https://treyhunner.com/2024/08/why-does-python-m-json-not-work/"/>
-    <updated>2024-08-01T14:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/08/why-does-python-m-json-not-work</id>
-    <content type="html"><![CDATA[<p><strong>Update</strong>: upon the encouragement of a few CPython core team members, I <a href="https://github.com/python/cpython/pull/122884">opened a pull request</a> to add this to Python 3.14.</p>
-
-<p>Have you ever used Python&rsquo;s <code>json.tool</code> command-line interface?</p>
-
-<p>You can run <code>python -m json.tool</code> against a JSON file and Python will print a nicely formatted version of the file.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>python -m json.tool example.json
-</span><span class='line'><span class="o">[</span>
-</span><span class='line'>    1,
-</span><span class='line'>    2,
-</span><span class='line'>    3,
-</span><span class='line'>    4
-</span><span class='line'><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Why do we need to run <code>json.tool</code> instead of <code>json</code>?</p>
-
-<h2>The history of <code>python -m</code></h2>
-
-<p>Python 3.5 added the ability to run a module as a command-line script using the <code>-m</code> argument (see <a href="https://peps.python.org/pep-0338/">PEP 338</a>) which was implemented in Python 2.5.
-While that feature was being an additional feature/bug was accidentally added, alowing packages to be run with the <code>-m</code> flag as well.
-When a package was run with the <code>-m</code> flag, the package&rsquo;s <code>__init__.py</code> file would be run, with the <code>__name__</code> variable set to <code>__main__</code>.</p>
-
-<p>This accidental feature/bug was <a href="https://github.com/python/cpython/issues/47000">removed in Python 2.6</a>.</p>
-
-<p>It wasn&rsquo;t until Python 2.7 that the ability to run <code>python -m package</code> was re-added (see below).</p>
-
-<h2>The history of the <code>json</code> module</h2>
-
-<p>The <code>json</code> module was <a href="https://docs.python.org/3/whatsnew/2.6.html#the-json-module-javascript-object-notation">added in Python 2.6</a>.
-It was based on the third-party <code>simplejson</code> library.</p>
-
-<p>That library originally relied on the fact that Python packages could be run with the <code>-m</code> flag to run the package&rsquo;s <code>__init__.py</code> file with <code>__name__</code> set to <code>__main__</code> (see <a href="https://github.com/simplejson/simplejson/blob/v1.8.1/simplejson/__init__.py#L368">this code from version 1.8.1</a>).</p>
-
-<p>When <code>simplejson</code> was added to Python as the <code>json</code> module in Python 2.6, this bug/feature could no longer be relied upon as it was fixed in Python 2.6.
-To continue allowing for a nice command-line interface, it was decided that running a <code>tool</code> submodule would be the way to add a command-line interface to the <code>json</code> package (<a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">discussion here</a>).</p>
-
-<p>Python 2.7 <a href="https://docs.python.org/2.7/using/cmdline.html?highlight=__main__#cmdoption-m">added the ability to run any package as a command-line tool</a>.
-The package would simply need a <code>__main__.py</code> file within it, which Python would run as the entry point to the package.</p>
-
-<p>At this point, <code>json.tool</code> had already been added in Python 2.6 and no attempt was made (as far as I can tell) to allow <code>python -m json</code> to work instead.
-Once you&rsquo;ve added a feature, removing or changing it can be painful.</p>
-
-<h2>Could we make <code>python -m json</code> work today?</h2>
-
-<p>We could.
-We would just need to <a href="https://github.com/treyhunner/cpython/commit/1226315e2df0d4229558734d5f0d50f1386a025e">rename <code>tool.py</code> to <code>__main__.py</code></a>.
-To allow <code>json.tool</code> to still work <em>also</em>, would could <a href="https://github.com/python/cpython/commit/7ce95d21886c7ad5278c07c1a20cda5bebab4731">make a new <code>tool.py</code> module</a> that simply imports <code>json.__main__</code>.</p>
-
-<p>We could even go so far as to <a href="https://github.com/treyhunner/cpython/commit/ae4ca62346c690e1c6aaf1ccfed37069984b5d67">deprecate <code>json.tool</code></a> if we wanted to.</p>
-
-<p>Should we do this though? 🤔</p>
-
-<h2>Should we make <code>python -m json</code> work?</h2>
-
-<p>I don&rsquo;t know about you, but I would rather type <code>python -m json</code> than <code>python -m json.tool</code>.
-It&rsquo;s more memorable <em>and</em> easier to guess, if you&rsquo;re not someone who has memorized <a href="https://www.pythonmorsels.com/cli-tools/">all the command-line tools hiding in Python</a>.</p>
-
-<p>But would this actually be used?
-I mean, don&rsquo;t people just use the <a href="https://jqlang.github.io/jq/">jq</a> tool instead?</p>
-
-<p>Well, a <code>sqlite3</code> shell was <a href="https://docs.python.org/3/library/sqlite3.html#command-line-interface">added to Python 3.12</a> despite the fact that third-party interactive sqlite prompts are fairly common.</p>
-
-<p>It is pretty handy to have a access to a tool within an unfamiliar environment where installing yet-another-tool might pose a problem.
-Think Docker, a locked-down Windows machine, or any computer without network or with network restrictions.</p>
-
-<p>Personally, I&rsquo;d like to see <code>python3 -m json</code> work.
-I can&rsquo;t think of any big downsides.
-Can you?</p>
-
-<p><strong>Update</strong>: <a href="https://github.com/python/cpython/pull/122884">pull request opened</a>.</p>
-
-<h2>Too long; didn&rsquo;t read</h2>
-
-<p>The &ldquo;too long didn&rsquo;t read version&rdquo;:</p>
-
-<ul>
-<li>Python 2.5 added support for the <code>-m</code> argument for <em>modules</em>, but not <em>packages</em></li>
-<li>A third-party <code>simplejson</code> app existed with a nice CLI that relied on a <code>-m</code> implementation bug allowing packages to be run using <code>-m</code></li>
-<li>Python 2.6 fixed that implementation quirk and broke the previous ability to run <code>python -m simplejson</code></li>
-<li>Python 2.6 also added the <code>json</code> module, which was based on this third-party <code>simplejson</code> package</li>
-<li>Since <code>python -m json</code> couldn&rsquo;t work anymore, the ability to run <code>python -m json.tool</code> was added</li>
-<li>Python 2.7 added official support for <code>python -m some_package</code> by running a <code>__main__</code> submodule</li>
-<li>The <code>json.tool</code> module already existed in Python 2.6 and the ability to run <code>python -m json</code> was (as far as I can tell) never seriously considered</li>
-</ul>
-
-
-<h2>All thanks to git history and issue trackers</h2>
-
-<p>I discovered this by noting <a href="https://github.com/simplejson/simplejson/commit/74d9c5c4c4339db47dfa86bf37858cae80ed3776">the first commit</a> that added the <code>tool</code> submodule to <code>simplejson</code>, which notes the fact that this was for consistency with the new <code>json</code> standard library module.</p>
-
-<p>Thank you git history.
-And thank you to the folks who brought us the <code>simplejson</code> library, the <code>json</code> module, and the ability to use <code>-m</code> on both a module and a package!</p>
-
-<p>Also, thank you to Alyssa Coghlan, Hugo van Kemenade, and Adam Turner for reviewing my pull request to add this feature to Python 3.14. 💖</p>
 ]]></content>
   </entry>
   
