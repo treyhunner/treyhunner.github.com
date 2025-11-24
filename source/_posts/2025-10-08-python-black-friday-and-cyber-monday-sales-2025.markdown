@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Python Black Friday &amp; Cyber Monday sales (2025)"
-date: 2025-10-08 14:25:28 -0700
+date: 2025-11-24 09:00:00 -0700
 comments: true
 categories: 
 ---
