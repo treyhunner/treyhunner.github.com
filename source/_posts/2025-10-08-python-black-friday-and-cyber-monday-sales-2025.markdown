@@ -19,6 +19,7 @@ It's not even Black Friday yet, but most of these Python-related Black Friday sa
 - **[Data School][]**: a new subscription to access all of Kevin's **7 courses plus all upcoming courses**
 - **[Talk Python][]**: AI Python bundle, the Everything Bundle, and Michael's Talk Python in Production
 - **[Reuven Lerner][]**: get 20% off **your first year** of the **LernerPython+data** tier (code `BF2025`)
+- **[Brian Okken][]**: get 50% off his pytest books and courses (code `SAVE50`)
 - **[Rodrigo][]**: get 50% off all his books including his all books bundle (code `BF202550`)
 - **[Mike Driscoll][]**: get 50% off all his **Python books and courses** (code `BLACKISBACK`)
 - **[The Python Coding Place][]**: get 50% the **all course bundle** of 12 courses
@@ -68,7 +69,7 @@ It's **about 50% cheaper than paying annually for five years**.
 [reuven lerner]: https://lernerpython.com/pricing/
 
 [data school]: https://courses.dataschool.io/pass
-[brian okken]: https://courses.pythontest.com/
+[brian okken]: https://pythontest.com/2025-black-friday/
 [rodrigo]: https://mathspp.gumroad.com/l/all-books-bundle/BF202550
 [Test Driven]: https://testdriven.io
 [matt harrison]: https://store.metasnake.com/
