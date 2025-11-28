@@ -48,6 +48,23 @@ If you've seen a sale that I haven't, please contact me or comment below.
 ## Django-related sales
 
 Adam Johnson has also published a list of [Django-related deals for Black Friday][adam post] (which he's been doing for a few years now).
+I've included links below to the different sections in Adam's post...
+
+Courses and books:
+
+- [Adam's books][adam johnson]: his books and bundles on Django, Git, and GitHub DX and Django test performance are all 50% off
+- [LearnDjango.com course bundle][learndjango]: Will Vincent is offering 50% off his 3 courses
+- [Django 5 By Example][]: 30% off this book by Antonio Melé
+- [Django in Action][]: 50% off this book by Christopher Trudeau
+- [Async Patterns in Django][]: 50% off this book by Paul Bailey
+
+Packages related to Django:
+
+- [Aidas Bendoraitis][]: has 3 Django packages available at a 20% discount
+- [Appliku][]: 30% of annual plans for this Django deployment tool
+- [Saas Pegasus][]: 50% off the unlimited license for this configurable Django project template
+
+Adam also gives a shout out to [sponsoring Django itself](https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#bonus-django-itself).
 
 
 ## More on my sale: Python Morsels Lifetime Access
@@ -83,3 +100,12 @@ It's **about 50% cheaper than paying annually for five years**.
 [adam post]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/
 [wizard zines]: https://mastodon.social/@b0rk@jvns.ca/115571664177415123
 [sale post]: https://treyhunner.com/2025/11/lifetime-access-sale-2025/
+
+[adam johnson]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#my-books
+[Aidas Bendoraitis]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#aidas-bendoraitis-paid-packages
+[appliku]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#appliku
+[async patterns in django]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#async-patterns-in-django
+[django 5 by example]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#django-5-by-example
+[django in action]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#django-in-action
+[learndjango]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#learndjango-com-course-bundle
+[saas pegasus]: https://adamj.eu/tech/2025/11/20/django-black-friday-deals-2025/#saas-pegasus
