@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-11-27T18:49:28-08:00</updated>
+  <updated>2025-12-22T20:42:21-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Default Apps of 2025]]></title>
+    <link href="https://treyhunner.com/2025/12/default-apps-of-2025/"/>
+    <updated>2025-12-22T20:32:27-08:00</updated>
+    <id>https://treyhunner.com/2025/12/default-apps-of-2025</id>
+    <content type="html"><![CDATA[<p>Here are my default apps of 2025. My <a href="https://treyhunner.com/2025/01/my-default-apps-of-2024/">2024 list is here</a>.</p>
+
+<p>The Libro, YNAB, SavvyCal, and GLM links below are referral links. You can <a href="https://raindrop.io/treyhunner/referral-links-47224019">find more of my referral links here</a>.
+I&rsquo;d love a free audiobook if you end up switching from Audible to Libro.fm (you should seriously consider it, as I <a href="https://treyhunner.com/2024/12/my-favorite-audiobooks-of-2024/">noted at the end of this audiobook review post</a>). 💗</p>
+
+<ul>
+<li>📝 <strong>Notes</strong>: <a href="https://obsidian.md">Obsidian</a> + NeoVim</li>
+<li>✅ <strong>To-Do</strong>: Obsidian</li>
+<li>✍ <strong>Writing</strong>: Obsidian + NeoVim</li>
+<li>🧑‍💻 <strong>Code Editor</strong>: NeoVim</li>
+<li>⏲ <strong>Focus Mode</strong>: <a href="https://play.google.com/store/apps/details?id=com.AT.PomodoroTimer.timer&amp;hl=en_US">Focus Friend</a> &amp; <a href="https://play.google.com/store/apps/details?id=com.AT.PomodoroTimer.timer&amp;hl=en_US">Brain Focus</a></li>
+<li>🔍 <strong>Search</strong>: <a href="https://kagi.com">Kagi</a> (and sometimes the free Perplexity)</li>
+<li>🤖 <strong>LLM chat in-browser</strong>: Claude mostly, but sometimes Chat GPT, Z.ai&rsquo;s GLM, or Typing Mind with API keys</li>
+<li>🤖 <strong>LLM coding agent</strong>: Claude Code mostly, sometimes with a Claude subscription and sometimes with my <a href="https://z.ai/subscribe?ic=PGLZJ2GAZP">Z.ai GLM subscription</a></li>
+<li>🌐 <strong>Browser</strong>: <a href="https://kagi.com">Vivaldi</a></li>
+<li>🔖 <strong>Bookmarks</strong>: <a href="https://raindrop.io">Raindrop.io</a></li>
+<li>📚 <strong>Audiobooks</strong>: Libby (💖), Spotify (meh), <a href="https://libro.fm/referral?rf_code=lfm240965">Libro</a> (💖), Audible (yuck)</li>
+<li>🎤 <strong>Podcasts</strong>: <a href="https://www.podcastrepublic.net">Podcast Republic</a> (switched from Pocket Casts this year)</li>
+<li>🎵 <strong>Music</strong>: Spotify</li>
+<li>📼 <strong>Screencasting</strong>: OBS + Kdenlive + <a href="https://github.com/treyhunner/dotfiles/blob/0ab0a3d2df45940e38aad5729f5cdc1c72932226/bin/caption">Whisper API</a> + <a href="https://github.com/treyhunner/dotfiles/blob/0ab0a3d2df45940e38aad5729f5cdc1c72932226/bin/normalize">Custom Python scripts</a></li>
+<li>📁 <strong>Cloud File Storage</strong>: a mix of Git, Dropbox, Google Drive, and Obsidian Sync</li>
+<li>📜 <strong>Word Processing</strong>: Google Drive</li>
+<li>📈 <strong>Spreadsheets</strong>: Google Drive, Airtable, occasionally LibreOffice</li>
+<li>💰 <strong>Budgeting and Personal Finance</strong>: <a href="https://ynab.com/referral/?ref=d3KJBKwg5DKsKgDr">YNAB</a></li>
+<li>💬 <strong>Chat</strong>: Signal, Discord, Slack</li>
+<li>📆 <strong>Scheduling + Booking</strong>: <a href="https://savvycal.com/?via=trey">SavvyCal</a></li>
+<li>📆 <strong>Calendar</strong>: Google Calendar</li>
+<li>📹 <strong>Video Calls</strong>: Google Meet + Discord + Zoom</li>
+<li>🔐 <strong>Password Management</strong>: <a href="https://bitwarden.com">Bitwarden</a></li>
+<li>🔏 <strong>Multi-Factor Auth</strong>: <a href="https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis">Aegis</a> (Android) + <a href="https://flathub.org/apps/com.belmoussaoui.Authenticator">Authenticator</a> (laptop)</li>
+<li>🐚 <strong>Terminal</strong>: Gnome Terminal + Tmux + <a href="https://github.com/treyhunner/tmuxstart">Tmuxstart</a> + <a href="https://starship.rs">Starship</a> + <a href="https://direnv.net">Direnv</a></li>
+<li>🐍 <strong>Python Installation Manager</strong>: <a href="https://docs.astral.sh/uv/">uv</a></li>
+<li>🐍 <strong>Python script runner</strong>: <a href="https://github.com/treyhunner/uvrs">uvrs</a> (hopefully to be replaced by uv eventually)</li>
+<li>🗃️ <strong>Version Control</strong>: Git</li>
+<li>🖥️ <strong>DNS</strong>: Cloudflare</li>
+<li>📮 <strong>Email</strong>: Gmail</li>
+<li>🎒 <strong>Backups</strong>: Manual Calendar Event + Git</li>
+<li>🏠 <strong>Smart Home Hub</strong>: Google Home (maybe I&rsquo;ll use Home Assistant eventually?)</li>
+<li>🏃 <strong>Fitness Tracker</strong>: Fitbit</li>
+</ul>
+
+
+<p>Also see:
+- <a href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/">My direnv, starship, and uv setup for Python</a>
+- <a href="https://treyhunner.com/2025/10/handy-python-repl-modifications/">My custom Python shell configuration tool</a>
+- <a href="https://github.com/treyhunner/dotfiles">my dotfiles</a> for my customized Python shell configuration, how I manage my project directories, and more.</p>
+
+<h2>Biggest changes from 2024</h2>
+
+<p>I switched from Pocket Casts to Podcast Republic.
+I&rsquo;m not entirely satisfied with either.
+I wish there was a podcast app that allowed me to easily maintain multiple queues/coming up-style playlists at once but wasn&rsquo;t so complex.</p>
+
+<p>My LLM use changed this year, first with the discovery of Typing Mind (thanks to my friend <a href="https://www.dataschool.io/save-money-on-chatgpt/">Kevin Markham</a>) and later thanks to command-line LLM agents becoming a thing.</p>
+
+<p>I also started using Hank Green&rsquo;s Focus Friend app.
+Or maybe playing it, since it&rsquo;s a bit of a game plus pomodoro-style app in one.</p>
+
+<p>I continue to <em>really appreciate</em> Kagi and have been getting more use out of both Raindrop and Obsidian this year (which were both new to me last year).</p>
+
+<p>I&rsquo;ve also been really enjoying using uv a bit more seriously than I was last year.
+I didn&rsquo;t mention it above, but I&rsquo;ve finally listened to Jeff&rsquo;s repeated <a href="https://micro.webology.dev/categories/justfiles/">recommendations</a> to use <a href="https://github.com/casey/just">justfiles</a> and I&rsquo;m loving those too.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2025)]]></title>
@@ -3501,83 +3571,6 @@ You can <a href="https://www.pythonmorsels.com/high-five/#morsels">see more deta
 
 <p>Keep in mind that while the program begins on September 9, <strong>enrollment closes on August 31</strong>.
 So <a href="https://www.pythonmorsels.com/high-five/#faq">check the FAQs</a> and if you have additional questions, be sure to email me soon!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Quickly find the right datetime format code for your date]]></title>
-    <link href="https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date/"/>
-    <updated>2024-08-05T11:30:00-07:00</updated>
-    <id>https://treyhunner.com/2024/08/find-the-datetime-format-code-for-your-date</id>
-    <content type="html"><![CDATA[<p>I often find myself with a string representing a date and time and the need to create a format string that will parse this string into a <code>datetime</code> object.</p>
-
-<p>I decided to make a tool that solves this problem for me: <a href="https://pym.dev/strptime">https://pym.dev/strptime</a></p>
-
-<h2>Finding the code to parse a date format with <code>strptime</code></h2>
-
-<p>Here&rsquo;s how I&rsquo;m now using this new tool.</p>
-
-<p>I find a date string in a random spreadsheet or log file that I need to parse.
-For example, the string <code>30-Jun-2024 20:09</code>, which I recently found in a spreadsheet.</p>
-
-<p>I then paste the string into the tool and watch the format appear:</p>
-
-<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-1.png"></a></p>
-
-<p>Then I click on the date format to copy-paste it.
-That&rsquo;s it!</p>
-
-<p>This tool works by cycling through a number of common formats.
-It also works for dates without a time, like <code>Jul 1, 2024</code>.</p>
-
-<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-2.png"></a></p>
-
-<p>This input field works great when you&rsquo;re in need of a code for the <code>datetime</code> class&rsquo;s <code>strptime</code> method (which <em>parses</em> dates).
-But what if you need a code for <code>strftime</code> (for <em>formatting</em> dates)?</p>
-
-<h2>Finding the code to format a date with <code>strftime</code></h2>
-
-<p>If you don&rsquo;t have a date but instead want to <em>construct</em> a date in a specific common format, scroll down the page a bit.</p>
-
-<p>This page includes a table of common formats.</p>
-
-<p><a href="https://pym.dev/strptime#formats"><img src="https://treyhunner.com/images/strptime-table.png"></a></p>
-
-<p>Click on the format to copy it.
-That&rsquo;s it.</p>
-
-<h2>Playing with format codes</h2>
-
-<p>What if you have a date format already but you&rsquo;re not sure what it represents?</p>
-
-<p>Paste it in the box!</p>
-
-<p>For example if you&rsquo;re wondering what the <code>%B</code> in <code>%B %d, %Y</code> means, paste it in to see what that represent with the current date and time:</p>
-
-<p><a href="https://pym.dev/strptime"><img src="https://treyhunner.com/images/strptime-reverse.png"></a></p>
-
-<h2>Other features</h2>
-
-<p>There are a few other hidden features in this tool:</p>
-
-<ul>
-<li>After a date or date format is pasted, if it corresponds to one of the formats listed in the table of common formats, that row will be highlighted</li>
-<li>Hitting the <code>Enter</code> key anywhere on the page will select the input field</li>
-<li>Clicking on a date within the format table will fill that date into the input box</li>
-<li>The bottom of the page includes links to other useful datetime formatting/parsing tools as well as a link to the relevant Python documentation</li>
-</ul>
-
-
-<h2>Thoughts? Feature requests?</h2>
-
-<p>What do you think of this tool?</p>
-
-<p>Is this something you&rsquo;d bookmark and use often?
-Is this missing a key feature that you would need for it to be valuable for your use?</p>
-
-<p>Are there date and time formats you&rsquo;d like to see that don&rsquo;t seem to be supported yet?</p>
-
-<p>Comment or email me to let me know!</p>
 ]]></content>
   </entry>
   
