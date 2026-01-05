@@ -33,26 +33,26 @@ I found myself taking issue with some of the arguments in this book but I also f
 
 If you're **curious about veganism** but hoping to avoid descriptions of the specifics of animal suffering, this is a pretty good book to start with. The author kindly lays out her reasoning without delving too deep into the specifics of factory farming.
 
-### Streets of Gold: America's Untold Story of Immigrant Success by Ran Abramitzky and Leah Boustan
+### "Streets of Gold: America's Untold Story of Immigrant Success" by Ran Abramitzky and Leah Boustan
 
 **[Streets of Gold](https://app.thestorygraph.com/books/e983bd0e-d61b-4355-b527-f7a967d78566)** is a book on immigration written by economists in a way that is fairly easy for non-economists to understand. I'm somewhat surprised that such a book exists.
 
 I wish **all immigration skeptics** read this book and considered the data referenced and the arguments made.
 
-### The Case for Open Borders by John Washington
+### "The Case for Open Borders" by John Washington
 
 I assumed **[The Case for Open Borders](https://app.thestorygraph.com/books/b621ee39-e669-4cbe-b74c-4846f0934084)** might be focused on the economic case for open borders. It partly focused on that, but it didn't primarily take an economic angle. I found this interesting and thought-provoking.
 
 If you are **skeptical of the idea of radically increasing US immigration**, this is the first book I would probably recommend reading.
 
-### Under The Influence by Robert H. Frank
+### "Under The Influence" by Robert H. Frank
 
 **[Under The Influence](https://app.thestorygraph.com/books/f85fe8f8-a130-4e8d-9617-d25cb9e936a5)** feels like an economist **applying economics to sociology**. I found it really interesting.
 I really enjoyed Robert H. Frank's [Success and Luck](https://treyhunner.com/2017/01/my-favorite-audiobooks-of-2016/). This book is quite different from that one.
 
 I enjoyed the many comparisons of regulation versus taxes, but I especially enjoyed the discussions about what is socially feasible. An idea in theory doesn't do much good if it won't work in practice.
 
-### In This Economy?: How Money & Markets Really Work by Kyla Scanlon
+### "In This Economy?: How Money & Markets Really Work" by Kyla Scanlon
 
 **[In This Economy?](https://app.thestorygraph.com/books/47d2ae10-c19d-41ad-b8a6-75109d5351c1)** may be my new go-to recommendation for a book **on the importance of economics and economic thinking for the average person** (folks not already into economics).
 
@@ -60,7 +60,7 @@ Unfortunately, **it doesn't drive too deep into economic thinking** but it *does
 
 I am still on the lookout for a great "here's why economics is so important" explainer book.
 
-### On Tyranny by Timothy Snyder
+### "On Tyranny" by Timothy Snyder
 
 **[On Tyranny](https://app.thestorygraph.com/books/e36e1a7c-90d5-4fca-92cc-20b225228db9)** was quite short.
 I really enjoy a good short read.
@@ -77,7 +77,7 @@ Here are some quotes I wrote down from the chapter on "being kind to our languag
 
 The line between world betterment and self betterment isn't always clear but to me, all 3 of these books felt a bit more focused on how the reader could better their own life.
 
-### You're Not Listening by Kate Murphy
+### "You're Not Listening" by Kate Murphy
 
 **[You're Not Listening](https://app.thestorygraph.com/books/8d99b1d4-4fa0-4c77-9220-292f1168533a)** was more interesting than immediately actionable, but I can't complain. This was a fascinating meandering through the world of communication as studied by researchers and as put into practice by hostage negotiators, salespeople, focus group facilitators, etc.
 
@@ -90,7 +90,7 @@ Two takeaways I wrote down:
 
 I didn't really take notes, but I wish I had.
 
-### Hope for Cynics by Jamil Zaki
+### "Hope for Cynics" by Jamil Zaki
 
 **[Hope for Cynics](https://app.thestorygraph.com/books/44ecbd04-2060-43f1-93c8-d6bd8c331c23)** is all about an idea I think is greatly needed *today*: how to turn cynicism into hope *and* productive action toward making a better world.
 
@@ -99,7 +99,7 @@ Most people, myself included, at some point despair to the point of complacency 
 I really liked the idea of hopefully skepticism as a level-headed replacement for cynicism.
 I was glad that Robert Putnam's The Upswing was also discussed toward the end.
 
-### Vegan for Life by Jack Norris and Virginia Messina
+### "Vegan for Life" by Jack Norris and Virginia Messina
 
 The nutrition advice in **[Vegan for Life](https://app.thestorygraph.com/books/2637d1c8-7f82-4094-bb05-5815cb3f4317)** is similar to [Harvard Medical School's Eat, Drink, and Be Healthy](https://app.thestorygraph.com/reviews/57fbf0bf-509a-4176-a8e1-cd5c53c5de7e?redirect=true) but it's targeted specifically to those eating vegan.
 If you're concerned about your health as you switch away from animal-based products, read this.
@@ -108,7 +108,7 @@ If you're concerned about your health as you switch away from animal-based produ
 
 I didn't read a lot of fiction this year. Of the bit of fiction I did read, Hank Green's An Absolutely Remarkable Thing is the book I'd most recommend. I'd also recommend the sequel. They both made me think and made me have big feelings.
 
-### An Absolutely Remarkable Thing by Hank Green
+### "An Absolutely Remarkable" Thing by Hank Green
 
 **[An Absolutely Remarkable Thing](https://app.thestorygraph.com/books/5e5cf4af-9ce8-458d-9a15-ae955cfed7a8)** was a really fun book. I read the sequel immediately after I finished this.
 
@@ -116,7 +116,7 @@ I think I enjoy Hank Green's fiction more than John Green's.
 
 I don't want to spoil the book, so I'll just say that if you think you'd like thoughtful fiction where a big thing happens that changes the world, I'd recommend this book and [its sequel](https://app.thestorygraph.com/reviews/bdfd7e15-d464-453f-8662-95db0f942d75).
 
-### The Pioneer by Bridget Tyler
+### "The Pioneer" by Bridget Tyler
 
 **[The Pioneer](https://app.thestorygraph.com/books/b72b3c97-5001-4ae7-9e4f-6bac34b1fcdc)** is a young adult sci-fi novel which I found to be a pretty easy read.
 There is some "what is personhood"-style grappling (to counter the typical alien xenophobia) that's slightly reminiscent of Octavia Butler's [Dawn](https://app.thestorygraph.com/reviews/0e92c566-34e5-40ba-9dd0-91e3af3a1708) (which I *love*).
@@ -124,7 +124,7 @@ There is some "what is personhood"-style grappling (to counter the typical alien
 I did find myself slightly frustrated that in this book humanity ends up with faster-than-light travel and yet we still harm creatures that feel pain for very little benefit to ourselves.
 I don't regret reading this and ended up reading the sequel as well.
 
-### Children of Ruin by Adrian Tchaikovsky
+### "Children of Ruin" by Adrian Tchaikovsky
 
 "We're going on an adventure." (you'll get this quote stuck in your head)
 
