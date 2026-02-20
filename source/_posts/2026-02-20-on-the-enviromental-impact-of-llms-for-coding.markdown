@@ -52,6 +52,7 @@ Again, 1.6% is not nothing. It's not *enormous* but it's certainly measurable.
 I think that any discussion about greenhouse gas emissions should be considered in the context of the rest of life and ideally in context of the social cost of those emissions. I haven't tried quantifying the social cost, but I have looked up other activities and their climate impact.
 
 For the sake of comparison, here are some *very rough* estimates of carbon dioxide equivalent emissions (CO₂e) for various consumables and activities:
+
 - one hour of Netflix: 50 grams CO₂e
 - a banana: 80 grams CO₂e
 - one hour of Zoom: 100 grams CO₂e
