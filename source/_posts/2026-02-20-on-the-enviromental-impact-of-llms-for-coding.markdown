@@ -113,7 +113,7 @@ For climate change overall, I think we should:
 
 - Pressure the companies that make LLMs to publish detailed information about carbon emissions
 - Pressure our politicians to tax greenhouse gas emissions... or at least to tax activities that result in greenhouse gas emissions in a way that would mimic the outcome of a carbon tax
-- Subsidize activities that lower greenhouse gas emissions, like increasing solar and battery technology use on the electrical grid
+- Pressure our politicians to subsidize activities that lower greenhouse gas emissions, like increasing solar and battery technology use on the electrical grid
 - Talk about climate change and encourage our colleagues and loved ones to talk about it
 
 When it comes to AI data centers, I think focusing on their impacts to local grids makes more sense than focusing on their global impacts. The uneven distribution of data centers makes their local impacts disproportionately large in comparison to their global impacts. I see this as similar to the problem of pig farms. Eastern North Carolina has waste lagoons from pig farms that cause serious issues for nearby communities. Both data centers and pig farms are very unevenly distributed and both cause big problems for their neighboring communities.
