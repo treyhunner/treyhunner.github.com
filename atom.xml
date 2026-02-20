@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2026-02-20T14:00:22-08:00</updated>
+  <updated>2026-02-20T14:00:43-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -65,18 +65,22 @@ Some conversations have focused on their uses and misuses and some have focused 
 
 <p>I think that any discussion about greenhouse gas emissions should be considered in the context of the rest of life and ideally in context of the social cost of those emissions. I haven&rsquo;t tried quantifying the social cost, but I have looked up other activities and their climate impact.</p>
 
-<p>For the sake of comparison, here are some <em>very rough</em> estimates of carbon dioxide equivalent emissions (CO₂e) for various consumables and activities:
-- one hour of Netflix: 50 grams CO₂e
-- a banana: 80 grams CO₂e
-- one hour of Zoom: 100 grams CO₂e
-- half cup tofu: 300 grams CO₂e
-- half cup (dairy) greek yogurt: 400 grams CO₂e
-- driving 5 miles in an EV: 500 grams CO₂e
-- 5 minute shower: 700 grams CO₂e
-- <strong>1 day of using a coding agent: 700 grams CO₂e</strong> (based on <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">one user&rsquo;s estimate</a>)
-- driving 5 miles in a gas car: 1,500 grams CO₂e
-- beef burger: 5,000 grams CO₂e
-- flying SAN to ORD (one-way): 400,000 grams CO₂e</p>
+<p>For the sake of comparison, here are some <em>very rough</em> estimates of carbon dioxide equivalent emissions (CO₂e) for various consumables and activities:</p>
+
+<ul>
+<li>one hour of Netflix: 50 grams CO₂e</li>
+<li>a banana: 80 grams CO₂e</li>
+<li>one hour of Zoom: 100 grams CO₂e</li>
+<li>half cup tofu: 300 grams CO₂e</li>
+<li>half cup (dairy) greek yogurt: 400 grams CO₂e</li>
+<li>driving 5 miles in an EV: 500 grams CO₂e</li>
+<li>5 minute shower: 700 grams CO₂e</li>
+<li><strong>1 day of using a coding agent: 700 grams CO₂e</strong> (based on <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">one user&rsquo;s estimate</a>)</li>
+<li>driving 5 miles in a gas car: 1,500 grams CO₂e</li>
+<li>beef burger: 5,000 grams CO₂e</li>
+<li>flying SAN to ORD (one-way): 400,000 grams CO₂e</li>
+</ul>
+
 
 <p>Treat those numbers as &ldquo;likely correct within an order of magnitude&rdquo;. Most of those numbers have pretty large error bars, as the industries that have solid data on these figures rarely publish them and even when they do, the actual emissions can vary greatly due to the number of variables involved.</p>
 
