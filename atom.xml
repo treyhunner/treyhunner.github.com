@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2025-12-31T12:58:46-08:00</updated>
+  <updated>2026-02-20T14:00:22-08:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,133 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[On the enviromental impact of using LLMs for writing code]]></title>
+    <link href="https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/"/>
+    <updated>2026-02-20T14:30:00-08:00</updated>
+    <id>https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve had <em>many</em> conversations over the past year with friends and colleagues about LLMs.
+Some conversations have focused on their uses and misuses and some have focused on big picture concerns.</p>
+
+<p>There are many reasons to be concerned about LLMs: job displacement, intellectual property issues, moral hazards. The one I hear the most is the environmental impact.</p>
+
+<p><strong>TL;DR</strong>: I think the environmental impact of LLMs is primarily a climate change problem, that the impact of individual LLM use on this problem is relatively small, and that climate change is best addressed through collective action (ideally taxes, subsidies, and regulations). But since systemic solutions aren&rsquo;t coming soon, understanding the relative impact of specific activities (including LLM use) does matter.</p>
+
+<h2>Energy use of individual LLM prompts</h2>
+
+<p>When thinking about the energy use of LLMs, I tend to agree with the framing that Hannah Ritchie takes: this <em>is</em> something to be concerned about, but many headlines are misleading.</p>
+
+<p>Hannah Ritchie is a data scientist, deputy editor at Our World in Data, and co-host of the podcast Solving for Climate. In Hannah&rsquo;s <a href="https://hannahritchie.substack.com/p/ai-energy-demand">post about the overall energy demand from AI data centers</a>, she notes that data centers in general make up <strong>a small fraction of the world&rsquo;s global electricity demand</strong> and that they are estimated to be a fairly small portion of the growth in global electricity use until 2030.</p>
+
+<p>That doesn&rsquo;t mean that the energy demand from data centers isn&rsquo;t a problem. But, as she notes, due to the very uneven distribution of data centers around the globe, this is <strong>a very localized problem</strong>:</p>
+
+<blockquote><p>What’s crucial here is that the energy demands for AI are very localised. This means there can be severe strain on the grid at a highly localised level, even if the impact on total energy demand is small.</p></blockquote>
+
+<p>Hannah also has <a href="https://hannahritchie.substack.com/p/carbon-footprint-chatgpt">a follow up post on individual LLM use</a> where she suggests that individual users should &ldquo;stop stressing about the energy and carbon footprint&rdquo; of LLMs.</p>
+
+<p>In all of these posts, she attempts to put numbers into perspective:</p>
+
+<blockquote><p>The reason we often think that ChatGPT is an energy guzzler is because of the initial statement: it uses 10 times more energy than a Google search. Even if this is accurate, what’s missing is the context that a Google search uses a really tiny amount of energy. Even 10 times a really tiny number is still tiny.</p></blockquote>
+
+<p>Hannah also published <a href="https://hannahritchie.substack.com/p/ai-footprint-august-2025">a follow up to her follow up post</a> where she seriously questions the 3 Wh figure (10 times higher than a Google search) that&rsquo;s often used when discussing the energy use of LLM queries. She considers whether the median LLM query may use closer to 0.3 Wh of energy.</p>
+
+<p>I lean heavily on Ritchie&rsquo;s analysis throughout this post because I think her data-oriented framing of this issue is helpful. That said, detailed energy data from AI companies is scarce so her estimates are inherently fuzzy.</p>
+
+<h2>Energy use of coding agents</h2>
+
+<p>Hannah&rsquo;s posts about individual LLM usage focuses on the &ldquo;median query&rdquo; in an LLM&hellip; but using a coding agent (Claude Code, Codex, etc.) to navigate through a repository and generate lots of code likely involves quite a bit more usage than a &ldquo;median query&rdquo; does.</p>
+
+<p>Simon P. Couch <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">recently wrote a post</a> about the energy use he estimates for his Claude Code usage. He estimates that <strong>his Claude Code usage</strong> results in approximately <strong>1,300 Wh</strong> of energy each day. That&rsquo;s quite a bit higher than either 0.3 Wh or 3 Wh for a median LLM query.</p>
+
+<p>If heavy coding agent use results in 1,300 Wh of energy, that represents <strong>3.7%</strong> of the average American&rsquo;s daily electricity use (based on an <a href="https://ourworldindata.org/explorers/energy?Total+or+Breakdown=Total&amp;Energy+or+Electricity=Electricity+only&amp;Metric=Per+capita+generation&amp;country=USA~GBR~CHN~OWID_WRL~IND~BRA~ZAF">average electricity generation per person</a> of 12,712 kWh in the US). Increasing your energy use by 4% is <em>not</em> nothing&hellip; but how bad is it?</p>
+
+<h2>Climate impact of coding agents</h2>
+
+<p>Increased energy usage isn&rsquo;t as concerning to me as the negative impacts that the energy usage might have on the climate.</p>
+
+<p>Going with <a href="https://andymasley.substack.com/p/whats-the-full-hidden-climate-cost">Adam Masley&rsquo;s assumptions</a> of 0.37 grams of carbon dioxide emissions per watt-hour (Wh) in the US and the assumption that data centers use energy that&rsquo;s 48% more carbon intensive than the average US power plant, <strong>1,300 Wh per day of coding agent usage</strong> could result in 0.5 grams of CO₂ per Wh, for about <strong>715 grams of CO₂ emissions per day</strong> from coding agent use.</p>
+
+<p>The annual carbon footprint of the average American is <a href="https://ourworldindata.org/explorers/co2?time=earliest..2022&amp;focus=~USA&amp;Gas+or+Warming=CO%E2%82%82&amp;Accounting=Consumption-based&amp;Fuel+or+Land+Use+Change=All+fossil+emissions&amp;Count=Per+capita&amp;country=CHN~USA~IND~GBR~OWID_WRL">16,300 kg of CO₂</a>, which is about 44.7 kg of CO₂ per day. So 715 grams of CO₂ from a day of coding agent usage may be about <strong>1.6% of the average American&rsquo;s daily carbon footprint</strong> of 44.7 kg of CO₂.</p>
+
+<p>Again, 1.6% is not nothing. It&rsquo;s not <em>enormous</em> but it&rsquo;s certainly measurable.</p>
+
+<p>I think that any discussion about greenhouse gas emissions should be considered in the context of the rest of life and ideally in context of the social cost of those emissions. I haven&rsquo;t tried quantifying the social cost, but I have looked up other activities and their climate impact.</p>
+
+<p>For the sake of comparison, here are some <em>very rough</em> estimates of carbon dioxide equivalent emissions (CO₂e) for various consumables and activities:
+- one hour of Netflix: 50 grams CO₂e
+- a banana: 80 grams CO₂e
+- one hour of Zoom: 100 grams CO₂e
+- half cup tofu: 300 grams CO₂e
+- half cup (dairy) greek yogurt: 400 grams CO₂e
+- driving 5 miles in an EV: 500 grams CO₂e
+- 5 minute shower: 700 grams CO₂e
+- <strong>1 day of using a coding agent: 700 grams CO₂e</strong> (based on <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">one user&rsquo;s estimate</a>)
+- driving 5 miles in a gas car: 1,500 grams CO₂e
+- beef burger: 5,000 grams CO₂e
+- flying SAN to ORD (one-way): 400,000 grams CO₂e</p>
+
+<p>Treat those numbers as &ldquo;likely correct within an order of magnitude&rdquo;. Most of those numbers have pretty large error bars, as the industries that have solid data on these figures rarely publish them and even when they do, the actual emissions can vary greatly due to the number of variables involved.</p>
+
+<p>If you&rsquo;re curious about any specific measurement, compute them based on sources you trust. I recommend Our World in Data: <a href="https://ourworldindata.org/grapher/ghg-per-kg-poore">food</a>, <a href="https://greenly.earth/en-us/leaf-media/data-stories/the-carbon-cost-of-streaming#anchor-articles_content$d086800e-3afb-4608-9c27-1f13bc477813">streaming video</a>, <a href="https://ourworldindata.org/travel-carbon-footprint">transportation</a>.</p>
+
+<p>Note that I am not saying &ldquo;using LLMs is not bad because people eat beef&rdquo;, which would be <a href="https://andymasley.substack.com/p/a-cheat-sheet-for-conversations-about?utm_source=publication-search">whataboutism</a>. But I don&rsquo;t think that we should discuss the carbon emissions of any given activity in a vacuum.</p>
+
+<h2>Water use</h2>
+
+<p>I&rsquo;m going to mostly skip over the water use of LLMs because I find it far less concerning than the energy use. Based on Andy Masley&rsquo;s numbers (from his provocatively-titled post <a href="https://andymasley.substack.com/p/the-ai-water-issue-is-fake">The AI water issue is fake</a>), a median LLM query uses around 2ml of water including offsite power generation (0.3mL of water if we don&rsquo;t count power generation). That means that a full day of coding agent use would consume about 6.5 liters of water (0.6 liters for everything but the power generation).</p>
+
+<p>The average American&rsquo;s daily water footprint is 1,600 liters. So 6.5 liters of water (largely from offsite power generation) represents roughly <strong>0.4% of the average American&rsquo;s daily water footprint</strong>. 90% of that water comes from the water required for power generation because generating electricity from natural gas, coal, and nuclear all requires water.</p>
+
+<p>Like energy use, water use is a very localized issue. Unlike energy use, water use doesn&rsquo;t also contribute to climate change. Water use is worth discussing, but I find the climate impact of coding agents much more concerning. I&rsquo;m also not sure how much the local impact of water use should be a concern, since it matters what type of water is used, how much of that water is returned to the source, and what else that water would be used for. Hank Green recently released <a href="https://www.youtube.com/watch?v=H_c6MWk7PQc">an interesting video on water use</a>.</p>
+
+<h2>Climate change requires collective action</h2>
+
+<p>The biggest environmental concern of LLMs is how much they contribute to climate change.</p>
+
+<p>Climate change is a collective action problem. We need to greatly limit greenhouse gas emissions. And in a world of goods with variable market-based prices, a negative externality like greenhouse gas emissions warrants a tax. A carbon tax or a cap and trade program could go <em>very far</em> in accomplishing that, but I&rsquo;m skeptical that we&rsquo;ll see either of those happen on a massive international scale (and especially not in the US) anytime soon.</p>
+
+<p><strong>Aside</strong>: did you know that the US had <a href="https://www.congress.gov/crs-product/IF12916">an Interagency Working Group on the Social Cost of Greenhouse Gases</a> which published official estimates on the cost of carbon emissions? It was established under Obama, disbanded under Trump, reestablished under Biden, and then disbanded again under Trump. I really wish the US would implement a carbon tax so that we can stop focusing on specific carbon-emitting activities and instead properly price carbon emissions in aggregate.</p>
+
+<h2>So why talk about LLMs specifically?</h2>
+
+<p>If climate change is best addressed by big picture solutions, like a tax on all greenhouse gas emissions, then why even look into the climate impact of specific activities, like LLM use?</p>
+
+<p>Because we don&rsquo;t have a carbon tax. And we&rsquo;re probably not getting one anytime soon.</p>
+
+<p>In the absence of systemic solutions, general sentiment about what&rsquo;s a <em>big</em> problem and what&rsquo;s a <em>small</em> problem shapes how we respond&hellip; as individuals, in communities, as consumers and workers within companies, and as citizens pressuring various levels of government.</p>
+
+<p>We can&rsquo;t expect individuals to weigh the climate impact of every action they take (thinking of The Good Place&rsquo;s S03E11: The Book of Dougs). And hoping that corporations will grow a conscience is wishful thinking. But having a shared understanding of the relative impacts of various climate concerns <em>does</em> have <em>some</em> effect on what gets attention, what gets research, and what gets regulated.</p>
+
+<p>So I think it&rsquo;s worth understanding the relative impact of different activities, including LLM use. Putting numbers in context helps us have better conversations and direct our collective energy more effectively.</p>
+
+<h2>Global and local, individual and collective</h2>
+
+<p>There are two angles I see this problem from:</p>
+
+<ol>
+<li>The global problem of climate change from greenhouse gas emissions</li>
+<li>The local impacts caused by data centers</li>
+</ol>
+
+
+<p>For climate change overall, I think we should:</p>
+
+<ul>
+<li>Pressure the companies that make LLMs to publish detailed information about carbon emissions</li>
+<li>Pressure our politicians to tax greenhouse gas emissions&hellip; or at least to tax activities that result in greenhouse gas emissions in a way that would mimic the outcome of a carbon tax</li>
+<li>Subsidize activities that lower greenhouse gas emissions, like increasing solar and battery technology use on the electrical grid</li>
+<li>Talk about climate change and encourage our colleagues and loved ones to talk about it</li>
+</ul>
+
+
+<p>When it comes to AI data centers, I think focusing on their impacts to local grids makes more sense than focusing on their global impacts. The uneven distribution of data centers makes their local impacts disproportionately large in comparison to their global impacts. I see this as similar to the problem of pig farms. Eastern North Carolina has waste lagoons from pig farms that cause serious issues for nearby communities. Both data centers and pig farms are very unevenly distributed and both cause big problems for their neighboring communities.</p>
+
+<p>On an individual level, I would rather see people eat less meat and dairy products than worry about the climate impact of using LLM coding agents. But more so than either of those, I would rather that we have hard and honest conversations with colleagues and loved ones and pressure our elected representatives in government to take action on this problem.</p>
+
+<p>Americans have a habit of thinking about systemic problems through the lens of individual action. As I noted in <a href="https://youtu.be/Uuhu-F05A7k?feature=shared&amp;t=3173">my lightning talk at PyCon last year</a>, system-level problems require system-level solutions. If the climate impact of LLMs concerns you, I&rsquo;d encourage you to direct that energy toward the people and institutions that can change these systems.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My favorite reads of 2025]]></title>
@@ -3134,527 +3261,6 @@ I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
 See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
 
 <p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Switching from virtualenvwrapper to direnv, Starship, and uv]]></title>
-    <link href="https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv/"/>
-    <updated>2024-10-03T14:00:00-07:00</updated>
-    <id>https://treyhunner.com/2024/10/switching-from-virtualenvwrapper-to-direnv-starship-and-uv</id>
-    <content type="html"><![CDATA[<p>Earlier this week I considered whether I should finally switch away from <a href="https://virtualenvwrapper.readthedocs.io">virtualenvwrapper</a> to using local <code>.venv</code> managed by <a href="https://direnv.net">direnv</a>.</p>
-
-<p>I&rsquo;ve never seriously used direnv, but I&rsquo;ve been hearing <a href="https://micro.webology.dev/2024/03/13/on-environment-variables.html">Jeff</a> and <a href="https://hynek.me/til/python-project-local-venvs/">Hynek</a> talk about their use of direnv for a while.</p>
-
-<p>After a few days, I&rsquo;ve finally stumbled into a setup that works great for me.
-I&rsquo;d like to note the basics of this setup as well as some fancy additions that are specific to my own use case.</p>
-
-<h2>My old virtualenvwrapper workflow</h2>
-
-<p>First, I&rsquo;d like to note my <em>old</em> workflow that I&rsquo;m trying to roughly recreate:</p>
-
-<ol>
-<li>I type <code>mkvenv3 &lt;project_name&gt;</code> to create a new virtual environment for the current project directory and activate it</li>
-<li>I type <code>workon &lt;project_name&gt;</code> when I want to workon that project: this activates the correct virtual environment <em>and</em> changes to the project directory</li>
-</ol>
-
-
-<p>The initial setup I thought of allows me to:</p>
-
-<ol>
-<li>Run <code>echo layout python &gt; .envrc &amp;&amp; direnv allow</code> to create a virtual environment for the current project and activate it</li>
-<li>Change directories into the project directory to automatically activate the virtual environment</li>
-</ol>
-
-
-<p>The more complex setup I eventually settled on allows me to:</p>
-
-<ol>
-<li>Run <code>venv &lt;project_name&gt;</code> to create a virtual environment for the current project and activate it</li>
-<li>Run <code>workon &lt;project_name&gt;</code> to change directories into the project (which automatically activates the virtual environment)</li>
-</ol>
-
-
-<h2>The initial setup</h2>
-
-<p>First, I <a href="https://direnv.net">installed direnv</a> and added this to my <code>~/.zshrc</code> file:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="s2">&quot;$(direnv hook zsh)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then whenever I wanted to create a virtual environment for a new project I created a <code>.envrc</code> file in that directory, which looked like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout python
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then I ran <code>direnv allow</code> to allow, as <code>direnv</code> instructed me to, to allow the new virtual environment to be automatically created and activated.</p>
-
-<p>That&rsquo;s pretty much it.</p>
-
-<p>Unfortunately, I did not like this initial setup.</p>
-
-<h2>No shell prompt?</h2>
-
-<p>The first problem was that the virtual environment&rsquo;s prompt didn&rsquo;t show up in my shell prompt.
-This is due to a <a href="https://github.com/direnv/direnv/issues/529">direnv not allowing modification of the <code>PS1</code> shell prompt</a>.
-That means I&rsquo;d need to modify my shell configuration to show the correct virtual environment name myself.</p>
-
-<p>So I added this to my <code>~/.zshrc</code> file to show the virtual environment name at the beginning of my prompt:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add direnv-activated venv to prompt</span>
-</span><span class='line'>show_virtual_env<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;$VIRTUAL_ENV_PROMPT&quot;</span> <span class="o">&amp;&amp;</span> -n <span class="s2">&quot;$DIRENV_DIR&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;($(basename $VIRTUAL_ENV_PROMPT)) &quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;$(show_virtual_env)&#39;</span><span class="nv">$PS1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Wrong virtual environment directory</h2>
-
-<p>The next problem was that the virtual environment was placed in <code>.direnv/python3.12</code>.
-I wanted each virtual environment to be in a <code>.venv</code> directory instead.</p>
-
-<p>To do that, I made a <code>.config/direnv/direnvrc</code> file that customized the python layout:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -d <span class="s2">&quot;.venv&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$VIRTUAL_ENV</span> <span class="o">||</span> ! -d <span class="nv">$VIRTUAL_ENV</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        log_status <span class="s2">&quot;No virtual environment exists. Executing \`python -m venv .venv\`.&quot;</span>
-</span><span class='line'>        python -m venv .venv
-</span><span class='line'>        <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Activate the virtual environment</span>
-</span><span class='line'>    . <span class="nv">$VIRTUAL_ENV</span>/bin/activate
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Loading, unloading, loading, unloading&hellip;</h2>
-
-<p>I also didn&rsquo;t like the loading and unloading messages that showed up each time I changed directories.
-I removed those by clearing the <code>DIRENV_LOG_FORMAT</code> variable in my <code>~/.zshrc</code> configuration:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">DIRENV_LOG_FORMAT</span><span class="o">=</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>The more advanced setup</h2>
-
-<p>I don&rsquo;t like it when all my virtual environment prompts show up as <code>.venv</code>.
-I want ever prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
-
-<p>I also <em>really</em> wanted to be able to type <code>venv</code> to create a new virtual environment, activate it, and create the <code>.envrc</code> file for my <em>automatically</em>.</p>
-
-<p>Additionally, I thought it would be really handy if I could type <code>workon &lt;project_name&gt;</code> to change directories to a specific project.</p>
-
-<p>I made two aliases in my <code>~/.zshrc</code> configuration for all of this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>venv<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nb">local </span><span class="nv">venv_name</span><span class="o">=</span><span class="k">${</span><span class="nv">1</span><span class="k">:-$(</span>basename <span class="s2">&quot;$PWD&quot;</span><span class="k">)}</span>
-</span><span class='line'>    <span class="nb">local </span><span class="nv">projects_file</span><span class="o">=</span><span class="s2">&quot;$HOME/.projects&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Check if .envrc already exists</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> -f .envrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: .envrc already exists&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Create venv</span>
-</span><span class='line'>    <span class="k">if</span> ! python3 -m venv --prompt <span class="s2">&quot;$venv_name&quot;</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Failed to create venv&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Create .envrc</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;layout python&quot;</span> &gt; .envrc
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Append project name and directory to projects file</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${venv_name} = ${PWD}&quot;</span> &gt;&gt; <span class="nv">$projects_file</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Allow direnv to immediately activate the virtual environment</span>
-</span><span class='line'>    direnv allow
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>workon<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nb">local </span><span class="nv">project_name</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>
-</span><span class='line'>    <span class="nb">local </span><span class="nv">projects_file</span><span class="o">=</span><span class="s2">&quot;$HOME/.projects&quot;</span>
-</span><span class='line'>    <span class="nb">local </span>project_dir
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Check for projects config file</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> ! -f <span class="s2">&quot;$projects_file&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: $projects_file not found&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Get the project directory for the given project name</span>
-</span><span class='line'>    <span class="nv">project_dir</span><span class="o">=</span><span class="k">$(</span>grep -E <span class="s2">&quot;^$project_name\s*=&quot;</span> <span class="s2">&quot;$projects_file&quot;</span> <span class="p">|</span> sed <span class="s1">&#39;s/^[^=]*=\s*//&#39;</span><span class="k">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Ensure a project directory was found</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&quot;$project_dir&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Project &#39;$project_name&#39; not found in $projects_file&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Ensure the project directory exists</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> ! -d <span class="s2">&quot;$project_dir&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Directory $project_dir does not exist&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Change directories</span>
-</span><span class='line'>    <span class="nb">cd</span> <span class="s2">&quot;$project_dir&quot;</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now I can type this to create a <code>.venv</code> virtual environment in my current directory, which has a prompt named after the current directory, activate it, and create a <code>.envrc</code> file which will automatically activate that virtual environment (thanks to that <code>~/.config/direnv/direnvrc</code> file) whenever I change into that directory:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>venv
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If I wanted to customized the prompt name for the virtual environment, I could do this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>venv my_project
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When I wanted to start working on that project later, I can either change into that directory <em>or</em> if I&rsquo;m feeling lazy I can simply type:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>workon my_project
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That reads from my <code>~/.projects</code> file to look up the project directory to switch to.</p>
-
-<h2>Switching to uv</h2>
-
-<p>I also decided to try using <a href="https://docs.astral.sh/uv/">uv</a> for all of this, since it&rsquo;s faster at creating virtual environments.
-One benefit of <code>uv</code> is that it tries to select the correct Python version for the project, if it sees a version noted in a <code>pyproject.toml</code> file.</p>
-
-<p>Another benefit of using <code>uv</code>, is that I should also be able to update the <code>venv</code> to use a specific version of Python with something like <code>--python 3.12</code>.</p>
-
-<p>Here are the updated shell aliases for the <code>~/.zshrc</code> for <code>uv</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>venv<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nb">local </span>venv_name
-</span><span class='line'>    <span class="nb">local </span><span class="nv">dir_name</span><span class="o">=</span><span class="k">$(</span>basename <span class="s2">&quot;$PWD&quot;</span><span class="k">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># If there are no arguments or the last argument starts with a dash, use dir_name</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq <span class="m">0</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[[</span> <span class="s2">&quot;${!#}&quot;</span> <span class="o">==</span> -* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nv">venv_name</span><span class="o">=</span><span class="s2">&quot;$dir_name&quot;</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>        <span class="nv">venv_name</span><span class="o">=</span><span class="s2">&quot;${!#}&quot;</span>
-</span><span class='line'>        <span class="nb">set</span> -- <span class="s2">&quot;${@:1:$#-1}&quot;</span>
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Check if .envrc already exists</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> -f .envrc <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: .envrc already exists&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Create venv using uv with all passed arguments</span>
-</span><span class='line'>    <span class="k">if</span> ! uv venv --seed --prompt <span class="s2">&quot;$@&quot;</span> <span class="s2">&quot;$venv_name&quot;</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>        <span class="nb">echo</span> <span class="s2">&quot;Error: Failed to create venv&quot;</span> &gt;<span class="p">&amp;</span>2
-</span><span class='line'>        <span class="k">return</span> 1
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Create .envrc</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;layout python&quot;</span> &gt; .envrc
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Append to ~/.projects</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;${venv_name} = ${PWD}&quot;</span> &gt;&gt; ~/.projects
-</span><span class='line'>
-</span><span class='line'>    <span class="c"># Allow direnv to immediately activate the virtual environment</span>
-</span><span class='line'>    direnv allow
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Switching to starship</h2>
-
-<p>I also decided to try out using <a href="https://starship.rs">Starship</a> to customize my shell this week.</p>
-
-<p>I added this to my <code>~/.zshrc</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">eval</span> <span class="s2">&quot;$(starship init zsh)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And removed this, which is no longer needed since Starship will be managing the shell for me:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add direnv-activated venv to prompt</span>
-</span><span class='line'>show_virtual_env<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;$VIRTUAL_ENV_PROMPT&quot;</span> <span class="o">&amp;&amp;</span> -n <span class="s2">&quot;$DIRENV_DIR&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>    <span class="nb">echo</span> <span class="s2">&quot;($(basename $VIRTUAL_ENV_PROMPT)) &quot;</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'><span class="nv">PS1</span><span class="o">=</span><span class="s1">&#39;$(show_virtual_env)&#39;</span><span class="nv">$PS1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I also switched my <code>python</code> layout for direnv to just set the <code>$VIRTUAL_ENV</code> variable and add the <code>$VIRTUAL_ENV/bin</code> directory to my <code>PATH</code>, since the <code>$VIRTUAL_ENV_PROMPT</code> variable isn&rsquo;t needed for Starship to pick up the prompt:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
-</span><span class='line'>    PATH_add <span class="s2">&quot;$VIRTUAL_ENV/bin&quot;</span>
-</span><span class='line'>    <span class="nb">export </span>VIRTUAL_ENV
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I also made a <em>very</em> boring Starship configuration in <code>~/.config/starship.toml</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='toml'><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
-</span><span class='line'><span class="s">$python\</span>
-</span><span class='line'><span class="s">$directory\</span>
-</span><span class='line'><span class="s">$git_branch\</span>
-</span><span class='line'><span class="s">$git_state\</span>
-</span><span class='line'><span class="s">$character&quot;&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">add_newline</span> <span class="o">=</span> <span class="kc">false</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">python</span><span class="p">]</span>
-</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="err">&#39;</span><span class="p">([(</span><span class="err">\</span><span class="p">(</span><span class="err">$</span><span class="n">virtualenv</span><span class="err">\</span><span class="p">)</span> <span class="p">)](</span><span class="err">$</span><span class="n">style</span><span class="p">))</span><span class="err">&#39;</span>
-</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-black&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">directory</span><span class="p">]</span>
-</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-blue&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">character</span><span class="p">]</span>
-</span><span class='line'><span class="n">success_symbol</span> <span class="o">=</span> <span class="s">&quot;[\\$](black)&quot;</span>
-</span><span class='line'><span class="n">error_symbol</span> <span class="o">=</span> <span class="s">&quot;[\\$](bright-red)&quot;</span>
-</span><span class='line'><span class="n">vimcmd_symbol</span> <span class="o">=</span> <span class="s">&quot;[❮](green)&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">git_branch</span><span class="p">]</span>
-</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="s">&quot;[$symbol$branch]($style) &quot;</span>
-</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;bright-purple&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">git_state</span><span class="p">]</span>
-</span><span class='line'><span class="n">format</span> <span class="o">=</span> <span class="err">&#39;\</span><span class="p">([</span><span class="err">$</span><span class="n">state</span><span class="p">(</span> <span class="err">$</span><span class="n">progress_current</span><span class="err">/$</span><span class="n">progress_total</span><span class="p">)](</span><span class="err">$</span><span class="n">style</span><span class="p">)</span><span class="err">\</span><span class="p">)</span> <span class="err">&#39;</span>
-</span><span class='line'><span class="n">style</span> <span class="o">=</span> <span class="s">&quot;purple&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="n">cmd_duration</span><span class="p">.</span><span class="n">disabled</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I setup such a boring configuration because when I&rsquo;m teaching, I don&rsquo;t want my students to be confused or distracted by a prompt that has considerably more information in it than <em>their</em> default prompt may have.</p>
-
-<p>The biggest downside of switching to Starship has been my own earworm-oriented brain.
-As I update my Starship configuration files, I&rsquo;ve repeatedly heard David Bowie singing &ldquo;I&rsquo;m a Starmaaan&rdquo;. 🎶</p>
-
-<h2>Ground control to major TOML</h2>
-
-<p>After all of that, I realized that I could additionally use different Starship configurations for different directories by putting a <code>STARSHIP_CONFIG</code> variable in specific layouts.
-After that realization, I made my configuration even <em>more</em> vanilla and made some alternative configurations in my <code>~/.config/direnv/direnvrc</code> file:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>layout_python<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nv">VIRTUAL_ENV</span><span class="o">=</span><span class="s2">&quot;$(pwd)/.venv&quot;</span>
-</span><span class='line'>
-</span><span class='line'>    PATH_add <span class="s2">&quot;$VIRTUAL_ENV/bin&quot;</span>
-</span><span class='line'>    <span class="nb">export </span>VIRTUAL_ENV
-</span><span class='line'>
-</span><span class='line'>    <span class="nb">export </span><span class="nv">STARSHIP_CONFIG</span><span class="o">=</span>/home/trey/.config/starship/python.toml
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>layout_git<span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nb">export </span><span class="nv">STARSHIP_CONFIG</span><span class="o">=</span>/home/trey/.config/starship/git.toml
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Those other two configuration files are fancier, as I have no concern about them distracting my students since I&rsquo;ll never be within those directories while teaching.</p>
-
-<p>You can find those files in <a href="https://github.com/treyhunner/dotfiles">my dotfiles repository</a>.</p>
-
-<h2>The necessary tools</h2>
-
-<p>So I replaced virtualenvwrapper with direnv, uv, and Starship.
-Though direnv is doing most of the important work here.
-The use of uv and Starship were just bonuses.</p>
-
-<p>I <em>am</em> also hoping to eventually replace my pipx use with uv and once uv supports <a href="https://github.com/astral-sh/uv/issues/6265">adding python3.x commands</a> to my <code>PATH</code>, I may replace my use of pyenv with uv as well.</p>
-
-<p>Thanks to all who <a href="https://mastodon.social/@treyhunner/113232640710715449">participated in my Mastodon thread</a> as I fumbled through discovering this setup.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>On the enviromental impact of using LLMs for writing code</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="I&rsquo;ve had many conversations over the past year with friends and colleagues about LLMs.
+Some conversations have focused on their uses and &hellip;">
+  
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">On the enviromental impact of using LLMs for writing code</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2026-02-20T14:30:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2026</span></span> <span class='time'>2:30 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>I&rsquo;ve had <em>many</em> conversations over the past year with friends and colleagues about LLMs.
+Some conversations have focused on their uses and misuses and some have focused on big picture concerns.</p>
+
+<p>There are many reasons to be concerned about LLMs: job displacement, intellectual property issues, moral hazards. The one I hear the most is the environmental impact.</p>
+
+<p><strong>TL;DR</strong>: I think the environmental impact of LLMs is primarily a climate change problem, that the impact of individual LLM use on this problem is relatively small, and that climate change is best addressed through collective action (ideally taxes, subsidies, and regulations). But since systemic solutions aren&rsquo;t coming soon, understanding the relative impact of specific activities (including LLM use) does matter.</p>
+
+<h2>Energy use of individual LLM prompts</h2>
+
+<p>When thinking about the energy use of LLMs, I tend to agree with the framing that Hannah Ritchie takes: this <em>is</em> something to be concerned about, but many headlines are misleading.</p>
+
+<p>Hannah Ritchie is a data scientist, deputy editor at Our World in Data, and co-host of the podcast Solving for Climate. In Hannah&rsquo;s <a href="https://hannahritchie.substack.com/p/ai-energy-demand">post about the overall energy demand from AI data centers</a>, she notes that data centers in general make up <strong>a small fraction of the world&rsquo;s global electricity demand</strong> and that they are estimated to be a fairly small portion of the growth in global electricity use until 2030.</p>
+
+<p>That doesn&rsquo;t mean that the energy demand from data centers isn&rsquo;t a problem. But, as she notes, due to the very uneven distribution of data centers around the globe, this is <strong>a very localized problem</strong>:</p>
+
+<blockquote><p>What’s crucial here is that the energy demands for AI are very localised. This means there can be severe strain on the grid at a highly localised level, even if the impact on total energy demand is small.</p></blockquote>
+
+<p>Hannah also has <a href="https://hannahritchie.substack.com/p/carbon-footprint-chatgpt">a follow up post on individual LLM use</a> where she suggests that individual users should &ldquo;stop stressing about the energy and carbon footprint&rdquo; of LLMs.</p>
+
+<p>In all of these posts, she attempts to put numbers into perspective:</p>
+
+<blockquote><p>The reason we often think that ChatGPT is an energy guzzler is because of the initial statement: it uses 10 times more energy than a Google search. Even if this is accurate, what’s missing is the context that a Google search uses a really tiny amount of energy. Even 10 times a really tiny number is still tiny.</p></blockquote>
+
+<p>Hannah also published <a href="https://hannahritchie.substack.com/p/ai-footprint-august-2025">a follow up to her follow up post</a> where she seriously questions the 3 Wh figure (10 times higher than a Google search) that&rsquo;s often used when discussing the energy use of LLM queries. She considers whether the median LLM query may use closer to 0.3 Wh of energy.</p>
+
+<p>I lean heavily on Ritchie&rsquo;s analysis throughout this post because I think her data-oriented framing of this issue is helpful. That said, detailed energy data from AI companies is scarce so her estimates are inherently fuzzy.</p>
+
+<h2>Energy use of coding agents</h2>
+
+<p>Hannah&rsquo;s posts about individual LLM usage focuses on the &ldquo;median query&rdquo; in an LLM&hellip; but using a coding agent (Claude Code, Codex, etc.) to navigate through a repository and generate lots of code likely involves quite a bit more usage than a &ldquo;median query&rdquo; does.</p>
+
+<p>Simon P. Couch <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">recently wrote a post</a> about the energy use he estimates for his Claude Code usage. He estimates that <strong>his Claude Code usage</strong> results in approximately <strong>1,300 Wh</strong> of energy each day. That&rsquo;s quite a bit higher than either 0.3 Wh or 3 Wh for a median LLM query.</p>
+
+<p>If heavy coding agent use results in 1,300 Wh of energy, that represents <strong>3.7%</strong> of the average American&rsquo;s daily electricity use (based on an <a href="https://ourworldindata.org/explorers/energy?Total+or+Breakdown=Total&amp;Energy+or+Electricity=Electricity+only&amp;Metric=Per+capita+generation&amp;country=USA~GBR~CHN~OWID_WRL~IND~BRA~ZAF">average electricity generation per person</a> of 12,712 kWh in the US). Increasing your energy use by 4% is <em>not</em> nothing&hellip; but how bad is it?</p>
+
+<h2>Climate impact of coding agents</h2>
+
+<p>Increased energy usage isn&rsquo;t as concerning to me as the negative impacts that the energy usage might have on the climate.</p>
+
+<p>Going with <a href="https://andymasley.substack.com/p/whats-the-full-hidden-climate-cost">Adam Masley&rsquo;s assumptions</a> of 0.37 grams of carbon dioxide emissions per watt-hour (Wh) in the US and the assumption that data centers use energy that&rsquo;s 48% more carbon intensive than the average US power plant, <strong>1,300 Wh per day of coding agent usage</strong> could result in 0.5 grams of CO₂ per Wh, for about <strong>715 grams of CO₂ emissions per day</strong> from coding agent use.</p>
+
+<p>The annual carbon footprint of the average American is <a href="https://ourworldindata.org/explorers/co2?time=earliest..2022&amp;focus=~USA&amp;Gas+or+Warming=CO%E2%82%82&amp;Accounting=Consumption-based&amp;Fuel+or+Land+Use+Change=All+fossil+emissions&amp;Count=Per+capita&amp;country=CHN~USA~IND~GBR~OWID_WRL">16,300 kg of CO₂</a>, which is about 44.7 kg of CO₂ per day. So 715 grams of CO₂ from a day of coding agent usage may be about <strong>1.6% of the average American&rsquo;s daily carbon footprint</strong> of 44.7 kg of CO₂.</p>
+
+<p>Again, 1.6% is not nothing. It&rsquo;s not <em>enormous</em> but it&rsquo;s certainly measurable.</p>
+
+<p>I think that any discussion about greenhouse gas emissions should be considered in the context of the rest of life and ideally in context of the social cost of those emissions. I haven&rsquo;t tried quantifying the social cost, but I have looked up other activities and their climate impact.</p>
+
+<p>For the sake of comparison, here are some <em>very rough</em> estimates of carbon dioxide equivalent emissions (CO₂e) for various consumables and activities:
+- one hour of Netflix: 50 grams CO₂e
+- a banana: 80 grams CO₂e
+- one hour of Zoom: 100 grams CO₂e
+- half cup tofu: 300 grams CO₂e
+- half cup (dairy) greek yogurt: 400 grams CO₂e
+- driving 5 miles in an EV: 500 grams CO₂e
+- 5 minute shower: 700 grams CO₂e
+- <strong>1 day of using a coding agent: 700 grams CO₂e</strong> (based on <a href="https://www.simonpcouch.com/blog/2026-01-20-cc-impact/">one user&rsquo;s estimate</a>)
+- driving 5 miles in a gas car: 1,500 grams CO₂e
+- beef burger: 5,000 grams CO₂e
+- flying SAN to ORD (one-way): 400,000 grams CO₂e</p>
+
+<p>Treat those numbers as &ldquo;likely correct within an order of magnitude&rdquo;. Most of those numbers have pretty large error bars, as the industries that have solid data on these figures rarely publish them and even when they do, the actual emissions can vary greatly due to the number of variables involved.</p>
+
+<p>If you&rsquo;re curious about any specific measurement, compute them based on sources you trust. I recommend Our World in Data: <a href="https://ourworldindata.org/grapher/ghg-per-kg-poore">food</a>, <a href="https://greenly.earth/en-us/leaf-media/data-stories/the-carbon-cost-of-streaming#anchor-articles_content$d086800e-3afb-4608-9c27-1f13bc477813">streaming video</a>, <a href="https://ourworldindata.org/travel-carbon-footprint">transportation</a>.</p>
+
+<p>Note that I am not saying &ldquo;using LLMs is not bad because people eat beef&rdquo;, which would be <a href="https://andymasley.substack.com/p/a-cheat-sheet-for-conversations-about?utm_source=publication-search">whataboutism</a>. But I don&rsquo;t think that we should discuss the carbon emissions of any given activity in a vacuum.</p>
+
+<h2>Water use</h2>
+
+<p>I&rsquo;m going to mostly skip over the water use of LLMs because I find it far less concerning than the energy use. Based on Andy Masley&rsquo;s numbers (from his provocatively-titled post <a href="https://andymasley.substack.com/p/the-ai-water-issue-is-fake">The AI water issue is fake</a>), a median LLM query uses around 2ml of water including offsite power generation (0.3mL of water if we don&rsquo;t count power generation). That means that a full day of coding agent use would consume about 6.5 liters of water (0.6 liters for everything but the power generation).</p>
+
+<p>The average American&rsquo;s daily water footprint is 1,600 liters. So 6.5 liters of water (largely from offsite power generation) represents roughly <strong>0.4% of the average American&rsquo;s daily water footprint</strong>. 90% of that water comes from the water required for power generation because generating electricity from natural gas, coal, and nuclear all requires water.</p>
+
+<p>Like energy use, water use is a very localized issue. Unlike energy use, water use doesn&rsquo;t also contribute to climate change. Water use is worth discussing, but I find the climate impact of coding agents much more concerning. I&rsquo;m also not sure how much the local impact of water use should be a concern, since it matters what type of water is used, how much of that water is returned to the source, and what else that water would be used for. Hank Green recently released <a href="https://www.youtube.com/watch?v=H_c6MWk7PQc">an interesting video on water use</a>.</p>
+
+<h2>Climate change requires collective action</h2>
+
+<p>The biggest environmental concern of LLMs is how much they contribute to climate change.</p>
+
+<p>Climate change is a collective action problem. We need to greatly limit greenhouse gas emissions. And in a world of goods with variable market-based prices, a negative externality like greenhouse gas emissions warrants a tax. A carbon tax or a cap and trade program could go <em>very far</em> in accomplishing that, but I&rsquo;m skeptical that we&rsquo;ll see either of those happen on a massive international scale (and especially not in the US) anytime soon.</p>
+
+<p><strong>Aside</strong>: did you know that the US had <a href="https://www.congress.gov/crs-product/IF12916">an Interagency Working Group on the Social Cost of Greenhouse Gases</a> which published official estimates on the cost of carbon emissions? It was established under Obama, disbanded under Trump, reestablished under Biden, and then disbanded again under Trump. I really wish the US would implement a carbon tax so that we can stop focusing on specific carbon-emitting activities and instead properly price carbon emissions in aggregate.</p>
+
+<h2>So why talk about LLMs specifically?</h2>
+
+<p>If climate change is best addressed by big picture solutions, like a tax on all greenhouse gas emissions, then why even look into the climate impact of specific activities, like LLM use?</p>
+
+<p>Because we don&rsquo;t have a carbon tax. And we&rsquo;re probably not getting one anytime soon.</p>
+
+<p>In the absence of systemic solutions, general sentiment about what&rsquo;s a <em>big</em> problem and what&rsquo;s a <em>small</em> problem shapes how we respond&hellip; as individuals, in communities, as consumers and workers within companies, and as citizens pressuring various levels of government.</p>
+
+<p>We can&rsquo;t expect individuals to weigh the climate impact of every action they take (thinking of The Good Place&rsquo;s S03E11: The Book of Dougs). And hoping that corporations will grow a conscience is wishful thinking. But having a shared understanding of the relative impacts of various climate concerns <em>does</em> have <em>some</em> effect on what gets attention, what gets research, and what gets regulated.</p>
+
+<p>So I think it&rsquo;s worth understanding the relative impact of different activities, including LLM use. Putting numbers in context helps us have better conversations and direct our collective energy more effectively.</p>
+
+<h2>Global and local, individual and collective</h2>
+
+<p>There are two angles I see this problem from:</p>
+
+<ol>
+<li>The global problem of climate change from greenhouse gas emissions</li>
+<li>The local impacts caused by data centers</li>
+</ol>
+
+
+<p>For climate change overall, I think we should:</p>
+
+<ul>
+<li>Pressure the companies that make LLMs to publish detailed information about carbon emissions</li>
+<li>Pressure our politicians to tax greenhouse gas emissions&hellip; or at least to tax activities that result in greenhouse gas emissions in a way that would mimic the outcome of a carbon tax</li>
+<li>Subsidize activities that lower greenhouse gas emissions, like increasing solar and battery technology use on the electrical grid</li>
+<li>Talk about climate change and encourage our colleagues and loved ones to talk about it</li>
+</ul>
+
+
+<p>When it comes to AI data centers, I think focusing on their impacts to local grids makes more sense than focusing on their global impacts. The uneven distribution of data centers makes their local impacts disproportionately large in comparison to their global impacts. I see this as similar to the problem of pig farms. Eastern North Carolina has waste lagoons from pig farms that cause serious issues for nearby communities. Both data centers and pig farms are very unevenly distributed and both cause big problems for their neighboring communities.</p>
+
+<p>On an individual level, I would rather see people eat less meat and dairy products than worry about the climate impact of using LLM coding agents. But more so than either of those, I would rather that we have hard and honest conversations with colleagues and loved ones and pressure our elected representatives in government to take action on this problem.</p>
+
+<p>Americans have a habit of thinking about systemic problems through the lens of individual action. As I noted in <a href="https://youtu.be/Uuhu-F05A7k?feature=shared&amp;t=3173">my lightning talk at PyCon last year</a>, system-level problems require system-level solutions. If the climate impact of LLMs concerns you, I&rsquo;d encourage you to direct that energy toward the people and institutions that can change these systems.</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2026-02-20T14:30:00-08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2026</span></span> <span class='time'>2:30 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/" data-via="treyhunner" data-counturl="https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2025/12/my-favorite-reads-of-2025/" title="Previous Post: My favorite reads of 2025">&laquo; My favorite reads of 2025</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2026 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/';
+        var disqus_url = 'https://treyhunner.com/2026/02/on-the-enviromental-impact-of-llms-for-coding/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>
