@@ -4,7 +4,7 @@
   <title><![CDATA[Category: pycon | Trey Hunner]]></title>
   <link href="https://treyhunner.com/blog/categories/pycon/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2026-02-20T14:06:16-08:00</updated>
+  <updated>2026-03-31T14:52:21-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -176,7 +176,7 @@ I tend to zoom in until my screen can just barely fit about 80 characters of tex
 <p>Also consider your color scheme.
 When reading from a projector, black text on a white background is usually easier to read than white text on a black background.
 So I recommend using a <strong>light mode</strong> color scheme even if you <em>usually</em> prefer dark mode.
-And be sure to use a high contract color scheme!</p>
+And be sure to use a high contrast color scheme!</p>
 
 <p>Also consider how you&rsquo;ll share URLs.
 Shortened URLs are easier to type.
@@ -184,7 +184,7 @@ QR codes can also help, but be sure to share the <em>actual</em> URL as some may
 
 <h2>Engage attendees in attempted information retrieval 🧠</h2>
 
-<p>Have you ever heard the phrase &ldquo;in one ear and the other&rdquo;?
+<p>Have you ever heard the phrase &ldquo;in one ear and out the other&rdquo;?
 That&rsquo;s how lectures usually work.
 Lectures tend to focus on putting information into our heads.
 Unfortunately, our brain isn&rsquo;t designed to remember information that&rsquo;s presented to it.</p>
@@ -198,8 +198,8 @@ Information retrieval attempts, even somewhat unsuccessful ones, are <em>very im
 
 <ul>
 <li>Group quiz: &ldquo;what do you think might happen if&hellip;?&rdquo;</li>
-<li>Silently quiz: present a quiz question every few minutes to work on individually</li>
-<li>Take 10 minute exercise breaks every 20 minutes so attendees can write code to apply what they&rsquo;ve just seen</li>
+<li>Silent quiz: present a quiz question every few minutes to work on individually</li>
+<li>Take 10-minute exercise breaks every 20 minutes so attendees can write code to apply what they&rsquo;ve just seen</li>
 </ul>
 
 
@@ -212,9 +212,9 @@ But also keep in mind that the focus of any sort of quizzing should be on <stron
 
 <p>Since your tutorial is going to be hands-on (see the previous section), you&rsquo;ll probably need your attendees to set things up on their machines.</p>
 
-<p>You could set aside the first 30 minutes of your 3 hour tutorial for setup steps, but I wouldn&rsquo;t recommend that.
+<p>You could set aside the first 30 minutes of your 3-hour tutorial for setup steps, but I wouldn&rsquo;t recommend that.
 Setup will take some attendees 5 minutes and others 25 minutes.
-Expecting folks who are quick to idle for many minutes isn&rsquo;t ideal.</p>
+Expecting folks who setup quickly to then idle for many minutes <em>isn&rsquo;t</em> ideal.</p>
 
 <p>If possible, I would recommend writing up prerequisite setup instructions and asking attendees to perform necessary setup steps <em>before</em> PyCon.
 A week or two before PyCon, email those installation and/or setup instructions.
@@ -229,15 +229,15 @@ Yes, that may seem redundant, but redundant reminders can be very helpful.</p>
 
 <ol>
 <li>You would like them to work through setup instructions by X date</li>
-<li>You be available for asynchronous email-based assistance and they should email you if they get stuck</li>
-<li>You will be in your tutorial room early and you can help anyone who also shows up 15 minutes early get setup</li>
+<li>You will be available for asynchronous email-based assistance and they should email you if they get stuck</li>
+<li>You will be in your tutorial room early and you can help anyone who also shows up 15 minutes early get set up</li>
 </ol>
 
 
-<p>Inevitably, somewhere around 10% of your attendees will <em>not</em> work through the setup instructions in full before the start of your tutorial.</p>
+<p>Inevitably, some portion of your attendees will <em>not</em> work through the setup instructions in full before the start of your tutorial.</p>
 
 <p>Please <em>do</em> provide help to these unprepared attendees, but don&rsquo;t punish the prepared ones, at least not too much.
-For example, if you have a 15 minute exercise section near the beginning of your tutorial, float around the room during that time and make sure everyone has their machines setup.</p>
+For example, if you have a 15-minute exercise section near the beginning of your tutorial, float around the room during that time and make sure everyone has their machines set up.</p>
 
 <h2>Expect the unexpected 🚨</h2>
 
@@ -259,15 +259,15 @@ Consider bringing a pre-loaded USB thumb drive or two as a backup plan.</p>
 
 <p>Having an exercise &ldquo;break&rdquo; early on allows those in need of extra setup help to catch up.</p>
 
-<p>I also like to encouraging attendees to try helping each other out.
+<p>I also like to encourage attendees to try helping each other out.
 This can set a sort of &ldquo;we&rsquo;re all in this together&rdquo; atmosphere.
 When an attendee helps a neighbor understand the instructions for an exercise, that may also help them solidify their understanding as well.</p>
 
 <p>If you can find a volunteer <strong>teaching assistant</strong> (TA) or two who can familiarize themselves with your material even <em>just a little bit</em>, that can be very handy.
-The primary role of a TA is to simply to act as another set of eyes and ears for attendees who need a bit of extra help.
-This is <em>especially</em> helpful during the first exercise section or two, when everyone is getting setup and wading into the material.</p>
+The primary role of a TA is simply to act as another set of eyes and ears for attendees who need a bit of extra help.
+This is <em>especially</em> helpful during the first exercise section or two, when everyone is getting set up and wading into the material.</p>
 
-<p>During exercise breaks in my recorded PyCon tutorials (e.g. <a href="https://youtu.be/_6U1XoxyyBY?feature=shared&amp;t=2310">here</a> or <a href="https://youtu.be/ixiRkUwPI2A?feature=shared&amp;t=1078">here</a> or <a href="https://youtu.be/6zu8lrYn6t8?feature=shared&amp;t=1605">here</a>) you may notice me and my TAs wondering around the room helping folks who have stickies up (more on that below) and generally checking in on folks who have confused expressions on their faces.</p>
+<p>During exercise breaks in my recorded PyCon tutorials (e.g. <a href="https://youtu.be/_6U1XoxyyBY?feature=shared&amp;t=2310">here</a> or <a href="https://youtu.be/ixiRkUwPI2A?feature=shared&amp;t=1078">here</a> or <a href="https://youtu.be/6zu8lrYn6t8?feature=shared&amp;t=1605">here</a>) you may notice me and my TAs wandering around the room helping folks who have stickies up (more on that below) and generally checking in on folks who have confused expressions on their faces.</p>
 
 <p>For both you <em>and</em> your helpers, consider what it means to be a helpful helper.
 You may want to watch my <a href="https://treyhunner.com/mentoring/resources.html">Meaningful Mentoring Moments</a> talk or review some of the materials I link to in that talk.</p>
@@ -275,9 +275,9 @@ You may want to watch my <a href="https://treyhunner.com/mentoring/resources.htm
 <h2>Seek advice from others 🧑‍🏫</h2>
 
 <p>In each of my tutorials I give every attendee a sticky note.
-I either put a sticky note at each chair before we begin, have a TA give a sticky notes to each person as they walk in, or I walk around the room and say hi to each person while giving them a sticky note.</p>
+I either put a sticky note at each chair before we begin, have a TA give a sticky note to each person as they walk in, or I walk around the room and say hi to each person while giving them a sticky note.</p>
 
-<p>After everyone has a sticky note, I explain their purpose: to flag down me (or a TA) during exercises when help is needed.
+<p>After everyone has a sticky note, I explain their purpose: to flag me down (or a TA) during exercises when help is needed.
 It&rsquo;s difficult to type on your keyboard while keeping a hand raised in the air for many many minutes.
 Sticky notes allow attendees to signal that they need help <em>and</em> they allow me to quickly scan the room and see how many folks need help.</p>
 
@@ -290,11 +290,11 @@ You may not find every bit of advice helpful, but most of us who have taught bef
 
 <h2>Envision the moment 💭</h2>
 
-<p>If we learn solely from experience, then the first time we do something we&rsquo;d expect to fail miserably.
+<p>If we learn from experience, then the first time we do something we&rsquo;d expect to fail miserably.
 But that&rsquo;s (obviously) not what we <em>want</em> to happen.
 We want our first tutorial to be a reasonably successful experience.</p>
 
-<p>Fortunately, our brains are half decent reality simulators.
+<p>Fortunately, our brains are half-decent reality simulators.
 Let&rsquo;s use our brain&rsquo;s ability to simulate future possibilities to our advantage.</p>
 
 <p>Imagine the world from the perspective of your attendees.
@@ -320,7 +320,7 @@ Are there specific actions you would recommend attendees take next?</p>
 
 <h2>Use checklists ✅</h2>
 
-<p>One time I forgot to pack sticky notes and found myself frantically looking for a nearby office supplies store the morning of my tutorial.
+<p>One time I forgot to pack my sticky notes and found myself frantically looking for a nearby office supply store the morning of my tutorial.
 And then I did that 2 more times. 😬</p>
 
 <p>You can&rsquo;t keep everything in your head.
