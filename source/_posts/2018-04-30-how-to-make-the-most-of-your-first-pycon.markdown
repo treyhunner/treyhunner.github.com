@@ -1,10 +1,12 @@
 ---
 layout: post
-title: "How to have a great first PyCon (updated for 2025)"
+title: "How to have a great first PyCon (updated for 2026)"
 date: 2018-04-30 08:00:00 -0700
 comments: true
 categories: python favorite pycon
 ---
+
+**Update (2026)**: I've updated the links for PyCon US 2026.
 
 **Update (2025)**: I've updated the links for PyCon US 2025.
 
@@ -203,20 +205,18 @@ Even if you just want to say "hey something happened that could maybe be avoided
 
 After PyCon is over, some people occasionally follow-up with folks they met over email.
 Sometimes people will add each other on LinkedIn or Facebook also.
-But the means of interaction I've noticed most in past years is Twitter.
-Though since Twitter started imploding and eventually changed domain names, much of the Python community has sought Twitter alternatives.
-It's a bummer that we're not all on one platform anymore.
+Twitter *used to* be the primary platform everyone was on... until they started imploding around 2024.
+Unfortunately since the Twitter exodus, we're not all on one platform anymore.
 
-**2025 note**:
-At PyCon 2024, Mastodon finally became more active than Twitter.
-At PyCon 2025, I suspect the most popular for real-time social media posts on the `#PyConUS` hashtag will be either Mastodon or Bluesky... and I hope it won't end up being a 50/50 split between the two.
+**2026 note**:
+During PyCon 2026, I suspect the most popular social network for real-time posts on the `#PyConUS` hashtag will be Mastodon followed by Bluesky.
 There's no *one* network that we all use anymore. 😢
 
 If you're not completely opposed to it, **I recommend getting Mastodon and/or Bluesky accounts to make it easier to passively keep up with folks from PyCon after the conference ends**.
 You don't have to use these networks all the time to get value from it, you could just use it as a modern day [rolodex][] of sorts.
 Online social networks are not the only way people stay in touch, but it's an extremely easy passive way to stay in touch.
 
-If you do get a Mastodon or Bluesky account, I recommend adding a saved search for "PyCon2025 OR PyCon OR PyConUS OR PyConUS2025" to your to **follow a bit of the random PyCon-related social media chatter during the conference** and to like/reply/interact with others online.
+If you do get a Mastodon or Bluesky account, I recommend adding a saved search for "PyConUS OR PyCon OR PyCon2026 OR PyConUS2026" to **follow a bit of the random PyCon-related social media chatter during the conference**.
 I know I will be adding the `#PyConUS` hashtag to my Mastodon feed while at the conference this year!
 
 Sometimes **people on social networks will ask if anyone would like to join them for dinner** and you might decide to reply and say you'd like to join.
@@ -289,8 +289,7 @@ One trick that I've used and I've seen others use: **make a game of inviting peo
 If you're nervous about being with lots of new people, **find a couple familiar people and ask each to invite just 1 person**.
 If you'd like to do dinner in a very small group, post on one of the more active social networks and say: "I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?".
 
-**2024/2025 note**: unfortunately due to the fracturing of Twitter's previous user base into other social networks, posting on social media to ask if folks have plans doesn't work as well as it used to.
-Sadly I don't have a great solution for this in 2024/2025... I'll likely mostly be on Mastodon this year, but I know the activity there will be much more minimal than Twitter's activity used to be.
+**2024-2026 note**: unfortunately due to the fracturing of Twitter's previous user base into other social networks, posting on social media to ask if folks have plans doesn't work as well as it used to.
 
 Sometimes people make a reservation at a restaurant and hope they can find people to join them.
 I'm not that gutsy and I usually prefer to gather people until I have a headcount and then call a nearby restaurant to ask if a reservation is needed.
@@ -395,11 +394,10 @@ P.S. If you want a short URL for this article, you can use https://trey.io/pycon
 
 [weekly python chat]: http://weeklypython.chat
 [open spaces]: https://us.pycon.org/2025/events/open-spaces/
-[newcomer orientation]: https://us.pycon.org/2025/events/newcomer-orientation/
+[newcomer orientation]: https://us.pycon.org/2026/events/newcomer-orientation/
 [hallway track]: http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/
 [pycon list]: https://twitter.com/treyhunner/lists/pycon-2017/members
 [rolodex]: https://en.wikipedia.org/wiki/Rolodex
-[tweetdeck]: https://tweetdeck.twitter.com
 [code of conduct]: https://policies.python.org/us.pycon.org/code-of-conduct/
 [cabo 1]: https://twitter.com/treyhunner/status/573027732902133760
 [cabo 2]: https://twitter.com/treyhunner/status/587086868396822528
@@ -418,7 +416,7 @@ P.S. If you want a short URL for this article, you can use https://trey.io/pycon
 [asking a question]: https://kev.inburke.com/kevin/how-not-to-ask-questions-at-conference/
 [asking a question 2]: https://networkingnerd.net/2016/11/09/how-to-ask-a-question-at-a-conference/
 [pacman]: http://ericholscher.com/blog/2017/aug/2/pacman-rule-conferences/
-[lightning talk board]: https://us.pycon.org/2025/events/lightning-talks/
+[lightning talk board]: https://us.pycon.org/2026/events/lightning-talks/
 [creating your own open space]: https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html
 [sprints]: https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/
 [sumana]: https://www.harihareswara.net/posts/2023/your-first-pycon-but-not-your-first-convention/
