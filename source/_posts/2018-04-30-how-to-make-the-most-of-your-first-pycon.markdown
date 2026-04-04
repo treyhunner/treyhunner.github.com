@@ -6,16 +6,6 @@ comments: true
 categories: python favorite pycon
 ---
 
-**Update (2026)**: I've updated the links for PyCon US 2026.
-
-**Update (2025)**: I've updated the links for PyCon US 2025.
-
-**Update (2024)**: I've updated the links for PyCon US 2024.
-Also if this isn't your first time attending a conference but it *is* your first PyCon, also see **[Your First PyCon, But Not Your First Convention][sumana]** by Sumana Harihareswara (who is *keynoting PyCon 2024* this year!).
-
-**Update (2019)**: I originally left the sprints out of this article completely!
-To remedy that, I've recently published another article [all about the PyCon sprints][sprints] and why you should consider attending them.
-
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
 Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming online friendships with other PyCon attendees.
 But you're (naturally) not an expert conference-goer.
@@ -32,6 +22,9 @@ Not all of these suggestions will be right for you, so feel free to take this ad
 Before you read any further, I must link you to the [Newcomer Orientation][] (run by Kojo Idrissa and me this year).
 If this is your first PyCon US, I'd recommend showing up early to the newcomer orientation to get your footing before the big event starts.
 
+**Note** this article does not discuss the sprints.
+Also see [my article all about the PyCon sprints][sprints] and why you should consider attending them.
+
 Have a specific question or just want to <strong>jump to a specific topic</strong>? Here you go...
 
 <ul data-toc=".entry-content"></ul>
@@ -39,10 +32,9 @@ Have a specific question or just want to <strong>jump to a specific topic</stron
 
 ## Spending your time: which talks should I go to? 🤔
 
-The talks at PyCon are typically **uploaded to YouTube within 24 hours after the talk ends**.
-That means that you can spend your evening watching the talks you missed the day before or you can watch the talks when you go home.
-I'm not suggesting you shouldn't watch talks at PyCon.
-I am suggesting that **you don't need to worry about attending every talk**.
+The talks at PyCon are typically **uploaded to YouTube within weeks after the talk ends**.
+So you can always watch missed talks when you go home.
+That means **you don't need to worry about attending every talk**.
 
 So how should I decide which talks to go to?
 I've chatted with folks who purposely go exclusively to talks on topics they're not normally interested in.
@@ -93,7 +85,7 @@ The PyCon blog will be publishing a post on open spaces soon which I co-authored
 Disclaimed after the fact: I'm one of the volunteer open spaces co-chairs, so I'm biased in my love for them.
 
 
-## Feeling like an imposter or an outsider 🌪
+## Feeling like an imposter or an outsider 🌪️
 
 A common fear when attending PyCon is that people will judge you because you aren't as skilled as they are.
 
@@ -138,7 +130,7 @@ Also notice how others ask questions and consider what questions and phrases see
 Conversations often go pretty well if you **ask questions that make others feel comfortable and appreciated**.
 
 
-## Tips for breakfast and lunch time 🍽
+## Tips for breakfast and lunch time 🍽️
 
 How do lunch and breakfast work?
 Can I just sit with anyone or should I choose an empty table?
