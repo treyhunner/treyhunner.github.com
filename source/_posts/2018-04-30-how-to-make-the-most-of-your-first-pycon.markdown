@@ -17,23 +17,22 @@ Also if this isn't your first time attending a conference but it *is* your first
 To remedy that, I've recently published another article [all about the PyCon sprints][sprints] and why you should consider attending them.
 
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
-Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming relations with other PyCon attendees.
+Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming online friendships with other PyCon attendees.
 But you're (naturally) not an expert conference-goer.
 How do you do this?
 How do you make the most of your first PyCon?
 
 I'm an introvert by nature, but I have increased my ability to socialize with others over the years through practice, gamification of social situations, and learning my limits.
 
-Over the last few years, I've interviewed many PyCon attendees on [Weekly Python Chat][] and I've spoken with many first-time PyCon-goers about making the most of PyCon.
+Over the years, I've interviewed many PyCon attendees and I've spoken to many first-time PyCon-goers about making the most of PyCon US.
 It's difficult to describe what PyCon is like to first-time attendees and it's even more difficult to identify how any one person should spend their time at PyCon.
-So I'm writing this article to compile some of the advice I've heard from others and to address some of the common fears I hear among first-time PyCon attendees.
-Not all of the suggestions below will be right for you, so try to take the advice that works well for you.
+I've written this article to compile advice from others and to address common fears for first-time PyCon attendees.
+Not all of these suggestions will be right for you, so feel free to take this advice selectively.
 
-Before you read any further, I have to link you to the [Newcomer Orientation][].
-This is a new event hosted by Adrienne Lowe this year.
-If this is your first PyCon, I'd definitely recommend showing up early to the newcomer orientation and get your footing before the big event starts.
+Before you read any further, I must link you to the [Newcomer Orientation][] (run by Kojo Idrissa and me this year).
+If this is your first PyCon US, I'd recommend showing up early to the newcomer orientation to get your footing before the big event starts.
 
-Have a specific question or just want to <strong>jump to a specific topic</strong>?
+Have a specific question or just want to <strong>jump to a specific topic</strong>? Here you go...
 
 <ul data-toc=".entry-content"></ul>
 
@@ -347,10 +346,10 @@ This is another excuse for people to talk to you.
 I gave my first conference lightning talk [at DjangoCon 2015][], during which I compared modern JavaScript to Python.
 A few people I'd never met started a conversation with me at a bar afterward by saying "I liked your lightning talk."
 Lightning talks can act as an ice breaker.
-If you give a talk to a giant room of people, you've given everyone in that room at least a reason to talk to you.
+If you give a talk to a giant room of people, you've given everyone in that room at least one reason to talk to you.
 
 If you do give a lightning talk, **make sure it's less than 5 minutes**.
-You do not want to run over time in a lightning talk.
+You do not want to run over time in a lightning talk, as you will be cut off at 5 minutes.
 The shorter and more compact, the better.
 
 
