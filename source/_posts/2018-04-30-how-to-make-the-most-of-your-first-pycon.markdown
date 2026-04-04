@@ -80,9 +80,6 @@ There are a few reasons I often pick open spaces over talks:
 If you're looking for kinship and conversation, the open spaces are a great place to look.
 
 If you're hoping to *start* a discussion, I'd also recommend [creating your own open space][] during PyCon.
-The PyCon blog will be publishing a post on open spaces soon which I co-authored.
-
-Disclaimed after the fact: I'm one of the volunteer open spaces co-chairs, so I'm biased in my love for them.
 
 
 ## Feeling like an imposter or an outsider 🌪️
@@ -229,7 +226,7 @@ I hear two opposing concerns sometimes expressed about PyCon:
 2. Is it acceptable to go to PyCon looking for a job?
 
 PyCon is a networking event.
-That doesn't necessarily mean everyone is there to get a job, but it also definitely doesn't mean it's unacceptable to job-seek at Python.
+That doesn't necessarily mean everyone is there to get a job, but it also definitely doesn't mean it's unacceptable to job-seek at PyCon.
 
 There is **no shame in going to PyCon with the goal of getting a new job**.
 Many of the sponsors in the Expo hall are looking to hire new developers and events like the job fair are specifically designed to bring together folks seeking work and folks seeking workers.
@@ -278,7 +275,9 @@ How do I know what's there?
 
 One trick that I've used and I've seen others use: **make a game of inviting people you don't really know well to dinner**.
 If you're nervous about being with lots of new people, **find a couple familiar people and ask each to invite just 1 person**.
-If you'd like to do dinner in a very small group, post on one of the more active social networks and say: "I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?".
+If you'd like to do dinner in a very small group, post on one of the more active social networks and say:
+
+> I'm looking for a small dinner group and I'm looking for exactly 1 or 2 or 3 (your choice) other people to do dinner with.  Any takers?
 
 **2024-2026 note**: unfortunately due to the fracturing of Twitter's previous user base into other social networks, posting on social media to ask if folks have plans doesn't work as well as it used to.
 
@@ -410,4 +409,3 @@ P.S. If you want a short URL for this article, you can use https://trey.io/pycon
 [lightning talk board]: https://us.pycon.org/2026/events/lightning-talks/
 [creating your own open space]: https://pycon.blogspot.com/2018/04/keep-eye-out-for-open-space-events-at.html
 [sprints]: https://treyhunner.com/2019/04/making-the-most-of-the-pycon-sprints/
-[sumana]: https://www.harihareswara.net/posts/2023/your-first-pycon-but-not-your-first-convention/
