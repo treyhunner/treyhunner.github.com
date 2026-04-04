@@ -46,7 +46,7 @@ I am suggesting that **you don't need to worry about attending every talk**.
 So how should I decide which talks to go to?
 I've chatted with folks who purposely go exclusively to talks on topics they're not normally interested in.
 I also know people who **love going to the keynotes and the lightning talks** but hang out in the hallway (I'll talk about the hallway track later) or attend open spaces the rest of the time.
-I'm personally one of those people who **attends very few talks** and spends a lot of time in open spaces and the in hallway.
+I'm personally one of those people who **attends very few talks** and spends a lot of time in open spaces and in the hallway.
 
 **You cannot and will not do everything there is to do at PyCon**.
 
@@ -84,7 +84,7 @@ There are a few reasons I often pick open spaces over talks:
 2. **Open spaces are all about interaction and discussion** whereas talks are a monologue that often evolves into subsequent dialogues
 3. **Open spaces aren't recorded whereas the talks are**, meaning you can't really catch up on them later
 
-If you're looking for kinship and conversation, the open spaces a great place to look.
+If you're looking for kinship and conversation, the open spaces are a great place to look.
 
 If you're hoping to *start* a discussion, I'd also recommend [creating your own open space][] during PyCon.
 The PyCon blog will be publishing a post on open spaces soon which I co-authored.
@@ -124,7 +124,7 @@ This is not a universal phenomenon and even folks with good intentions can alien
 
 Make sure to treat each person you meet as new.
 **Not everyone you meet will be at the conference for the same reasons as you are**.
-Some people write code but don't know Python, some people only using a little bit of Python and don't consider themselves developers, some people don't work in tech, and some people don't write code for work at all and may be considering whether they should make a career transition into tech.
+Some people write code but don't know Python, some people only use a little bit of Python and don't consider themselves developers, some people don't work in tech, and some people don't write code for work at all and may be considering whether they should make a career transition into tech.
 Just as you don't need to justify your presence at PyCon to anyone, no one needs to justify their presence to you.
 
 I mentioned above that you might want to make an elevator pitch or two for yourself.
@@ -223,7 +223,7 @@ Sometimes **people on social networks will ask if anyone would like to join them
 Sometimes you'll recognize the face or name of someone you met over breakfast or someone you recognize from another part of the internet.
 If you're feeling comfortable with it, you could send a tweet to that person to ask if they'd like to meet up and chat during one of the breaks.
 
-However, I keep in mind when you meet people that people are just people.
+However, keep in mind when you meet people that people are just people.
 If you think someone is famous or important or smart, don't treat them like they're a celebrity or like they're superior to you.
 **It's wonderful to show appreciation for what someone does**.
 But keep in mind that **most people feel awkward when they feel like they're being put on a pedestal**.
@@ -252,7 +252,7 @@ PyCon is a networking event and networking isn't a dirty word.
 I've met a *lot* of people at PyCon who I care deeply about.
 Some of them I haven't seen in years and only keep in touch with sporadically through social media, some I see once or twice each year, and some I chat with on a weekly basis online.
 
-Whatever your goals are at PyCon, try **savor the experiences you have** while there.
+Whatever your goals are at PyCon, try to **savor the experiences you have** while there.
 
 
 ## Be prepared to keep in touch 📇
@@ -294,14 +294,14 @@ Sadly I don't have a great solution for this in 2024/2025... I'll likely mostly 
 
 Sometimes people make a reservation at a restaurant and hope they can find people to join them.
 I'm not that gutsy and I usually prefer to gather people until I have a headcount and then call a nearby restaurant to ask if a reservation is needed.
-During your first conference I'm recommend **walking up to a group of folks and asking "does anyone have dinner plans?"**
+During your first conference I'd recommend **walking up to a group of folks and asking "does anyone have dinner plans?"**
 Often the response will be "we're trying to figure that out now, want to join us?"
 
 As far as events in the evening besides dinner go, there's a variety of options usually.
 Some people go out drinking.
 I don't drink alcohol, so I don't do this but I've also heard the recommendation from drinkers that **it's a very bad idea to drink heavily during a conference**.
 You're with people you don't know in a new community: don't increase the chance that you might alienate someone by doing something you regret.
-I'm very biased here, but I'd drinking very moderately *if* you drink at all during PyCon.
+I'm very biased here, but I'd recommend drinking very moderately *if* you drink at all during PyCon.
 
 One thing you may see at PyCon is board games and card games.
 Folks sometimes play board games in hotel lobbies, in board game bars, and even in the open spaces!
@@ -315,7 +315,7 @@ I love Cabo because it only requires a 52 card deck and using the phrase "want t
 If you'd like to try playing Cabo yourself, you can read my blog post on [the rules to the Cabo card game][cabo].
 
 The thing I love about nearly all forms of games is that your technical interests or expertise don't usually matter when you're playing a game.
-You can bond with people without have any deep conversation at all.
+You can bond with people without having any deep conversation at all.
 I've met people the day after playing a long game and **felt like I already knew them even though I didn't even know their name yet**.
 
 
@@ -367,7 +367,7 @@ At least once a day, I'd recommend finding a quiet place to sit, breathe deeply,
 Don't expect yourself to be able to wake up, head to the conference venue, do things at every moment during the day, and then go out with folks for dinner and more conversation in the evening.
 If you know your limits, respect them.
 **Push yourself outside of your comfort zone, but don't stretch your boundaries too far**.
-Make sure to check in with yourself and take breaks to assess whether you need mid-day a nap or a bit of quiet alone time between lunch and dinner.
+Make sure to check in with yourself and take breaks to assess whether you need a mid-day nap or a bit of quiet alone time between lunch and dinner.
 **You cannot be "on" at every moment**.
 
 
