@@ -62,8 +62,8 @@ Talks are a wonderful tool to start discussions, but they're not the only way to
 ## Open spaces: attend them and consider hosting your own! 👐
 
 [Open spaces][] are **community-run mini meetup events and they aren't decided before PyCon starts**.
-The way it works is that someone puts an index card on the open spaces board to indicate that they're holding an event at a particular time in one of the open spaces rooms that day.
-Then others check the open spaces board throughout the day and attend ones they're interested in.
+The way it works is that the organizer of an open space will sign up with the online form (it'll open *during* the conference) to announce they're holding an event at a particular time in a particular room.
+Then others check the online open spaces page throughout the day and attend ones they're interested in.
 
 During every talk at PyCon there are at least 4 other talks happening.
 There are also 9 open spaces rooms though.
@@ -160,7 +160,7 @@ Chatting with folks in the hallway in an unstructured way is often referred to a
 In addition to joining or starting a table in the hallway, consider identifying groups that have [a PacMan opening][pacman] to join and make sure the groups you're in are PacMan-friendly.
 
 While chatting with new friends, giving one person your full attention in a 5 minute conversation is often more rewarding and memorable than having five 1 minute conversations with different people.
-But do keep in mind though that **if you're no longer interested in a conversation or activity, you don't need to keep it going**.
+But do keep in mind that **if you're no longer interested in a conversation or activity, you don't need to keep it going**.
 There are lots of things going on at any one time at PyCon and lots of people there.
 It's not unusual to say "nice talking to you" and leave one conversation to walk off to another conversation or to something else entirely.
 
@@ -174,8 +174,7 @@ Please **be cognizant of the preferences of those around you and be respectful o
 
 PyCon has a [code of conduct][].
 Read it.
-I expect you to go beyond embracing the law of the code of conduct.
-I'd like you to embrace the spirit of the code of conduct as well.
+I suggest going beyond the law of the CoC: embrace the spirit of the CoC as well.
 
 When meeting people in general, **make sure to be nice**.
 Don't talk down to people, don't insult people, and don't treat anyone like they don't belong or aren't worthy.
@@ -209,7 +208,7 @@ I know I will be adding the `#PyConUS` hashtag to my Mastodon feed while at the 
 
 Sometimes **people on social networks will ask if anyone would like to join them for dinner** and you might decide to reply and say you'd like to join.
 Sometimes you'll recognize the face or name of someone you met over breakfast or someone you recognize from another part of the internet.
-If you're feeling comfortable with it, you could send a tweet to that person to ask if they'd like to meet up and chat during one of the breaks.
+If you're feeling comfortable with it, you could send a message to that person to ask if they'd like to meet up and chat during one of the breaks.
 
 However, keep in mind when you meet people that people are just people.
 If you think someone is famous or important or smart, don't treat them like they're a celebrity or like they're superior to you.
@@ -233,7 +232,7 @@ Many of the sponsors in the Expo hall are looking to hire new developers and eve
 But **if you are not at PyCon to get a job or to hire someone else, that's absolutely okay also**!
 
 The focus of PyCon is on **meeting people and sharing experiences** and that can come in a *lot* of different forms.
-Sometimes the people you meet will end up being your coworkers one day, sometimes they're folks you'd like to keep in touch with, and sometimes they're just a friendly unnamed Pythonistas you once had a good conversation with.
+Sometimes the people you meet will end up being your coworkers one day, sometimes they're folks you'd like to keep in touch with, and sometimes they're just friendly unnamed Pythonistas you once had a good conversation with.
 
 PyCon is a networking event and networking isn't a dirty word.
 **Networking means meeting new people**.
@@ -288,7 +287,7 @@ Often the response will be "we're trying to figure that out now, want to join us
 
 As far as events in the evening besides dinner go, there's a variety of options usually.
 Some people go out drinking.
-I don't drink alcohol, so I don't do this but I've also heard the recommendation from drinkers that **it's a very bad idea to drink heavily during a conference**.
+It is **a very bad idea to drink heavily** during a conference.
 You're with people you don't know in a new community: don't increase the chance that you might alienate someone by doing something you regret.
 I'm very biased here, but I'd recommend drinking very moderately *if* you drink at all during PyCon.
 
@@ -300,7 +299,8 @@ You could even put your own board game open space event on the board!
 
 I can't mention board games without mentioning my favorite conference ice breaker: **the cabo card game**.
 I've played Cabo at [most][cabo 1] [tech][cabo 2] [conferences][cabo 3] [I've][cabo 4] [been][cabo 5] [to][cabo 6].
-I love Cabo because it only requires a 52 card deck and using the phrase "want to learn a 20 minute card game that I guarantee you've never heard of" seems to allow people to let their guard down and meet new people (not everyone says yes, but many people do).
+I love Cabo because it only requires a 52 card deck.
+Using the phrase "want to learn a 20 minute card game that I guarantee you've never heard of" seems to allow people to let their guard down and meet new people (not everyone says yes, but many people do).
 If you'd like to try playing Cabo yourself, you can read my blog post on [the rules to the Cabo card game][cabo].
 
 The thing I love about nearly all forms of games is that your technical interests or expertise don't usually matter when you're playing a game.
@@ -320,7 +320,7 @@ All three of those tasks are ways to practice being a cheerful and empathetic fa
 
 After volunteering, people may occasionally meet you in the hall and wonder why they're already familiar with your friendly face.
 It's because you handed them their badge or checked their name off a list!
-Also volunteering can give you glimpse behind the scenes of PyCon and **make things feel a little less scary and official**.
+Also volunteering can give you a glimpse behind the scenes of PyCon and **make things feel a little less scary and official**.
 
 If you are planning to volunteer though, make sure you block that time off on your calendar and that you show up.
 **Don't miss your volunteering time slots and leave the staff scrambling to find someone to fill in at the last minute**.
@@ -375,14 +375,13 @@ Jeff Triplett's [PyCon US, have it your way][jeff] talks about the expo hall and
 I also **highly recommend asking questions** to staff members, friendly-looking volunteers, and people with silly hats (some people use hats to indicate that they're approachable).
 Different PyCon attendees will have different recommendations for how to make the most of PyCon without getting overwhelmed.
 
-Also, if you see me in the hallway at PyCon (I have a face that looks like me and will like have a "Trey Hunner" name badge on), say hi and let me know you read this article! 😄
+Also, if you see me in the hallway at PyCon (I have a face that looks like me and will likely have a "Trey Hunner" name badge on), say hi and let me know you read this article! 😄
 
 I hope you have a lovely PyCon!
 
 P.S. If you want a short URL for this article, you can use https://trey.io/pycon-tips
 
 
-[weekly python chat]: http://weeklypython.chat
 [open spaces]: https://us.pycon.org/2025/events/open-spaces/
 [newcomer orientation]: https://us.pycon.org/2026/events/newcomer-orientation/
 [hallway track]: http://www.ericmjl.com/blog/2016/6/3/the-pycon-ers-guide-to-the-hallway-track/
@@ -399,7 +398,6 @@ P.S. If you want a short URL for this article, you can use https://trey.io/pycon
 [sumana]: https://www.harihareswara.net/posts/2023/your-first-pycon-but-not-your-first-convention/
 [volunteering]: https://us.pycon.org/2025/volunteer/volunteering/
 [at djangocon 2015]: https://youtu.be/Peo-n4spSRA?t=9m59s
-[beginner's guide to pycon 2015]: https://www.pydanny.com/beginners-guide-pycon-2014.html
 [al]: https://automatetheboringstuff.com/how-to-do-pycon.html
 [glyph]: https://blog.glyph.im/2024/05/how-to-pycon.html
 [jeff]: https://micro.webology.dev/2024/05/16/pycon-us-have.html
