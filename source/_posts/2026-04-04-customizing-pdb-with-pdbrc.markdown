@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Using a ~/.pdbrc file to customize the Python Debugger"
-date: 2026-04-06 08:00:00 -0700
+date: 2026-04-06 07:30:00 -0700
 comments: true
 categories: python
 ---
