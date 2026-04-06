@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]></title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2026-03-31T14:52:21-07:00</updated>
+  <updated>2026-04-06T06:53:35-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,364 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using a ~/.pdbrc file to customize the Python Debugger]]></title>
+    <link href="https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/"/>
+    <updated>2026-04-06T07:30:00-07:00</updated>
+    <id>https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc</id>
+    <content type="html"><![CDATA[<p>Did you know that you can customize the Python debugger (PDB) by creating custom aliases within a <code>.pdbrc</code> file in your home directory or Python&rsquo;s current working directory?</p>
+
+<p>I recently learned this and I&rsquo;d like to share a few helpful aliases that I now have access to in my PDB sessions thanks to my new <code>~/.pdbrc</code> file.</p>
+
+<h2>The aliases in my <code>~/.pdbrc</code> file</h2>
+
+<p>Here&rsquo;s my new <code>~/.pdbrc</code> file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Custom PDB aliases
+</span><span class='line'>
+</span><span class='line'># dir obj: print non-dunder attributes and methods
+</span><span class='line'>alias dir print(*(f"%1.{n} = {v!r}" for n, v in __import__('inspect').getmembers(%1) if not n.startswith("__")), sep="\n")
+</span><span class='line'>
+</span><span class='line'># attrs obj: print non-dunder data attributes
+</span><span class='line'>alias attrs import inspect as __i ;; print(*(f"%1.{n} = {v!r}" for n, v in __i.getmembers(%1, lambda v: not __i.isroutine(v)) if not n.startswith("__")), sep="\n") ;; del __i
+</span><span class='line'>
+</span><span class='line'># vars obj: print instance variables (object must have __dict__)
+</span><span class='line'>alias vars print(*(f"%1.{k} = {v!r}" for k, v in vars(%1).items()), sep="\n")
+</span><span class='line'>
+</span><span class='line'># src obj: print source file, line number, and code where a class/function was defined
+</span><span class='line'>alias src import inspect as __i;; print(f"{__i.getsourcefile(%1)} on line {__i.getsourcelines(%1)[1]}:\n{''.join(__i.getsource(%1))}") ;; del __i
+</span><span class='line'>
+</span><span class='line'># loc: print local variables from current frame
+</span><span class='line'>alias loc print(*(f"{name} = {value!r}" for name, value in vars().items() if not name.startswith("__")), sep="\n")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This allows me to use:</p>
+
+<ul>
+<li><code>dir</code>, <code>attrs</code>, and <code>vars</code> to inspect Python objects</li>
+<li><code>src</code> to see the source code of a particular function/class</li>
+<li><code>loc</code> to see the local variables</li>
+</ul>
+
+
+<p>You might wonder &ldquo;Can&rsquo;t I use <code>dir(x)</code> instead of <code>dir x</code> and <code>vars(x)</code> instead of <code>vars x</code> and <code>locals()</code> instead of <code>loc</code>?&rdquo;</p>
+
+<p>You can!&hellip; but those aliases print things out in a nicer format.</p>
+
+<h2>A demo of these 5 aliases</h2>
+
+<p>Let&rsquo;s use <code>-m pdb -m calendar</code> to launch Python&rsquo;s <code>calendar</code> module from the command line while dropping into PDB immediately:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python -m pdb -m calendar
+</span><span class='line'>&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py<span class="o">(</span>1<span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+</span><span class='line'>-&gt; <span class="s2">&quot;&quot;</span><span class="err">&quot;</span>Calendar printing functions
+</span><span class='line'><span class="o">(</span>Pdb<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we&rsquo;ll set a breakpoint after lots of stuff has been defined and continue to that breakpoint:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) b 797</span>
+</span><span class='line'><span class="go">Breakpoint 1 at /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py:797</span>
+</span><span class='line'><span class="go">(Pdb) c</span>
+</span><span class='line'><span class="go">&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py(797)&lt;module&gt;()</span>
+</span><span class='line'><span class="go">-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">(Pdb) l</span>
+</span><span class='line'><span class="go">792</span>
+</span><span class='line'><span class="go">793</span>
+</span><span class='line'><span class="go">794     # Support for old module level interface</span>
+</span><span class='line'><span class="go">795     c = TextCalendar()</span>
+</span><span class='line'><span class="go">796</span>
+</span><span class='line'><span class="go">797 B-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">798</span>
+</span><span class='line'><span class="go">799     def setfirstweekday(firstweekday):</span>
+</span><span class='line'><span class="go">800         if not MONDAY &lt;= firstweekday &lt;= SUNDAY:</span>
+</span><span class='line'><span class="go">801             raise IllegalWeekdayError(firstweekday)</span>
+</span><span class='line'><span class="go">802         c.firstweekday = firstweekday</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The string representation for that <code>c</code> variable doesn&rsquo;t tell us much:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) !c</span>
+</span><span class='line'><span class="go">&lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use the <code>dir</code> alias, we&rsquo;ll see every attribute that&rsquo;s accessible on <code>c</code> printed in a pretty friendly format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) dir c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span><span class='line'><span class="go">c.formatday = &lt;bound method TextCalendar.formatday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonth = &lt;bound method TextCalendar.formatmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonthname = &lt;bound method TextCalendar.formatmonthname of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweek = &lt;bound method TextCalendar.formatweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekday = &lt;bound method TextCalendar.formatweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekheader = &lt;bound method TextCalendar.formatweekheader of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatyear = &lt;bound method TextCalendar.formatyear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.getfirstweekday = &lt;bound method Calendar.getfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdates = &lt;bound method Calendar.itermonthdates of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays = &lt;bound method Calendar.itermonthdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays2 = &lt;bound method Calendar.itermonthdays2 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays3 = &lt;bound method Calendar.itermonthdays3 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays4 = &lt;bound method Calendar.itermonthdays4 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.iterweekdays = &lt;bound method Calendar.iterweekdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdatescalendar = &lt;bound method Calendar.monthdatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdays2calendar = &lt;bound method Calendar.monthdays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdayscalendar = &lt;bound method Calendar.monthdayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prmonth = &lt;bound method TextCalendar.prmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prweek = &lt;bound method TextCalendar.prweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.pryear = &lt;bound method TextCalendar.pryear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.setfirstweekday = &lt;bound method Calendar.setfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardatescalendar = &lt;bound method Calendar.yeardatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardays2calendar = &lt;bound method Calendar.yeardays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardayscalendar = &lt;bound method Calendar.yeardayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use <code>attrs</code> we&rsquo;ll see <em>just</em> the non-method attributes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) attrs c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And <code>vars</code> will show us just the attributes that live as proper instance attributes in that object&rsquo;s <code>__dict__</code> dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) vars c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>src</code> alias can be used to see the source code for a given method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) src c.prmonth</span>
+</span><span class='line'><span class="go">/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py on line 404:</span>
+</span><span class='line'><span class="go">    def prmonth(self, theyear, themonth, w=0, l=0):</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        Print a month&#39;s calendar.</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        print(self.formatmonth(theyear, themonth, w, l), end=&#39;&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the <code>loc</code> alias will show us all the local variables defined in the current scope:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) loc</span>
+</span><span class='line'><span class="go">APRIL = __main__.APRIL</span>
+</span><span class='line'><span class="go">AUGUST = __main__.AUGUST</span>
+</span><span class='line'><span class="go">Calendar = &lt;class &#39;__main__.Calendar&#39;&gt;</span>
+</span><span class='line'><span class="go">DECEMBER = __main__.DECEMBER</span>
+</span><span class='line'><span class="go">Day = &lt;enum &#39;Day&#39;&gt;</span>
+</span><span class='line'><span class="go">FEBRUARY = __main__.FEBRUARY</span>
+</span><span class='line'><span class="go">FRIDAY = __main__.FRIDAY</span>
+</span><span class='line'><span class="go">HTMLCalendar = &lt;class &#39;__main__.HTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalMonthError = &lt;class &#39;__main__.IllegalMonthError&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalWeekdayError = &lt;class &#39;__main__.IllegalWeekdayError&#39;&gt;</span>
+</span><span class='line'><span class="go">IntEnum = &lt;enum &#39;IntEnum&#39;&gt;</span>
+</span><span class='line'><span class="go">JANUARY = __main__.JANUARY</span>
+</span><span class='line'><span class="go">JULY = __main__.JULY</span>
+</span><span class='line'><span class="go">JUNE = __main__.JUNE</span>
+</span><span class='line'><span class="go">LocaleHTMLCalendar = &lt;class &#39;__main__.LocaleHTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">LocaleTextCalendar = &lt;class &#39;__main__.LocaleTextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">MARCH = __main__.MARCH</span>
+</span><span class='line'><span class="go">MAY = __main__.MAY</span>
+</span><span class='line'><span class="go">MONDAY = __main__.MONDAY</span>
+</span><span class='line'><span class="go">Month = &lt;enum &#39;Month&#39;&gt;</span>
+</span><span class='line'><span class="go">NOVEMBER = __main__.NOVEMBER</span>
+</span><span class='line'><span class="go">OCTOBER = __main__.OCTOBER</span>
+</span><span class='line'><span class="go">SATURDAY = __main__.SATURDAY</span>
+</span><span class='line'><span class="go">SEPTEMBER = __main__.SEPTEMBER</span>
+</span><span class='line'><span class="go">SUNDAY = __main__.SUNDAY</span>
+</span><span class='line'><span class="go">THURSDAY = __main__.THURSDAY</span>
+</span><span class='line'><span class="go">TUESDAY = __main__.TUESDAY</span>
+</span><span class='line'><span class="go">TextCalendar = &lt;class &#39;__main__.TextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">WEDNESDAY = __main__.WEDNESDAY</span>
+</span><span class='line'><span class="go">_CLIDemoCalendar = &lt;class &#39;__main__._CLIDemoCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_CLIDemoLocaleCalendar = &lt;class &#39;__main__._CLIDemoLocaleCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_get_default_locale = &lt;function _get_default_locale at 0x7416de7c0930&gt;</span>
+</span><span class='line'><span class="go">_locale = &lt;module &#39;locale&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/locale.py&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_day = &lt;class &#39;__main__._localized_day&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_month = &lt;class &#39;__main__._localized_month&#39;&gt;</span>
+</span><span class='line'><span class="go">_monthlen = &lt;function _monthlen at 0x7416de7c0720&gt;</span>
+</span><span class='line'><span class="go">_nextmonth = &lt;function _nextmonth at 0x7416de7c0880&gt;</span>
+</span><span class='line'><span class="go">_prevmonth = &lt;function _prevmonth at 0x7416de7c07d0&gt;</span>
+</span><span class='line'><span class="go">_validate_month = &lt;function _validate_month at 0x7416de7c05c0&gt;</span>
+</span><span class='line'><span class="go">c = &lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span><span class='line'><span class="go">datetime = &lt;module &#39;datetime&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/datetime.py&#39;&gt;</span>
+</span><span class='line'><span class="go">day_abbr = &lt;__main__._localized_day object at 0x7416de941090&gt;</span>
+</span><span class='line'><span class="go">day_name = &lt;__main__._localized_day object at 0x7416de93acf0&gt;</span>
+</span><span class='line'><span class="go">different_locale = &lt;class &#39;__main__.different_locale&#39;&gt;</span>
+</span><span class='line'><span class="go">error = &lt;class &#39;ValueError&#39;&gt;</span>
+</span><span class='line'><span class="go">global_enum = &lt;function global_enum at 0x7416dee17480&gt;</span>
+</span><span class='line'><span class="go">isleap = &lt;function isleap at 0x7416dea92770&gt;</span>
+</span><span class='line'><span class="go">leapdays = &lt;function leapdays at 0x7416de7c0460&gt;</span>
+</span><span class='line'><span class="go">mdays = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]</span>
+</span><span class='line'><span class="go">month_abbr = &lt;__main__._localized_month object at 0x7416de9411d0&gt;</span>
+</span><span class='line'><span class="go">month_name = &lt;__main__._localized_month object at 0x7416de93ae40&gt;</span>
+</span><span class='line'><span class="go">monthrange = &lt;function monthrange at 0x7416de7c0670&gt;</span>
+</span><span class='line'><span class="go">repeat = &lt;class &#39;itertools.repeat&#39;&gt;</span>
+</span><span class='line'><span class="go">standalone_month_abbr = &lt;__main__._localized_month object at 0x7416de954fc0&gt;</span>
+</span><span class='line'><span class="go">standalone_month_name = &lt;__main__._localized_month object at 0x7416de941310&gt;</span>
+</span><span class='line'><span class="go">sys = &lt;module &#39;sys&#39; (built-in)&gt;</span>
+</span><span class='line'><span class="go">weekday = &lt;function weekday at 0x7416de7c0510&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><code>~/.pdbrc</code> isn&rsquo;t as powerful as <code>PYTHONSTARTUP</code></h2>
+
+<p>I also have a custom <code>PYTHONSTARTUP</code> file, which is launched every time I start a new Python REPL (see <a href="https://treyhunner.com/2025/10/handy-python-repl-modifications/">Handy Python REPL modifications</a>).
+A <code>PYTHONSTARTUP</code> file is just Python code, which makes it easy to customize.</p>
+
+<p>A <code>~/.pdbrc</code> file is <em>not</em> Python code&hellip; it&rsquo;s a very limited custom file format.</p>
+
+<p>You may notice that every <code>alias</code> line defined in my <code>~/.pdbrc</code> file is a bunch of code shoved all on one line.
+That&rsquo;s because there&rsquo;s no way to define an alias over multiple lines.</p>
+
+<p>Also any variables assigned in an <code>alias</code> will leak into the surrounding scope&hellip; so I have a <code>del</code> statement in a couple of those aliases to clean up a stray variable assignment (from an <code>import</code>).</p>
+
+<p>See the documentation on <a href="https://docs.python.org/3/library/pdb.html#pdbcommand-alias"><code>alias</code></a> and the top of the <a href="https://docs.python.org/3/library/pdb.html#debugger-commands">debugger commands</a> for more on how <code>~/.pdbrc</code> files work.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On the enviromental impact of using LLMs for writing code]]></title>
@@ -3178,93 +3536,6 @@ So <code>r"\M-a"</code> would capture <code>Alt-A</code> just as <code>r"\C-a"</
 
 <p>I&rsquo;d love to hear about it!
 Comment below to share what you found.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Django and the Python 3.13 REPL]]></title>
-    <link href="https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl/"/>
-    <updated>2024-10-13T21:03:32-07:00</updated>
-    <id>https://treyhunner.com/2024/10/django-and-the-new-python-3-dot-13-repl</id>
-    <content type="html"><![CDATA[<p>Your new Django project uses Python 3.13.</p>
-
-<p>You&rsquo;re really looking forward to using the new REPL&hellip; but <code>python manage.py shell</code> just shows the same old Python REPL.
-What gives?</p>
-
-<p>Well, Django&rsquo;s management shell uses Python&rsquo;s <a href="https://docs.python.org/3/library/code.html">code</a> module to launch a custom REPL, but the <code>code</code> module doesn&rsquo;t (<a href="https://github.com/python/cpython/issues/119512">yet</a>) use the new Python REPL.</p>
-
-<p>So you&rsquo;re out of luck&hellip; or are you?</p>
-
-<h2>How stable do you need your <code>shell</code> command to be?</h2>
-
-<p>The new Python REPL&rsquo;s code lives in a <a href="https://github.com/python/cpython/tree/v3.13.0/Lib/_pyrepl">_pyrepl</a> package.
-Surely there must be some way to launch the new REPL using that <code>_pyrepl</code> package!</p>
-
-<p>First, note the <code>_</code> before that package name.
-It&rsquo;s <code>_pyrepl</code>, not <code>pyrepl</code>.</p>
-
-<p>Any solution that relies on this module may break in future Python releases.</p>
-
-<p>So&hellip; should we give up on looking for a solution, if we can&rsquo;t get a &ldquo;stable&rdquo; one?</p>
-
-<p>I don&rsquo;t think so.</p>
-
-<p>My <code>shell</code> command doesn&rsquo;t usually <em>need</em> to be stable in more than one version of Python at a time.
-So I&rsquo;m fine with a solution that <em>attempts</em> to use the new REPL and then falls back to the old REPL if it fails.</p>
-
-<h2>A working solution</h2>
-
-<p>So, let&rsquo;s look at a working solution.</p>
-
-<p>Stick <a href="https://pym.dev/p/2zqeq/">this code</a> in a <code>management/commands/shell.py</code> file within one of your Django apps:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="sd">&quot;&quot;&quot;Python 3.13 REPL support using the unsupported _pyrepl module.&quot;&quot;&quot;</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.core.management.commands.shell</span> <span class="kn">import</span> <span class="n">Command</span> <span class="k">as</span> <span class="n">BaseShellCommand</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">BaseShellCommand</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">shells</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;ipython&quot;</span><span class="p">,</span> <span class="s">&quot;bpython&quot;</span><span class="p">,</span> <span class="s">&quot;pyrepl&quot;</span><span class="p">,</span> <span class="s">&quot;python&quot;</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">pyrepl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
-</span><span class='line'>        <span class="kn">from</span> <span class="nn">_pyrepl.main</span> <span class="kn">import</span> <span class="n">interactive_console</span>
-</span><span class='line'>        <span class="n">interactive_console</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>How it works</h2>
-
-<p>Django&rsquo;s <code>shell</code> command has made it very simple to add support for your favorite REPL of choice.</p>
-
-<p><a href="https://github.com/django/django/blob/5.1.2/django/core/management/commands/shell.py">The code for the <code>shell</code> command</a> loops through the <code>shells</code> list and attempts to run a method with that name on its own class.
-If an <code>ImportError</code> is raised then it attempts the next command, stopping once no exception occurs.</p>
-
-<p>Our new command will try to use IPython and bpython if they&rsquo;re installed and then it will try the new Python 3.13 REPL followed by the old Python REPL.</p>
-
-<p>If Python 3.14 breaks our import by moving the <code>interactive_console</code> function, then an <code>ImportError</code> will be raised, causing us to fall back to the old REPL after we upgrade to Python 3.14 one day.
-If instead, the <code>interactive_console</code> function&rsquo;s usage changes (maybe it will require arguments) then our <code>shell</code> command will completely break and we&rsquo;ll need to manually fix it when we upgrade to Python 3.14.</p>
-
-<h2>What&rsquo;s so great about the new REPL?</h2>
-
-<p>If you&rsquo;re already using IPython or BPython as your REPL and you&rsquo;re enjoying them, I would stick with them.</p>
-
-<p>Third-party libraries move faster than Python itself and they&rsquo;re often more feature-rich.
-IPython has about 20 years worth of feature development and it has features that the built-in Python REPL will likely never have.</p>
-
-<p>If you&rsquo;re using the default Python REPL though, this new REPL is a <em>huge</em> upgrade.
-I&rsquo;ve been using it as my default REPL since May and I <em>love</em> it.
-See <a href="https://pym.dev/python-313-whats-new/">my screencast on Python 3.13</a> for my favorite features in the new REPL.</p>
-
-<p><strong>P.S. for Python Morsels users</strong>: if you want to try using that <code>code</code> module, check out the (fairly advanced) <a href="https://www.pythonmorsels.com/exercises/3efdd9e172a346d08679ec39419ed822/?level=advanced">replr</a> or (even more advanced) <a href="https://www.pythonmorsels.com/exercises/5800cdcbbc5b4936b3e253dc15050480/?level=advanced">replsync</a> exercises.</p>
 ]]></content>
   </entry>
   

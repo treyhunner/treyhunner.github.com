@@ -1,0 +1,748 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0TRCHEN5T5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0TRCHEN5T5');
+</script>
+
+
+<head>
+  <meta charset="utf-8">
+  <title>Using a ~/.pdbrc file to customize the Python Debugger</title>
+  <meta name="author" content="Trey Hunner">
+
+  
+  <meta name="description" content="Did you know that you can customize the Python debugger (PDB) by creating custom aliases within a .pdbrc file in your home directory or Python&rsquo; &hellip;">
+  
+  <meta name="twitter:site" content="@PythonMorsels" />
+  <meta name="twitter:creator" content="@treyhunner" />
+  
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+    <meta name="image" property="og:image" content="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=500"/>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  
+  <link rel="canonical" href="https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/">
+  
+  <link href="https://truthful.technology/apple-touch-icon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Trey Hunner" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Roboto:400,400i,700,700i|family=Raleway:400,300,600" rel="stylesheet">
+<link href="/stylesheets/funnel-tools-capture.css" rel="stylesheet" type="text/css">
+<script src="/javascripts/expired_storage.min.js"></script>
+<script src="/javascripts/funnel-tools-capture.min.js"></script>
+<script src="/javascripts/jquery.toc.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
+    });
+});
+
+$(document).ready(function () {
+  $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
+    event.preventDefault();
+    var $form = $(this);
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
+        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
+        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+        $form.off('submit').submit().on('submit');
+      });
+    });
+  });
+});
+
+</script>
+
+</head>
+
+<body   >
+  <header role="banner"><img src="/images/logo.svg">
+<hgroup>
+  <h1><a href="/">Trey Hunner</a></h1>
+  
+    <h2>I help developers level-up their Python skills</h2>
+  
+</hgroup>
+<a class="headerbtn" href="https://truthful.technology/">Hire Me For Training</a>
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="treyhunner.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/blog/archives">Articles</a></li>
+  <li><a href="/talks">Talks</a></li>
+  <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
+  <li><a href="https://truthful.technology/">Team Training</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using a ~/.pdbrc file to customize the Python Debugger</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2026-04-06T07:30:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2026</span></span> <span class='time'>7:30 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="https://treyhunner.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+
+<div class="entry-content"><p>Did you know that you can customize the Python debugger (PDB) by creating custom aliases within a <code>.pdbrc</code> file in your home directory or Python&rsquo;s current working directory?</p>
+
+<p>I recently learned this and I&rsquo;d like to share a few helpful aliases that I now have access to in my PDB sessions thanks to my new <code>~/.pdbrc</code> file.</p>
+
+<h2>The aliases in my <code>~/.pdbrc</code> file</h2>
+
+<p>Here&rsquo;s my new <code>~/.pdbrc</code> file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Custom PDB aliases
+</span><span class='line'>
+</span><span class='line'># dir obj: print non-dunder attributes and methods
+</span><span class='line'>alias dir print(*(f"%1.{n} = {v!r}" for n, v in __import__('inspect').getmembers(%1) if not n.startswith("__")), sep="\n")
+</span><span class='line'>
+</span><span class='line'># attrs obj: print non-dunder data attributes
+</span><span class='line'>alias attrs import inspect as __i ;; print(*(f"%1.{n} = {v!r}" for n, v in __i.getmembers(%1, lambda v: not __i.isroutine(v)) if not n.startswith("__")), sep="\n") ;; del __i
+</span><span class='line'>
+</span><span class='line'># vars obj: print instance variables (object must have __dict__)
+</span><span class='line'>alias vars print(*(f"%1.{k} = {v!r}" for k, v in vars(%1).items()), sep="\n")
+</span><span class='line'>
+</span><span class='line'># src obj: print source file, line number, and code where a class/function was defined
+</span><span class='line'>alias src import inspect as __i;; print(f"{__i.getsourcefile(%1)} on line {__i.getsourcelines(%1)[1]}:\n{''.join(__i.getsource(%1))}") ;; del __i
+</span><span class='line'>
+</span><span class='line'># loc: print local variables from current frame
+</span><span class='line'>alias loc print(*(f"{name} = {value!r}" for name, value in vars().items() if not name.startswith("__")), sep="\n")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This allows me to use:</p>
+
+<ul>
+<li><code>dir</code>, <code>attrs</code>, and <code>vars</code> to inspect Python objects</li>
+<li><code>src</code> to see the source code of a particular function/class</li>
+<li><code>loc</code> to see the local variables</li>
+</ul>
+
+
+<p>You might wonder &ldquo;Can&rsquo;t I use <code>dir(x)</code> instead of <code>dir x</code> and <code>vars(x)</code> instead of <code>vars x</code> and <code>locals()</code> instead of <code>loc</code>?&rdquo;</p>
+
+<p>You can!&hellip; but those aliases print things out in a nicer format.</p>
+
+<h2>A demo of these 5 aliases</h2>
+
+<p>Let&rsquo;s use <code>-m pdb -m calendar</code> to launch Python&rsquo;s <code>calendar</code> module from the command line while dropping into PDB immediately:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python -m pdb -m calendar
+</span><span class='line'>&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py<span class="o">(</span>1<span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+</span><span class='line'>-&gt; <span class="s2">&quot;&quot;</span><span class="err">&quot;</span>Calendar printing functions
+</span><span class='line'><span class="o">(</span>Pdb<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we&rsquo;ll set a breakpoint after lots of stuff has been defined and continue to that breakpoint:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) b 797</span>
+</span><span class='line'><span class="go">Breakpoint 1 at /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py:797</span>
+</span><span class='line'><span class="go">(Pdb) c</span>
+</span><span class='line'><span class="go">&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py(797)&lt;module&gt;()</span>
+</span><span class='line'><span class="go">-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">(Pdb) l</span>
+</span><span class='line'><span class="go">792</span>
+</span><span class='line'><span class="go">793</span>
+</span><span class='line'><span class="go">794     # Support for old module level interface</span>
+</span><span class='line'><span class="go">795     c = TextCalendar()</span>
+</span><span class='line'><span class="go">796</span>
+</span><span class='line'><span class="go">797 B-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">798</span>
+</span><span class='line'><span class="go">799     def setfirstweekday(firstweekday):</span>
+</span><span class='line'><span class="go">800         if not MONDAY &lt;= firstweekday &lt;= SUNDAY:</span>
+</span><span class='line'><span class="go">801             raise IllegalWeekdayError(firstweekday)</span>
+</span><span class='line'><span class="go">802         c.firstweekday = firstweekday</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The string representation for that <code>c</code> variable doesn&rsquo;t tell us much:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) !c</span>
+</span><span class='line'><span class="go">&lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use the <code>dir</code> alias, we&rsquo;ll see every attribute that&rsquo;s accessible on <code>c</code> printed in a pretty friendly format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) dir c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span><span class='line'><span class="go">c.formatday = &lt;bound method TextCalendar.formatday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonth = &lt;bound method TextCalendar.formatmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonthname = &lt;bound method TextCalendar.formatmonthname of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweek = &lt;bound method TextCalendar.formatweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekday = &lt;bound method TextCalendar.formatweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekheader = &lt;bound method TextCalendar.formatweekheader of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatyear = &lt;bound method TextCalendar.formatyear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.getfirstweekday = &lt;bound method Calendar.getfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdates = &lt;bound method Calendar.itermonthdates of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays = &lt;bound method Calendar.itermonthdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays2 = &lt;bound method Calendar.itermonthdays2 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays3 = &lt;bound method Calendar.itermonthdays3 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays4 = &lt;bound method Calendar.itermonthdays4 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.iterweekdays = &lt;bound method Calendar.iterweekdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdatescalendar = &lt;bound method Calendar.monthdatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdays2calendar = &lt;bound method Calendar.monthdays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdayscalendar = &lt;bound method Calendar.monthdayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prmonth = &lt;bound method TextCalendar.prmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prweek = &lt;bound method TextCalendar.prweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.pryear = &lt;bound method TextCalendar.pryear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.setfirstweekday = &lt;bound method Calendar.setfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardatescalendar = &lt;bound method Calendar.yeardatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardays2calendar = &lt;bound method Calendar.yeardays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardayscalendar = &lt;bound method Calendar.yeardayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use <code>attrs</code> we&rsquo;ll see <em>just</em> the non-method attributes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) attrs c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And <code>vars</code> will show us just the attributes that live as proper instance attributes in that object&rsquo;s <code>__dict__</code> dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) vars c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>src</code> alias can be used to see the source code for a given method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) src c.prmonth</span>
+</span><span class='line'><span class="go">/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py on line 404:</span>
+</span><span class='line'><span class="go">    def prmonth(self, theyear, themonth, w=0, l=0):</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        Print a month&#39;s calendar.</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        print(self.formatmonth(theyear, themonth, w, l), end=&#39;&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the <code>loc</code> alias will show us all the local variables defined in the current scope:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) loc</span>
+</span><span class='line'><span class="go">APRIL = __main__.APRIL</span>
+</span><span class='line'><span class="go">AUGUST = __main__.AUGUST</span>
+</span><span class='line'><span class="go">Calendar = &lt;class &#39;__main__.Calendar&#39;&gt;</span>
+</span><span class='line'><span class="go">DECEMBER = __main__.DECEMBER</span>
+</span><span class='line'><span class="go">Day = &lt;enum &#39;Day&#39;&gt;</span>
+</span><span class='line'><span class="go">FEBRUARY = __main__.FEBRUARY</span>
+</span><span class='line'><span class="go">FRIDAY = __main__.FRIDAY</span>
+</span><span class='line'><span class="go">HTMLCalendar = &lt;class &#39;__main__.HTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalMonthError = &lt;class &#39;__main__.IllegalMonthError&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalWeekdayError = &lt;class &#39;__main__.IllegalWeekdayError&#39;&gt;</span>
+</span><span class='line'><span class="go">IntEnum = &lt;enum &#39;IntEnum&#39;&gt;</span>
+</span><span class='line'><span class="go">JANUARY = __main__.JANUARY</span>
+</span><span class='line'><span class="go">JULY = __main__.JULY</span>
+</span><span class='line'><span class="go">JUNE = __main__.JUNE</span>
+</span><span class='line'><span class="go">LocaleHTMLCalendar = &lt;class &#39;__main__.LocaleHTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">LocaleTextCalendar = &lt;class &#39;__main__.LocaleTextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">MARCH = __main__.MARCH</span>
+</span><span class='line'><span class="go">MAY = __main__.MAY</span>
+</span><span class='line'><span class="go">MONDAY = __main__.MONDAY</span>
+</span><span class='line'><span class="go">Month = &lt;enum &#39;Month&#39;&gt;</span>
+</span><span class='line'><span class="go">NOVEMBER = __main__.NOVEMBER</span>
+</span><span class='line'><span class="go">OCTOBER = __main__.OCTOBER</span>
+</span><span class='line'><span class="go">SATURDAY = __main__.SATURDAY</span>
+</span><span class='line'><span class="go">SEPTEMBER = __main__.SEPTEMBER</span>
+</span><span class='line'><span class="go">SUNDAY = __main__.SUNDAY</span>
+</span><span class='line'><span class="go">THURSDAY = __main__.THURSDAY</span>
+</span><span class='line'><span class="go">TUESDAY = __main__.TUESDAY</span>
+</span><span class='line'><span class="go">TextCalendar = &lt;class &#39;__main__.TextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">WEDNESDAY = __main__.WEDNESDAY</span>
+</span><span class='line'><span class="go">_CLIDemoCalendar = &lt;class &#39;__main__._CLIDemoCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_CLIDemoLocaleCalendar = &lt;class &#39;__main__._CLIDemoLocaleCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_get_default_locale = &lt;function _get_default_locale at 0x7416de7c0930&gt;</span>
+</span><span class='line'><span class="go">_locale = &lt;module &#39;locale&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/locale.py&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_day = &lt;class &#39;__main__._localized_day&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_month = &lt;class &#39;__main__._localized_month&#39;&gt;</span>
+</span><span class='line'><span class="go">_monthlen = &lt;function _monthlen at 0x7416de7c0720&gt;</span>
+</span><span class='line'><span class="go">_nextmonth = &lt;function _nextmonth at 0x7416de7c0880&gt;</span>
+</span><span class='line'><span class="go">_prevmonth = &lt;function _prevmonth at 0x7416de7c07d0&gt;</span>
+</span><span class='line'><span class="go">_validate_month = &lt;function _validate_month at 0x7416de7c05c0&gt;</span>
+</span><span class='line'><span class="go">c = &lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span><span class='line'><span class="go">datetime = &lt;module &#39;datetime&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/datetime.py&#39;&gt;</span>
+</span><span class='line'><span class="go">day_abbr = &lt;__main__._localized_day object at 0x7416de941090&gt;</span>
+</span><span class='line'><span class="go">day_name = &lt;__main__._localized_day object at 0x7416de93acf0&gt;</span>
+</span><span class='line'><span class="go">different_locale = &lt;class &#39;__main__.different_locale&#39;&gt;</span>
+</span><span class='line'><span class="go">error = &lt;class &#39;ValueError&#39;&gt;</span>
+</span><span class='line'><span class="go">global_enum = &lt;function global_enum at 0x7416dee17480&gt;</span>
+</span><span class='line'><span class="go">isleap = &lt;function isleap at 0x7416dea92770&gt;</span>
+</span><span class='line'><span class="go">leapdays = &lt;function leapdays at 0x7416de7c0460&gt;</span>
+</span><span class='line'><span class="go">mdays = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]</span>
+</span><span class='line'><span class="go">month_abbr = &lt;__main__._localized_month object at 0x7416de9411d0&gt;</span>
+</span><span class='line'><span class="go">month_name = &lt;__main__._localized_month object at 0x7416de93ae40&gt;</span>
+</span><span class='line'><span class="go">monthrange = &lt;function monthrange at 0x7416de7c0670&gt;</span>
+</span><span class='line'><span class="go">repeat = &lt;class &#39;itertools.repeat&#39;&gt;</span>
+</span><span class='line'><span class="go">standalone_month_abbr = &lt;__main__._localized_month object at 0x7416de954fc0&gt;</span>
+</span><span class='line'><span class="go">standalone_month_name = &lt;__main__._localized_month object at 0x7416de941310&gt;</span>
+</span><span class='line'><span class="go">sys = &lt;module &#39;sys&#39; (built-in)&gt;</span>
+</span><span class='line'><span class="go">weekday = &lt;function weekday at 0x7416de7c0510&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><code>~/.pdbrc</code> isn&rsquo;t as powerful as <code>PYTHONSTARTUP</code></h2>
+
+<p>I also have a custom <code>PYTHONSTARTUP</code> file, which is launched every time I start a new Python REPL (see <a href="https://treyhunner.com/2025/10/handy-python-repl-modifications/">Handy Python REPL modifications</a>).
+A <code>PYTHONSTARTUP</code> file is just Python code, which makes it easy to customize.</p>
+
+<p>A <code>~/.pdbrc</code> file is <em>not</em> Python code&hellip; it&rsquo;s a very limited custom file format.</p>
+
+<p>You may notice that every <code>alias</code> line defined in my <code>~/.pdbrc</code> file is a bunch of code shoved all on one line.
+That&rsquo;s because there&rsquo;s no way to define an alias over multiple lines.</p>
+
+<p>Also any variables assigned in an <code>alias</code> will leak into the surrounding scope&hellip; so I have a <code>del</code> statement in a couple of those aliases to clean up a stray variable assignment (from an <code>import</code>).</p>
+
+<p>See the documentation on <a href="https://docs.python.org/3/library/pdb.html#pdbcommand-alias"><code>alias</code></a> and the top of the <a href="https://docs.python.org/3/library/pdb.html#debugger-commands">debugger commands</a> for more on how <code>~/.pdbrc</code> files work.</p>
+</div>
+
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Trey Hunner</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2026-04-06T07:30:00-07:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2026</span></span> <span class='time'>7:30 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/" data-via="treyhunner" data-counturl="https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2026/02/on-the-enviromental-impact-of-llms-for-coding/" title="Previous Post: On the enviromental impact of using LLMs for writing code">&laquo; On the enviromental impact of using LLMs for writing code</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section class="abouttrey">
+  
+  	<img class="no-border headshot" src="https://www.gravatar.com/avatar/93a988bd85040f58f8417dc4be78c7de?s=200">
+    <p>Hi!  My name is Trey Hunner.</p>
+    <p>I help Python teams <strong>write better Python code</strong> through <a href="https://truthful.technology/">Python team training</a>.</p>
+    <p>I also help individuals <strong>level-up their Python skills</strong> with <a href="https://www.pythonmorsels.com">weekly Python skill-building</a>.</p>
+
+    <a class="btn" href="https://truthful.technology/">Python Team Training</a>
+
+</section>
+
+
+<!-- Python Morsels Signup Form -->
+<section class="morsels-sidebar">
+    <h1>Write Pythonic code</h1>
+    <img class="no-border morsels-logo" src="/images/python-morsels-full-logo.svg"  alt="Python Morsels logo (adorable snake wrapped around a chocolate cookie)">
+    <p>
+    The best way to improve your skills is to <strong>write more code</strong>, but it's time consuming to figure out what code to write.
+    I've made <a href="https://www.pythonmorsels.com/">a Python skill-building service</a> to help solve this problem.
+    </p>
+    <p>
+    Each week you'll get an exercise that'll help you dive deeper into Python and carefully <strong>reflect on your own coding style</strong>.
+    The first 3 exercises are free.
+    </p>
+    <p>
+    Sign up below for <strong>three free exercises</strong>!
+    <form method="post" action="https://www.pythonmorsels.com/accounts/signup/">
+      <input type="email" name="email" placeholder="Your email" class="subscribe-email" required>
+      <div style="display :  none" aria-hidden="true">
+        <input type="email" name="email2" placeholder="Confirmation email" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="full_name" autocomplete="false">
+      </div>
+      <div style="display: none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" placeholder="Website" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="form_id" value="sidebar">
+      <button type="submit" class="subscribe-btn">Sign up</button>
+    </form>
+    </p>
+    <p>
+    <small>
+      See the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a>.<br>
+      This form is reCAPTCHA protected (see Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">Terms of Service</a>)
+    </small>
+    </p>
+</section>
+
+
+<section>
+  <h1>Favorite Posts</h1>
+  <ul id="recent_posts">
+      <li class="post">
+        <a href="/2015/12/python-list-comprehensions-now-in-color/">Python List Comprehensions</a>
+      </li>
+      <li class="post">
+        <a href="/2016/04/how-to-loop-with-indexes-in-python/">How to Loop With Indexes in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/11/check-whether-all-items-match-a-condition-in-python/">Check Whether All Items Match a Condition in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2018/04/keyword-arguments-in-python/">Keyword (Named) Arguments in Python: How to Use Them</a>
+      </li>
+      <li class="post">
+        <a href="/2018/03/tuple-unpacking-improves-python-code-readability/">Tuple unpacking improves Python code readability</a>
+      </li>
+      <li class="post">
+        <a href="/2016/02/how-to-merge-dictionaries-in-python/">The Idiomatic Way to Merge Dictionaries in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2016/12/python-iterator-protocol-how-for-loops-work/">The Iterator Protocol: How for Loops Work in Python</a>
+      </li>
+      <li class="post">
+        <a href="/2017/07/craft-your-python-like-poetry/">Craft Your Python Like Poetry</a>
+      </li>
+      <li class="post">
+        <a href="/2018/02/python-range-is-not-an-iterator/">Python: range is not an iterator!</a>
+      </li>
+      <li class="post">
+        <a href="/2015/11/counting-things-in-python/">Counting Things in Python: A History</a>
+      </li>
+  </ul>
+</section>
+<section>
+
+    <a href="https://twitter.com/treyhunner?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @treyhunner</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2026 - Trey Hunner -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'treyhunner';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/';
+        var disqus_url = 'https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+<section id="funnel-tools-capture" class="bounceInUp">
+  <div class="close">&#10005;</div>
+  <div class="open">&#8593;</div>
+
+  <div class="title">
+    Write more Pythonic code
+  </div>
+
+  <div class="description">
+    <img class="python-morsels-logo" src="/images/python-morsels-logo.svg" width="132" height="182">
+    <p>
+    Need to <strong>fill-in gaps</strong> in your <strong>Python skills</strong>? I send regular emails designed to do just that.
+    </p>
+
+    <form action="https://www.getdrip.com/forms/621117322/submissions" method="post" data-drip-embedded-form="621117322" id="drip-ef-621117322">
+
+
+      <input type="email" name="fields[email]" id="drip-email" placeholder="email@domain.com" required>
+      <input type="hidden" name="fields[source]" value="widget">
+
+      <div style="display: none;" aria-hidden="true">
+        <label for="website">Website</label><br>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="false" value="">
+      </div>
+      <input type="hidden" name="tags[]" id="tags_" value="newsletter" tabindex="-1">
+
+
+      <input type="submit" value="Sign up for Python Morsels tips" data-drip-attribute="sign-up-button">
+    </form>
+
+  </div>
+</section>
+<section id="morsels-signup-thanks" style="display: none;">
+
+  <p>
+  You're nearly signed up.
+  You just need to <strong>check your email</strong> and click the link there to <strong>set your password</strong>.
+  </p>
+
+  <span class="email-message"></span>
+
+  <p>
+  Right after you've set your password you'll receive your first Python Morsels exercise.
+  </p>
+
+  <img class="python-morsels-full-logo" src="/images/python-morsels-full-logo.svg" width="226" height="90">
+
+</section>
+
+
+
+</body>
+</html>

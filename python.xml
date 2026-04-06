@@ -4,7 +4,7 @@
   <title><![CDATA[Trey Hunner]]> - Python</title>
   <link href="https://treyhunner.com/atom.xml" rel="self"/>
   <link href="https://treyhunner.com/"/>
-  <updated>2026-03-31T14:52:21-07:00</updated>
+  <updated>2026-04-06T06:53:35-07:00</updated>
   <id>https://treyhunner.com/</id>
   <author>
     <name><![CDATA[Trey Hunner]]></name>
@@ -12,6 +12,364 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using a ~/.pdbrc file to customize the Python Debugger]]></title>
+    <link href="https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc/"/>
+    <updated>2026-04-06T07:30:00-07:00</updated>
+    <id>https://treyhunner.com/2026/04/customizing-pdb-with-pdbrc</id>
+    <content type="html"><![CDATA[<p>Did you know that you can customize the Python debugger (PDB) by creating custom aliases within a <code>.pdbrc</code> file in your home directory or Python&rsquo;s current working directory?</p>
+
+<p>I recently learned this and I&rsquo;d like to share a few helpful aliases that I now have access to in my PDB sessions thanks to my new <code>~/.pdbrc</code> file.</p>
+
+<h2>The aliases in my <code>~/.pdbrc</code> file</h2>
+
+<p>Here&rsquo;s my new <code>~/.pdbrc</code> file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Custom PDB aliases
+</span><span class='line'>
+</span><span class='line'># dir obj: print non-dunder attributes and methods
+</span><span class='line'>alias dir print(*(f"%1.{n} = {v!r}" for n, v in __import__('inspect').getmembers(%1) if not n.startswith("__")), sep="\n")
+</span><span class='line'>
+</span><span class='line'># attrs obj: print non-dunder data attributes
+</span><span class='line'>alias attrs import inspect as __i ;; print(*(f"%1.{n} = {v!r}" for n, v in __i.getmembers(%1, lambda v: not __i.isroutine(v)) if not n.startswith("__")), sep="\n") ;; del __i
+</span><span class='line'>
+</span><span class='line'># vars obj: print instance variables (object must have __dict__)
+</span><span class='line'>alias vars print(*(f"%1.{k} = {v!r}" for k, v in vars(%1).items()), sep="\n")
+</span><span class='line'>
+</span><span class='line'># src obj: print source file, line number, and code where a class/function was defined
+</span><span class='line'>alias src import inspect as __i;; print(f"{__i.getsourcefile(%1)} on line {__i.getsourcelines(%1)[1]}:\n{''.join(__i.getsource(%1))}") ;; del __i
+</span><span class='line'>
+</span><span class='line'># loc: print local variables from current frame
+</span><span class='line'>alias loc print(*(f"{name} = {value!r}" for name, value in vars().items() if not name.startswith("__")), sep="\n")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This allows me to use:</p>
+
+<ul>
+<li><code>dir</code>, <code>attrs</code>, and <code>vars</code> to inspect Python objects</li>
+<li><code>src</code> to see the source code of a particular function/class</li>
+<li><code>loc</code> to see the local variables</li>
+</ul>
+
+
+<p>You might wonder &ldquo;Can&rsquo;t I use <code>dir(x)</code> instead of <code>dir x</code> and <code>vars(x)</code> instead of <code>vars x</code> and <code>locals()</code> instead of <code>loc</code>?&rdquo;</p>
+
+<p>You can!&hellip; but those aliases print things out in a nicer format.</p>
+
+<h2>A demo of these 5 aliases</h2>
+
+<p>Let&rsquo;s use <code>-m pdb -m calendar</code> to launch Python&rsquo;s <code>calendar</code> module from the command line while dropping into PDB immediately:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>python -m pdb -m calendar
+</span><span class='line'>&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py<span class="o">(</span>1<span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+</span><span class='line'>-&gt; <span class="s2">&quot;&quot;</span><span class="err">&quot;</span>Calendar printing functions
+</span><span class='line'><span class="o">(</span>Pdb<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we&rsquo;ll set a breakpoint after lots of stuff has been defined and continue to that breakpoint:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) b 797</span>
+</span><span class='line'><span class="go">Breakpoint 1 at /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py:797</span>
+</span><span class='line'><span class="go">(Pdb) c</span>
+</span><span class='line'><span class="go">&gt; /home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py(797)&lt;module&gt;()</span>
+</span><span class='line'><span class="go">-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">(Pdb) l</span>
+</span><span class='line'><span class="go">792</span>
+</span><span class='line'><span class="go">793</span>
+</span><span class='line'><span class="go">794     # Support for old module level interface</span>
+</span><span class='line'><span class="go">795     c = TextCalendar()</span>
+</span><span class='line'><span class="go">796</span>
+</span><span class='line'><span class="go">797 B-&gt; firstweekday = c.getfirstweekday</span>
+</span><span class='line'><span class="go">798</span>
+</span><span class='line'><span class="go">799     def setfirstweekday(firstweekday):</span>
+</span><span class='line'><span class="go">800         if not MONDAY &lt;= firstweekday &lt;= SUNDAY:</span>
+</span><span class='line'><span class="go">801             raise IllegalWeekdayError(firstweekday)</span>
+</span><span class='line'><span class="go">802         c.firstweekday = firstweekday</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The string representation for that <code>c</code> variable doesn&rsquo;t tell us much:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) !c</span>
+</span><span class='line'><span class="go">&lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use the <code>dir</code> alias, we&rsquo;ll see every attribute that&rsquo;s accessible on <code>c</code> printed in a pretty friendly format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) dir c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span><span class='line'><span class="go">c.formatday = &lt;bound method TextCalendar.formatday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonth = &lt;bound method TextCalendar.formatmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatmonthname = &lt;bound method TextCalendar.formatmonthname of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweek = &lt;bound method TextCalendar.formatweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekday = &lt;bound method TextCalendar.formatweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatweekheader = &lt;bound method TextCalendar.formatweekheader of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.formatyear = &lt;bound method TextCalendar.formatyear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.getfirstweekday = &lt;bound method Calendar.getfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdates = &lt;bound method Calendar.itermonthdates of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays = &lt;bound method Calendar.itermonthdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays2 = &lt;bound method Calendar.itermonthdays2 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays3 = &lt;bound method Calendar.itermonthdays3 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.itermonthdays4 = &lt;bound method Calendar.itermonthdays4 of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.iterweekdays = &lt;bound method Calendar.iterweekdays of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdatescalendar = &lt;bound method Calendar.monthdatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdays2calendar = &lt;bound method Calendar.monthdays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.monthdayscalendar = &lt;bound method Calendar.monthdayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prmonth = &lt;bound method TextCalendar.prmonth of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.prweek = &lt;bound method TextCalendar.prweek of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.pryear = &lt;bound method TextCalendar.pryear of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.setfirstweekday = &lt;bound method Calendar.setfirstweekday of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardatescalendar = &lt;bound method Calendar.yeardatescalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardays2calendar = &lt;bound method Calendar.yeardays2calendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span><span class='line'><span class="go">c.yeardayscalendar = &lt;bound method Calendar.yeardayscalendar of &lt;__main__.TextCalendar object at 0x7416de93af90&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we use <code>attrs</code> we&rsquo;ll see <em>just</em> the non-method attributes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) attrs c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span><span class='line'><span class="go">c.firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And <code>vars</code> will show us just the attributes that live as proper instance attributes in that object&rsquo;s <code>__dict__</code> dictionary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) vars c</span>
+</span><span class='line'><span class="go">c._firstweekday = 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>src</code> alias can be used to see the source code for a given method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) src c.prmonth</span>
+</span><span class='line'><span class="go">/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/calendar.py on line 404:</span>
+</span><span class='line'><span class="go">    def prmonth(self, theyear, themonth, w=0, l=0):</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        Print a month&#39;s calendar.</span>
+</span><span class='line'><span class="go">        &quot;&quot;&quot;</span>
+</span><span class='line'><span class="go">        print(self.formatmonth(theyear, themonth, w, l), end=&#39;&#39;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the <code>loc</code> alias will show us all the local variables defined in the current scope:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='pycon'><span class='line'><span class="go">(Pdb) loc</span>
+</span><span class='line'><span class="go">APRIL = __main__.APRIL</span>
+</span><span class='line'><span class="go">AUGUST = __main__.AUGUST</span>
+</span><span class='line'><span class="go">Calendar = &lt;class &#39;__main__.Calendar&#39;&gt;</span>
+</span><span class='line'><span class="go">DECEMBER = __main__.DECEMBER</span>
+</span><span class='line'><span class="go">Day = &lt;enum &#39;Day&#39;&gt;</span>
+</span><span class='line'><span class="go">FEBRUARY = __main__.FEBRUARY</span>
+</span><span class='line'><span class="go">FRIDAY = __main__.FRIDAY</span>
+</span><span class='line'><span class="go">HTMLCalendar = &lt;class &#39;__main__.HTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalMonthError = &lt;class &#39;__main__.IllegalMonthError&#39;&gt;</span>
+</span><span class='line'><span class="go">IllegalWeekdayError = &lt;class &#39;__main__.IllegalWeekdayError&#39;&gt;</span>
+</span><span class='line'><span class="go">IntEnum = &lt;enum &#39;IntEnum&#39;&gt;</span>
+</span><span class='line'><span class="go">JANUARY = __main__.JANUARY</span>
+</span><span class='line'><span class="go">JULY = __main__.JULY</span>
+</span><span class='line'><span class="go">JUNE = __main__.JUNE</span>
+</span><span class='line'><span class="go">LocaleHTMLCalendar = &lt;class &#39;__main__.LocaleHTMLCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">LocaleTextCalendar = &lt;class &#39;__main__.LocaleTextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">MARCH = __main__.MARCH</span>
+</span><span class='line'><span class="go">MAY = __main__.MAY</span>
+</span><span class='line'><span class="go">MONDAY = __main__.MONDAY</span>
+</span><span class='line'><span class="go">Month = &lt;enum &#39;Month&#39;&gt;</span>
+</span><span class='line'><span class="go">NOVEMBER = __main__.NOVEMBER</span>
+</span><span class='line'><span class="go">OCTOBER = __main__.OCTOBER</span>
+</span><span class='line'><span class="go">SATURDAY = __main__.SATURDAY</span>
+</span><span class='line'><span class="go">SEPTEMBER = __main__.SEPTEMBER</span>
+</span><span class='line'><span class="go">SUNDAY = __main__.SUNDAY</span>
+</span><span class='line'><span class="go">THURSDAY = __main__.THURSDAY</span>
+</span><span class='line'><span class="go">TUESDAY = __main__.TUESDAY</span>
+</span><span class='line'><span class="go">TextCalendar = &lt;class &#39;__main__.TextCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">WEDNESDAY = __main__.WEDNESDAY</span>
+</span><span class='line'><span class="go">_CLIDemoCalendar = &lt;class &#39;__main__._CLIDemoCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_CLIDemoLocaleCalendar = &lt;class &#39;__main__._CLIDemoLocaleCalendar&#39;&gt;</span>
+</span><span class='line'><span class="go">_get_default_locale = &lt;function _get_default_locale at 0x7416de7c0930&gt;</span>
+</span><span class='line'><span class="go">_locale = &lt;module &#39;locale&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/locale.py&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_day = &lt;class &#39;__main__._localized_day&#39;&gt;</span>
+</span><span class='line'><span class="go">_localized_month = &lt;class &#39;__main__._localized_month&#39;&gt;</span>
+</span><span class='line'><span class="go">_monthlen = &lt;function _monthlen at 0x7416de7c0720&gt;</span>
+</span><span class='line'><span class="go">_nextmonth = &lt;function _nextmonth at 0x7416de7c0880&gt;</span>
+</span><span class='line'><span class="go">_prevmonth = &lt;function _prevmonth at 0x7416de7c07d0&gt;</span>
+</span><span class='line'><span class="go">_validate_month = &lt;function _validate_month at 0x7416de7c05c0&gt;</span>
+</span><span class='line'><span class="go">c = &lt;__main__.TextCalendar object at 0x7416de93af90&gt;</span>
+</span><span class='line'><span class="go">datetime = &lt;module &#39;datetime&#39; from &#39;/home/trey/.local/share/uv/python/cpython-3.15.0a3-linux-x86_64-gnu/lib/python3.15/datetime.py&#39;&gt;</span>
+</span><span class='line'><span class="go">day_abbr = &lt;__main__._localized_day object at 0x7416de941090&gt;</span>
+</span><span class='line'><span class="go">day_name = &lt;__main__._localized_day object at 0x7416de93acf0&gt;</span>
+</span><span class='line'><span class="go">different_locale = &lt;class &#39;__main__.different_locale&#39;&gt;</span>
+</span><span class='line'><span class="go">error = &lt;class &#39;ValueError&#39;&gt;</span>
+</span><span class='line'><span class="go">global_enum = &lt;function global_enum at 0x7416dee17480&gt;</span>
+</span><span class='line'><span class="go">isleap = &lt;function isleap at 0x7416dea92770&gt;</span>
+</span><span class='line'><span class="go">leapdays = &lt;function leapdays at 0x7416de7c0460&gt;</span>
+</span><span class='line'><span class="go">mdays = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]</span>
+</span><span class='line'><span class="go">month_abbr = &lt;__main__._localized_month object at 0x7416de9411d0&gt;</span>
+</span><span class='line'><span class="go">month_name = &lt;__main__._localized_month object at 0x7416de93ae40&gt;</span>
+</span><span class='line'><span class="go">monthrange = &lt;function monthrange at 0x7416de7c0670&gt;</span>
+</span><span class='line'><span class="go">repeat = &lt;class &#39;itertools.repeat&#39;&gt;</span>
+</span><span class='line'><span class="go">standalone_month_abbr = &lt;__main__._localized_month object at 0x7416de954fc0&gt;</span>
+</span><span class='line'><span class="go">standalone_month_name = &lt;__main__._localized_month object at 0x7416de941310&gt;</span>
+</span><span class='line'><span class="go">sys = &lt;module &#39;sys&#39; (built-in)&gt;</span>
+</span><span class='line'><span class="go">weekday = &lt;function weekday at 0x7416de7c0510&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><code>~/.pdbrc</code> isn&rsquo;t as powerful as <code>PYTHONSTARTUP</code></h2>
+
+<p>I also have a custom <code>PYTHONSTARTUP</code> file, which is launched every time I start a new Python REPL (see <a href="https://treyhunner.com/2025/10/handy-python-repl-modifications/">Handy Python REPL modifications</a>).
+A <code>PYTHONSTARTUP</code> file is just Python code, which makes it easy to customize.</p>
+
+<p>A <code>~/.pdbrc</code> file is <em>not</em> Python code&hellip; it&rsquo;s a very limited custom file format.</p>
+
+<p>You may notice that every <code>alias</code> line defined in my <code>~/.pdbrc</code> file is a bunch of code shoved all on one line.
+That&rsquo;s because there&rsquo;s no way to define an alias over multiple lines.</p>
+
+<p>Also any variables assigned in an <code>alias</code> will leak into the surrounding scope&hellip; so I have a <code>del</code> statement in a couple of those aliases to clean up a stray variable assignment (from an <code>import</code>).</p>
+
+<p>See the documentation on <a href="https://docs.python.org/3/library/pdb.html#pdbcommand-alias"><code>alias</code></a> and the top of the <a href="https://docs.python.org/3/library/pdb.html#debugger-commands">debugger commands</a> for more on how <code>~/.pdbrc</code> files work.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python Black Friday &amp; Cyber Monday sales (2025)]]></title>
@@ -3283,139 +3641,6 @@ They&rsquo;re mostly generated by a large language model that didn&rsquo;t give 
 <p>After this adventure, I checked my podcast feed this evening only to realize that there&rsquo;s <a href="https://mastodon.social/@ambv/112378026608575109">a new core.py episode</a> all about exactly this feature!
 If you&rsquo;d like to hear some core developers nerd out about CPython development, give core.py a listen.
 You don&rsquo;t need to understand how CPython development works to enjoy their enthusiasm. 💖</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[10 years of Python conferences]]></title>
-    <link href="https://treyhunner.com/2024/04/10-years-of-python-conferences/"/>
-    <updated>2024-04-27T11:45:00-07:00</updated>
-    <id>https://treyhunner.com/2024/04/10-years-of-python-conferences</id>
-    <content type="html"><![CDATA[<p>10 years and 10 days ago I flew home from my very first Python conference.</p>
-
-<p>I left a few days into the PyCon US 2014 sprints and I remember feeling a bit like summer camp was ending.
-I&rsquo;d played board games, contributed to an open source project, seen tons of talks, and met a <em>ton</em> of people.</p>
-
-<h2>My first Python conference: PyCon US 2014</h2>
-
-<p>PyCon 2014 was the first Python conference I attended.</p>
-
-<p>At the start of the conference I only knew a handful of San Diegans.
-I left having met many more folks.
-Some of the folks I met I knew from online forums, GitHub repos, or videos
-I met Kenneth Love, Baptiste Mispelon, Carl Meyer, Eric Holscher in-person, among many others.
-Most folks I met I had never encountered online, but I was glad to have met in person.</p>
-
-<p>For the most part, I had no idea who anyone was, what they did with Python, or what they might be interested in talking about.
-I also had no idea what most of the various non-talk activities were.
-I found out about the Education Summit and hadn&rsquo;t realized that it required pre-registration.
-The open spaces are one of my favorite parts of PyCon and I didn&rsquo;t even they existed until PyCon 2015.</p>
-
-<p>I <em>did</em> stay for a couple days of the sprints and I was grateful for that.
-Most of the memorable human connections I had were during the sprints.
-I helped <a href="https://pyvideo.org">PyVideo</a> upgrade their code base from Python 2 to Python 3 (this was before Will and Sheila <a href="https://pyvideo.org/pages/thanks-will-and-sheila.html">stepped down as maintainers</a>).
-Will guided me through the code base and seemed grateful for the help.</p>
-
-<p>I also got the idea to write front-end JavaScript tests for Django during the sprints and eventually <a href="https://github.com/django/deps/blob/main/final/0003-javascript-tests.rst">started that process</a> after PyCon thanks to Carl Meyer&rsquo;s guidance.</p>
-
-<h2>Attending regional conferences and DjangoCon</h2>
-
-<p>In fall 2014, I attended Django BarCamp at the Eventbrite office.
-That was my first exposure to the idea of an &ldquo;unconference&rdquo;&hellip; which I kept in mind when I spotted the open spaces board at PyCon 2015.</p>
-
-<p>Before coming back to Montreal for <a href="https://twitter.com/treyhunner/status/585969805796212736">PyCon 2015</a>, I emailed Harry Percival to ask if he could use a teaching assistant during his tutorial on writing tests. His reply was much more enthusiastic than I expected: &ldquo;YES YES OH GOD YES THANK YOU THANK YOU THANK YOU TREY&rdquo;.
-I was very honored to be able to help Harry, as my testing workflow was <em>heavily</em> inspired by many blog posts he&rsquo;d written about testing best practices in Django.</p>
-
-<p>I coached at my first Django Girls event in 2015 in Ensenada and then my second at <a href="https://twitter.com/algosuna/status/641421944005378048">DjangoCon 2015</a> in Austin. I gave my first lightning talk at DjangoCon 2015, comparing modern JavaScript to Python. It was a lightning talk I had given at the San Diego JavaScript and <a href="https://www.sandiegopython.org">San Diego Python</a> meetups.</p>
-
-<p>In 2016, I attended PyTennessee in Nashville. I remember attending a dinner of of about a dozen folks who spoke at the conference. I was grateful to get to chat with so many folks whose talks I&rsquo;d attended.</p>
-
-<h2>Presenting talks and tutorials</h2>
-
-<p>I presented my first conference tutorial at <a href="https://twitter.com/treyhunner/status/737069721292439552">PyCon 2016</a> in Portland and <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">my first talk</a> at <a href="https://twitter.com/asendecka/status/756851845012844544">DjangoCon US 2016</a> in Philadelphia.
-I had been presenting lightning talks every few months at my local Python and JavaScript meetups for a few years by then and I had hosted free workshops at my local meetup and paid workshops for training clients.</p>
-
-<p>Having presented locally helped, but presenting on a big stage is always scary.</p>
-
-<h2>Volunteering</h2>
-
-<p>I volunteered at some of my first few conferences and found that I really enjoyed it.
-I especially enjoyed running the registration desk, as you&rsquo;re often the first helpful face that people see coming into the conference.</p>
-
-<p>During PyCon 2016, 2017, and 2018, I co-chaired the open spaces thanks to Anna Ossowski inviting me to help.
-I had first attended open spaces during PyCon 2015 and I <em>loved</em> them.
-Talks are great, but so are discussions!</p>
-
-<p>I also ran for the PSF board of directors in 2016 and ended up serving on the board for a few years before stepping down.
-After my board terms, I volunteered for the PSF Code of Conduct working group for about 6 years.
-I didn&rsquo;t even know what the PSF <em>was</em> until PyCon 2015!</p>
-
-<h2>A <em>lot</em> of travel&hellip; maybe too much</h2>
-
-<p>After DjangoCon 2016, I went a bit conference-wild.
-I attended <a href="https://twitter.com/treyhunner/status/829412120370565120">PyTennessee 2017</a>, <a href="https://twitter.com/PythonChat/status/845052805375295488">PyCaribbean 2017</a> in Puerto Rico, <a href="https://twitter.com/loooorenanicole/status/866382369619562496">PyCon US 2017</a> in Portland, <a href="https://twitter.com/asteracode/status/893274761727361024">PyCon Australia 2017</a> in Melbourne, <a href="https://twitter.com/TobiasMcNulty/status/896570680933703681">DjangoCon 2017</a> in Spokane, <a href="https://twitter.com/treyhunner/status/916890505157468160">PyGotham 2017</a> in NYC, and <a href="https://twitter.com/treyhunner/status/937441419966296064">North Bay Python 2017</a> in Petaluma.</p>
-
-<p>In 2018 I sponsored <a href="https://twitter.com/treyhunner/status/962862235734495232">PyTennessee</a> and <a href="https://twitter.com/jmwatt3/status/1023713820752183296">PyOhio</a> and spoke at both.
-I passed out chocolate chip cookies at PyTennessee as a way to announce the launch of <a href="https://www.pythonmorsels.com">Python Morsels</a>.
-I also attended <a href="https://twitter.com/treyhunner/status/996881842820272128">PyCon 2018</a> in Cleveland, <a href="https://www.flickr.com/photos/144080672@N05/31764542868/">DjangoCon 2018</a> in San Diego, <a href="https://twitter.com/treyhunner/status/1048340952451047425">PyGotham 2018</a>, and <a href="https://twitter.com/nnja/status/1058589935618318336">North Bay Python 2018</a>.</p>
-
-<p>I slowed down <em>a bit</em> in 2019, with just <a href="https://twitter.com/LaylaSells_cshs/status/1100058649227972609">PyCascades</a> (Seattle), <a href="https://twitter.com/mariatta/status/1125534406851084288">PyCon US</a> (Cleveland), <a href="https://twitter.com/juliansequeira/status/1157106403598749698">PyCon Australia</a> (Sydney), and DjangoCon US (San Diego, which is home for me).</p>
-
-<h2>Since the pandemic</h2>
-
-<p>Since the start of the pandemic, I&rsquo;ve attended <a href="https://twitter.com/treyhunner/status/1519724687890128899">PyCon US 2022</a>, DjangoCon 2022 in San Diego (in my city for the <em>third</em> time!) and <a href="https://mastodon.social/@treyhunner/110243968672457367">PyCon US 2023</a>.
-Traveling is more challenging for me than it used to be, but I hope to attend more regional conferences again soon.</p>
-
-<p>Between client work, I&rsquo;ve been focusing less on conferences and more on blog posts (<a href="https://www.pythonmorsels.com/articles/">over here</a>), <a href="https://www.youtube.com/@PythonMorsels">screencasts</a>, my <a href="https://www.pythonmorsels.com/newsletter/">weekly Python tips</a> emails, and (of course) on <a href="https://www.pythonmorsels.com">Python Morsels</a>.</p>
-
-<h2>My journey started locally</h2>
-
-<p>I became part of the Python community before I knew I was part of it.</p>
-
-<p>I started using Python professionally in December 2009 and I attended my first San Diego Python meetup in March 2012.
-I met the organizers, gave some lightning talks, attended Saturday study group sessions (thanks Carol Willing, Alain Domissy, and others for running these), and volunteered to help organize meetups, study groups, and workshops.</p>
-
-<p>By 2014, I had learned from folks online and in-person and I had helped out at my local Python meetup.
-I had even made a few contributions to some small Django packages I relied on heavily.</p>
-
-<p>I was encouraged to attend PyCon 2014 by others who were attending (thanks Carol, Micah, and Paul among others).
-The conference was well-worth the occasional feeling of overwhelm.</p>
-
-<h2>We&rsquo;re all just people</h2>
-
-<p>The biggest thing I&rsquo;ve repeatedly learned over the past decade of Python conferences is that we&rsquo;re all just people.</p>
-
-<p>Carol Willing keynoted PyCon US 2023.
-But I met Carol as a kind Python user in San Diego who started the first Python study group meetings in Pangea Bakery on Convoy Street.</p>
-
-<p>Jay Miller will be keynoting PyCon US 2024.
-But I met Jay as an attendee of the Python study group, who was enthusiastic about both learning and teaching others.</p>
-
-<p>My partner, Melanie Arbor, keynoted DjangoCon 2022 along with Jay Miller.
-When I met Melanie, she was new to Python and was very eager to both learn and help others.</p>
-
-<p>David Lord has made a huge impact on the maintenance of Flask and other Pallets projects.
-I met David as a Python study group attendee who was an enthusiastic StackOverflow contributor.</p>
-
-<p>I learned a ton from Brandon Rhodes, Ned Batchelder, Russell Keith-Magee, and many others from online videos, forums, and open source projects before I ever met them.
-But each of them are also just Python-loving people like the rest of us.
-Russell gives good hugs, Ned is an organizer of his local Python meetup, and Brandon wears the same brand of shoes as me.</p>
-
-<p>We all have people we&rsquo;ve learned from, we suffer from feelings of inadequacy, we get grumpy sometimes, and we care about the Python language and community in big and small ways.</p>
-
-<h2>What&rsquo;s next for you?</h2>
-
-<p>Will you attend a local meetup?
-Or will you attend an online social event?</p>
-
-<p>If so, consider asking the organize if you can present a 5 minute lightning talk at a future event.
-As I <a href="https://youtu.be/aNHBr7q-KVw?si=Fryj6Ez4Cw7q-RAq">noted in a DjangoCon 2016 lightning talk</a>, lightning talks are a great way to connect with folks.</p>
-
-<p>Will you attend a Python conference one day?
-See <a href="https://treyhunner.com/2018/04/how-to-make-the-most-of-your-first-pycon/">having a great first PyCon</a> when/if you do.</p>
-
-<p>Remember that we&rsquo;re all just people though.
-Some may have a bit more experience (whether at speaking, contributing to open source, or something else), but we&rsquo;re just people.</p>
 ]]></content>
   </entry>
   
