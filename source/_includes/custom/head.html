@@ -23,7 +23,7 @@ function onTurnstileLoad() {
       if (!pendingForm) return;
       var $form = pendingForm;
       pendingForm = null;
-      $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+      $form.prepend('<input type="hidden" name="cf-turnstile-response" value="' + token + '">');
       $form.off('submit').submit().on('submit');
     }
   });
