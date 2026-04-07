@@ -58,23 +58,32 @@ I love list comprehensions so much that I&rsquo;ve written an article about them
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 <script>
 var turnstileWidgetId;
+var pendingForm;
+
 function onTurnstileLoad() {
+  var container = document.createElement('div');
+  container.id = 'turnstile-container';
+  container.style.display = 'none';
+  document.body.appendChild(container);
+
   turnstileWidgetId = turnstile.render('#turnstile-container', {
     sitekey: '0x4AAAAAAC13CzziQFxU69iv',
-    size: 'invisible'
+    execution: 'execute',
+    callback: function(token) {
+      if (!pendingForm) return;
+      var $form = pendingForm;
+      pendingForm = null;
+      $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+      $form.off('submit').submit().on('submit');
+    }
   });
 }
 
 $(document).ready(function () {
-  $('body').append('<div id="turnstile-container" style="display:none"></div>');
-
   $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
     event.preventDefault();
-    var $form = $(this);
-    turnstile.execute(turnstileWidgetId).then(function(token) {
-      $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
-      $form.off('submit').submit().on('submit');
-    });
+    pendingForm = $(this);
+    turnstile.execute(turnstileWidgetId);
   });
 });
 
