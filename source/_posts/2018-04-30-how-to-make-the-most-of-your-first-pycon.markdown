@@ -310,7 +310,7 @@ I've met people the day after playing a long game and **felt like I already knew
 
 ## Volunteering 💝
 
-If you're the type of person who derives comfort from understanding and being part of the inner workings of a community event, I recommend [volunteering to help out while at PyCon][volunteering].
+If you're the type of person who derives comfort from understanding and being part of the inner workings of a community event, I recommend [volunteering to help out while at PyCon][volunteering] (note: that's the 2025 link: I'll update with 2026 link once it's live).
 
 You might think it's premature to volunteer during your first PyCon and for some roles, it likely is.
 You probably shouldn't volunteer to be a session chair during your first PyCon for example because that's a big role.
