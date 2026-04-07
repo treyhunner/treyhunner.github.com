@@ -54,23 +54,25 @@
 <script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 <script src="/javascripts/jquery.toc.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 <script>
-grecaptcha.ready(function() {
-    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
-    });
-});
+var turnstileWidgetId;
+function onTurnstileLoad() {
+  turnstileWidgetId = turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAAC13CzziQFxU69iv',
+    size: 'invisible'
+  });
+}
 
 $(document).ready(function () {
+  $('body').append('<div id="turnstile-container" style="display:none"></div>');
+
   $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
     event.preventDefault();
     var $form = $(this);
-    grecaptcha.ready(function() {
-      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
-        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
-        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
-        $form.off('submit').submit().on('submit');
-      });
+    turnstile.execute(turnstileWidgetId).then(function(token) {
+      $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+      $form.off('submit').submit().on('submit');
     });
   });
 });
@@ -268,7 +270,7 @@ I removed those by clearing the <code>DIRENV_LOG_FORMAT</code> variable in my <c
 <h2>The more advanced setup</h2>
 
 <p>I don&rsquo;t like it when all my virtual environment prompts show up as <code>.venv</code>.
-I want every prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
+I want ever prompt to be the name of the actual project&hellip; which is usually the directory name.</p>
 
 <p>I also <em>really</em> wanted to be able to type <code>venv</code> to create a new virtual environment, activate it, and create the <code>.envrc</code> file for my <em>automatically</em>.</p>
 

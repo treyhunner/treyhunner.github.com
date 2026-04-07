@@ -54,23 +54,25 @@
 <script src="/javascripts/expired_storage.min.js"></script>
 <script src="/javascripts/funnel-tools-capture.min.js"></script>
 <script src="/javascripts/jquery.toc.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
 <script>
-grecaptcha.ready(function() {
-    grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'visit'}).then(function(token) {
-    });
-});
+var turnstileWidgetId;
+function onTurnstileLoad() {
+  turnstileWidgetId = turnstile.render('#turnstile-container', {
+    sitekey: '0x4AAAAAAC13CzziQFxU69iv',
+    size: 'invisible'
+  });
+}
 
 $(document).ready(function () {
+  $('body').append('<div id="turnstile-container" style="display:none"></div>');
+
   $('form[action="https://www.pythonmorsels.com/accounts/signup/"]').submit(function(event) {
     event.preventDefault();
     var $form = $(this);
-    grecaptcha.ready(function() {
-      grecaptcha.execute('6LfP0cEUAAAAAAlbI-d5M7xLioNYWX0LDj78gN2b', {action: 'signup'}).then(function(token) {
-        $form.prepend('<input type="hidden" name="captcha_action" value="signup">');
-        $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
-        $form.off('submit').submit().on('submit');
-      });
+    turnstile.execute(turnstileWidgetId).then(function(token) {
+      $form.prepend('<input type="hidden" name="captcha_token" value="' + token + '">');
+      $form.off('submit').submit().on('submit');
     });
   });
 });
@@ -152,7 +154,7 @@ These exercises are meant to push you slightly outside of your comfort zone, gra
 <br>
 <small>
   I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
-  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+  This form is protected by Cloudflare Turnstile (<a href="https://www.cloudflare.com/privacypolicy/">Privacy Policy</a>)
 </small>
 </form>
 
@@ -199,7 +201,7 @@ And the easiest way to join my newsletter is to <strong>sign up for Python Morse
 <br>
 <small>
   I won't share you info with others (see the <a href="https://www.pythonmorsels.com/privacy/">Python Morsels Privacy Policy</a> for details).<br>
-  This form is reCAPTCHA protected (Google <a href="https://policies.google.com/privacy">Privacy Policy</a> &amp; <a href="https://policies.google.com/terms">TOS</a>)
+  This form is protected by Cloudflare Turnstile (<a href="https://www.cloudflare.com/privacypolicy/">Privacy Policy</a>)
 </small>
 
 <br><br>
