@@ -213,6 +213,21 @@ Why "preview"?
 Well, without it uv doesn't ([yet](https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903)) place `python3.13` in my `PATH` by default, as this feature is currently in testing/development.
 
 
+## Update: uvrs for managing uv scripts
+
+Since writing this post, I created [uvrs][], a tool for managing uv scripts.
+
+With uvrs, you can use `uvrs add` and `uvrs remove` to manage your script's inline dependencies, and `uvrs init` to create new scripts with the right metadata and executable permissions already set.
+
+Most importantly, uvrs adds an `exclude-newer` timestamp to your script's metadata, which limits dependency versions to those published before a given date.
+This means your scripts won't unexpectedly break when a dependency releases a new version.
+When you're ready to upgrade, `uvrs stamp` updates the timestamp and upgrades your dependencies.
+
+uvrs also runs scripts with `uv run --exact --script`, ensuring the script's environment always matches its metadata exactly.
+
+If you're using uv scripts regularly, [uvrs][] makes them much easier to manage and more reproducible.
+
+
 ## Self-installing Python scripts are the big win
 
 I still prefer pyenv for its ability to [install custom Python builds](https://treyhunner.com/2024/05/installing-a-custom-python-build-with-pyenv/) and I don't have a preference between `uv tool` and `pipx`.
@@ -224,6 +239,7 @@ I used to create a Python package out of a script as soon as it required third-p
 Now my "do I *really* need to turn this into a proper package" bar is set much higher.
 
 
+[uvrs]: https://github.com/treyhunner/uvrs
 [uv tool]: https://docs.astral.sh/uv/concepts/tools/
 [pipx]: https://pipx.pypa.io
 [pyenv]: https://pipx.pypa.io/stable/
