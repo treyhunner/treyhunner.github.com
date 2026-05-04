@@ -21,7 +21,7 @@
   <meta name="author" content="Trey Hunner">
 
   
-  <meta name="description" content="Talks &amp; Workshops Contents Long-Form Talks I prefer 5 minute lightning talks and 3 hour workshops, but I do also sometimes give long-form 25-30 &hellip;">
+  <meta name="description" content="Talks &amp; Workshops I prefer 5 minute lightning talks and 3 hour workshops, but I do also sometimes give long-form 25-30 minute talks. Here are my &hellip;">
   
   <meta name="twitter:site" content="@PythonMorsels" />
   <meta name="twitter:creator" content="@treyhunner" />
@@ -115,6 +115,7 @@ $(document).ready(function () {
 <ul class="main-navigation">
   <li><a href="/blog/archives">Articles</a></li>
   <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
   <li><a href="https://truthful.technology/">Team Training</a></li>
   <li><a href="/about">About</a></li>
@@ -131,207 +132,127 @@ $(document).ready(function () {
     
   </header>
   
-  <h2>Contents</h2>
+  <style>
+  .talk-type { font-weight: bold; }
+  .talk-type-talk { color: #059669; }
+  .talk-type-tutorial { color: #7c3aed; }
+  .talk-type-lightning { color: #d97706; }
+</style>
 
-<ul data-toc=".content"></ul>
+<p>I prefer 5 minute lightning talks and 3 hour workshops, but I do also sometimes give long-form 25-30 minute talks. Here are my recorded talks, tutorials, and lightning talks over the years.</p>
 
-<div class="content">
+<h2>2026</h2>
 
-<h2 id="talks">Long-Form Talks</h2>
-
-<p>I prefer 5 minute lightning talks and 3 hour workshops, but I do also sometimes give long-form 25-30 minute talks.  You can find a few of my recorded talks below.</p>
-
-<section>
-
-  <h3>Meaningful Mentoring Moments</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/d5CHyi6SA4w" frameborder="0" allowfullscreen></iframe>
-
-  <p>In this talk we'll discuss how to be a good coach at a programming workshop or while coaching a new hire.</p>
-
-  <p>You can <a href="http://trey.io/pycascades2019">find slides and related resources here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Lazy Looping: The Next Iteration</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/q8czHnhcVGE" frameborder="0" allowfullscreen></iframe>
-
-  <p>In this talk we take a look at how generators can help us write more readable (and more efficient) looping code.</p>
-
-  <p>You can <a href="http://trey.io/lazy-looping">find slides and related resources here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Python Oddities Explained</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/4MCT4WLf7Ac" frameborder="0" allowfullscreen></iframe>
-
-  <p>
-  In this talk we dive into some common (and not so common) gotchas in Python.
-  This talk was heavily inspired by questions asked by my corporate training students and tweets I made on the <a href="https://twitter.com/search?q=%23pythonoddity">#pythonoddity hashtag</a>.
-  </p>
-
-  <p>You can <a href="http://trey.io/oddities">find slides and related resources here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Loop Better: a deeper look at iteration in Python</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/JYuE8ZiDPl4" frameborder="0" allowfullscreen></iframe>
-
-  <p>In this talk we take a look at how Python's <code>for</code> loops work under the hood and in the process we learn about iterables, iterators, and lazy looping in Python.</p>
-
-  <p>You can find the <a href="http://treyhunner.com/loop-better/">Loop Better slides here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Easier Classes: Python Classes Without All the Cruft</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/epKegvx_Jws" frameborder="0" allowfullscreen></iframe>
-
-    <p>This is a tour of some of the built-in and third-party tools that make class creation a bit easier in Python.</p>
-
-  <p>You can <a href="http://trey.io/easier-classes">find slides and related resources here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Comprehensible Comprehensions</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/5_cJIcgM7rw?t=52s" frameborder="0" allowfullscreen></iframe>
-
-  <p>This talk is on list comprehensions and generator expressions in Python.  In this talk we take a look at how why Python has comprehensions, how they work, how to make them readable, and when to turn comprehensions into generator expressions.</p>
-
-  <p>You can find the <a href="http://treyhunner.com/comprehensible-comprehensions/">Comprehensible Comprehension slides here</a>.</p>
-
-</section>
-
-<section>
-
-  <h3>Readability Counts</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/knMg6G9_XCg?t=59s" frameborder="0" allowfullscreen></iframe>
-
-  <p>In this talk we take a look at a few different important aspects of code style in Python.</p>
-
-  <p>You can find the <a href="http://treyhunner.com/readability-counts/">Readability Counts slides here</a>.</p>
-
-</section>
-
-
-<section>
-
-  <h3>Python 2 to 3: How to Upgrade and What Features to Start Using</h3>
-
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/klaGx9Q_SOA?t=29s" frameborder="0" allowfullscreen></iframe>
-
-  <p>This talk explores the process of upgrading from Python 2 to Python 3 and the process and tours the tools that can help with this process.</p>
-
-  <p>You can find the <a href="http://treyhunner.com/2to3/">Python 2 to 3 slides here</a>.</p>
-
-</section>
-
-
-<h2 id="tutorials">Workshops & Tutorials</h2>
-
-<p>Interactive workshops and tutorials are my preferred in-person teaching style.  Recorded workshops aren't as valuable as the in-person experience, but they can still be valuable!  You can take a look at a few recordings of my workshops past below.</p>
-
-<section>
-  <h3>Using List Comprehensions and Generator Expressions for Data Processing</h3>
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/_6U1XoxyyBY" frameborder="0" allowfullscreen></iframe>
-  <p>This is a 3 hour tutorial I taught at PyCon 2018 on some Python-specific looping constructs that are particularly helpful when processing data.  The workshop material can be found at <a href="http://pycon2018.trey.io">pycon2018.trey.io</a>.</p>
-</section>
-
-<section>
-  <h3>Lazy Looping in Python</h3>
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/ixiRkUwPI2A" frameborder="0" allowfullscreen></iframe>
-  <p>This is a 3 hour tutorial I taught at PyCon 2019 on iterators and generators.  The workshop material can be found at <a href="http://pycon2019.trey.io">pycon2019.trey.io</a>.</p>
-</section>
-
-<section>
-  <h3>Readable Regular Expressions</h3>
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/0sOfhhduqks" frameborder="0" allowfullscreen></iframe>
-  <p>This is a 3 hour tutorial I taught at PyCon 2017 on regular expressions.  We discussed what regular expressions are good for, how to write them, how they work in Python specifically, and some often overlooked techniques for making regular expressions more readable.  The workshop material can be found at <a href="http://pycon2017.regex.training/">pycon2017.regex.training</a>.</p>
-</section>
-
-<section>
-  <h3>Hands-On Introduction to Python</h3>
-  <iframe width="480" height="270" src="https://www.youtube.com/embed/6zu8lrYn6t8" frameborder="0" allowfullscreen></iframe>
-  <p>This is a 3 hour tutorial I taught at PyCon 2017 for new programmers.  The workshop material can be found at <a href="http://intro2017.trey.io/">intro2017.trey.io</a>.</p>
-</section>
-
-<section>
-  <h3>Test-Driven Web Development with Django</h3>
-  <h5><time datetime="2013-11-02">November 2, 2013</time> and <time datetime="2014-03-15">March 15, 2014</time> at Ansir Innovation Center</h5>
-  <p>Volunteers from the San Diego Python group taught a Django using test-driven development.  I organized and co-created much of the tutorial.  All teaching material we used is <a href="http://test-driven-django-development.readthedocs.org/en/v2.0/">available online</a>.</p>
-</section>
-
-<h2>Lightning Talks</h2>
-
-<p>I <strong>love</strong> giving lightning talks.  I've done many lightning talks at various meetups and conferences over the years.  Here are some of the lightning talks I've given that have been recorded.</p>
-
-<section>
-<h3>Systems, Gates, and rage</h3>
 <ul>
-	<li><a href="https://youtu.be/Uuhu-F05A7k?si=WB63ELQ_20UY7Dax&t=3155">Video</a></li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://youtu.be/Fy2k5hYC4Ew">Lazy Looping in Practice</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://treyhunner.com/pathlib-talk/">pathlib: Why and How to Use It</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://treyhunner.com/variables-and-objects/">Variables and Objects</a> &#x2E3A; PyCascades</li>
 </ul>
-</section>
 
-<section>
-<h3>Mixing Tabs & Spaces</h3>
-<h5><time datetime="2016-05-30">May 30, 2016</time> at PyCon US 2016</h5>
+<h2>2025</h2>
+
 <ul>
-	<li><a href="http://trey.in/tabs-spaces">Slides</a></li>
-	<li><a href="https://youtu.be/yC9m2GInXqU?t=9m41s">Video</a></p>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://youtu.be/jxlK6kKg114">Decorators Demystified</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://youtu.be/Uuhu-F05A7k?si=NNvpluK-4P89Mbrb&t=3163">Systems, Gates, and Rage</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pybeach-2025/pathlib-why-and-how-to-use-it.html">pathlib: Why and How to Use It</a> &#x2E3A; PyBeach</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/north-bay-python-2025/variables-and-objects-its-pointers-all-the-way-down.html">Variables and Objects</a> &#x2E3A; North Bay Python</li>
 </ul>
-</section>
 
-<section>
-<h3>Give a Lightning Talk</h3>
-<h5><time datetime="2016-07-18">July 18, 2016</time> at DjangoCon US 2016</h5>
+<h2>2024</h2>
+
 <ul>
-	<li><a href="http://trey.in/give-a-talk">Slides</a></li>
-	<li><a href="https://www.youtube.com/watch?v=aNHBr7q-KVw&t=914s">Video</a></li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://trey.io/pyohio2024">Keynote: Brains are Beautiful Liars</a> &#x2E3A; PyOhio</li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon-archive.python.org/2024/schedule/presentation/120/index.html">Python for Programmers</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://youtu.be/p_Vx3gDHeUI?si=quFYnRKNd0HfQu9Z&t=250">Give a Lightning Talk</a> &#x2E3A; PyCon US</li>
 </ul>
-</section>
 
-<section>
-<h3>JavaScript: Slightly more like Python</h3>
-<h5><time datetime="2015-09-09">September 9, 2015</time> at DjangoCon US 2015</h5>
+<h2>2023</h2>
+
 <ul>
-	<li><a href="http://treyhunner.com/js-like-python/">Slides</a></li>
-	<li><a href="https://youtu.be/Peo-n4spSRA?t=9m59s">Video</a></li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://youtu.be/v8o-7UICRNk">Intro to Python for Brand New Programmers</a> &#x2E3A; PyCon US</li>
 </ul>
-</section>
 
-<section>
-<h3>Reading Python Tracebacks</h3>
-<h5><time datetime="2013-07-24">July 25, 2014</time> at San Diego Python</h5>
+<h2>2022</h2>
+
 <ul>
-	<li><a href="https://github.com/pythonsd/presentations/tree/master/tracebacks">Talk Material</a></li>
-	<li><a href="http://youtu.be/sH0mgJFZ0Vc?t=13m">Video</a></li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon-archive.python.org/2022/schedule/presentation/30/index.html">Python Metaprogramming</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://www.youtube.com/watch?v=nWC73Llo170&t=1s">Python Oddities Explained</a> &#x2E3A; PyCon US</li>
 </ul>
-</section>
 
-<section>
-<h3>EditorConfig</h3>
-<h5><time datetime="2013-06-04">June 4, 2013</time> at sandiego.js</h5>
+<h2>2021</h2>
+
 <ul>
-	<li><a href="http://treyhunner.com/editorconfig-slides/">Talk Material</a></li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://youtu.be/aTZalKdYB44">Hands-On Regular Expressions in Python</a> &#x2E3A; PyCon US (online)</li>
 </ul>
-</section>
 
-</div>
+<h2>2020</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pycon-us-2020/comprehensible-comprehensions.html">Comprehensible Comprehensions</a> &#x2E3A; PyCon US (online)</li>
+</ul>
+
+<h2>2019</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon2019.trey.io">Lazy Looping in Python</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://trey.io/lazy-looping">Lazy Looping: The Next Iteration</a> &#x2E3A; DjangoCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pycon-au-2019/python-oddities-explained.html">Python Oddities Explained</a> &#x2E3A; PyCon AU</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://trey.io/pycascades2019">Meaningful Mentoring Moments</a> &#x2E3A; PyCascades</li>
+</ul>
+
+<h2>2018</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon2018.trey.io">List Comprehensions and Generator Expressions</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pygotham-2018/python-oddities-explained.html">Python Oddities Explained</a> &#x2E3A; PyGotham</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://trey.io/easier-classes">Easier Classes: Python Classes Without All the Cruft</a> &#x2E3A; DjangoCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/north-bay-python-2018/easier-classes-python-classes-without-all-the-cruft.html">Easier Classes: Python Classes Without All the Cruft</a> &#x2E3A; North Bay Python</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pyohio-2018/easier-classes-python-classes-without-all-the-cruft.html">Easier Classes: Python Classes Without All the Cruft</a> &#x2E3A; PyOhio</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://treyhunner.com/2to3/">Python 2 to 3: How to Upgrade</a> &#x2E3A; PyCon US</li>
+</ul>
+
+<h2>2017</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon2017.regex.training/">Readable Regular Expressions</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://intro2017.trey.io/">Hands-On Introduction to Python</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://www.youtube.com/watch?v=knMg6G9_XCg">Readability Counts</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pycaribbean-2017/readability-counts-trey-hunner.html">Readability Counts</a> &#x2E3A; PyCaribbean</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/djangocon-au-2017/loop-better-a-deeper-look-at-iteration-in-python.html">Loop Better: A Deeper Look at Iteration in Python</a> &#x2E3A; PyCon AU</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/north-bay-python-2017/loop-better-a-deeper-look-at-iteration-in-python.html">Loop Better: A Deeper Look at Iteration in Python</a> &#x2E3A; North Bay Python</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pygotham-2017/loop-better-a-deeper-look-at-iteration-in-python.html">Loop Better: A Deeper Look at Iteration in Python</a> &#x2E3A; PyGotham</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/pycon-au-2017/comprehensible-comprehensions.html">Comprehensible Comprehensions</a> &#x2E3A; PyCon AU</li>
+</ul>
+
+<h2>2016</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://pycon2017.regex.training/">Readable Regular Expressions</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-talk">Talk</span>: <a href="https://pyvideo.org/djangocon-us-2016/readability-counts.html">Readability Counts</a> &#x2E3A; DjangoCon US</li>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://youtu.be/yC9m2GInXqU?t=9m41s">Mixing Tabs &amp; Spaces</a> &#x2E3A; PyCon US</li>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://www.youtube.com/watch?v=aNHBr7q-KVw&t=914s">Give a Lightning Talk</a> &#x2E3A; DjangoCon US</li>
+</ul>
+
+<h2>2015</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://youtu.be/Peo-n4spSRA?t=9m59s">JavaScript: Slightly More Like Python</a> &#x2E3A; DjangoCon US</li>
+</ul>
+
+<!--
+<h2>2014</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://youtu.be/sH0mgJFZ0Vc?t=13m">Reading Python Tracebacks</a> &#x2E3A; San Diego Python</li>
+</ul>
+
+<h2>2013</h2>
+
+<ul>
+  <li><span class="talk-type talk-type-tutorial">Tutorial</span>: <a href="https://test-driven-django-development.readthedocs.org/en/v2.0/">Test-Driven Web Development with Django</a> &#x2E3A; Ansir Innovation Center, San Diego</li>
+  <li><span class="talk-type talk-type-lightning">Lightning Talk</span>: <a href="https://treyhunner.com/editorconfig-slides/">EditorConfig</a> &#x2E3A; sandiego.js</li>
+</ul>
+-->
 
   
 </article>

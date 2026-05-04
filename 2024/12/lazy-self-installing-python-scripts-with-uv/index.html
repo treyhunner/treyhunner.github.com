@@ -115,6 +115,7 @@ $(document).ready(function () {
 <ul class="main-navigation">
   <li><a href="/blog/archives">Articles</a></li>
   <li><a href="/talks">Talks</a></li>
+  <li><a href="/projects">Projects</a></li>
   <li><a href="https://www.pythonmorsels.com/">Python Morsels</a></li>
   <li><a href="https://truthful.technology/">Team Training</a></li>
   <li><a href="/about">About</a></li>
@@ -421,6 +422,20 @@ The caption quality very rarely need more than a very minor edit or two (for my 
 
 <p>Why &ldquo;preview&rdquo;?
 Well, without it uv doesn&rsquo;t (<a href="https://github.com/astral-sh/uv/issues/6265#issuecomment-2461107903">yet</a>) place <code>python3.13</code> in my <code>PATH</code> by default, as this feature is currently in testing/development.</p>
+
+<h2>Update: uvrs for managing uv scripts</h2>
+
+<p>Since writing this post, I created <a href="https://github.com/treyhunner/uvrs">uvrs</a>, a tool for managing uv scripts.</p>
+
+<p>With uvrs, you can use <code>uvrs add</code> and <code>uvrs remove</code> to manage your script&rsquo;s inline dependencies, and <code>uvrs init</code> to create new scripts with the right metadata and executable permissions already set.</p>
+
+<p>Most importantly, uvrs adds an <code>exclude-newer</code> timestamp to your script&rsquo;s metadata, which limits dependency versions to those published before a given date.
+This means your scripts won&rsquo;t unexpectedly break when a dependency releases a new version.
+When you&rsquo;re ready to upgrade, <code>uvrs stamp</code> updates the timestamp and upgrades your dependencies.</p>
+
+<p>uvrs also runs scripts with <code>uv run --exact --script</code>, ensuring the script&rsquo;s environment always matches its metadata exactly.</p>
+
+<p>If you&rsquo;re using uv scripts regularly, <a href="https://github.com/treyhunner/uvrs">uvrs</a> makes them much easier to manage and more reproducible.</p>
 
 <h2>Self-installing Python scripts are the big win</h2>
 
