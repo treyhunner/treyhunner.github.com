@@ -4,169 +4,49 @@ title: Projects
 footer: false
 ---
 
-Below are some websites and open source projects I am involved with.
+Here are the websites, tools, and open source projects I'm currently involved in.
 
-## Unicode Party
+## Web Apps
 
-Search for unicode emoji at [Unicode Party](http://unicode.party).  The code is available [on GitHub](https://github.com/TruthfulTechnology/unicode.party).
+**[Python Morsels](https://www.pythonmorsels.com/)** is my Python skill-building platform.
+It includes Python exercises, screencasts, and articles to help developers deepen their Python skills through practice.
 
-## PseudoRandom Name
+**[Whereabouts.Earth](https://whereabouts.earth)** is a fun geography app for learning country locations.
 
-Get a random name by visiting [PseudoRandom Name](http://www.pseudorandom.name/).  The code is available [on GitHub](https://github.com/treyhunner/pseudorandom.name).
+**[Unicode Party](https://unicode.party)** is a Unicode emoji search tool.
+I co-maintain this with [Baptiste Mispelon](https://blog.bmispelon.rocks).
 
-## EditorConfig
+**[utf8.xyz](https://utf8.xyz)** is a quick way to look up Unicode characters by URL.
+I co-maintain this with [Seth Larson](https://sethmlarson.dev).
 
-I use [EditorConfig][] in all of my own projects.  You should too.
+**[PseudoRandom Name](https://pseudorandom.name)** is a random name generator.
+The code is [on GitHub](https://github.com/treyhunner/pseudorandom.name).
 
-## Tmuxstart
+## Open Source Tools
 
-I use [tmuxstart][] for my tmux sessions.  It greatly improves my workflow.
+**[uvrs](https://github.com/treyhunner/uvrs)** makes managing [uv](https://docs.astral.sh/uv/)-powered Python scripts easier.
 
-## names
+**[pyrepl-hacks](https://github.com/treyhunner/pyrepl-hacks)** makes it easier to customize Python's new REPL (pyrepl, introduced in Python 3.13).
 
-I use [names][] to generate random names for testing.  This is the command-line version of [pseudorandom.name](http://pseudorandom.name)
+**[countdown](https://github.com/treyhunner/countdown-cli)** is a full-screen terminal countdown timer, handy for presentations and teaching.
 
-<!--
+**[dramatic](https://github.com/treyhunner/dramatic)** makes Python display all output character-by-character, as if it's being typed out.
 
-## dotfiles
+**[disallow-import-star](https://github.com/treyhunner/disallow-import-star)** prevents `import *` wildcard imports in Python.
 
-I host my [dotfiles][] on Github.
+**[django-relatives](https://github.com/treyhunner/django-relatives)** adds links to related objects in the Django admin.
 
--->
+**[EditorConfig](https://editorconfig.org)** helps maintain consistent coding styles across editors.
+I co-created this with Hong Xu many years ago and it has sense grown well beyond the 2 of us.
 
-## invoices
+**[dotfiles](https://github.com/treyhunner/dotfiles)** are my personal shell, editor, and tool configurations
 
-The [invoices][] project is a LaTeX class for creating print-friendly invoices.
+**[better-dedent](https://github.com/treyhunner/better-dedent)** is a `textwrap.dedent` replacement with t-string support
 
-## resume
+**[regex-template](https://github.com/treyhunner/regex-template)** builds compiled regular expressions with auto-escaped interpolations using t-strings
 
-The [resume][] project is a LaTeX class for creating resumes.  I created this
-after I got sick of creating resumes in word processors.
+## Other Contributions
 
-## Django Projects
+I formerly helped maintain **[django-simple-history](https://github.com/django-commons/django-simple-history)** (model history tracking), **[django-widget-tweaks](https://github.com/jazzband/django-widget-tweaks)** (form field rendering in templates), **[django-moderation](https://github.com/dominno/django-moderation)** (content moderation for Django), **[django-authorizenet](https://github.com/andrew-kurin/django-authorizenet)** (Authorize.Net payments), and **[pycco](https://github.com/pycco-docs/pycco)** (a literate-programming-style documentation generator).
 
-I help maintain multiple Django projects.
-
-- [django-simple-history][]
-- [django-model-utils][]
-- [django-email-log][]
-- [django-relatives][]
-- [django-localflavor][]
-- [django-authorizenet][]
-
-## jQuery Django Formset
-
-[jquery-django-formset][] allows easy management of dynamic Django formsets.
-
-## jQuery Form Restrict
-
-The [jquery-formrestrict][] project can be used to restrict form input.  I
-originally made this project to replace the broken jQuery Alphanumeric plugin.
-I rarely use this project now.
-
-## Drive-By Commits
-
-I think every open source contribution is noteworthy, no matter how small.
-
-I have made many *very* minor contributions to a variety of open source projects.  Some were simply fixing documentation typos or adding an EditorConfig file, others were fixing a minor bug, improving tests, or adding a minor feature.  Here are some of the projects I have made at least one minor contribution to:
-
-- [codecov-python][]
-- [cookiecutter][]
-- [cookiecutter-pypackage][]
-- [django-calendarium][]
-- [django-eadred][]
-- [django-extensions][]
-- [django-filter][]
-- [django-hyperadmin][]
-- [django-loginas][]
-- [django-moderation][]
-- [django-parsley][]
-- [djangoproject.com][]
-- [django-ratelimit-backend][]
-- [django-rest-framework][]
-- [django-taggit][]
-- [dj-static][]
-- [dtcov][]
-- [ember-cli][]
-- [event-stream][]
-- [gitfaq.org][]
-- [gitlicense][]
-- [ibrokeand.ifixit.com][]
-- [init][]
-- [jquery-expander][]
-- [jqueryFunctionFinder][]
-- [jquery][]
-- [jquery-ui][]
-- [kuma][]
-- [needle][]
-- [octopress][]
-- [pep8][]
-- [plato][]
-- [purl][]
-- [pycco][]
-- [pypipins][]
-- [raven-python][]
-- [requirements-parser][]
-- [richard][]
-- [sinon.js][]
-- [vim-unimpaired][]
-- [wine][]
-- [zest.releaser][]
-
-[jquery-django-formset]: https://github.com/treyhunner/jquery-django-formset
-[dotfiles]: https://github.com/treyhunner/dotfiles
-[django-authorizenet]: https://github.com/zen4ever/django-authorizenet
-[django-email-log]: https://github.com/treyhunner/django-email-log
-[django-relatives]: https://github.com/treyhunner/django-relatives
-[django-model-utils]: https://github.com/carljm/django-model-utils
-[django-localflavor]: https://github.com/django/django-localflavor
-[django-simple-history]: https://github.com/treyhunner/django-simple-history
-[EditorConfig]: http://editorconfig.org
-[tmuxstart]: https://github.com/treyhunner/tmuxstart
-[names]: https://github.com/treyhunner/names
-[invoices]: https://github.com/treyhunner/invoices
-[resume]: https://github.com/treyhunner/resume
-[jquery-formrestrict]: https://github.com/treyhunner/jquery-formrestrict
-
-[codecov-python]: https://github.com/codecov/codecov-python
-[cookiecutter]: https://github.com/audreyr/cookiecutter
-[cookiecutter-pypackage]: https://github.com/audreyr/cookiecutter-pypackage
-[django-calendarium]: https://github.com/bitmazk/django-calendarium
-[django-eadred]: https://github.com/willkg/django-eadred
-[django-extensions]: https://github.com/django-extensions/django-extensions
-[django-filter]: https://github.com/alex/django-filter
-[django-hyperadmin]: https://github.com/zbyte64/django-hyperadmin
-[django-loginas]: https://github.com/stochastic-technologies/django-loginas
-[django-moderation]: https://github.com/dominno/django-moderation
-[django-parsley]: https://github.com/agiliq/django-parsley
-[djangoproject.com]: https://github.com/django/djangoproject.com
-[django-ratelimit-backend]: https://github.com/brutasse/django-ratelimit-backend
-[django-rest-framework]: https://github.com/tomchristie/django-rest-framework
-[django-taggit]: https://github.com/alex/django-taggit
-[dj-static]: https://github.com/kennethreitz/dj-static
-[dtcov]: https://github.com/traff/dtcov
-[ember-cli]: https://github.com/stefanpenner/ember-cli
-[event-stream]: https://github.com/dominictarr/event-stream
-[gitfaq.org]: https://github.com/jsoverson/gitfaq
-[gitlicense]: https://github.com/kyleconroy/gitlicense
-[ibrokeand.ifixit.com]: https://github.com/iFixit/itbrokeand.ifixit.com
-[init]: https://github.com/use-init/init
-[jquery-expander]: https://github.com/kswedberg/jquery-expander
-[jqueryFunctionFinder]: https://github.com/herrwalter/jqueryFunctionsFinder
-[jquery]: https://github.com/jquery/jquery
-[jquery-ui]: https://github.com/jquery/jquery-ui
-[kuma]: https://github.com/mozilla/kuma
-[needle]: https://github.com/bfirsh/needle
-[octopress]: https://github.com/imathis/octopress
-[pep8]: https://github.com/jcrocholl/pep8
-[plato]: https://github.com/es-analysis/plato
-[purl]: https://github.com/codeinthehole/purl
-[pycco]: https://github.com/fitzgen/pycco
-[pypipins]: https://github.com/badges/pypipins
-[raven-python]: https://github.com/getsentry/raven-python
-[requirements-parser]: https://github.com/davidfischer/requirements-parser
-[richard]: https://github.com/pyvideo/richard
-[sinon.js]: https://github.com/cjohansen/sinon-web
-[vim-unimpaired]: https://github.com/tpope/vim-unimpaired
-[wine]: https://www.winehq.org/
-[zest.releaser]: https://github.com/zestsoftware/zest.releaser
+I've also contributed to [Django](https://github.com/django/django), [CPython](https://github.com/python/cpython), [jQuery](https://github.com/jquery/jquery), [cookiecutter](https://github.com/audreyr/cookiecutter), [pyvideo](https://github.com/pyvideo), [Wine](https://www.winehq.org/), and various Django apps including [django-rest-framework](https://github.com/tomchristie/django-rest-framework), [django-filter](https://github.com/alex/django-filter), [django-extensions](https://github.com/django-extensions/django-extensions), and [many more](https://github.com/treyhunner).
