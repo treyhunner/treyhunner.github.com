@@ -6,6 +6,13 @@ comments: true
 categories: python favorite pycon
 ---
 
+<div class="audio-player" style="background: #f0f4f8; border-radius: 8px; padding: 1em 1.2em; margin-bottom: 1.5em;">
+<p style="margin: 0 0 0.5em;"><strong>🎧 Prefer to listen?</strong> Press play or <a href="/audio/first-pycon.mp3" download>download the MP3</a> for offline listening.</p>
+<audio controls preload="metadata" style="width: 100%">
+  <source src="/audio/first-pycon.mp3" type="audio/mpeg">
+</audio>
+</div>
+
 You've decided to invest energy, money, and time away from your home so that you can go to your first PyCon.
 Now you want to make sure you spend your time wisely by attending events relevant to you and possibly by forming online friendships with other PyCon attendees.
 But you're (naturally) not an expert conference-goer.
